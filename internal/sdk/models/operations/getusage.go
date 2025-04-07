@@ -7,16 +7,27 @@ import (
 	"net/http"
 )
 
+type GetUsageGlobals struct {
+	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
+}
+
+func (o *GetUsageGlobals) GetOrganizationID() *string {
+	if o == nil {
+		return nil
+	}
+	return o.OrganizationID
+}
+
 type GetUsageRequest struct {
-	OrganizationID string            `pathParam:"style=simple,explode=false,name=organizationId"`
+	OrganizationID *string           `pathParam:"style=simple,explode=false,name=organizationId"`
 	MetricType     shared.MetricType `pathParam:"style=simple,explode=false,name=metricType"`
 	StartingOn     string            `queryParam:"style=form,explode=true,name=startingOn"`
 	EndingBefore   string            `queryParam:"style=form,explode=true,name=endingBefore"`
 }
 
-func (o *GetUsageRequest) GetOrganizationID() string {
+func (o *GetUsageRequest) GetOrganizationID() *string {
 	if o == nil {
-		return ""
+		return nil
 	}
 	return o.OrganizationID
 }

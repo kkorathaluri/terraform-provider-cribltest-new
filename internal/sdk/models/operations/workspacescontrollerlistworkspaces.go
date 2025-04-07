@@ -7,13 +7,24 @@ import (
 	"net/http"
 )
 
-type WorkspacesControllerListWorkspacesRequest struct {
-	OrganizationID string `pathParam:"style=simple,explode=false,name=organizationId"`
+type WorkspacesControllerListWorkspacesGlobals struct {
+	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
 }
 
-func (o *WorkspacesControllerListWorkspacesRequest) GetOrganizationID() string {
+func (o *WorkspacesControllerListWorkspacesGlobals) GetOrganizationID() *string {
 	if o == nil {
-		return ""
+		return nil
+	}
+	return o.OrganizationID
+}
+
+type WorkspacesControllerListWorkspacesRequest struct {
+	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
+}
+
+func (o *WorkspacesControllerListWorkspacesRequest) GetOrganizationID() *string {
+	if o == nil {
+		return nil
 	}
 	return o.OrganizationID
 }

@@ -1,3 +1,7 @@
 resource "cribl-terraform_pack" "my_pack" {
-  id = "...my_id..."
+  description  = "...my_description..."
+  disabled     = true
+  display_name = "...my_display_name..."
+  id           = "...my_id..."
+  version      = "...my_version..."
 }

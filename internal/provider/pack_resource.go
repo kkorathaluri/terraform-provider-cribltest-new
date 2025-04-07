@@ -8,6 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -15,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	tfTypes "github.com/speakeasy/terraform-provider-cribl-terraform/internal/provider/types"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk"
+	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/operations"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/validators"
 )
 
@@ -33,9 +35,13 @@ type PackResource struct {
 
 // PackResourceModel describes the resource data model.
 type PackResourceModel struct {
-	CountTest types.Int64               `tfsdk:"count_test"`
-	ID        types.String              `tfsdk:"id"`
-	Items     []tfTypes.PackInstallInfo `tfsdk:"items"`
+	CountTest   types.Int64               `tfsdk:"count_test"`
+	Description types.String              `tfsdk:"description"`
+	Disabled    types.Bool                `tfsdk:"disabled"`
+	DisplayName types.String              `tfsdk:"display_name"`
+	ID          types.String              `tfsdk:"id"`
+	Items       []tfTypes.PackInstallInfo `tfsdk:"items"`
+	Version     types.String              `tfsdk:"version"`
 }
 
 func (r *PackResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -50,12 +56,30 @@ func (r *PackResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 				Computed:    true,
 				Description: `number of items present in the items array`,
 			},
-			"id": schema.StringAttribute{
+			"description": schema.StringAttribute{
 				Required: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplaceIfConfigured(),
 				},
 				Description: `Requires replacement if changed.`,
+			},
+			"disabled": schema.BoolAttribute{
+				Required: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.RequiresReplaceIfConfigured(),
+				},
+				Description: `Requires replacement if changed.`,
+			},
+			"display_name": schema.StringAttribute{
+				Optional: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplaceIfConfigured(),
+				},
+				Description: `Requires replacement if changed.`,
+			},
+			"id": schema.StringAttribute{
+				Required:    true,
+				Description: `Pack name`,
 			},
 			"items": schema.ListNestedAttribute{
 				Computed: true,
@@ -130,6 +154,13 @@ func (r *PackResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 					},
 				},
 			},
+			"version": schema.StringAttribute{
+				Required: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplaceIfConfigured(),
+				},
+				Description: `Requires replacement if changed.`,
+			},
 		},
 	}
 }
@@ -172,7 +203,7 @@ func (r *PackResource) Create(ctx context.Context, req resource.CreateRequest, r
 		return
 	}
 
-	request := *data.ToSharedCrudEntityBase()
+	request := *data.ToOperationsCreatePacksRequestBody()
 	res, err := r.client.Packs.CreatePacks(ctx, request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
@@ -238,7 +269,34 @@ func (r *PackResource) Update(ctx context.Context, req resource.UpdateRequest, r
 		return
 	}
 
-	// Not Implemented; all attributes marked as RequiresReplace
+	var id string
+	id = data.ID.ValueString()
+
+	request := operations.UpdatePacksByIDRequest{
+		ID: id,
+	}
+	res, err := r.client.Packs.UpdatePacksByID(ctx, request)
+	if err != nil {
+		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		if res != nil && res.RawResponse != nil {
+			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
+		}
+		return
+	}
+	if res == nil {
+		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res))
+		return
+	}
+	if res.StatusCode != 200 {
+		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
+		return
+	}
+	if !(res.Object != nil) {
+		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
+		return
+	}
+	data.RefreshFromOperationsUpdatePacksByIDResponseBody(res.Object)
+	refreshPlan(ctx, plan, &data, resp.Diagnostics)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -262,7 +320,29 @@ func (r *PackResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 		return
 	}
 
-	// Not Implemented; entity does not have a configured DELETE operation
+	var id string
+	id = data.ID.ValueString()
+
+	request := operations.DeletePacksByIDRequest{
+		ID: id,
+	}
+	res, err := r.client.Packs.DeletePacksByID(ctx, request)
+	if err != nil {
+		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		if res != nil && res.RawResponse != nil {
+			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
+		}
+		return
+	}
+	if res == nil {
+		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res))
+		return
+	}
+	if res.StatusCode != 200 {
+		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
+		return
+	}
+
 }
 
 func (r *PackResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {

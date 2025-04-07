@@ -7,14 +7,25 @@ import (
 	"net/http"
 )
 
-type GetInvoiceRequest struct {
-	OrganizationID string `pathParam:"style=simple,explode=false,name=organizationId"`
-	InvoiceID      string `pathParam:"style=simple,explode=false,name=invoiceId"`
+type GetInvoiceGlobals struct {
+	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
 }
 
-func (o *GetInvoiceRequest) GetOrganizationID() string {
+func (o *GetInvoiceGlobals) GetOrganizationID() *string {
 	if o == nil {
-		return ""
+		return nil
+	}
+	return o.OrganizationID
+}
+
+type GetInvoiceRequest struct {
+	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
+	InvoiceID      string  `pathParam:"style=simple,explode=false,name=invoiceId"`
+}
+
+func (o *GetInvoiceRequest) GetOrganizationID() *string {
+	if o == nil {
+		return nil
 	}
 	return o.OrganizationID
 }

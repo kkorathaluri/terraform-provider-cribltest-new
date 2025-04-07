@@ -7,13 +7,24 @@ import (
 	"net/http"
 )
 
-type V5BillingInvoicesGetInvoicesRequest struct {
-	OrganizationID string `pathParam:"style=simple,explode=false,name=organizationId"`
+type V5BillingInvoicesGetInvoicesGlobals struct {
+	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
 }
 
-func (o *V5BillingInvoicesGetInvoicesRequest) GetOrganizationID() string {
+func (o *V5BillingInvoicesGetInvoicesGlobals) GetOrganizationID() *string {
 	if o == nil {
-		return ""
+		return nil
+	}
+	return o.OrganizationID
+}
+
+type V5BillingInvoicesGetInvoicesRequest struct {
+	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
+}
+
+func (o *V5BillingInvoicesGetInvoicesRequest) GetOrganizationID() *string {
+	if o == nil {
+		return nil
 	}
 	return o.OrganizationID
 }

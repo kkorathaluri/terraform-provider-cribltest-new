@@ -7,15 +7,33 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	tfTypes "github.com/speakeasy/terraform-provider-cribl-terraform/internal/provider/types"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/operations"
-	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/shared"
 )
 
-func (r *PackResourceModel) ToSharedCrudEntityBase() *shared.CrudEntityBase {
+func (r *PackResourceModel) ToOperationsCreatePacksRequestBody() *operations.CreatePacksRequestBody {
 	var id string
 	id = r.ID.ValueString()
 
-	out := shared.CrudEntityBase{
-		ID: id,
+	displayName := new(string)
+	if !r.DisplayName.IsUnknown() && !r.DisplayName.IsNull() {
+		*displayName = r.DisplayName.ValueString()
+	} else {
+		displayName = nil
+	}
+	var description string
+	description = r.Description.ValueString()
+
+	var version string
+	version = r.Version.ValueString()
+
+	var disabled bool
+	disabled = r.Disabled.ValueBool()
+
+	out := operations.CreatePacksRequestBody{
+		ID:          id,
+		DisplayName: displayName,
+		Description: description,
+		Version:     version,
+		Disabled:    disabled,
 	}
 	return &out
 }
@@ -88,6 +106,75 @@ func (r *PackResourceModel) RefreshFromOperationsCreatePacksResponseBody(resp *o
 				r.Items[itemsCount].Tags = items1.Tags
 				r.Items[itemsCount].Version = items1.Version
 				r.Items[itemsCount].Warnings = items1.Warnings
+			}
+		}
+	}
+}
+
+func (r *PackResourceModel) RefreshFromOperationsUpdatePacksByIDResponseBody(resp *operations.UpdatePacksByIDResponseBody) {
+	if resp != nil {
+		r.Items = []tfTypes.PackInstallInfo{}
+		if len(r.Items) > len(resp.Items) {
+			r.Items = r.Items[:len(resp.Items)]
+		}
+		for itemsCount, itemsItem := range resp.Items {
+			var items1 tfTypes.PackInstallInfo
+			items1.Author = types.StringPointerValue(itemsItem.Author)
+			items1.Description = types.StringPointerValue(itemsItem.Description)
+			items1.DisplayName = types.StringPointerValue(itemsItem.DisplayName)
+			items1.Exports = make([]types.String, 0, len(itemsItem.Exports))
+			for _, v := range itemsItem.Exports {
+				items1.Exports = append(items1.Exports, types.StringValue(v))
+			}
+			items1.ID = types.StringValue(itemsItem.ID)
+			items1.IsDisabled = types.BoolPointerValue(itemsItem.IsDisabled)
+			items1.MinLogStreamVersion = types.StringPointerValue(itemsItem.MinLogStreamVersion)
+			if len(itemsItem.Settings) > 0 {
+				items1.Settings = make(map[string]types.String, len(itemsItem.Settings))
+				for key, value := range itemsItem.Settings {
+					result, _ := json.Marshal(value)
+					items1.Settings[key] = types.StringValue(string(result))
+				}
+			}
+			items1.Source = types.StringValue(itemsItem.Source)
+			items1.Spec = types.StringPointerValue(itemsItem.Spec)
+			if itemsItem.Tags == nil {
+				items1.Tags = nil
+			} else {
+				items1.Tags = &tfTypes.PackInstallInfoTags{}
+				items1.Tags.DataType = make([]types.String, 0, len(itemsItem.Tags.DataType))
+				for _, v := range itemsItem.Tags.DataType {
+					items1.Tags.DataType = append(items1.Tags.DataType, types.StringValue(v))
+				}
+				items1.Tags.Domain = make([]types.String, 0, len(itemsItem.Tags.Domain))
+				for _, v := range itemsItem.Tags.Domain {
+					items1.Tags.Domain = append(items1.Tags.Domain, types.StringValue(v))
+				}
+				items1.Tags.Streamtags = make([]types.String, 0, len(itemsItem.Tags.Streamtags))
+				for _, v := range itemsItem.Tags.Streamtags {
+					items1.Tags.Streamtags = append(items1.Tags.Streamtags, types.StringValue(v))
+				}
+				items1.Tags.Technology = make([]types.String, 0, len(itemsItem.Tags.Technology))
+				for _, v := range itemsItem.Tags.Technology {
+					items1.Tags.Technology = append(items1.Tags.Technology, types.StringValue(v))
+				}
+			}
+			items1.Version = types.StringPointerValue(itemsItem.Version)
+			if itemsCount+1 > len(r.Items) {
+				r.Items = append(r.Items, items1)
+			} else {
+				r.Items[itemsCount].Author = items1.Author
+				r.Items[itemsCount].Description = items1.Description
+				r.Items[itemsCount].DisplayName = items1.DisplayName
+				r.Items[itemsCount].Exports = items1.Exports
+				r.Items[itemsCount].ID = items1.ID
+				r.Items[itemsCount].IsDisabled = items1.IsDisabled
+				r.Items[itemsCount].MinLogStreamVersion = items1.MinLogStreamVersion
+				r.Items[itemsCount].Settings = items1.Settings
+				r.Items[itemsCount].Source = items1.Source
+				r.Items[itemsCount].Spec = items1.Spec
+				r.Items[itemsCount].Tags = items1.Tags
+				r.Items[itemsCount].Version = items1.Version
 			}
 		}
 	}

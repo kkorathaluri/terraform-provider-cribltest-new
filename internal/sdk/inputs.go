@@ -151,12 +151,12 @@ func (s *Inputs) ListInput(ctx context.Context, opts ...operations.Option) (*ope
 				return nil, err
 			}
 
-			var out shared.Error
+			var out shared.Input
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			res.Error = &out
+			res.Input = &out
 		default:
 			rawBody, err := utils.ConsumeRawBody(httpRes)
 			if err != nil {

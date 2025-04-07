@@ -98,6 +98,7 @@ func (p *CriblTerraformProvider) Resources(ctx context.Context) []func() resourc
 	return []func() resource.Resource{
 		NewDestinationResource,
 		NewPackResource,
+		NewSourceResource,
 	}
 }
 

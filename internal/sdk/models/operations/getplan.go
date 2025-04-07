@@ -7,13 +7,24 @@ import (
 	"net/http"
 )
 
-type GetPlanRequest struct {
-	OrganizationID string `pathParam:"style=simple,explode=false,name=organizationId"`
+type GetPlanGlobals struct {
+	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
 }
 
-func (o *GetPlanRequest) GetOrganizationID() string {
+func (o *GetPlanGlobals) GetOrganizationID() *string {
 	if o == nil {
-		return ""
+		return nil
+	}
+	return o.OrganizationID
+}
+
+type GetPlanRequest struct {
+	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
+}
+
+func (o *GetPlanRequest) GetOrganizationID() *string {
+	if o == nil {
+		return nil
 	}
 	return o.OrganizationID
 }

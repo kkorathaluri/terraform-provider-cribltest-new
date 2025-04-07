@@ -4,6 +4,7 @@ package sdk
 
 import (
 	"context"
+	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/internal/globals"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/internal/hooks"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/internal/utils"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/shared"
@@ -47,6 +48,7 @@ type sdkConfiguration struct {
 	SDKVersion        string
 	GenVersion        string
 	UserAgent         string
+	Globals           globals.Globals
 	RetryConfig       *retry.Config
 	Hooks             *hooks.Hooks
 	Timeout           *time.Duration
@@ -265,6 +267,27 @@ func WithSecuritySource(security func(context.Context) (shared.Security, error))
 	}
 }
 
+// WithOrganizationID allows setting the OrganizationID parameter for all supported operations
+func WithOrganizationID(organizationID string) SDKOption {
+	return func(sdk *CriblTerraform) {
+		sdk.sdkConfiguration.Globals.OrganizationID = &organizationID
+	}
+}
+
+// WithWorkspaceID allows setting the WorkspaceID parameter for all supported operations
+func WithWorkspaceID(workspaceID string) SDKOption {
+	return func(sdk *CriblTerraform) {
+		sdk.sdkConfiguration.Globals.WorkspaceID = &workspaceID
+	}
+}
+
+// WithWorkerGroupID allows setting the WorkerGroupID parameter for all supported operations
+func WithWorkerGroupID(workerGroupID string) SDKOption {
+	return func(sdk *CriblTerraform) {
+		sdk.sdkConfiguration.Globals.WorkerGroupID = &workerGroupID
+	}
+}
+
 func WithRetryConfig(retryConfig retry.Config) SDKOption {
 	return func(sdk *CriblTerraform) {
 		sdk.sdkConfiguration.RetryConfig = &retryConfig
@@ -284,9 +307,10 @@ func New(serverURL string, opts ...SDKOption) *CriblTerraform {
 		sdkConfiguration: sdkConfiguration{
 			Language:          "go",
 			OpenAPIDocVersion: "4.12.0-alpha.1742471106527-a8a53ddb",
-			SDKVersion:        "0.0.12",
-			GenVersion:        "2.563.1",
-			UserAgent:         "speakeasy-sdk/terraform 0.0.12 2.563.1 4.12.0-alpha.1742471106527-a8a53ddb github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk",
+			SDKVersion:        "0.8.0",
+			GenVersion:        "2.566.5",
+			UserAgent:         "speakeasy-sdk/terraform 0.8.0 2.566.5 4.12.0-alpha.1742471106527-a8a53ddb github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk",
+			Globals:           globals.Globals{},
 			ServerURL:         serverURL,
 			Hooks:             hooks.New(),
 		},

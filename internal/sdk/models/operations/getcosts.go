@@ -7,15 +7,26 @@ import (
 	"net/http"
 )
 
-type GetCostsRequest struct {
-	OrganizationID string `pathParam:"style=simple,explode=false,name=organizationId"`
-	StartingOn     string `queryParam:"style=form,explode=true,name=startingOn"`
-	EndingBefore   string `queryParam:"style=form,explode=true,name=endingBefore"`
+type GetCostsGlobals struct {
+	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
 }
 
-func (o *GetCostsRequest) GetOrganizationID() string {
+func (o *GetCostsGlobals) GetOrganizationID() *string {
 	if o == nil {
-		return ""
+		return nil
+	}
+	return o.OrganizationID
+}
+
+type GetCostsRequest struct {
+	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
+	StartingOn     string  `queryParam:"style=form,explode=true,name=startingOn"`
+	EndingBefore   string  `queryParam:"style=form,explode=true,name=endingBefore"`
+}
+
+func (o *GetCostsRequest) GetOrganizationID() *string {
+	if o == nil {
+		return nil
 	}
 	return o.OrganizationID
 }

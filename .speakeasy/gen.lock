@@ -1,23 +1,24 @@
 lockVersion: 2.0.0
 id: b2744b7e-1ce3-478a-8c1f-0348b936141a
 management:
-  docChecksum: 1d569664140592c9d70c541d1d368143
+  docChecksum: 8e9ec45baeea26f5b0bf032af69f1994
   docVersion: 4.12.0-alpha.1742471106527-a8a53ddb
-  speakeasyVersion: 1.526.6
-  generationVersion: 2.563.1
-  releaseVersion: 0.0.12
-  configChecksum: a2ae852423fb53fecf2a3e0953ca2179
+  speakeasyVersion: 1.529.1
+  generationVersion: 2.566.5
+  releaseVersion: 0.8.0
+  configChecksum: ea9ca18c02a6cf8a8f60f45206b0c7fe
   published: true
 features:
   terraform:
     additionalDependencies: 0.1.0
     additionalProperties: 0.1.2
     constsAndDefaults: 0.2.1
-    core: 3.36.1
+    core: 3.38.1
     deprecations: 2.82.0
     envVarSecurityUsage: 0.1.0
     globalSecurity: 2.81.10
     globalServerURLs: 2.82.1
+    globals: 2.82.1
     inputOutputModels: 2.83.0
     nullables: 0.0.0
     unions: 2.81.17
@@ -29,6 +30,7 @@ generatedFiles:
   - examples/provider/provider.tf
   - examples/resources/cribl-terraform_destination/resource.tf
   - examples/resources/cribl-terraform_pack/resource.tf
+  - examples/resources/cribl-terraform_source/resource.tf
   - go.mod
   - go.sum
   - internal/planmodifiers/boolplanmodifier/suppress_diff.go
@@ -64,6 +66,8 @@ generatedFiles:
   - internal/provider/reflect/struct.go
   - internal/provider/source_data_source.go
   - internal/provider/source_data_source_sdk.go
+  - internal/provider/source_resource.go
+  - internal/provider/source_resource_sdk.go
   - internal/provider/types/additional_properties.go
   - internal/provider/types/allow.go
   - internal/provider/types/auth.go
@@ -89,27 +93,89 @@ generatedFiles:
   - internal/provider/types/extra_http_headers.go
   - internal/provider/types/extra_log_types.go
   - internal/provider/types/extra_params.go
+  - internal/provider/types/fifty.go
+  - internal/provider/types/fifty_five.go
+  - internal/provider/types/fifty_four.go
+  - internal/provider/types/fifty_one.go
+  - internal/provider/types/fifty_seven.go
+  - internal/provider/types/fifty_six.go
+  - internal/provider/types/fifty_three.go
+  - internal/provider/types/fifty_two.go
   - internal/provider/types/filter.go
   - internal/provider/types/filters.go
   - internal/provider/types/firewall.go
+  - internal/provider/types/forty_eight.go
+  - internal/provider/types/forty_nine.go
+  - internal/provider/types/forty_seven.go
   - internal/provider/types/host.go
   - internal/provider/types/host_info.go
   - internal/provider/types/hosts.go
   - internal/provider/types/hosts_file.go
   - internal/provider/types/indexer_discovery_configs.go
   - internal/provider/types/ingest_if_not_exists.go
-  - internal/provider/types/input.go
-  - internal/provider/types/input_appscope.go
-  - internal/provider/types/input_appscope_connections.go
-  - internal/provider/types/input_appscope_metadata.go
-  - internal/provider/types/input_appscope_persistence.go
-  - internal/provider/types/input_appscope_pq.go
-  - internal/provider/types/input_appscope_tls_settings_server_side.go
+  - internal/provider/types/input47_status.go
+  - internal/provider/types/input48_connections.go
+  - internal/provider/types/input48_metadata.go
+  - internal/provider/types/input48_metrics.go
+  - internal/provider/types/input48_pq.go
+  - internal/provider/types/input48_status.go
+  - internal/provider/types/input49_connections.go
+  - internal/provider/types/input49_metadata.go
+  - internal/provider/types/input49_metrics.go
+  - internal/provider/types/input49_pq.go
+  - internal/provider/types/input49_status.go
+  - internal/provider/types/input49_tls_settings_server_side.go
+  - internal/provider/types/input50_connections.go
+  - internal/provider/types/input50_metadata.go
+  - internal/provider/types/input50_metrics.go
+  - internal/provider/types/input50_pq.go
+  - internal/provider/types/input50_status.go
+  - internal/provider/types/input50_subscriptions_metadata.go
+  - internal/provider/types/input51_connections.go
+  - internal/provider/types/input51_metadata.go
+  - internal/provider/types/input51_metrics.go
+  - internal/provider/types/input51_pq.go
+  - internal/provider/types/input51_status.go
+  - internal/provider/types/input52_connections.go
+  - internal/provider/types/input52_metadata.go
+  - internal/provider/types/input52_metrics.go
+  - internal/provider/types/input52_pq.go
+  - internal/provider/types/input52_status.go
+  - internal/provider/types/input53_connections.go
+  - internal/provider/types/input53_metadata.go
+  - internal/provider/types/input53_metrics.go
+  - internal/provider/types/input53_pq.go
+  - internal/provider/types/input53_status.go
+  - internal/provider/types/input54_connections.go
+  - internal/provider/types/input54_metadata.go
+  - internal/provider/types/input54_metrics.go
+  - internal/provider/types/input54_pq.go
+  - internal/provider/types/input54_status.go
+  - internal/provider/types/input55_connections.go
+  - internal/provider/types/input55_metadata.go
+  - internal/provider/types/input55_metrics.go
+  - internal/provider/types/input55_pq.go
+  - internal/provider/types/input55_status.go
+  - internal/provider/types/input56_connections.go
+  - internal/provider/types/input56_metadata.go
+  - internal/provider/types/input56_metrics.go
+  - internal/provider/types/input56_pq.go
+  - internal/provider/types/input56_preprocess.go
+  - internal/provider/types/input56_status.go
+  - internal/provider/types/input57_auth_tokens_metadata.go
+  - internal/provider/types/input57_connections.go
+  - internal/provider/types/input57_metadata.go
+  - internal/provider/types/input57_metrics.go
+  - internal/provider/types/input57_pq.go
+  - internal/provider/types/input57_status.go
+  - internal/provider/types/input57_tls_settings_server_side.go
+  - internal/provider/types/input_auth_tokens.go
   - internal/provider/types/input_azure_blob.go
   - internal/provider/types/input_azure_blob_certificate.go
   - internal/provider/types/input_azure_blob_connections.go
   - internal/provider/types/input_azure_blob_metadata.go
   - internal/provider/types/input_azure_blob_pq.go
+  - internal/provider/types/input_checkpointing.go
   - internal/provider/types/input_collection.go
   - internal/provider/types/input_collection_metadata.go
   - internal/provider/types/input_confluent_cloud.go
@@ -121,6 +187,8 @@ generatedFiles:
   - internal/provider/types/input_confluent_cloud_metadata.go
   - internal/provider/types/input_confluent_cloud_pq.go
   - internal/provider/types/input_confluent_cloud_tls_settings_client_side.go
+  - internal/provider/types/input_connections.go
+  - internal/provider/types/input_content_config.go
   - internal/provider/types/input_cribl.go
   - internal/provider/types/input_cribl_connections.go
   - internal/provider/types/input_cribl_http.go
@@ -174,10 +242,6 @@ generatedFiles:
   - internal/provider/types/input_exec_connections.go
   - internal/provider/types/input_exec_metadata.go
   - internal/provider/types/input_exec_pq.go
-  - internal/provider/types/input_file.go
-  - internal/provider/types/input_file_connections.go
-  - internal/provider/types/input_file_metadata.go
-  - internal/provider/types/input_file_pq.go
   - internal/provider/types/input_firehose.go
   - internal/provider/types/input_firehose_connections.go
   - internal/provider/types/input_firehose_metadata.go
@@ -220,11 +284,6 @@ generatedFiles:
   - internal/provider/types/input_http_raw_metadata.go
   - internal/provider/types/input_http_raw_pq.go
   - internal/provider/types/input_http_raw_tls_settings_server_side.go
-  - internal/provider/types/input_journal_files.go
-  - internal/provider/types/input_journal_files_connections.go
-  - internal/provider/types/input_journal_files_metadata.go
-  - internal/provider/types/input_journal_files_pq.go
-  - internal/provider/types/input_journal_files_rules.go
   - internal/provider/types/input_kafka.go
   - internal/provider/types/input_kafka_auth.go
   - internal/provider/types/input_kafka_connections.go
@@ -259,6 +318,7 @@ generatedFiles:
   - internal/provider/types/input_loki_oauth_params.go
   - internal/provider/types/input_loki_pq.go
   - internal/provider/types/input_loki_tls_settings_server_side.go
+  - internal/provider/types/input_metadata.go
   - internal/provider/types/input_metrics.go
   - internal/provider/types/input_metrics_connections.go
   - internal/provider/types/input_metrics_metadata.go
@@ -277,10 +337,6 @@ generatedFiles:
   - internal/provider/types/input_msk_metadata.go
   - internal/provider/types/input_msk_pq.go
   - internal/provider/types/input_msk_tls_settings_client_side.go
-  - internal/provider/types/input_netflow.go
-  - internal/provider/types/input_netflow_connections.go
-  - internal/provider/types/input_netflow_metadata.go
-  - internal/provider/types/input_netflow_pq.go
   - internal/provider/types/input_office365_mgmt.go
   - internal/provider/types/input_office365_mgmt_connections.go
   - internal/provider/types/input_office365_mgmt_metadata.go
@@ -304,6 +360,9 @@ generatedFiles:
   - internal/provider/types/input_open_telemetry_oauth_params.go
   - internal/provider/types/input_open_telemetry_pq.go
   - internal/provider/types/input_open_telemetry_tls_settings_server_side.go
+  - internal/provider/types/input_persistence.go
+  - internal/provider/types/input_pq.go
+  - internal/provider/types/input_preprocess.go
   - internal/provider/types/input_prometheus.go
   - internal/provider/types/input_prometheus_connections.go
   - internal/provider/types/input_prometheus_metadata.go
@@ -315,10 +374,8 @@ generatedFiles:
   - internal/provider/types/input_prometheus_rw_oauth_params.go
   - internal/provider/types/input_prometheus_rw_pq.go
   - internal/provider/types/input_prometheus_rw_tls_settings_server_side.go
-  - internal/provider/types/input_raw_udp.go
-  - internal/provider/types/input_raw_udp_connections.go
-  - internal/provider/types/input_raw_udp_metadata.go
-  - internal/provider/types/input_raw_udp_pq.go
+  - internal/provider/types/input_retry_rules.go
+  - internal/provider/types/input_rules.go
   - internal/provider/types/input_s3.go
   - internal/provider/types/input_s3_checkpointing.go
   - internal/provider/types/input_s3_connections.go
@@ -331,12 +388,6 @@ generatedFiles:
   - internal/provider/types/input_s3_metadata.go
   - internal/provider/types/input_s3_pq.go
   - internal/provider/types/input_s3_preprocess.go
-  - internal/provider/types/input_security_lake.go
-  - internal/provider/types/input_security_lake_checkpointing.go
-  - internal/provider/types/input_security_lake_connections.go
-  - internal/provider/types/input_security_lake_metadata.go
-  - internal/provider/types/input_security_lake_pq.go
-  - internal/provider/types/input_security_lake_preprocess.go
   - internal/provider/types/input_snmp.go
   - internal/provider/types/input_snmp_connections.go
   - internal/provider/types/input_snmp_metadata.go
@@ -387,26 +438,12 @@ generatedFiles:
   - internal/provider/types/input_system_state_metadata.go
   - internal/provider/types/input_system_state_pq.go
   - internal/provider/types/input_system_state_routes.go
-  - internal/provider/types/input_tcp.go
-  - internal/provider/types/input_tcp_connections.go
-  - internal/provider/types/input_tcp_metadata.go
-  - internal/provider/types/input_tcp_pq.go
-  - internal/provider/types/input_tcp_preprocess.go
   - internal/provider/types/input_tcpjson.go
   - internal/provider/types/input_tcpjson_connections.go
   - internal/provider/types/input_tcpjson_metadata.go
   - internal/provider/types/input_tcpjson_pq.go
   - internal/provider/types/input_tcpjson_tls_settings_server_side.go
-  - internal/provider/types/input_tcptls_settings_server_side.go
-  - internal/provider/types/input_wef.go
-  - internal/provider/types/input_wef_connections.go
-  - internal/provider/types/input_wef_metadata.go
-  - internal/provider/types/input_wef_pq.go
-  - internal/provider/types/input_wef_subscriptions_metadata.go
-  - internal/provider/types/input_win_event_logs.go
-  - internal/provider/types/input_win_event_logs_connections.go
-  - internal/provider/types/input_win_event_logs_metadata.go
-  - internal/provider/types/input_win_event_logs_pq.go
+  - internal/provider/types/input_tls_settings_server_side.go
   - internal/provider/types/input_windows_metrics.go
   - internal/provider/types/input_windows_metrics_connections.go
   - internal/provider/types/input_windows_metrics_cpu.go
@@ -421,19 +458,6 @@ generatedFiles:
   - internal/provider/types/input_windows_metrics_process.go
   - internal/provider/types/input_windows_metrics_sets.go
   - internal/provider/types/input_windows_metrics_system.go
-  - internal/provider/types/input_wiz.go
-  - internal/provider/types/input_wiz_connections.go
-  - internal/provider/types/input_wiz_content_config.go
-  - internal/provider/types/input_wiz_metadata.go
-  - internal/provider/types/input_wiz_pq.go
-  - internal/provider/types/input_wiz_retry_rules.go
-  - internal/provider/types/input_zscaler_hec.go
-  - internal/provider/types/input_zscaler_hec_auth_tokens.go
-  - internal/provider/types/input_zscaler_hec_auth_tokens_metadata.go
-  - internal/provider/types/input_zscaler_hec_connections.go
-  - internal/provider/types/input_zscaler_hec_metadata.go
-  - internal/provider/types/input_zscaler_hec_pq.go
-  - internal/provider/types/input_zscaler_hec_tls_settings_server_side.go
   - internal/provider/types/kafka_schema_registry_authentication.go
   - internal/provider/types/key_value_metadata.go
   - internal/provider/types/labels.go
@@ -441,6 +465,7 @@ generatedFiles:
   - internal/provider/types/log_labels.go
   - internal/provider/types/logged_in_users.go
   - internal/provider/types/loki_auth.go
+  - internal/provider/types/metrics.go
   - internal/provider/types/mtls_settings.go
   - internal/provider/types/network.go
   - internal/provider/types/oauth_headers.go
@@ -781,6 +806,7 @@ generatedFiles:
   - internal/sdk/hmacfunctions.go
   - internal/sdk/ingest.go
   - internal/sdk/inputs.go
+  - internal/sdk/internal/globals/globals.go
   - internal/sdk/internal/hooks/hooks.go
   - internal/sdk/internal/utils/contenttype.go
   - internal/sdk/internal/utils/env.go
@@ -1419,7 +1445,6 @@ generatedFiles:
   - internal/sdk/models/shared/httpoutextraparamconfig.go
   - internal/sdk/models/shared/httpoutresponseretryconfig.go
   - internal/sdk/models/shared/input.go
-  - internal/sdk/models/shared/inputappscope.go
   - internal/sdk/models/shared/inputazureblob.go
   - internal/sdk/models/shared/inputcollection.go
   - internal/sdk/models/shared/inputconfluentcloud.go
@@ -1434,13 +1459,11 @@ generatedFiles:
   - internal/sdk/models/shared/inputelastic.go
   - internal/sdk/models/shared/inputeventhub.go
   - internal/sdk/models/shared/inputexec.go
-  - internal/sdk/models/shared/inputfile.go
   - internal/sdk/models/shared/inputfirehose.go
   - internal/sdk/models/shared/inputgooglepubsub.go
   - internal/sdk/models/shared/inputgrafana.go
   - internal/sdk/models/shared/inputhttp.go
   - internal/sdk/models/shared/inputhttpraw.go
-  - internal/sdk/models/shared/inputjournalfiles.go
   - internal/sdk/models/shared/inputkafka.go
   - internal/sdk/models/shared/inputkinesis.go
   - internal/sdk/models/shared/inputkubeevents.go
@@ -1450,17 +1473,14 @@ generatedFiles:
   - internal/sdk/models/shared/inputmetrics.go
   - internal/sdk/models/shared/inputmodeldriventelemetry.go
   - internal/sdk/models/shared/inputmsk.go
-  - internal/sdk/models/shared/inputnetflow.go
   - internal/sdk/models/shared/inputoffice365mgmt.go
   - internal/sdk/models/shared/inputoffice365msgtrace.go
   - internal/sdk/models/shared/inputoffice365service.go
   - internal/sdk/models/shared/inputopentelemetry.go
   - internal/sdk/models/shared/inputprometheus.go
   - internal/sdk/models/shared/inputprometheusrw.go
-  - internal/sdk/models/shared/inputrawudp.go
   - internal/sdk/models/shared/inputs3.go
   - internal/sdk/models/shared/inputs3inventory.go
-  - internal/sdk/models/shared/inputsecuritylake.go
   - internal/sdk/models/shared/inputsnmp.go
   - internal/sdk/models/shared/inputsplunk.go
   - internal/sdk/models/shared/inputsplunkhec.go
@@ -1470,13 +1490,8 @@ generatedFiles:
   - internal/sdk/models/shared/inputsyslog.go
   - internal/sdk/models/shared/inputsystemmetrics.go
   - internal/sdk/models/shared/inputsystemstate.go
-  - internal/sdk/models/shared/inputtcp.go
   - internal/sdk/models/shared/inputtcpjson.go
-  - internal/sdk/models/shared/inputwef.go
   - internal/sdk/models/shared/inputwindowsmetrics.go
-  - internal/sdk/models/shared/inputwineventlogs.go
-  - internal/sdk/models/shared/inputwiz.go
-  - internal/sdk/models/shared/inputzscalerhec.go
   - internal/sdk/models/shared/invoice.go
   - internal/sdk/models/shared/invoicegroupedlineitem.go
   - internal/sdk/models/shared/invoicelineitem.go
@@ -4576,7 +4591,7 @@ examples:
         "200":
           application/json: {}
         "500":
-          application/json: {}
+          application/json: {"disabled": false, "sendToRoutes": true, "pqEnabled": false, "streamtags": [], "host": "0.0.0.0", "port": 5201.83, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 100, "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 5, "enableHealthCheck": false, "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "protocol": "grpc", "extractSpans": false, "extractMetrics": false, "otlpVersion": "0.10.0", "authType": "none", "maxActiveCxn": 1000, "authHeaderExpr": "`Bearer ${token}`", "tokenTimeoutSecs": 3600, "extractLogs": false}
   createInput:
     speakeasy-default-create-input:
       requestBody:
@@ -5869,7 +5884,7 @@ examples:
   createPacks:
     speakeasy-default-create-packs:
       requestBody:
-        application/json: {"id": "<id>"}
+        application/json: {"id": "<id>", "description": "whoever inasmuch weird up", "version": "<value>", "disabled": true}
       responses:
         "200":
           application/json: {}
@@ -6134,5 +6149,5 @@ examples:
           application/json: {}
         "500":
           application/json: {}
-examplesVersion: 1.0.0
+examplesVersion: 1.0.1
 generatedTests: {}

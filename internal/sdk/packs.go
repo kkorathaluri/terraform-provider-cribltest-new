@@ -28,7 +28,7 @@ func newPacks(sdkConfig sdkConfiguration) *Packs {
 
 // CreatePacks - Install Pack
 // Install Pack
-func (s *Packs) CreatePacks(ctx context.Context, request shared.CrudEntityBase, opts ...operations.Option) (*operations.CreatePacksResponse, error) {
+func (s *Packs) CreatePacks(ctx context.Context, request operations.CreatePacksRequestBody, opts ...operations.Option) (*operations.CreatePacksResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,

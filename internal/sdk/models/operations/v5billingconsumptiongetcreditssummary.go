@@ -9,8 +9,19 @@ import (
 	"time"
 )
 
+type V5BillingConsumptionGetCreditsSummaryGlobals struct {
+	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
+}
+
+func (o *V5BillingConsumptionGetCreditsSummaryGlobals) GetOrganizationID() *string {
+	if o == nil {
+		return nil
+	}
+	return o.OrganizationID
+}
+
 type V5BillingConsumptionGetCreditsSummaryRequest struct {
-	OrganizationID string                     `pathParam:"style=simple,explode=false,name=organizationId"`
+	OrganizationID *string                    `pathParam:"style=simple,explode=false,name=organizationId"`
 	StartingOn     time.Time                  `queryParam:"style=form,explode=true,name=startingOn"`
 	EndingBefore   time.Time                  `queryParam:"style=form,explode=true,name=endingBefore"`
 	Window         shared.ConsumptionWindowV5 `queryParam:"style=form,explode=true,name=window"`
@@ -27,9 +38,9 @@ func (v *V5BillingConsumptionGetCreditsSummaryRequest) UnmarshalJSON(data []byte
 	return nil
 }
 
-func (o *V5BillingConsumptionGetCreditsSummaryRequest) GetOrganizationID() string {
+func (o *V5BillingConsumptionGetCreditsSummaryRequest) GetOrganizationID() *string {
 	if o == nil {
-		return ""
+		return nil
 	}
 	return o.OrganizationID
 }

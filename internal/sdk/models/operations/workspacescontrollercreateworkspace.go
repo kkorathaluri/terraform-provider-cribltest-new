@@ -7,14 +7,25 @@ import (
 	"net/http"
 )
 
+type WorkspacesControllerCreateWorkspaceGlobals struct {
+	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
+}
+
+func (o *WorkspacesControllerCreateWorkspaceGlobals) GetOrganizationID() *string {
+	if o == nil {
+		return nil
+	}
+	return o.OrganizationID
+}
+
 type WorkspacesControllerCreateWorkspaceRequest struct {
-	OrganizationID     string                    `pathParam:"style=simple,explode=false,name=organizationId"`
+	OrganizationID     *string                   `pathParam:"style=simple,explode=false,name=organizationId"`
 	CreateWorkspaceDTO shared.CreateWorkspaceDTO `request:"mediaType=application/json"`
 }
 
-func (o *WorkspacesControllerCreateWorkspaceRequest) GetOrganizationID() string {
+func (o *WorkspacesControllerCreateWorkspaceRequest) GetOrganizationID() *string {
 	if o == nil {
-		return ""
+		return nil
 	}
 	return o.OrganizationID
 }

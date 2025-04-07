@@ -11,6 +11,17 @@ import (
 	"time"
 )
 
+type V5BillingConsumptionGetSingleProductUsageBreakdownGlobals struct {
+	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
+}
+
+func (o *V5BillingConsumptionGetSingleProductUsageBreakdownGlobals) GetOrganizationID() *string {
+	if o == nil {
+		return nil
+	}
+	return o.OrganizationID
+}
+
 type ProductSlug string
 
 const (
@@ -53,7 +64,7 @@ func (e *ProductSlug) UnmarshalJSON(data []byte) error {
 }
 
 type V5BillingConsumptionGetSingleProductUsageBreakdownRequest struct {
-	OrganizationID string                     `pathParam:"style=simple,explode=false,name=organizationId"`
+	OrganizationID *string                    `pathParam:"style=simple,explode=false,name=organizationId"`
 	ProductSlug    ProductSlug                `pathParam:"style=simple,explode=false,name=productSlug"`
 	StartingOn     time.Time                  `queryParam:"style=form,explode=true,name=startingOn"`
 	EndingBefore   time.Time                  `queryParam:"style=form,explode=true,name=endingBefore"`
@@ -71,9 +82,9 @@ func (v *V5BillingConsumptionGetSingleProductUsageBreakdownRequest) UnmarshalJSO
 	return nil
 }
 
-func (o *V5BillingConsumptionGetSingleProductUsageBreakdownRequest) GetOrganizationID() string {
+func (o *V5BillingConsumptionGetSingleProductUsageBreakdownRequest) GetOrganizationID() *string {
 	if o == nil {
-		return ""
+		return nil
 	}
 	return o.OrganizationID
 }

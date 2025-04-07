@@ -7,13 +7,24 @@ import (
 	"net/http"
 )
 
-type GetCreditsRequest struct {
-	OrganizationID string `pathParam:"style=simple,explode=false,name=organizationId"`
+type GetCreditsGlobals struct {
+	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
 }
 
-func (o *GetCreditsRequest) GetOrganizationID() string {
+func (o *GetCreditsGlobals) GetOrganizationID() *string {
 	if o == nil {
-		return ""
+		return nil
+	}
+	return o.OrganizationID
+}
+
+type GetCreditsRequest struct {
+	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
+}
+
+func (o *GetCreditsRequest) GetOrganizationID() *string {
+	if o == nil {
+		return nil
 	}
 	return o.OrganizationID
 }

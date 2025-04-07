@@ -7,22 +7,41 @@ import (
 	"net/http"
 )
 
-type WorkspacesControllerPatchWorkspaceRequest struct {
-	OrganizationID    string                   `pathParam:"style=simple,explode=false,name=organizationId"`
-	WorkspaceID       string                   `pathParam:"style=simple,explode=false,name=workspaceId"`
-	PatchWorkspaceDTO shared.PatchWorkspaceDTO `request:"mediaType=application/json"`
+type WorkspacesControllerPatchWorkspaceGlobals struct {
+	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
+	WorkspaceID    *string `pathParam:"style=simple,explode=false,name=workspaceId"`
 }
 
-func (o *WorkspacesControllerPatchWorkspaceRequest) GetOrganizationID() string {
+func (o *WorkspacesControllerPatchWorkspaceGlobals) GetOrganizationID() *string {
 	if o == nil {
-		return ""
+		return nil
 	}
 	return o.OrganizationID
 }
 
-func (o *WorkspacesControllerPatchWorkspaceRequest) GetWorkspaceID() string {
+func (o *WorkspacesControllerPatchWorkspaceGlobals) GetWorkspaceID() *string {
 	if o == nil {
-		return ""
+		return nil
+	}
+	return o.WorkspaceID
+}
+
+type WorkspacesControllerPatchWorkspaceRequest struct {
+	OrganizationID    *string                  `pathParam:"style=simple,explode=false,name=organizationId"`
+	WorkspaceID       *string                  `pathParam:"style=simple,explode=false,name=workspaceId"`
+	PatchWorkspaceDTO shared.PatchWorkspaceDTO `request:"mediaType=application/json"`
+}
+
+func (o *WorkspacesControllerPatchWorkspaceRequest) GetOrganizationID() *string {
+	if o == nil {
+		return nil
+	}
+	return o.OrganizationID
+}
+
+func (o *WorkspacesControllerPatchWorkspaceRequest) GetWorkspaceID() *string {
+	if o == nil {
+		return nil
 	}
 	return o.WorkspaceID
 }

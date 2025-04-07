@@ -7,6 +7,50 @@ import (
 	"net/http"
 )
 
+// CreatePacksRequestBody - CrudEntityBase object
+type CreatePacksRequestBody struct {
+	ID          string  `json:"id"`
+	DisplayName *string `json:"displayName,omitempty"`
+	Description string  `json:"description"`
+	Version     string  `json:"version"`
+	Disabled    bool    `json:"disabled"`
+}
+
+func (o *CreatePacksRequestBody) GetID() string {
+	if o == nil {
+		return ""
+	}
+	return o.ID
+}
+
+func (o *CreatePacksRequestBody) GetDisplayName() *string {
+	if o == nil {
+		return nil
+	}
+	return o.DisplayName
+}
+
+func (o *CreatePacksRequestBody) GetDescription() string {
+	if o == nil {
+		return ""
+	}
+	return o.Description
+}
+
+func (o *CreatePacksRequestBody) GetVersion() string {
+	if o == nil {
+		return ""
+	}
+	return o.Version
+}
+
+func (o *CreatePacksRequestBody) GetDisabled() bool {
+	if o == nil {
+		return false
+	}
+	return o.Disabled
+}
+
 // CreatePacksResponseBody - a list of PackInstallInfo objects
 type CreatePacksResponseBody struct {
 	// number of items present in the items array

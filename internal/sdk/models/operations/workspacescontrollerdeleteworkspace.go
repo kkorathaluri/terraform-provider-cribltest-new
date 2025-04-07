@@ -6,21 +6,40 @@ import (
 	"net/http"
 )
 
-type WorkspacesControllerDeleteWorkspaceRequest struct {
-	OrganizationID string `pathParam:"style=simple,explode=false,name=organizationId"`
-	WorkspaceID    string `pathParam:"style=simple,explode=false,name=workspaceId"`
+type WorkspacesControllerDeleteWorkspaceGlobals struct {
+	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
+	WorkspaceID    *string `pathParam:"style=simple,explode=false,name=workspaceId"`
 }
 
-func (o *WorkspacesControllerDeleteWorkspaceRequest) GetOrganizationID() string {
+func (o *WorkspacesControllerDeleteWorkspaceGlobals) GetOrganizationID() *string {
 	if o == nil {
-		return ""
+		return nil
 	}
 	return o.OrganizationID
 }
 
-func (o *WorkspacesControllerDeleteWorkspaceRequest) GetWorkspaceID() string {
+func (o *WorkspacesControllerDeleteWorkspaceGlobals) GetWorkspaceID() *string {
 	if o == nil {
-		return ""
+		return nil
+	}
+	return o.WorkspaceID
+}
+
+type WorkspacesControllerDeleteWorkspaceRequest struct {
+	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
+	WorkspaceID    *string `pathParam:"style=simple,explode=false,name=workspaceId"`
+}
+
+func (o *WorkspacesControllerDeleteWorkspaceRequest) GetOrganizationID() *string {
+	if o == nil {
+		return nil
+	}
+	return o.OrganizationID
+}
+
+func (o *WorkspacesControllerDeleteWorkspaceRequest) GetWorkspaceID() *string {
+	if o == nil {
+		return nil
 	}
 	return o.WorkspaceID
 }

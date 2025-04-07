@@ -25,6 +25,10 @@ func newBilling(sdkConfig sdkConfiguration) *Billing {
 }
 
 func (s *Billing) GetUsage(ctx context.Context, request operations.GetUsageRequest, opts ...operations.Option) (*operations.GetUsageResponse, error) {
+	globals := operations.GetUsageGlobals{
+		OrganizationID: s.sdkConfiguration.Globals.OrganizationID,
+	}
+
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -42,7 +46,7 @@ func (s *Billing) GetUsage(ctx context.Context, request operations.GetUsageReque
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/billing/usage/{metricType}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/billing/usage/{metricType}", request, globals)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -73,7 +77,7 @@ func (s *Billing) GetUsage(ctx context.Context, request operations.GetUsageReque
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
 
-	if err := utils.PopulateQueryParams(ctx, req, request, nil); err != nil {
+	if err := utils.PopulateQueryParams(ctx, req, request, globals); err != nil {
 		return nil, fmt.Errorf("error populating query params: %w", err)
 	}
 
@@ -155,6 +159,10 @@ func (s *Billing) GetUsage(ctx context.Context, request operations.GetUsageReque
 }
 
 func (s *Billing) GetCredits(ctx context.Context, request operations.GetCreditsRequest, opts ...operations.Option) (*operations.GetCreditsResponse, error) {
+	globals := operations.GetCreditsGlobals{
+		OrganizationID: s.sdkConfiguration.Globals.OrganizationID,
+	}
+
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -172,7 +180,7 @@ func (s *Billing) GetCredits(ctx context.Context, request operations.GetCreditsR
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/billing/credits", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/billing/credits", request, globals)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -281,6 +289,10 @@ func (s *Billing) GetCredits(ctx context.Context, request operations.GetCreditsR
 }
 
 func (s *Billing) GetCosts(ctx context.Context, request operations.GetCostsRequest, opts ...operations.Option) (*operations.GetCostsResponse, error) {
+	globals := operations.GetCostsGlobals{
+		OrganizationID: s.sdkConfiguration.Globals.OrganizationID,
+	}
+
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -298,7 +310,7 @@ func (s *Billing) GetCosts(ctx context.Context, request operations.GetCostsReque
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/billing/costs", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/billing/costs", request, globals)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -329,7 +341,7 @@ func (s *Billing) GetCosts(ctx context.Context, request operations.GetCostsReque
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
 
-	if err := utils.PopulateQueryParams(ctx, req, request, nil); err != nil {
+	if err := utils.PopulateQueryParams(ctx, req, request, globals); err != nil {
 		return nil, fmt.Errorf("error populating query params: %w", err)
 	}
 
@@ -411,6 +423,10 @@ func (s *Billing) GetCosts(ctx context.Context, request operations.GetCostsReque
 }
 
 func (s *Billing) GetInvoices(ctx context.Context, request operations.GetInvoicesRequest, opts ...operations.Option) (*operations.GetInvoicesResponse, error) {
+	globals := operations.GetInvoicesGlobals{
+		OrganizationID: s.sdkConfiguration.Globals.OrganizationID,
+	}
+
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -428,7 +444,7 @@ func (s *Billing) GetInvoices(ctx context.Context, request operations.GetInvoice
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/billing/invoices", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/billing/invoices", request, globals)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -537,6 +553,10 @@ func (s *Billing) GetInvoices(ctx context.Context, request operations.GetInvoice
 }
 
 func (s *Billing) GetInvoice(ctx context.Context, request operations.GetInvoiceRequest, opts ...operations.Option) (*operations.GetInvoiceResponse, error) {
+	globals := operations.GetInvoiceGlobals{
+		OrganizationID: s.sdkConfiguration.Globals.OrganizationID,
+	}
+
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -554,7 +574,7 @@ func (s *Billing) GetInvoice(ctx context.Context, request operations.GetInvoiceR
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/billing/invoices/{invoiceId}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/billing/invoices/{invoiceId}", request, globals)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -663,6 +683,10 @@ func (s *Billing) GetInvoice(ctx context.Context, request operations.GetInvoiceR
 }
 
 func (s *Billing) GetPlan(ctx context.Context, request operations.GetPlanRequest, opts ...operations.Option) (*operations.GetPlanResponse, error) {
+	globals := operations.GetPlanGlobals{
+		OrganizationID: s.sdkConfiguration.Globals.OrganizationID,
+	}
+
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -680,7 +704,7 @@ func (s *Billing) GetPlan(ctx context.Context, request operations.GetPlanRequest
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/billing/plan", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/billing/plan", request, globals)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}

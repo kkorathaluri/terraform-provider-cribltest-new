@@ -15,7 +15,7 @@ generation:
     oAuth2ClientCredentialsEnabled: true
     oAuth2PasswordEnabled: true
 terraform:
-  version: 0.0.12
+  version: 0.7.2
   additionalDataSources: []
   additionalDependencies: {}
   additionalProviderAttributes:
@@ -26,4 +26,10 @@ terraform:
   defaultErrorName: APIError
   enableTypeDeduplication: false
   environmentVariables: []
+    # - env: ORGANIZATION_ID
+    #   providerAttribute: organizationId
+    # - env: WORKSPACE_ID
+    #   providerAttribute: workspaceId
+    # - env: BEARER_AUTH
+    #   providerAttribute: bearer_auth
   packageName: cribl-terraform

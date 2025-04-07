@@ -8151,6 +8151,7 @@ paths:
                 - inputs
             summary: Get a list of Input objects
             description: Get a list of Input objects
+            x-speakeasy-entity-operation: Source#read
             responses:
                 "200":
                     description: a list of Input objects
@@ -8159,7 +8160,7 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    count:
+                                    count_total:
                                         type: integer
                                         description: number of items present in the items array
                                     items:
@@ -8173,7 +8174,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: "#/components/schemas/Error"
+                                $ref: "#/components/schemas/Input"
         post:
             tags:
                 - inputs
@@ -8185,7 +8186,7 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    count:
+                                    count_total:
                                         type: integer
                                         description: number of items present in the items array
                                     items:
@@ -8203,13 +8204,15 @@ paths:
             operationId: createInput
             summary: Create Input
             description: Create Input
+            x-speakeasy-entity-operation: Source#create
             requestBody:
                 description: New Input object
                 required: true
                 content:
                     application/json:
                         schema:
-                            $ref: "#/components/schemas/Input"
+                            allOf:
+                                - $ref: "#/components/schemas/Input"
     /system/inputs/{id}:
         get:
             tags:
@@ -8240,7 +8243,7 @@ paths:
             operationId: getInputById
             summary: Get Input by ID
             description: Get Input by ID
-            x-speakeasy-entity-operation: Source#read
+            #x-speakeasy-entity-operation: Source#read
             parameters:
                 - name: id
                   in: path
@@ -8277,6 +8280,7 @@ paths:
             operationId: updateInputById
             summary: Update Input
             description: Update Input
+            x-speakeasy-entity-operation: Source#update
             parameters:
                 - schema:
                     type: string
@@ -8320,6 +8324,7 @@ paths:
             operationId: deleteInputById
             summary: Delete Input
             description: Delete Input
+            x-speakeasy-entity-operation: Source#delete
             parameters:
                 - schema:
                     type: string
@@ -13483,25 +13488,12 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: "#/components/schemas/CrudEntityBase"
+                            allOf:
+                                - $ref: "#/components/schemas/CrudEntityBase"
+                                - $ref: "#/components/schemas/Pack"
                             x-speakeasy-entity: Pack
                             type: object
-                            properties:
-                                name:
-                                    type: string
-                                id:
-                                    type: string
-                                description:
-                                    type: string
-                                version:
-                                    type: string
-                                disabled:
-                                    type: boolean
-                            required:
-                                - name
-                                - description
-                                - version
-                                - disabled
+                         
             x-speakeasy-entity-operation: Pack#create
     
         get:
@@ -13577,6 +13569,7 @@ paths:
                 - packs
             summary: Uninstall Pack from the system
             description: Uninstall Pack from the system
+            x-speakeasy-entity-operation: Pack#delete
             responses:
                 "200":
                     description: a list of PackInstallInfo objects
@@ -13613,6 +13606,7 @@ paths:
                 - packs
             summary: Upgrade Pack
             description: Upgrade Pack
+            x-speakeasy-entity-operation: Pack#update
             responses:
                 "200":
                     description: a list of PackInfo objects
@@ -17536,6 +17530,20 @@ tags:
       description: Actions related to Workers
 servers:
     - url: /
+x-speakeasy-globals:
+  parameters:
+    - name: organizationId
+      in: path
+      schema:
+        type: string
+    - name: workspaceId
+      in: path
+      schema:
+        type: string
+    - name: workerGroupId
+      in: path
+      schema:
+        type: string
 components:
     securitySchemes:
         bearerAuth:
@@ -17547,7 +17555,7 @@ components:
             x-speakeasy-entity: Pack
             type: object
             properties:
-                name:
+                displayName:
                     type: string
                 id:
                     type: string
@@ -38308,7 +38316,7 @@ components:
                     title: Description
             type: object
         Input:
-            oneOf:
+            anyOf:
                 - $ref: "#/components/schemas/InputCollection"
                 - $ref: "#/components/schemas/InputKafka"
                 - $ref: "#/components/schemas/InputMsk"
@@ -38355,17 +38363,226 @@ components:
                 - $ref: "#/components/schemas/InputModelDrivenTelemetry"
                 - $ref: "#/components/schemas/InputSqs"
                 - $ref: "#/components/schemas/InputSyslog"
-                - $ref: "#/components/schemas/InputFile"
-                - $ref: "#/components/schemas/InputTcp"
-                - $ref: "#/components/schemas/InputAppscope"
-                - $ref: "#/components/schemas/InputWef"
-                - $ref: "#/components/schemas/InputWinEventLogs"
-                - $ref: "#/components/schemas/InputRawUdp"
-                - $ref: "#/components/schemas/InputJournalFiles"
-                - $ref: "#/components/schemas/InputWiz"
-                - $ref: "#/components/schemas/InputNetflow"
-                - $ref: "#/components/schemas/InputSecurityLake"
-                - $ref: "#/components/schemas/InputZscalerHec"
+                - allOf:
+                    - $ref: "#/components/schemas/InputFile"
+                    - type: object
+                      properties:
+                        status:
+                          type: object
+                          properties:
+                            health:
+                              type: string
+                            timestamp:
+                              type: number
+                            metrics:
+                              type: object
+                              properties:
+                                buffered:
+                                  type: number
+                                dropped:
+                                  type: number
+                                received:
+                                  type: number
+                - allOf:
+                    - $ref: "#/components/schemas/InputTcp"
+                    - type: object
+                      properties:
+                        status:
+                          type: object
+                          properties:
+                            health:
+                              type: string
+                            timestamp:
+                              type: number
+                            metrics:
+                              type: object
+                              properties:
+                                buffered:
+                                  type: number
+                                dropped:
+                                  type: number
+                                received:
+                                  type: number
+                - allOf:
+                    - $ref: "#/components/schemas/InputAppscope"
+                    - type: object
+                      properties:
+                        status:
+                          type: object
+                          properties:
+                            health:
+                              type: string
+                            timestamp:
+                              type: number
+                            metrics:
+                              type: object
+                              properties:
+                                buffered:
+                                  type: number
+                                dropped:
+                                  type: number
+                                received:
+                                  type: number
+                - allOf:
+                    - $ref: "#/components/schemas/InputWef"
+                    - type: object
+                      properties:
+                        status:
+                          type: object
+                          properties:
+                            health:
+                              type: string
+                            timestamp:
+                              type: number
+                            metrics:
+                              type: object
+                              properties:
+                                buffered:
+                                  type: number
+                                dropped:
+                                  type: number
+                                received:
+                                  type: number
+                - allOf:
+                    - $ref: "#/components/schemas/InputWinEventLogs"
+                    - type: object
+                      properties:
+                        status:
+                          type: object
+                          properties:
+                            health:
+                              type: string
+                            timestamp:
+                              type: number
+                            metrics:
+                              type: object
+                              properties:
+                                buffered:
+                                  type: number
+                                dropped:
+                                  type: number
+                                received:
+                                  type: number
+                - allOf:
+                    - $ref: "#/components/schemas/InputRawUdp"
+                    - type: object
+                      properties:
+                        status:
+                          type: object
+                          properties:
+                            health:
+                              type: string
+                            timestamp:
+                              type: number
+                            metrics:
+                              type: object
+                              properties:
+                                buffered:
+                                  type: number
+                                dropped:
+                                  type: number
+                                received:
+                                  type: number
+                - allOf:
+                    - $ref: "#/components/schemas/InputJournalFiles"
+                    - type: object
+                      properties:
+                        status:
+                          type: object
+                          properties:
+                            health:
+                              type: string
+                            timestamp:
+                              type: number
+                            metrics:
+                              type: object
+                              properties:
+                                buffered:
+                                  type: number
+                                dropped:
+                                  type: number
+                                received:
+                                  type: number
+                - allOf:
+                    - $ref: "#/components/schemas/InputWiz"
+                    - type: object
+                      properties:
+                        status:
+                          type: object
+                          properties:
+                            health:
+                              type: string
+                            timestamp:
+                              type: number
+                            metrics:
+                              type: object
+                              properties:
+                                buffered:
+                                  type: number
+                                dropped:
+                                  type: number
+                                received:
+                                  type: number
+                - allOf:
+                    - $ref: "#/components/schemas/InputNetflow"
+                    - type: object
+                      properties:
+                        status:
+                          type: object
+                          properties:
+                            health:
+                              type: string
+                            timestamp:
+                              type: number
+                            metrics:
+                              type: object
+                              properties:
+                                buffered:
+                                  type: number
+                                dropped:
+                                  type: number
+                                received:
+                                  type: number
+                - allOf:
+                    - $ref: "#/components/schemas/InputSecurityLake"
+                    - type: object
+                      properties:
+                        status:
+                          type: object
+                          properties:
+                            health:
+                              type: string
+                            timestamp:
+                              type: number
+                            metrics:
+                              type: object
+                              properties:
+                                buffered:
+                                  type: number
+                                dropped:
+                                  type: number
+                                received:
+                                  type: number
+                - allOf:
+                    - $ref: "#/components/schemas/InputZscalerHec"
+                    - type: object
+                      properties:
+                        status:
+                          type: object
+                          properties:
+                            health:
+                              type: string
+                            timestamp:
+                              type: number
+                            metrics:
+                              type: object
+                              properties:
+                                buffered:
+                                  type: number
+                                dropped:
+                                  type: number
+                                received:
+                                  type: number
         AddHecTokenRequest:
             type: object
             properties:

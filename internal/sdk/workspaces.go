@@ -25,6 +25,10 @@ func newWorkspaces(sdkConfig sdkConfiguration) *Workspaces {
 }
 
 func (s *Workspaces) WorkspacesControllerListWorkspaces(ctx context.Context, request operations.WorkspacesControllerListWorkspacesRequest, opts ...operations.Option) (*operations.WorkspacesControllerListWorkspacesResponse, error) {
+	globals := operations.WorkspacesControllerListWorkspacesGlobals{
+		OrganizationID: s.sdkConfiguration.Globals.OrganizationID,
+	}
+
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -42,7 +46,7 @@ func (s *Workspaces) WorkspacesControllerListWorkspaces(ctx context.Context, req
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/workspaces", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/workspaces", request, globals)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -151,6 +155,10 @@ func (s *Workspaces) WorkspacesControllerListWorkspaces(ctx context.Context, req
 }
 
 func (s *Workspaces) WorkspacesControllerCreateWorkspace(ctx context.Context, request operations.WorkspacesControllerCreateWorkspaceRequest, opts ...operations.Option) (*operations.WorkspacesControllerCreateWorkspaceResponse, error) {
+	globals := operations.WorkspacesControllerCreateWorkspaceGlobals{
+		OrganizationID: s.sdkConfiguration.Globals.OrganizationID,
+	}
+
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -168,7 +176,7 @@ func (s *Workspaces) WorkspacesControllerCreateWorkspace(ctx context.Context, re
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/workspaces", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/workspaces", request, globals)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -284,6 +292,11 @@ func (s *Workspaces) WorkspacesControllerCreateWorkspace(ctx context.Context, re
 }
 
 func (s *Workspaces) WorkspacesControllerGetWorkspace(ctx context.Context, request operations.WorkspacesControllerGetWorkspaceRequest, opts ...operations.Option) (*operations.WorkspacesControllerGetWorkspaceResponse, error) {
+	globals := operations.WorkspacesControllerGetWorkspaceGlobals{
+		OrganizationID: s.sdkConfiguration.Globals.OrganizationID,
+		WorkspaceID:    s.sdkConfiguration.Globals.WorkspaceID,
+	}
+
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -301,7 +314,7 @@ func (s *Workspaces) WorkspacesControllerGetWorkspace(ctx context.Context, reque
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/workspaces/{workspaceId}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/workspaces/{workspaceId}", request, globals)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -410,6 +423,11 @@ func (s *Workspaces) WorkspacesControllerGetWorkspace(ctx context.Context, reque
 }
 
 func (s *Workspaces) WorkspacesControllerDeleteWorkspace(ctx context.Context, request operations.WorkspacesControllerDeleteWorkspaceRequest, opts ...operations.Option) (*operations.WorkspacesControllerDeleteWorkspaceResponse, error) {
+	globals := operations.WorkspacesControllerDeleteWorkspaceGlobals{
+		OrganizationID: s.sdkConfiguration.Globals.OrganizationID,
+		WorkspaceID:    s.sdkConfiguration.Globals.WorkspaceID,
+	}
+
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -427,7 +445,7 @@ func (s *Workspaces) WorkspacesControllerDeleteWorkspace(ctx context.Context, re
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/workspaces/{workspaceId}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/workspaces/{workspaceId}", request, globals)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -516,6 +534,11 @@ func (s *Workspaces) WorkspacesControllerDeleteWorkspace(ctx context.Context, re
 }
 
 func (s *Workspaces) WorkspacesControllerPatchWorkspace(ctx context.Context, request operations.WorkspacesControllerPatchWorkspaceRequest, opts ...operations.Option) (*operations.WorkspacesControllerPatchWorkspaceResponse, error) {
+	globals := operations.WorkspacesControllerPatchWorkspaceGlobals{
+		OrganizationID: s.sdkConfiguration.Globals.OrganizationID,
+		WorkspaceID:    s.sdkConfiguration.Globals.WorkspaceID,
+	}
+
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -533,7 +556,7 @@ func (s *Workspaces) WorkspacesControllerPatchWorkspace(ctx context.Context, req
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/workspaces/{workspaceId}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v4/organizations/{organizationId}/workspaces/{workspaceId}", request, globals)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}

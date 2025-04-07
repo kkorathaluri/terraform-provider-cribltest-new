@@ -7,21 +7,40 @@ import (
 	"net/http"
 )
 
-type WorkspacesControllerGetWorkspaceRequest struct {
-	OrganizationID string `pathParam:"style=simple,explode=false,name=organizationId"`
-	WorkspaceID    string `pathParam:"style=simple,explode=false,name=workspaceId"`
+type WorkspacesControllerGetWorkspaceGlobals struct {
+	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
+	WorkspaceID    *string `pathParam:"style=simple,explode=false,name=workspaceId"`
 }
 
-func (o *WorkspacesControllerGetWorkspaceRequest) GetOrganizationID() string {
+func (o *WorkspacesControllerGetWorkspaceGlobals) GetOrganizationID() *string {
 	if o == nil {
-		return ""
+		return nil
 	}
 	return o.OrganizationID
 }
 
-func (o *WorkspacesControllerGetWorkspaceRequest) GetWorkspaceID() string {
+func (o *WorkspacesControllerGetWorkspaceGlobals) GetWorkspaceID() *string {
 	if o == nil {
-		return ""
+		return nil
+	}
+	return o.WorkspaceID
+}
+
+type WorkspacesControllerGetWorkspaceRequest struct {
+	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
+	WorkspaceID    *string `pathParam:"style=simple,explode=false,name=workspaceId"`
+}
+
+func (o *WorkspacesControllerGetWorkspaceRequest) GetOrganizationID() *string {
+	if o == nil {
+		return nil
+	}
+	return o.OrganizationID
+}
+
+func (o *WorkspacesControllerGetWorkspaceRequest) GetWorkspaceID() *string {
+	if o == nil {
+		return nil
 	}
 	return o.WorkspaceID
 }

@@ -25,6 +25,10 @@ func newConsumption(sdkConfig sdkConfiguration) *Consumption {
 }
 
 func (s *Consumption) V5BillingConsumptionGetCreditsSummary(ctx context.Context, request operations.V5BillingConsumptionGetCreditsSummaryRequest, opts ...operations.Option) (*operations.V5BillingConsumptionGetCreditsSummaryResponse, error) {
+	globals := operations.V5BillingConsumptionGetCreditsSummaryGlobals{
+		OrganizationID: s.sdkConfiguration.Globals.OrganizationID,
+	}
+
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -42,7 +46,7 @@ func (s *Consumption) V5BillingConsumptionGetCreditsSummary(ctx context.Context,
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v5/organizations/{organizationId}/billing/consumption/credits-summary", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v5/organizations/{organizationId}/billing/consumption/credits-summary", request, globals)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -73,7 +77,7 @@ func (s *Consumption) V5BillingConsumptionGetCreditsSummary(ctx context.Context,
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
 
-	if err := utils.PopulateQueryParams(ctx, req, request, nil); err != nil {
+	if err := utils.PopulateQueryParams(ctx, req, request, globals); err != nil {
 		return nil, fmt.Errorf("error populating query params: %w", err)
 	}
 
@@ -155,6 +159,10 @@ func (s *Consumption) V5BillingConsumptionGetCreditsSummary(ctx context.Context,
 }
 
 func (s *Consumption) V5BillingConsumptionGetCumulativeConsumption(ctx context.Context, request operations.V5BillingConsumptionGetCumulativeConsumptionRequest, opts ...operations.Option) (*operations.V5BillingConsumptionGetCumulativeConsumptionResponse, error) {
+	globals := operations.V5BillingConsumptionGetCumulativeConsumptionGlobals{
+		OrganizationID: s.sdkConfiguration.Globals.OrganizationID,
+	}
+
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -172,7 +180,7 @@ func (s *Consumption) V5BillingConsumptionGetCumulativeConsumption(ctx context.C
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v5/organizations/{organizationId}/billing/consumption/cumulative", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v5/organizations/{organizationId}/billing/consumption/cumulative", request, globals)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -203,7 +211,7 @@ func (s *Consumption) V5BillingConsumptionGetCumulativeConsumption(ctx context.C
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
 
-	if err := utils.PopulateQueryParams(ctx, req, request, nil); err != nil {
+	if err := utils.PopulateQueryParams(ctx, req, request, globals); err != nil {
 		return nil, fmt.Errorf("error populating query params: %w", err)
 	}
 
@@ -285,6 +293,10 @@ func (s *Consumption) V5BillingConsumptionGetCumulativeConsumption(ctx context.C
 }
 
 func (s *Consumption) V5BillingConsumptionGetProductsBreakdown(ctx context.Context, request operations.V5BillingConsumptionGetProductsBreakdownRequest, opts ...operations.Option) (*operations.V5BillingConsumptionGetProductsBreakdownResponse, error) {
+	globals := operations.V5BillingConsumptionGetProductsBreakdownGlobals{
+		OrganizationID: s.sdkConfiguration.Globals.OrganizationID,
+	}
+
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -302,7 +314,7 @@ func (s *Consumption) V5BillingConsumptionGetProductsBreakdown(ctx context.Conte
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v5/organizations/{organizationId}/billing/consumption/products-breakdown", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v5/organizations/{organizationId}/billing/consumption/products-breakdown", request, globals)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -333,7 +345,7 @@ func (s *Consumption) V5BillingConsumptionGetProductsBreakdown(ctx context.Conte
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
 
-	if err := utils.PopulateQueryParams(ctx, req, request, nil); err != nil {
+	if err := utils.PopulateQueryParams(ctx, req, request, globals); err != nil {
 		return nil, fmt.Errorf("error populating query params: %w", err)
 	}
 
@@ -415,6 +427,10 @@ func (s *Consumption) V5BillingConsumptionGetProductsBreakdown(ctx context.Conte
 }
 
 func (s *Consumption) V5BillingConsumptionGetProductsConsumptionStats(ctx context.Context, request operations.V5BillingConsumptionGetProductsConsumptionStatsRequest, opts ...operations.Option) (*operations.V5BillingConsumptionGetProductsConsumptionStatsResponse, error) {
+	globals := operations.V5BillingConsumptionGetProductsConsumptionStatsGlobals{
+		OrganizationID: s.sdkConfiguration.Globals.OrganizationID,
+	}
+
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -432,7 +448,7 @@ func (s *Consumption) V5BillingConsumptionGetProductsConsumptionStats(ctx contex
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v5/organizations/{organizationId}/billing/consumption/products-stats", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v5/organizations/{organizationId}/billing/consumption/products-stats", request, globals)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -463,7 +479,7 @@ func (s *Consumption) V5BillingConsumptionGetProductsConsumptionStats(ctx contex
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
 
-	if err := utils.PopulateQueryParams(ctx, req, request, nil); err != nil {
+	if err := utils.PopulateQueryParams(ctx, req, request, globals); err != nil {
 		return nil, fmt.Errorf("error populating query params: %w", err)
 	}
 
@@ -545,6 +561,10 @@ func (s *Consumption) V5BillingConsumptionGetProductsConsumptionStats(ctx contex
 }
 
 func (s *Consumption) V5BillingConsumptionGetSingleProductUsageBreakdown(ctx context.Context, request operations.V5BillingConsumptionGetSingleProductUsageBreakdownRequest, opts ...operations.Option) (*operations.V5BillingConsumptionGetSingleProductUsageBreakdownResponse, error) {
+	globals := operations.V5BillingConsumptionGetSingleProductUsageBreakdownGlobals{
+		OrganizationID: s.sdkConfiguration.Globals.OrganizationID,
+	}
+
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -562,7 +582,7 @@ func (s *Consumption) V5BillingConsumptionGetSingleProductUsageBreakdown(ctx con
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v5/organizations/{organizationId}/billing/consumption/single-product-breakdown/{productSlug}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v5/organizations/{organizationId}/billing/consumption/single-product-breakdown/{productSlug}", request, globals)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -593,7 +613,7 @@ func (s *Consumption) V5BillingConsumptionGetSingleProductUsageBreakdown(ctx con
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
 
-	if err := utils.PopulateQueryParams(ctx, req, request, nil); err != nil {
+	if err := utils.PopulateQueryParams(ctx, req, request, globals); err != nil {
 		return nil, fmt.Errorf("error populating query params: %w", err)
 	}
 
