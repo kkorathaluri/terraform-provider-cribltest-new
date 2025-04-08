@@ -18,23 +18,23 @@ type InputAzureBlob struct {
 	Environment                 types.String                `tfsdk:"environment"`
 	FileFilter                  types.String                `tfsdk:"file_filter"`
 	ID                          types.String                `tfsdk:"id"`
-	MaxMessages                 types.Number                `tfsdk:"max_messages"`
+	MaxMessages                 types.Float64               `tfsdk:"max_messages"`
 	Metadata                    []InputAzureBlobMetadata    `tfsdk:"metadata"`
-	NumReceivers                types.Number                `tfsdk:"num_receivers"`
-	ParquetChunkDownloadTimeout types.Number                `tfsdk:"parquet_chunk_download_timeout"`
-	ParquetChunkSizeMB          types.Number                `tfsdk:"parquet_chunk_size_mb"`
+	NumReceivers                types.Float64               `tfsdk:"num_receivers"`
+	ParquetChunkDownloadTimeout types.Float64               `tfsdk:"parquet_chunk_download_timeout"`
+	ParquetChunkSizeMB          types.Float64               `tfsdk:"parquet_chunk_size_mb"`
 	Pipeline                    types.String                `tfsdk:"pipeline"`
 	Pq                          *InputAzureBlobPq           `tfsdk:"pq"`
 	PqEnabled                   types.Bool                  `tfsdk:"pq_enabled"`
 	QueueName                   types.String                `tfsdk:"queue_name"`
 	SendToRoutes                types.Bool                  `tfsdk:"send_to_routes"`
-	ServicePeriodSecs           types.Number                `tfsdk:"service_period_secs"`
+	ServicePeriodSecs           types.Float64               `tfsdk:"service_period_secs"`
 	SkipOnError                 types.Bool                  `tfsdk:"skip_on_error"`
-	StaleChannelFlushMs         types.Number                `tfsdk:"stale_channel_flush_ms"`
+	StaleChannelFlushMs         types.Float64               `tfsdk:"stale_channel_flush_ms"`
 	StorageAccountName          types.String                `tfsdk:"storage_account_name"`
 	Streamtags                  []types.String              `tfsdk:"streamtags"`
 	TenantID                    types.String                `tfsdk:"tenant_id"`
 	TextSecret                  types.String                `tfsdk:"text_secret"`
 	Type                        types.String                `tfsdk:"type"`
-	VisibilityTimeout           types.Number                `tfsdk:"visibility_timeout"`
+	VisibilityTimeout           types.Float64               `tfsdk:"visibility_timeout"`
 }

@@ -10,7 +10,7 @@ type OutputGoogleChronicle struct {
 	APIVersion                      types.String                                 `tfsdk:"api_version"`
 	AuthenticationMethod            types.String                                 `tfsdk:"authentication_method"`
 	Compress                        types.Bool                                   `tfsdk:"compress"`
-	Concurrency                     types.Number                                 `tfsdk:"concurrency"`
+	Concurrency                     types.Float64                                `tfsdk:"concurrency"`
 	CustomerID                      types.String                                 `tfsdk:"customer_id"`
 	CustomLabels                    []CustomLabels                               `tfsdk:"custom_labels"`
 	Description                     types.String                                 `tfsdk:"description"`
@@ -18,13 +18,13 @@ type OutputGoogleChronicle struct {
 	ExtraHTTPHeaders                []OutputGoogleChronicleExtraHTTPHeaders      `tfsdk:"extra_http_headers"`
 	ExtraLogTypes                   []ExtraLogTypes                              `tfsdk:"extra_log_types"`
 	FailedRequestLoggingMode        types.String                                 `tfsdk:"failed_request_logging_mode"`
-	FlushPeriodSec                  types.Number                                 `tfsdk:"flush_period_sec"`
+	FlushPeriodSec                  types.Float64                                `tfsdk:"flush_period_sec"`
 	ID                              types.String                                 `tfsdk:"id"`
 	LogFormatType                   types.String                                 `tfsdk:"log_format_type"`
 	LogTextField                    types.String                                 `tfsdk:"log_text_field"`
 	LogType                         types.String                                 `tfsdk:"log_type"`
-	MaxPayloadEvents                types.Number                                 `tfsdk:"max_payload_events"`
-	MaxPayloadSizeKB                types.Number                                 `tfsdk:"max_payload_size_kb"`
+	MaxPayloadEvents                types.Float64                                `tfsdk:"max_payload_events"`
+	MaxPayloadSizeKB                types.Float64                                `tfsdk:"max_payload_size_kb"`
 	Namespace                       types.String                                 `tfsdk:"namespace"`
 	OnBackpressure                  types.String                                 `tfsdk:"on_backpressure"`
 	Pipeline                        types.String                                 `tfsdk:"pipeline"`
@@ -45,8 +45,8 @@ type OutputGoogleChronicle struct {
 	Streamtags                      []types.String                               `tfsdk:"streamtags"`
 	SystemFields                    []types.String                               `tfsdk:"system_fields"`
 	TimeoutRetrySettings            *OutputGoogleChronicleTimeoutRetrySettings   `tfsdk:"timeout_retry_settings"`
-	TimeoutSec                      types.Number                                 `tfsdk:"timeout_sec"`
-	TotalMemoryLimitKB              types.Number                                 `tfsdk:"total_memory_limit_kb"`
+	TimeoutSec                      types.Float64                                `tfsdk:"timeout_sec"`
+	TotalMemoryLimitKB              types.Float64                                `tfsdk:"total_memory_limit_kb"`
 	Type                            types.String                                 `tfsdk:"type"`
 	UseRoundRobinDNS                types.Bool                                   `tfsdk:"use_round_robin_dns"`
 }

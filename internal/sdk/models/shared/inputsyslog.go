@@ -51,7 +51,7 @@ func (o *InputSyslog2Connections) GetOutput() string {
 	return o.Output
 }
 
-// InputSyslog2Mode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+// InputSyslog2Mode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 type InputSyslog2Mode string
 
 const (
@@ -106,7 +106,7 @@ func (e *InputSyslog2Compression) UnmarshalJSON(data []byte) error {
 }
 
 type InputSyslog2Pq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 	Mode *InputSyslog2Mode `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
@@ -717,7 +717,7 @@ func (o *InputSyslogConnections) GetOutput() string {
 	return o.Output
 }
 
-// InputSyslogMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+// InputSyslogMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 type InputSyslogMode string
 
 const (
@@ -772,7 +772,7 @@ func (e *InputSyslogCompression) UnmarshalJSON(data []byte) error {
 }
 
 type InputSyslogPq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 	Mode *InputSyslogMode `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`

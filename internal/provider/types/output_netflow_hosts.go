@@ -5,6 +5,6 @@ package types
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type OutputNetflowHosts struct {
-	Host types.String `tfsdk:"host"`
-	Port types.Number `tfsdk:"port"`
+	Host types.String  `tfsdk:"host"`
+	Port types.Float64 `tfsdk:"port"`
 }

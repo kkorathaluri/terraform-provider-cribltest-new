@@ -930,17 +930,17 @@ func (u *Output) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	var outputSplunkLb OutputSplunkLb = OutputSplunkLb{}
-	if err := utils.UnmarshalJSON(data, &outputSplunkLb, "", true, true); err == nil {
-		u.OutputSplunkLb = &outputSplunkLb
-		u.Type = OutputTypeOutputSplunkLb
-		return nil
-	}
-
 	var outputSqs OutputSqs = OutputSqs{}
 	if err := utils.UnmarshalJSON(data, &outputSqs, "", true, true); err == nil {
 		u.OutputSqs = &outputSqs
 		u.Type = OutputTypeOutputSqs
+		return nil
+	}
+
+	var outputSplunkLb OutputSplunkLb = OutputSplunkLb{}
+	if err := utils.UnmarshalJSON(data, &outputSplunkLb, "", true, true); err == nil {
+		u.OutputSplunkLb = &outputSplunkLb
+		u.Type = OutputTypeOutputSplunkLb
 		return nil
 	}
 
@@ -958,17 +958,17 @@ func (u *Output) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	var outputCriblHTTP OutputCriblHTTP = OutputCriblHTTP{}
-	if err := utils.UnmarshalJSON(data, &outputCriblHTTP, "", true, true); err == nil {
-		u.OutputCriblHTTP = &outputCriblHTTP
-		u.Type = OutputTypeOutputCriblHTTP
-		return nil
-	}
-
 	var outputFilesystem OutputFilesystem = OutputFilesystem{}
 	if err := utils.UnmarshalJSON(data, &outputFilesystem, "", true, true); err == nil {
 		u.OutputFilesystem = &outputFilesystem
 		u.Type = OutputTypeOutputFilesystem
+		return nil
+	}
+
+	var outputCriblHTTP OutputCriblHTTP = OutputCriblHTTP{}
+	if err := utils.UnmarshalJSON(data, &outputCriblHTTP, "", true, true); err == nil {
+		u.OutputCriblHTTP = &outputCriblHTTP
+		u.Type = OutputTypeOutputCriblHTTP
 		return nil
 	}
 

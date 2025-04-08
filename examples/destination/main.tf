@@ -13,40 +13,41 @@ provider "cribl-terraform" {
 
 
 resource "cribl-terraform_destination" "my_destination" {
-   output_cribl_http = {
+  id = "test_4"
+  output_cribl_http = {
     compression            = "gzip"
     concurrency            = 11.56
-    description            = "test"
+    description            = "...my_description..."
     dns_resolve_period_sec = 5488.51
-    environment            = "test"
+    environment            = "...my_environment..."
     exclude_fields = [
-      "test"
+      "..."
     ]
     exclude_self = true
     extra_http_headers = [
       {
-        name  = "test"
-        value = "test"
+        name  = "...my_name..."
+        value = "...my_value..."
       }
     ]
     failed_request_logging_mode   = "none"
     flush_period_sec              = 2.35
-    id                            = "test"
+    id                            = "test_4"
     load_balance_stats_period_sec = 12.74
     load_balanced                 = false
     max_payload_events            = 6.83
     max_payload_size_kb           = 2827.75
     on_backpressure               = "block"
-    pipeline                      = "default"
+    pipeline                      = "...my_pipeline..."
     pq_compress                   = "none"
     pq_controls = {
       # ...
     }
-    pq_max_file_size                  = 1000
-    pq_max_size                       = 1000
+    pq_max_file_size                  = 10000000
+    pq_max_size                       = 10000000
     pq_mode                           = "always"
     pq_on_backpressure                = "drop"
-    pq_path                           = "/tmp/test.pq"
+    pq_path                           = "...my_pq_path..."
     reject_unauthorized               = true
     response_honor_retry_after_header = false
     response_retry_settings = [
@@ -58,13 +59,13 @@ resource "cribl-terraform_destination" "my_destination" {
       }
     ]
     safe_headers = [
-      "authorization"
+      "..."
     ]
     streamtags = [
-      "test"
+      "..."
     ]
     system_fields = [
-      "test"
+      "..."
     ]
     timeout_retry_settings = {
       backoff_rate    = 19.69
@@ -74,23 +75,23 @@ resource "cribl-terraform_destination" "my_destination" {
     }
     timeout_sec = 8157421429180492
     tls = {
-      ca_path             = "test"
-      cert_path           = "test"
-      certificate_name    = "test"
+      ca_path             = "...my_ca_path..."
+      cert_path           = "...my_cert_path..."
+      certificate_name    = "...my_certificate_name..."
       disabled            = false
       max_version         = "TLSv1.3"
       min_version         = "TLSv1.3"
-      passphrase          = "test"
-      priv_key_path       = "/tmp/test.key"
+      passphrase          = "...my_passphrase..."
+      priv_key_path       = "...my_priv_key_path..."
       reject_unauthorized = false
-      servername          = "test"
+      servername          = "...my_servername..."
     }
     token_ttl_minutes = 38.63
     type              = "cribl_http"
-    url               = "https://test.com"
+    url               = "https://cribl-playground.cloud/api/v1/m/default/destination/test_1"
     urls = [
       {
-        url    = "https://test.com"
+        url    = "https://cribl-playground.cloud/api/v1/m/default/destination/test_1"
         weight = 0.48
       }
     ]
@@ -100,10 +101,9 @@ resource "cribl-terraform_destination" "my_destination" {
 
 output "destination_details" {
   value = {
-    id = cribl-terraform_destination.my_destination.output_default.id
-    type = cribl-terraform_destination.my_destination.output_default.type
-    default_id = cribl-terraform_destination.my_destination.output_default.default_id
-    environment = cribl-terraform_destination.my_destination.output_default.environment
-    pipeline = cribl-terraform_destination.my_destination.output_default.pipeline
+    id = cribl-terraform_destination.my_destination.output_cribl_http.id
+    type = cribl-terraform_destination.my_destination.output_cribl_http.type
+    environment = cribl-terraform_destination.my_destination.output_cribl_http.environment
+    pipeline = cribl-terraform_destination.my_destination.output_cribl_http.pipeline
   }
 }

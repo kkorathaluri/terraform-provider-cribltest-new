@@ -35,13 +35,12 @@ type PackResource struct {
 
 // PackResourceModel describes the resource data model.
 type PackResourceModel struct {
-	CountTest   types.Int64               `tfsdk:"count_test"`
-	Description types.String              `tfsdk:"description"`
-	Disabled    types.Bool                `tfsdk:"disabled"`
-	DisplayName types.String              `tfsdk:"display_name"`
-	ID          types.String              `tfsdk:"id"`
-	Items       []tfTypes.PackInstallInfo `tfsdk:"items"`
-	Version     types.String              `tfsdk:"version"`
+	Description types.String       `tfsdk:"description"`
+	Disabled    types.Bool         `tfsdk:"disabled"`
+	DisplayName types.String       `tfsdk:"display_name"`
+	ID          types.String       `tfsdk:"id"`
+	Items       []tfTypes.PackInfo `tfsdk:"items"`
+	Version     types.String       `tfsdk:"version"`
 }
 
 func (r *PackResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -52,10 +51,6 @@ func (r *PackResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Pack Resource",
 		Attributes: map[string]schema.Attribute{
-			"count_test": schema.Int64Attribute{
-				Computed:    true,
-				Description: `number of items present in the items array`,
-			},
 			"description": schema.StringAttribute{
 				Required: true,
 				PlanModifiers: []planmodifier.String{
@@ -224,8 +219,42 @@ func (r *PackResource) Create(ctx context.Context, req resource.CreateRequest, r
 		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromOperationsCreatePacksResponseBody(res.Object)
-	refreshPlan(ctx, plan, &data, resp.Diagnostics)
+	resp.Diagnostics.Append(data.RefreshFromOperationsCreatePacksResponseBody(ctx, res.Object)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	resp.Diagnostics.Append(refreshPlan(ctx, plan, &data)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	res1, err := r.client.Packs.GetPacks(ctx)
+	if err != nil {
+		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		if res1 != nil && res1.RawResponse != nil {
+			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res1.RawResponse))
+		}
+		return
+	}
+	if res1 == nil {
+		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res1))
+		return
+	}
+	if res1.StatusCode != 200 {
+		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res1.StatusCode), debugResponse(res1.RawResponse))
+		return
+	}
+	if !(res1.Object != nil) {
+		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res1.RawResponse))
+		return
+	}
+	resp.Diagnostics.Append(data.RefreshFromOperationsGetPacksResponseBody(ctx, res1.Object)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -249,7 +278,35 @@ func (r *PackResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 		return
 	}
 
-	// Not Implemented; we rely entirely on CREATE API request response
+	res, err := r.client.Packs.GetPacks(ctx)
+	if err != nil {
+		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		if res != nil && res.RawResponse != nil {
+			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
+		}
+		return
+	}
+	if res == nil {
+		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res))
+		return
+	}
+	if res.StatusCode == 404 {
+		resp.State.RemoveResource(ctx)
+		return
+	}
+	if res.StatusCode != 200 {
+		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
+		return
+	}
+	if !(res.Object != nil) {
+		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
+		return
+	}
+	resp.Diagnostics.Append(data.RefreshFromOperationsGetPacksResponseBody(ctx, res.Object)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -295,8 +352,42 @@ func (r *PackResource) Update(ctx context.Context, req resource.UpdateRequest, r
 		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromOperationsUpdatePacksByIDResponseBody(res.Object)
-	refreshPlan(ctx, plan, &data, resp.Diagnostics)
+	resp.Diagnostics.Append(data.RefreshFromOperationsUpdatePacksByIDResponseBody(ctx, res.Object)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	resp.Diagnostics.Append(refreshPlan(ctx, plan, &data)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	res1, err := r.client.Packs.GetPacks(ctx)
+	if err != nil {
+		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		if res1 != nil && res1.RawResponse != nil {
+			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res1.RawResponse))
+		}
+		return
+	}
+	if res1 == nil {
+		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res1))
+		return
+	}
+	if res1.StatusCode != 200 {
+		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res1.StatusCode), debugResponse(res1.RawResponse))
+		return
+	}
+	if !(res1.Object != nil) {
+		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res1.RawResponse))
+		return
+	}
+	resp.Diagnostics.Append(data.RefreshFromOperationsGetPacksResponseBody(ctx, res1.Object)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)

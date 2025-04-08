@@ -12,12 +12,12 @@ type OutputSns struct {
 	AwsSecret               types.String         `tfsdk:"aws_secret"`
 	AwsSecretKey            types.String         `tfsdk:"aws_secret_key"`
 	Description             types.String         `tfsdk:"description"`
-	DurationSeconds         types.Number         `tfsdk:"duration_seconds"`
+	DurationSeconds         types.Float64        `tfsdk:"duration_seconds"`
 	EnableAssumeRole        types.Bool           `tfsdk:"enable_assume_role"`
 	Endpoint                types.String         `tfsdk:"endpoint"`
 	Environment             types.String         `tfsdk:"environment"`
 	ID                      types.String         `tfsdk:"id"`
-	MaxRetries              types.Number         `tfsdk:"max_retries"`
+	MaxRetries              types.Float64        `tfsdk:"max_retries"`
 	MessageGroupID          types.String         `tfsdk:"message_group_id"`
 	OnBackpressure          types.String         `tfsdk:"on_backpressure"`
 	Pipeline                types.String         `tfsdk:"pipeline"`

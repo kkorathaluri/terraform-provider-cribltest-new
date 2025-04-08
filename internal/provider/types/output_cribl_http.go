@@ -6,20 +6,20 @@ import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type OutputCriblHTTP struct {
 	Compression                   types.String                           `tfsdk:"compression"`
-	Concurrency                   types.Number                           `tfsdk:"concurrency"`
+	Concurrency                   types.Float64                          `tfsdk:"concurrency"`
 	Description                   types.String                           `tfsdk:"description"`
-	DNSResolvePeriodSec           types.Number                           `tfsdk:"dns_resolve_period_sec"`
+	DNSResolvePeriodSec           types.Float64                          `tfsdk:"dns_resolve_period_sec"`
 	Environment                   types.String                           `tfsdk:"environment"`
 	ExcludeFields                 []types.String                         `tfsdk:"exclude_fields"`
 	ExcludeSelf                   types.Bool                             `tfsdk:"exclude_self"`
 	ExtraHTTPHeaders              []OutputCriblHTTPExtraHTTPHeaders      `tfsdk:"extra_http_headers"`
 	FailedRequestLoggingMode      types.String                           `tfsdk:"failed_request_logging_mode"`
-	FlushPeriodSec                types.Number                           `tfsdk:"flush_period_sec"`
+	FlushPeriodSec                types.Float64                          `tfsdk:"flush_period_sec"`
 	ID                            types.String                           `tfsdk:"id"`
 	LoadBalanced                  types.Bool                             `tfsdk:"load_balanced"`
-	LoadBalanceStatsPeriodSec     types.Number                           `tfsdk:"load_balance_stats_period_sec"`
-	MaxPayloadEvents              types.Number                           `tfsdk:"max_payload_events"`
-	MaxPayloadSizeKB              types.Number                           `tfsdk:"max_payload_size_kb"`
+	LoadBalanceStatsPeriodSec     types.Float64                          `tfsdk:"load_balance_stats_period_sec"`
+	MaxPayloadEvents              types.Float64                          `tfsdk:"max_payload_events"`
+	MaxPayloadSizeKB              types.Float64                          `tfsdk:"max_payload_size_kb"`
 	OnBackpressure                types.String                           `tfsdk:"on_backpressure"`
 	Pipeline                      types.String                           `tfsdk:"pipeline"`
 	PqCompress                    types.String                           `tfsdk:"pq_compress"`
@@ -33,12 +33,13 @@ type OutputCriblHTTP struct {
 	ResponseHonorRetryAfterHeader types.Bool                             `tfsdk:"response_honor_retry_after_header"`
 	ResponseRetrySettings         []OutputCriblHTTPResponseRetrySettings `tfsdk:"response_retry_settings"`
 	SafeHeaders                   []types.String                         `tfsdk:"safe_headers"`
+	Status                        *OutputCriblHTTPStatus                 `tfsdk:"status"`
 	Streamtags                    []types.String                         `tfsdk:"streamtags"`
 	SystemFields                  []types.String                         `tfsdk:"system_fields"`
 	TimeoutRetrySettings          *OutputCriblHTTPTimeoutRetrySettings   `tfsdk:"timeout_retry_settings"`
-	TimeoutSec                    types.Number                           `tfsdk:"timeout_sec"`
+	TimeoutSec                    types.Float64                          `tfsdk:"timeout_sec"`
 	TLS                           *OutputCriblHTTPTLSSettingsClientSide  `tfsdk:"tls"`
-	TokenTTLMinutes               types.Number                           `tfsdk:"token_ttl_minutes"`
+	TokenTTLMinutes               types.Float64                          `tfsdk:"token_ttl_minutes"`
 	Type                          types.String                           `tfsdk:"type"`
 	URL                           types.String                           `tfsdk:"url"`
 	Urls                          []OutputCriblHTTPUrls                  `tfsdk:"urls"`

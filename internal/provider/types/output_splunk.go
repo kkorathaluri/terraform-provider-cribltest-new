@@ -7,7 +7,8 @@ import "github.com/hashicorp/terraform-plugin-framework/types"
 type OutputSplunk struct {
 	AuthToken             types.String                       `tfsdk:"auth_token"`
 	AuthType              types.String                       `tfsdk:"auth_type"`
-	ConnectionTimeout     types.Number                       `tfsdk:"connection_timeout"`
+	Compress              types.String                       `tfsdk:"compress"`
+	ConnectionTimeout     types.Float64                      `tfsdk:"connection_timeout"`
 	Description           types.String                       `tfsdk:"description"`
 	EnableACK             types.Bool                         `tfsdk:"enable_ack"`
 	EnableMultiMetrics    types.Bool                         `tfsdk:"enable_multi_metrics"`
@@ -15,12 +16,12 @@ type OutputSplunk struct {
 	Host                  types.String                       `tfsdk:"host"`
 	ID                    types.String                       `tfsdk:"id"`
 	LogFailedRequests     types.Bool                         `tfsdk:"log_failed_requests"`
-	MaxFailedHealthChecks types.Number                       `tfsdk:"max_failed_health_checks"`
+	MaxFailedHealthChecks types.Float64                      `tfsdk:"max_failed_health_checks"`
 	MaxS2Sversion         types.String                       `tfsdk:"max_s2_sversion"`
 	NestedFields          types.String                       `tfsdk:"nested_fields"`
 	OnBackpressure        types.String                       `tfsdk:"on_backpressure"`
 	Pipeline              types.String                       `tfsdk:"pipeline"`
-	Port                  types.Number                       `tfsdk:"port"`
+	Port                  types.Float64                      `tfsdk:"port"`
 	PqCompress            types.String                       `tfsdk:"pq_compress"`
 	PqControls            *OutputSplunkPqControls            `tfsdk:"pq_controls"`
 	PqMaxFileSize         types.String                       `tfsdk:"pq_max_file_size"`
@@ -34,5 +35,5 @@ type OutputSplunk struct {
 	ThrottleRatePerSec    types.String                       `tfsdk:"throttle_rate_per_sec"`
 	TLS                   *OutputSplunkTLSSettingsClientSide `tfsdk:"tls"`
 	Type                  types.String                       `tfsdk:"type"`
-	WriteTimeout          types.Number                       `tfsdk:"write_timeout"`
+	WriteTimeout          types.Float64                      `tfsdk:"write_timeout"`
 }

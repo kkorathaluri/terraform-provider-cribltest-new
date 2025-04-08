@@ -5,7 +5,7 @@ package types
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type InputLoki struct {
-	ActivityLogSampleRate types.Number                    `tfsdk:"activity_log_sample_rate"`
+	ActivityLogSampleRate types.Float64                   `tfsdk:"activity_log_sample_rate"`
 	AuthHeaderExpr        types.String                    `tfsdk:"auth_header_expr"`
 	AuthType              types.String                    `tfsdk:"auth_type"`
 	CaptureHeaders        types.Bool                      `tfsdk:"capture_headers"`
@@ -20,30 +20,30 @@ type InputLoki struct {
 	ID                    types.String                    `tfsdk:"id"`
 	IPAllowlistRegex      types.String                    `tfsdk:"ip_allowlist_regex"`
 	IPDenylistRegex       types.String                    `tfsdk:"ip_denylist_regex"`
-	KeepAliveTimeout      types.Number                    `tfsdk:"keep_alive_timeout"`
+	KeepAliveTimeout      types.Float64                   `tfsdk:"keep_alive_timeout"`
 	LoginURL              types.String                    `tfsdk:"login_url"`
 	LokiAPI               types.String                    `tfsdk:"loki_api"`
-	MaxActiveReq          types.Number                    `tfsdk:"max_active_req"`
+	MaxActiveReq          types.Float64                   `tfsdk:"max_active_req"`
 	MaxRequestsPerSocket  types.Int64                     `tfsdk:"max_requests_per_socket"`
 	Metadata              []InputLokiMetadata             `tfsdk:"metadata"`
 	OauthHeaders          []InputLokiOauthHeaders         `tfsdk:"oauth_headers"`
 	OauthParams           []InputLokiOauthParams          `tfsdk:"oauth_params"`
 	Password              types.String                    `tfsdk:"password"`
 	Pipeline              types.String                    `tfsdk:"pipeline"`
-	Port                  types.Number                    `tfsdk:"port"`
+	Port                  types.Float64                   `tfsdk:"port"`
 	Pq                    *InputLokiPq                    `tfsdk:"pq"`
 	PqEnabled             types.Bool                      `tfsdk:"pq_enabled"`
-	RequestTimeout        types.Number                    `tfsdk:"request_timeout"`
+	RequestTimeout        types.Float64                   `tfsdk:"request_timeout"`
 	Secret                types.String                    `tfsdk:"secret"`
 	SecretParamName       types.String                    `tfsdk:"secret_param_name"`
 	SendToRoutes          types.Bool                      `tfsdk:"send_to_routes"`
-	SocketTimeout         types.Number                    `tfsdk:"socket_timeout"`
+	SocketTimeout         types.Float64                   `tfsdk:"socket_timeout"`
 	Streamtags            []types.String                  `tfsdk:"streamtags"`
 	TextSecret            types.String                    `tfsdk:"text_secret"`
 	TLS                   *InputLokiTLSSettingsServerSide `tfsdk:"tls"`
 	Token                 types.String                    `tfsdk:"token"`
 	TokenAttributeName    types.String                    `tfsdk:"token_attribute_name"`
-	TokenTimeoutSecs      types.Number                    `tfsdk:"token_timeout_secs"`
+	TokenTimeoutSecs      types.Float64                   `tfsdk:"token_timeout_secs"`
 	Type                  types.String                    `tfsdk:"type"`
 	Username              types.String                    `tfsdk:"username"`
 }

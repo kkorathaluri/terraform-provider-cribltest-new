@@ -5,6 +5,6 @@ package types
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type Checkpointing struct {
-	Enabled types.Bool   `tfsdk:"enabled"`
-	Retries types.Number `tfsdk:"retries"`
+	Enabled types.Bool    `tfsdk:"enabled"`
+	Retries types.Float64 `tfsdk:"retries"`
 }

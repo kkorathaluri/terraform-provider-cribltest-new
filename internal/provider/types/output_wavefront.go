@@ -7,16 +7,16 @@ import "github.com/hashicorp/terraform-plugin-framework/types"
 type OutputWavefront struct {
 	AuthType                      types.String                           `tfsdk:"auth_type"`
 	Compress                      types.Bool                             `tfsdk:"compress"`
-	Concurrency                   types.Number                           `tfsdk:"concurrency"`
+	Concurrency                   types.Float64                          `tfsdk:"concurrency"`
 	Description                   types.String                           `tfsdk:"description"`
 	Domain                        types.String                           `tfsdk:"domain"`
 	Environment                   types.String                           `tfsdk:"environment"`
 	ExtraHTTPHeaders              []OutputWavefrontExtraHTTPHeaders      `tfsdk:"extra_http_headers"`
 	FailedRequestLoggingMode      types.String                           `tfsdk:"failed_request_logging_mode"`
-	FlushPeriodSec                types.Number                           `tfsdk:"flush_period_sec"`
+	FlushPeriodSec                types.Float64                          `tfsdk:"flush_period_sec"`
 	ID                            types.String                           `tfsdk:"id"`
-	MaxPayloadEvents              types.Number                           `tfsdk:"max_payload_events"`
-	MaxPayloadSizeKB              types.Number                           `tfsdk:"max_payload_size_kb"`
+	MaxPayloadEvents              types.Float64                          `tfsdk:"max_payload_events"`
+	MaxPayloadSizeKB              types.Float64                          `tfsdk:"max_payload_size_kb"`
 	OnBackpressure                types.String                           `tfsdk:"on_backpressure"`
 	Pipeline                      types.String                           `tfsdk:"pipeline"`
 	PqCompress                    types.String                           `tfsdk:"pq_compress"`
@@ -34,7 +34,7 @@ type OutputWavefront struct {
 	SystemFields                  []types.String                         `tfsdk:"system_fields"`
 	TextSecret                    types.String                           `tfsdk:"text_secret"`
 	TimeoutRetrySettings          *OutputWavefrontTimeoutRetrySettings   `tfsdk:"timeout_retry_settings"`
-	TimeoutSec                    types.Number                           `tfsdk:"timeout_sec"`
+	TimeoutSec                    types.Float64                          `tfsdk:"timeout_sec"`
 	Token                         types.String                           `tfsdk:"token"`
 	Type                          types.String                           `tfsdk:"type"`
 	UseRoundRobinDNS              types.Bool                             `tfsdk:"use_round_robin_dns"`

@@ -60,6 +60,7 @@ type API struct {
 	Headers            *Headers `json:"headers,omitempty"`
 	Host               string   `json:"host"`
 	IdleSessionTTL     *float64 `json:"idleSessionTTL,omitempty"`
+	ListenOnPort       *bool    `json:"listenOnPort,omitempty"`
 	LoginRateLimit     *string  `json:"loginRateLimit,omitempty"`
 	Port               float64  `json:"port"`
 	Protocol           string   `json:"protocol"`
@@ -110,6 +111,13 @@ func (o *API) GetIdleSessionTTL() *float64 {
 		return nil
 	}
 	return o.IdleSessionTTL
+}
+
+func (o *API) GetListenOnPort() *bool {
+	if o == nil {
+		return nil
+	}
+	return o.ListenOnPort
 }
 
 func (o *API) GetLoginRateLimit() *string {

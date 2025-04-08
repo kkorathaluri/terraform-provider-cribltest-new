@@ -50,7 +50,7 @@ func (o *InputMskConnections) GetOutput() string {
 	return o.Output
 }
 
-// InputMskMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+// InputMskMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 type InputMskMode string
 
 const (
@@ -105,7 +105,7 @@ func (e *InputMskCompression) UnmarshalJSON(data []byte) error {
 }
 
 type InputMskPq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 	Mode *InputMskMode `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
@@ -754,7 +754,7 @@ type InputMsk struct {
 	ConnectionTimeout *float64 `default:"10000" json:"connectionTimeout"`
 	// Maximum time to wait for Kafka to respond to a request
 	RequestTimeout *float64 `default:"60000" json:"requestTimeout"`
-	// If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data.
+	// If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data
 	MaxRetries *float64 `default:"5" json:"maxRetries"`
 	// The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds).
 	MaxBackOff *float64 `default:"30000" json:"maxBackOff"`
@@ -768,11 +768,10 @@ type InputMsk struct {
 	ReauthenticationThreshold *float64 `default:"10000" json:"reauthenticationThreshold"`
 	// AWS authentication method. Choose Auto to use IAM roles.
 	AwsAuthenticationMethod *AuthenticationMethod `default:"auto" json:"awsAuthenticationMethod"`
-	// Secret key
-	AwsSecretKey *string `json:"awsSecretKey,omitempty"`
+	AwsSecretKey            *string               `json:"awsSecretKey,omitempty"`
 	// Region where the MSK cluster is located
 	Region string `json:"region"`
-	// MSK cluster service endpoint. If empty, defaults to AWS' Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint.
+	// MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint.
 	Endpoint *string `json:"endpoint,omitempty"`
 	// Signature version to use for signing MSK cluster requests
 	SignatureVersion *SignatureVersion `default:"v4" json:"signatureVersion"`
@@ -800,9 +799,8 @@ type InputMsk struct {
 	// Maximum number of network errors before the consumer recreates a socket.
 	MaxSocketErrors *float64 `default:"0" json:"maxSocketErrors"`
 	Description     *string  `json:"description,omitempty"`
-	// Access key
-	AwsAPIKey *string `json:"awsApiKey,omitempty"`
-	// Select or create a stored secret that references your access key and secret key.
+	AwsAPIKey       *string  `json:"awsApiKey,omitempty"`
+	// Select or create a stored secret that references your access key and secret key
 	AwsSecret *string `json:"awsSecret,omitempty"`
 }
 

@@ -3,7 +3,9 @@
 package provider
 
 import (
+	"context"
 	"encoding/json"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	tfTypes "github.com/speakeasy/terraform-provider-cribl-terraform/internal/provider/types"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/operations"
@@ -38,144 +40,224 @@ func (r *PackResourceModel) ToOperationsCreatePacksRequestBody() *operations.Cre
 	return &out
 }
 
-func (r *PackResourceModel) RefreshFromOperationsCreatePacksResponseBody(resp *operations.CreatePacksResponseBody) {
+func (r *PackResourceModel) RefreshFromOperationsCreatePacksResponseBody(ctx context.Context, resp *operations.CreatePacksResponseBody) diag.Diagnostics {
+	var diags diag.Diagnostics
+
 	if resp != nil {
-		r.CountTest = types.Int64PointerValue(resp.CountTest)
-		r.Items = []tfTypes.PackInstallInfo{}
+		r.Items = []tfTypes.PackInfo{}
 		if len(r.Items) > len(resp.Items) {
 			r.Items = r.Items[:len(resp.Items)]
 		}
 		for itemsCount, itemsItem := range resp.Items {
-			var items1 tfTypes.PackInstallInfo
-			items1.Author = types.StringPointerValue(itemsItem.Author)
-			items1.Description = types.StringPointerValue(itemsItem.Description)
-			items1.DisplayName = types.StringPointerValue(itemsItem.DisplayName)
-			items1.Exports = make([]types.String, 0, len(itemsItem.Exports))
+			var items tfTypes.PackInfo
+			items.Author = types.StringPointerValue(itemsItem.Author)
+			items.Description = types.StringPointerValue(itemsItem.Description)
+			items.DisplayName = types.StringPointerValue(itemsItem.DisplayName)
+			items.Exports = make([]types.String, 0, len(itemsItem.Exports))
 			for _, v := range itemsItem.Exports {
-				items1.Exports = append(items1.Exports, types.StringValue(v))
+				items.Exports = append(items.Exports, types.StringValue(v))
 			}
-			items1.ID = types.StringValue(itemsItem.ID)
-			items1.IsDisabled = types.BoolPointerValue(itemsItem.IsDisabled)
-			items1.MinLogStreamVersion = types.StringPointerValue(itemsItem.MinLogStreamVersion)
+			items.ID = types.StringValue(itemsItem.ID)
+			items.IsDisabled = types.BoolPointerValue(itemsItem.IsDisabled)
+			items.MinLogStreamVersion = types.StringPointerValue(itemsItem.MinLogStreamVersion)
 			if len(itemsItem.Settings) > 0 {
-				items1.Settings = make(map[string]types.String, len(itemsItem.Settings))
+				items.Settings = make(map[string]types.String, len(itemsItem.Settings))
 				for key, value := range itemsItem.Settings {
 					result, _ := json.Marshal(value)
-					items1.Settings[key] = types.StringValue(string(result))
+					items.Settings[key] = types.StringValue(string(result))
 				}
 			}
-			items1.Source = types.StringValue(itemsItem.Source)
-			items1.Spec = types.StringPointerValue(itemsItem.Spec)
+			items.Source = types.StringValue(itemsItem.Source)
+			items.Spec = types.StringPointerValue(itemsItem.Spec)
 			if itemsItem.Tags == nil {
-				items1.Tags = nil
+				items.Tags = nil
 			} else {
-				items1.Tags = &tfTypes.PackInstallInfoTags{}
-				items1.Tags.DataType = make([]types.String, 0, len(itemsItem.Tags.DataType))
+				items.Tags = &tfTypes.PackInfoTags{}
+				items.Tags.DataType = make([]types.String, 0, len(itemsItem.Tags.DataType))
 				for _, v := range itemsItem.Tags.DataType {
-					items1.Tags.DataType = append(items1.Tags.DataType, types.StringValue(v))
+					items.Tags.DataType = append(items.Tags.DataType, types.StringValue(v))
 				}
-				items1.Tags.Domain = make([]types.String, 0, len(itemsItem.Tags.Domain))
+				items.Tags.Domain = make([]types.String, 0, len(itemsItem.Tags.Domain))
 				for _, v := range itemsItem.Tags.Domain {
-					items1.Tags.Domain = append(items1.Tags.Domain, types.StringValue(v))
+					items.Tags.Domain = append(items.Tags.Domain, types.StringValue(v))
 				}
-				items1.Tags.Streamtags = make([]types.String, 0, len(itemsItem.Tags.Streamtags))
+				items.Tags.Streamtags = make([]types.String, 0, len(itemsItem.Tags.Streamtags))
 				for _, v := range itemsItem.Tags.Streamtags {
-					items1.Tags.Streamtags = append(items1.Tags.Streamtags, types.StringValue(v))
+					items.Tags.Streamtags = append(items.Tags.Streamtags, types.StringValue(v))
 				}
-				items1.Tags.Technology = make([]types.String, 0, len(itemsItem.Tags.Technology))
+				items.Tags.Technology = make([]types.String, 0, len(itemsItem.Tags.Technology))
 				for _, v := range itemsItem.Tags.Technology {
-					items1.Tags.Technology = append(items1.Tags.Technology, types.StringValue(v))
+					items.Tags.Technology = append(items.Tags.Technology, types.StringValue(v))
 				}
 			}
-			items1.Version = types.StringPointerValue(itemsItem.Version)
+			items.Version = types.StringPointerValue(itemsItem.Version)
 			warningsResult, _ := json.Marshal(itemsItem.Warnings)
-			items1.Warnings = types.StringValue(string(warningsResult))
+			items.Warnings = types.StringValue(string(warningsResult))
 			if itemsCount+1 > len(r.Items) {
-				r.Items = append(r.Items, items1)
+				r.Items = append(r.Items, items)
 			} else {
-				r.Items[itemsCount].Author = items1.Author
-				r.Items[itemsCount].Description = items1.Description
-				r.Items[itemsCount].DisplayName = items1.DisplayName
-				r.Items[itemsCount].Exports = items1.Exports
-				r.Items[itemsCount].ID = items1.ID
-				r.Items[itemsCount].IsDisabled = items1.IsDisabled
-				r.Items[itemsCount].MinLogStreamVersion = items1.MinLogStreamVersion
-				r.Items[itemsCount].Settings = items1.Settings
-				r.Items[itemsCount].Source = items1.Source
-				r.Items[itemsCount].Spec = items1.Spec
-				r.Items[itemsCount].Tags = items1.Tags
-				r.Items[itemsCount].Version = items1.Version
-				r.Items[itemsCount].Warnings = items1.Warnings
+				r.Items[itemsCount].Author = items.Author
+				r.Items[itemsCount].Description = items.Description
+				r.Items[itemsCount].DisplayName = items.DisplayName
+				r.Items[itemsCount].Exports = items.Exports
+				r.Items[itemsCount].ID = items.ID
+				r.Items[itemsCount].IsDisabled = items.IsDisabled
+				r.Items[itemsCount].MinLogStreamVersion = items.MinLogStreamVersion
+				r.Items[itemsCount].Settings = items.Settings
+				r.Items[itemsCount].Source = items.Source
+				r.Items[itemsCount].Spec = items.Spec
+				r.Items[itemsCount].Tags = items.Tags
+				r.Items[itemsCount].Version = items.Version
+				r.Items[itemsCount].Warnings = items.Warnings
 			}
 		}
 	}
+
+	return diags
 }
 
-func (r *PackResourceModel) RefreshFromOperationsUpdatePacksByIDResponseBody(resp *operations.UpdatePacksByIDResponseBody) {
+func (r *PackResourceModel) RefreshFromOperationsGetPacksResponseBody(ctx context.Context, resp *operations.GetPacksResponseBody) diag.Diagnostics {
+	var diags diag.Diagnostics
+
 	if resp != nil {
-		r.Items = []tfTypes.PackInstallInfo{}
+		r.Items = []tfTypes.PackInfo{}
 		if len(r.Items) > len(resp.Items) {
 			r.Items = r.Items[:len(resp.Items)]
 		}
 		for itemsCount, itemsItem := range resp.Items {
-			var items1 tfTypes.PackInstallInfo
-			items1.Author = types.StringPointerValue(itemsItem.Author)
-			items1.Description = types.StringPointerValue(itemsItem.Description)
-			items1.DisplayName = types.StringPointerValue(itemsItem.DisplayName)
-			items1.Exports = make([]types.String, 0, len(itemsItem.Exports))
+			var items tfTypes.PackInfo
+			items.Author = types.StringPointerValue(itemsItem.Author)
+			items.Description = types.StringPointerValue(itemsItem.Description)
+			items.DisplayName = types.StringPointerValue(itemsItem.DisplayName)
+			items.Exports = make([]types.String, 0, len(itemsItem.Exports))
 			for _, v := range itemsItem.Exports {
-				items1.Exports = append(items1.Exports, types.StringValue(v))
+				items.Exports = append(items.Exports, types.StringValue(v))
 			}
-			items1.ID = types.StringValue(itemsItem.ID)
-			items1.IsDisabled = types.BoolPointerValue(itemsItem.IsDisabled)
-			items1.MinLogStreamVersion = types.StringPointerValue(itemsItem.MinLogStreamVersion)
+			items.ID = types.StringValue(itemsItem.ID)
+			items.IsDisabled = types.BoolPointerValue(itemsItem.IsDisabled)
+			items.MinLogStreamVersion = types.StringPointerValue(itemsItem.MinLogStreamVersion)
 			if len(itemsItem.Settings) > 0 {
-				items1.Settings = make(map[string]types.String, len(itemsItem.Settings))
+				items.Settings = make(map[string]types.String, len(itemsItem.Settings))
 				for key, value := range itemsItem.Settings {
 					result, _ := json.Marshal(value)
-					items1.Settings[key] = types.StringValue(string(result))
+					items.Settings[key] = types.StringValue(string(result))
 				}
 			}
-			items1.Source = types.StringValue(itemsItem.Source)
-			items1.Spec = types.StringPointerValue(itemsItem.Spec)
+			items.Source = types.StringValue(itemsItem.Source)
+			items.Spec = types.StringPointerValue(itemsItem.Spec)
 			if itemsItem.Tags == nil {
-				items1.Tags = nil
+				items.Tags = nil
 			} else {
-				items1.Tags = &tfTypes.PackInstallInfoTags{}
-				items1.Tags.DataType = make([]types.String, 0, len(itemsItem.Tags.DataType))
+				items.Tags = &tfTypes.PackInfoTags{}
+				items.Tags.DataType = make([]types.String, 0, len(itemsItem.Tags.DataType))
 				for _, v := range itemsItem.Tags.DataType {
-					items1.Tags.DataType = append(items1.Tags.DataType, types.StringValue(v))
+					items.Tags.DataType = append(items.Tags.DataType, types.StringValue(v))
 				}
-				items1.Tags.Domain = make([]types.String, 0, len(itemsItem.Tags.Domain))
+				items.Tags.Domain = make([]types.String, 0, len(itemsItem.Tags.Domain))
 				for _, v := range itemsItem.Tags.Domain {
-					items1.Tags.Domain = append(items1.Tags.Domain, types.StringValue(v))
+					items.Tags.Domain = append(items.Tags.Domain, types.StringValue(v))
 				}
-				items1.Tags.Streamtags = make([]types.String, 0, len(itemsItem.Tags.Streamtags))
+				items.Tags.Streamtags = make([]types.String, 0, len(itemsItem.Tags.Streamtags))
 				for _, v := range itemsItem.Tags.Streamtags {
-					items1.Tags.Streamtags = append(items1.Tags.Streamtags, types.StringValue(v))
+					items.Tags.Streamtags = append(items.Tags.Streamtags, types.StringValue(v))
 				}
-				items1.Tags.Technology = make([]types.String, 0, len(itemsItem.Tags.Technology))
+				items.Tags.Technology = make([]types.String, 0, len(itemsItem.Tags.Technology))
 				for _, v := range itemsItem.Tags.Technology {
-					items1.Tags.Technology = append(items1.Tags.Technology, types.StringValue(v))
+					items.Tags.Technology = append(items.Tags.Technology, types.StringValue(v))
 				}
 			}
-			items1.Version = types.StringPointerValue(itemsItem.Version)
+			items.Version = types.StringPointerValue(itemsItem.Version)
 			if itemsCount+1 > len(r.Items) {
-				r.Items = append(r.Items, items1)
+				r.Items = append(r.Items, items)
 			} else {
-				r.Items[itemsCount].Author = items1.Author
-				r.Items[itemsCount].Description = items1.Description
-				r.Items[itemsCount].DisplayName = items1.DisplayName
-				r.Items[itemsCount].Exports = items1.Exports
-				r.Items[itemsCount].ID = items1.ID
-				r.Items[itemsCount].IsDisabled = items1.IsDisabled
-				r.Items[itemsCount].MinLogStreamVersion = items1.MinLogStreamVersion
-				r.Items[itemsCount].Settings = items1.Settings
-				r.Items[itemsCount].Source = items1.Source
-				r.Items[itemsCount].Spec = items1.Spec
-				r.Items[itemsCount].Tags = items1.Tags
-				r.Items[itemsCount].Version = items1.Version
+				r.Items[itemsCount].Author = items.Author
+				r.Items[itemsCount].Description = items.Description
+				r.Items[itemsCount].DisplayName = items.DisplayName
+				r.Items[itemsCount].Exports = items.Exports
+				r.Items[itemsCount].ID = items.ID
+				r.Items[itemsCount].IsDisabled = items.IsDisabled
+				r.Items[itemsCount].MinLogStreamVersion = items.MinLogStreamVersion
+				r.Items[itemsCount].Settings = items.Settings
+				r.Items[itemsCount].Source = items.Source
+				r.Items[itemsCount].Spec = items.Spec
+				r.Items[itemsCount].Tags = items.Tags
+				r.Items[itemsCount].Version = items.Version
 			}
 		}
 	}
+
+	return diags
+}
+
+func (r *PackResourceModel) RefreshFromOperationsUpdatePacksByIDResponseBody(ctx context.Context, resp *operations.UpdatePacksByIDResponseBody) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	if resp != nil {
+		r.Items = []tfTypes.PackInfo{}
+		if len(r.Items) > len(resp.Items) {
+			r.Items = r.Items[:len(resp.Items)]
+		}
+		for itemsCount, itemsItem := range resp.Items {
+			var items tfTypes.PackInfo
+			items.Author = types.StringPointerValue(itemsItem.Author)
+			items.Description = types.StringPointerValue(itemsItem.Description)
+			items.DisplayName = types.StringPointerValue(itemsItem.DisplayName)
+			items.Exports = make([]types.String, 0, len(itemsItem.Exports))
+			for _, v := range itemsItem.Exports {
+				items.Exports = append(items.Exports, types.StringValue(v))
+			}
+			items.ID = types.StringValue(itemsItem.ID)
+			items.IsDisabled = types.BoolPointerValue(itemsItem.IsDisabled)
+			items.MinLogStreamVersion = types.StringPointerValue(itemsItem.MinLogStreamVersion)
+			if len(itemsItem.Settings) > 0 {
+				items.Settings = make(map[string]types.String, len(itemsItem.Settings))
+				for key, value := range itemsItem.Settings {
+					result, _ := json.Marshal(value)
+					items.Settings[key] = types.StringValue(string(result))
+				}
+			}
+			items.Source = types.StringValue(itemsItem.Source)
+			items.Spec = types.StringPointerValue(itemsItem.Spec)
+			if itemsItem.Tags == nil {
+				items.Tags = nil
+			} else {
+				items.Tags = &tfTypes.PackInfoTags{}
+				items.Tags.DataType = make([]types.String, 0, len(itemsItem.Tags.DataType))
+				for _, v := range itemsItem.Tags.DataType {
+					items.Tags.DataType = append(items.Tags.DataType, types.StringValue(v))
+				}
+				items.Tags.Domain = make([]types.String, 0, len(itemsItem.Tags.Domain))
+				for _, v := range itemsItem.Tags.Domain {
+					items.Tags.Domain = append(items.Tags.Domain, types.StringValue(v))
+				}
+				items.Tags.Streamtags = make([]types.String, 0, len(itemsItem.Tags.Streamtags))
+				for _, v := range itemsItem.Tags.Streamtags {
+					items.Tags.Streamtags = append(items.Tags.Streamtags, types.StringValue(v))
+				}
+				items.Tags.Technology = make([]types.String, 0, len(itemsItem.Tags.Technology))
+				for _, v := range itemsItem.Tags.Technology {
+					items.Tags.Technology = append(items.Tags.Technology, types.StringValue(v))
+				}
+			}
+			items.Version = types.StringPointerValue(itemsItem.Version)
+			if itemsCount+1 > len(r.Items) {
+				r.Items = append(r.Items, items)
+			} else {
+				r.Items[itemsCount].Author = items.Author
+				r.Items[itemsCount].Description = items.Description
+				r.Items[itemsCount].DisplayName = items.DisplayName
+				r.Items[itemsCount].Exports = items.Exports
+				r.Items[itemsCount].ID = items.ID
+				r.Items[itemsCount].IsDisabled = items.IsDisabled
+				r.Items[itemsCount].MinLogStreamVersion = items.MinLogStreamVersion
+				r.Items[itemsCount].Settings = items.Settings
+				r.Items[itemsCount].Source = items.Source
+				r.Items[itemsCount].Spec = items.Spec
+				r.Items[itemsCount].Tags = items.Tags
+				r.Items[itemsCount].Version = items.Version
+			}
+		}
+	}
+
+	return diags
 }

@@ -196,11 +196,10 @@ type OutputCloudwatch struct {
 	LogStreamName string `json:"logStreamName"`
 	// AWS authentication method. Choose Auto to use IAM roles.
 	AwsAuthenticationMethod *OutputCloudwatchAuthenticationMethod `default:"auto" json:"awsAuthenticationMethod"`
-	// Secret key
-	AwsSecretKey *string `json:"awsSecretKey,omitempty"`
+	AwsSecretKey            *string                               `json:"awsSecretKey,omitempty"`
 	// Region where the CloudWatchLogs is located
 	Region string `json:"region"`
-	// CloudWatchLogs service endpoint. If empty, defaults to AWS' Region-specific endpoint. Otherwise, it must point to CloudWatchLogs-compatible endpoint.
+	// CloudWatchLogs service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to CloudWatchLogs-compatible endpoint.
 	Endpoint *string `json:"endpoint,omitempty"`
 	// Reuse connections between requests, which can improve performance
 	ReuseConnections *bool `default:"true" json:"reuseConnections"`
@@ -223,9 +222,8 @@ type OutputCloudwatch struct {
 	// Whether to block, drop, or queue events when all receivers are exerting backpressure.
 	OnBackpressure *OutputCloudwatchBackpressureBehavior `default:"block" json:"onBackpressure"`
 	Description    *string                               `json:"description,omitempty"`
-	// Access key
-	AwsAPIKey *string `json:"awsApiKey,omitempty"`
-	// Select or create a stored secret that references your access key and secret key.
+	AwsAPIKey      *string                               `json:"awsApiKey,omitempty"`
+	// Select or create a stored secret that references your access key and secret key
 	AwsSecret *string `json:"awsSecret,omitempty"`
 	// The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.).
 	PqMaxFileSize *string `default:"1 MB" json:"pqMaxFileSize"`

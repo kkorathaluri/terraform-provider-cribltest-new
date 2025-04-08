@@ -9,17 +9,17 @@ type OutputNewrelicEvents struct {
 	APIKey                        types.String                                `tfsdk:"api_key"`
 	AuthType                      types.String                                `tfsdk:"auth_type"`
 	Compress                      types.Bool                                  `tfsdk:"compress"`
-	Concurrency                   types.Number                                `tfsdk:"concurrency"`
+	Concurrency                   types.Float64                               `tfsdk:"concurrency"`
 	CustomURL                     types.String                                `tfsdk:"custom_url"`
 	Description                   types.String                                `tfsdk:"description"`
 	Environment                   types.String                                `tfsdk:"environment"`
 	EventType                     types.String                                `tfsdk:"event_type"`
 	ExtraHTTPHeaders              []OutputNewrelicEventsExtraHTTPHeaders      `tfsdk:"extra_http_headers"`
 	FailedRequestLoggingMode      types.String                                `tfsdk:"failed_request_logging_mode"`
-	FlushPeriodSec                types.Number                                `tfsdk:"flush_period_sec"`
+	FlushPeriodSec                types.Float64                               `tfsdk:"flush_period_sec"`
 	ID                            types.String                                `tfsdk:"id"`
-	MaxPayloadEvents              types.Number                                `tfsdk:"max_payload_events"`
-	MaxPayloadSizeKB              types.Number                                `tfsdk:"max_payload_size_kb"`
+	MaxPayloadEvents              types.Float64                               `tfsdk:"max_payload_events"`
+	MaxPayloadSizeKB              types.Float64                               `tfsdk:"max_payload_size_kb"`
 	OnBackpressure                types.String                                `tfsdk:"on_backpressure"`
 	Pipeline                      types.String                                `tfsdk:"pipeline"`
 	PqCompress                    types.String                                `tfsdk:"pq_compress"`
@@ -38,7 +38,7 @@ type OutputNewrelicEvents struct {
 	SystemFields                  []types.String                              `tfsdk:"system_fields"`
 	TextSecret                    types.String                                `tfsdk:"text_secret"`
 	TimeoutRetrySettings          *OutputNewrelicEventsTimeoutRetrySettings   `tfsdk:"timeout_retry_settings"`
-	TimeoutSec                    types.Number                                `tfsdk:"timeout_sec"`
+	TimeoutSec                    types.Float64                               `tfsdk:"timeout_sec"`
 	Type                          types.String                                `tfsdk:"type"`
 	UseRoundRobinDNS              types.Bool                                  `tfsdk:"use_round_robin_dns"`
 }

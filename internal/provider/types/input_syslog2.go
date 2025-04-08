@@ -17,8 +17,8 @@ type InputSyslog2 struct {
 	InferFraming               types.Bool                         `tfsdk:"infer_framing"`
 	IPWhitelistRegex           types.String                       `tfsdk:"ip_whitelist_regex"`
 	KeepFieldsList             []types.String                     `tfsdk:"keep_fields_list"`
-	MaxActiveCxn               types.Number                       `tfsdk:"max_active_cxn"`
-	MaxBufferSize              types.Number                       `tfsdk:"max_buffer_size"`
+	MaxActiveCxn               types.Float64                      `tfsdk:"max_active_cxn"`
+	MaxBufferSize              types.Float64                      `tfsdk:"max_buffer_size"`
 	Metadata                   []InputSyslog2Metadata             `tfsdk:"metadata"`
 	OctetCounting              types.Bool                         `tfsdk:"octet_counting"`
 	Pipeline                   types.String                       `tfsdk:"pipeline"`
@@ -26,15 +26,15 @@ type InputSyslog2 struct {
 	PqEnabled                  types.Bool                         `tfsdk:"pq_enabled"`
 	SendToRoutes               types.Bool                         `tfsdk:"send_to_routes"`
 	SingleMsgUDPPackets        types.Bool                         `tfsdk:"single_msg_udp_packets"`
-	SocketEndingMaxWait        types.Number                       `tfsdk:"socket_ending_max_wait"`
-	SocketIdleTimeout          types.Number                       `tfsdk:"socket_idle_timeout"`
-	SocketMaxLifespan          types.Number                       `tfsdk:"socket_max_lifespan"`
+	SocketEndingMaxWait        types.Float64                      `tfsdk:"socket_ending_max_wait"`
+	SocketIdleTimeout          types.Float64                      `tfsdk:"socket_idle_timeout"`
+	SocketMaxLifespan          types.Float64                      `tfsdk:"socket_max_lifespan"`
 	Streamtags                 []types.String                     `tfsdk:"streamtags"`
 	StrictlyInferOctetCounting types.Bool                         `tfsdk:"strictly_infer_octet_counting"`
-	TCPPort                    types.Number                       `tfsdk:"tcp_port"`
+	TCPPort                    types.Float64                      `tfsdk:"tcp_port"`
 	TimestampTimezone          types.String                       `tfsdk:"timestamp_timezone"`
 	TLS                        *InputSyslog2TLSSettingsServerSide `tfsdk:"tls"`
 	Type                       types.String                       `tfsdk:"type"`
-	UDPPort                    types.Number                       `tfsdk:"udp_port"`
-	UDPSocketRxBufSize         types.Number                       `tfsdk:"udp_socket_rx_buf_size"`
+	UDPPort                    types.Float64                      `tfsdk:"udp_port"`
+	UDPSocketRxBufSize         types.Float64                      `tfsdk:"udp_socket_rx_buf_size"`
 }

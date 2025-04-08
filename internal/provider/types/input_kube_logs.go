@@ -12,7 +12,7 @@ type InputKubeLogs struct {
 	EnableLoadBalancing types.Bool                 `tfsdk:"enable_load_balancing"`
 	Environment         types.String               `tfsdk:"environment"`
 	ID                  types.String               `tfsdk:"id"`
-	Interval            types.Number               `tfsdk:"interval"`
+	Interval            types.Float64              `tfsdk:"interval"`
 	Metadata            []InputKubeLogsMetadata    `tfsdk:"metadata"`
 	Persistence         *InputKubeLogsDiskSpooling `tfsdk:"persistence"`
 	Pipeline            types.String               `tfsdk:"pipeline"`
@@ -20,7 +20,7 @@ type InputKubeLogs struct {
 	PqEnabled           types.Bool                 `tfsdk:"pq_enabled"`
 	Rules               []InputKubeLogsRules       `tfsdk:"rules"`
 	SendToRoutes        types.Bool                 `tfsdk:"send_to_routes"`
-	StaleChannelFlushMs types.Number               `tfsdk:"stale_channel_flush_ms"`
+	StaleChannelFlushMs types.Float64              `tfsdk:"stale_channel_flush_ms"`
 	Streamtags          []types.String             `tfsdk:"streamtags"`
 	Timestamps          types.Bool                 `tfsdk:"timestamps"`
 	Type                types.String               `tfsdk:"type"`

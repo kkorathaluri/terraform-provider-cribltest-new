@@ -50,7 +50,7 @@ func (o *InputPrometheusConnections) GetOutput() string {
 	return o.Output
 }
 
-// InputPrometheusMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+// InputPrometheusMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 type InputPrometheusMode string
 
 const (
@@ -105,7 +105,7 @@ func (e *InputPrometheusCompression) UnmarshalJSON(data []byte) error {
 }
 
 type InputPrometheusPq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 	Mode *InputPrometheusMode `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
@@ -485,11 +485,10 @@ type InputPrometheus struct {
 	SearchFilter []SearchFilter `json:"searchFilter,omitempty"`
 	// AWS authentication method. Choose Auto to use IAM roles.
 	AwsAuthenticationMethod *InputPrometheusAwsAuthenticationMethodAuthenticationMethod `default:"auto" json:"awsAuthenticationMethod"`
-	// Secret key
-	AwsSecretKey *string `json:"awsSecretKey,omitempty"`
+	AwsSecretKey            *string                                                     `json:"awsSecretKey,omitempty"`
 	// Region where the EC2 is located
 	Region *string `json:"region,omitempty"`
-	// EC2 service endpoint. If empty, defaults to AWS' Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint.
+	// EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint.
 	Endpoint *string `json:"endpoint,omitempty"`
 	// Signature version to use for signing EC2 requests
 	SignatureVersion *InputPrometheusSignatureVersion `default:"v4" json:"signatureVersion"`

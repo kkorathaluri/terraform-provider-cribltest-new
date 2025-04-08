@@ -16,12 +16,12 @@ type InputEdgePrometheus struct {
 	DimensionList           []types.String                    `tfsdk:"dimension_list"`
 	Disabled                types.Bool                        `tfsdk:"disabled"`
 	DiscoveryType           types.String                      `tfsdk:"discovery_type"`
-	DurationSeconds         types.Number                      `tfsdk:"duration_seconds"`
+	DurationSeconds         types.Float64                     `tfsdk:"duration_seconds"`
 	EnableAssumeRole        types.Bool                        `tfsdk:"enable_assume_role"`
 	Endpoint                types.String                      `tfsdk:"endpoint"`
 	Environment             types.String                      `tfsdk:"environment"`
 	ID                      types.String                      `tfsdk:"id"`
-	Interval                types.Number                      `tfsdk:"interval"`
+	Interval                types.Float64                     `tfsdk:"interval"`
 	Metadata                []InputEdgePrometheusMetadata     `tfsdk:"metadata"`
 	NameList                []types.String                    `tfsdk:"name_list"`
 	Password                types.String                      `tfsdk:"password"`
@@ -36,7 +36,7 @@ type InputEdgePrometheus struct {
 	ReuseConnections        types.Bool                        `tfsdk:"reuse_connections"`
 	ScrapePath              types.String                      `tfsdk:"scrape_path"`
 	ScrapePathExpr          types.String                      `tfsdk:"scrape_path_expr"`
-	ScrapePort              types.Number                      `tfsdk:"scrape_port"`
+	ScrapePort              types.Float64                     `tfsdk:"scrape_port"`
 	ScrapePortExpr          types.String                      `tfsdk:"scrape_port_expr"`
 	ScrapeProtocol          types.String                      `tfsdk:"scrape_protocol"`
 	ScrapeProtocolExpr      types.String                      `tfsdk:"scrape_protocol_expr"`
@@ -45,7 +45,7 @@ type InputEdgePrometheus struct {
 	SignatureVersion        types.String                      `tfsdk:"signature_version"`
 	Streamtags              []types.String                    `tfsdk:"streamtags"`
 	Targets                 []Targets                         `tfsdk:"targets"`
-	Timeout                 types.Number                      `tfsdk:"timeout"`
+	Timeout                 types.Float64                     `tfsdk:"timeout"`
 	Type                    types.String                      `tfsdk:"type"`
 	UsePublicIP             types.Bool                        `tfsdk:"use_public_ip"`
 	Username                types.String                      `tfsdk:"username"`

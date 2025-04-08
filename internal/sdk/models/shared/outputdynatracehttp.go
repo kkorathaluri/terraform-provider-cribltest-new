@@ -11,8 +11,6 @@ import (
 type OutputDynatraceHTTPType string
 
 const (
-	OutputDynatraceHTTPTypeWebhook       OutputDynatraceHTTPType = "webhook"
-	OutputDynatraceHTTPTypeSentinel      OutputDynatraceHTTPType = "sentinel"
 	OutputDynatraceHTTPTypeDynatraceHTTP OutputDynatraceHTTPType = "dynatrace_http"
 )
 
@@ -25,10 +23,6 @@ func (e *OutputDynatraceHTTPType) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	switch v {
-	case "webhook":
-		fallthrough
-	case "sentinel":
-		fallthrough
 	case "dynatrace_http":
 		*e = OutputDynatraceHTTPType(v)
 		return nil

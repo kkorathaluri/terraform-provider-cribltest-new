@@ -5,6 +5,6 @@ package types
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type Samples struct {
-	EventsPerSec types.Number `tfsdk:"events_per_sec"`
-	Sample       types.String `tfsdk:"sample"`
+	EventsPerSec types.Float64 `tfsdk:"events_per_sec"`
+	Sample       types.String  `tfsdk:"sample"`
 }

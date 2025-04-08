@@ -7,25 +7,18 @@ import (
 	"net/http"
 )
 
-type GetInvoiceGlobals struct {
-	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
-}
-
-func (o *GetInvoiceGlobals) GetOrganizationID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.OrganizationID
+var GetInvoiceServerList = []string{
+	"https://api.cribl-staging.cloud",
 }
 
 type GetInvoiceRequest struct {
-	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
-	InvoiceID      string  `pathParam:"style=simple,explode=false,name=invoiceId"`
+	OrganizationID string `pathParam:"style=simple,explode=false,name=organizationId"`
+	InvoiceID      string `pathParam:"style=simple,explode=false,name=invoiceId"`
 }
 
-func (o *GetInvoiceRequest) GetOrganizationID() *string {
+func (o *GetInvoiceRequest) GetOrganizationID() string {
 	if o == nil {
-		return nil
+		return ""
 	}
 	return o.OrganizationID
 }

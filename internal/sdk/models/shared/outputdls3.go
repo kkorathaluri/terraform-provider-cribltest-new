@@ -450,7 +450,7 @@ type OutputDlS3 struct {
 	AwsSecretKey *string `json:"awsSecretKey,omitempty"`
 	// AWS authentication method. Choose Auto to use IAM roles.
 	AwsAuthenticationMethod *OutputDlS3AuthenticationMethod `default:"auto" json:"awsAuthenticationMethod"`
-	// S3 service endpoint. If empty, defaults to AWS' Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint.
+	// S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint.
 	Endpoint *string `json:"endpoint,omitempty"`
 	// Signature version to use for signing S3 requests
 	SignatureVersion *OutputDlS3SignatureVersion `default:"v4" json:"signatureVersion"`
@@ -515,9 +515,9 @@ type OutputDlS3 struct {
 	// List of fields to partition the path by, in addition to time, which is included automatically. The effective partition will be YYYY/MM/DD/HH/<list/of/fields>.
 	PartitioningFields []string `json:"partitioningFields,omitempty"`
 	Description        *string  `json:"description,omitempty"`
-	// Access key. This value can be a constant or a JavaScript expression(e.g., `${C.env.SOME_ACCESS_KEY}`).
+	// This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)
 	AwsAPIKey *string `json:"awsApiKey,omitempty"`
-	// Select or create a stored secret that references your access key and secret key.
+	// Select or create a stored secret that references your access key and secret key
 	AwsSecret *string `json:"awsSecret,omitempty"`
 	// Choose data compression format to apply before moving files to final destination
 	Compress *OutputDlS3Compress `default:"gzip" json:"compress"`

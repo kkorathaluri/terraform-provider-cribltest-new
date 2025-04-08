@@ -17,6 +17,6 @@ type InputGrafanaPrometheusAuth struct {
 	TextSecret         types.String                `tfsdk:"text_secret"`
 	Token              types.String                `tfsdk:"token"`
 	TokenAttributeName types.String                `tfsdk:"token_attribute_name"`
-	TokenTimeoutSecs   types.Number                `tfsdk:"token_timeout_secs"`
+	TokenTimeoutSecs   types.Float64               `tfsdk:"token_timeout_secs"`
 	Username           types.String                `tfsdk:"username"`
 }

@@ -7,26 +7,19 @@ import (
 	"net/http"
 )
 
-type GetCostsGlobals struct {
-	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
-}
-
-func (o *GetCostsGlobals) GetOrganizationID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.OrganizationID
+var GetCostsServerList = []string{
+	"https://api.cribl-staging.cloud",
 }
 
 type GetCostsRequest struct {
-	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
-	StartingOn     string  `queryParam:"style=form,explode=true,name=startingOn"`
-	EndingBefore   string  `queryParam:"style=form,explode=true,name=endingBefore"`
+	OrganizationID string `pathParam:"style=simple,explode=false,name=organizationId"`
+	StartingOn     string `queryParam:"style=form,explode=true,name=startingOn"`
+	EndingBefore   string `queryParam:"style=form,explode=true,name=endingBefore"`
 }
 
-func (o *GetCostsRequest) GetOrganizationID() *string {
+func (o *GetCostsRequest) GetOrganizationID() string {
 	if o == nil {
-		return nil
+		return ""
 	}
 	return o.OrganizationID
 }

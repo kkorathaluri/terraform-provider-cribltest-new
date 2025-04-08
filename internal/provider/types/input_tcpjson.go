@@ -16,16 +16,16 @@ type InputTcpjson struct {
 	Host                types.String                       `tfsdk:"host"`
 	ID                  types.String                       `tfsdk:"id"`
 	IPWhitelistRegex    types.String                       `tfsdk:"ip_whitelist_regex"`
-	MaxActiveCxn        types.Number                       `tfsdk:"max_active_cxn"`
+	MaxActiveCxn        types.Float64                      `tfsdk:"max_active_cxn"`
 	Metadata            []InputTcpjsonMetadata             `tfsdk:"metadata"`
 	Pipeline            types.String                       `tfsdk:"pipeline"`
-	Port                types.Number                       `tfsdk:"port"`
+	Port                types.Float64                      `tfsdk:"port"`
 	Pq                  *InputTcpjsonPq                    `tfsdk:"pq"`
 	PqEnabled           types.Bool                         `tfsdk:"pq_enabled"`
 	SendToRoutes        types.Bool                         `tfsdk:"send_to_routes"`
-	SocketEndingMaxWait types.Number                       `tfsdk:"socket_ending_max_wait"`
-	SocketIdleTimeout   types.Number                       `tfsdk:"socket_idle_timeout"`
-	SocketMaxLifespan   types.Number                       `tfsdk:"socket_max_lifespan"`
+	SocketEndingMaxWait types.Float64                      `tfsdk:"socket_ending_max_wait"`
+	SocketIdleTimeout   types.Float64                      `tfsdk:"socket_idle_timeout"`
+	SocketMaxLifespan   types.Float64                      `tfsdk:"socket_max_lifespan"`
 	Streamtags          []types.String                     `tfsdk:"streamtags"`
 	TextSecret          types.String                       `tfsdk:"text_secret"`
 	TLS                 *InputTcpjsonTLSSettingsServerSide `tfsdk:"tls"`

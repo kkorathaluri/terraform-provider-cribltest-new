@@ -5,7 +5,7 @@ package types
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type InputHTTP struct {
-	ActivityLogSampleRate types.Number           `tfsdk:"activity_log_sample_rate"`
+	ActivityLogSampleRate types.Float64          `tfsdk:"activity_log_sample_rate"`
 	AuthTokens            []types.String         `tfsdk:"auth_tokens"`
 	AuthTokensExt         []AuthTokensExt        `tfsdk:"auth_tokens_ext"`
 	CaptureHeaders        types.Bool             `tfsdk:"capture_headers"`
@@ -21,17 +21,17 @@ type InputHTTP struct {
 	ID                    types.String           `tfsdk:"id"`
 	IPAllowlistRegex      types.String           `tfsdk:"ip_allowlist_regex"`
 	IPDenylistRegex       types.String           `tfsdk:"ip_denylist_regex"`
-	KeepAliveTimeout      types.Number           `tfsdk:"keep_alive_timeout"`
-	MaxActiveReq          types.Number           `tfsdk:"max_active_req"`
+	KeepAliveTimeout      types.Float64          `tfsdk:"keep_alive_timeout"`
+	MaxActiveReq          types.Float64          `tfsdk:"max_active_req"`
 	MaxRequestsPerSocket  types.Int64            `tfsdk:"max_requests_per_socket"`
 	Metadata              []InputHTTPMetadata    `tfsdk:"metadata"`
 	Pipeline              types.String           `tfsdk:"pipeline"`
-	Port                  types.Number           `tfsdk:"port"`
+	Port                  types.Float64          `tfsdk:"port"`
 	Pq                    *InputHTTPPq           `tfsdk:"pq"`
 	PqEnabled             types.Bool             `tfsdk:"pq_enabled"`
-	RequestTimeout        types.Number           `tfsdk:"request_timeout"`
+	RequestTimeout        types.Float64          `tfsdk:"request_timeout"`
 	SendToRoutes          types.Bool             `tfsdk:"send_to_routes"`
-	SocketTimeout         types.Number           `tfsdk:"socket_timeout"`
+	SocketTimeout         types.Float64          `tfsdk:"socket_timeout"`
 	SplunkHecAcks         types.Bool             `tfsdk:"splunk_hec_acks"`
 	SplunkHecAPI          types.String           `tfsdk:"splunk_hec_api"`
 	Streamtags            []types.String         `tfsdk:"streamtags"`

@@ -50,7 +50,7 @@ func (o *InputSplunkSearchConnections) GetOutput() string {
 	return o.Output
 }
 
-// InputSplunkSearchMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+// InputSplunkSearchMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 type InputSplunkSearchMode string
 
 const (
@@ -105,7 +105,7 @@ func (e *InputSplunkSearchCompression) UnmarshalJSON(data []byte) error {
 }
 
 type InputSplunkSearchPq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 	Mode *InputSplunkSearchMode `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
@@ -209,9 +209,8 @@ func (e *OutputMode) UnmarshalJSON(data []byte) error {
 }
 
 type EndpointParams struct {
-	// Parameter name
 	Name string `json:"name"`
-	// JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.
+	// JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.
 	Value string `json:"value"`
 }
 
@@ -230,9 +229,8 @@ func (o *EndpointParams) GetValue() string {
 }
 
 type EndpointHeaders struct {
-	// Header Name
 	Name string `json:"name"`
-	// JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.
+	// JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.
 	Value string `json:"value"`
 }
 
@@ -250,7 +248,7 @@ func (o *EndpointHeaders) GetValue() string {
 	return o.Value
 }
 
-// LogLevel - Collector runtime log Level (verbosity).
+// LogLevel - Collector runtime log level (verbosity)
 type LogLevel string
 
 const (
@@ -346,9 +344,9 @@ type RetryRules struct {
 	Codes []float64 `json:"codes,omitempty"`
 	// Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored.
 	EnableHeader *bool `default:"true" json:"enableHeader"`
-	// When toggled to Yes, a single retry attempt will be made when a connection timeout (ETIMEDOUT) error occurs
+	// Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs
 	RetryConnectTimeout *bool `default:"false" json:"retryConnectTimeout"`
-	// When toggled to Yes, the request will be retried when a connection reset (ECONNRESET) error occurs
+	// Retry request when a connection reset (ECONNRESET) error occurs
 	RetryConnectReset *bool `default:"false" json:"retryConnectReset"`
 }
 
@@ -518,29 +516,29 @@ type InputSplunkSearch struct {
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
 	Connections []InputSplunkSearchConnections `json:"connections,omitempty"`
 	Pq          *InputSplunkSearchPq           `json:"pq,omitempty"`
-	// Search head base URL, can be expression, default is https://localhost:8089.
+	// Search head base URL. Can be an expression. Default is https://localhost:8089.
 	SearchHead *string `default:"https://localhost:8089" json:"searchHead"`
-	// Enter Splunk search here. For example: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'
+	// Enter Splunk search here. Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'
 	Search string `json:"search"`
-	// The earliest time boundary for the search. Can be an exact or relative time. For example: '2022-01-14T12:00:00Z' or '-16m@m'
+	// The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'
 	Earliest *string `default:"-16m@m" json:"earliest"`
-	// The latest time boundary for the search. Can be an exact or relative time. For example: '2022-01-14T12:00:00Z' or '-1m@m'
+	// The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'
 	Latest *string `default:"-1m@m" json:"latest"`
-	// A cron schedule on which to run this job.
+	// A cron schedule on which to run this job
 	CronSchedule *string `default:"*/15 * * * *" json:"cronSchedule"`
-	// REST API used to create a search.
+	// REST API used to create a search
 	Endpoint *string `default:"/services/search/v2/jobs/export" json:"endpoint"`
 	// Format of the returned output
 	OutputMode *OutputMode `default:"json" json:"outputMode"`
-	// Optional request parameters to send to the endpoint.
+	// Optional request parameters to send to the endpoint
 	EndpointParams []EndpointParams `json:"endpointParams,omitempty"`
-	// Optional request headers to send to the endpoint.
+	// Optional request headers to send to the endpoint
 	EndpointHeaders []EndpointHeaders `json:"endpointHeaders,omitempty"`
-	// Collector runtime log Level (verbosity).
+	// Collector runtime log level (verbosity)
 	LogLevel *LogLevel `json:"logLevel,omitempty"`
-	// HTTP request inactivity timeout, use 0 to disable
+	// HTTP request inactivity timeout. Use 0 for no timeout.
 	RequestTimeout *float64 `default:"0" json:"requestTimeout"`
-	// Enables round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned.
+	// When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned
 	UseRoundRobinDNS *bool `default:"false" json:"useRoundRobinDns"`
 	// Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)
 	RejectUnauthorized *bool `default:"false" json:"rejectUnauthorized"`
@@ -564,10 +562,8 @@ type InputSplunkSearch struct {
 	// Splunk Search authentication type
 	AuthType    *AuthenticationType `default:"basic" json:"authType"`
 	Description *string             `json:"description,omitempty"`
-	// Username for Basic authentication
-	Username *string `json:"username,omitempty"`
-	// Password for Basic authentication
-	Password *string `json:"password,omitempty"`
+	Username    *string             `json:"username,omitempty"`
+	Password    *string             `json:"password,omitempty"`
 	// Bearer token to include in the authorization header
 	Token *string `json:"token,omitempty"`
 	// Select or create a secret that references your credentials

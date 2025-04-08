@@ -60,6 +60,7 @@ type SystemSettingsAPI struct {
 	Headers            *SystemSettingsHeaders `json:"headers,omitempty"`
 	Host               string                 `json:"host"`
 	IdleSessionTTL     *float64               `json:"idleSessionTTL,omitempty"`
+	ListenOnPort       *bool                  `json:"listenOnPort,omitempty"`
 	LoginRateLimit     *string                `json:"loginRateLimit,omitempty"`
 	Port               float64                `json:"port"`
 	Protocol           string                 `json:"protocol"`
@@ -110,6 +111,13 @@ func (o *SystemSettingsAPI) GetIdleSessionTTL() *float64 {
 		return nil
 	}
 	return o.IdleSessionTTL
+}
+
+func (o *SystemSettingsAPI) GetListenOnPort() *bool {
+	if o == nil {
+		return nil
+	}
+	return o.ListenOnPort
 }
 
 func (o *SystemSettingsAPI) GetLoginRateLimit() *string {

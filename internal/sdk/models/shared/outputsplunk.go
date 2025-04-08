@@ -312,12 +312,13 @@ func (e *OutputSplunkAuthenticationMethod) UnmarshalJSON(data []byte) error {
 	}
 }
 
-// OutputSplunkCompression - Codec to use to compress the persisted data.
+// OutputSplunkCompression - Controls whether the sender should send compressed data to the server. Select 'Disabled' to reject compressed connections or 'Always' to ignore server's configuration and send compressed data.
 type OutputSplunkCompression string
 
 const (
-	OutputSplunkCompressionNone OutputSplunkCompression = "none"
-	OutputSplunkCompressionGzip OutputSplunkCompression = "gzip"
+	OutputSplunkCompressionDisabled OutputSplunkCompression = "disabled"
+	OutputSplunkCompressionAuto     OutputSplunkCompression = "auto"
+	OutputSplunkCompressionAlways   OutputSplunkCompression = "always"
 )
 
 func (e OutputSplunkCompression) ToPointer() *OutputSplunkCompression {
@@ -329,13 +330,42 @@ func (e *OutputSplunkCompression) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	switch v {
-	case "none":
+	case "disabled":
 		fallthrough
-	case "gzip":
+	case "auto":
+		fallthrough
+	case "always":
 		*e = OutputSplunkCompression(v)
 		return nil
 	default:
 		return fmt.Errorf("invalid value for OutputSplunkCompression: %v", v)
+	}
+}
+
+// OutputSplunkPqCompressCompression - Codec to use to compress the persisted data.
+type OutputSplunkPqCompressCompression string
+
+const (
+	OutputSplunkPqCompressCompressionNone OutputSplunkPqCompressCompression = "none"
+	OutputSplunkPqCompressCompressionGzip OutputSplunkPqCompressCompression = "gzip"
+)
+
+func (e OutputSplunkPqCompressCompression) ToPointer() *OutputSplunkPqCompressCompression {
+	return &e
+}
+func (e *OutputSplunkPqCompressCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "none":
+		fallthrough
+	case "gzip":
+		*e = OutputSplunkPqCompressCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSplunkPqCompressCompression: %v", v)
 	}
 }
 
@@ -439,6 +469,8 @@ type OutputSplunk struct {
 	Description *string                           `json:"description,omitempty"`
 	// Maximum number of times healthcheck can fail before we close connection. If set to 0 (disabled), and the connection to Splunk is forcibly closed, some data loss might occur.
 	MaxFailedHealthChecks *float64 `default:"1" json:"maxFailedHealthChecks"`
+	// Controls whether the sender should send compressed data to the server. Select 'Disabled' to reject compressed connections or 'Always' to ignore server's configuration and send compressed data.
+	Compress *OutputSplunkCompression `default:"disabled" json:"compress"`
 	// The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.).
 	PqMaxFileSize *string `default:"1 MB" json:"pqMaxFileSize"`
 	// The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc.
@@ -446,7 +478,7 @@ type OutputSplunk struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>.
 	PqPath *string `default:"\\$CRIBL_HOME/state/queues" json:"pqPath"`
 	// Codec to use to compress the persisted data.
-	PqCompress *OutputSplunkCompression `default:"none" json:"pqCompress"`
+	PqCompress *OutputSplunkPqCompressCompression `default:"none" json:"pqCompress"`
 	// Whether to block or drop events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
 	PqOnBackpressure *OutputSplunkQueueFullBehavior `default:"block" json:"pqOnBackpressure"`
 	// In Error mode, PQ writes events to the filesystem only when it detects a non-retryable Destination error. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination or when there are non-retryable Destination errors. In Always On mode, PQ always writes events to the filesystem.
@@ -616,6 +648,13 @@ func (o *OutputSplunk) GetMaxFailedHealthChecks() *float64 {
 	return o.MaxFailedHealthChecks
 }
 
+func (o *OutputSplunk) GetCompress() *OutputSplunkCompression {
+	if o == nil {
+		return nil
+	}
+	return o.Compress
+}
+
 func (o *OutputSplunk) GetPqMaxFileSize() *string {
 	if o == nil {
 		return nil
@@ -637,7 +676,7 @@ func (o *OutputSplunk) GetPqPath() *string {
 	return o.PqPath
 }
 
-func (o *OutputSplunk) GetPqCompress() *OutputSplunkCompression {
+func (o *OutputSplunk) GetPqCompress() *OutputSplunkPqCompressCompression {
 	if o == nil {
 		return nil
 	}

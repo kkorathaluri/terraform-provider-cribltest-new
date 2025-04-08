@@ -8,7 +8,7 @@ type InputSystemMetricsContainer struct {
 	AllContainers types.Bool     `tfsdk:"all_containers"`
 	Detail        types.Bool     `tfsdk:"detail"`
 	DockerSocket  []types.String `tfsdk:"docker_socket"`
-	DockerTimeout types.Number   `tfsdk:"docker_timeout"`
+	DockerTimeout types.Float64  `tfsdk:"docker_timeout"`
 	Filters       []Filters      `tfsdk:"filters"`
 	Mode          types.String   `tfsdk:"mode"`
 	PerDevice     types.Bool     `tfsdk:"per_device"`

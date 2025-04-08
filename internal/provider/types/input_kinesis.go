@@ -15,12 +15,12 @@ type InputKinesis struct {
 	Connections             []InputKinesisConnections `tfsdk:"connections"`
 	Description             types.String              `tfsdk:"description"`
 	Disabled                types.Bool                `tfsdk:"disabled"`
-	DurationSeconds         types.Number              `tfsdk:"duration_seconds"`
+	DurationSeconds         types.Float64             `tfsdk:"duration_seconds"`
 	EnableAssumeRole        types.Bool                `tfsdk:"enable_assume_role"`
 	Endpoint                types.String              `tfsdk:"endpoint"`
 	Environment             types.String              `tfsdk:"environment"`
-	GetRecordsLimit         types.Number              `tfsdk:"get_records_limit"`
-	GetRecordsLimitTotal    types.Number              `tfsdk:"get_records_limit_total"`
+	GetRecordsLimit         types.Float64             `tfsdk:"get_records_limit"`
+	GetRecordsLimitTotal    types.Float64             `tfsdk:"get_records_limit_total"`
 	ID                      types.String              `tfsdk:"id"`
 	LoadBalancingAlgorithm  types.String              `tfsdk:"load_balancing_algorithm"`
 	Metadata                []InputKinesisMetadata    `tfsdk:"metadata"`
@@ -32,7 +32,7 @@ type InputKinesis struct {
 	RejectUnauthorized      types.Bool                `tfsdk:"reject_unauthorized"`
 	ReuseConnections        types.Bool                `tfsdk:"reuse_connections"`
 	SendToRoutes            types.Bool                `tfsdk:"send_to_routes"`
-	ServiceInterval         types.Number              `tfsdk:"service_interval"`
+	ServiceInterval         types.Float64             `tfsdk:"service_interval"`
 	ShardExpr               types.String              `tfsdk:"shard_expr"`
 	ShardIteratorType       types.String              `tfsdk:"shard_iterator_type"`
 	SignatureVersion        types.String              `tfsdk:"signature_version"`

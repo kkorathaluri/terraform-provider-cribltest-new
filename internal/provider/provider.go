@@ -25,8 +25,11 @@ type CriblTerraformProvider struct {
 
 // CriblTerraformProviderModel describes the provider data model.
 type CriblTerraformProviderModel struct {
-	BearerAuth types.String `tfsdk:"bearer_auth"`
-	ServerURL  types.String `tfsdk:"server_url"`
+	BearerAuth   types.String `tfsdk:"bearer_auth"`
+	ClientID     types.String `tfsdk:"client_id"`
+	ClientSecret types.String `tfsdk:"client_secret"`
+	ServerURL    types.String `tfsdk:"server_url"`
+	TokenURL     types.String `tfsdk:"token_url"`
 }
 
 func (p *CriblTerraformProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
@@ -41,12 +44,23 @@ func (p *CriblTerraformProvider) Schema(ctx context.Context, req provider.Schema
 				Optional:  true,
 				Sensitive: true,
 			},
+			"client_id": schema.StringAttribute{
+				Optional:  true,
+				Sensitive: true,
+			},
+			"client_secret": schema.StringAttribute{
+				Optional:  true,
+				Sensitive: true,
+			},
 			"server_url": schema.StringAttribute{
-				Description: `Server URL`,
-				Required:    true,
+				Description: `Server URL (defaults to https://{workspaceName}-{organizationId}.{cloudDomain}/api/v1)`,
+				Optional:    true,
+			},
+			"token_url": schema.StringAttribute{
+				Optional:  true,
+				Sensitive: true,
 			},
 		},
-		MarkdownDescription: `Cribl API Reference: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).`,
 	}
 }
 
@@ -62,8 +76,7 @@ func (p *CriblTerraformProvider) Configure(ctx context.Context, req provider.Con
 	ServerURL := data.ServerURL.ValueString()
 
 	if ServerURL == "" {
-		resp.Diagnostics.AddError("server_url is required", "The server_url attribute must be provided in the provider configuration.")
-		return
+		ServerURL = "https://{workspaceName}-{organizationId}.{cloudDomain}/api/v1"
 	}
 
 	bearerAuth := new(string)
@@ -72,8 +85,26 @@ func (p *CriblTerraformProvider) Configure(ctx context.Context, req provider.Con
 	} else {
 		bearerAuth = nil
 	}
+	var clientOauth *shared.SchemeClientOauth
+	var clientID string
+	clientID = data.ClientID.ValueString()
+
+	var clientSecret string
+	clientSecret = data.ClientSecret.ValueString()
+
+	var tokenURL string
+	tokenURL = data.TokenURL.ValueString()
+
+	if clientID != "" && clientSecret != "" {
+		clientOauth = &shared.SchemeClientOauth{
+			ClientID:     clientID,
+			ClientSecret: clientSecret,
+			TokenURL:     tokenURL,
+		}
+	}
 	security := shared.Security{
-		BearerAuth: bearerAuth,
+		BearerAuth:  bearerAuth,
+		ClientOauth: clientOauth,
 	}
 
 	providerHTTPTransportOpts := ProviderHTTPTransportOpts{
@@ -85,10 +116,11 @@ func (p *CriblTerraformProvider) Configure(ctx context.Context, req provider.Con
 	httpClient.Transport = NewProviderHTTPTransport(providerHTTPTransportOpts)
 
 	opts := []sdk.SDKOption{
+		sdk.WithServerURL(ServerURL),
 		sdk.WithSecurity(security),
 		sdk.WithClient(httpClient),
 	}
-	client := sdk.New(ServerURL, opts...)
+	client := sdk.New(opts...)
 
 	resp.DataSourceData = client
 	resp.ResourceData = client
@@ -97,6 +129,7 @@ func (p *CriblTerraformProvider) Configure(ctx context.Context, req provider.Con
 func (p *CriblTerraformProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
 		NewDestinationResource,
+		NewGroupResource,
 		NewPackResource,
 		NewSourceResource,
 	}
@@ -104,7 +137,7 @@ func (p *CriblTerraformProvider) Resources(ctx context.Context) []func() resourc
 
 func (p *CriblTerraformProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
-		NewSourceDataSource,
+		NewPackDataSource,
 	}
 }
 

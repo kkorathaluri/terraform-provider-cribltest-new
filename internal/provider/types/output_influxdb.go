@@ -9,7 +9,7 @@ type OutputInfluxdb struct {
 	AuthType                      types.String                          `tfsdk:"auth_type"`
 	Bucket                        types.String                          `tfsdk:"bucket"`
 	Compress                      types.Bool                            `tfsdk:"compress"`
-	Concurrency                   types.Number                          `tfsdk:"concurrency"`
+	Concurrency                   types.Float64                         `tfsdk:"concurrency"`
 	CredentialsSecret             types.String                          `tfsdk:"credentials_secret"`
 	Database                      types.String                          `tfsdk:"database"`
 	Description                   types.String                          `tfsdk:"description"`
@@ -17,11 +17,11 @@ type OutputInfluxdb struct {
 	Environment                   types.String                          `tfsdk:"environment"`
 	ExtraHTTPHeaders              []OutputInfluxdbExtraHTTPHeaders      `tfsdk:"extra_http_headers"`
 	FailedRequestLoggingMode      types.String                          `tfsdk:"failed_request_logging_mode"`
-	FlushPeriodSec                types.Number                          `tfsdk:"flush_period_sec"`
+	FlushPeriodSec                types.Float64                         `tfsdk:"flush_period_sec"`
 	ID                            types.String                          `tfsdk:"id"`
 	LoginURL                      types.String                          `tfsdk:"login_url"`
-	MaxPayloadEvents              types.Number                          `tfsdk:"max_payload_events"`
-	MaxPayloadSizeKB              types.Number                          `tfsdk:"max_payload_size_kb"`
+	MaxPayloadEvents              types.Float64                         `tfsdk:"max_payload_events"`
+	MaxPayloadSizeKB              types.Float64                         `tfsdk:"max_payload_size_kb"`
 	OauthHeaders                  []OutputInfluxdbOauthHeaders          `tfsdk:"oauth_headers"`
 	OauthParams                   []OutputInfluxdbOauthParams           `tfsdk:"oauth_params"`
 	OnBackpressure                types.String                          `tfsdk:"on_backpressure"`
@@ -45,11 +45,11 @@ type OutputInfluxdb struct {
 	SystemFields                  []types.String                        `tfsdk:"system_fields"`
 	TextSecret                    types.String                          `tfsdk:"text_secret"`
 	TimeoutRetrySettings          *OutputInfluxdbTimeoutRetrySettings   `tfsdk:"timeout_retry_settings"`
-	TimeoutSec                    types.Number                          `tfsdk:"timeout_sec"`
+	TimeoutSec                    types.Float64                         `tfsdk:"timeout_sec"`
 	TimestampPrecision            types.String                          `tfsdk:"timestamp_precision"`
 	Token                         types.String                          `tfsdk:"token"`
 	TokenAttributeName            types.String                          `tfsdk:"token_attribute_name"`
-	TokenTimeoutSecs              types.Number                          `tfsdk:"token_timeout_secs"`
+	TokenTimeoutSecs              types.Float64                         `tfsdk:"token_timeout_secs"`
 	Type                          types.String                          `tfsdk:"type"`
 	URL                           types.String                          `tfsdk:"url"`
 	Username                      types.String                          `tfsdk:"username"`

@@ -50,7 +50,7 @@ func (o *InputCriblConnections) GetOutput() string {
 	return o.Output
 }
 
-// InputCriblMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+// InputCriblMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 type InputCriblMode string
 
 const (
@@ -105,7 +105,7 @@ func (e *InputCriblCompression) UnmarshalJSON(data []byte) error {
 }
 
 type InputCriblPq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 	Mode *InputCriblMode `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`

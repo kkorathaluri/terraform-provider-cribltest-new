@@ -8,29 +8,29 @@ type OutputMsk struct {
 	Ack                       types.Int64                                 `tfsdk:"ack"`
 	AssumeRoleArn             types.String                                `tfsdk:"assume_role_arn"`
 	AssumeRoleExternalID      types.String                                `tfsdk:"assume_role_external_id"`
-	AuthenticationTimeout     types.Number                                `tfsdk:"authentication_timeout"`
+	AuthenticationTimeout     types.Float64                               `tfsdk:"authentication_timeout"`
 	AwsAPIKey                 types.String                                `tfsdk:"aws_api_key"`
 	AwsAuthenticationMethod   types.String                                `tfsdk:"aws_authentication_method"`
 	AwsSecret                 types.String                                `tfsdk:"aws_secret"`
 	AwsSecretKey              types.String                                `tfsdk:"aws_secret_key"`
-	BackoffRate               types.Number                                `tfsdk:"backoff_rate"`
+	BackoffRate               types.Float64                               `tfsdk:"backoff_rate"`
 	Brokers                   []types.String                              `tfsdk:"brokers"`
 	Compression               types.String                                `tfsdk:"compression"`
-	ConnectionTimeout         types.Number                                `tfsdk:"connection_timeout"`
+	ConnectionTimeout         types.Float64                               `tfsdk:"connection_timeout"`
 	Description               types.String                                `tfsdk:"description"`
-	DurationSeconds           types.Number                                `tfsdk:"duration_seconds"`
+	DurationSeconds           types.Float64                               `tfsdk:"duration_seconds"`
 	EnableAssumeRole          types.Bool                                  `tfsdk:"enable_assume_role"`
 	Endpoint                  types.String                                `tfsdk:"endpoint"`
 	Environment               types.String                                `tfsdk:"environment"`
-	FlushEventCount           types.Number                                `tfsdk:"flush_event_count"`
-	FlushPeriodSec            types.Number                                `tfsdk:"flush_period_sec"`
+	FlushEventCount           types.Float64                               `tfsdk:"flush_event_count"`
+	FlushPeriodSec            types.Float64                               `tfsdk:"flush_period_sec"`
 	Format                    types.String                                `tfsdk:"format"`
 	ID                        types.String                                `tfsdk:"id"`
-	InitialBackoff            types.Number                                `tfsdk:"initial_backoff"`
+	InitialBackoff            types.Float64                               `tfsdk:"initial_backoff"`
 	KafkaSchemaRegistry       *OutputMskKafkaSchemaRegistryAuthentication `tfsdk:"kafka_schema_registry"`
-	MaxBackOff                types.Number                                `tfsdk:"max_back_off"`
-	MaxRecordSizeKB           types.Number                                `tfsdk:"max_record_size_kb"`
-	MaxRetries                types.Number                                `tfsdk:"max_retries"`
+	MaxBackOff                types.Float64                               `tfsdk:"max_back_off"`
+	MaxRecordSizeKB           types.Float64                               `tfsdk:"max_record_size_kb"`
+	MaxRetries                types.Float64                               `tfsdk:"max_retries"`
 	OnBackpressure            types.String                                `tfsdk:"on_backpressure"`
 	Pipeline                  types.String                                `tfsdk:"pipeline"`
 	PqCompress                types.String                                `tfsdk:"pq_compress"`
@@ -41,10 +41,10 @@ type OutputMsk struct {
 	PqOnBackpressure          types.String                                `tfsdk:"pq_on_backpressure"`
 	PqPath                    types.String                                `tfsdk:"pq_path"`
 	ProtobufLibraryID         types.String                                `tfsdk:"protobuf_library_id"`
-	ReauthenticationThreshold types.Number                                `tfsdk:"reauthentication_threshold"`
+	ReauthenticationThreshold types.Float64                               `tfsdk:"reauthentication_threshold"`
 	Region                    types.String                                `tfsdk:"region"`
 	RejectUnauthorized        types.Bool                                  `tfsdk:"reject_unauthorized"`
-	RequestTimeout            types.Number                                `tfsdk:"request_timeout"`
+	RequestTimeout            types.Float64                               `tfsdk:"request_timeout"`
 	ReuseConnections          types.Bool                                  `tfsdk:"reuse_connections"`
 	SignatureVersion          types.String                                `tfsdk:"signature_version"`
 	Streamtags                []types.String                              `tfsdk:"streamtags"`

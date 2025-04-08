@@ -15,8 +15,8 @@ type InputOffice365Service struct {
 	Environment         types.String                         `tfsdk:"environment"`
 	ID                  types.String                         `tfsdk:"id"`
 	JobTimeout          types.String                         `tfsdk:"job_timeout"`
-	KeepAliveTime       types.Number                         `tfsdk:"keep_alive_time"`
-	MaxMissedKeepAlives types.Number                         `tfsdk:"max_missed_keep_alives"`
+	KeepAliveTime       types.Float64                        `tfsdk:"keep_alive_time"`
+	MaxMissedKeepAlives types.Float64                        `tfsdk:"max_missed_keep_alives"`
 	Metadata            []InputOffice365ServiceMetadata      `tfsdk:"metadata"`
 	Pipeline            types.String                         `tfsdk:"pipeline"`
 	PlanType            types.String                         `tfsdk:"plan_type"`
@@ -27,7 +27,7 @@ type InputOffice365Service struct {
 	Streamtags          []types.String                       `tfsdk:"streamtags"`
 	TenantID            types.String                         `tfsdk:"tenant_id"`
 	TextSecret          types.String                         `tfsdk:"text_secret"`
-	Timeout             types.Number                         `tfsdk:"timeout"`
+	Timeout             types.Float64                        `tfsdk:"timeout"`
 	TTL                 types.String                         `tfsdk:"ttl"`
 	Type                types.String                         `tfsdk:"type"`
 }

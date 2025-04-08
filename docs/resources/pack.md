@@ -38,7 +38,6 @@ resource "cribl-terraform_pack" "my_pack" {
 
 ### Read-Only
 
-- `count_test` (Number) number of items present in the items array
 - `items` (Attributes List) (see [below for nested schema](#nestedatt--items))
 
 <a id="nestedatt--items"></a>

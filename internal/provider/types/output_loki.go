@@ -7,17 +7,17 @@ import "github.com/hashicorp/terraform-plugin-framework/types"
 type OutputLoki struct {
 	AuthType                      types.String                      `tfsdk:"auth_type"`
 	Compress                      types.Bool                        `tfsdk:"compress"`
-	Concurrency                   types.Number                      `tfsdk:"concurrency"`
+	Concurrency                   types.Float64                     `tfsdk:"concurrency"`
 	CredentialsSecret             types.String                      `tfsdk:"credentials_secret"`
 	Description                   types.String                      `tfsdk:"description"`
 	Environment                   types.String                      `tfsdk:"environment"`
 	ExtraHTTPHeaders              []OutputLokiExtraHTTPHeaders      `tfsdk:"extra_http_headers"`
 	FailedRequestLoggingMode      types.String                      `tfsdk:"failed_request_logging_mode"`
-	FlushPeriodSec                types.Number                      `tfsdk:"flush_period_sec"`
+	FlushPeriodSec                types.Float64                     `tfsdk:"flush_period_sec"`
 	ID                            types.String                      `tfsdk:"id"`
 	Labels                        []Labels                          `tfsdk:"labels"`
-	MaxPayloadEvents              types.Number                      `tfsdk:"max_payload_events"`
-	MaxPayloadSizeKB              types.Number                      `tfsdk:"max_payload_size_kb"`
+	MaxPayloadEvents              types.Float64                     `tfsdk:"max_payload_events"`
+	MaxPayloadSizeKB              types.Float64                     `tfsdk:"max_payload_size_kb"`
 	Message                       types.String                      `tfsdk:"message"`
 	MessageFormat                 types.String                      `tfsdk:"message_format"`
 	OnBackpressure                types.String                      `tfsdk:"on_backpressure"`
@@ -38,9 +38,9 @@ type OutputLoki struct {
 	SystemFields                  []types.String                    `tfsdk:"system_fields"`
 	TextSecret                    types.String                      `tfsdk:"text_secret"`
 	TimeoutRetrySettings          *OutputLokiTimeoutRetrySettings   `tfsdk:"timeout_retry_settings"`
-	TimeoutSec                    types.Number                      `tfsdk:"timeout_sec"`
+	TimeoutSec                    types.Float64                     `tfsdk:"timeout_sec"`
 	Token                         types.String                      `tfsdk:"token"`
-	TotalMemoryLimitKB            types.Number                      `tfsdk:"total_memory_limit_kb"`
+	TotalMemoryLimitKB            types.Float64                     `tfsdk:"total_memory_limit_kb"`
 	Type                          types.String                      `tfsdk:"type"`
 	URL                           types.String                      `tfsdk:"url"`
 	Username                      types.String                      `tfsdk:"username"`

@@ -9,7 +9,7 @@ type OutputSentinel struct {
 	AuthType                      types.String                          `tfsdk:"auth_type"`
 	ClientID                      types.String                          `tfsdk:"client_id"`
 	Compress                      types.Bool                            `tfsdk:"compress"`
-	Concurrency                   types.Number                          `tfsdk:"concurrency"`
+	Concurrency                   types.Float64                         `tfsdk:"concurrency"`
 	CustomContentType             types.String                          `tfsdk:"custom_content_type"`
 	CustomDropWhenNull            types.Bool                            `tfsdk:"custom_drop_when_null"`
 	CustomEventDelimiter          types.String                          `tfsdk:"custom_event_delimiter"`
@@ -22,15 +22,15 @@ type OutputSentinel struct {
 	Environment                   types.String                          `tfsdk:"environment"`
 	ExtraHTTPHeaders              []OutputSentinelExtraHTTPHeaders      `tfsdk:"extra_http_headers"`
 	FailedRequestLoggingMode      types.String                          `tfsdk:"failed_request_logging_mode"`
-	FlushPeriodSec                types.Number                          `tfsdk:"flush_period_sec"`
+	FlushPeriodSec                types.Float64                         `tfsdk:"flush_period_sec"`
 	Format                        types.String                          `tfsdk:"format"`
 	FormatEventCode               types.String                          `tfsdk:"format_event_code"`
 	FormatPayloadCode             types.String                          `tfsdk:"format_payload_code"`
 	ID                            types.String                          `tfsdk:"id"`
 	KeepAlive                     types.Bool                            `tfsdk:"keep_alive"`
 	LoginURL                      types.String                          `tfsdk:"login_url"`
-	MaxPayloadEvents              types.Number                          `tfsdk:"max_payload_events"`
-	MaxPayloadSizeKB              types.Number                          `tfsdk:"max_payload_size_kb"`
+	MaxPayloadEvents              types.Float64                         `tfsdk:"max_payload_events"`
+	MaxPayloadSizeKB              types.Float64                         `tfsdk:"max_payload_size_kb"`
 	OnBackpressure                types.String                          `tfsdk:"on_backpressure"`
 	Pipeline                      types.String                          `tfsdk:"pipeline"`
 	PqCompress                    types.String                          `tfsdk:"pq_compress"`
@@ -50,8 +50,8 @@ type OutputSentinel struct {
 	Streamtags                    []types.String                        `tfsdk:"streamtags"`
 	SystemFields                  []types.String                        `tfsdk:"system_fields"`
 	TimeoutRetrySettings          *OutputSentinelTimeoutRetrySettings   `tfsdk:"timeout_retry_settings"`
-	TimeoutSec                    types.Number                          `tfsdk:"timeout_sec"`
-	TotalMemoryLimitKB            types.Number                          `tfsdk:"total_memory_limit_kb"`
+	TimeoutSec                    types.Float64                         `tfsdk:"timeout_sec"`
+	TotalMemoryLimitKB            types.Float64                         `tfsdk:"total_memory_limit_kb"`
 	Type                          types.String                          `tfsdk:"type"`
 	URL                           types.String                          `tfsdk:"url"`
 	UseRoundRobinDNS              types.Bool                            `tfsdk:"use_round_robin_dns"`

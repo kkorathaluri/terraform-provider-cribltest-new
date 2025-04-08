@@ -21,7 +21,7 @@ It has been generated successfully based on your OpenAPI spec. However, it is no
 <!-- Start Summary [summary] -->
 ## Summary
 
-Cribl API Reference: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
+
 <!-- End Summary [summary] -->
 
 <!-- Start Table of Contents [toc] -->
@@ -47,7 +47,7 @@ terraform {
   required_providers {
     cribl-terraform = {
       source  = "speakeasy/cribl-terraform"
-      version = "0.8.0"
+      version = "0.10.4"
     }
   }
 }
@@ -64,11 +64,12 @@ provider "cribl-terraform" {
 ### Resources
 
 * [cribl-terraform_destination](docs/resources/destination.md)
+* [cribl-terraform_group](docs/resources/group.md)
 * [cribl-terraform_pack](docs/resources/pack.md)
 * [cribl-terraform_source](docs/resources/source.md)
 ### Data Sources
 
-* [cribl-terraform_source](docs/data-sources/source.md)
+* [cribl-terraform_pack](docs/data-sources/pack.md)
 <!-- End Available Resources and Data Sources [operations] -->
 
 <!-- Start Testing the provider locally [usage] -->

@@ -7,24 +7,17 @@ import (
 	"net/http"
 )
 
-type GetPlanGlobals struct {
-	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
-}
-
-func (o *GetPlanGlobals) GetOrganizationID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.OrganizationID
+var GetPlanServerList = []string{
+	"https://api.cribl-staging.cloud",
 }
 
 type GetPlanRequest struct {
-	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
+	OrganizationID string `pathParam:"style=simple,explode=false,name=organizationId"`
 }
 
-func (o *GetPlanRequest) GetOrganizationID() *string {
+func (o *GetPlanRequest) GetOrganizationID() string {
 	if o == nil {
-		return nil
+		return ""
 	}
 	return o.OrganizationID
 }

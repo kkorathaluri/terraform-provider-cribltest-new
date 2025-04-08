@@ -17,12 +17,12 @@ type InputOffice365MsgTrace struct {
 	EndDate                types.String                        `tfsdk:"end_date"`
 	Environment            types.String                        `tfsdk:"environment"`
 	ID                     types.String                        `tfsdk:"id"`
-	Interval               types.Number                        `tfsdk:"interval"`
+	Interval               types.Float64                       `tfsdk:"interval"`
 	JobTimeout             types.String                        `tfsdk:"job_timeout"`
-	KeepAliveTime          types.Number                        `tfsdk:"keep_alive_time"`
+	KeepAliveTime          types.Float64                       `tfsdk:"keep_alive_time"`
 	LogLevel               types.String                        `tfsdk:"log_level"`
-	MaxMissedKeepAlives    types.Number                        `tfsdk:"max_missed_keep_alives"`
-	MaxTaskReschedule      types.Number                        `tfsdk:"max_task_reschedule"`
+	MaxMissedKeepAlives    types.Float64                       `tfsdk:"max_missed_keep_alives"`
+	MaxTaskReschedule      types.Float64                       `tfsdk:"max_task_reschedule"`
 	Metadata               []InputOffice365MsgTraceMetadata    `tfsdk:"metadata"`
 	Password               types.String                        `tfsdk:"password"`
 	Pipeline               types.String                        `tfsdk:"pipeline"`
@@ -37,7 +37,7 @@ type InputOffice365MsgTrace struct {
 	Streamtags             []types.String                      `tfsdk:"streamtags"`
 	TenantID               types.String                        `tfsdk:"tenant_id"`
 	TextSecret             types.String                        `tfsdk:"text_secret"`
-	Timeout                types.Number                        `tfsdk:"timeout"`
+	Timeout                types.Float64                       `tfsdk:"timeout"`
 	TTL                    types.String                        `tfsdk:"ttl"`
 	Type                   types.String                        `tfsdk:"type"`
 	URL                    types.String                        `tfsdk:"url"`

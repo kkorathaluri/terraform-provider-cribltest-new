@@ -7,18 +7,18 @@ import "github.com/hashicorp/terraform-plugin-framework/types"
 type OutputXsiam struct {
 	AuthType                      types.String                       `tfsdk:"auth_type"`
 	Compress                      types.Bool                         `tfsdk:"compress"`
-	Concurrency                   types.Number                       `tfsdk:"concurrency"`
+	Concurrency                   types.Float64                      `tfsdk:"concurrency"`
 	Description                   types.String                       `tfsdk:"description"`
-	DNSResolvePeriodSec           types.Number                       `tfsdk:"dns_resolve_period_sec"`
+	DNSResolvePeriodSec           types.Float64                      `tfsdk:"dns_resolve_period_sec"`
 	Environment                   types.String                       `tfsdk:"environment"`
 	ExcludeSelf                   types.Bool                         `tfsdk:"exclude_self"`
 	ExtraHTTPHeaders              []OutputXsiamExtraHTTPHeaders      `tfsdk:"extra_http_headers"`
 	FailedRequestLoggingMode      types.String                       `tfsdk:"failed_request_logging_mode"`
-	FlushPeriodSec                types.Number                       `tfsdk:"flush_period_sec"`
+	FlushPeriodSec                types.Float64                      `tfsdk:"flush_period_sec"`
 	ID                            types.String                       `tfsdk:"id"`
 	LoadBalanced                  types.Bool                         `tfsdk:"load_balanced"`
-	LoadBalanceStatsPeriodSec     types.Number                       `tfsdk:"load_balance_stats_period_sec"`
-	MaxPayloadEvents              types.Number                       `tfsdk:"max_payload_events"`
+	LoadBalanceStatsPeriodSec     types.Float64                      `tfsdk:"load_balance_stats_period_sec"`
+	MaxPayloadEvents              types.Float64                      `tfsdk:"max_payload_events"`
 	OnBackpressure                types.String                       `tfsdk:"on_backpressure"`
 	Pipeline                      types.String                       `tfsdk:"pipeline"`
 	PqCompress                    types.String                       `tfsdk:"pq_compress"`
@@ -37,7 +37,7 @@ type OutputXsiam struct {
 	TextSecret                    types.String                       `tfsdk:"text_secret"`
 	ThrottleRateReqPerSec         types.Int64                        `tfsdk:"throttle_rate_req_per_sec"`
 	TimeoutRetrySettings          *OutputXsiamTimeoutRetrySettings   `tfsdk:"timeout_retry_settings"`
-	TimeoutSec                    types.Number                       `tfsdk:"timeout_sec"`
+	TimeoutSec                    types.Float64                      `tfsdk:"timeout_sec"`
 	Token                         types.String                       `tfsdk:"token"`
 	Type                          types.String                       `tfsdk:"type"`
 	URL                           types.String                       `tfsdk:"url"`

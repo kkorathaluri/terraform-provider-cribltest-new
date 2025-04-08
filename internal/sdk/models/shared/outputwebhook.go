@@ -11,9 +11,7 @@ import (
 type OutputWebhookType string
 
 const (
-	OutputWebhookTypeWebhook       OutputWebhookType = "webhook"
-	OutputWebhookTypeSentinel      OutputWebhookType = "sentinel"
-	OutputWebhookTypeDynatraceHTTP OutputWebhookType = "dynatrace_http"
+	OutputWebhookTypeWebhook OutputWebhookType = "webhook"
 )
 
 func (e OutputWebhookType) ToPointer() *OutputWebhookType {
@@ -26,10 +24,6 @@ func (e *OutputWebhookType) UnmarshalJSON(data []byte) error {
 	}
 	switch v {
 	case "webhook":
-		fallthrough
-	case "sentinel":
-		fallthrough
-	case "dynatrace_http":
 		*e = OutputWebhookType(v)
 		return nil
 	default:
@@ -480,18 +474,18 @@ func (o *OutputWebhookTLSSettingsClientSide) GetMaxVersion() *OutputWebhookMaxim
 	return o.MaxVersion
 }
 
-// Compression - Codec to use to compress the persisted data.
-type Compression string
+// OutputWebhookCompression - Codec to use to compress the persisted data.
+type OutputWebhookCompression string
 
 const (
-	CompressionNone Compression = "none"
-	CompressionGzip Compression = "gzip"
+	OutputWebhookCompressionNone OutputWebhookCompression = "none"
+	OutputWebhookCompressionGzip OutputWebhookCompression = "gzip"
 )
 
-func (e Compression) ToPointer() *Compression {
+func (e OutputWebhookCompression) ToPointer() *OutputWebhookCompression {
 	return &e
 }
-func (e *Compression) UnmarshalJSON(data []byte) error {
+func (e *OutputWebhookCompression) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -500,10 +494,10 @@ func (e *Compression) UnmarshalJSON(data []byte) error {
 	case "none":
 		fallthrough
 	case "gzip":
-		*e = Compression(v)
+		*e = OutputWebhookCompression(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for Compression: %v", v)
+		return fmt.Errorf("invalid value for OutputWebhookCompression: %v", v)
 	}
 }
 
@@ -721,16 +715,14 @@ type OutputWebhook struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>.
 	PqPath *string `default:"\\$CRIBL_HOME/state/queues" json:"pqPath"`
 	// Codec to use to compress the persisted data.
-	PqCompress *Compression `default:"none" json:"pqCompress"`
+	PqCompress *OutputWebhookCompression `default:"none" json:"pqCompress"`
 	// Whether to block or drop events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
 	PqOnBackpressure *QueueFullBehavior `default:"block" json:"pqOnBackpressure"`
 	// In Error mode, PQ writes events to the filesystem only when it detects a non-retryable Destination error. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination or when there are non-retryable Destination errors. In Always On mode, PQ always writes events to the filesystem.
 	PqMode     *OutputWebhookMode `default:"error" json:"pqMode"`
 	PqControls *PqControls        `json:"pqControls,omitempty"`
-	// Username for Basic authentication
-	Username *string `json:"username,omitempty"`
-	// Password for Basic authentication
-	Password *string `json:"password,omitempty"`
+	Username   *string            `json:"username,omitempty"`
+	Password   *string            `json:"password,omitempty"`
 	// Bearer token to include in the authorization header
 	Token *string `json:"token,omitempty"`
 	// Select or create a secret that references your credentials
@@ -1055,7 +1047,7 @@ func (o *OutputWebhook) GetPqPath() *string {
 	return o.PqPath
 }
 
-func (o *OutputWebhook) GetPqCompress() *Compression {
+func (o *OutputWebhook) GetPqCompress() *OutputWebhookCompression {
 	if o == nil {
 		return nil
 	}

@@ -5,8 +5,8 @@ package types
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type OutputGrafanaCloudTimeoutRetrySettings struct {
-	BackoffRate    types.Number `tfsdk:"backoff_rate"`
-	InitialBackoff types.Number `tfsdk:"initial_backoff"`
-	MaxBackoff     types.Number `tfsdk:"max_backoff"`
-	TimeoutRetry   types.Bool   `tfsdk:"timeout_retry"`
+	BackoffRate    types.Float64 `tfsdk:"backoff_rate"`
+	InitialBackoff types.Float64 `tfsdk:"initial_backoff"`
+	MaxBackoff     types.Float64 `tfsdk:"max_backoff"`
+	TimeoutRetry   types.Bool    `tfsdk:"timeout_retry"`
 }

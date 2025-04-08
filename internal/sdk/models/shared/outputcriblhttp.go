@@ -8,6 +8,70 @@ import (
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/internal/utils"
 )
 
+type Health string
+
+const (
+	HealthGreen  Health = "Green"
+	HealthYellow Health = "Yellow"
+	HealthRed    Health = "Red"
+)
+
+func (e Health) ToPointer() *Health {
+	return &e
+}
+func (e *Health) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "Green":
+		fallthrough
+	case "Yellow":
+		fallthrough
+	case "Red":
+		*e = Health(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for Health: %v", v)
+	}
+}
+
+type OutputCriblHTTPStatus struct {
+	Health          Health         `json:"health"`
+	Metrics         map[string]any `json:"metrics"`
+	Timestamp       float64        `json:"timestamp"`
+	UseStatusFromLB *bool          `json:"useStatusFromLB,omitempty"`
+}
+
+func (o *OutputCriblHTTPStatus) GetHealth() Health {
+	if o == nil {
+		return Health("")
+	}
+	return o.Health
+}
+
+func (o *OutputCriblHTTPStatus) GetMetrics() map[string]any {
+	if o == nil {
+		return map[string]any{}
+	}
+	return o.Metrics
+}
+
+func (o *OutputCriblHTTPStatus) GetTimestamp() float64 {
+	if o == nil {
+		return 0.0
+	}
+	return o.Timestamp
+}
+
+func (o *OutputCriblHTTPStatus) GetUseStatusFromLB() *bool {
+	if o == nil {
+		return nil
+	}
+	return o.UseStatusFromLB
+}
+
 type OutputCriblHTTPType string
 
 const (
@@ -529,6 +593,7 @@ type OutputCriblHTTPPqControls struct {
 }
 
 type OutputCriblHTTP struct {
+	Status *OutputCriblHTTPStatus `json:"status,omitempty"`
 	// Unique ID for this output
 	ID   string              `json:"id"`
 	Type OutputCriblHTTPType `json:"type"`
@@ -612,6 +677,13 @@ func (o *OutputCriblHTTP) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	return nil
+}
+
+func (o *OutputCriblHTTP) GetStatus() *OutputCriblHTTPStatus {
+	if o == nil {
+		return nil
+	}
+	return o.Status
 }
 
 func (o *OutputCriblHTTP) GetID() string {

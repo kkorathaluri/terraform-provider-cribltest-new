@@ -50,7 +50,7 @@ func (o *InputExecConnections) GetOutput() string {
 	return o.Output
 }
 
-// InputExecMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+// InputExecMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 type InputExecMode string
 
 const (
@@ -105,7 +105,7 @@ func (e *InputExecCompression) UnmarshalJSON(data []byte) error {
 }
 
 type InputExecPq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 	Mode *InputExecMode `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
@@ -248,7 +248,7 @@ type InputExec struct {
 	Pq          *InputExecPq           `json:"pq,omitempty"`
 	// Command to execute; supports Bourne shell (or CMD on Windows) syntax
 	Command string `json:"command"`
-	// Maximum number of retry attempts in the event that the command fails.
+	// Maximum number of retry attempts in the event that the command fails
 	Retries *float64 `default:"10" json:"retries"`
 	// Select a schedule type; either an interval (in seconds) or a cron-style schedule.
 	ScheduleType *ScheduleType `default:"interval" json:"scheduleType"`

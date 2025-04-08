@@ -7,9 +7,9 @@ import "github.com/hashicorp/terraform-plugin-framework/types"
 type OutputElastic struct {
 	Auth                          *Auth                                `tfsdk:"auth"`
 	Compress                      types.Bool                           `tfsdk:"compress"`
-	Concurrency                   types.Number                         `tfsdk:"concurrency"`
+	Concurrency                   types.Float64                        `tfsdk:"concurrency"`
 	Description                   types.String                         `tfsdk:"description"`
-	DNSResolvePeriodSec           types.Number                         `tfsdk:"dns_resolve_period_sec"`
+	DNSResolvePeriodSec           types.Float64                        `tfsdk:"dns_resolve_period_sec"`
 	DocType                       types.String                         `tfsdk:"doc_type"`
 	ElasticPipeline               types.String                         `tfsdk:"elastic_pipeline"`
 	ElasticVersion                types.String                         `tfsdk:"elastic_version"`
@@ -18,14 +18,14 @@ type OutputElastic struct {
 	ExtraHTTPHeaders              []OutputElasticExtraHTTPHeaders      `tfsdk:"extra_http_headers"`
 	ExtraParams                   []ExtraParams                        `tfsdk:"extra_params"`
 	FailedRequestLoggingMode      types.String                         `tfsdk:"failed_request_logging_mode"`
-	FlushPeriodSec                types.Number                         `tfsdk:"flush_period_sec"`
+	FlushPeriodSec                types.Float64                        `tfsdk:"flush_period_sec"`
 	ID                            types.String                         `tfsdk:"id"`
 	IncludeDocID                  types.Bool                           `tfsdk:"include_doc_id"`
 	Index                         types.String                         `tfsdk:"index"`
 	LoadBalanced                  types.Bool                           `tfsdk:"load_balanced"`
-	LoadBalanceStatsPeriodSec     types.Number                         `tfsdk:"load_balance_stats_period_sec"`
-	MaxPayloadEvents              types.Number                         `tfsdk:"max_payload_events"`
-	MaxPayloadSizeKB              types.Number                         `tfsdk:"max_payload_size_kb"`
+	LoadBalanceStatsPeriodSec     types.Float64                        `tfsdk:"load_balance_stats_period_sec"`
+	MaxPayloadEvents              types.Float64                        `tfsdk:"max_payload_events"`
+	MaxPayloadSizeKB              types.Float64                        `tfsdk:"max_payload_size_kb"`
 	OnBackpressure                types.String                         `tfsdk:"on_backpressure"`
 	Pipeline                      types.String                         `tfsdk:"pipeline"`
 	PqCompress                    types.String                         `tfsdk:"pq_compress"`
@@ -43,7 +43,7 @@ type OutputElastic struct {
 	Streamtags                    []types.String                       `tfsdk:"streamtags"`
 	SystemFields                  []types.String                       `tfsdk:"system_fields"`
 	TimeoutRetrySettings          *OutputElasticTimeoutRetrySettings   `tfsdk:"timeout_retry_settings"`
-	TimeoutSec                    types.Number                         `tfsdk:"timeout_sec"`
+	TimeoutSec                    types.Float64                        `tfsdk:"timeout_sec"`
 	Type                          types.String                         `tfsdk:"type"`
 	URL                           types.String                         `tfsdk:"url"`
 	Urls                          []OutputElasticUrls                  `tfsdk:"urls"`

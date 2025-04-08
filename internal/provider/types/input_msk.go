@@ -7,46 +7,46 @@ import "github.com/hashicorp/terraform-plugin-framework/types"
 type InputMsk struct {
 	AssumeRoleArn             types.String                               `tfsdk:"assume_role_arn"`
 	AssumeRoleExternalID      types.String                               `tfsdk:"assume_role_external_id"`
-	AuthenticationTimeout     types.Number                               `tfsdk:"authentication_timeout"`
-	AutoCommitInterval        types.Number                               `tfsdk:"auto_commit_interval"`
-	AutoCommitThreshold       types.Number                               `tfsdk:"auto_commit_threshold"`
+	AuthenticationTimeout     types.Float64                              `tfsdk:"authentication_timeout"`
+	AutoCommitInterval        types.Float64                              `tfsdk:"auto_commit_interval"`
+	AutoCommitThreshold       types.Float64                              `tfsdk:"auto_commit_threshold"`
 	AwsAPIKey                 types.String                               `tfsdk:"aws_api_key"`
 	AwsAuthenticationMethod   types.String                               `tfsdk:"aws_authentication_method"`
 	AwsSecret                 types.String                               `tfsdk:"aws_secret"`
 	AwsSecretKey              types.String                               `tfsdk:"aws_secret_key"`
-	BackoffRate               types.Number                               `tfsdk:"backoff_rate"`
+	BackoffRate               types.Float64                              `tfsdk:"backoff_rate"`
 	Brokers                   []types.String                             `tfsdk:"brokers"`
 	Connections               []InputMskConnections                      `tfsdk:"connections"`
-	ConnectionTimeout         types.Number                               `tfsdk:"connection_timeout"`
+	ConnectionTimeout         types.Float64                              `tfsdk:"connection_timeout"`
 	Description               types.String                               `tfsdk:"description"`
 	Disabled                  types.Bool                                 `tfsdk:"disabled"`
-	DurationSeconds           types.Number                               `tfsdk:"duration_seconds"`
+	DurationSeconds           types.Float64                              `tfsdk:"duration_seconds"`
 	EnableAssumeRole          types.Bool                                 `tfsdk:"enable_assume_role"`
 	Endpoint                  types.String                               `tfsdk:"endpoint"`
 	Environment               types.String                               `tfsdk:"environment"`
 	FromBeginning             types.Bool                                 `tfsdk:"from_beginning"`
 	GroupID                   types.String                               `tfsdk:"group_id"`
-	HeartbeatInterval         types.Number                               `tfsdk:"heartbeat_interval"`
+	HeartbeatInterval         types.Float64                              `tfsdk:"heartbeat_interval"`
 	ID                        types.String                               `tfsdk:"id"`
-	InitialBackoff            types.Number                               `tfsdk:"initial_backoff"`
+	InitialBackoff            types.Float64                              `tfsdk:"initial_backoff"`
 	KafkaSchemaRegistry       *InputMskKafkaSchemaRegistryAuthentication `tfsdk:"kafka_schema_registry"`
-	MaxBackOff                types.Number                               `tfsdk:"max_back_off"`
-	MaxBytes                  types.Number                               `tfsdk:"max_bytes"`
-	MaxBytesPerPartition      types.Number                               `tfsdk:"max_bytes_per_partition"`
-	MaxRetries                types.Number                               `tfsdk:"max_retries"`
-	MaxSocketErrors           types.Number                               `tfsdk:"max_socket_errors"`
+	MaxBackOff                types.Float64                              `tfsdk:"max_back_off"`
+	MaxBytes                  types.Float64                              `tfsdk:"max_bytes"`
+	MaxBytesPerPartition      types.Float64                              `tfsdk:"max_bytes_per_partition"`
+	MaxRetries                types.Float64                              `tfsdk:"max_retries"`
+	MaxSocketErrors           types.Float64                              `tfsdk:"max_socket_errors"`
 	Metadata                  []InputMskMetadata                         `tfsdk:"metadata"`
 	Pipeline                  types.String                               `tfsdk:"pipeline"`
 	Pq                        *InputMskPq                                `tfsdk:"pq"`
 	PqEnabled                 types.Bool                                 `tfsdk:"pq_enabled"`
-	ReauthenticationThreshold types.Number                               `tfsdk:"reauthentication_threshold"`
-	RebalanceTimeout          types.Number                               `tfsdk:"rebalance_timeout"`
+	ReauthenticationThreshold types.Float64                              `tfsdk:"reauthentication_threshold"`
+	RebalanceTimeout          types.Float64                              `tfsdk:"rebalance_timeout"`
 	Region                    types.String                               `tfsdk:"region"`
 	RejectUnauthorized        types.Bool                                 `tfsdk:"reject_unauthorized"`
-	RequestTimeout            types.Number                               `tfsdk:"request_timeout"`
+	RequestTimeout            types.Float64                              `tfsdk:"request_timeout"`
 	ReuseConnections          types.Bool                                 `tfsdk:"reuse_connections"`
 	SendToRoutes              types.Bool                                 `tfsdk:"send_to_routes"`
-	SessionTimeout            types.Number                               `tfsdk:"session_timeout"`
+	SessionTimeout            types.Float64                              `tfsdk:"session_timeout"`
 	SignatureVersion          types.String                               `tfsdk:"signature_version"`
 	Streamtags                []types.String                             `tfsdk:"streamtags"`
 	TLS                       *InputMskTLSSettingsClientSide             `tfsdk:"tls"`

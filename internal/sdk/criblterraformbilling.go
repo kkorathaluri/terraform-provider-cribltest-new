@@ -3,8 +3,8 @@
 package sdk
 
 type CriblTerraformBilling struct {
-	Invoices    *Invoices
 	Consumption *Consumption
+	Invoices    *Invoices
 
 	sdkConfiguration sdkConfiguration
 }
@@ -12,7 +12,7 @@ type CriblTerraformBilling struct {
 func newCriblTerraformBilling(sdkConfig sdkConfiguration) *CriblTerraformBilling {
 	return &CriblTerraformBilling{
 		sdkConfiguration: sdkConfig,
-		Invoices:         newInvoices(sdkConfig),
 		Consumption:      newConsumption(sdkConfig),
+		Invoices:         newInvoices(sdkConfig),
 	}
 }

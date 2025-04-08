@@ -1,18 +1,18 @@
-speakeasyVersion: 1.529.1
+speakeasyVersion: 1.531.0
 sources:
     Cribl API Reference:
         sourceNamespace: cribl-api-reference
-        sourceRevisionDigest: sha256:9998bf7fdcfcad79d925daa0252ac3188de598ba6902307428d62c94f3c6fef2
-        sourceBlobDigest: sha256:827a5e57d6b51b8ab0fa5905eff9ca368c76adea29ca99c627c3051fd12fcea4
+        sourceRevisionDigest: sha256:5df569ba9174051af5d407b6da9cabb0435469bbefbf335d4dac065fde823180
+        sourceBlobDigest: sha256:897d32a7b40b7901f9d3c07409f946a65feb88cb0b983af9ff42c9091270fc46
         tags:
             - latest
-            - 4.12.0-alpha.1742471106527-a8a53ddb
+            - 1.0.0
 targets:
     cribl-terraform:
         source: Cribl API Reference
         sourceNamespace: cribl-api-reference
-        sourceRevisionDigest: sha256:9998bf7fdcfcad79d925daa0252ac3188de598ba6902307428d62c94f3c6fef2
-        sourceBlobDigest: sha256:827a5e57d6b51b8ab0fa5905eff9ca368c76adea29ca99c627c3051fd12fcea4
+        sourceRevisionDigest: sha256:5df569ba9174051af5d407b6da9cabb0435469bbefbf335d4dac065fde823180
+        sourceBlobDigest: sha256:897d32a7b40b7901f9d3c07409f946a65feb88cb0b983af9ff42c9091270fc46
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest

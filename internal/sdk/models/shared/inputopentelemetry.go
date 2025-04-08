@@ -50,7 +50,7 @@ func (o *InputOpenTelemetryConnections) GetOutput() string {
 	return o.Output
 }
 
-// InputOpenTelemetryMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+// InputOpenTelemetryMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 type InputOpenTelemetryMode string
 
 const (
@@ -105,7 +105,7 @@ func (e *InputOpenTelemetryCompression) UnmarshalJSON(data []byte) error {
 }
 
 type InputOpenTelemetryPq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 	Mode *InputOpenTelemetryMode `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
@@ -569,10 +569,8 @@ type InputOpenTelemetry struct {
 	// Maximum number of active connections allowed per Worker Process. Use 0 for unlimited.
 	MaxActiveCxn *float64 `default:"1000" json:"maxActiveCxn"`
 	Description  *string  `json:"description,omitempty"`
-	// Username for Basic authentication
-	Username *string `json:"username,omitempty"`
-	// Password for Basic authentication
-	Password *string `json:"password,omitempty"`
+	Username     *string  `json:"username,omitempty"`
+	Password     *string  `json:"password,omitempty"`
 	// Bearer token to include in the authorization header
 	Token *string `json:"token,omitempty"`
 	// Select or create a secret that references your credentials

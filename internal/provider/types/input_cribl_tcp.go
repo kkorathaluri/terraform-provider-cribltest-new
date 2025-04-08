@@ -13,16 +13,16 @@ type InputCriblTCP struct {
 	Environment         types.String                        `tfsdk:"environment"`
 	Host                types.String                        `tfsdk:"host"`
 	ID                  types.String                        `tfsdk:"id"`
-	MaxActiveCxn        types.Number                        `tfsdk:"max_active_cxn"`
+	MaxActiveCxn        types.Float64                       `tfsdk:"max_active_cxn"`
 	Metadata            []InputCriblTCPMetadata             `tfsdk:"metadata"`
 	Pipeline            types.String                        `tfsdk:"pipeline"`
-	Port                types.Number                        `tfsdk:"port"`
+	Port                types.Float64                       `tfsdk:"port"`
 	Pq                  *InputCriblTCPPq                    `tfsdk:"pq"`
 	PqEnabled           types.Bool                          `tfsdk:"pq_enabled"`
 	SendToRoutes        types.Bool                          `tfsdk:"send_to_routes"`
-	SocketEndingMaxWait types.Number                        `tfsdk:"socket_ending_max_wait"`
-	SocketIdleTimeout   types.Number                        `tfsdk:"socket_idle_timeout"`
-	SocketMaxLifespan   types.Number                        `tfsdk:"socket_max_lifespan"`
+	SocketEndingMaxWait types.Float64                       `tfsdk:"socket_ending_max_wait"`
+	SocketIdleTimeout   types.Float64                       `tfsdk:"socket_idle_timeout"`
+	SocketMaxLifespan   types.Float64                       `tfsdk:"socket_max_lifespan"`
 	Streamtags          []types.String                      `tfsdk:"streamtags"`
 	TLS                 *InputCriblTCPTLSSettingsServerSide `tfsdk:"tls"`
 	Type                types.String                        `tfsdk:"type"`

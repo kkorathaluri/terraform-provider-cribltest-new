@@ -5,17 +5,17 @@ package types
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type OutputGraphite struct {
-	ConnectionTimeout   types.Number              `tfsdk:"connection_timeout"`
+	ConnectionTimeout   types.Float64             `tfsdk:"connection_timeout"`
 	Description         types.String              `tfsdk:"description"`
-	DNSResolvePeriodSec types.Number              `tfsdk:"dns_resolve_period_sec"`
+	DNSResolvePeriodSec types.Float64             `tfsdk:"dns_resolve_period_sec"`
 	Environment         types.String              `tfsdk:"environment"`
-	FlushPeriodSec      types.Number              `tfsdk:"flush_period_sec"`
+	FlushPeriodSec      types.Float64             `tfsdk:"flush_period_sec"`
 	Host                types.String              `tfsdk:"host"`
 	ID                  types.String              `tfsdk:"id"`
-	Mtu                 types.Number              `tfsdk:"mtu"`
+	Mtu                 types.Float64             `tfsdk:"mtu"`
 	OnBackpressure      types.String              `tfsdk:"on_backpressure"`
 	Pipeline            types.String              `tfsdk:"pipeline"`
-	Port                types.Number              `tfsdk:"port"`
+	Port                types.Float64             `tfsdk:"port"`
 	PqCompress          types.String              `tfsdk:"pq_compress"`
 	PqControls          *OutputGraphitePqControls `tfsdk:"pq_controls"`
 	PqMaxFileSize       types.String              `tfsdk:"pq_max_file_size"`
@@ -28,5 +28,5 @@ type OutputGraphite struct {
 	SystemFields        []types.String            `tfsdk:"system_fields"`
 	ThrottleRatePerSec  types.String              `tfsdk:"throttle_rate_per_sec"`
 	Type                types.String              `tfsdk:"type"`
-	WriteTimeout        types.Number              `tfsdk:"write_timeout"`
+	WriteTimeout        types.Float64             `tfsdk:"write_timeout"`
 }

@@ -15,7 +15,7 @@ generation:
     oAuth2ClientCredentialsEnabled: true
     oAuth2PasswordEnabled: true
 terraform:
-  version: 0.7.2
+  version: 0.10.4
   additionalDataSources: []
   additionalDependencies: {}
   additionalProviderAttributes:
@@ -25,7 +25,7 @@ terraform:
   author: speakeasy
   defaultErrorName: APIError
   enableTypeDeduplication: false
-  environmentVariables: []
+  environmentVariables: 
     # - env: ORGANIZATION_ID
     #   providerAttribute: organizationId
     # - env: WORKSPACE_ID

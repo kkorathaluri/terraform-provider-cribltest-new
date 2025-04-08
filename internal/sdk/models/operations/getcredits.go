@@ -7,24 +7,17 @@ import (
 	"net/http"
 )
 
-type GetCreditsGlobals struct {
-	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
-}
-
-func (o *GetCreditsGlobals) GetOrganizationID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.OrganizationID
+var GetCreditsServerList = []string{
+	"https://api.cribl-staging.cloud",
 }
 
 type GetCreditsRequest struct {
-	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
+	OrganizationID string `pathParam:"style=simple,explode=false,name=organizationId"`
 }
 
-func (o *GetCreditsRequest) GetOrganizationID() *string {
+func (o *GetCreditsRequest) GetOrganizationID() string {
 	if o == nil {
-		return nil
+		return ""
 	}
 	return o.OrganizationID
 }

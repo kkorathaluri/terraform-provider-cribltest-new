@@ -10,18 +10,18 @@ type OutputDatadog struct {
 	AuthType                      types.String                         `tfsdk:"auth_type"`
 	BatchByTags                   types.Bool                           `tfsdk:"batch_by_tags"`
 	Compress                      types.Bool                           `tfsdk:"compress"`
-	Concurrency                   types.Number                         `tfsdk:"concurrency"`
+	Concurrency                   types.Float64                        `tfsdk:"concurrency"`
 	ContentType                   types.String                         `tfsdk:"content_type"`
 	CustomURL                     types.String                         `tfsdk:"custom_url"`
 	Description                   types.String                         `tfsdk:"description"`
 	Environment                   types.String                         `tfsdk:"environment"`
 	ExtraHTTPHeaders              []OutputDatadogExtraHTTPHeaders      `tfsdk:"extra_http_headers"`
 	FailedRequestLoggingMode      types.String                         `tfsdk:"failed_request_logging_mode"`
-	FlushPeriodSec                types.Number                         `tfsdk:"flush_period_sec"`
+	FlushPeriodSec                types.Float64                        `tfsdk:"flush_period_sec"`
 	Host                          types.String                         `tfsdk:"host"`
 	ID                            types.String                         `tfsdk:"id"`
-	MaxPayloadEvents              types.Number                         `tfsdk:"max_payload_events"`
-	MaxPayloadSizeKB              types.Number                         `tfsdk:"max_payload_size_kb"`
+	MaxPayloadEvents              types.Float64                        `tfsdk:"max_payload_events"`
+	MaxPayloadSizeKB              types.Float64                        `tfsdk:"max_payload_size_kb"`
 	Message                       types.String                         `tfsdk:"message"`
 	OnBackpressure                types.String                         `tfsdk:"on_backpressure"`
 	Pipeline                      types.String                         `tfsdk:"pipeline"`
@@ -46,8 +46,8 @@ type OutputDatadog struct {
 	Tags                          []types.String                       `tfsdk:"tags"`
 	TextSecret                    types.String                         `tfsdk:"text_secret"`
 	TimeoutRetrySettings          *OutputDatadogTimeoutRetrySettings   `tfsdk:"timeout_retry_settings"`
-	TimeoutSec                    types.Number                         `tfsdk:"timeout_sec"`
-	TotalMemoryLimitKB            types.Number                         `tfsdk:"total_memory_limit_kb"`
+	TimeoutSec                    types.Float64                        `tfsdk:"timeout_sec"`
+	TotalMemoryLimitKB            types.Float64                        `tfsdk:"total_memory_limit_kb"`
 	Type                          types.String                         `tfsdk:"type"`
 	UseRoundRobinDNS              types.Bool                           `tfsdk:"use_round_robin_dns"`
 }

@@ -7,6 +7,10 @@ import (
 	"net/http"
 )
 
+var GetAssignmentsServerList = []string{
+	"https://api.cribl-staging.cloud",
+}
+
 type GetAssignmentsResponse struct {
 	// HTTP response content type for this operation
 	ContentType string

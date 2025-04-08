@@ -5,12 +5,12 @@ package types
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type InputOffice365MgmtRetryRules struct {
-	Codes               []types.Number `tfsdk:"codes"`
-	EnableHeader        types.Bool     `tfsdk:"enable_header"`
-	Interval            types.Number   `tfsdk:"interval"`
-	Limit               types.Number   `tfsdk:"limit"`
-	Multiplier          types.Number   `tfsdk:"multiplier"`
-	RetryConnectReset   types.Bool     `tfsdk:"retry_connect_reset"`
-	RetryConnectTimeout types.Bool     `tfsdk:"retry_connect_timeout"`
-	Type                types.String   `tfsdk:"type"`
+	Codes               []types.Float64 `tfsdk:"codes"`
+	EnableHeader        types.Bool      `tfsdk:"enable_header"`
+	Interval            types.Float64   `tfsdk:"interval"`
+	Limit               types.Float64   `tfsdk:"limit"`
+	Multiplier          types.Float64   `tfsdk:"multiplier"`
+	RetryConnectReset   types.Bool      `tfsdk:"retry_connect_reset"`
+	RetryConnectTimeout types.Bool      `tfsdk:"retry_connect_timeout"`
+	Type                types.String    `tfsdk:"type"`
 }

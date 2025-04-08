@@ -124,9 +124,13 @@ type RunnableJobExecutorRunSettings struct {
 	//
 	//
 	//
+	//
+	//
 	//         if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
 	MinTaskSize *string `default:"1MB" json:"minTaskSize"`
 	// Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
+	//
+	//
 	//
 	//
 	//
@@ -448,7 +452,7 @@ type RunnableJobExecutor struct {
 	TTL *string `default:"4h" json:"ttl"`
 	// List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface.
 	RemoveFields []string `json:"removeFields,omitempty"`
-	// Resumes the ad hoc job if a failure condition causes Stream to restart during job execution
+	// Resume the ad hoc job if a failure condition causes Stream to restart during job execution
 	ResumeOnBoot *bool `default:"false" json:"resumeOnBoot"`
 	// Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
 	Environment *string `json:"environment,omitempty"`

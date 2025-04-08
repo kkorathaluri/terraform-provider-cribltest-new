@@ -53,16 +53,7 @@ func (o *CreatePacksRequestBody) GetDisabled() bool {
 
 // CreatePacksResponseBody - a list of PackInstallInfo objects
 type CreatePacksResponseBody struct {
-	// number of items present in the items array
-	CountTest *int64                   `json:"count_test,omitempty"`
-	Items     []shared.PackInstallInfo `json:"items,omitempty"`
-}
-
-func (o *CreatePacksResponseBody) GetCountTest() *int64 {
-	if o == nil {
-		return nil
-	}
-	return o.CountTest
+	Items []shared.PackInstallInfo `json:"items,omitempty"`
 }
 
 func (o *CreatePacksResponseBody) GetItems() []shared.PackInstallInfo {

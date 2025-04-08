@@ -3,11 +3,12 @@
 package provider
 
 import (
+	"context"
 	"encoding/json"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	tfTypes "github.com/speakeasy/terraform-provider-cribl-terraform/internal/provider/types"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/shared"
-	"math/big"
 )
 
 func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
@@ -105,19 +106,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency := new(float64)
 		if !r.OutputWebhook.Concurrency.IsUnknown() && !r.OutputWebhook.Concurrency.IsNull() {
-			*concurrency, _ = r.OutputWebhook.Concurrency.ValueBigFloat().Float64()
+			*concurrency = r.OutputWebhook.Concurrency.ValueFloat64()
 		} else {
 			concurrency = nil
 		}
 		maxPayloadSizeKB := new(float64)
 		if !r.OutputWebhook.MaxPayloadSizeKB.IsUnknown() && !r.OutputWebhook.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKB, _ = r.OutputWebhook.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKB = r.OutputWebhook.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKB = nil
 		}
 		maxPayloadEvents := new(float64)
 		if !r.OutputWebhook.MaxPayloadEvents.IsUnknown() && !r.OutputWebhook.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents, _ = r.OutputWebhook.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents = r.OutputWebhook.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents = nil
 		}
@@ -135,13 +136,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec := new(float64)
 		if !r.OutputWebhook.TimeoutSec.IsUnknown() && !r.OutputWebhook.TimeoutSec.IsNull() {
-			*timeoutSec, _ = r.OutputWebhook.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec = r.OutputWebhook.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec = nil
 		}
 		flushPeriodSec := new(float64)
 		if !r.OutputWebhook.FlushPeriodSec.IsUnknown() && !r.OutputWebhook.FlushPeriodSec.IsNull() {
-			*flushPeriodSec, _ = r.OutputWebhook.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec = r.OutputWebhook.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec = nil
 		}
@@ -180,23 +181,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings []shared.ResponseRetrySettings = []shared.ResponseRetrySettings{}
 		for _, responseRetrySettingsItem := range r.OutputWebhook.ResponseRetrySettings {
 			var httpStatus float64
-			httpStatus, _ = responseRetrySettingsItem.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus = responseRetrySettingsItem.HTTPStatus.ValueFloat64()
 
 			initialBackoff := new(float64)
 			if !responseRetrySettingsItem.InitialBackoff.IsUnknown() && !responseRetrySettingsItem.InitialBackoff.IsNull() {
-				*initialBackoff, _ = responseRetrySettingsItem.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff = responseRetrySettingsItem.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff = nil
 			}
 			backoffRate := new(float64)
 			if !responseRetrySettingsItem.BackoffRate.IsUnknown() && !responseRetrySettingsItem.BackoffRate.IsNull() {
-				*backoffRate, _ = responseRetrySettingsItem.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate = responseRetrySettingsItem.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate = nil
 			}
 			maxBackoff := new(float64)
 			if !responseRetrySettingsItem.MaxBackoff.IsUnknown() && !responseRetrySettingsItem.MaxBackoff.IsNull() {
-				*maxBackoff, _ = responseRetrySettingsItem.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff = responseRetrySettingsItem.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff = nil
 			}
@@ -217,19 +218,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff1 := new(float64)
 			if !r.OutputWebhook.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputWebhook.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff1, _ = r.OutputWebhook.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff1 = r.OutputWebhook.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff1 = nil
 			}
 			backoffRate1 := new(float64)
 			if !r.OutputWebhook.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputWebhook.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate1, _ = r.OutputWebhook.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate1 = r.OutputWebhook.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate1 = nil
 			}
 			maxBackoff1 := new(float64)
 			if !r.OutputWebhook.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputWebhook.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff1, _ = r.OutputWebhook.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff1 = r.OutputWebhook.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff1 = nil
 			}
@@ -328,7 +329,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		totalMemoryLimitKB := new(float64)
 		if !r.OutputWebhook.TotalMemoryLimitKB.IsUnknown() && !r.OutputWebhook.TotalMemoryLimitKB.IsNull() {
-			*totalMemoryLimitKB, _ = r.OutputWebhook.TotalMemoryLimitKB.ValueBigFloat().Float64()
+			*totalMemoryLimitKB = r.OutputWebhook.TotalMemoryLimitKB.ValueFloat64()
 		} else {
 			totalMemoryLimitKB = nil
 		}
@@ -410,9 +411,9 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		} else {
 			pqPath = nil
 		}
-		pqCompress := new(shared.Compression)
+		pqCompress := new(shared.OutputWebhookCompression)
 		if !r.OutputWebhook.PqCompress.IsUnknown() && !r.OutputWebhook.PqCompress.IsNull() {
-			*pqCompress = shared.Compression(r.OutputWebhook.PqCompress.ValueString())
+			*pqCompress = shared.OutputWebhookCompression(r.OutputWebhook.PqCompress.ValueString())
 		} else {
 			pqCompress = nil
 		}
@@ -494,7 +495,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		tokenTimeoutSecs := new(float64)
 		if !r.OutputWebhook.TokenTimeoutSecs.IsUnknown() && !r.OutputWebhook.TokenTimeoutSecs.IsNull() {
-			*tokenTimeoutSecs, _ = r.OutputWebhook.TokenTimeoutSecs.ValueBigFloat().Float64()
+			*tokenTimeoutSecs = r.OutputWebhook.TokenTimeoutSecs.ValueFloat64()
 		} else {
 			tokenTimeoutSecs = nil
 		}
@@ -543,7 +544,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 
 			weight := new(float64)
 			if !urlsItem.Weight.IsUnknown() && !urlsItem.Weight.IsNull() {
-				*weight, _ = urlsItem.Weight.ValueBigFloat().Float64()
+				*weight = urlsItem.Weight.ValueFloat64()
 			} else {
 				weight = nil
 			}
@@ -554,13 +555,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		dnsResolvePeriodSec := new(float64)
 		if !r.OutputWebhook.DNSResolvePeriodSec.IsUnknown() && !r.OutputWebhook.DNSResolvePeriodSec.IsNull() {
-			*dnsResolvePeriodSec, _ = r.OutputWebhook.DNSResolvePeriodSec.ValueBigFloat().Float64()
+			*dnsResolvePeriodSec = r.OutputWebhook.DNSResolvePeriodSec.ValueFloat64()
 		} else {
 			dnsResolvePeriodSec = nil
 		}
 		loadBalanceStatsPeriodSec := new(float64)
 		if !r.OutputWebhook.LoadBalanceStatsPeriodSec.IsUnknown() && !r.OutputWebhook.LoadBalanceStatsPeriodSec.IsNull() {
-			*loadBalanceStatsPeriodSec, _ = r.OutputWebhook.LoadBalanceStatsPeriodSec.ValueBigFloat().Float64()
+			*loadBalanceStatsPeriodSec = r.OutputWebhook.LoadBalanceStatsPeriodSec.ValueFloat64()
 		} else {
 			loadBalanceStatsPeriodSec = nil
 		}
@@ -676,19 +677,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency1 := new(float64)
 		if !r.OutputSentinel.Concurrency.IsUnknown() && !r.OutputSentinel.Concurrency.IsNull() {
-			*concurrency1, _ = r.OutputSentinel.Concurrency.ValueBigFloat().Float64()
+			*concurrency1 = r.OutputSentinel.Concurrency.ValueFloat64()
 		} else {
 			concurrency1 = nil
 		}
 		maxPayloadSizeKb1 := new(float64)
 		if !r.OutputSentinel.MaxPayloadSizeKB.IsUnknown() && !r.OutputSentinel.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb1, _ = r.OutputSentinel.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb1 = r.OutputSentinel.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb1 = nil
 		}
 		maxPayloadEvents1 := new(float64)
 		if !r.OutputSentinel.MaxPayloadEvents.IsUnknown() && !r.OutputSentinel.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents1, _ = r.OutputSentinel.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents1 = r.OutputSentinel.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents1 = nil
 		}
@@ -706,13 +707,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec1 := new(float64)
 		if !r.OutputSentinel.TimeoutSec.IsUnknown() && !r.OutputSentinel.TimeoutSec.IsNull() {
-			*timeoutSec1, _ = r.OutputSentinel.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec1 = r.OutputSentinel.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec1 = nil
 		}
 		flushPeriodSec1 := new(float64)
 		if !r.OutputSentinel.FlushPeriodSec.IsUnknown() && !r.OutputSentinel.FlushPeriodSec.IsNull() {
-			*flushPeriodSec1, _ = r.OutputSentinel.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec1 = r.OutputSentinel.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec1 = nil
 		}
@@ -751,23 +752,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings1 []shared.OutputSentinelResponseRetrySettings = []shared.OutputSentinelResponseRetrySettings{}
 		for _, responseRetrySettingsItem1 := range r.OutputSentinel.ResponseRetrySettings {
 			var httpStatus1 float64
-			httpStatus1, _ = responseRetrySettingsItem1.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus1 = responseRetrySettingsItem1.HTTPStatus.ValueFloat64()
 
 			initialBackoff2 := new(float64)
 			if !responseRetrySettingsItem1.InitialBackoff.IsUnknown() && !responseRetrySettingsItem1.InitialBackoff.IsNull() {
-				*initialBackoff2, _ = responseRetrySettingsItem1.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff2 = responseRetrySettingsItem1.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff2 = nil
 			}
 			backoffRate2 := new(float64)
 			if !responseRetrySettingsItem1.BackoffRate.IsUnknown() && !responseRetrySettingsItem1.BackoffRate.IsNull() {
-				*backoffRate2, _ = responseRetrySettingsItem1.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate2 = responseRetrySettingsItem1.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate2 = nil
 			}
 			maxBackoff2 := new(float64)
 			if !responseRetrySettingsItem1.MaxBackoff.IsUnknown() && !responseRetrySettingsItem1.MaxBackoff.IsNull() {
-				*maxBackoff2, _ = responseRetrySettingsItem1.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff2 = responseRetrySettingsItem1.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff2 = nil
 			}
@@ -788,19 +789,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff3 := new(float64)
 			if !r.OutputSentinel.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputSentinel.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff3, _ = r.OutputSentinel.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff3 = r.OutputSentinel.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff3 = nil
 			}
 			backoffRate3 := new(float64)
 			if !r.OutputSentinel.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputSentinel.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate3, _ = r.OutputSentinel.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate3 = r.OutputSentinel.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate3 = nil
 			}
 			maxBackoff3 := new(float64)
 			if !r.OutputSentinel.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputSentinel.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff3, _ = r.OutputSentinel.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff3 = r.OutputSentinel.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff3 = nil
 			}
@@ -852,7 +853,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		totalMemoryLimitKb1 := new(float64)
 		if !r.OutputSentinel.TotalMemoryLimitKB.IsUnknown() && !r.OutputSentinel.TotalMemoryLimitKB.IsNull() {
-			*totalMemoryLimitKb1, _ = r.OutputSentinel.TotalMemoryLimitKB.ValueBigFloat().Float64()
+			*totalMemoryLimitKb1 = r.OutputSentinel.TotalMemoryLimitKB.ValueFloat64()
 		} else {
 			totalMemoryLimitKb1 = nil
 		}
@@ -1172,13 +1173,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		connectionTimeout := new(float64)
 		if !r.OutputSyslog.ConnectionTimeout.IsUnknown() && !r.OutputSyslog.ConnectionTimeout.IsNull() {
-			*connectionTimeout, _ = r.OutputSyslog.ConnectionTimeout.ValueBigFloat().Float64()
+			*connectionTimeout = r.OutputSyslog.ConnectionTimeout.ValueFloat64()
 		} else {
 			connectionTimeout = nil
 		}
 		writeTimeout := new(float64)
 		if !r.OutputSyslog.WriteTimeout.IsUnknown() && !r.OutputSyslog.WriteTimeout.IsNull() {
-			*writeTimeout, _ = r.OutputSyslog.WriteTimeout.ValueBigFloat().Float64()
+			*writeTimeout = r.OutputSyslog.WriteTimeout.ValueFloat64()
 		} else {
 			writeTimeout = nil
 		}
@@ -1271,19 +1272,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		port := new(float64)
 		if !r.OutputSyslog.Port.IsUnknown() && !r.OutputSyslog.Port.IsNull() {
-			*port, _ = r.OutputSyslog.Port.ValueBigFloat().Float64()
+			*port = r.OutputSyslog.Port.ValueFloat64()
 		} else {
 			port = nil
 		}
 		maxRecordSize := new(float64)
 		if !r.OutputSyslog.MaxRecordSize.IsUnknown() && !r.OutputSyslog.MaxRecordSize.IsNull() {
-			*maxRecordSize, _ = r.OutputSyslog.MaxRecordSize.ValueBigFloat().Float64()
+			*maxRecordSize = r.OutputSyslog.MaxRecordSize.ValueFloat64()
 		} else {
 			maxRecordSize = nil
 		}
 		udpDNSResolvePeriodSec := new(float64)
 		if !r.OutputSyslog.UDPDNSResolvePeriodSec.IsUnknown() && !r.OutputSyslog.UDPDNSResolvePeriodSec.IsNull() {
-			*udpDNSResolvePeriodSec, _ = r.OutputSyslog.UDPDNSResolvePeriodSec.ValueBigFloat().Float64()
+			*udpDNSResolvePeriodSec = r.OutputSyslog.UDPDNSResolvePeriodSec.ValueFloat64()
 		} else {
 			udpDNSResolvePeriodSec = nil
 		}
@@ -1406,7 +1407,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 
 		port1 := new(float64)
 		if !r.OutputSplunk.Port.IsUnknown() && !r.OutputSplunk.Port.IsNull() {
-			*port1, _ = r.OutputSplunk.Port.ValueBigFloat().Float64()
+			*port1 = r.OutputSplunk.Port.ValueFloat64()
 		} else {
 			port1 = nil
 		}
@@ -1424,13 +1425,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		connectionTimeout1 := new(float64)
 		if !r.OutputSplunk.ConnectionTimeout.IsUnknown() && !r.OutputSplunk.ConnectionTimeout.IsNull() {
-			*connectionTimeout1, _ = r.OutputSplunk.ConnectionTimeout.ValueBigFloat().Float64()
+			*connectionTimeout1 = r.OutputSplunk.ConnectionTimeout.ValueFloat64()
 		} else {
 			connectionTimeout1 = nil
 		}
 		writeTimeout1 := new(float64)
 		if !r.OutputSplunk.WriteTimeout.IsUnknown() && !r.OutputSplunk.WriteTimeout.IsNull() {
-			*writeTimeout1, _ = r.OutputSplunk.WriteTimeout.ValueBigFloat().Float64()
+			*writeTimeout1 = r.OutputSplunk.WriteTimeout.ValueFloat64()
 		} else {
 			writeTimeout1 = nil
 		}
@@ -1553,9 +1554,15 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxFailedHealthChecks := new(float64)
 		if !r.OutputSplunk.MaxFailedHealthChecks.IsUnknown() && !r.OutputSplunk.MaxFailedHealthChecks.IsNull() {
-			*maxFailedHealthChecks, _ = r.OutputSplunk.MaxFailedHealthChecks.ValueBigFloat().Float64()
+			*maxFailedHealthChecks = r.OutputSplunk.MaxFailedHealthChecks.ValueFloat64()
 		} else {
 			maxFailedHealthChecks = nil
+		}
+		compress2 := new(shared.OutputSplunkCompression)
+		if !r.OutputSplunk.Compress.IsUnknown() && !r.OutputSplunk.Compress.IsNull() {
+			*compress2 = shared.OutputSplunkCompression(r.OutputSplunk.Compress.ValueString())
+		} else {
+			compress2 = nil
 		}
 		pqMaxFileSize3 := new(string)
 		if !r.OutputSplunk.PqMaxFileSize.IsUnknown() && !r.OutputSplunk.PqMaxFileSize.IsNull() {
@@ -1575,9 +1582,9 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		} else {
 			pqPath3 = nil
 		}
-		pqCompress3 := new(shared.OutputSplunkCompression)
+		pqCompress3 := new(shared.OutputSplunkPqCompressCompression)
 		if !r.OutputSplunk.PqCompress.IsUnknown() && !r.OutputSplunk.PqCompress.IsNull() {
-			*pqCompress3 = shared.OutputSplunkCompression(r.OutputSplunk.PqCompress.ValueString())
+			*pqCompress3 = shared.OutputSplunkPqCompressCompression(r.OutputSplunk.PqCompress.ValueString())
 		} else {
 			pqCompress3 = nil
 		}
@@ -1631,6 +1638,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			AuthType:              authType2,
 			Description:           description3,
 			MaxFailedHealthChecks: maxFailedHealthChecks,
+			Compress:              compress2,
 			PqMaxFileSize:         pqMaxFileSize3,
 			PqMaxSize:             pqMaxSize3,
 			PqPath:                pqPath3,
@@ -1678,19 +1686,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		dnsResolvePeriodSec1 := new(float64)
 		if !r.OutputSplunkLb.DNSResolvePeriodSec.IsUnknown() && !r.OutputSplunkLb.DNSResolvePeriodSec.IsNull() {
-			*dnsResolvePeriodSec1, _ = r.OutputSplunkLb.DNSResolvePeriodSec.ValueBigFloat().Float64()
+			*dnsResolvePeriodSec1 = r.OutputSplunkLb.DNSResolvePeriodSec.ValueFloat64()
 		} else {
 			dnsResolvePeriodSec1 = nil
 		}
 		loadBalanceStatsPeriodSec1 := new(float64)
 		if !r.OutputSplunkLb.LoadBalanceStatsPeriodSec.IsUnknown() && !r.OutputSplunkLb.LoadBalanceStatsPeriodSec.IsNull() {
-			*loadBalanceStatsPeriodSec1, _ = r.OutputSplunkLb.LoadBalanceStatsPeriodSec.ValueBigFloat().Float64()
+			*loadBalanceStatsPeriodSec1 = r.OutputSplunkLb.LoadBalanceStatsPeriodSec.ValueFloat64()
 		} else {
 			loadBalanceStatsPeriodSec1 = nil
 		}
 		maxConcurrentSenders := new(float64)
 		if !r.OutputSplunkLb.MaxConcurrentSenders.IsUnknown() && !r.OutputSplunkLb.MaxConcurrentSenders.IsNull() {
-			*maxConcurrentSenders, _ = r.OutputSplunkLb.MaxConcurrentSenders.ValueBigFloat().Float64()
+			*maxConcurrentSenders = r.OutputSplunkLb.MaxConcurrentSenders.ValueFloat64()
 		} else {
 			maxConcurrentSenders = nil
 		}
@@ -1708,13 +1716,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		connectionTimeout2 := new(float64)
 		if !r.OutputSplunkLb.ConnectionTimeout.IsUnknown() && !r.OutputSplunkLb.ConnectionTimeout.IsNull() {
-			*connectionTimeout2, _ = r.OutputSplunkLb.ConnectionTimeout.ValueBigFloat().Float64()
+			*connectionTimeout2 = r.OutputSplunkLb.ConnectionTimeout.ValueFloat64()
 		} else {
 			connectionTimeout2 = nil
 		}
 		writeTimeout2 := new(float64)
 		if !r.OutputSplunkLb.WriteTimeout.IsUnknown() && !r.OutputSplunkLb.WriteTimeout.IsNull() {
-			*writeTimeout2, _ = r.OutputSplunkLb.WriteTimeout.ValueBigFloat().Float64()
+			*writeTimeout2 = r.OutputSplunkLb.WriteTimeout.ValueFloat64()
 		} else {
 			writeTimeout2 = nil
 		}
@@ -1831,7 +1839,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		senderUnhealthyTimeAllowance := new(float64)
 		if !r.OutputSplunkLb.SenderUnhealthyTimeAllowance.IsUnknown() && !r.OutputSplunkLb.SenderUnhealthyTimeAllowance.IsNull() {
-			*senderUnhealthyTimeAllowance, _ = r.OutputSplunkLb.SenderUnhealthyTimeAllowance.ValueBigFloat().Float64()
+			*senderUnhealthyTimeAllowance = r.OutputSplunkLb.SenderUnhealthyTimeAllowance.ValueFloat64()
 		} else {
 			senderUnhealthyTimeAllowance = nil
 		}
@@ -1849,9 +1857,15 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxFailedHealthChecks1 := new(float64)
 		if !r.OutputSplunkLb.MaxFailedHealthChecks.IsUnknown() && !r.OutputSplunkLb.MaxFailedHealthChecks.IsNull() {
-			*maxFailedHealthChecks1, _ = r.OutputSplunkLb.MaxFailedHealthChecks.ValueBigFloat().Float64()
+			*maxFailedHealthChecks1 = r.OutputSplunkLb.MaxFailedHealthChecks.ValueFloat64()
 		} else {
 			maxFailedHealthChecks1 = nil
+		}
+		compress3 := new(shared.OutputSplunkLbCompression)
+		if !r.OutputSplunkLb.Compress.IsUnknown() && !r.OutputSplunkLb.Compress.IsNull() {
+			*compress3 = shared.OutputSplunkLbCompression(r.OutputSplunkLb.Compress.ValueString())
+		} else {
+			compress3 = nil
 		}
 		var indexerDiscoveryConfigs *shared.IndexerDiscoveryConfigs
 		if r.OutputSplunkLb.IndexerDiscoveryConfigs != nil {
@@ -1866,7 +1880,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 
 			refreshIntervalSec := new(float64)
 			if !r.OutputSplunkLb.IndexerDiscoveryConfigs.RefreshIntervalSec.IsUnknown() && !r.OutputSplunkLb.IndexerDiscoveryConfigs.RefreshIntervalSec.IsNull() {
-				*refreshIntervalSec, _ = r.OutputSplunkLb.IndexerDiscoveryConfigs.RefreshIntervalSec.ValueBigFloat().Float64()
+				*refreshIntervalSec = r.OutputSplunkLb.IndexerDiscoveryConfigs.RefreshIntervalSec.ValueFloat64()
 			} else {
 				refreshIntervalSec = nil
 			}
@@ -1930,7 +1944,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 
 			port2 := new(float64)
 			if !hostsItem.Port.IsUnknown() && !hostsItem.Port.IsNull() {
-				*port2, _ = hostsItem.Port.ValueBigFloat().Float64()
+				*port2 = hostsItem.Port.ValueFloat64()
 			} else {
 				port2 = nil
 			}
@@ -1948,7 +1962,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			weight1 := new(float64)
 			if !hostsItem.Weight.IsUnknown() && !hostsItem.Weight.IsNull() {
-				*weight1, _ = hostsItem.Weight.ValueBigFloat().Float64()
+				*weight1 = hostsItem.Weight.ValueFloat64()
 			} else {
 				weight1 = nil
 			}
@@ -1978,9 +1992,9 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		} else {
 			pqPath4 = nil
 		}
-		pqCompress4 := new(shared.OutputSplunkLbCompression)
+		pqCompress4 := new(shared.OutputSplunkLbPqCompressCompression)
 		if !r.OutputSplunkLb.PqCompress.IsUnknown() && !r.OutputSplunkLb.PqCompress.IsNull() {
-			*pqCompress4 = shared.OutputSplunkLbCompression(r.OutputSplunkLb.PqCompress.ValueString())
+			*pqCompress4 = shared.OutputSplunkLbPqCompressCompression(r.OutputSplunkLb.PqCompress.ValueString())
 		} else {
 			pqCompress4 = nil
 		}
@@ -2037,6 +2051,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			AuthType:                     authType3,
 			Description:                  description4,
 			MaxFailedHealthChecks:        maxFailedHealthChecks1,
+			Compress:                     compress3,
 			IndexerDiscoveryConfigs:      indexerDiscoveryConfigs,
 			ExcludeSelf:                  excludeSelf1,
 			Hosts:                        hosts,
@@ -2102,27 +2117,27 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency2 := new(float64)
 		if !r.OutputSplunkHec.Concurrency.IsUnknown() && !r.OutputSplunkHec.Concurrency.IsNull() {
-			*concurrency2, _ = r.OutputSplunkHec.Concurrency.ValueBigFloat().Float64()
+			*concurrency2 = r.OutputSplunkHec.Concurrency.ValueFloat64()
 		} else {
 			concurrency2 = nil
 		}
 		maxPayloadSizeKb2 := new(float64)
 		if !r.OutputSplunkHec.MaxPayloadSizeKB.IsUnknown() && !r.OutputSplunkHec.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb2, _ = r.OutputSplunkHec.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb2 = r.OutputSplunkHec.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb2 = nil
 		}
 		maxPayloadEvents2 := new(float64)
 		if !r.OutputSplunkHec.MaxPayloadEvents.IsUnknown() && !r.OutputSplunkHec.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents2, _ = r.OutputSplunkHec.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents2 = r.OutputSplunkHec.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents2 = nil
 		}
-		compress2 := new(bool)
+		compress4 := new(bool)
 		if !r.OutputSplunkHec.Compress.IsUnknown() && !r.OutputSplunkHec.Compress.IsNull() {
-			*compress2 = r.OutputSplunkHec.Compress.ValueBool()
+			*compress4 = r.OutputSplunkHec.Compress.ValueBool()
 		} else {
-			compress2 = nil
+			compress4 = nil
 		}
 		rejectUnauthorized6 := new(bool)
 		if !r.OutputSplunkHec.RejectUnauthorized.IsUnknown() && !r.OutputSplunkHec.RejectUnauthorized.IsNull() {
@@ -2132,13 +2147,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec2 := new(float64)
 		if !r.OutputSplunkHec.TimeoutSec.IsUnknown() && !r.OutputSplunkHec.TimeoutSec.IsNull() {
-			*timeoutSec2, _ = r.OutputSplunkHec.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec2 = r.OutputSplunkHec.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec2 = nil
 		}
 		flushPeriodSec2 := new(float64)
 		if !r.OutputSplunkHec.FlushPeriodSec.IsUnknown() && !r.OutputSplunkHec.FlushPeriodSec.IsNull() {
-			*flushPeriodSec2, _ = r.OutputSplunkHec.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec2 = r.OutputSplunkHec.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec2 = nil
 		}
@@ -2183,23 +2198,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings2 []shared.OutputSplunkHecResponseRetrySettings = []shared.OutputSplunkHecResponseRetrySettings{}
 		for _, responseRetrySettingsItem2 := range r.OutputSplunkHec.ResponseRetrySettings {
 			var httpStatus2 float64
-			httpStatus2, _ = responseRetrySettingsItem2.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus2 = responseRetrySettingsItem2.HTTPStatus.ValueFloat64()
 
 			initialBackoff4 := new(float64)
 			if !responseRetrySettingsItem2.InitialBackoff.IsUnknown() && !responseRetrySettingsItem2.InitialBackoff.IsNull() {
-				*initialBackoff4, _ = responseRetrySettingsItem2.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff4 = responseRetrySettingsItem2.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff4 = nil
 			}
 			backoffRate4 := new(float64)
 			if !responseRetrySettingsItem2.BackoffRate.IsUnknown() && !responseRetrySettingsItem2.BackoffRate.IsNull() {
-				*backoffRate4, _ = responseRetrySettingsItem2.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate4 = responseRetrySettingsItem2.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate4 = nil
 			}
 			maxBackoff4 := new(float64)
 			if !responseRetrySettingsItem2.MaxBackoff.IsUnknown() && !responseRetrySettingsItem2.MaxBackoff.IsNull() {
-				*maxBackoff4, _ = responseRetrySettingsItem2.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff4 = responseRetrySettingsItem2.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff4 = nil
 			}
@@ -2220,19 +2235,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff5 := new(float64)
 			if !r.OutputSplunkHec.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputSplunkHec.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff5, _ = r.OutputSplunkHec.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff5 = r.OutputSplunkHec.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff5 = nil
 			}
 			backoffRate5 := new(float64)
 			if !r.OutputSplunkHec.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputSplunkHec.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate5, _ = r.OutputSplunkHec.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate5 = r.OutputSplunkHec.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate5 = nil
 			}
 			maxBackoff5 := new(float64)
 			if !r.OutputSplunkHec.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputSplunkHec.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff5, _ = r.OutputSplunkHec.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff5 = r.OutputSplunkHec.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff5 = nil
 			}
@@ -2289,7 +2304,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			weight2 := new(float64)
 			if !urlsItem1.Weight.IsUnknown() && !urlsItem1.Weight.IsNull() {
-				*weight2, _ = urlsItem1.Weight.ValueBigFloat().Float64()
+				*weight2 = urlsItem1.Weight.ValueFloat64()
 			} else {
 				weight2 = nil
 			}
@@ -2300,13 +2315,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		dnsResolvePeriodSec2 := new(float64)
 		if !r.OutputSplunkHec.DNSResolvePeriodSec.IsUnknown() && !r.OutputSplunkHec.DNSResolvePeriodSec.IsNull() {
-			*dnsResolvePeriodSec2, _ = r.OutputSplunkHec.DNSResolvePeriodSec.ValueBigFloat().Float64()
+			*dnsResolvePeriodSec2 = r.OutputSplunkHec.DNSResolvePeriodSec.ValueFloat64()
 		} else {
 			dnsResolvePeriodSec2 = nil
 		}
 		loadBalanceStatsPeriodSec2 := new(float64)
 		if !r.OutputSplunkHec.LoadBalanceStatsPeriodSec.IsUnknown() && !r.OutputSplunkHec.LoadBalanceStatsPeriodSec.IsNull() {
-			*loadBalanceStatsPeriodSec2, _ = r.OutputSplunkHec.LoadBalanceStatsPeriodSec.ValueBigFloat().Float64()
+			*loadBalanceStatsPeriodSec2 = r.OutputSplunkHec.LoadBalanceStatsPeriodSec.ValueFloat64()
 		} else {
 			loadBalanceStatsPeriodSec2 = nil
 		}
@@ -2375,7 +2390,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Concurrency:                   concurrency2,
 			MaxPayloadSizeKB:              maxPayloadSizeKb2,
 			MaxPayloadEvents:              maxPayloadEvents2,
-			Compress:                      compress2,
+			Compress:                      compress4,
 			RejectUnauthorized:            rejectUnauthorized6,
 			TimeoutSec:                    timeoutSec2,
 			FlushPeriodSec:                flushPeriodSec2,
@@ -2538,19 +2553,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		connectionTimeout3 := new(float64)
 		if !r.OutputTcpjson.ConnectionTimeout.IsUnknown() && !r.OutputTcpjson.ConnectionTimeout.IsNull() {
-			*connectionTimeout3, _ = r.OutputTcpjson.ConnectionTimeout.ValueBigFloat().Float64()
+			*connectionTimeout3 = r.OutputTcpjson.ConnectionTimeout.ValueFloat64()
 		} else {
 			connectionTimeout3 = nil
 		}
 		writeTimeout3 := new(float64)
 		if !r.OutputTcpjson.WriteTimeout.IsUnknown() && !r.OutputTcpjson.WriteTimeout.IsNull() {
-			*writeTimeout3, _ = r.OutputTcpjson.WriteTimeout.ValueBigFloat().Float64()
+			*writeTimeout3 = r.OutputTcpjson.WriteTimeout.ValueFloat64()
 		} else {
 			writeTimeout3 = nil
 		}
 		tokenTTLMinutes := new(float64)
 		if !r.OutputTcpjson.TokenTTLMinutes.IsUnknown() && !r.OutputTcpjson.TokenTTLMinutes.IsNull() {
-			*tokenTTLMinutes, _ = r.OutputTcpjson.TokenTTLMinutes.ValueBigFloat().Float64()
+			*tokenTTLMinutes = r.OutputTcpjson.TokenTTLMinutes.ValueFloat64()
 		} else {
 			tokenTTLMinutes = nil
 		}
@@ -2586,7 +2601,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		port3 := new(float64)
 		if !r.OutputTcpjson.Port.IsUnknown() && !r.OutputTcpjson.Port.IsNull() {
-			*port3, _ = r.OutputTcpjson.Port.ValueBigFloat().Float64()
+			*port3 = r.OutputTcpjson.Port.ValueFloat64()
 		} else {
 			port3 = nil
 		}
@@ -2602,7 +2617,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			host4 = hostsItem1.Host.ValueString()
 
 			var port4 float64
-			port4, _ = hostsItem1.Port.ValueBigFloat().Float64()
+			port4 = hostsItem1.Port.ValueFloat64()
 
 			tls6 := new(shared.OutputTcpjsonTLS)
 			if !hostsItem1.TLS.IsUnknown() && !hostsItem1.TLS.IsNull() {
@@ -2618,7 +2633,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			weight3 := new(float64)
 			if !hostsItem1.Weight.IsUnknown() && !hostsItem1.Weight.IsNull() {
-				*weight3, _ = hostsItem1.Weight.ValueBigFloat().Float64()
+				*weight3 = hostsItem1.Weight.ValueFloat64()
 			} else {
 				weight3 = nil
 			}
@@ -2632,19 +2647,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		dnsResolvePeriodSec3 := new(float64)
 		if !r.OutputTcpjson.DNSResolvePeriodSec.IsUnknown() && !r.OutputTcpjson.DNSResolvePeriodSec.IsNull() {
-			*dnsResolvePeriodSec3, _ = r.OutputTcpjson.DNSResolvePeriodSec.ValueBigFloat().Float64()
+			*dnsResolvePeriodSec3 = r.OutputTcpjson.DNSResolvePeriodSec.ValueFloat64()
 		} else {
 			dnsResolvePeriodSec3 = nil
 		}
 		loadBalanceStatsPeriodSec3 := new(float64)
 		if !r.OutputTcpjson.LoadBalanceStatsPeriodSec.IsUnknown() && !r.OutputTcpjson.LoadBalanceStatsPeriodSec.IsNull() {
-			*loadBalanceStatsPeriodSec3, _ = r.OutputTcpjson.LoadBalanceStatsPeriodSec.ValueBigFloat().Float64()
+			*loadBalanceStatsPeriodSec3 = r.OutputTcpjson.LoadBalanceStatsPeriodSec.ValueFloat64()
 		} else {
 			loadBalanceStatsPeriodSec3 = nil
 		}
 		maxConcurrentSenders1 := new(float64)
 		if !r.OutputTcpjson.MaxConcurrentSenders.IsUnknown() && !r.OutputTcpjson.MaxConcurrentSenders.IsNull() {
-			*maxConcurrentSenders1, _ = r.OutputTcpjson.MaxConcurrentSenders.ValueBigFloat().Float64()
+			*maxConcurrentSenders1 = r.OutputTcpjson.MaxConcurrentSenders.ValueFloat64()
 		} else {
 			maxConcurrentSenders1 = nil
 		}
@@ -2785,27 +2800,27 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency3 := new(float64)
 		if !r.OutputWavefront.Concurrency.IsUnknown() && !r.OutputWavefront.Concurrency.IsNull() {
-			*concurrency3, _ = r.OutputWavefront.Concurrency.ValueBigFloat().Float64()
+			*concurrency3 = r.OutputWavefront.Concurrency.ValueFloat64()
 		} else {
 			concurrency3 = nil
 		}
 		maxPayloadSizeKb3 := new(float64)
 		if !r.OutputWavefront.MaxPayloadSizeKB.IsUnknown() && !r.OutputWavefront.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb3, _ = r.OutputWavefront.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb3 = r.OutputWavefront.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb3 = nil
 		}
 		maxPayloadEvents3 := new(float64)
 		if !r.OutputWavefront.MaxPayloadEvents.IsUnknown() && !r.OutputWavefront.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents3, _ = r.OutputWavefront.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents3 = r.OutputWavefront.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents3 = nil
 		}
-		compress3 := new(bool)
+		compress5 := new(bool)
 		if !r.OutputWavefront.Compress.IsUnknown() && !r.OutputWavefront.Compress.IsNull() {
-			*compress3 = r.OutputWavefront.Compress.ValueBool()
+			*compress5 = r.OutputWavefront.Compress.ValueBool()
 		} else {
-			compress3 = nil
+			compress5 = nil
 		}
 		rejectUnauthorized8 := new(bool)
 		if !r.OutputWavefront.RejectUnauthorized.IsUnknown() && !r.OutputWavefront.RejectUnauthorized.IsNull() {
@@ -2815,13 +2830,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec3 := new(float64)
 		if !r.OutputWavefront.TimeoutSec.IsUnknown() && !r.OutputWavefront.TimeoutSec.IsNull() {
-			*timeoutSec3, _ = r.OutputWavefront.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec3 = r.OutputWavefront.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec3 = nil
 		}
 		flushPeriodSec3 := new(float64)
 		if !r.OutputWavefront.FlushPeriodSec.IsUnknown() && !r.OutputWavefront.FlushPeriodSec.IsNull() {
-			*flushPeriodSec3, _ = r.OutputWavefront.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec3 = r.OutputWavefront.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec3 = nil
 		}
@@ -2860,23 +2875,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings3 []shared.OutputWavefrontResponseRetrySettings = []shared.OutputWavefrontResponseRetrySettings{}
 		for _, responseRetrySettingsItem3 := range r.OutputWavefront.ResponseRetrySettings {
 			var httpStatus3 float64
-			httpStatus3, _ = responseRetrySettingsItem3.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus3 = responseRetrySettingsItem3.HTTPStatus.ValueFloat64()
 
 			initialBackoff6 := new(float64)
 			if !responseRetrySettingsItem3.InitialBackoff.IsUnknown() && !responseRetrySettingsItem3.InitialBackoff.IsNull() {
-				*initialBackoff6, _ = responseRetrySettingsItem3.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff6 = responseRetrySettingsItem3.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff6 = nil
 			}
 			backoffRate6 := new(float64)
 			if !responseRetrySettingsItem3.BackoffRate.IsUnknown() && !responseRetrySettingsItem3.BackoffRate.IsNull() {
-				*backoffRate6, _ = responseRetrySettingsItem3.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate6 = responseRetrySettingsItem3.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate6 = nil
 			}
 			maxBackoff6 := new(float64)
 			if !responseRetrySettingsItem3.MaxBackoff.IsUnknown() && !responseRetrySettingsItem3.MaxBackoff.IsNull() {
-				*maxBackoff6, _ = responseRetrySettingsItem3.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff6 = responseRetrySettingsItem3.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff6 = nil
 			}
@@ -2897,19 +2912,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff7 := new(float64)
 			if !r.OutputWavefront.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputWavefront.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff7, _ = r.OutputWavefront.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff7 = r.OutputWavefront.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff7 = nil
 			}
 			backoffRate7 := new(float64)
 			if !r.OutputWavefront.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputWavefront.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate7, _ = r.OutputWavefront.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate7 = r.OutputWavefront.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate7 = nil
 			}
 			maxBackoff7 := new(float64)
 			if !r.OutputWavefront.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputWavefront.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff7, _ = r.OutputWavefront.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff7 = r.OutputWavefront.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff7 = nil
 			}
@@ -3002,7 +3017,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Concurrency:                   concurrency3,
 			MaxPayloadSizeKB:              maxPayloadSizeKb3,
 			MaxPayloadEvents:              maxPayloadEvents3,
-			Compress:                      compress3,
+			Compress:                      compress5,
 			RejectUnauthorized:            rejectUnauthorized8,
 			TimeoutSec:                    timeoutSec3,
 			FlushPeriodSec:                flushPeriodSec3,
@@ -3074,27 +3089,27 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency4 := new(float64)
 		if !r.OutputSignalfx.Concurrency.IsUnknown() && !r.OutputSignalfx.Concurrency.IsNull() {
-			*concurrency4, _ = r.OutputSignalfx.Concurrency.ValueBigFloat().Float64()
+			*concurrency4 = r.OutputSignalfx.Concurrency.ValueFloat64()
 		} else {
 			concurrency4 = nil
 		}
 		maxPayloadSizeKb4 := new(float64)
 		if !r.OutputSignalfx.MaxPayloadSizeKB.IsUnknown() && !r.OutputSignalfx.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb4, _ = r.OutputSignalfx.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb4 = r.OutputSignalfx.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb4 = nil
 		}
 		maxPayloadEvents4 := new(float64)
 		if !r.OutputSignalfx.MaxPayloadEvents.IsUnknown() && !r.OutputSignalfx.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents4, _ = r.OutputSignalfx.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents4 = r.OutputSignalfx.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents4 = nil
 		}
-		compress4 := new(bool)
+		compress6 := new(bool)
 		if !r.OutputSignalfx.Compress.IsUnknown() && !r.OutputSignalfx.Compress.IsNull() {
-			*compress4 = r.OutputSignalfx.Compress.ValueBool()
+			*compress6 = r.OutputSignalfx.Compress.ValueBool()
 		} else {
-			compress4 = nil
+			compress6 = nil
 		}
 		rejectUnauthorized9 := new(bool)
 		if !r.OutputSignalfx.RejectUnauthorized.IsUnknown() && !r.OutputSignalfx.RejectUnauthorized.IsNull() {
@@ -3104,13 +3119,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec4 := new(float64)
 		if !r.OutputSignalfx.TimeoutSec.IsUnknown() && !r.OutputSignalfx.TimeoutSec.IsNull() {
-			*timeoutSec4, _ = r.OutputSignalfx.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec4 = r.OutputSignalfx.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec4 = nil
 		}
 		flushPeriodSec4 := new(float64)
 		if !r.OutputSignalfx.FlushPeriodSec.IsUnknown() && !r.OutputSignalfx.FlushPeriodSec.IsNull() {
-			*flushPeriodSec4, _ = r.OutputSignalfx.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec4 = r.OutputSignalfx.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec4 = nil
 		}
@@ -3149,23 +3164,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings4 []shared.OutputSignalfxResponseRetrySettings = []shared.OutputSignalfxResponseRetrySettings{}
 		for _, responseRetrySettingsItem4 := range r.OutputSignalfx.ResponseRetrySettings {
 			var httpStatus4 float64
-			httpStatus4, _ = responseRetrySettingsItem4.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus4 = responseRetrySettingsItem4.HTTPStatus.ValueFloat64()
 
 			initialBackoff8 := new(float64)
 			if !responseRetrySettingsItem4.InitialBackoff.IsUnknown() && !responseRetrySettingsItem4.InitialBackoff.IsNull() {
-				*initialBackoff8, _ = responseRetrySettingsItem4.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff8 = responseRetrySettingsItem4.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff8 = nil
 			}
 			backoffRate8 := new(float64)
 			if !responseRetrySettingsItem4.BackoffRate.IsUnknown() && !responseRetrySettingsItem4.BackoffRate.IsNull() {
-				*backoffRate8, _ = responseRetrySettingsItem4.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate8 = responseRetrySettingsItem4.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate8 = nil
 			}
 			maxBackoff8 := new(float64)
 			if !responseRetrySettingsItem4.MaxBackoff.IsUnknown() && !responseRetrySettingsItem4.MaxBackoff.IsNull() {
-				*maxBackoff8, _ = responseRetrySettingsItem4.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff8 = responseRetrySettingsItem4.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff8 = nil
 			}
@@ -3186,19 +3201,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff9 := new(float64)
 			if !r.OutputSignalfx.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputSignalfx.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff9, _ = r.OutputSignalfx.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff9 = r.OutputSignalfx.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff9 = nil
 			}
 			backoffRate9 := new(float64)
 			if !r.OutputSignalfx.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputSignalfx.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate9, _ = r.OutputSignalfx.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate9 = r.OutputSignalfx.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate9 = nil
 			}
 			maxBackoff9 := new(float64)
 			if !r.OutputSignalfx.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputSignalfx.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff9, _ = r.OutputSignalfx.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff9 = r.OutputSignalfx.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff9 = nil
 			}
@@ -3291,7 +3306,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Concurrency:                   concurrency4,
 			MaxPayloadSizeKB:              maxPayloadSizeKb4,
 			MaxPayloadEvents:              maxPayloadEvents4,
-			Compress:                      compress4,
+			Compress:                      compress6,
 			RejectUnauthorized:            rejectUnauthorized9,
 			TimeoutSec:                    timeoutSec4,
 			FlushPeriodSec:                flushPeriodSec4,
@@ -3396,25 +3411,25 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxFileSizeMB := new(float64)
 		if !r.OutputFilesystem.MaxFileSizeMB.IsUnknown() && !r.OutputFilesystem.MaxFileSizeMB.IsNull() {
-			*maxFileSizeMB, _ = r.OutputFilesystem.MaxFileSizeMB.ValueBigFloat().Float64()
+			*maxFileSizeMB = r.OutputFilesystem.MaxFileSizeMB.ValueFloat64()
 		} else {
 			maxFileSizeMB = nil
 		}
 		maxFileOpenTimeSec := new(float64)
 		if !r.OutputFilesystem.MaxFileOpenTimeSec.IsUnknown() && !r.OutputFilesystem.MaxFileOpenTimeSec.IsNull() {
-			*maxFileOpenTimeSec, _ = r.OutputFilesystem.MaxFileOpenTimeSec.ValueBigFloat().Float64()
+			*maxFileOpenTimeSec = r.OutputFilesystem.MaxFileOpenTimeSec.ValueFloat64()
 		} else {
 			maxFileOpenTimeSec = nil
 		}
 		maxFileIdleTimeSec := new(float64)
 		if !r.OutputFilesystem.MaxFileIdleTimeSec.IsUnknown() && !r.OutputFilesystem.MaxFileIdleTimeSec.IsNull() {
-			*maxFileIdleTimeSec, _ = r.OutputFilesystem.MaxFileIdleTimeSec.ValueBigFloat().Float64()
+			*maxFileIdleTimeSec = r.OutputFilesystem.MaxFileIdleTimeSec.ValueFloat64()
 		} else {
 			maxFileIdleTimeSec = nil
 		}
 		maxOpenFiles := new(float64)
 		if !r.OutputFilesystem.MaxOpenFiles.IsUnknown() && !r.OutputFilesystem.MaxOpenFiles.IsNull() {
-			*maxOpenFiles, _ = r.OutputFilesystem.MaxOpenFiles.ValueBigFloat().Float64()
+			*maxOpenFiles = r.OutputFilesystem.MaxOpenFiles.ValueFloat64()
 		} else {
 			maxOpenFiles = nil
 		}
@@ -3426,7 +3441,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		writeHighWaterMark := new(float64)
 		if !r.OutputFilesystem.WriteHighWaterMark.IsUnknown() && !r.OutputFilesystem.WriteHighWaterMark.IsNull() {
-			*writeHighWaterMark, _ = r.OutputFilesystem.WriteHighWaterMark.ValueBigFloat().Float64()
+			*writeHighWaterMark = r.OutputFilesystem.WriteHighWaterMark.ValueFloat64()
 		} else {
 			writeHighWaterMark = nil
 		}
@@ -3454,11 +3469,11 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		} else {
 			description9 = nil
 		}
-		compress5 := new(shared.Compress)
+		compress7 := new(shared.Compress)
 		if !r.OutputFilesystem.Compress.IsUnknown() && !r.OutputFilesystem.Compress.IsNull() {
-			*compress5 = shared.Compress(r.OutputFilesystem.Compress.ValueString())
+			*compress7 = shared.Compress(r.OutputFilesystem.Compress.ValueString())
 		} else {
-			compress5 = nil
+			compress7 = nil
 		}
 		compressionLevel := new(shared.CompressionLevel)
 		if !r.OutputFilesystem.CompressionLevel.IsUnknown() && !r.OutputFilesystem.CompressionLevel.IsNull() {
@@ -3486,7 +3501,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		parquetRowGroupLength := new(float64)
 		if !r.OutputFilesystem.ParquetRowGroupLength.IsUnknown() && !r.OutputFilesystem.ParquetRowGroupLength.IsNull() {
-			*parquetRowGroupLength, _ = r.OutputFilesystem.ParquetRowGroupLength.ValueBigFloat().Float64()
+			*parquetRowGroupLength = r.OutputFilesystem.ParquetRowGroupLength.ValueFloat64()
 		} else {
 			parquetRowGroupLength = nil
 		}
@@ -3538,7 +3553,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		emptyDirCleanupSec := new(float64)
 		if !r.OutputFilesystem.EmptyDirCleanupSec.IsUnknown() && !r.OutputFilesystem.EmptyDirCleanupSec.IsNull() {
-			*emptyDirCleanupSec, _ = r.OutputFilesystem.EmptyDirCleanupSec.ValueBigFloat().Float64()
+			*emptyDirCleanupSec = r.OutputFilesystem.EmptyDirCleanupSec.ValueFloat64()
 		} else {
 			emptyDirCleanupSec = nil
 		}
@@ -3550,7 +3565,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxRetryNum := new(float64)
 		if !r.OutputFilesystem.MaxRetryNum.IsUnknown() && !r.OutputFilesystem.MaxRetryNum.IsNull() {
-			*maxRetryNum, _ = r.OutputFilesystem.MaxRetryNum.ValueBigFloat().Float64()
+			*maxRetryNum = r.OutputFilesystem.MaxRetryNum.ValueFloat64()
 		} else {
 			maxRetryNum = nil
 		}
@@ -3579,7 +3594,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			DeadletterEnabled:      deadletterEnabled,
 			OnDiskFullBackpressure: onDiskFullBackpressure,
 			Description:            description9,
-			Compress:               compress5,
+			Compress:               compress7,
 			CompressionLevel:       compressionLevel,
 			AutomaticSchema:        automaticSchema,
 			ParquetVersion:         parquetVersion,
@@ -3700,7 +3715,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		durationSeconds := new(float64)
 		if !r.OutputS3.DurationSeconds.IsUnknown() && !r.OutputS3.DurationSeconds.IsNull() {
-			*durationSeconds, _ = r.OutputS3.DurationSeconds.ValueBigFloat().Float64()
+			*durationSeconds = r.OutputS3.DurationSeconds.ValueFloat64()
 		} else {
 			durationSeconds = nil
 		}
@@ -3778,13 +3793,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxFileSizeMb1 := new(float64)
 		if !r.OutputS3.MaxFileSizeMB.IsUnknown() && !r.OutputS3.MaxFileSizeMB.IsNull() {
-			*maxFileSizeMb1, _ = r.OutputS3.MaxFileSizeMB.ValueBigFloat().Float64()
+			*maxFileSizeMb1 = r.OutputS3.MaxFileSizeMB.ValueFloat64()
 		} else {
 			maxFileSizeMb1 = nil
 		}
 		maxOpenFiles1 := new(float64)
 		if !r.OutputS3.MaxOpenFiles.IsUnknown() && !r.OutputS3.MaxOpenFiles.IsNull() {
-			*maxOpenFiles1, _ = r.OutputS3.MaxOpenFiles.ValueBigFloat().Float64()
+			*maxOpenFiles1 = r.OutputS3.MaxOpenFiles.ValueFloat64()
 		} else {
 			maxOpenFiles1 = nil
 		}
@@ -3796,7 +3811,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		writeHighWaterMark1 := new(float64)
 		if !r.OutputS3.WriteHighWaterMark.IsUnknown() && !r.OutputS3.WriteHighWaterMark.IsNull() {
-			*writeHighWaterMark1, _ = r.OutputS3.WriteHighWaterMark.ValueBigFloat().Float64()
+			*writeHighWaterMark1 = r.OutputS3.WriteHighWaterMark.ValueFloat64()
 		} else {
 			writeHighWaterMark1 = nil
 		}
@@ -3820,19 +3835,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxFileOpenTimeSec1 := new(float64)
 		if !r.OutputS3.MaxFileOpenTimeSec.IsUnknown() && !r.OutputS3.MaxFileOpenTimeSec.IsNull() {
-			*maxFileOpenTimeSec1, _ = r.OutputS3.MaxFileOpenTimeSec.ValueBigFloat().Float64()
+			*maxFileOpenTimeSec1 = r.OutputS3.MaxFileOpenTimeSec.ValueFloat64()
 		} else {
 			maxFileOpenTimeSec1 = nil
 		}
 		maxFileIdleTimeSec1 := new(float64)
 		if !r.OutputS3.MaxFileIdleTimeSec.IsUnknown() && !r.OutputS3.MaxFileIdleTimeSec.IsNull() {
-			*maxFileIdleTimeSec1, _ = r.OutputS3.MaxFileIdleTimeSec.ValueBigFloat().Float64()
+			*maxFileIdleTimeSec1 = r.OutputS3.MaxFileIdleTimeSec.ValueFloat64()
 		} else {
 			maxFileIdleTimeSec1 = nil
 		}
 		maxConcurrentFileParts := new(float64)
 		if !r.OutputS3.MaxConcurrentFileParts.IsUnknown() && !r.OutputS3.MaxConcurrentFileParts.IsNull() {
-			*maxConcurrentFileParts, _ = r.OutputS3.MaxConcurrentFileParts.ValueBigFloat().Float64()
+			*maxConcurrentFileParts = r.OutputS3.MaxConcurrentFileParts.ValueFloat64()
 		} else {
 			maxConcurrentFileParts = nil
 		}
@@ -3844,7 +3859,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxClosingFilesToBackpressure := new(float64)
 		if !r.OutputS3.MaxClosingFilesToBackpressure.IsUnknown() && !r.OutputS3.MaxClosingFilesToBackpressure.IsNull() {
-			*maxClosingFilesToBackpressure, _ = r.OutputS3.MaxClosingFilesToBackpressure.ValueBigFloat().Float64()
+			*maxClosingFilesToBackpressure = r.OutputS3.MaxClosingFilesToBackpressure.ValueFloat64()
 		} else {
 			maxClosingFilesToBackpressure = nil
 		}
@@ -3866,11 +3881,11 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		} else {
 			awsSecret = nil
 		}
-		compress6 := new(shared.OutputS3Compress)
+		compress8 := new(shared.OutputS3Compress)
 		if !r.OutputS3.Compress.IsUnknown() && !r.OutputS3.Compress.IsNull() {
-			*compress6 = shared.OutputS3Compress(r.OutputS3.Compress.ValueString())
+			*compress8 = shared.OutputS3Compress(r.OutputS3.Compress.ValueString())
 		} else {
-			compress6 = nil
+			compress8 = nil
 		}
 		compressionLevel1 := new(shared.OutputS3CompressionLevel)
 		if !r.OutputS3.CompressionLevel.IsUnknown() && !r.OutputS3.CompressionLevel.IsNull() {
@@ -3898,7 +3913,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		parquetRowGroupLength1 := new(float64)
 		if !r.OutputS3.ParquetRowGroupLength.IsUnknown() && !r.OutputS3.ParquetRowGroupLength.IsNull() {
-			*parquetRowGroupLength1, _ = r.OutputS3.ParquetRowGroupLength.ValueBigFloat().Float64()
+			*parquetRowGroupLength1 = r.OutputS3.ParquetRowGroupLength.ValueFloat64()
 		} else {
 			parquetRowGroupLength1 = nil
 		}
@@ -3950,7 +3965,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		emptyDirCleanupSec1 := new(float64)
 		if !r.OutputS3.EmptyDirCleanupSec.IsUnknown() && !r.OutputS3.EmptyDirCleanupSec.IsNull() {
-			*emptyDirCleanupSec1, _ = r.OutputS3.EmptyDirCleanupSec.ValueBigFloat().Float64()
+			*emptyDirCleanupSec1 = r.OutputS3.EmptyDirCleanupSec.ValueFloat64()
 		} else {
 			emptyDirCleanupSec1 = nil
 		}
@@ -3962,7 +3977,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxRetryNum1 := new(float64)
 		if !r.OutputS3.MaxRetryNum.IsUnknown() && !r.OutputS3.MaxRetryNum.IsNull() {
-			*maxRetryNum1, _ = r.OutputS3.MaxRetryNum.ValueBigFloat().Float64()
+			*maxRetryNum1 = r.OutputS3.MaxRetryNum.ValueFloat64()
 		} else {
 			maxRetryNum1 = nil
 		}
@@ -4012,7 +4027,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Description:                   description10,
 			AwsAPIKey:                     awsAPIKey,
 			AwsSecret:                     awsSecret,
-			Compress:                      compress6,
+			Compress:                      compress8,
 			CompressionLevel:              compressionLevel1,
 			AutomaticSchema:               automaticSchema1,
 			ParquetVersion:                parquetVersion1,
@@ -4097,7 +4112,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxConcurrentFileParts1 := new(float64)
 		if !r.OutputAzureBlob.MaxConcurrentFileParts.IsUnknown() && !r.OutputAzureBlob.MaxConcurrentFileParts.IsNull() {
-			*maxConcurrentFileParts1, _ = r.OutputAzureBlob.MaxConcurrentFileParts.ValueBigFloat().Float64()
+			*maxConcurrentFileParts1 = r.OutputAzureBlob.MaxConcurrentFileParts.ValueFloat64()
 		} else {
 			maxConcurrentFileParts1 = nil
 		}
@@ -4133,25 +4148,25 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxFileSizeMb2 := new(float64)
 		if !r.OutputAzureBlob.MaxFileSizeMB.IsUnknown() && !r.OutputAzureBlob.MaxFileSizeMB.IsNull() {
-			*maxFileSizeMb2, _ = r.OutputAzureBlob.MaxFileSizeMB.ValueBigFloat().Float64()
+			*maxFileSizeMb2 = r.OutputAzureBlob.MaxFileSizeMB.ValueFloat64()
 		} else {
 			maxFileSizeMb2 = nil
 		}
 		maxFileOpenTimeSec2 := new(float64)
 		if !r.OutputAzureBlob.MaxFileOpenTimeSec.IsUnknown() && !r.OutputAzureBlob.MaxFileOpenTimeSec.IsNull() {
-			*maxFileOpenTimeSec2, _ = r.OutputAzureBlob.MaxFileOpenTimeSec.ValueBigFloat().Float64()
+			*maxFileOpenTimeSec2 = r.OutputAzureBlob.MaxFileOpenTimeSec.ValueFloat64()
 		} else {
 			maxFileOpenTimeSec2 = nil
 		}
 		maxFileIdleTimeSec2 := new(float64)
 		if !r.OutputAzureBlob.MaxFileIdleTimeSec.IsUnknown() && !r.OutputAzureBlob.MaxFileIdleTimeSec.IsNull() {
-			*maxFileIdleTimeSec2, _ = r.OutputAzureBlob.MaxFileIdleTimeSec.ValueBigFloat().Float64()
+			*maxFileIdleTimeSec2 = r.OutputAzureBlob.MaxFileIdleTimeSec.ValueFloat64()
 		} else {
 			maxFileIdleTimeSec2 = nil
 		}
 		maxOpenFiles2 := new(float64)
 		if !r.OutputAzureBlob.MaxOpenFiles.IsUnknown() && !r.OutputAzureBlob.MaxOpenFiles.IsNull() {
-			*maxOpenFiles2, _ = r.OutputAzureBlob.MaxOpenFiles.ValueBigFloat().Float64()
+			*maxOpenFiles2 = r.OutputAzureBlob.MaxOpenFiles.ValueFloat64()
 		} else {
 			maxOpenFiles2 = nil
 		}
@@ -4163,7 +4178,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		writeHighWaterMark2 := new(float64)
 		if !r.OutputAzureBlob.WriteHighWaterMark.IsUnknown() && !r.OutputAzureBlob.WriteHighWaterMark.IsNull() {
-			*writeHighWaterMark2, _ = r.OutputAzureBlob.WriteHighWaterMark.ValueBigFloat().Float64()
+			*writeHighWaterMark2 = r.OutputAzureBlob.WriteHighWaterMark.ValueFloat64()
 		} else {
 			writeHighWaterMark2 = nil
 		}
@@ -4203,11 +4218,11 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		} else {
 			description11 = nil
 		}
-		compress7 := new(shared.OutputAzureBlobCompress)
+		compress9 := new(shared.OutputAzureBlobCompress)
 		if !r.OutputAzureBlob.Compress.IsUnknown() && !r.OutputAzureBlob.Compress.IsNull() {
-			*compress7 = shared.OutputAzureBlobCompress(r.OutputAzureBlob.Compress.ValueString())
+			*compress9 = shared.OutputAzureBlobCompress(r.OutputAzureBlob.Compress.ValueString())
 		} else {
-			compress7 = nil
+			compress9 = nil
 		}
 		compressionLevel2 := new(shared.OutputAzureBlobCompressionLevel)
 		if !r.OutputAzureBlob.CompressionLevel.IsUnknown() && !r.OutputAzureBlob.CompressionLevel.IsNull() {
@@ -4235,7 +4250,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		parquetRowGroupLength2 := new(float64)
 		if !r.OutputAzureBlob.ParquetRowGroupLength.IsUnknown() && !r.OutputAzureBlob.ParquetRowGroupLength.IsNull() {
-			*parquetRowGroupLength2, _ = r.OutputAzureBlob.ParquetRowGroupLength.ValueBigFloat().Float64()
+			*parquetRowGroupLength2 = r.OutputAzureBlob.ParquetRowGroupLength.ValueFloat64()
 		} else {
 			parquetRowGroupLength2 = nil
 		}
@@ -4287,7 +4302,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		emptyDirCleanupSec2 := new(float64)
 		if !r.OutputAzureBlob.EmptyDirCleanupSec.IsUnknown() && !r.OutputAzureBlob.EmptyDirCleanupSec.IsNull() {
-			*emptyDirCleanupSec2, _ = r.OutputAzureBlob.EmptyDirCleanupSec.ValueBigFloat().Float64()
+			*emptyDirCleanupSec2 = r.OutputAzureBlob.EmptyDirCleanupSec.ValueFloat64()
 		} else {
 			emptyDirCleanupSec2 = nil
 		}
@@ -4299,7 +4314,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxRetryNum2 := new(float64)
 		if !r.OutputAzureBlob.MaxRetryNum.IsUnknown() && !r.OutputAzureBlob.MaxRetryNum.IsNull() {
-			*maxRetryNum2, _ = r.OutputAzureBlob.MaxRetryNum.ValueBigFloat().Float64()
+			*maxRetryNum2 = r.OutputAzureBlob.MaxRetryNum.ValueFloat64()
 		} else {
 			maxRetryNum2 = nil
 		}
@@ -4384,7 +4399,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			AuthType:               authType10,
 			StorageClass:           storageClass1,
 			Description:            description11,
-			Compress:               compress7,
+			Compress:               compress9,
 			CompressionLevel:       compressionLevel2,
 			AutomaticSchema:        automaticSchema2,
 			ParquetVersion:         parquetVersion2,
@@ -4558,31 +4573,31 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxFileSizeMb3 := new(float64)
 		if !r.OutputAzureDataExplorer.MaxFileSizeMB.IsUnknown() && !r.OutputAzureDataExplorer.MaxFileSizeMB.IsNull() {
-			*maxFileSizeMb3, _ = r.OutputAzureDataExplorer.MaxFileSizeMB.ValueBigFloat().Float64()
+			*maxFileSizeMb3 = r.OutputAzureDataExplorer.MaxFileSizeMB.ValueFloat64()
 		} else {
 			maxFileSizeMb3 = nil
 		}
 		maxFileOpenTimeSec3 := new(float64)
 		if !r.OutputAzureDataExplorer.MaxFileOpenTimeSec.IsUnknown() && !r.OutputAzureDataExplorer.MaxFileOpenTimeSec.IsNull() {
-			*maxFileOpenTimeSec3, _ = r.OutputAzureDataExplorer.MaxFileOpenTimeSec.ValueBigFloat().Float64()
+			*maxFileOpenTimeSec3 = r.OutputAzureDataExplorer.MaxFileOpenTimeSec.ValueFloat64()
 		} else {
 			maxFileOpenTimeSec3 = nil
 		}
 		maxFileIdleTimeSec3 := new(float64)
 		if !r.OutputAzureDataExplorer.MaxFileIdleTimeSec.IsUnknown() && !r.OutputAzureDataExplorer.MaxFileIdleTimeSec.IsNull() {
-			*maxFileIdleTimeSec3, _ = r.OutputAzureDataExplorer.MaxFileIdleTimeSec.ValueBigFloat().Float64()
+			*maxFileIdleTimeSec3 = r.OutputAzureDataExplorer.MaxFileIdleTimeSec.ValueFloat64()
 		} else {
 			maxFileIdleTimeSec3 = nil
 		}
 		maxOpenFiles3 := new(float64)
 		if !r.OutputAzureDataExplorer.MaxOpenFiles.IsUnknown() && !r.OutputAzureDataExplorer.MaxOpenFiles.IsNull() {
-			*maxOpenFiles3, _ = r.OutputAzureDataExplorer.MaxOpenFiles.ValueBigFloat().Float64()
+			*maxOpenFiles3 = r.OutputAzureDataExplorer.MaxOpenFiles.ValueFloat64()
 		} else {
 			maxOpenFiles3 = nil
 		}
 		maxConcurrentFileParts2 := new(float64)
 		if !r.OutputAzureDataExplorer.MaxConcurrentFileParts.IsUnknown() && !r.OutputAzureDataExplorer.MaxConcurrentFileParts.IsNull() {
-			*maxConcurrentFileParts2, _ = r.OutputAzureDataExplorer.MaxConcurrentFileParts.ValueBigFloat().Float64()
+			*maxConcurrentFileParts2 = r.OutputAzureDataExplorer.MaxConcurrentFileParts.ValueFloat64()
 		} else {
 			maxConcurrentFileParts2 = nil
 		}
@@ -4612,7 +4627,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec5 := new(float64)
 		if !r.OutputAzureDataExplorer.TimeoutSec.IsUnknown() && !r.OutputAzureDataExplorer.TimeoutSec.IsNull() {
-			*timeoutSec5, _ = r.OutputAzureDataExplorer.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec5 = r.OutputAzureDataExplorer.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec5 = nil
 		}
@@ -4681,23 +4696,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings5 []shared.OutputAzureDataExplorerResponseRetrySettings = []shared.OutputAzureDataExplorerResponseRetrySettings{}
 		for _, responseRetrySettingsItem5 := range r.OutputAzureDataExplorer.ResponseRetrySettings {
 			var httpStatus5 float64
-			httpStatus5, _ = responseRetrySettingsItem5.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus5 = responseRetrySettingsItem5.HTTPStatus.ValueFloat64()
 
 			initialBackoff10 := new(float64)
 			if !responseRetrySettingsItem5.InitialBackoff.IsUnknown() && !responseRetrySettingsItem5.InitialBackoff.IsNull() {
-				*initialBackoff10, _ = responseRetrySettingsItem5.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff10 = responseRetrySettingsItem5.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff10 = nil
 			}
 			backoffRate10 := new(float64)
 			if !responseRetrySettingsItem5.BackoffRate.IsUnknown() && !responseRetrySettingsItem5.BackoffRate.IsNull() {
-				*backoffRate10, _ = responseRetrySettingsItem5.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate10 = responseRetrySettingsItem5.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate10 = nil
 			}
 			maxBackoff10 := new(float64)
 			if !responseRetrySettingsItem5.MaxBackoff.IsUnknown() && !responseRetrySettingsItem5.MaxBackoff.IsNull() {
-				*maxBackoff10, _ = responseRetrySettingsItem5.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff10 = responseRetrySettingsItem5.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff10 = nil
 			}
@@ -4718,19 +4733,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff11 := new(float64)
 			if !r.OutputAzureDataExplorer.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputAzureDataExplorer.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff11, _ = r.OutputAzureDataExplorer.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff11 = r.OutputAzureDataExplorer.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff11 = nil
 			}
 			backoffRate11 := new(float64)
 			if !r.OutputAzureDataExplorer.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputAzureDataExplorer.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate11, _ = r.OutputAzureDataExplorer.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate11 = r.OutputAzureDataExplorer.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate11 = nil
 			}
 			maxBackoff11 := new(float64)
 			if !r.OutputAzureDataExplorer.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputAzureDataExplorer.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff11, _ = r.OutputAzureDataExplorer.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff11 = r.OutputAzureDataExplorer.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff11 = nil
 			}
@@ -4747,11 +4762,11 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		} else {
 			responseHonorRetryAfterHeader5 = nil
 		}
-		compress8 := new(shared.OutputAzureDataExplorerCompress)
+		compress10 := new(shared.OutputAzureDataExplorerCompress)
 		if !r.OutputAzureDataExplorer.Compress.IsUnknown() && !r.OutputAzureDataExplorer.Compress.IsNull() {
-			*compress8 = shared.OutputAzureDataExplorerCompress(r.OutputAzureDataExplorer.Compress.ValueString())
+			*compress10 = shared.OutputAzureDataExplorerCompress(r.OutputAzureDataExplorer.Compress.ValueString())
 		} else {
-			compress8 = nil
+			compress10 = nil
 		}
 		mappingRef := new(string)
 		if !r.OutputAzureDataExplorer.MappingRef.IsUnknown() && !r.OutputAzureDataExplorer.MappingRef.IsNull() {
@@ -4761,25 +4776,25 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency5 := new(float64)
 		if !r.OutputAzureDataExplorer.Concurrency.IsUnknown() && !r.OutputAzureDataExplorer.Concurrency.IsNull() {
-			*concurrency5, _ = r.OutputAzureDataExplorer.Concurrency.ValueBigFloat().Float64()
+			*concurrency5 = r.OutputAzureDataExplorer.Concurrency.ValueFloat64()
 		} else {
 			concurrency5 = nil
 		}
 		maxPayloadSizeKb5 := new(float64)
 		if !r.OutputAzureDataExplorer.MaxPayloadSizeKB.IsUnknown() && !r.OutputAzureDataExplorer.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb5, _ = r.OutputAzureDataExplorer.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb5 = r.OutputAzureDataExplorer.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb5 = nil
 		}
 		maxPayloadEvents5 := new(float64)
 		if !r.OutputAzureDataExplorer.MaxPayloadEvents.IsUnknown() && !r.OutputAzureDataExplorer.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents5, _ = r.OutputAzureDataExplorer.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents5 = r.OutputAzureDataExplorer.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents5 = nil
 		}
 		flushPeriodSec5 := new(float64)
 		if !r.OutputAzureDataExplorer.FlushPeriodSec.IsUnknown() && !r.OutputAzureDataExplorer.FlushPeriodSec.IsNull() {
-			*flushPeriodSec5, _ = r.OutputAzureDataExplorer.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec5 = r.OutputAzureDataExplorer.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec5 = nil
 		}
@@ -4888,7 +4903,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			ResponseRetrySettings:         responseRetrySettings5,
 			TimeoutRetrySettings:          timeoutRetrySettings5,
 			ResponseHonorRetryAfterHeader: responseHonorRetryAfterHeader5,
-			Compress:                      compress8,
+			Compress:                      compress10,
 			MappingRef:                    mappingRef,
 			Concurrency:                   concurrency5,
 			MaxPayloadSizeKB:              maxPayloadSizeKb5,
@@ -4954,27 +4969,27 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency6 := new(float64)
 		if !r.OutputAzureLogs.Concurrency.IsUnknown() && !r.OutputAzureLogs.Concurrency.IsNull() {
-			*concurrency6, _ = r.OutputAzureLogs.Concurrency.ValueBigFloat().Float64()
+			*concurrency6 = r.OutputAzureLogs.Concurrency.ValueFloat64()
 		} else {
 			concurrency6 = nil
 		}
 		maxPayloadSizeKb6 := new(float64)
 		if !r.OutputAzureLogs.MaxPayloadSizeKB.IsUnknown() && !r.OutputAzureLogs.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb6, _ = r.OutputAzureLogs.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb6 = r.OutputAzureLogs.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb6 = nil
 		}
 		maxPayloadEvents6 := new(float64)
 		if !r.OutputAzureLogs.MaxPayloadEvents.IsUnknown() && !r.OutputAzureLogs.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents6, _ = r.OutputAzureLogs.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents6 = r.OutputAzureLogs.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents6 = nil
 		}
-		compress9 := new(bool)
+		compress11 := new(bool)
 		if !r.OutputAzureLogs.Compress.IsUnknown() && !r.OutputAzureLogs.Compress.IsNull() {
-			*compress9 = r.OutputAzureLogs.Compress.ValueBool()
+			*compress11 = r.OutputAzureLogs.Compress.ValueBool()
 		} else {
-			compress9 = nil
+			compress11 = nil
 		}
 		rejectUnauthorized12 := new(bool)
 		if !r.OutputAzureLogs.RejectUnauthorized.IsUnknown() && !r.OutputAzureLogs.RejectUnauthorized.IsNull() {
@@ -4984,13 +4999,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec6 := new(float64)
 		if !r.OutputAzureLogs.TimeoutSec.IsUnknown() && !r.OutputAzureLogs.TimeoutSec.IsNull() {
-			*timeoutSec6, _ = r.OutputAzureLogs.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec6 = r.OutputAzureLogs.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec6 = nil
 		}
 		flushPeriodSec6 := new(float64)
 		if !r.OutputAzureLogs.FlushPeriodSec.IsUnknown() && !r.OutputAzureLogs.FlushPeriodSec.IsNull() {
-			*flushPeriodSec6, _ = r.OutputAzureLogs.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec6 = r.OutputAzureLogs.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec6 = nil
 		}
@@ -5035,23 +5050,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings6 []shared.OutputAzureLogsResponseRetrySettings = []shared.OutputAzureLogsResponseRetrySettings{}
 		for _, responseRetrySettingsItem6 := range r.OutputAzureLogs.ResponseRetrySettings {
 			var httpStatus6 float64
-			httpStatus6, _ = responseRetrySettingsItem6.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus6 = responseRetrySettingsItem6.HTTPStatus.ValueFloat64()
 
 			initialBackoff12 := new(float64)
 			if !responseRetrySettingsItem6.InitialBackoff.IsUnknown() && !responseRetrySettingsItem6.InitialBackoff.IsNull() {
-				*initialBackoff12, _ = responseRetrySettingsItem6.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff12 = responseRetrySettingsItem6.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff12 = nil
 			}
 			backoffRate12 := new(float64)
 			if !responseRetrySettingsItem6.BackoffRate.IsUnknown() && !responseRetrySettingsItem6.BackoffRate.IsNull() {
-				*backoffRate12, _ = responseRetrySettingsItem6.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate12 = responseRetrySettingsItem6.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate12 = nil
 			}
 			maxBackoff12 := new(float64)
 			if !responseRetrySettingsItem6.MaxBackoff.IsUnknown() && !responseRetrySettingsItem6.MaxBackoff.IsNull() {
-				*maxBackoff12, _ = responseRetrySettingsItem6.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff12 = responseRetrySettingsItem6.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff12 = nil
 			}
@@ -5072,19 +5087,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff13 := new(float64)
 			if !r.OutputAzureLogs.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputAzureLogs.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff13, _ = r.OutputAzureLogs.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff13 = r.OutputAzureLogs.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff13 = nil
 			}
 			backoffRate13 := new(float64)
 			if !r.OutputAzureLogs.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputAzureLogs.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate13, _ = r.OutputAzureLogs.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate13 = r.OutputAzureLogs.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate13 = nil
 			}
 			maxBackoff13 := new(float64)
 			if !r.OutputAzureLogs.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputAzureLogs.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff13, _ = r.OutputAzureLogs.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff13 = r.OutputAzureLogs.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff13 = nil
 			}
@@ -5189,7 +5204,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Concurrency:                   concurrency6,
 			MaxPayloadSizeKB:              maxPayloadSizeKb6,
 			MaxPayloadEvents:              maxPayloadEvents6,
-			Compress:                      compress9,
+			Compress:                      compress11,
 			RejectUnauthorized:            rejectUnauthorized12,
 			TimeoutSec:                    timeoutSec6,
 			FlushPeriodSec:                flushPeriodSec6,
@@ -5317,25 +5332,25 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		durationSeconds1 := new(float64)
 		if !r.OutputKinesis.DurationSeconds.IsUnknown() && !r.OutputKinesis.DurationSeconds.IsNull() {
-			*durationSeconds1, _ = r.OutputKinesis.DurationSeconds.ValueBigFloat().Float64()
+			*durationSeconds1 = r.OutputKinesis.DurationSeconds.ValueFloat64()
 		} else {
 			durationSeconds1 = nil
 		}
 		concurrency7 := new(float64)
 		if !r.OutputKinesis.Concurrency.IsUnknown() && !r.OutputKinesis.Concurrency.IsNull() {
-			*concurrency7, _ = r.OutputKinesis.Concurrency.ValueBigFloat().Float64()
+			*concurrency7 = r.OutputKinesis.Concurrency.ValueFloat64()
 		} else {
 			concurrency7 = nil
 		}
 		maxRecordSizeKB := new(float64)
 		if !r.OutputKinesis.MaxRecordSizeKB.IsUnknown() && !r.OutputKinesis.MaxRecordSizeKB.IsNull() {
-			*maxRecordSizeKB, _ = r.OutputKinesis.MaxRecordSizeKB.ValueBigFloat().Float64()
+			*maxRecordSizeKB = r.OutputKinesis.MaxRecordSizeKB.ValueFloat64()
 		} else {
 			maxRecordSizeKB = nil
 		}
 		flushPeriodSec7 := new(float64)
 		if !r.OutputKinesis.FlushPeriodSec.IsUnknown() && !r.OutputKinesis.FlushPeriodSec.IsNull() {
-			*flushPeriodSec7, _ = r.OutputKinesis.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec7 = r.OutputKinesis.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec7 = nil
 		}
@@ -5498,27 +5513,27 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 
 		concurrency8 := new(float64)
 		if !r.OutputHoneycomb.Concurrency.IsUnknown() && !r.OutputHoneycomb.Concurrency.IsNull() {
-			*concurrency8, _ = r.OutputHoneycomb.Concurrency.ValueBigFloat().Float64()
+			*concurrency8 = r.OutputHoneycomb.Concurrency.ValueFloat64()
 		} else {
 			concurrency8 = nil
 		}
 		maxPayloadSizeKb7 := new(float64)
 		if !r.OutputHoneycomb.MaxPayloadSizeKB.IsUnknown() && !r.OutputHoneycomb.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb7, _ = r.OutputHoneycomb.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb7 = r.OutputHoneycomb.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb7 = nil
 		}
 		maxPayloadEvents7 := new(float64)
 		if !r.OutputHoneycomb.MaxPayloadEvents.IsUnknown() && !r.OutputHoneycomb.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents7, _ = r.OutputHoneycomb.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents7 = r.OutputHoneycomb.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents7 = nil
 		}
-		compress10 := new(bool)
+		compress12 := new(bool)
 		if !r.OutputHoneycomb.Compress.IsUnknown() && !r.OutputHoneycomb.Compress.IsNull() {
-			*compress10 = r.OutputHoneycomb.Compress.ValueBool()
+			*compress12 = r.OutputHoneycomb.Compress.ValueBool()
 		} else {
-			compress10 = nil
+			compress12 = nil
 		}
 		rejectUnauthorized14 := new(bool)
 		if !r.OutputHoneycomb.RejectUnauthorized.IsUnknown() && !r.OutputHoneycomb.RejectUnauthorized.IsNull() {
@@ -5528,13 +5543,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec7 := new(float64)
 		if !r.OutputHoneycomb.TimeoutSec.IsUnknown() && !r.OutputHoneycomb.TimeoutSec.IsNull() {
-			*timeoutSec7, _ = r.OutputHoneycomb.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec7 = r.OutputHoneycomb.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec7 = nil
 		}
 		flushPeriodSec8 := new(float64)
 		if !r.OutputHoneycomb.FlushPeriodSec.IsUnknown() && !r.OutputHoneycomb.FlushPeriodSec.IsNull() {
-			*flushPeriodSec8, _ = r.OutputHoneycomb.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec8 = r.OutputHoneycomb.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec8 = nil
 		}
@@ -5573,23 +5588,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings7 []shared.OutputHoneycombResponseRetrySettings = []shared.OutputHoneycombResponseRetrySettings{}
 		for _, responseRetrySettingsItem7 := range r.OutputHoneycomb.ResponseRetrySettings {
 			var httpStatus7 float64
-			httpStatus7, _ = responseRetrySettingsItem7.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus7 = responseRetrySettingsItem7.HTTPStatus.ValueFloat64()
 
 			initialBackoff14 := new(float64)
 			if !responseRetrySettingsItem7.InitialBackoff.IsUnknown() && !responseRetrySettingsItem7.InitialBackoff.IsNull() {
-				*initialBackoff14, _ = responseRetrySettingsItem7.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff14 = responseRetrySettingsItem7.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff14 = nil
 			}
 			backoffRate14 := new(float64)
 			if !responseRetrySettingsItem7.BackoffRate.IsUnknown() && !responseRetrySettingsItem7.BackoffRate.IsNull() {
-				*backoffRate14, _ = responseRetrySettingsItem7.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate14 = responseRetrySettingsItem7.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate14 = nil
 			}
 			maxBackoff14 := new(float64)
 			if !responseRetrySettingsItem7.MaxBackoff.IsUnknown() && !responseRetrySettingsItem7.MaxBackoff.IsNull() {
-				*maxBackoff14, _ = responseRetrySettingsItem7.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff14 = responseRetrySettingsItem7.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff14 = nil
 			}
@@ -5610,19 +5625,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff15 := new(float64)
 			if !r.OutputHoneycomb.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputHoneycomb.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff15, _ = r.OutputHoneycomb.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff15 = r.OutputHoneycomb.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff15 = nil
 			}
 			backoffRate15 := new(float64)
 			if !r.OutputHoneycomb.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputHoneycomb.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate15, _ = r.OutputHoneycomb.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate15 = r.OutputHoneycomb.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate15 = nil
 			}
 			maxBackoff15 := new(float64)
 			if !r.OutputHoneycomb.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputHoneycomb.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff15, _ = r.OutputHoneycomb.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff15 = r.OutputHoneycomb.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff15 = nil
 			}
@@ -5720,7 +5735,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Concurrency:                   concurrency8,
 			MaxPayloadSizeKB:              maxPayloadSizeKb7,
 			MaxPayloadEvents:              maxPayloadEvents7,
-			Compress:                      compress10,
+			Compress:                      compress12,
 			RejectUnauthorized:            rejectUnauthorized14,
 			TimeoutSec:                    timeoutSec7,
 			FlushPeriodSec:                flushPeriodSec8,
@@ -5805,67 +5820,67 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxRecordSizeKb1 := new(float64)
 		if !r.OutputAzureEventhub.MaxRecordSizeKB.IsUnknown() && !r.OutputAzureEventhub.MaxRecordSizeKB.IsNull() {
-			*maxRecordSizeKb1, _ = r.OutputAzureEventhub.MaxRecordSizeKB.ValueBigFloat().Float64()
+			*maxRecordSizeKb1 = r.OutputAzureEventhub.MaxRecordSizeKB.ValueFloat64()
 		} else {
 			maxRecordSizeKb1 = nil
 		}
 		flushEventCount := new(float64)
 		if !r.OutputAzureEventhub.FlushEventCount.IsUnknown() && !r.OutputAzureEventhub.FlushEventCount.IsNull() {
-			*flushEventCount, _ = r.OutputAzureEventhub.FlushEventCount.ValueBigFloat().Float64()
+			*flushEventCount = r.OutputAzureEventhub.FlushEventCount.ValueFloat64()
 		} else {
 			flushEventCount = nil
 		}
 		flushPeriodSec9 := new(float64)
 		if !r.OutputAzureEventhub.FlushPeriodSec.IsUnknown() && !r.OutputAzureEventhub.FlushPeriodSec.IsNull() {
-			*flushPeriodSec9, _ = r.OutputAzureEventhub.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec9 = r.OutputAzureEventhub.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec9 = nil
 		}
 		connectionTimeout4 := new(float64)
 		if !r.OutputAzureEventhub.ConnectionTimeout.IsUnknown() && !r.OutputAzureEventhub.ConnectionTimeout.IsNull() {
-			*connectionTimeout4, _ = r.OutputAzureEventhub.ConnectionTimeout.ValueBigFloat().Float64()
+			*connectionTimeout4 = r.OutputAzureEventhub.ConnectionTimeout.ValueFloat64()
 		} else {
 			connectionTimeout4 = nil
 		}
 		requestTimeout := new(float64)
 		if !r.OutputAzureEventhub.RequestTimeout.IsUnknown() && !r.OutputAzureEventhub.RequestTimeout.IsNull() {
-			*requestTimeout, _ = r.OutputAzureEventhub.RequestTimeout.ValueBigFloat().Float64()
+			*requestTimeout = r.OutputAzureEventhub.RequestTimeout.ValueFloat64()
 		} else {
 			requestTimeout = nil
 		}
 		maxRetries := new(float64)
 		if !r.OutputAzureEventhub.MaxRetries.IsUnknown() && !r.OutputAzureEventhub.MaxRetries.IsNull() {
-			*maxRetries, _ = r.OutputAzureEventhub.MaxRetries.ValueBigFloat().Float64()
+			*maxRetries = r.OutputAzureEventhub.MaxRetries.ValueFloat64()
 		} else {
 			maxRetries = nil
 		}
 		maxBackOff := new(float64)
 		if !r.OutputAzureEventhub.MaxBackOff.IsUnknown() && !r.OutputAzureEventhub.MaxBackOff.IsNull() {
-			*maxBackOff, _ = r.OutputAzureEventhub.MaxBackOff.ValueBigFloat().Float64()
+			*maxBackOff = r.OutputAzureEventhub.MaxBackOff.ValueFloat64()
 		} else {
 			maxBackOff = nil
 		}
 		initialBackoff16 := new(float64)
 		if !r.OutputAzureEventhub.InitialBackoff.IsUnknown() && !r.OutputAzureEventhub.InitialBackoff.IsNull() {
-			*initialBackoff16, _ = r.OutputAzureEventhub.InitialBackoff.ValueBigFloat().Float64()
+			*initialBackoff16 = r.OutputAzureEventhub.InitialBackoff.ValueFloat64()
 		} else {
 			initialBackoff16 = nil
 		}
 		backoffRate16 := new(float64)
 		if !r.OutputAzureEventhub.BackoffRate.IsUnknown() && !r.OutputAzureEventhub.BackoffRate.IsNull() {
-			*backoffRate16, _ = r.OutputAzureEventhub.BackoffRate.ValueBigFloat().Float64()
+			*backoffRate16 = r.OutputAzureEventhub.BackoffRate.ValueFloat64()
 		} else {
 			backoffRate16 = nil
 		}
 		authenticationTimeout := new(float64)
 		if !r.OutputAzureEventhub.AuthenticationTimeout.IsUnknown() && !r.OutputAzureEventhub.AuthenticationTimeout.IsNull() {
-			*authenticationTimeout, _ = r.OutputAzureEventhub.AuthenticationTimeout.ValueBigFloat().Float64()
+			*authenticationTimeout = r.OutputAzureEventhub.AuthenticationTimeout.ValueFloat64()
 		} else {
 			authenticationTimeout = nil
 		}
 		reauthenticationThreshold := new(float64)
 		if !r.OutputAzureEventhub.ReauthenticationThreshold.IsUnknown() && !r.OutputAzureEventhub.ReauthenticationThreshold.IsNull() {
-			*reauthenticationThreshold, _ = r.OutputAzureEventhub.ReauthenticationThreshold.ValueBigFloat().Float64()
+			*reauthenticationThreshold = r.OutputAzureEventhub.ReauthenticationThreshold.ValueFloat64()
 		} else {
 			reauthenticationThreshold = nil
 		}
@@ -6043,23 +6058,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings8 []shared.OutputGoogleChronicleResponseRetrySettings = []shared.OutputGoogleChronicleResponseRetrySettings{}
 		for _, responseRetrySettingsItem8 := range r.OutputGoogleChronicle.ResponseRetrySettings {
 			var httpStatus8 float64
-			httpStatus8, _ = responseRetrySettingsItem8.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus8 = responseRetrySettingsItem8.HTTPStatus.ValueFloat64()
 
 			initialBackoff17 := new(float64)
 			if !responseRetrySettingsItem8.InitialBackoff.IsUnknown() && !responseRetrySettingsItem8.InitialBackoff.IsNull() {
-				*initialBackoff17, _ = responseRetrySettingsItem8.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff17 = responseRetrySettingsItem8.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff17 = nil
 			}
 			backoffRate17 := new(float64)
 			if !responseRetrySettingsItem8.BackoffRate.IsUnknown() && !responseRetrySettingsItem8.BackoffRate.IsNull() {
-				*backoffRate17, _ = responseRetrySettingsItem8.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate17 = responseRetrySettingsItem8.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate17 = nil
 			}
 			maxBackoff16 := new(float64)
 			if !responseRetrySettingsItem8.MaxBackoff.IsUnknown() && !responseRetrySettingsItem8.MaxBackoff.IsNull() {
-				*maxBackoff16, _ = responseRetrySettingsItem8.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff16 = responseRetrySettingsItem8.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff16 = nil
 			}
@@ -6080,19 +6095,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff18 := new(float64)
 			if !r.OutputGoogleChronicle.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputGoogleChronicle.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff18, _ = r.OutputGoogleChronicle.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff18 = r.OutputGoogleChronicle.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff18 = nil
 			}
 			backoffRate18 := new(float64)
 			if !r.OutputGoogleChronicle.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputGoogleChronicle.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate18, _ = r.OutputGoogleChronicle.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate18 = r.OutputGoogleChronicle.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate18 = nil
 			}
 			maxBackoff17 := new(float64)
 			if !r.OutputGoogleChronicle.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputGoogleChronicle.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff17, _ = r.OutputGoogleChronicle.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff17 = r.OutputGoogleChronicle.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff17 = nil
 			}
@@ -6123,27 +6138,27 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency9 := new(float64)
 		if !r.OutputGoogleChronicle.Concurrency.IsUnknown() && !r.OutputGoogleChronicle.Concurrency.IsNull() {
-			*concurrency9, _ = r.OutputGoogleChronicle.Concurrency.ValueBigFloat().Float64()
+			*concurrency9 = r.OutputGoogleChronicle.Concurrency.ValueFloat64()
 		} else {
 			concurrency9 = nil
 		}
 		maxPayloadSizeKb8 := new(float64)
 		if !r.OutputGoogleChronicle.MaxPayloadSizeKB.IsUnknown() && !r.OutputGoogleChronicle.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb8, _ = r.OutputGoogleChronicle.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb8 = r.OutputGoogleChronicle.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb8 = nil
 		}
 		maxPayloadEvents8 := new(float64)
 		if !r.OutputGoogleChronicle.MaxPayloadEvents.IsUnknown() && !r.OutputGoogleChronicle.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents8, _ = r.OutputGoogleChronicle.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents8 = r.OutputGoogleChronicle.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents8 = nil
 		}
-		compress11 := new(bool)
+		compress13 := new(bool)
 		if !r.OutputGoogleChronicle.Compress.IsUnknown() && !r.OutputGoogleChronicle.Compress.IsNull() {
-			*compress11 = r.OutputGoogleChronicle.Compress.ValueBool()
+			*compress13 = r.OutputGoogleChronicle.Compress.ValueBool()
 		} else {
-			compress11 = nil
+			compress13 = nil
 		}
 		rejectUnauthorized16 := new(bool)
 		if !r.OutputGoogleChronicle.RejectUnauthorized.IsUnknown() && !r.OutputGoogleChronicle.RejectUnauthorized.IsNull() {
@@ -6153,13 +6168,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec8 := new(float64)
 		if !r.OutputGoogleChronicle.TimeoutSec.IsUnknown() && !r.OutputGoogleChronicle.TimeoutSec.IsNull() {
-			*timeoutSec8, _ = r.OutputGoogleChronicle.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec8 = r.OutputGoogleChronicle.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec8 = nil
 		}
 		flushPeriodSec10 := new(float64)
 		if !r.OutputGoogleChronicle.FlushPeriodSec.IsUnknown() && !r.OutputGoogleChronicle.FlushPeriodSec.IsNull() {
-			*flushPeriodSec10, _ = r.OutputGoogleChronicle.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec10 = r.OutputGoogleChronicle.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec10 = nil
 		}
@@ -6203,7 +6218,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		totalMemoryLimitKb2 := new(float64)
 		if !r.OutputGoogleChronicle.TotalMemoryLimitKB.IsUnknown() && !r.OutputGoogleChronicle.TotalMemoryLimitKB.IsNull() {
-			*totalMemoryLimitKb2, _ = r.OutputGoogleChronicle.TotalMemoryLimitKB.ValueBigFloat().Float64()
+			*totalMemoryLimitKb2 = r.OutputGoogleChronicle.TotalMemoryLimitKB.ValueFloat64()
 		} else {
 			totalMemoryLimitKb2 = nil
 		}
@@ -6347,7 +6362,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Concurrency:                     concurrency9,
 			MaxPayloadSizeKB:                maxPayloadSizeKb8,
 			MaxPayloadEvents:                maxPayloadEvents8,
-			Compress:                        compress11,
+			Compress:                        compress13,
 			RejectUnauthorized:              rejectUnauthorized16,
 			TimeoutSec:                      timeoutSec8,
 			FlushPeriodSec:                  flushPeriodSec10,
@@ -6520,25 +6535,25 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxFileSizeMb4 := new(float64)
 		if !r.OutputGoogleCloudStorage.MaxFileSizeMB.IsUnknown() && !r.OutputGoogleCloudStorage.MaxFileSizeMB.IsNull() {
-			*maxFileSizeMb4, _ = r.OutputGoogleCloudStorage.MaxFileSizeMB.ValueBigFloat().Float64()
+			*maxFileSizeMb4 = r.OutputGoogleCloudStorage.MaxFileSizeMB.ValueFloat64()
 		} else {
 			maxFileSizeMb4 = nil
 		}
 		maxFileOpenTimeSec4 := new(float64)
 		if !r.OutputGoogleCloudStorage.MaxFileOpenTimeSec.IsUnknown() && !r.OutputGoogleCloudStorage.MaxFileOpenTimeSec.IsNull() {
-			*maxFileOpenTimeSec4, _ = r.OutputGoogleCloudStorage.MaxFileOpenTimeSec.ValueBigFloat().Float64()
+			*maxFileOpenTimeSec4 = r.OutputGoogleCloudStorage.MaxFileOpenTimeSec.ValueFloat64()
 		} else {
 			maxFileOpenTimeSec4 = nil
 		}
 		maxFileIdleTimeSec4 := new(float64)
 		if !r.OutputGoogleCloudStorage.MaxFileIdleTimeSec.IsUnknown() && !r.OutputGoogleCloudStorage.MaxFileIdleTimeSec.IsNull() {
-			*maxFileIdleTimeSec4, _ = r.OutputGoogleCloudStorage.MaxFileIdleTimeSec.ValueBigFloat().Float64()
+			*maxFileIdleTimeSec4 = r.OutputGoogleCloudStorage.MaxFileIdleTimeSec.ValueFloat64()
 		} else {
 			maxFileIdleTimeSec4 = nil
 		}
 		maxOpenFiles4 := new(float64)
 		if !r.OutputGoogleCloudStorage.MaxOpenFiles.IsUnknown() && !r.OutputGoogleCloudStorage.MaxOpenFiles.IsNull() {
-			*maxOpenFiles4, _ = r.OutputGoogleCloudStorage.MaxOpenFiles.ValueBigFloat().Float64()
+			*maxOpenFiles4 = r.OutputGoogleCloudStorage.MaxOpenFiles.ValueFloat64()
 		} else {
 			maxOpenFiles4 = nil
 		}
@@ -6550,7 +6565,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		writeHighWaterMark3 := new(float64)
 		if !r.OutputGoogleCloudStorage.WriteHighWaterMark.IsUnknown() && !r.OutputGoogleCloudStorage.WriteHighWaterMark.IsNull() {
-			*writeHighWaterMark3, _ = r.OutputGoogleCloudStorage.WriteHighWaterMark.ValueBigFloat().Float64()
+			*writeHighWaterMark3 = r.OutputGoogleCloudStorage.WriteHighWaterMark.ValueFloat64()
 		} else {
 			writeHighWaterMark3 = nil
 		}
@@ -6578,11 +6593,11 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		} else {
 			description19 = nil
 		}
-		compress12 := new(shared.OutputGoogleCloudStorageCompress)
+		compress14 := new(shared.OutputGoogleCloudStorageCompress)
 		if !r.OutputGoogleCloudStorage.Compress.IsUnknown() && !r.OutputGoogleCloudStorage.Compress.IsNull() {
-			*compress12 = shared.OutputGoogleCloudStorageCompress(r.OutputGoogleCloudStorage.Compress.ValueString())
+			*compress14 = shared.OutputGoogleCloudStorageCompress(r.OutputGoogleCloudStorage.Compress.ValueString())
 		} else {
-			compress12 = nil
+			compress14 = nil
 		}
 		compressionLevel3 := new(shared.OutputGoogleCloudStorageCompressionLevel)
 		if !r.OutputGoogleCloudStorage.CompressionLevel.IsUnknown() && !r.OutputGoogleCloudStorage.CompressionLevel.IsNull() {
@@ -6610,7 +6625,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		parquetRowGroupLength3 := new(float64)
 		if !r.OutputGoogleCloudStorage.ParquetRowGroupLength.IsUnknown() && !r.OutputGoogleCloudStorage.ParquetRowGroupLength.IsNull() {
-			*parquetRowGroupLength3, _ = r.OutputGoogleCloudStorage.ParquetRowGroupLength.ValueBigFloat().Float64()
+			*parquetRowGroupLength3 = r.OutputGoogleCloudStorage.ParquetRowGroupLength.ValueFloat64()
 		} else {
 			parquetRowGroupLength3 = nil
 		}
@@ -6662,7 +6677,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		emptyDirCleanupSec3 := new(float64)
 		if !r.OutputGoogleCloudStorage.EmptyDirCleanupSec.IsUnknown() && !r.OutputGoogleCloudStorage.EmptyDirCleanupSec.IsNull() {
-			*emptyDirCleanupSec3, _ = r.OutputGoogleCloudStorage.EmptyDirCleanupSec.ValueBigFloat().Float64()
+			*emptyDirCleanupSec3 = r.OutputGoogleCloudStorage.EmptyDirCleanupSec.ValueFloat64()
 		} else {
 			emptyDirCleanupSec3 = nil
 		}
@@ -6674,7 +6689,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxRetryNum3 := new(float64)
 		if !r.OutputGoogleCloudStorage.MaxRetryNum.IsUnknown() && !r.OutputGoogleCloudStorage.MaxRetryNum.IsNull() {
-			*maxRetryNum3, _ = r.OutputGoogleCloudStorage.MaxRetryNum.ValueBigFloat().Float64()
+			*maxRetryNum3 = r.OutputGoogleCloudStorage.MaxRetryNum.ValueFloat64()
 		} else {
 			maxRetryNum3 = nil
 		}
@@ -6731,7 +6746,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			DeadletterEnabled:       deadletterEnabled4,
 			OnDiskFullBackpressure:  onDiskFullBackpressure4,
 			Description:             description19,
-			Compress:                compress12,
+			Compress:                compress14,
 			CompressionLevel:        compressionLevel3,
 			AutomaticSchema:         automaticSchema3,
 			ParquetVersion:          parquetVersion3,
@@ -6864,37 +6879,37 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxPayloadSizeKb9 := new(float64)
 		if !r.OutputGoogleCloudLogging.MaxPayloadSizeKB.IsUnknown() && !r.OutputGoogleCloudLogging.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb9, _ = r.OutputGoogleCloudLogging.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb9 = r.OutputGoogleCloudLogging.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb9 = nil
 		}
 		maxPayloadEvents9 := new(float64)
 		if !r.OutputGoogleCloudLogging.MaxPayloadEvents.IsUnknown() && !r.OutputGoogleCloudLogging.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents9, _ = r.OutputGoogleCloudLogging.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents9 = r.OutputGoogleCloudLogging.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents9 = nil
 		}
 		flushPeriodSec11 := new(float64)
 		if !r.OutputGoogleCloudLogging.FlushPeriodSec.IsUnknown() && !r.OutputGoogleCloudLogging.FlushPeriodSec.IsNull() {
-			*flushPeriodSec11, _ = r.OutputGoogleCloudLogging.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec11 = r.OutputGoogleCloudLogging.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec11 = nil
 		}
 		concurrency10 := new(float64)
 		if !r.OutputGoogleCloudLogging.Concurrency.IsUnknown() && !r.OutputGoogleCloudLogging.Concurrency.IsNull() {
-			*concurrency10, _ = r.OutputGoogleCloudLogging.Concurrency.ValueBigFloat().Float64()
+			*concurrency10 = r.OutputGoogleCloudLogging.Concurrency.ValueFloat64()
 		} else {
 			concurrency10 = nil
 		}
 		connectionTimeout5 := new(float64)
 		if !r.OutputGoogleCloudLogging.ConnectionTimeout.IsUnknown() && !r.OutputGoogleCloudLogging.ConnectionTimeout.IsNull() {
-			*connectionTimeout5, _ = r.OutputGoogleCloudLogging.ConnectionTimeout.ValueBigFloat().Float64()
+			*connectionTimeout5 = r.OutputGoogleCloudLogging.ConnectionTimeout.ValueFloat64()
 		} else {
 			connectionTimeout5 = nil
 		}
 		timeoutSec9 := new(float64)
 		if !r.OutputGoogleCloudLogging.TimeoutSec.IsUnknown() && !r.OutputGoogleCloudLogging.TimeoutSec.IsNull() {
-			*timeoutSec9, _ = r.OutputGoogleCloudLogging.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec9 = r.OutputGoogleCloudLogging.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec9 = nil
 		}
@@ -7080,7 +7095,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		totalMemoryLimitKb3 := new(float64)
 		if !r.OutputGoogleCloudLogging.TotalMemoryLimitKB.IsUnknown() && !r.OutputGoogleCloudLogging.TotalMemoryLimitKB.IsNull() {
-			*totalMemoryLimitKb3, _ = r.OutputGoogleCloudLogging.TotalMemoryLimitKB.ValueBigFloat().Float64()
+			*totalMemoryLimitKb3 = r.OutputGoogleCloudLogging.TotalMemoryLimitKB.ValueFloat64()
 		} else {
 			totalMemoryLimitKb3 = nil
 		}
@@ -7281,37 +7296,37 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		batchSize := new(float64)
 		if !r.OutputGooglePubsub.BatchSize.IsUnknown() && !r.OutputGooglePubsub.BatchSize.IsNull() {
-			*batchSize, _ = r.OutputGooglePubsub.BatchSize.ValueBigFloat().Float64()
+			*batchSize = r.OutputGooglePubsub.BatchSize.ValueFloat64()
 		} else {
 			batchSize = nil
 		}
 		batchTimeout := new(float64)
 		if !r.OutputGooglePubsub.BatchTimeout.IsUnknown() && !r.OutputGooglePubsub.BatchTimeout.IsNull() {
-			*batchTimeout, _ = r.OutputGooglePubsub.BatchTimeout.ValueBigFloat().Float64()
+			*batchTimeout = r.OutputGooglePubsub.BatchTimeout.ValueFloat64()
 		} else {
 			batchTimeout = nil
 		}
 		maxQueueSize := new(float64)
 		if !r.OutputGooglePubsub.MaxQueueSize.IsUnknown() && !r.OutputGooglePubsub.MaxQueueSize.IsNull() {
-			*maxQueueSize, _ = r.OutputGooglePubsub.MaxQueueSize.ValueBigFloat().Float64()
+			*maxQueueSize = r.OutputGooglePubsub.MaxQueueSize.ValueFloat64()
 		} else {
 			maxQueueSize = nil
 		}
 		maxRecordSizeKb2 := new(float64)
 		if !r.OutputGooglePubsub.MaxRecordSizeKB.IsUnknown() && !r.OutputGooglePubsub.MaxRecordSizeKB.IsNull() {
-			*maxRecordSizeKb2, _ = r.OutputGooglePubsub.MaxRecordSizeKB.ValueBigFloat().Float64()
+			*maxRecordSizeKb2 = r.OutputGooglePubsub.MaxRecordSizeKB.ValueFloat64()
 		} else {
 			maxRecordSizeKb2 = nil
 		}
 		flushPeriodSec12 := new(float64)
 		if !r.OutputGooglePubsub.FlushPeriodSec.IsUnknown() && !r.OutputGooglePubsub.FlushPeriodSec.IsNull() {
-			*flushPeriodSec12, _ = r.OutputGooglePubsub.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec12 = r.OutputGooglePubsub.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec12 = nil
 		}
 		maxInProgress := new(float64)
 		if !r.OutputGooglePubsub.MaxInProgress.IsUnknown() && !r.OutputGooglePubsub.MaxInProgress.IsNull() {
-			*maxInProgress, _ = r.OutputGooglePubsub.MaxInProgress.ValueBigFloat().Float64()
+			*maxInProgress = r.OutputGooglePubsub.MaxInProgress.ValueFloat64()
 		} else {
 			maxInProgress = nil
 		}
@@ -7499,19 +7514,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxFileOpenTimeSec5 := new(float64)
 		if !r.OutputExabeam.MaxFileOpenTimeSec.IsUnknown() && !r.OutputExabeam.MaxFileOpenTimeSec.IsNull() {
-			*maxFileOpenTimeSec5, _ = r.OutputExabeam.MaxFileOpenTimeSec.ValueBigFloat().Float64()
+			*maxFileOpenTimeSec5 = r.OutputExabeam.MaxFileOpenTimeSec.ValueFloat64()
 		} else {
 			maxFileOpenTimeSec5 = nil
 		}
 		maxFileIdleTimeSec5 := new(float64)
 		if !r.OutputExabeam.MaxFileIdleTimeSec.IsUnknown() && !r.OutputExabeam.MaxFileIdleTimeSec.IsNull() {
-			*maxFileIdleTimeSec5, _ = r.OutputExabeam.MaxFileIdleTimeSec.ValueBigFloat().Float64()
+			*maxFileIdleTimeSec5 = r.OutputExabeam.MaxFileIdleTimeSec.ValueFloat64()
 		} else {
 			maxFileIdleTimeSec5 = nil
 		}
 		maxOpenFiles5 := new(float64)
 		if !r.OutputExabeam.MaxOpenFiles.IsUnknown() && !r.OutputExabeam.MaxOpenFiles.IsNull() {
-			*maxOpenFiles5, _ = r.OutputExabeam.MaxOpenFiles.ValueBigFloat().Float64()
+			*maxOpenFiles5 = r.OutputExabeam.MaxOpenFiles.ValueFloat64()
 		} else {
 			maxOpenFiles5 = nil
 		}
@@ -7535,7 +7550,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxFileSizeMb5 := new(float64)
 		if !r.OutputExabeam.MaxFileSizeMB.IsUnknown() && !r.OutputExabeam.MaxFileSizeMB.IsNull() {
-			*maxFileSizeMb5, _ = r.OutputExabeam.MaxFileSizeMB.ValueBigFloat().Float64()
+			*maxFileSizeMb5 = r.OutputExabeam.MaxFileSizeMB.ValueFloat64()
 		} else {
 			maxFileSizeMb5 = nil
 		}
@@ -7586,7 +7601,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		emptyDirCleanupSec4 := new(float64)
 		if !r.OutputExabeam.EmptyDirCleanupSec.IsUnknown() && !r.OutputExabeam.EmptyDirCleanupSec.IsNull() {
-			*emptyDirCleanupSec4, _ = r.OutputExabeam.EmptyDirCleanupSec.ValueBigFloat().Float64()
+			*emptyDirCleanupSec4 = r.OutputExabeam.EmptyDirCleanupSec.ValueFloat64()
 		} else {
 			emptyDirCleanupSec4 = nil
 		}
@@ -7598,7 +7613,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxRetryNum4 := new(float64)
 		if !r.OutputExabeam.MaxRetryNum.IsUnknown() && !r.OutputExabeam.MaxRetryNum.IsNull() {
-			*maxRetryNum4, _ = r.OutputExabeam.MaxRetryNum.ValueBigFloat().Float64()
+			*maxRetryNum4 = r.OutputExabeam.MaxRetryNum.ValueFloat64()
 		} else {
 			maxRetryNum4 = nil
 		}
@@ -7706,19 +7721,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxRecordSizeKb3 := new(float64)
 		if !r.OutputKafka.MaxRecordSizeKB.IsUnknown() && !r.OutputKafka.MaxRecordSizeKB.IsNull() {
-			*maxRecordSizeKb3, _ = r.OutputKafka.MaxRecordSizeKB.ValueBigFloat().Float64()
+			*maxRecordSizeKb3 = r.OutputKafka.MaxRecordSizeKB.ValueFloat64()
 		} else {
 			maxRecordSizeKb3 = nil
 		}
 		flushEventCount1 := new(float64)
 		if !r.OutputKafka.FlushEventCount.IsUnknown() && !r.OutputKafka.FlushEventCount.IsNull() {
-			*flushEventCount1, _ = r.OutputKafka.FlushEventCount.ValueBigFloat().Float64()
+			*flushEventCount1 = r.OutputKafka.FlushEventCount.ValueFloat64()
 		} else {
 			flushEventCount1 = nil
 		}
 		flushPeriodSec13 := new(float64)
 		if !r.OutputKafka.FlushPeriodSec.IsUnknown() && !r.OutputKafka.FlushPeriodSec.IsNull() {
-			*flushPeriodSec13, _ = r.OutputKafka.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec13 = r.OutputKafka.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec13 = nil
 		}
@@ -7738,19 +7753,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			connectionTimeout6 := new(float64)
 			if !r.OutputKafka.KafkaSchemaRegistry.ConnectionTimeout.IsUnknown() && !r.OutputKafka.KafkaSchemaRegistry.ConnectionTimeout.IsNull() {
-				*connectionTimeout6, _ = r.OutputKafka.KafkaSchemaRegistry.ConnectionTimeout.ValueBigFloat().Float64()
+				*connectionTimeout6 = r.OutputKafka.KafkaSchemaRegistry.ConnectionTimeout.ValueFloat64()
 			} else {
 				connectionTimeout6 = nil
 			}
 			requestTimeout1 := new(float64)
 			if !r.OutputKafka.KafkaSchemaRegistry.RequestTimeout.IsUnknown() && !r.OutputKafka.KafkaSchemaRegistry.RequestTimeout.IsNull() {
-				*requestTimeout1, _ = r.OutputKafka.KafkaSchemaRegistry.RequestTimeout.ValueBigFloat().Float64()
+				*requestTimeout1 = r.OutputKafka.KafkaSchemaRegistry.RequestTimeout.ValueFloat64()
 			} else {
 				requestTimeout1 = nil
 			}
 			maxRetries1 := new(float64)
 			if !r.OutputKafka.KafkaSchemaRegistry.MaxRetries.IsUnknown() && !r.OutputKafka.KafkaSchemaRegistry.MaxRetries.IsNull() {
-				*maxRetries1, _ = r.OutputKafka.KafkaSchemaRegistry.MaxRetries.ValueBigFloat().Float64()
+				*maxRetries1 = r.OutputKafka.KafkaSchemaRegistry.MaxRetries.ValueFloat64()
 			} else {
 				maxRetries1 = nil
 			}
@@ -7850,13 +7865,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			defaultKeySchemaID := new(float64)
 			if !r.OutputKafka.KafkaSchemaRegistry.DefaultKeySchemaID.IsUnknown() && !r.OutputKafka.KafkaSchemaRegistry.DefaultKeySchemaID.IsNull() {
-				*defaultKeySchemaID, _ = r.OutputKafka.KafkaSchemaRegistry.DefaultKeySchemaID.ValueBigFloat().Float64()
+				*defaultKeySchemaID = r.OutputKafka.KafkaSchemaRegistry.DefaultKeySchemaID.ValueFloat64()
 			} else {
 				defaultKeySchemaID = nil
 			}
 			defaultValueSchemaID := new(float64)
 			if !r.OutputKafka.KafkaSchemaRegistry.DefaultValueSchemaID.IsUnknown() && !r.OutputKafka.KafkaSchemaRegistry.DefaultValueSchemaID.IsNull() {
-				*defaultValueSchemaID, _ = r.OutputKafka.KafkaSchemaRegistry.DefaultValueSchemaID.ValueBigFloat().Float64()
+				*defaultValueSchemaID = r.OutputKafka.KafkaSchemaRegistry.DefaultValueSchemaID.ValueFloat64()
 			} else {
 				defaultValueSchemaID = nil
 			}
@@ -7874,49 +7889,49 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		connectionTimeout7 := new(float64)
 		if !r.OutputKafka.ConnectionTimeout.IsUnknown() && !r.OutputKafka.ConnectionTimeout.IsNull() {
-			*connectionTimeout7, _ = r.OutputKafka.ConnectionTimeout.ValueBigFloat().Float64()
+			*connectionTimeout7 = r.OutputKafka.ConnectionTimeout.ValueFloat64()
 		} else {
 			connectionTimeout7 = nil
 		}
 		requestTimeout2 := new(float64)
 		if !r.OutputKafka.RequestTimeout.IsUnknown() && !r.OutputKafka.RequestTimeout.IsNull() {
-			*requestTimeout2, _ = r.OutputKafka.RequestTimeout.ValueBigFloat().Float64()
+			*requestTimeout2 = r.OutputKafka.RequestTimeout.ValueFloat64()
 		} else {
 			requestTimeout2 = nil
 		}
 		maxRetries2 := new(float64)
 		if !r.OutputKafka.MaxRetries.IsUnknown() && !r.OutputKafka.MaxRetries.IsNull() {
-			*maxRetries2, _ = r.OutputKafka.MaxRetries.ValueBigFloat().Float64()
+			*maxRetries2 = r.OutputKafka.MaxRetries.ValueFloat64()
 		} else {
 			maxRetries2 = nil
 		}
 		maxBackOff1 := new(float64)
 		if !r.OutputKafka.MaxBackOff.IsUnknown() && !r.OutputKafka.MaxBackOff.IsNull() {
-			*maxBackOff1, _ = r.OutputKafka.MaxBackOff.ValueBigFloat().Float64()
+			*maxBackOff1 = r.OutputKafka.MaxBackOff.ValueFloat64()
 		} else {
 			maxBackOff1 = nil
 		}
 		initialBackoff19 := new(float64)
 		if !r.OutputKafka.InitialBackoff.IsUnknown() && !r.OutputKafka.InitialBackoff.IsNull() {
-			*initialBackoff19, _ = r.OutputKafka.InitialBackoff.ValueBigFloat().Float64()
+			*initialBackoff19 = r.OutputKafka.InitialBackoff.ValueFloat64()
 		} else {
 			initialBackoff19 = nil
 		}
 		backoffRate19 := new(float64)
 		if !r.OutputKafka.BackoffRate.IsUnknown() && !r.OutputKafka.BackoffRate.IsNull() {
-			*backoffRate19, _ = r.OutputKafka.BackoffRate.ValueBigFloat().Float64()
+			*backoffRate19 = r.OutputKafka.BackoffRate.ValueFloat64()
 		} else {
 			backoffRate19 = nil
 		}
 		authenticationTimeout1 := new(float64)
 		if !r.OutputKafka.AuthenticationTimeout.IsUnknown() && !r.OutputKafka.AuthenticationTimeout.IsNull() {
-			*authenticationTimeout1, _ = r.OutputKafka.AuthenticationTimeout.ValueBigFloat().Float64()
+			*authenticationTimeout1 = r.OutputKafka.AuthenticationTimeout.ValueFloat64()
 		} else {
 			authenticationTimeout1 = nil
 		}
 		reauthenticationThreshold1 := new(float64)
 		if !r.OutputKafka.ReauthenticationThreshold.IsUnknown() && !r.OutputKafka.ReauthenticationThreshold.IsNull() {
-			*reauthenticationThreshold1, _ = r.OutputKafka.ReauthenticationThreshold.ValueBigFloat().Float64()
+			*reauthenticationThreshold1 = r.OutputKafka.ReauthenticationThreshold.ValueFloat64()
 		} else {
 			reauthenticationThreshold1 = nil
 		}
@@ -8251,19 +8266,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxRecordSizeKb4 := new(float64)
 		if !r.OutputConfluentCloud.MaxRecordSizeKB.IsUnknown() && !r.OutputConfluentCloud.MaxRecordSizeKB.IsNull() {
-			*maxRecordSizeKb4, _ = r.OutputConfluentCloud.MaxRecordSizeKB.ValueBigFloat().Float64()
+			*maxRecordSizeKb4 = r.OutputConfluentCloud.MaxRecordSizeKB.ValueFloat64()
 		} else {
 			maxRecordSizeKb4 = nil
 		}
 		flushEventCount2 := new(float64)
 		if !r.OutputConfluentCloud.FlushEventCount.IsUnknown() && !r.OutputConfluentCloud.FlushEventCount.IsNull() {
-			*flushEventCount2, _ = r.OutputConfluentCloud.FlushEventCount.ValueBigFloat().Float64()
+			*flushEventCount2 = r.OutputConfluentCloud.FlushEventCount.ValueFloat64()
 		} else {
 			flushEventCount2 = nil
 		}
 		flushPeriodSec14 := new(float64)
 		if !r.OutputConfluentCloud.FlushPeriodSec.IsUnknown() && !r.OutputConfluentCloud.FlushPeriodSec.IsNull() {
-			*flushPeriodSec14, _ = r.OutputConfluentCloud.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec14 = r.OutputConfluentCloud.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec14 = nil
 		}
@@ -8283,19 +8298,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			connectionTimeout8 := new(float64)
 			if !r.OutputConfluentCloud.KafkaSchemaRegistry.ConnectionTimeout.IsUnknown() && !r.OutputConfluentCloud.KafkaSchemaRegistry.ConnectionTimeout.IsNull() {
-				*connectionTimeout8, _ = r.OutputConfluentCloud.KafkaSchemaRegistry.ConnectionTimeout.ValueBigFloat().Float64()
+				*connectionTimeout8 = r.OutputConfluentCloud.KafkaSchemaRegistry.ConnectionTimeout.ValueFloat64()
 			} else {
 				connectionTimeout8 = nil
 			}
 			requestTimeout3 := new(float64)
 			if !r.OutputConfluentCloud.KafkaSchemaRegistry.RequestTimeout.IsUnknown() && !r.OutputConfluentCloud.KafkaSchemaRegistry.RequestTimeout.IsNull() {
-				*requestTimeout3, _ = r.OutputConfluentCloud.KafkaSchemaRegistry.RequestTimeout.ValueBigFloat().Float64()
+				*requestTimeout3 = r.OutputConfluentCloud.KafkaSchemaRegistry.RequestTimeout.ValueFloat64()
 			} else {
 				requestTimeout3 = nil
 			}
 			maxRetries3 := new(float64)
 			if !r.OutputConfluentCloud.KafkaSchemaRegistry.MaxRetries.IsUnknown() && !r.OutputConfluentCloud.KafkaSchemaRegistry.MaxRetries.IsNull() {
-				*maxRetries3, _ = r.OutputConfluentCloud.KafkaSchemaRegistry.MaxRetries.ValueBigFloat().Float64()
+				*maxRetries3 = r.OutputConfluentCloud.KafkaSchemaRegistry.MaxRetries.ValueFloat64()
 			} else {
 				maxRetries3 = nil
 			}
@@ -8395,13 +8410,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			defaultKeySchemaId1 := new(float64)
 			if !r.OutputConfluentCloud.KafkaSchemaRegistry.DefaultKeySchemaID.IsUnknown() && !r.OutputConfluentCloud.KafkaSchemaRegistry.DefaultKeySchemaID.IsNull() {
-				*defaultKeySchemaId1, _ = r.OutputConfluentCloud.KafkaSchemaRegistry.DefaultKeySchemaID.ValueBigFloat().Float64()
+				*defaultKeySchemaId1 = r.OutputConfluentCloud.KafkaSchemaRegistry.DefaultKeySchemaID.ValueFloat64()
 			} else {
 				defaultKeySchemaId1 = nil
 			}
 			defaultValueSchemaId1 := new(float64)
 			if !r.OutputConfluentCloud.KafkaSchemaRegistry.DefaultValueSchemaID.IsUnknown() && !r.OutputConfluentCloud.KafkaSchemaRegistry.DefaultValueSchemaID.IsNull() {
-				*defaultValueSchemaId1, _ = r.OutputConfluentCloud.KafkaSchemaRegistry.DefaultValueSchemaID.ValueBigFloat().Float64()
+				*defaultValueSchemaId1 = r.OutputConfluentCloud.KafkaSchemaRegistry.DefaultValueSchemaID.ValueFloat64()
 			} else {
 				defaultValueSchemaId1 = nil
 			}
@@ -8419,49 +8434,49 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		connectionTimeout9 := new(float64)
 		if !r.OutputConfluentCloud.ConnectionTimeout.IsUnknown() && !r.OutputConfluentCloud.ConnectionTimeout.IsNull() {
-			*connectionTimeout9, _ = r.OutputConfluentCloud.ConnectionTimeout.ValueBigFloat().Float64()
+			*connectionTimeout9 = r.OutputConfluentCloud.ConnectionTimeout.ValueFloat64()
 		} else {
 			connectionTimeout9 = nil
 		}
 		requestTimeout4 := new(float64)
 		if !r.OutputConfluentCloud.RequestTimeout.IsUnknown() && !r.OutputConfluentCloud.RequestTimeout.IsNull() {
-			*requestTimeout4, _ = r.OutputConfluentCloud.RequestTimeout.ValueBigFloat().Float64()
+			*requestTimeout4 = r.OutputConfluentCloud.RequestTimeout.ValueFloat64()
 		} else {
 			requestTimeout4 = nil
 		}
 		maxRetries4 := new(float64)
 		if !r.OutputConfluentCloud.MaxRetries.IsUnknown() && !r.OutputConfluentCloud.MaxRetries.IsNull() {
-			*maxRetries4, _ = r.OutputConfluentCloud.MaxRetries.ValueBigFloat().Float64()
+			*maxRetries4 = r.OutputConfluentCloud.MaxRetries.ValueFloat64()
 		} else {
 			maxRetries4 = nil
 		}
 		maxBackOff2 := new(float64)
 		if !r.OutputConfluentCloud.MaxBackOff.IsUnknown() && !r.OutputConfluentCloud.MaxBackOff.IsNull() {
-			*maxBackOff2, _ = r.OutputConfluentCloud.MaxBackOff.ValueBigFloat().Float64()
+			*maxBackOff2 = r.OutputConfluentCloud.MaxBackOff.ValueFloat64()
 		} else {
 			maxBackOff2 = nil
 		}
 		initialBackoff20 := new(float64)
 		if !r.OutputConfluentCloud.InitialBackoff.IsUnknown() && !r.OutputConfluentCloud.InitialBackoff.IsNull() {
-			*initialBackoff20, _ = r.OutputConfluentCloud.InitialBackoff.ValueBigFloat().Float64()
+			*initialBackoff20 = r.OutputConfluentCloud.InitialBackoff.ValueFloat64()
 		} else {
 			initialBackoff20 = nil
 		}
 		backoffRate20 := new(float64)
 		if !r.OutputConfluentCloud.BackoffRate.IsUnknown() && !r.OutputConfluentCloud.BackoffRate.IsNull() {
-			*backoffRate20, _ = r.OutputConfluentCloud.BackoffRate.ValueBigFloat().Float64()
+			*backoffRate20 = r.OutputConfluentCloud.BackoffRate.ValueFloat64()
 		} else {
 			backoffRate20 = nil
 		}
 		authenticationTimeout2 := new(float64)
 		if !r.OutputConfluentCloud.AuthenticationTimeout.IsUnknown() && !r.OutputConfluentCloud.AuthenticationTimeout.IsNull() {
-			*authenticationTimeout2, _ = r.OutputConfluentCloud.AuthenticationTimeout.ValueBigFloat().Float64()
+			*authenticationTimeout2 = r.OutputConfluentCloud.AuthenticationTimeout.ValueFloat64()
 		} else {
 			authenticationTimeout2 = nil
 		}
 		reauthenticationThreshold2 := new(float64)
 		if !r.OutputConfluentCloud.ReauthenticationThreshold.IsUnknown() && !r.OutputConfluentCloud.ReauthenticationThreshold.IsNull() {
-			*reauthenticationThreshold2, _ = r.OutputConfluentCloud.ReauthenticationThreshold.ValueBigFloat().Float64()
+			*reauthenticationThreshold2 = r.OutputConfluentCloud.ReauthenticationThreshold.ValueFloat64()
 		} else {
 			reauthenticationThreshold2 = nil
 		}
@@ -8646,19 +8661,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxRecordSizeKb5 := new(float64)
 		if !r.OutputMsk.MaxRecordSizeKB.IsUnknown() && !r.OutputMsk.MaxRecordSizeKB.IsNull() {
-			*maxRecordSizeKb5, _ = r.OutputMsk.MaxRecordSizeKB.ValueBigFloat().Float64()
+			*maxRecordSizeKb5 = r.OutputMsk.MaxRecordSizeKB.ValueFloat64()
 		} else {
 			maxRecordSizeKb5 = nil
 		}
 		flushEventCount3 := new(float64)
 		if !r.OutputMsk.FlushEventCount.IsUnknown() && !r.OutputMsk.FlushEventCount.IsNull() {
-			*flushEventCount3, _ = r.OutputMsk.FlushEventCount.ValueBigFloat().Float64()
+			*flushEventCount3 = r.OutputMsk.FlushEventCount.ValueFloat64()
 		} else {
 			flushEventCount3 = nil
 		}
 		flushPeriodSec15 := new(float64)
 		if !r.OutputMsk.FlushPeriodSec.IsUnknown() && !r.OutputMsk.FlushPeriodSec.IsNull() {
-			*flushPeriodSec15, _ = r.OutputMsk.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec15 = r.OutputMsk.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec15 = nil
 		}
@@ -8678,19 +8693,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			connectionTimeout10 := new(float64)
 			if !r.OutputMsk.KafkaSchemaRegistry.ConnectionTimeout.IsUnknown() && !r.OutputMsk.KafkaSchemaRegistry.ConnectionTimeout.IsNull() {
-				*connectionTimeout10, _ = r.OutputMsk.KafkaSchemaRegistry.ConnectionTimeout.ValueBigFloat().Float64()
+				*connectionTimeout10 = r.OutputMsk.KafkaSchemaRegistry.ConnectionTimeout.ValueFloat64()
 			} else {
 				connectionTimeout10 = nil
 			}
 			requestTimeout5 := new(float64)
 			if !r.OutputMsk.KafkaSchemaRegistry.RequestTimeout.IsUnknown() && !r.OutputMsk.KafkaSchemaRegistry.RequestTimeout.IsNull() {
-				*requestTimeout5, _ = r.OutputMsk.KafkaSchemaRegistry.RequestTimeout.ValueBigFloat().Float64()
+				*requestTimeout5 = r.OutputMsk.KafkaSchemaRegistry.RequestTimeout.ValueFloat64()
 			} else {
 				requestTimeout5 = nil
 			}
 			maxRetries5 := new(float64)
 			if !r.OutputMsk.KafkaSchemaRegistry.MaxRetries.IsUnknown() && !r.OutputMsk.KafkaSchemaRegistry.MaxRetries.IsNull() {
-				*maxRetries5, _ = r.OutputMsk.KafkaSchemaRegistry.MaxRetries.ValueBigFloat().Float64()
+				*maxRetries5 = r.OutputMsk.KafkaSchemaRegistry.MaxRetries.ValueFloat64()
 			} else {
 				maxRetries5 = nil
 			}
@@ -8790,13 +8805,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			defaultKeySchemaId2 := new(float64)
 			if !r.OutputMsk.KafkaSchemaRegistry.DefaultKeySchemaID.IsUnknown() && !r.OutputMsk.KafkaSchemaRegistry.DefaultKeySchemaID.IsNull() {
-				*defaultKeySchemaId2, _ = r.OutputMsk.KafkaSchemaRegistry.DefaultKeySchemaID.ValueBigFloat().Float64()
+				*defaultKeySchemaId2 = r.OutputMsk.KafkaSchemaRegistry.DefaultKeySchemaID.ValueFloat64()
 			} else {
 				defaultKeySchemaId2 = nil
 			}
 			defaultValueSchemaId2 := new(float64)
 			if !r.OutputMsk.KafkaSchemaRegistry.DefaultValueSchemaID.IsUnknown() && !r.OutputMsk.KafkaSchemaRegistry.DefaultValueSchemaID.IsNull() {
-				*defaultValueSchemaId2, _ = r.OutputMsk.KafkaSchemaRegistry.DefaultValueSchemaID.ValueBigFloat().Float64()
+				*defaultValueSchemaId2 = r.OutputMsk.KafkaSchemaRegistry.DefaultValueSchemaID.ValueFloat64()
 			} else {
 				defaultValueSchemaId2 = nil
 			}
@@ -8814,49 +8829,49 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		connectionTimeout11 := new(float64)
 		if !r.OutputMsk.ConnectionTimeout.IsUnknown() && !r.OutputMsk.ConnectionTimeout.IsNull() {
-			*connectionTimeout11, _ = r.OutputMsk.ConnectionTimeout.ValueBigFloat().Float64()
+			*connectionTimeout11 = r.OutputMsk.ConnectionTimeout.ValueFloat64()
 		} else {
 			connectionTimeout11 = nil
 		}
 		requestTimeout6 := new(float64)
 		if !r.OutputMsk.RequestTimeout.IsUnknown() && !r.OutputMsk.RequestTimeout.IsNull() {
-			*requestTimeout6, _ = r.OutputMsk.RequestTimeout.ValueBigFloat().Float64()
+			*requestTimeout6 = r.OutputMsk.RequestTimeout.ValueFloat64()
 		} else {
 			requestTimeout6 = nil
 		}
 		maxRetries6 := new(float64)
 		if !r.OutputMsk.MaxRetries.IsUnknown() && !r.OutputMsk.MaxRetries.IsNull() {
-			*maxRetries6, _ = r.OutputMsk.MaxRetries.ValueBigFloat().Float64()
+			*maxRetries6 = r.OutputMsk.MaxRetries.ValueFloat64()
 		} else {
 			maxRetries6 = nil
 		}
 		maxBackOff3 := new(float64)
 		if !r.OutputMsk.MaxBackOff.IsUnknown() && !r.OutputMsk.MaxBackOff.IsNull() {
-			*maxBackOff3, _ = r.OutputMsk.MaxBackOff.ValueBigFloat().Float64()
+			*maxBackOff3 = r.OutputMsk.MaxBackOff.ValueFloat64()
 		} else {
 			maxBackOff3 = nil
 		}
 		initialBackoff21 := new(float64)
 		if !r.OutputMsk.InitialBackoff.IsUnknown() && !r.OutputMsk.InitialBackoff.IsNull() {
-			*initialBackoff21, _ = r.OutputMsk.InitialBackoff.ValueBigFloat().Float64()
+			*initialBackoff21 = r.OutputMsk.InitialBackoff.ValueFloat64()
 		} else {
 			initialBackoff21 = nil
 		}
 		backoffRate21 := new(float64)
 		if !r.OutputMsk.BackoffRate.IsUnknown() && !r.OutputMsk.BackoffRate.IsNull() {
-			*backoffRate21, _ = r.OutputMsk.BackoffRate.ValueBigFloat().Float64()
+			*backoffRate21 = r.OutputMsk.BackoffRate.ValueFloat64()
 		} else {
 			backoffRate21 = nil
 		}
 		authenticationTimeout3 := new(float64)
 		if !r.OutputMsk.AuthenticationTimeout.IsUnknown() && !r.OutputMsk.AuthenticationTimeout.IsNull() {
-			*authenticationTimeout3, _ = r.OutputMsk.AuthenticationTimeout.ValueBigFloat().Float64()
+			*authenticationTimeout3 = r.OutputMsk.AuthenticationTimeout.ValueFloat64()
 		} else {
 			authenticationTimeout3 = nil
 		}
 		reauthenticationThreshold3 := new(float64)
 		if !r.OutputMsk.ReauthenticationThreshold.IsUnknown() && !r.OutputMsk.ReauthenticationThreshold.IsNull() {
-			*reauthenticationThreshold3, _ = r.OutputMsk.ReauthenticationThreshold.ValueBigFloat().Float64()
+			*reauthenticationThreshold3 = r.OutputMsk.ReauthenticationThreshold.ValueFloat64()
 		} else {
 			reauthenticationThreshold3 = nil
 		}
@@ -8919,7 +8934,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		durationSeconds2 := new(float64)
 		if !r.OutputMsk.DurationSeconds.IsUnknown() && !r.OutputMsk.DurationSeconds.IsNull() {
-			*durationSeconds2, _ = r.OutputMsk.DurationSeconds.ValueBigFloat().Float64()
+			*durationSeconds2 = r.OutputMsk.DurationSeconds.ValueFloat64()
 		} else {
 			durationSeconds2 = nil
 		}
@@ -9169,27 +9184,27 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency11 := new(float64)
 		if !r.OutputElastic.Concurrency.IsUnknown() && !r.OutputElastic.Concurrency.IsNull() {
-			*concurrency11, _ = r.OutputElastic.Concurrency.ValueBigFloat().Float64()
+			*concurrency11 = r.OutputElastic.Concurrency.ValueFloat64()
 		} else {
 			concurrency11 = nil
 		}
 		maxPayloadSizeKb10 := new(float64)
 		if !r.OutputElastic.MaxPayloadSizeKB.IsUnknown() && !r.OutputElastic.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb10, _ = r.OutputElastic.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb10 = r.OutputElastic.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb10 = nil
 		}
 		maxPayloadEvents10 := new(float64)
 		if !r.OutputElastic.MaxPayloadEvents.IsUnknown() && !r.OutputElastic.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents10, _ = r.OutputElastic.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents10 = r.OutputElastic.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents10 = nil
 		}
-		compress13 := new(bool)
+		compress15 := new(bool)
 		if !r.OutputElastic.Compress.IsUnknown() && !r.OutputElastic.Compress.IsNull() {
-			*compress13 = r.OutputElastic.Compress.ValueBool()
+			*compress15 = r.OutputElastic.Compress.ValueBool()
 		} else {
-			compress13 = nil
+			compress15 = nil
 		}
 		rejectUnauthorized26 := new(bool)
 		if !r.OutputElastic.RejectUnauthorized.IsUnknown() && !r.OutputElastic.RejectUnauthorized.IsNull() {
@@ -9199,13 +9214,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec10 := new(float64)
 		if !r.OutputElastic.TimeoutSec.IsUnknown() && !r.OutputElastic.TimeoutSec.IsNull() {
-			*timeoutSec10, _ = r.OutputElastic.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec10 = r.OutputElastic.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec10 = nil
 		}
 		flushPeriodSec16 := new(float64)
 		if !r.OutputElastic.FlushPeriodSec.IsUnknown() && !r.OutputElastic.FlushPeriodSec.IsNull() {
-			*flushPeriodSec16, _ = r.OutputElastic.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec16 = r.OutputElastic.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec16 = nil
 		}
@@ -9238,23 +9253,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings9 []shared.OutputElasticResponseRetrySettings = []shared.OutputElasticResponseRetrySettings{}
 		for _, responseRetrySettingsItem9 := range r.OutputElastic.ResponseRetrySettings {
 			var httpStatus9 float64
-			httpStatus9, _ = responseRetrySettingsItem9.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus9 = responseRetrySettingsItem9.HTTPStatus.ValueFloat64()
 
 			initialBackoff22 := new(float64)
 			if !responseRetrySettingsItem9.InitialBackoff.IsUnknown() && !responseRetrySettingsItem9.InitialBackoff.IsNull() {
-				*initialBackoff22, _ = responseRetrySettingsItem9.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff22 = responseRetrySettingsItem9.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff22 = nil
 			}
 			backoffRate22 := new(float64)
 			if !responseRetrySettingsItem9.BackoffRate.IsUnknown() && !responseRetrySettingsItem9.BackoffRate.IsNull() {
-				*backoffRate22, _ = responseRetrySettingsItem9.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate22 = responseRetrySettingsItem9.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate22 = nil
 			}
 			maxBackoff18 := new(float64)
 			if !responseRetrySettingsItem9.MaxBackoff.IsUnknown() && !responseRetrySettingsItem9.MaxBackoff.IsNull() {
-				*maxBackoff18, _ = responseRetrySettingsItem9.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff18 = responseRetrySettingsItem9.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff18 = nil
 			}
@@ -9275,19 +9290,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff23 := new(float64)
 			if !r.OutputElastic.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputElastic.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff23, _ = r.OutputElastic.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff23 = r.OutputElastic.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff23 = nil
 			}
 			backoffRate23 := new(float64)
 			if !r.OutputElastic.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputElastic.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate23, _ = r.OutputElastic.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate23 = r.OutputElastic.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate23 = nil
 			}
 			maxBackoff19 := new(float64)
 			if !r.OutputElastic.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputElastic.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff19, _ = r.OutputElastic.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff19 = r.OutputElastic.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff19 = nil
 			}
@@ -9403,7 +9418,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 
 			weight4 := new(float64)
 			if !urlsItem2.Weight.IsUnknown() && !urlsItem2.Weight.IsNull() {
-				*weight4, _ = urlsItem2.Weight.ValueBigFloat().Float64()
+				*weight4 = urlsItem2.Weight.ValueFloat64()
 			} else {
 				weight4 = nil
 			}
@@ -9414,13 +9429,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		dnsResolvePeriodSec4 := new(float64)
 		if !r.OutputElastic.DNSResolvePeriodSec.IsUnknown() && !r.OutputElastic.DNSResolvePeriodSec.IsNull() {
-			*dnsResolvePeriodSec4, _ = r.OutputElastic.DNSResolvePeriodSec.ValueBigFloat().Float64()
+			*dnsResolvePeriodSec4 = r.OutputElastic.DNSResolvePeriodSec.ValueFloat64()
 		} else {
 			dnsResolvePeriodSec4 = nil
 		}
 		loadBalanceStatsPeriodSec4 := new(float64)
 		if !r.OutputElastic.LoadBalanceStatsPeriodSec.IsUnknown() && !r.OutputElastic.LoadBalanceStatsPeriodSec.IsNull() {
-			*loadBalanceStatsPeriodSec4, _ = r.OutputElastic.LoadBalanceStatsPeriodSec.ValueBigFloat().Float64()
+			*loadBalanceStatsPeriodSec4 = r.OutputElastic.LoadBalanceStatsPeriodSec.ValueFloat64()
 		} else {
 			loadBalanceStatsPeriodSec4 = nil
 		}
@@ -9477,7 +9492,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Concurrency:                   concurrency11,
 			MaxPayloadSizeKB:              maxPayloadSizeKb10,
 			MaxPayloadEvents:              maxPayloadEvents10,
-			Compress:                      compress13,
+			Compress:                      compress15,
 			RejectUnauthorized:            rejectUnauthorized26,
 			TimeoutSec:                    timeoutSec10,
 			FlushPeriodSec:                flushPeriodSec16,
@@ -9558,27 +9573,27 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 
 		concurrency12 := new(float64)
 		if !r.OutputElasticCloud.Concurrency.IsUnknown() && !r.OutputElasticCloud.Concurrency.IsNull() {
-			*concurrency12, _ = r.OutputElasticCloud.Concurrency.ValueBigFloat().Float64()
+			*concurrency12 = r.OutputElasticCloud.Concurrency.ValueFloat64()
 		} else {
 			concurrency12 = nil
 		}
 		maxPayloadSizeKb11 := new(float64)
 		if !r.OutputElasticCloud.MaxPayloadSizeKB.IsUnknown() && !r.OutputElasticCloud.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb11, _ = r.OutputElasticCloud.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb11 = r.OutputElasticCloud.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb11 = nil
 		}
 		maxPayloadEvents11 := new(float64)
 		if !r.OutputElasticCloud.MaxPayloadEvents.IsUnknown() && !r.OutputElasticCloud.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents11, _ = r.OutputElasticCloud.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents11 = r.OutputElasticCloud.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents11 = nil
 		}
-		compress14 := new(bool)
+		compress16 := new(bool)
 		if !r.OutputElasticCloud.Compress.IsUnknown() && !r.OutputElasticCloud.Compress.IsNull() {
-			*compress14 = r.OutputElasticCloud.Compress.ValueBool()
+			*compress16 = r.OutputElasticCloud.Compress.ValueBool()
 		} else {
-			compress14 = nil
+			compress16 = nil
 		}
 		rejectUnauthorized27 := new(bool)
 		if !r.OutputElasticCloud.RejectUnauthorized.IsUnknown() && !r.OutputElasticCloud.RejectUnauthorized.IsNull() {
@@ -9588,13 +9603,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec11 := new(float64)
 		if !r.OutputElasticCloud.TimeoutSec.IsUnknown() && !r.OutputElasticCloud.TimeoutSec.IsNull() {
-			*timeoutSec11, _ = r.OutputElasticCloud.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec11 = r.OutputElasticCloud.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec11 = nil
 		}
 		flushPeriodSec17 := new(float64)
 		if !r.OutputElasticCloud.FlushPeriodSec.IsUnknown() && !r.OutputElasticCloud.FlushPeriodSec.IsNull() {
-			*flushPeriodSec17, _ = r.OutputElasticCloud.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec17 = r.OutputElasticCloud.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec17 = nil
 		}
@@ -9671,23 +9686,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings10 []shared.OutputElasticCloudResponseRetrySettings = []shared.OutputElasticCloudResponseRetrySettings{}
 		for _, responseRetrySettingsItem10 := range r.OutputElasticCloud.ResponseRetrySettings {
 			var httpStatus10 float64
-			httpStatus10, _ = responseRetrySettingsItem10.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus10 = responseRetrySettingsItem10.HTTPStatus.ValueFloat64()
 
 			initialBackoff24 := new(float64)
 			if !responseRetrySettingsItem10.InitialBackoff.IsUnknown() && !responseRetrySettingsItem10.InitialBackoff.IsNull() {
-				*initialBackoff24, _ = responseRetrySettingsItem10.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff24 = responseRetrySettingsItem10.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff24 = nil
 			}
 			backoffRate24 := new(float64)
 			if !responseRetrySettingsItem10.BackoffRate.IsUnknown() && !responseRetrySettingsItem10.BackoffRate.IsNull() {
-				*backoffRate24, _ = responseRetrySettingsItem10.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate24 = responseRetrySettingsItem10.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate24 = nil
 			}
 			maxBackoff20 := new(float64)
 			if !responseRetrySettingsItem10.MaxBackoff.IsUnknown() && !responseRetrySettingsItem10.MaxBackoff.IsNull() {
-				*maxBackoff20, _ = responseRetrySettingsItem10.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff20 = responseRetrySettingsItem10.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff20 = nil
 			}
@@ -9708,19 +9723,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff25 := new(float64)
 			if !r.OutputElasticCloud.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputElasticCloud.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff25, _ = r.OutputElasticCloud.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff25 = r.OutputElasticCloud.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff25 = nil
 			}
 			backoffRate25 := new(float64)
 			if !r.OutputElasticCloud.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputElasticCloud.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate25, _ = r.OutputElasticCloud.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate25 = r.OutputElasticCloud.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate25 = nil
 			}
 			maxBackoff21 := new(float64)
 			if !r.OutputElasticCloud.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputElasticCloud.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff21, _ = r.OutputElasticCloud.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff21 = r.OutputElasticCloud.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff21 = nil
 			}
@@ -9801,7 +9816,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Concurrency:                   concurrency12,
 			MaxPayloadSizeKB:              maxPayloadSizeKb11,
 			MaxPayloadEvents:              maxPayloadEvents11,
-			Compress:                      compress14,
+			Compress:                      compress16,
 			RejectUnauthorized:            rejectUnauthorized27,
 			TimeoutSec:                    timeoutSec11,
 			FlushPeriodSec:                flushPeriodSec17,
@@ -9888,27 +9903,27 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency13 := new(float64)
 		if !r.OutputNewrelic.Concurrency.IsUnknown() && !r.OutputNewrelic.Concurrency.IsNull() {
-			*concurrency13, _ = r.OutputNewrelic.Concurrency.ValueBigFloat().Float64()
+			*concurrency13 = r.OutputNewrelic.Concurrency.ValueFloat64()
 		} else {
 			concurrency13 = nil
 		}
 		maxPayloadSizeKb12 := new(float64)
 		if !r.OutputNewrelic.MaxPayloadSizeKB.IsUnknown() && !r.OutputNewrelic.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb12, _ = r.OutputNewrelic.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb12 = r.OutputNewrelic.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb12 = nil
 		}
 		maxPayloadEvents12 := new(float64)
 		if !r.OutputNewrelic.MaxPayloadEvents.IsUnknown() && !r.OutputNewrelic.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents12, _ = r.OutputNewrelic.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents12 = r.OutputNewrelic.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents12 = nil
 		}
-		compress15 := new(bool)
+		compress17 := new(bool)
 		if !r.OutputNewrelic.Compress.IsUnknown() && !r.OutputNewrelic.Compress.IsNull() {
-			*compress15 = r.OutputNewrelic.Compress.ValueBool()
+			*compress17 = r.OutputNewrelic.Compress.ValueBool()
 		} else {
-			compress15 = nil
+			compress17 = nil
 		}
 		rejectUnauthorized28 := new(bool)
 		if !r.OutputNewrelic.RejectUnauthorized.IsUnknown() && !r.OutputNewrelic.RejectUnauthorized.IsNull() {
@@ -9918,13 +9933,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec12 := new(float64)
 		if !r.OutputNewrelic.TimeoutSec.IsUnknown() && !r.OutputNewrelic.TimeoutSec.IsNull() {
-			*timeoutSec12, _ = r.OutputNewrelic.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec12 = r.OutputNewrelic.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec12 = nil
 		}
 		flushPeriodSec18 := new(float64)
 		if !r.OutputNewrelic.FlushPeriodSec.IsUnknown() && !r.OutputNewrelic.FlushPeriodSec.IsNull() {
-			*flushPeriodSec18, _ = r.OutputNewrelic.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec18 = r.OutputNewrelic.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec18 = nil
 		}
@@ -9963,23 +9978,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings11 []shared.OutputNewrelicResponseRetrySettings = []shared.OutputNewrelicResponseRetrySettings{}
 		for _, responseRetrySettingsItem11 := range r.OutputNewrelic.ResponseRetrySettings {
 			var httpStatus11 float64
-			httpStatus11, _ = responseRetrySettingsItem11.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus11 = responseRetrySettingsItem11.HTTPStatus.ValueFloat64()
 
 			initialBackoff26 := new(float64)
 			if !responseRetrySettingsItem11.InitialBackoff.IsUnknown() && !responseRetrySettingsItem11.InitialBackoff.IsNull() {
-				*initialBackoff26, _ = responseRetrySettingsItem11.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff26 = responseRetrySettingsItem11.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff26 = nil
 			}
 			backoffRate26 := new(float64)
 			if !responseRetrySettingsItem11.BackoffRate.IsUnknown() && !responseRetrySettingsItem11.BackoffRate.IsNull() {
-				*backoffRate26, _ = responseRetrySettingsItem11.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate26 = responseRetrySettingsItem11.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate26 = nil
 			}
 			maxBackoff22 := new(float64)
 			if !responseRetrySettingsItem11.MaxBackoff.IsUnknown() && !responseRetrySettingsItem11.MaxBackoff.IsNull() {
-				*maxBackoff22, _ = responseRetrySettingsItem11.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff22 = responseRetrySettingsItem11.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff22 = nil
 			}
@@ -10000,19 +10015,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff27 := new(float64)
 			if !r.OutputNewrelic.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputNewrelic.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff27, _ = r.OutputNewrelic.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff27 = r.OutputNewrelic.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff27 = nil
 			}
 			backoffRate27 := new(float64)
 			if !r.OutputNewrelic.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputNewrelic.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate27, _ = r.OutputNewrelic.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate27 = r.OutputNewrelic.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate27 = nil
 			}
 			maxBackoff23 := new(float64)
 			if !r.OutputNewrelic.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputNewrelic.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff23, _ = r.OutputNewrelic.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff23 = r.OutputNewrelic.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff23 = nil
 			}
@@ -10043,7 +10058,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		totalMemoryLimitKb4 := new(float64)
 		if !r.OutputNewrelic.TotalMemoryLimitKB.IsUnknown() && !r.OutputNewrelic.TotalMemoryLimitKB.IsNull() {
-			*totalMemoryLimitKb4, _ = r.OutputNewrelic.TotalMemoryLimitKB.ValueBigFloat().Float64()
+			*totalMemoryLimitKb4 = r.OutputNewrelic.TotalMemoryLimitKB.ValueFloat64()
 		} else {
 			totalMemoryLimitKb4 = nil
 		}
@@ -10125,7 +10140,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Concurrency:                   concurrency13,
 			MaxPayloadSizeKB:              maxPayloadSizeKb12,
 			MaxPayloadEvents:              maxPayloadEvents12,
-			Compress:                      compress15,
+			Compress:                      compress17,
 			RejectUnauthorized:            rejectUnauthorized28,
 			TimeoutSec:                    timeoutSec12,
 			FlushPeriodSec:                flushPeriodSec18,
@@ -10205,27 +10220,27 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 
 		concurrency14 := new(float64)
 		if !r.OutputNewrelicEvents.Concurrency.IsUnknown() && !r.OutputNewrelicEvents.Concurrency.IsNull() {
-			*concurrency14, _ = r.OutputNewrelicEvents.Concurrency.ValueBigFloat().Float64()
+			*concurrency14 = r.OutputNewrelicEvents.Concurrency.ValueFloat64()
 		} else {
 			concurrency14 = nil
 		}
 		maxPayloadSizeKb13 := new(float64)
 		if !r.OutputNewrelicEvents.MaxPayloadSizeKB.IsUnknown() && !r.OutputNewrelicEvents.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb13, _ = r.OutputNewrelicEvents.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb13 = r.OutputNewrelicEvents.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb13 = nil
 		}
 		maxPayloadEvents13 := new(float64)
 		if !r.OutputNewrelicEvents.MaxPayloadEvents.IsUnknown() && !r.OutputNewrelicEvents.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents13, _ = r.OutputNewrelicEvents.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents13 = r.OutputNewrelicEvents.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents13 = nil
 		}
-		compress16 := new(bool)
+		compress18 := new(bool)
 		if !r.OutputNewrelicEvents.Compress.IsUnknown() && !r.OutputNewrelicEvents.Compress.IsNull() {
-			*compress16 = r.OutputNewrelicEvents.Compress.ValueBool()
+			*compress18 = r.OutputNewrelicEvents.Compress.ValueBool()
 		} else {
-			compress16 = nil
+			compress18 = nil
 		}
 		rejectUnauthorized29 := new(bool)
 		if !r.OutputNewrelicEvents.RejectUnauthorized.IsUnknown() && !r.OutputNewrelicEvents.RejectUnauthorized.IsNull() {
@@ -10235,13 +10250,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec13 := new(float64)
 		if !r.OutputNewrelicEvents.TimeoutSec.IsUnknown() && !r.OutputNewrelicEvents.TimeoutSec.IsNull() {
-			*timeoutSec13, _ = r.OutputNewrelicEvents.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec13 = r.OutputNewrelicEvents.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec13 = nil
 		}
 		flushPeriodSec19 := new(float64)
 		if !r.OutputNewrelicEvents.FlushPeriodSec.IsUnknown() && !r.OutputNewrelicEvents.FlushPeriodSec.IsNull() {
-			*flushPeriodSec19, _ = r.OutputNewrelicEvents.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec19 = r.OutputNewrelicEvents.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec19 = nil
 		}
@@ -10280,23 +10295,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings12 []shared.OutputNewrelicEventsResponseRetrySettings = []shared.OutputNewrelicEventsResponseRetrySettings{}
 		for _, responseRetrySettingsItem12 := range r.OutputNewrelicEvents.ResponseRetrySettings {
 			var httpStatus12 float64
-			httpStatus12, _ = responseRetrySettingsItem12.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus12 = responseRetrySettingsItem12.HTTPStatus.ValueFloat64()
 
 			initialBackoff28 := new(float64)
 			if !responseRetrySettingsItem12.InitialBackoff.IsUnknown() && !responseRetrySettingsItem12.InitialBackoff.IsNull() {
-				*initialBackoff28, _ = responseRetrySettingsItem12.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff28 = responseRetrySettingsItem12.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff28 = nil
 			}
 			backoffRate28 := new(float64)
 			if !responseRetrySettingsItem12.BackoffRate.IsUnknown() && !responseRetrySettingsItem12.BackoffRate.IsNull() {
-				*backoffRate28, _ = responseRetrySettingsItem12.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate28 = responseRetrySettingsItem12.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate28 = nil
 			}
 			maxBackoff24 := new(float64)
 			if !responseRetrySettingsItem12.MaxBackoff.IsUnknown() && !responseRetrySettingsItem12.MaxBackoff.IsNull() {
-				*maxBackoff24, _ = responseRetrySettingsItem12.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff24 = responseRetrySettingsItem12.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff24 = nil
 			}
@@ -10317,19 +10332,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff29 := new(float64)
 			if !r.OutputNewrelicEvents.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputNewrelicEvents.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff29, _ = r.OutputNewrelicEvents.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff29 = r.OutputNewrelicEvents.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff29 = nil
 			}
 			backoffRate29 := new(float64)
 			if !r.OutputNewrelicEvents.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputNewrelicEvents.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate29, _ = r.OutputNewrelicEvents.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate29 = r.OutputNewrelicEvents.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate29 = nil
 			}
 			maxBackoff25 := new(float64)
 			if !r.OutputNewrelicEvents.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputNewrelicEvents.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff25, _ = r.OutputNewrelicEvents.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff25 = r.OutputNewrelicEvents.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff25 = nil
 			}
@@ -10435,7 +10450,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Concurrency:                   concurrency14,
 			MaxPayloadSizeKB:              maxPayloadSizeKb13,
 			MaxPayloadEvents:              maxPayloadEvents13,
-			Compress:                      compress16,
+			Compress:                      compress18,
 			RejectUnauthorized:            rejectUnauthorized29,
 			TimeoutSec:                    timeoutSec13,
 			FlushPeriodSec:                flushPeriodSec19,
@@ -10524,27 +10539,27 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency15 := new(float64)
 		if !r.OutputInfluxdb.Concurrency.IsUnknown() && !r.OutputInfluxdb.Concurrency.IsNull() {
-			*concurrency15, _ = r.OutputInfluxdb.Concurrency.ValueBigFloat().Float64()
+			*concurrency15 = r.OutputInfluxdb.Concurrency.ValueFloat64()
 		} else {
 			concurrency15 = nil
 		}
 		maxPayloadSizeKb14 := new(float64)
 		if !r.OutputInfluxdb.MaxPayloadSizeKB.IsUnknown() && !r.OutputInfluxdb.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb14, _ = r.OutputInfluxdb.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb14 = r.OutputInfluxdb.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb14 = nil
 		}
 		maxPayloadEvents14 := new(float64)
 		if !r.OutputInfluxdb.MaxPayloadEvents.IsUnknown() && !r.OutputInfluxdb.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents14, _ = r.OutputInfluxdb.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents14 = r.OutputInfluxdb.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents14 = nil
 		}
-		compress17 := new(bool)
+		compress19 := new(bool)
 		if !r.OutputInfluxdb.Compress.IsUnknown() && !r.OutputInfluxdb.Compress.IsNull() {
-			*compress17 = r.OutputInfluxdb.Compress.ValueBool()
+			*compress19 = r.OutputInfluxdb.Compress.ValueBool()
 		} else {
-			compress17 = nil
+			compress19 = nil
 		}
 		rejectUnauthorized30 := new(bool)
 		if !r.OutputInfluxdb.RejectUnauthorized.IsUnknown() && !r.OutputInfluxdb.RejectUnauthorized.IsNull() {
@@ -10554,13 +10569,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec14 := new(float64)
 		if !r.OutputInfluxdb.TimeoutSec.IsUnknown() && !r.OutputInfluxdb.TimeoutSec.IsNull() {
-			*timeoutSec14, _ = r.OutputInfluxdb.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec14 = r.OutputInfluxdb.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec14 = nil
 		}
 		flushPeriodSec20 := new(float64)
 		if !r.OutputInfluxdb.FlushPeriodSec.IsUnknown() && !r.OutputInfluxdb.FlushPeriodSec.IsNull() {
-			*flushPeriodSec20, _ = r.OutputInfluxdb.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec20 = r.OutputInfluxdb.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec20 = nil
 		}
@@ -10599,23 +10614,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings13 []shared.OutputInfluxdbResponseRetrySettings = []shared.OutputInfluxdbResponseRetrySettings{}
 		for _, responseRetrySettingsItem13 := range r.OutputInfluxdb.ResponseRetrySettings {
 			var httpStatus13 float64
-			httpStatus13, _ = responseRetrySettingsItem13.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus13 = responseRetrySettingsItem13.HTTPStatus.ValueFloat64()
 
 			initialBackoff30 := new(float64)
 			if !responseRetrySettingsItem13.InitialBackoff.IsUnknown() && !responseRetrySettingsItem13.InitialBackoff.IsNull() {
-				*initialBackoff30, _ = responseRetrySettingsItem13.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff30 = responseRetrySettingsItem13.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff30 = nil
 			}
 			backoffRate30 := new(float64)
 			if !responseRetrySettingsItem13.BackoffRate.IsUnknown() && !responseRetrySettingsItem13.BackoffRate.IsNull() {
-				*backoffRate30, _ = responseRetrySettingsItem13.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate30 = responseRetrySettingsItem13.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate30 = nil
 			}
 			maxBackoff26 := new(float64)
 			if !responseRetrySettingsItem13.MaxBackoff.IsUnknown() && !responseRetrySettingsItem13.MaxBackoff.IsNull() {
-				*maxBackoff26, _ = responseRetrySettingsItem13.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff26 = responseRetrySettingsItem13.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff26 = nil
 			}
@@ -10636,19 +10651,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff31 := new(float64)
 			if !r.OutputInfluxdb.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputInfluxdb.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff31, _ = r.OutputInfluxdb.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff31 = r.OutputInfluxdb.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff31 = nil
 			}
 			backoffRate31 := new(float64)
 			if !r.OutputInfluxdb.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputInfluxdb.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate31, _ = r.OutputInfluxdb.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate31 = r.OutputInfluxdb.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate31 = nil
 			}
 			maxBackoff27 := new(float64)
 			if !r.OutputInfluxdb.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputInfluxdb.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff27, _ = r.OutputInfluxdb.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff27 = r.OutputInfluxdb.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff27 = nil
 			}
@@ -10803,7 +10818,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		tokenTimeoutSecs1 := new(float64)
 		if !r.OutputInfluxdb.TokenTimeoutSecs.IsUnknown() && !r.OutputInfluxdb.TokenTimeoutSecs.IsNull() {
-			*tokenTimeoutSecs1, _ = r.OutputInfluxdb.TokenTimeoutSecs.ValueBigFloat().Float64()
+			*tokenTimeoutSecs1 = r.OutputInfluxdb.TokenTimeoutSecs.ValueFloat64()
 		} else {
 			tokenTimeoutSecs1 = nil
 		}
@@ -10848,7 +10863,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Concurrency:                   concurrency15,
 			MaxPayloadSizeKB:              maxPayloadSizeKb14,
 			MaxPayloadEvents:              maxPayloadEvents14,
-			Compress:                      compress17,
+			Compress:                      compress19,
 			RejectUnauthorized:            rejectUnauthorized30,
 			TimeoutSec:                    timeoutSec14,
 			FlushPeriodSec:                flushPeriodSec20,
@@ -10985,25 +11000,25 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		durationSeconds3 := new(float64)
 		if !r.OutputCloudwatch.DurationSeconds.IsUnknown() && !r.OutputCloudwatch.DurationSeconds.IsNull() {
-			*durationSeconds3, _ = r.OutputCloudwatch.DurationSeconds.ValueBigFloat().Float64()
+			*durationSeconds3 = r.OutputCloudwatch.DurationSeconds.ValueFloat64()
 		} else {
 			durationSeconds3 = nil
 		}
 		maxQueueSize1 := new(float64)
 		if !r.OutputCloudwatch.MaxQueueSize.IsUnknown() && !r.OutputCloudwatch.MaxQueueSize.IsNull() {
-			*maxQueueSize1, _ = r.OutputCloudwatch.MaxQueueSize.ValueBigFloat().Float64()
+			*maxQueueSize1 = r.OutputCloudwatch.MaxQueueSize.ValueFloat64()
 		} else {
 			maxQueueSize1 = nil
 		}
 		maxRecordSizeKb6 := new(float64)
 		if !r.OutputCloudwatch.MaxRecordSizeKB.IsUnknown() && !r.OutputCloudwatch.MaxRecordSizeKB.IsNull() {
-			*maxRecordSizeKb6, _ = r.OutputCloudwatch.MaxRecordSizeKB.ValueBigFloat().Float64()
+			*maxRecordSizeKb6 = r.OutputCloudwatch.MaxRecordSizeKB.ValueFloat64()
 		} else {
 			maxRecordSizeKb6 = nil
 		}
 		flushPeriodSec21 := new(float64)
 		if !r.OutputCloudwatch.FlushPeriodSec.IsUnknown() && !r.OutputCloudwatch.FlushPeriodSec.IsNull() {
-			*flushPeriodSec21, _ = r.OutputCloudwatch.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec21 = r.OutputCloudwatch.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec21 = nil
 		}
@@ -11261,13 +11276,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxFileSizeMb6 := new(float64)
 		if !r.OutputMinio.MaxFileSizeMB.IsUnknown() && !r.OutputMinio.MaxFileSizeMB.IsNull() {
-			*maxFileSizeMb6, _ = r.OutputMinio.MaxFileSizeMB.ValueBigFloat().Float64()
+			*maxFileSizeMb6 = r.OutputMinio.MaxFileSizeMB.ValueFloat64()
 		} else {
 			maxFileSizeMb6 = nil
 		}
 		maxOpenFiles6 := new(float64)
 		if !r.OutputMinio.MaxOpenFiles.IsUnknown() && !r.OutputMinio.MaxOpenFiles.IsNull() {
-			*maxOpenFiles6, _ = r.OutputMinio.MaxOpenFiles.ValueBigFloat().Float64()
+			*maxOpenFiles6 = r.OutputMinio.MaxOpenFiles.ValueFloat64()
 		} else {
 			maxOpenFiles6 = nil
 		}
@@ -11279,7 +11294,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		writeHighWaterMark4 := new(float64)
 		if !r.OutputMinio.WriteHighWaterMark.IsUnknown() && !r.OutputMinio.WriteHighWaterMark.IsNull() {
-			*writeHighWaterMark4, _ = r.OutputMinio.WriteHighWaterMark.ValueBigFloat().Float64()
+			*writeHighWaterMark4 = r.OutputMinio.WriteHighWaterMark.ValueFloat64()
 		} else {
 			writeHighWaterMark4 = nil
 		}
@@ -11303,19 +11318,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxFileOpenTimeSec6 := new(float64)
 		if !r.OutputMinio.MaxFileOpenTimeSec.IsUnknown() && !r.OutputMinio.MaxFileOpenTimeSec.IsNull() {
-			*maxFileOpenTimeSec6, _ = r.OutputMinio.MaxFileOpenTimeSec.ValueBigFloat().Float64()
+			*maxFileOpenTimeSec6 = r.OutputMinio.MaxFileOpenTimeSec.ValueFloat64()
 		} else {
 			maxFileOpenTimeSec6 = nil
 		}
 		maxFileIdleTimeSec6 := new(float64)
 		if !r.OutputMinio.MaxFileIdleTimeSec.IsUnknown() && !r.OutputMinio.MaxFileIdleTimeSec.IsNull() {
-			*maxFileIdleTimeSec6, _ = r.OutputMinio.MaxFileIdleTimeSec.ValueBigFloat().Float64()
+			*maxFileIdleTimeSec6 = r.OutputMinio.MaxFileIdleTimeSec.ValueFloat64()
 		} else {
 			maxFileIdleTimeSec6 = nil
 		}
 		maxConcurrentFileParts3 := new(float64)
 		if !r.OutputMinio.MaxConcurrentFileParts.IsUnknown() && !r.OutputMinio.MaxConcurrentFileParts.IsNull() {
-			*maxConcurrentFileParts3, _ = r.OutputMinio.MaxConcurrentFileParts.ValueBigFloat().Float64()
+			*maxConcurrentFileParts3 = r.OutputMinio.MaxConcurrentFileParts.ValueFloat64()
 		} else {
 			maxConcurrentFileParts3 = nil
 		}
@@ -11337,11 +11352,11 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		} else {
 			awsSecret5 = nil
 		}
-		compress18 := new(shared.OutputMinioCompress)
+		compress20 := new(shared.OutputMinioCompress)
 		if !r.OutputMinio.Compress.IsUnknown() && !r.OutputMinio.Compress.IsNull() {
-			*compress18 = shared.OutputMinioCompress(r.OutputMinio.Compress.ValueString())
+			*compress20 = shared.OutputMinioCompress(r.OutputMinio.Compress.ValueString())
 		} else {
-			compress18 = nil
+			compress20 = nil
 		}
 		compressionLevel4 := new(shared.OutputMinioCompressionLevel)
 		if !r.OutputMinio.CompressionLevel.IsUnknown() && !r.OutputMinio.CompressionLevel.IsNull() {
@@ -11369,7 +11384,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		parquetRowGroupLength4 := new(float64)
 		if !r.OutputMinio.ParquetRowGroupLength.IsUnknown() && !r.OutputMinio.ParquetRowGroupLength.IsNull() {
-			*parquetRowGroupLength4, _ = r.OutputMinio.ParquetRowGroupLength.ValueBigFloat().Float64()
+			*parquetRowGroupLength4 = r.OutputMinio.ParquetRowGroupLength.ValueFloat64()
 		} else {
 			parquetRowGroupLength4 = nil
 		}
@@ -11421,7 +11436,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		emptyDirCleanupSec5 := new(float64)
 		if !r.OutputMinio.EmptyDirCleanupSec.IsUnknown() && !r.OutputMinio.EmptyDirCleanupSec.IsNull() {
-			*emptyDirCleanupSec5, _ = r.OutputMinio.EmptyDirCleanupSec.ValueBigFloat().Float64()
+			*emptyDirCleanupSec5 = r.OutputMinio.EmptyDirCleanupSec.ValueFloat64()
 		} else {
 			emptyDirCleanupSec5 = nil
 		}
@@ -11433,7 +11448,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxRetryNum5 := new(float64)
 		if !r.OutputMinio.MaxRetryNum.IsUnknown() && !r.OutputMinio.MaxRetryNum.IsNull() {
-			*maxRetryNum5, _ = r.OutputMinio.MaxRetryNum.ValueBigFloat().Float64()
+			*maxRetryNum5 = r.OutputMinio.MaxRetryNum.ValueFloat64()
 		} else {
 			maxRetryNum5 = nil
 		}
@@ -11477,7 +11492,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Description:             description32,
 			AwsAPIKey:               awsAPIKey6,
 			AwsSecret:               awsSecret5,
-			Compress:                compress18,
+			Compress:                compress20,
 			CompressionLevel:        compressionLevel4,
 			AutomaticSchema:         automaticSchema4,
 			ParquetVersion:          parquetVersion4,
@@ -11544,25 +11559,25 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 
 		port5 := new(float64)
 		if !r.OutputStatsd.Port.IsUnknown() && !r.OutputStatsd.Port.IsNull() {
-			*port5, _ = r.OutputStatsd.Port.ValueBigFloat().Float64()
+			*port5 = r.OutputStatsd.Port.ValueFloat64()
 		} else {
 			port5 = nil
 		}
 		mtu := new(float64)
 		if !r.OutputStatsd.Mtu.IsUnknown() && !r.OutputStatsd.Mtu.IsNull() {
-			*mtu, _ = r.OutputStatsd.Mtu.ValueBigFloat().Float64()
+			*mtu = r.OutputStatsd.Mtu.ValueFloat64()
 		} else {
 			mtu = nil
 		}
 		flushPeriodSec22 := new(float64)
 		if !r.OutputStatsd.FlushPeriodSec.IsUnknown() && !r.OutputStatsd.FlushPeriodSec.IsNull() {
-			*flushPeriodSec22, _ = r.OutputStatsd.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec22 = r.OutputStatsd.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec22 = nil
 		}
 		dnsResolvePeriodSec5 := new(float64)
 		if !r.OutputStatsd.DNSResolvePeriodSec.IsUnknown() && !r.OutputStatsd.DNSResolvePeriodSec.IsNull() {
-			*dnsResolvePeriodSec5, _ = r.OutputStatsd.DNSResolvePeriodSec.ValueBigFloat().Float64()
+			*dnsResolvePeriodSec5 = r.OutputStatsd.DNSResolvePeriodSec.ValueFloat64()
 		} else {
 			dnsResolvePeriodSec5 = nil
 		}
@@ -11580,13 +11595,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		connectionTimeout12 := new(float64)
 		if !r.OutputStatsd.ConnectionTimeout.IsUnknown() && !r.OutputStatsd.ConnectionTimeout.IsNull() {
-			*connectionTimeout12, _ = r.OutputStatsd.ConnectionTimeout.ValueBigFloat().Float64()
+			*connectionTimeout12 = r.OutputStatsd.ConnectionTimeout.ValueFloat64()
 		} else {
 			connectionTimeout12 = nil
 		}
 		writeTimeout4 := new(float64)
 		if !r.OutputStatsd.WriteTimeout.IsUnknown() && !r.OutputStatsd.WriteTimeout.IsNull() {
-			*writeTimeout4, _ = r.OutputStatsd.WriteTimeout.ValueBigFloat().Float64()
+			*writeTimeout4 = r.OutputStatsd.WriteTimeout.ValueFloat64()
 		} else {
 			writeTimeout4 = nil
 		}
@@ -11713,25 +11728,25 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 
 		port6 := new(float64)
 		if !r.OutputStatsdExt.Port.IsUnknown() && !r.OutputStatsdExt.Port.IsNull() {
-			*port6, _ = r.OutputStatsdExt.Port.ValueBigFloat().Float64()
+			*port6 = r.OutputStatsdExt.Port.ValueFloat64()
 		} else {
 			port6 = nil
 		}
 		mtu1 := new(float64)
 		if !r.OutputStatsdExt.Mtu.IsUnknown() && !r.OutputStatsdExt.Mtu.IsNull() {
-			*mtu1, _ = r.OutputStatsdExt.Mtu.ValueBigFloat().Float64()
+			*mtu1 = r.OutputStatsdExt.Mtu.ValueFloat64()
 		} else {
 			mtu1 = nil
 		}
 		flushPeriodSec23 := new(float64)
 		if !r.OutputStatsdExt.FlushPeriodSec.IsUnknown() && !r.OutputStatsdExt.FlushPeriodSec.IsNull() {
-			*flushPeriodSec23, _ = r.OutputStatsdExt.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec23 = r.OutputStatsdExt.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec23 = nil
 		}
 		dnsResolvePeriodSec6 := new(float64)
 		if !r.OutputStatsdExt.DNSResolvePeriodSec.IsUnknown() && !r.OutputStatsdExt.DNSResolvePeriodSec.IsNull() {
-			*dnsResolvePeriodSec6, _ = r.OutputStatsdExt.DNSResolvePeriodSec.ValueBigFloat().Float64()
+			*dnsResolvePeriodSec6 = r.OutputStatsdExt.DNSResolvePeriodSec.ValueFloat64()
 		} else {
 			dnsResolvePeriodSec6 = nil
 		}
@@ -11749,13 +11764,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		connectionTimeout13 := new(float64)
 		if !r.OutputStatsdExt.ConnectionTimeout.IsUnknown() && !r.OutputStatsdExt.ConnectionTimeout.IsNull() {
-			*connectionTimeout13, _ = r.OutputStatsdExt.ConnectionTimeout.ValueBigFloat().Float64()
+			*connectionTimeout13 = r.OutputStatsdExt.ConnectionTimeout.ValueFloat64()
 		} else {
 			connectionTimeout13 = nil
 		}
 		writeTimeout5 := new(float64)
 		if !r.OutputStatsdExt.WriteTimeout.IsUnknown() && !r.OutputStatsdExt.WriteTimeout.IsNull() {
-			*writeTimeout5, _ = r.OutputStatsdExt.WriteTimeout.ValueBigFloat().Float64()
+			*writeTimeout5 = r.OutputStatsdExt.WriteTimeout.ValueFloat64()
 		} else {
 			writeTimeout5 = nil
 		}
@@ -11882,25 +11897,25 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 
 		port7 := new(float64)
 		if !r.OutputGraphite.Port.IsUnknown() && !r.OutputGraphite.Port.IsNull() {
-			*port7, _ = r.OutputGraphite.Port.ValueBigFloat().Float64()
+			*port7 = r.OutputGraphite.Port.ValueFloat64()
 		} else {
 			port7 = nil
 		}
 		mtu2 := new(float64)
 		if !r.OutputGraphite.Mtu.IsUnknown() && !r.OutputGraphite.Mtu.IsNull() {
-			*mtu2, _ = r.OutputGraphite.Mtu.ValueBigFloat().Float64()
+			*mtu2 = r.OutputGraphite.Mtu.ValueFloat64()
 		} else {
 			mtu2 = nil
 		}
 		flushPeriodSec24 := new(float64)
 		if !r.OutputGraphite.FlushPeriodSec.IsUnknown() && !r.OutputGraphite.FlushPeriodSec.IsNull() {
-			*flushPeriodSec24, _ = r.OutputGraphite.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec24 = r.OutputGraphite.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec24 = nil
 		}
 		dnsResolvePeriodSec7 := new(float64)
 		if !r.OutputGraphite.DNSResolvePeriodSec.IsUnknown() && !r.OutputGraphite.DNSResolvePeriodSec.IsNull() {
-			*dnsResolvePeriodSec7, _ = r.OutputGraphite.DNSResolvePeriodSec.ValueBigFloat().Float64()
+			*dnsResolvePeriodSec7 = r.OutputGraphite.DNSResolvePeriodSec.ValueFloat64()
 		} else {
 			dnsResolvePeriodSec7 = nil
 		}
@@ -11918,13 +11933,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		connectionTimeout14 := new(float64)
 		if !r.OutputGraphite.ConnectionTimeout.IsUnknown() && !r.OutputGraphite.ConnectionTimeout.IsNull() {
-			*connectionTimeout14, _ = r.OutputGraphite.ConnectionTimeout.ValueBigFloat().Float64()
+			*connectionTimeout14 = r.OutputGraphite.ConnectionTimeout.ValueFloat64()
 		} else {
 			connectionTimeout14 = nil
 		}
 		writeTimeout6 := new(float64)
 		if !r.OutputGraphite.WriteTimeout.IsUnknown() && !r.OutputGraphite.WriteTimeout.IsNull() {
-			*writeTimeout6, _ = r.OutputGraphite.WriteTimeout.ValueBigFloat().Float64()
+			*writeTimeout6 = r.OutputGraphite.WriteTimeout.ValueFloat64()
 		} else {
 			writeTimeout6 = nil
 		}
@@ -12126,7 +12141,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 
 		maxRetries7 := new(float64)
 		if !r.OutputSns.MaxRetries.IsUnknown() && !r.OutputSns.MaxRetries.IsNull() {
-			*maxRetries7, _ = r.OutputSns.MaxRetries.ValueBigFloat().Float64()
+			*maxRetries7 = r.OutputSns.MaxRetries.ValueFloat64()
 		} else {
 			maxRetries7 = nil
 		}
@@ -12192,7 +12207,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		durationSeconds4 := new(float64)
 		if !r.OutputSns.DurationSeconds.IsUnknown() && !r.OutputSns.DurationSeconds.IsNull() {
-			*durationSeconds4, _ = r.OutputSns.DurationSeconds.ValueBigFloat().Float64()
+			*durationSeconds4 = r.OutputSns.DurationSeconds.ValueFloat64()
 		} else {
 			durationSeconds4 = nil
 		}
@@ -12422,31 +12437,31 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		durationSeconds5 := new(float64)
 		if !r.OutputSqs.DurationSeconds.IsUnknown() && !r.OutputSqs.DurationSeconds.IsNull() {
-			*durationSeconds5, _ = r.OutputSqs.DurationSeconds.ValueBigFloat().Float64()
+			*durationSeconds5 = r.OutputSqs.DurationSeconds.ValueFloat64()
 		} else {
 			durationSeconds5 = nil
 		}
 		maxQueueSize2 := new(float64)
 		if !r.OutputSqs.MaxQueueSize.IsUnknown() && !r.OutputSqs.MaxQueueSize.IsNull() {
-			*maxQueueSize2, _ = r.OutputSqs.MaxQueueSize.ValueBigFloat().Float64()
+			*maxQueueSize2 = r.OutputSqs.MaxQueueSize.ValueFloat64()
 		} else {
 			maxQueueSize2 = nil
 		}
 		maxRecordSizeKb7 := new(float64)
 		if !r.OutputSqs.MaxRecordSizeKB.IsUnknown() && !r.OutputSqs.MaxRecordSizeKB.IsNull() {
-			*maxRecordSizeKb7, _ = r.OutputSqs.MaxRecordSizeKB.ValueBigFloat().Float64()
+			*maxRecordSizeKb7 = r.OutputSqs.MaxRecordSizeKB.ValueFloat64()
 		} else {
 			maxRecordSizeKb7 = nil
 		}
 		flushPeriodSec25 := new(float64)
 		if !r.OutputSqs.FlushPeriodSec.IsUnknown() && !r.OutputSqs.FlushPeriodSec.IsNull() {
-			*flushPeriodSec25, _ = r.OutputSqs.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec25 = r.OutputSqs.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec25 = nil
 		}
 		maxInProgress1 := new(float64)
 		if !r.OutputSqs.MaxInProgress.IsUnknown() && !r.OutputSqs.MaxInProgress.IsNull() {
-			*maxInProgress1, _ = r.OutputSqs.MaxInProgress.ValueBigFloat().Float64()
+			*maxInProgress1 = r.OutputSqs.MaxInProgress.ValueFloat64()
 		} else {
 			maxInProgress1 = nil
 		}
@@ -12595,7 +12610,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 
 			port8 := new(float64)
 			if !hostsItem2.Port.IsUnknown() && !hostsItem2.Port.IsNull() {
-				*port8, _ = hostsItem2.Port.ValueBigFloat().Float64()
+				*port8 = hostsItem2.Port.ValueFloat64()
 			} else {
 				port8 = nil
 			}
@@ -12606,7 +12621,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		dnsResolvePeriodSec8 := new(float64)
 		if !r.OutputSnmp.DNSResolvePeriodSec.IsUnknown() && !r.OutputSnmp.DNSResolvePeriodSec.IsNull() {
-			*dnsResolvePeriodSec8, _ = r.OutputSnmp.DNSResolvePeriodSec.ValueBigFloat().Float64()
+			*dnsResolvePeriodSec8 = r.OutputSnmp.DNSResolvePeriodSec.ValueFloat64()
 		} else {
 			dnsResolvePeriodSec8 = nil
 		}
@@ -12685,27 +12700,27 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency16 := new(float64)
 		if !r.OutputSumoLogic.Concurrency.IsUnknown() && !r.OutputSumoLogic.Concurrency.IsNull() {
-			*concurrency16, _ = r.OutputSumoLogic.Concurrency.ValueBigFloat().Float64()
+			*concurrency16 = r.OutputSumoLogic.Concurrency.ValueFloat64()
 		} else {
 			concurrency16 = nil
 		}
 		maxPayloadSizeKb15 := new(float64)
 		if !r.OutputSumoLogic.MaxPayloadSizeKB.IsUnknown() && !r.OutputSumoLogic.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb15, _ = r.OutputSumoLogic.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb15 = r.OutputSumoLogic.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb15 = nil
 		}
 		maxPayloadEvents15 := new(float64)
 		if !r.OutputSumoLogic.MaxPayloadEvents.IsUnknown() && !r.OutputSumoLogic.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents15, _ = r.OutputSumoLogic.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents15 = r.OutputSumoLogic.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents15 = nil
 		}
-		compress19 := new(bool)
+		compress21 := new(bool)
 		if !r.OutputSumoLogic.Compress.IsUnknown() && !r.OutputSumoLogic.Compress.IsNull() {
-			*compress19 = r.OutputSumoLogic.Compress.ValueBool()
+			*compress21 = r.OutputSumoLogic.Compress.ValueBool()
 		} else {
-			compress19 = nil
+			compress21 = nil
 		}
 		rejectUnauthorized35 := new(bool)
 		if !r.OutputSumoLogic.RejectUnauthorized.IsUnknown() && !r.OutputSumoLogic.RejectUnauthorized.IsNull() {
@@ -12715,13 +12730,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec15 := new(float64)
 		if !r.OutputSumoLogic.TimeoutSec.IsUnknown() && !r.OutputSumoLogic.TimeoutSec.IsNull() {
-			*timeoutSec15, _ = r.OutputSumoLogic.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec15 = r.OutputSumoLogic.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec15 = nil
 		}
 		flushPeriodSec26 := new(float64)
 		if !r.OutputSumoLogic.FlushPeriodSec.IsUnknown() && !r.OutputSumoLogic.FlushPeriodSec.IsNull() {
-			*flushPeriodSec26, _ = r.OutputSumoLogic.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec26 = r.OutputSumoLogic.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec26 = nil
 		}
@@ -12760,23 +12775,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings14 []shared.OutputSumoLogicResponseRetrySettings = []shared.OutputSumoLogicResponseRetrySettings{}
 		for _, responseRetrySettingsItem14 := range r.OutputSumoLogic.ResponseRetrySettings {
 			var httpStatus14 float64
-			httpStatus14, _ = responseRetrySettingsItem14.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus14 = responseRetrySettingsItem14.HTTPStatus.ValueFloat64()
 
 			initialBackoff32 := new(float64)
 			if !responseRetrySettingsItem14.InitialBackoff.IsUnknown() && !responseRetrySettingsItem14.InitialBackoff.IsNull() {
-				*initialBackoff32, _ = responseRetrySettingsItem14.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff32 = responseRetrySettingsItem14.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff32 = nil
 			}
 			backoffRate32 := new(float64)
 			if !responseRetrySettingsItem14.BackoffRate.IsUnknown() && !responseRetrySettingsItem14.BackoffRate.IsNull() {
-				*backoffRate32, _ = responseRetrySettingsItem14.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate32 = responseRetrySettingsItem14.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate32 = nil
 			}
 			maxBackoff28 := new(float64)
 			if !responseRetrySettingsItem14.MaxBackoff.IsUnknown() && !responseRetrySettingsItem14.MaxBackoff.IsNull() {
-				*maxBackoff28, _ = responseRetrySettingsItem14.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff28 = responseRetrySettingsItem14.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff28 = nil
 			}
@@ -12797,19 +12812,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff33 := new(float64)
 			if !r.OutputSumoLogic.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputSumoLogic.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff33, _ = r.OutputSumoLogic.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff33 = r.OutputSumoLogic.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff33 = nil
 			}
 			backoffRate33 := new(float64)
 			if !r.OutputSumoLogic.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputSumoLogic.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate33, _ = r.OutputSumoLogic.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate33 = r.OutputSumoLogic.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate33 = nil
 			}
 			maxBackoff29 := new(float64)
 			if !r.OutputSumoLogic.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputSumoLogic.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff29, _ = r.OutputSumoLogic.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff29 = r.OutputSumoLogic.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff29 = nil
 			}
@@ -12834,7 +12849,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		totalMemoryLimitKb5 := new(float64)
 		if !r.OutputSumoLogic.TotalMemoryLimitKB.IsUnknown() && !r.OutputSumoLogic.TotalMemoryLimitKB.IsNull() {
-			*totalMemoryLimitKb5, _ = r.OutputSumoLogic.TotalMemoryLimitKB.ValueBigFloat().Float64()
+			*totalMemoryLimitKb5 = r.OutputSumoLogic.TotalMemoryLimitKB.ValueFloat64()
 		} else {
 			totalMemoryLimitKb5 = nil
 		}
@@ -12898,7 +12913,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Concurrency:                   concurrency16,
 			MaxPayloadSizeKB:              maxPayloadSizeKb15,
 			MaxPayloadEvents:              maxPayloadEvents15,
-			Compress:                      compress19,
+			Compress:                      compress21,
 			RejectUnauthorized:            rejectUnauthorized35,
 			TimeoutSec:                    timeoutSec15,
 			FlushPeriodSec:                flushPeriodSec26,
@@ -13018,27 +13033,27 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency17 := new(float64)
 		if !r.OutputDatadog.Concurrency.IsUnknown() && !r.OutputDatadog.Concurrency.IsNull() {
-			*concurrency17, _ = r.OutputDatadog.Concurrency.ValueBigFloat().Float64()
+			*concurrency17 = r.OutputDatadog.Concurrency.ValueFloat64()
 		} else {
 			concurrency17 = nil
 		}
 		maxPayloadSizeKb16 := new(float64)
 		if !r.OutputDatadog.MaxPayloadSizeKB.IsUnknown() && !r.OutputDatadog.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb16, _ = r.OutputDatadog.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb16 = r.OutputDatadog.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb16 = nil
 		}
 		maxPayloadEvents16 := new(float64)
 		if !r.OutputDatadog.MaxPayloadEvents.IsUnknown() && !r.OutputDatadog.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents16, _ = r.OutputDatadog.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents16 = r.OutputDatadog.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents16 = nil
 		}
-		compress20 := new(bool)
+		compress22 := new(bool)
 		if !r.OutputDatadog.Compress.IsUnknown() && !r.OutputDatadog.Compress.IsNull() {
-			*compress20 = r.OutputDatadog.Compress.ValueBool()
+			*compress22 = r.OutputDatadog.Compress.ValueBool()
 		} else {
-			compress20 = nil
+			compress22 = nil
 		}
 		rejectUnauthorized36 := new(bool)
 		if !r.OutputDatadog.RejectUnauthorized.IsUnknown() && !r.OutputDatadog.RejectUnauthorized.IsNull() {
@@ -13048,13 +13063,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec16 := new(float64)
 		if !r.OutputDatadog.TimeoutSec.IsUnknown() && !r.OutputDatadog.TimeoutSec.IsNull() {
-			*timeoutSec16, _ = r.OutputDatadog.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec16 = r.OutputDatadog.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec16 = nil
 		}
 		flushPeriodSec27 := new(float64)
 		if !r.OutputDatadog.FlushPeriodSec.IsUnknown() && !r.OutputDatadog.FlushPeriodSec.IsNull() {
-			*flushPeriodSec27, _ = r.OutputDatadog.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec27 = r.OutputDatadog.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec27 = nil
 		}
@@ -13093,23 +13108,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings15 []shared.OutputDatadogResponseRetrySettings = []shared.OutputDatadogResponseRetrySettings{}
 		for _, responseRetrySettingsItem15 := range r.OutputDatadog.ResponseRetrySettings {
 			var httpStatus15 float64
-			httpStatus15, _ = responseRetrySettingsItem15.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus15 = responseRetrySettingsItem15.HTTPStatus.ValueFloat64()
 
 			initialBackoff34 := new(float64)
 			if !responseRetrySettingsItem15.InitialBackoff.IsUnknown() && !responseRetrySettingsItem15.InitialBackoff.IsNull() {
-				*initialBackoff34, _ = responseRetrySettingsItem15.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff34 = responseRetrySettingsItem15.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff34 = nil
 			}
 			backoffRate34 := new(float64)
 			if !responseRetrySettingsItem15.BackoffRate.IsUnknown() && !responseRetrySettingsItem15.BackoffRate.IsNull() {
-				*backoffRate34, _ = responseRetrySettingsItem15.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate34 = responseRetrySettingsItem15.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate34 = nil
 			}
 			maxBackoff30 := new(float64)
 			if !responseRetrySettingsItem15.MaxBackoff.IsUnknown() && !responseRetrySettingsItem15.MaxBackoff.IsNull() {
-				*maxBackoff30, _ = responseRetrySettingsItem15.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff30 = responseRetrySettingsItem15.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff30 = nil
 			}
@@ -13130,19 +13145,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff35 := new(float64)
 			if !r.OutputDatadog.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputDatadog.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff35, _ = r.OutputDatadog.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff35 = r.OutputDatadog.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff35 = nil
 			}
 			backoffRate35 := new(float64)
 			if !r.OutputDatadog.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputDatadog.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate35, _ = r.OutputDatadog.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate35 = r.OutputDatadog.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate35 = nil
 			}
 			maxBackoff31 := new(float64)
 			if !r.OutputDatadog.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputDatadog.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff31, _ = r.OutputDatadog.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff31 = r.OutputDatadog.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff31 = nil
 			}
@@ -13173,7 +13188,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		totalMemoryLimitKb6 := new(float64)
 		if !r.OutputDatadog.TotalMemoryLimitKB.IsUnknown() && !r.OutputDatadog.TotalMemoryLimitKB.IsNull() {
-			*totalMemoryLimitKb6, _ = r.OutputDatadog.TotalMemoryLimitKB.ValueBigFloat().Float64()
+			*totalMemoryLimitKb6 = r.OutputDatadog.TotalMemoryLimitKB.ValueFloat64()
 		} else {
 			totalMemoryLimitKb6 = nil
 		}
@@ -13262,7 +13277,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Concurrency:                   concurrency17,
 			MaxPayloadSizeKB:              maxPayloadSizeKb16,
 			MaxPayloadEvents:              maxPayloadEvents16,
-			Compress:                      compress20,
+			Compress:                      compress22,
 			RejectUnauthorized:            rejectUnauthorized36,
 			TimeoutSec:                    timeoutSec16,
 			FlushPeriodSec:                flushPeriodSec27,
@@ -13461,19 +13476,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			concurrency18 := new(float64)
 			if !r.OutputGrafanaCloud.One.Concurrency.IsUnknown() && !r.OutputGrafanaCloud.One.Concurrency.IsNull() {
-				*concurrency18, _ = r.OutputGrafanaCloud.One.Concurrency.ValueBigFloat().Float64()
+				*concurrency18 = r.OutputGrafanaCloud.One.Concurrency.ValueFloat64()
 			} else {
 				concurrency18 = nil
 			}
 			maxPayloadSizeKb17 := new(float64)
 			if !r.OutputGrafanaCloud.One.MaxPayloadSizeKB.IsUnknown() && !r.OutputGrafanaCloud.One.MaxPayloadSizeKB.IsNull() {
-				*maxPayloadSizeKb17, _ = r.OutputGrafanaCloud.One.MaxPayloadSizeKB.ValueBigFloat().Float64()
+				*maxPayloadSizeKb17 = r.OutputGrafanaCloud.One.MaxPayloadSizeKB.ValueFloat64()
 			} else {
 				maxPayloadSizeKb17 = nil
 			}
 			maxPayloadEvents17 := new(float64)
 			if !r.OutputGrafanaCloud.One.MaxPayloadEvents.IsUnknown() && !r.OutputGrafanaCloud.One.MaxPayloadEvents.IsNull() {
-				*maxPayloadEvents17, _ = r.OutputGrafanaCloud.One.MaxPayloadEvents.ValueBigFloat().Float64()
+				*maxPayloadEvents17 = r.OutputGrafanaCloud.One.MaxPayloadEvents.ValueFloat64()
 			} else {
 				maxPayloadEvents17 = nil
 			}
@@ -13485,13 +13500,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			timeoutSec17 := new(float64)
 			if !r.OutputGrafanaCloud.One.TimeoutSec.IsUnknown() && !r.OutputGrafanaCloud.One.TimeoutSec.IsNull() {
-				*timeoutSec17, _ = r.OutputGrafanaCloud.One.TimeoutSec.ValueBigFloat().Float64()
+				*timeoutSec17 = r.OutputGrafanaCloud.One.TimeoutSec.ValueFloat64()
 			} else {
 				timeoutSec17 = nil
 			}
 			flushPeriodSec28 := new(float64)
 			if !r.OutputGrafanaCloud.One.FlushPeriodSec.IsUnknown() && !r.OutputGrafanaCloud.One.FlushPeriodSec.IsNull() {
-				*flushPeriodSec28, _ = r.OutputGrafanaCloud.One.FlushPeriodSec.ValueBigFloat().Float64()
+				*flushPeriodSec28 = r.OutputGrafanaCloud.One.FlushPeriodSec.ValueFloat64()
 			} else {
 				flushPeriodSec28 = nil
 			}
@@ -13530,23 +13545,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			var responseRetrySettings16 []shared.OutputGrafanaCloudResponseRetrySettings = []shared.OutputGrafanaCloudResponseRetrySettings{}
 			for _, responseRetrySettingsItem16 := range r.OutputGrafanaCloud.One.ResponseRetrySettings {
 				var httpStatus16 float64
-				httpStatus16, _ = responseRetrySettingsItem16.HTTPStatus.ValueBigFloat().Float64()
+				httpStatus16 = responseRetrySettingsItem16.HTTPStatus.ValueFloat64()
 
 				initialBackoff36 := new(float64)
 				if !responseRetrySettingsItem16.InitialBackoff.IsUnknown() && !responseRetrySettingsItem16.InitialBackoff.IsNull() {
-					*initialBackoff36, _ = responseRetrySettingsItem16.InitialBackoff.ValueBigFloat().Float64()
+					*initialBackoff36 = responseRetrySettingsItem16.InitialBackoff.ValueFloat64()
 				} else {
 					initialBackoff36 = nil
 				}
 				backoffRate36 := new(float64)
 				if !responseRetrySettingsItem16.BackoffRate.IsUnknown() && !responseRetrySettingsItem16.BackoffRate.IsNull() {
-					*backoffRate36, _ = responseRetrySettingsItem16.BackoffRate.ValueBigFloat().Float64()
+					*backoffRate36 = responseRetrySettingsItem16.BackoffRate.ValueFloat64()
 				} else {
 					backoffRate36 = nil
 				}
 				maxBackoff32 := new(float64)
 				if !responseRetrySettingsItem16.MaxBackoff.IsUnknown() && !responseRetrySettingsItem16.MaxBackoff.IsNull() {
-					*maxBackoff32, _ = responseRetrySettingsItem16.MaxBackoff.ValueBigFloat().Float64()
+					*maxBackoff32 = responseRetrySettingsItem16.MaxBackoff.ValueFloat64()
 				} else {
 					maxBackoff32 = nil
 				}
@@ -13567,19 +13582,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 				}
 				initialBackoff37 := new(float64)
 				if !r.OutputGrafanaCloud.One.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputGrafanaCloud.One.TimeoutRetrySettings.InitialBackoff.IsNull() {
-					*initialBackoff37, _ = r.OutputGrafanaCloud.One.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+					*initialBackoff37 = r.OutputGrafanaCloud.One.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 				} else {
 					initialBackoff37 = nil
 				}
 				backoffRate37 := new(float64)
 				if !r.OutputGrafanaCloud.One.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputGrafanaCloud.One.TimeoutRetrySettings.BackoffRate.IsNull() {
-					*backoffRate37, _ = r.OutputGrafanaCloud.One.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+					*backoffRate37 = r.OutputGrafanaCloud.One.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 				} else {
 					backoffRate37 = nil
 				}
 				maxBackoff33 := new(float64)
 				if !r.OutputGrafanaCloud.One.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputGrafanaCloud.One.TimeoutRetrySettings.MaxBackoff.IsNull() {
-					*maxBackoff33, _ = r.OutputGrafanaCloud.One.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+					*maxBackoff33 = r.OutputGrafanaCloud.One.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 				} else {
 					maxBackoff33 = nil
 				}
@@ -13608,11 +13623,11 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			} else {
 				description43 = nil
 			}
-			compress21 := new(bool)
+			compress23 := new(bool)
 			if !r.OutputGrafanaCloud.One.Compress.IsUnknown() && !r.OutputGrafanaCloud.One.Compress.IsNull() {
-				*compress21 = r.OutputGrafanaCloud.One.Compress.ValueBool()
+				*compress23 = r.OutputGrafanaCloud.One.Compress.ValueBool()
 			} else {
-				compress21 = nil
+				compress23 = nil
 			}
 			pqMaxFileSize33 := new(string)
 			if !r.OutputGrafanaCloud.One.PqMaxFileSize.IsUnknown() && !r.OutputGrafanaCloud.One.PqMaxFileSize.IsNull() {
@@ -13684,7 +13699,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 				ResponseHonorRetryAfterHeader: responseHonorRetryAfterHeader16,
 				OnBackpressure:                onBackpressure39,
 				Description:                   description43,
-				Compress:                      compress21,
+				Compress:                      compress23,
 				PqMaxFileSize:                 pqMaxFileSize33,
 				PqMaxSize:                     pqMaxSize33,
 				PqPath:                        pqPath33,
@@ -13864,19 +13879,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			concurrency19 := new(float64)
 			if !r.OutputGrafanaCloud.Two.Concurrency.IsUnknown() && !r.OutputGrafanaCloud.Two.Concurrency.IsNull() {
-				*concurrency19, _ = r.OutputGrafanaCloud.Two.Concurrency.ValueBigFloat().Float64()
+				*concurrency19 = r.OutputGrafanaCloud.Two.Concurrency.ValueFloat64()
 			} else {
 				concurrency19 = nil
 			}
 			maxPayloadSizeKb18 := new(float64)
 			if !r.OutputGrafanaCloud.Two.MaxPayloadSizeKB.IsUnknown() && !r.OutputGrafanaCloud.Two.MaxPayloadSizeKB.IsNull() {
-				*maxPayloadSizeKb18, _ = r.OutputGrafanaCloud.Two.MaxPayloadSizeKB.ValueBigFloat().Float64()
+				*maxPayloadSizeKb18 = r.OutputGrafanaCloud.Two.MaxPayloadSizeKB.ValueFloat64()
 			} else {
 				maxPayloadSizeKb18 = nil
 			}
 			maxPayloadEvents18 := new(float64)
 			if !r.OutputGrafanaCloud.Two.MaxPayloadEvents.IsUnknown() && !r.OutputGrafanaCloud.Two.MaxPayloadEvents.IsNull() {
-				*maxPayloadEvents18, _ = r.OutputGrafanaCloud.Two.MaxPayloadEvents.ValueBigFloat().Float64()
+				*maxPayloadEvents18 = r.OutputGrafanaCloud.Two.MaxPayloadEvents.ValueFloat64()
 			} else {
 				maxPayloadEvents18 = nil
 			}
@@ -13888,13 +13903,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			timeoutSec18 := new(float64)
 			if !r.OutputGrafanaCloud.Two.TimeoutSec.IsUnknown() && !r.OutputGrafanaCloud.Two.TimeoutSec.IsNull() {
-				*timeoutSec18, _ = r.OutputGrafanaCloud.Two.TimeoutSec.ValueBigFloat().Float64()
+				*timeoutSec18 = r.OutputGrafanaCloud.Two.TimeoutSec.ValueFloat64()
 			} else {
 				timeoutSec18 = nil
 			}
 			flushPeriodSec29 := new(float64)
 			if !r.OutputGrafanaCloud.Two.FlushPeriodSec.IsUnknown() && !r.OutputGrafanaCloud.Two.FlushPeriodSec.IsNull() {
-				*flushPeriodSec29, _ = r.OutputGrafanaCloud.Two.FlushPeriodSec.ValueBigFloat().Float64()
+				*flushPeriodSec29 = r.OutputGrafanaCloud.Two.FlushPeriodSec.ValueFloat64()
 			} else {
 				flushPeriodSec29 = nil
 			}
@@ -13933,23 +13948,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			var responseRetrySettings17 []shared.OutputGrafanaCloud2ResponseRetrySettings = []shared.OutputGrafanaCloud2ResponseRetrySettings{}
 			for _, responseRetrySettingsItem17 := range r.OutputGrafanaCloud.Two.ResponseRetrySettings {
 				var httpStatus17 float64
-				httpStatus17, _ = responseRetrySettingsItem17.HTTPStatus.ValueBigFloat().Float64()
+				httpStatus17 = responseRetrySettingsItem17.HTTPStatus.ValueFloat64()
 
 				initialBackoff38 := new(float64)
 				if !responseRetrySettingsItem17.InitialBackoff.IsUnknown() && !responseRetrySettingsItem17.InitialBackoff.IsNull() {
-					*initialBackoff38, _ = responseRetrySettingsItem17.InitialBackoff.ValueBigFloat().Float64()
+					*initialBackoff38 = responseRetrySettingsItem17.InitialBackoff.ValueFloat64()
 				} else {
 					initialBackoff38 = nil
 				}
 				backoffRate38 := new(float64)
 				if !responseRetrySettingsItem17.BackoffRate.IsUnknown() && !responseRetrySettingsItem17.BackoffRate.IsNull() {
-					*backoffRate38, _ = responseRetrySettingsItem17.BackoffRate.ValueBigFloat().Float64()
+					*backoffRate38 = responseRetrySettingsItem17.BackoffRate.ValueFloat64()
 				} else {
 					backoffRate38 = nil
 				}
 				maxBackoff34 := new(float64)
 				if !responseRetrySettingsItem17.MaxBackoff.IsUnknown() && !responseRetrySettingsItem17.MaxBackoff.IsNull() {
-					*maxBackoff34, _ = responseRetrySettingsItem17.MaxBackoff.ValueBigFloat().Float64()
+					*maxBackoff34 = responseRetrySettingsItem17.MaxBackoff.ValueFloat64()
 				} else {
 					maxBackoff34 = nil
 				}
@@ -13970,19 +13985,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 				}
 				initialBackoff39 := new(float64)
 				if !r.OutputGrafanaCloud.Two.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputGrafanaCloud.Two.TimeoutRetrySettings.InitialBackoff.IsNull() {
-					*initialBackoff39, _ = r.OutputGrafanaCloud.Two.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+					*initialBackoff39 = r.OutputGrafanaCloud.Two.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 				} else {
 					initialBackoff39 = nil
 				}
 				backoffRate39 := new(float64)
 				if !r.OutputGrafanaCloud.Two.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputGrafanaCloud.Two.TimeoutRetrySettings.BackoffRate.IsNull() {
-					*backoffRate39, _ = r.OutputGrafanaCloud.Two.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+					*backoffRate39 = r.OutputGrafanaCloud.Two.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 				} else {
 					backoffRate39 = nil
 				}
 				maxBackoff35 := new(float64)
 				if !r.OutputGrafanaCloud.Two.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputGrafanaCloud.Two.TimeoutRetrySettings.MaxBackoff.IsNull() {
-					*maxBackoff35, _ = r.OutputGrafanaCloud.Two.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+					*maxBackoff35 = r.OutputGrafanaCloud.Two.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 				} else {
 					maxBackoff35 = nil
 				}
@@ -14011,11 +14026,11 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			} else {
 				description44 = nil
 			}
-			compress22 := new(bool)
+			compress24 := new(bool)
 			if !r.OutputGrafanaCloud.Two.Compress.IsUnknown() && !r.OutputGrafanaCloud.Two.Compress.IsNull() {
-				*compress22 = r.OutputGrafanaCloud.Two.Compress.ValueBool()
+				*compress24 = r.OutputGrafanaCloud.Two.Compress.ValueBool()
 			} else {
-				compress22 = nil
+				compress24 = nil
 			}
 			pqMaxFileSize34 := new(string)
 			if !r.OutputGrafanaCloud.Two.PqMaxFileSize.IsUnknown() && !r.OutputGrafanaCloud.Two.PqMaxFileSize.IsNull() {
@@ -14087,7 +14102,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 				ResponseHonorRetryAfterHeader: responseHonorRetryAfterHeader17,
 				OnBackpressure:                onBackpressure40,
 				Description:                   description44,
-				Compress:                      compress22,
+				Compress:                      compress24,
 				PqMaxFileSize:                 pqMaxFileSize34,
 				PqMaxSize:                     pqMaxSize34,
 				PqPath:                        pqPath34,
@@ -14176,19 +14191,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency20 := new(float64)
 		if !r.OutputLoki.Concurrency.IsUnknown() && !r.OutputLoki.Concurrency.IsNull() {
-			*concurrency20, _ = r.OutputLoki.Concurrency.ValueBigFloat().Float64()
+			*concurrency20 = r.OutputLoki.Concurrency.ValueFloat64()
 		} else {
 			concurrency20 = nil
 		}
 		maxPayloadSizeKb19 := new(float64)
 		if !r.OutputLoki.MaxPayloadSizeKB.IsUnknown() && !r.OutputLoki.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb19, _ = r.OutputLoki.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb19 = r.OutputLoki.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb19 = nil
 		}
 		maxPayloadEvents19 := new(float64)
 		if !r.OutputLoki.MaxPayloadEvents.IsUnknown() && !r.OutputLoki.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents19, _ = r.OutputLoki.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents19 = r.OutputLoki.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents19 = nil
 		}
@@ -14200,13 +14215,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec19 := new(float64)
 		if !r.OutputLoki.TimeoutSec.IsUnknown() && !r.OutputLoki.TimeoutSec.IsNull() {
-			*timeoutSec19, _ = r.OutputLoki.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec19 = r.OutputLoki.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec19 = nil
 		}
 		flushPeriodSec30 := new(float64)
 		if !r.OutputLoki.FlushPeriodSec.IsUnknown() && !r.OutputLoki.FlushPeriodSec.IsNull() {
-			*flushPeriodSec30, _ = r.OutputLoki.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec30 = r.OutputLoki.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec30 = nil
 		}
@@ -14245,23 +14260,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings18 []shared.OutputLokiResponseRetrySettings = []shared.OutputLokiResponseRetrySettings{}
 		for _, responseRetrySettingsItem18 := range r.OutputLoki.ResponseRetrySettings {
 			var httpStatus18 float64
-			httpStatus18, _ = responseRetrySettingsItem18.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus18 = responseRetrySettingsItem18.HTTPStatus.ValueFloat64()
 
 			initialBackoff40 := new(float64)
 			if !responseRetrySettingsItem18.InitialBackoff.IsUnknown() && !responseRetrySettingsItem18.InitialBackoff.IsNull() {
-				*initialBackoff40, _ = responseRetrySettingsItem18.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff40 = responseRetrySettingsItem18.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff40 = nil
 			}
 			backoffRate40 := new(float64)
 			if !responseRetrySettingsItem18.BackoffRate.IsUnknown() && !responseRetrySettingsItem18.BackoffRate.IsNull() {
-				*backoffRate40, _ = responseRetrySettingsItem18.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate40 = responseRetrySettingsItem18.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate40 = nil
 			}
 			maxBackoff36 := new(float64)
 			if !responseRetrySettingsItem18.MaxBackoff.IsUnknown() && !responseRetrySettingsItem18.MaxBackoff.IsNull() {
-				*maxBackoff36, _ = responseRetrySettingsItem18.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff36 = responseRetrySettingsItem18.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff36 = nil
 			}
@@ -14282,19 +14297,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff41 := new(float64)
 			if !r.OutputLoki.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputLoki.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff41, _ = r.OutputLoki.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff41 = r.OutputLoki.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff41 = nil
 			}
 			backoffRate41 := new(float64)
 			if !r.OutputLoki.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputLoki.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate41, _ = r.OutputLoki.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate41 = r.OutputLoki.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate41 = nil
 			}
 			maxBackoff37 := new(float64)
 			if !r.OutputLoki.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputLoki.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff37, _ = r.OutputLoki.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff37 = r.OutputLoki.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff37 = nil
 			}
@@ -14319,7 +14334,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		totalMemoryLimitKb7 := new(float64)
 		if !r.OutputLoki.TotalMemoryLimitKB.IsUnknown() && !r.OutputLoki.TotalMemoryLimitKB.IsNull() {
-			*totalMemoryLimitKb7, _ = r.OutputLoki.TotalMemoryLimitKB.ValueBigFloat().Float64()
+			*totalMemoryLimitKb7 = r.OutputLoki.TotalMemoryLimitKB.ValueFloat64()
 		} else {
 			totalMemoryLimitKb7 = nil
 		}
@@ -14329,11 +14344,11 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		} else {
 			description45 = nil
 		}
-		compress23 := new(bool)
+		compress25 := new(bool)
 		if !r.OutputLoki.Compress.IsUnknown() && !r.OutputLoki.Compress.IsNull() {
-			*compress23 = r.OutputLoki.Compress.ValueBool()
+			*compress25 = r.OutputLoki.Compress.ValueBool()
 		} else {
-			compress23 = nil
+			compress25 = nil
 		}
 		token9 := new(string)
 		if !r.OutputLoki.Token.IsUnknown() && !r.OutputLoki.Token.IsNull() {
@@ -14433,7 +14448,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			OnBackpressure:                onBackpressure41,
 			TotalMemoryLimitKB:            totalMemoryLimitKb7,
 			Description:                   description45,
-			Compress:                      compress23,
+			Compress:                      compress25,
 			Token:                         token9,
 			TextSecret:                    textSecret19,
 			Username:                      username6,
@@ -14499,19 +14514,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency21 := new(float64)
 		if !r.OutputPrometheus.Concurrency.IsUnknown() && !r.OutputPrometheus.Concurrency.IsNull() {
-			*concurrency21, _ = r.OutputPrometheus.Concurrency.ValueBigFloat().Float64()
+			*concurrency21 = r.OutputPrometheus.Concurrency.ValueFloat64()
 		} else {
 			concurrency21 = nil
 		}
 		maxPayloadSizeKb20 := new(float64)
 		if !r.OutputPrometheus.MaxPayloadSizeKB.IsUnknown() && !r.OutputPrometheus.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb20, _ = r.OutputPrometheus.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb20 = r.OutputPrometheus.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb20 = nil
 		}
 		maxPayloadEvents20 := new(float64)
 		if !r.OutputPrometheus.MaxPayloadEvents.IsUnknown() && !r.OutputPrometheus.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents20, _ = r.OutputPrometheus.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents20 = r.OutputPrometheus.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents20 = nil
 		}
@@ -14523,13 +14538,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec20 := new(float64)
 		if !r.OutputPrometheus.TimeoutSec.IsUnknown() && !r.OutputPrometheus.TimeoutSec.IsNull() {
-			*timeoutSec20, _ = r.OutputPrometheus.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec20 = r.OutputPrometheus.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec20 = nil
 		}
 		flushPeriodSec31 := new(float64)
 		if !r.OutputPrometheus.FlushPeriodSec.IsUnknown() && !r.OutputPrometheus.FlushPeriodSec.IsNull() {
-			*flushPeriodSec31, _ = r.OutputPrometheus.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec31 = r.OutputPrometheus.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec31 = nil
 		}
@@ -14568,23 +14583,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings19 []shared.OutputPrometheusResponseRetrySettings = []shared.OutputPrometheusResponseRetrySettings{}
 		for _, responseRetrySettingsItem19 := range r.OutputPrometheus.ResponseRetrySettings {
 			var httpStatus19 float64
-			httpStatus19, _ = responseRetrySettingsItem19.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus19 = responseRetrySettingsItem19.HTTPStatus.ValueFloat64()
 
 			initialBackoff42 := new(float64)
 			if !responseRetrySettingsItem19.InitialBackoff.IsUnknown() && !responseRetrySettingsItem19.InitialBackoff.IsNull() {
-				*initialBackoff42, _ = responseRetrySettingsItem19.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff42 = responseRetrySettingsItem19.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff42 = nil
 			}
 			backoffRate42 := new(float64)
 			if !responseRetrySettingsItem19.BackoffRate.IsUnknown() && !responseRetrySettingsItem19.BackoffRate.IsNull() {
-				*backoffRate42, _ = responseRetrySettingsItem19.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate42 = responseRetrySettingsItem19.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate42 = nil
 			}
 			maxBackoff38 := new(float64)
 			if !responseRetrySettingsItem19.MaxBackoff.IsUnknown() && !responseRetrySettingsItem19.MaxBackoff.IsNull() {
-				*maxBackoff38, _ = responseRetrySettingsItem19.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff38 = responseRetrySettingsItem19.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff38 = nil
 			}
@@ -14605,19 +14620,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff43 := new(float64)
 			if !r.OutputPrometheus.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputPrometheus.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff43, _ = r.OutputPrometheus.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff43 = r.OutputPrometheus.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff43 = nil
 			}
 			backoffRate43 := new(float64)
 			if !r.OutputPrometheus.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputPrometheus.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate43, _ = r.OutputPrometheus.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate43 = r.OutputPrometheus.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate43 = nil
 			}
 			maxBackoff39 := new(float64)
 			if !r.OutputPrometheus.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputPrometheus.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff39, _ = r.OutputPrometheus.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff39 = r.OutputPrometheus.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff39 = nil
 			}
@@ -14654,7 +14669,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		metricsFlushPeriodSec := new(float64)
 		if !r.OutputPrometheus.MetricsFlushPeriodSec.IsUnknown() && !r.OutputPrometheus.MetricsFlushPeriodSec.IsNull() {
-			*metricsFlushPeriodSec, _ = r.OutputPrometheus.MetricsFlushPeriodSec.ValueBigFloat().Float64()
+			*metricsFlushPeriodSec = r.OutputPrometheus.MetricsFlushPeriodSec.ValueFloat64()
 		} else {
 			metricsFlushPeriodSec = nil
 		}
@@ -14760,7 +14775,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		tokenTimeoutSecs2 := new(float64)
 		if !r.OutputPrometheus.TokenTimeoutSecs.IsUnknown() && !r.OutputPrometheus.TokenTimeoutSecs.IsNull() {
-			*tokenTimeoutSecs2, _ = r.OutputPrometheus.TokenTimeoutSecs.ValueBigFloat().Float64()
+			*tokenTimeoutSecs2 = r.OutputPrometheus.TokenTimeoutSecs.ValueFloat64()
 		} else {
 			tokenTimeoutSecs2 = nil
 		}
@@ -14894,11 +14909,11 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		} else {
 			maxDataTime = nil
 		}
-		compress24 := new(shared.DataCompressionFormat)
+		compress26 := new(shared.DataCompressionFormat)
 		if !r.OutputRing.Compress.IsUnknown() && !r.OutputRing.Compress.IsNull() {
-			*compress24 = shared.DataCompressionFormat(r.OutputRing.Compress.ValueString())
+			*compress26 = shared.DataCompressionFormat(r.OutputRing.Compress.ValueString())
 		} else {
-			compress24 = nil
+			compress26 = nil
 		}
 		destPath5 := new(string)
 		if !r.OutputRing.DestPath.IsUnknown() && !r.OutputRing.DestPath.IsNull() {
@@ -14929,7 +14944,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			PartitionExpr:  partitionExpr5,
 			MaxDataSize:    maxDataSize,
 			MaxDataTime:    maxDataTime,
-			Compress:       compress24,
+			Compress:       compress26,
 			DestPath:       destPath5,
 			OnBackpressure: onBackpressure43,
 			Description:    description47,
@@ -14984,11 +14999,11 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		} else {
 			otlpVersion = nil
 		}
-		compress25 := new(shared.OutputOpenTelemetryCompression)
+		compress27 := new(shared.OutputOpenTelemetryCompression)
 		if !r.OutputOpenTelemetry.Compress.IsUnknown() && !r.OutputOpenTelemetry.Compress.IsNull() {
-			*compress25 = shared.OutputOpenTelemetryCompression(r.OutputOpenTelemetry.Compress.ValueString())
+			*compress27 = shared.OutputOpenTelemetryCompression(r.OutputOpenTelemetry.Compress.ValueString())
 		} else {
-			compress25 = nil
+			compress27 = nil
 		}
 		httpCompress := new(shared.OutputOpenTelemetryHTTPCompressCompression)
 		if !r.OutputOpenTelemetry.HTTPCompress.IsUnknown() && !r.OutputOpenTelemetry.HTTPCompress.IsNull() {
@@ -15038,25 +15053,25 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency22 := new(float64)
 		if !r.OutputOpenTelemetry.Concurrency.IsUnknown() && !r.OutputOpenTelemetry.Concurrency.IsNull() {
-			*concurrency22, _ = r.OutputOpenTelemetry.Concurrency.ValueBigFloat().Float64()
+			*concurrency22 = r.OutputOpenTelemetry.Concurrency.ValueFloat64()
 		} else {
 			concurrency22 = nil
 		}
 		maxPayloadSizeKb21 := new(float64)
 		if !r.OutputOpenTelemetry.MaxPayloadSizeKB.IsUnknown() && !r.OutputOpenTelemetry.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb21, _ = r.OutputOpenTelemetry.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb21 = r.OutputOpenTelemetry.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb21 = nil
 		}
 		timeoutSec21 := new(float64)
 		if !r.OutputOpenTelemetry.TimeoutSec.IsUnknown() && !r.OutputOpenTelemetry.TimeoutSec.IsNull() {
-			*timeoutSec21, _ = r.OutputOpenTelemetry.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec21 = r.OutputOpenTelemetry.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec21 = nil
 		}
 		flushPeriodSec32 := new(float64)
 		if !r.OutputOpenTelemetry.FlushPeriodSec.IsUnknown() && !r.OutputOpenTelemetry.FlushPeriodSec.IsNull() {
-			*flushPeriodSec32, _ = r.OutputOpenTelemetry.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec32 = r.OutputOpenTelemetry.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec32 = nil
 		}
@@ -15068,13 +15083,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		connectionTimeout15 := new(float64)
 		if !r.OutputOpenTelemetry.ConnectionTimeout.IsUnknown() && !r.OutputOpenTelemetry.ConnectionTimeout.IsNull() {
-			*connectionTimeout15, _ = r.OutputOpenTelemetry.ConnectionTimeout.ValueBigFloat().Float64()
+			*connectionTimeout15 = r.OutputOpenTelemetry.ConnectionTimeout.ValueFloat64()
 		} else {
 			connectionTimeout15 = nil
 		}
 		keepAliveTime := new(float64)
 		if !r.OutputOpenTelemetry.KeepAliveTime.IsUnknown() && !r.OutputOpenTelemetry.KeepAliveTime.IsNull() {
-			*keepAliveTime, _ = r.OutputOpenTelemetry.KeepAliveTime.ValueBigFloat().Float64()
+			*keepAliveTime = r.OutputOpenTelemetry.KeepAliveTime.ValueFloat64()
 		} else {
 			keepAliveTime = nil
 		}
@@ -15158,7 +15173,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		tokenTimeoutSecs3 := new(float64)
 		if !r.OutputOpenTelemetry.TokenTimeoutSecs.IsUnknown() && !r.OutputOpenTelemetry.TokenTimeoutSecs.IsNull() {
-			*tokenTimeoutSecs3, _ = r.OutputOpenTelemetry.TokenTimeoutSecs.ValueBigFloat().Float64()
+			*tokenTimeoutSecs3 = r.OutputOpenTelemetry.TokenTimeoutSecs.ValueFloat64()
 		} else {
 			tokenTimeoutSecs3 = nil
 		}
@@ -15223,23 +15238,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings20 []shared.OutputOpenTelemetryResponseRetrySettings = []shared.OutputOpenTelemetryResponseRetrySettings{}
 		for _, responseRetrySettingsItem20 := range r.OutputOpenTelemetry.ResponseRetrySettings {
 			var httpStatus20 float64
-			httpStatus20, _ = responseRetrySettingsItem20.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus20 = responseRetrySettingsItem20.HTTPStatus.ValueFloat64()
 
 			initialBackoff44 := new(float64)
 			if !responseRetrySettingsItem20.InitialBackoff.IsUnknown() && !responseRetrySettingsItem20.InitialBackoff.IsNull() {
-				*initialBackoff44, _ = responseRetrySettingsItem20.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff44 = responseRetrySettingsItem20.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff44 = nil
 			}
 			backoffRate44 := new(float64)
 			if !responseRetrySettingsItem20.BackoffRate.IsUnknown() && !responseRetrySettingsItem20.BackoffRate.IsNull() {
-				*backoffRate44, _ = responseRetrySettingsItem20.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate44 = responseRetrySettingsItem20.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate44 = nil
 			}
 			maxBackoff40 := new(float64)
 			if !responseRetrySettingsItem20.MaxBackoff.IsUnknown() && !responseRetrySettingsItem20.MaxBackoff.IsNull() {
-				*maxBackoff40, _ = responseRetrySettingsItem20.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff40 = responseRetrySettingsItem20.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff40 = nil
 			}
@@ -15260,19 +15275,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff45 := new(float64)
 			if !r.OutputOpenTelemetry.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputOpenTelemetry.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff45, _ = r.OutputOpenTelemetry.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff45 = r.OutputOpenTelemetry.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff45 = nil
 			}
 			backoffRate45 := new(float64)
 			if !r.OutputOpenTelemetry.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputOpenTelemetry.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate45, _ = r.OutputOpenTelemetry.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate45 = r.OutputOpenTelemetry.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate45 = nil
 			}
 			maxBackoff41 := new(float64)
 			if !r.OutputOpenTelemetry.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputOpenTelemetry.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff41, _ = r.OutputOpenTelemetry.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff41 = r.OutputOpenTelemetry.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff41 = nil
 			}
@@ -15407,7 +15422,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Protocol:                      protocol4,
 			Endpoint:                      endpoint9,
 			OtlpVersion:                   otlpVersion,
-			Compress:                      compress25,
+			Compress:                      compress27,
 			HTTPCompress:                  httpCompress,
 			AuthType:                      authType25,
 			HTTPTracesEndpointOverride:    httpTracesEndpointOverride,
@@ -15516,7 +15531,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxPayloadSizeKb22 := new(float64)
 		if !r.OutputServiceNow.MaxPayloadSizeKB.IsUnknown() && !r.OutputServiceNow.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb22, _ = r.OutputServiceNow.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb22 = r.OutputServiceNow.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb22 = nil
 		}
@@ -15526,11 +15541,11 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		} else {
 			protocol5 = nil
 		}
-		compress26 := new(shared.OutputServiceNowCompression)
+		compress28 := new(shared.OutputServiceNowCompression)
 		if !r.OutputServiceNow.Compress.IsUnknown() && !r.OutputServiceNow.Compress.IsNull() {
-			*compress26 = shared.OutputServiceNowCompression(r.OutputServiceNow.Compress.ValueString())
+			*compress28 = shared.OutputServiceNowCompression(r.OutputServiceNow.Compress.ValueString())
 		} else {
-			compress26 = nil
+			compress28 = nil
 		}
 		httpCompress1 := new(shared.OutputServiceNowHTTPCompressCompression)
 		if !r.OutputServiceNow.HTTPCompress.IsUnknown() && !r.OutputServiceNow.HTTPCompress.IsNull() {
@@ -15574,19 +15589,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency23 := new(float64)
 		if !r.OutputServiceNow.Concurrency.IsUnknown() && !r.OutputServiceNow.Concurrency.IsNull() {
-			*concurrency23, _ = r.OutputServiceNow.Concurrency.ValueBigFloat().Float64()
+			*concurrency23 = r.OutputServiceNow.Concurrency.ValueFloat64()
 		} else {
 			concurrency23 = nil
 		}
 		timeoutSec22 := new(float64)
 		if !r.OutputServiceNow.TimeoutSec.IsUnknown() && !r.OutputServiceNow.TimeoutSec.IsNull() {
-			*timeoutSec22, _ = r.OutputServiceNow.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec22 = r.OutputServiceNow.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec22 = nil
 		}
 		flushPeriodSec33 := new(float64)
 		if !r.OutputServiceNow.FlushPeriodSec.IsUnknown() && !r.OutputServiceNow.FlushPeriodSec.IsNull() {
-			*flushPeriodSec33, _ = r.OutputServiceNow.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec33 = r.OutputServiceNow.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec33 = nil
 		}
@@ -15598,13 +15613,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		connectionTimeout16 := new(float64)
 		if !r.OutputServiceNow.ConnectionTimeout.IsUnknown() && !r.OutputServiceNow.ConnectionTimeout.IsNull() {
-			*connectionTimeout16, _ = r.OutputServiceNow.ConnectionTimeout.ValueBigFloat().Float64()
+			*connectionTimeout16 = r.OutputServiceNow.ConnectionTimeout.ValueFloat64()
 		} else {
 			connectionTimeout16 = nil
 		}
 		keepAliveTime1 := new(float64)
 		if !r.OutputServiceNow.KeepAliveTime.IsUnknown() && !r.OutputServiceNow.KeepAliveTime.IsNull() {
-			*keepAliveTime1, _ = r.OutputServiceNow.KeepAliveTime.ValueBigFloat().Float64()
+			*keepAliveTime1 = r.OutputServiceNow.KeepAliveTime.ValueFloat64()
 		} else {
 			keepAliveTime1 = nil
 		}
@@ -15661,23 +15676,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings21 []shared.OutputServiceNowResponseRetrySettings = []shared.OutputServiceNowResponseRetrySettings{}
 		for _, responseRetrySettingsItem21 := range r.OutputServiceNow.ResponseRetrySettings {
 			var httpStatus21 float64
-			httpStatus21, _ = responseRetrySettingsItem21.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus21 = responseRetrySettingsItem21.HTTPStatus.ValueFloat64()
 
 			initialBackoff46 := new(float64)
 			if !responseRetrySettingsItem21.InitialBackoff.IsUnknown() && !responseRetrySettingsItem21.InitialBackoff.IsNull() {
-				*initialBackoff46, _ = responseRetrySettingsItem21.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff46 = responseRetrySettingsItem21.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff46 = nil
 			}
 			backoffRate46 := new(float64)
 			if !responseRetrySettingsItem21.BackoffRate.IsUnknown() && !responseRetrySettingsItem21.BackoffRate.IsNull() {
-				*backoffRate46, _ = responseRetrySettingsItem21.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate46 = responseRetrySettingsItem21.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate46 = nil
 			}
 			maxBackoff42 := new(float64)
 			if !responseRetrySettingsItem21.MaxBackoff.IsUnknown() && !responseRetrySettingsItem21.MaxBackoff.IsNull() {
-				*maxBackoff42, _ = responseRetrySettingsItem21.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff42 = responseRetrySettingsItem21.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff42 = nil
 			}
@@ -15698,19 +15713,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff47 := new(float64)
 			if !r.OutputServiceNow.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputServiceNow.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff47, _ = r.OutputServiceNow.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff47 = r.OutputServiceNow.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff47 = nil
 			}
 			backoffRate47 := new(float64)
 			if !r.OutputServiceNow.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputServiceNow.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate47, _ = r.OutputServiceNow.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate47 = r.OutputServiceNow.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate47 = nil
 			}
 			maxBackoff43 := new(float64)
 			if !r.OutputServiceNow.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputServiceNow.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff43, _ = r.OutputServiceNow.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff43 = r.OutputServiceNow.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff43 = nil
 			}
@@ -15848,7 +15863,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			OtlpVersion:                   otlpVersion1,
 			MaxPayloadSizeKB:              maxPayloadSizeKb22,
 			Protocol:                      protocol5,
-			Compress:                      compress26,
+			Compress:                      compress28,
 			HTTPCompress:                  httpCompress1,
 			HTTPTracesEndpointOverride:    httpTracesEndpointOverride1,
 			HTTPMetricsEndpointOverride:   httpMetricsEndpointOverride1,
@@ -15942,23 +15957,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings22 []shared.OutputDatasetResponseRetrySettings = []shared.OutputDatasetResponseRetrySettings{}
 		for _, responseRetrySettingsItem22 := range r.OutputDataset.ResponseRetrySettings {
 			var httpStatus22 float64
-			httpStatus22, _ = responseRetrySettingsItem22.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus22 = responseRetrySettingsItem22.HTTPStatus.ValueFloat64()
 
 			initialBackoff48 := new(float64)
 			if !responseRetrySettingsItem22.InitialBackoff.IsUnknown() && !responseRetrySettingsItem22.InitialBackoff.IsNull() {
-				*initialBackoff48, _ = responseRetrySettingsItem22.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff48 = responseRetrySettingsItem22.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff48 = nil
 			}
 			backoffRate48 := new(float64)
 			if !responseRetrySettingsItem22.BackoffRate.IsUnknown() && !responseRetrySettingsItem22.BackoffRate.IsNull() {
-				*backoffRate48, _ = responseRetrySettingsItem22.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate48 = responseRetrySettingsItem22.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate48 = nil
 			}
 			maxBackoff44 := new(float64)
 			if !responseRetrySettingsItem22.MaxBackoff.IsUnknown() && !responseRetrySettingsItem22.MaxBackoff.IsNull() {
-				*maxBackoff44, _ = responseRetrySettingsItem22.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff44 = responseRetrySettingsItem22.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff44 = nil
 			}
@@ -15979,19 +15994,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff49 := new(float64)
 			if !r.OutputDataset.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputDataset.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff49, _ = r.OutputDataset.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff49 = r.OutputDataset.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff49 = nil
 			}
 			backoffRate49 := new(float64)
 			if !r.OutputDataset.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputDataset.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate49, _ = r.OutputDataset.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate49 = r.OutputDataset.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate49 = nil
 			}
 			maxBackoff45 := new(float64)
 			if !r.OutputDataset.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputDataset.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff45, _ = r.OutputDataset.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff45 = r.OutputDataset.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff45 = nil
 			}
@@ -16016,27 +16031,27 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency24 := new(float64)
 		if !r.OutputDataset.Concurrency.IsUnknown() && !r.OutputDataset.Concurrency.IsNull() {
-			*concurrency24, _ = r.OutputDataset.Concurrency.ValueBigFloat().Float64()
+			*concurrency24 = r.OutputDataset.Concurrency.ValueFloat64()
 		} else {
 			concurrency24 = nil
 		}
 		maxPayloadSizeKb23 := new(float64)
 		if !r.OutputDataset.MaxPayloadSizeKB.IsUnknown() && !r.OutputDataset.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb23, _ = r.OutputDataset.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb23 = r.OutputDataset.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb23 = nil
 		}
 		maxPayloadEvents21 := new(float64)
 		if !r.OutputDataset.MaxPayloadEvents.IsUnknown() && !r.OutputDataset.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents21, _ = r.OutputDataset.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents21 = r.OutputDataset.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents21 = nil
 		}
-		compress27 := new(bool)
+		compress29 := new(bool)
 		if !r.OutputDataset.Compress.IsUnknown() && !r.OutputDataset.Compress.IsNull() {
-			*compress27 = r.OutputDataset.Compress.ValueBool()
+			*compress29 = r.OutputDataset.Compress.ValueBool()
 		} else {
-			compress27 = nil
+			compress29 = nil
 		}
 		rejectUnauthorized45 := new(bool)
 		if !r.OutputDataset.RejectUnauthorized.IsUnknown() && !r.OutputDataset.RejectUnauthorized.IsNull() {
@@ -16046,13 +16061,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec23 := new(float64)
 		if !r.OutputDataset.TimeoutSec.IsUnknown() && !r.OutputDataset.TimeoutSec.IsNull() {
-			*timeoutSec23, _ = r.OutputDataset.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec23 = r.OutputDataset.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec23 = nil
 		}
 		flushPeriodSec34 := new(float64)
 		if !r.OutputDataset.FlushPeriodSec.IsUnknown() && !r.OutputDataset.FlushPeriodSec.IsNull() {
-			*flushPeriodSec34, _ = r.OutputDataset.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec34 = r.OutputDataset.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec34 = nil
 		}
@@ -16102,7 +16117,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		totalMemoryLimitKb8 := new(float64)
 		if !r.OutputDataset.TotalMemoryLimitKB.IsUnknown() && !r.OutputDataset.TotalMemoryLimitKB.IsNull() {
-			*totalMemoryLimitKb8, _ = r.OutputDataset.TotalMemoryLimitKB.ValueBigFloat().Float64()
+			*totalMemoryLimitKb8 = r.OutputDataset.TotalMemoryLimitKB.ValueFloat64()
 		} else {
 			totalMemoryLimitKb8 = nil
 		}
@@ -16189,7 +16204,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Concurrency:                   concurrency24,
 			MaxPayloadSizeKB:              maxPayloadSizeKb23,
 			MaxPayloadEvents:              maxPayloadEvents21,
-			Compress:                      compress27,
+			Compress:                      compress29,
 			RejectUnauthorized:            rejectUnauthorized45,
 			TimeoutSec:                    timeoutSec23,
 			FlushPeriodSec:                flushPeriodSec34,
@@ -16345,19 +16360,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		connectionTimeout17 := new(float64)
 		if !r.OutputCriblTCP.ConnectionTimeout.IsUnknown() && !r.OutputCriblTCP.ConnectionTimeout.IsNull() {
-			*connectionTimeout17, _ = r.OutputCriblTCP.ConnectionTimeout.ValueBigFloat().Float64()
+			*connectionTimeout17 = r.OutputCriblTCP.ConnectionTimeout.ValueFloat64()
 		} else {
 			connectionTimeout17 = nil
 		}
 		writeTimeout7 := new(float64)
 		if !r.OutputCriblTCP.WriteTimeout.IsUnknown() && !r.OutputCriblTCP.WriteTimeout.IsNull() {
-			*writeTimeout7, _ = r.OutputCriblTCP.WriteTimeout.ValueBigFloat().Float64()
+			*writeTimeout7 = r.OutputCriblTCP.WriteTimeout.ValueFloat64()
 		} else {
 			writeTimeout7 = nil
 		}
 		tokenTTLMinutes1 := new(float64)
 		if !r.OutputCriblTCP.TokenTTLMinutes.IsUnknown() && !r.OutputCriblTCP.TokenTTLMinutes.IsNull() {
-			*tokenTTLMinutes1, _ = r.OutputCriblTCP.TokenTTLMinutes.ValueBigFloat().Float64()
+			*tokenTTLMinutes1 = r.OutputCriblTCP.TokenTTLMinutes.ValueFloat64()
 		} else {
 			tokenTTLMinutes1 = nil
 		}
@@ -16385,7 +16400,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		port9 := new(float64)
 		if !r.OutputCriblTCP.Port.IsUnknown() && !r.OutputCriblTCP.Port.IsNull() {
-			*port9, _ = r.OutputCriblTCP.Port.ValueBigFloat().Float64()
+			*port9 = r.OutputCriblTCP.Port.ValueFloat64()
 		} else {
 			port9 = nil
 		}
@@ -16402,7 +16417,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 
 			port10 := new(float64)
 			if !hostsItem3.Port.IsUnknown() && !hostsItem3.Port.IsNull() {
-				*port10, _ = hostsItem3.Port.ValueBigFloat().Float64()
+				*port10 = hostsItem3.Port.ValueFloat64()
 			} else {
 				port10 = nil
 			}
@@ -16420,7 +16435,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			weight5 := new(float64)
 			if !hostsItem3.Weight.IsUnknown() && !hostsItem3.Weight.IsNull() {
-				*weight5, _ = hostsItem3.Weight.ValueBigFloat().Float64()
+				*weight5 = hostsItem3.Weight.ValueFloat64()
 			} else {
 				weight5 = nil
 			}
@@ -16434,19 +16449,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		dnsResolvePeriodSec9 := new(float64)
 		if !r.OutputCriblTCP.DNSResolvePeriodSec.IsUnknown() && !r.OutputCriblTCP.DNSResolvePeriodSec.IsNull() {
-			*dnsResolvePeriodSec9, _ = r.OutputCriblTCP.DNSResolvePeriodSec.ValueBigFloat().Float64()
+			*dnsResolvePeriodSec9 = r.OutputCriblTCP.DNSResolvePeriodSec.ValueFloat64()
 		} else {
 			dnsResolvePeriodSec9 = nil
 		}
 		loadBalanceStatsPeriodSec5 := new(float64)
 		if !r.OutputCriblTCP.LoadBalanceStatsPeriodSec.IsUnknown() && !r.OutputCriblTCP.LoadBalanceStatsPeriodSec.IsNull() {
-			*loadBalanceStatsPeriodSec5, _ = r.OutputCriblTCP.LoadBalanceStatsPeriodSec.ValueBigFloat().Float64()
+			*loadBalanceStatsPeriodSec5 = r.OutputCriblTCP.LoadBalanceStatsPeriodSec.ValueFloat64()
 		} else {
 			loadBalanceStatsPeriodSec5 = nil
 		}
 		maxConcurrentSenders2 := new(float64)
 		if !r.OutputCriblTCP.MaxConcurrentSenders.IsUnknown() && !r.OutputCriblTCP.MaxConcurrentSenders.IsNull() {
-			*maxConcurrentSenders2, _ = r.OutputCriblTCP.MaxConcurrentSenders.ValueBigFloat().Float64()
+			*maxConcurrentSenders2 = r.OutputCriblTCP.MaxConcurrentSenders.ValueFloat64()
 		} else {
 			maxConcurrentSenders2 = nil
 		}
@@ -16531,6 +16546,31 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 	}
 	var outputCriblHTTP *shared.OutputCriblHTTP
 	if r.OutputCriblHTTP != nil {
+		var status *shared.OutputCriblHTTPStatus
+		if r.OutputCriblHTTP.Status != nil {
+			health := shared.Health(r.OutputCriblHTTP.Status.Health.ValueString())
+			metrics := make(map[string]interface{})
+			for metricsKey, metricsValue := range r.OutputCriblHTTP.Status.Metrics {
+				var metricsInst interface{}
+				_ = json.Unmarshal([]byte(metricsValue.ValueString()), &metricsInst)
+				metrics[metricsKey] = metricsInst
+			}
+			var timestamp float64
+			timestamp = r.OutputCriblHTTP.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLB := new(bool)
+			if !r.OutputCriblHTTP.Status.UseStatusFromLB.IsUnknown() && !r.OutputCriblHTTP.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLB = r.OutputCriblHTTP.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLB = nil
+			}
+			status = &shared.OutputCriblHTTPStatus{
+				Health:          health,
+				Metrics:         metrics,
+				Timestamp:       timestamp,
+				UseStatusFromLB: useStatusFromLB,
+			}
+		}
 		var id52 string
 		id52 = r.OutputCriblHTTP.ID.ValueString()
 
@@ -16638,7 +16678,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		tokenTTLMinutes2 := new(float64)
 		if !r.OutputCriblHTTP.TokenTTLMinutes.IsUnknown() && !r.OutputCriblHTTP.TokenTTLMinutes.IsNull() {
-			*tokenTTLMinutes2, _ = r.OutputCriblHTTP.TokenTTLMinutes.ValueBigFloat().Float64()
+			*tokenTTLMinutes2 = r.OutputCriblHTTP.TokenTTLMinutes.ValueFloat64()
 		} else {
 			tokenTTLMinutes2 = nil
 		}
@@ -16654,19 +16694,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency25 := new(float64)
 		if !r.OutputCriblHTTP.Concurrency.IsUnknown() && !r.OutputCriblHTTP.Concurrency.IsNull() {
-			*concurrency25, _ = r.OutputCriblHTTP.Concurrency.ValueBigFloat().Float64()
+			*concurrency25 = r.OutputCriblHTTP.Concurrency.ValueFloat64()
 		} else {
 			concurrency25 = nil
 		}
 		maxPayloadSizeKb24 := new(float64)
 		if !r.OutputCriblHTTP.MaxPayloadSizeKB.IsUnknown() && !r.OutputCriblHTTP.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb24, _ = r.OutputCriblHTTP.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb24 = r.OutputCriblHTTP.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb24 = nil
 		}
 		maxPayloadEvents22 := new(float64)
 		if !r.OutputCriblHTTP.MaxPayloadEvents.IsUnknown() && !r.OutputCriblHTTP.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents22, _ = r.OutputCriblHTTP.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents22 = r.OutputCriblHTTP.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents22 = nil
 		}
@@ -16678,13 +16718,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec24 := new(float64)
 		if !r.OutputCriblHTTP.TimeoutSec.IsUnknown() && !r.OutputCriblHTTP.TimeoutSec.IsNull() {
-			*timeoutSec24, _ = r.OutputCriblHTTP.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec24 = r.OutputCriblHTTP.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec24 = nil
 		}
 		flushPeriodSec35 := new(float64)
 		if !r.OutputCriblHTTP.FlushPeriodSec.IsUnknown() && !r.OutputCriblHTTP.FlushPeriodSec.IsNull() {
-			*flushPeriodSec35, _ = r.OutputCriblHTTP.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec35 = r.OutputCriblHTTP.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec35 = nil
 		}
@@ -16717,23 +16757,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings23 []shared.OutputCriblHTTPResponseRetrySettings = []shared.OutputCriblHTTPResponseRetrySettings{}
 		for _, responseRetrySettingsItem23 := range r.OutputCriblHTTP.ResponseRetrySettings {
 			var httpStatus23 float64
-			httpStatus23, _ = responseRetrySettingsItem23.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus23 = responseRetrySettingsItem23.HTTPStatus.ValueFloat64()
 
 			initialBackoff50 := new(float64)
 			if !responseRetrySettingsItem23.InitialBackoff.IsUnknown() && !responseRetrySettingsItem23.InitialBackoff.IsNull() {
-				*initialBackoff50, _ = responseRetrySettingsItem23.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff50 = responseRetrySettingsItem23.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff50 = nil
 			}
 			backoffRate50 := new(float64)
 			if !responseRetrySettingsItem23.BackoffRate.IsUnknown() && !responseRetrySettingsItem23.BackoffRate.IsNull() {
-				*backoffRate50, _ = responseRetrySettingsItem23.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate50 = responseRetrySettingsItem23.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate50 = nil
 			}
 			maxBackoff46 := new(float64)
 			if !responseRetrySettingsItem23.MaxBackoff.IsUnknown() && !responseRetrySettingsItem23.MaxBackoff.IsNull() {
-				*maxBackoff46, _ = responseRetrySettingsItem23.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff46 = responseRetrySettingsItem23.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff46 = nil
 			}
@@ -16754,19 +16794,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff51 := new(float64)
 			if !r.OutputCriblHTTP.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputCriblHTTP.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff51, _ = r.OutputCriblHTTP.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff51 = r.OutputCriblHTTP.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff51 = nil
 			}
 			backoffRate51 := new(float64)
 			if !r.OutputCriblHTTP.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputCriblHTTP.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate51, _ = r.OutputCriblHTTP.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate51 = r.OutputCriblHTTP.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate51 = nil
 			}
 			maxBackoff47 := new(float64)
 			if !r.OutputCriblHTTP.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputCriblHTTP.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff47, _ = r.OutputCriblHTTP.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff47 = r.OutputCriblHTTP.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff47 = nil
 			}
@@ -16820,7 +16860,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 
 			weight6 := new(float64)
 			if !urlsItem3.Weight.IsUnknown() && !urlsItem3.Weight.IsNull() {
-				*weight6, _ = urlsItem3.Weight.ValueBigFloat().Float64()
+				*weight6 = urlsItem3.Weight.ValueFloat64()
 			} else {
 				weight6 = nil
 			}
@@ -16831,13 +16871,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		dnsResolvePeriodSec10 := new(float64)
 		if !r.OutputCriblHTTP.DNSResolvePeriodSec.IsUnknown() && !r.OutputCriblHTTP.DNSResolvePeriodSec.IsNull() {
-			*dnsResolvePeriodSec10, _ = r.OutputCriblHTTP.DNSResolvePeriodSec.ValueBigFloat().Float64()
+			*dnsResolvePeriodSec10 = r.OutputCriblHTTP.DNSResolvePeriodSec.ValueFloat64()
 		} else {
 			dnsResolvePeriodSec10 = nil
 		}
 		loadBalanceStatsPeriodSec6 := new(float64)
 		if !r.OutputCriblHTTP.LoadBalanceStatsPeriodSec.IsUnknown() && !r.OutputCriblHTTP.LoadBalanceStatsPeriodSec.IsNull() {
-			*loadBalanceStatsPeriodSec6, _ = r.OutputCriblHTTP.LoadBalanceStatsPeriodSec.ValueBigFloat().Float64()
+			*loadBalanceStatsPeriodSec6 = r.OutputCriblHTTP.LoadBalanceStatsPeriodSec.ValueFloat64()
 		} else {
 			loadBalanceStatsPeriodSec6 = nil
 		}
@@ -16882,6 +16922,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			pqControls41 = &shared.OutputCriblHTTPPqControls{}
 		}
 		outputCriblHTTP = &shared.OutputCriblHTTP{
+			Status:                        status,
 			ID:                            id52,
 			Type:                          typeVar52,
 			Pipeline:                      pipeline52,
@@ -16969,27 +17010,27 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency26 := new(float64)
 		if !r.OutputHumioHec.Concurrency.IsUnknown() && !r.OutputHumioHec.Concurrency.IsNull() {
-			*concurrency26, _ = r.OutputHumioHec.Concurrency.ValueBigFloat().Float64()
+			*concurrency26 = r.OutputHumioHec.Concurrency.ValueFloat64()
 		} else {
 			concurrency26 = nil
 		}
 		maxPayloadSizeKb25 := new(float64)
 		if !r.OutputHumioHec.MaxPayloadSizeKB.IsUnknown() && !r.OutputHumioHec.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb25, _ = r.OutputHumioHec.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb25 = r.OutputHumioHec.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb25 = nil
 		}
 		maxPayloadEvents23 := new(float64)
 		if !r.OutputHumioHec.MaxPayloadEvents.IsUnknown() && !r.OutputHumioHec.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents23, _ = r.OutputHumioHec.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents23 = r.OutputHumioHec.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents23 = nil
 		}
-		compress28 := new(bool)
+		compress30 := new(bool)
 		if !r.OutputHumioHec.Compress.IsUnknown() && !r.OutputHumioHec.Compress.IsNull() {
-			*compress28 = r.OutputHumioHec.Compress.ValueBool()
+			*compress30 = r.OutputHumioHec.Compress.ValueBool()
 		} else {
-			compress28 = nil
+			compress30 = nil
 		}
 		rejectUnauthorized49 := new(bool)
 		if !r.OutputHumioHec.RejectUnauthorized.IsUnknown() && !r.OutputHumioHec.RejectUnauthorized.IsNull() {
@@ -16999,13 +17040,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec25 := new(float64)
 		if !r.OutputHumioHec.TimeoutSec.IsUnknown() && !r.OutputHumioHec.TimeoutSec.IsNull() {
-			*timeoutSec25, _ = r.OutputHumioHec.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec25 = r.OutputHumioHec.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec25 = nil
 		}
 		flushPeriodSec36 := new(float64)
 		if !r.OutputHumioHec.FlushPeriodSec.IsUnknown() && !r.OutputHumioHec.FlushPeriodSec.IsNull() {
-			*flushPeriodSec36, _ = r.OutputHumioHec.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec36 = r.OutputHumioHec.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec36 = nil
 		}
@@ -17056,23 +17097,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings24 []shared.OutputHumioHecResponseRetrySettings = []shared.OutputHumioHecResponseRetrySettings{}
 		for _, responseRetrySettingsItem24 := range r.OutputHumioHec.ResponseRetrySettings {
 			var httpStatus24 float64
-			httpStatus24, _ = responseRetrySettingsItem24.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus24 = responseRetrySettingsItem24.HTTPStatus.ValueFloat64()
 
 			initialBackoff52 := new(float64)
 			if !responseRetrySettingsItem24.InitialBackoff.IsUnknown() && !responseRetrySettingsItem24.InitialBackoff.IsNull() {
-				*initialBackoff52, _ = responseRetrySettingsItem24.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff52 = responseRetrySettingsItem24.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff52 = nil
 			}
 			backoffRate52 := new(float64)
 			if !responseRetrySettingsItem24.BackoffRate.IsUnknown() && !responseRetrySettingsItem24.BackoffRate.IsNull() {
-				*backoffRate52, _ = responseRetrySettingsItem24.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate52 = responseRetrySettingsItem24.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate52 = nil
 			}
 			maxBackoff48 := new(float64)
 			if !responseRetrySettingsItem24.MaxBackoff.IsUnknown() && !responseRetrySettingsItem24.MaxBackoff.IsNull() {
-				*maxBackoff48, _ = responseRetrySettingsItem24.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff48 = responseRetrySettingsItem24.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff48 = nil
 			}
@@ -17093,19 +17134,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff53 := new(float64)
 			if !r.OutputHumioHec.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputHumioHec.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff53, _ = r.OutputHumioHec.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff53 = r.OutputHumioHec.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff53 = nil
 			}
 			backoffRate53 := new(float64)
 			if !r.OutputHumioHec.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputHumioHec.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate53, _ = r.OutputHumioHec.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate53 = r.OutputHumioHec.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate53 = nil
 			}
 			maxBackoff49 := new(float64)
 			if !r.OutputHumioHec.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputHumioHec.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff49, _ = r.OutputHumioHec.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff49 = r.OutputHumioHec.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff49 = nil
 			}
@@ -17197,7 +17238,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Concurrency:                   concurrency26,
 			MaxPayloadSizeKB:              maxPayloadSizeKb25,
 			MaxPayloadEvents:              maxPayloadEvents23,
-			Compress:                      compress28,
+			Compress:                      compress30,
 			RejectUnauthorized:            rejectUnauthorized49,
 			TimeoutSec:                    timeoutSec25,
 			FlushPeriodSec:                flushPeriodSec36,
@@ -17267,27 +17308,27 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 
 		concurrency27 := new(float64)
 		if !r.OutputCrowdstrikeNextGenSiem.Concurrency.IsUnknown() && !r.OutputCrowdstrikeNextGenSiem.Concurrency.IsNull() {
-			*concurrency27, _ = r.OutputCrowdstrikeNextGenSiem.Concurrency.ValueBigFloat().Float64()
+			*concurrency27 = r.OutputCrowdstrikeNextGenSiem.Concurrency.ValueFloat64()
 		} else {
 			concurrency27 = nil
 		}
 		maxPayloadSizeKb26 := new(float64)
 		if !r.OutputCrowdstrikeNextGenSiem.MaxPayloadSizeKB.IsUnknown() && !r.OutputCrowdstrikeNextGenSiem.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb26, _ = r.OutputCrowdstrikeNextGenSiem.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb26 = r.OutputCrowdstrikeNextGenSiem.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb26 = nil
 		}
 		maxPayloadEvents24 := new(float64)
 		if !r.OutputCrowdstrikeNextGenSiem.MaxPayloadEvents.IsUnknown() && !r.OutputCrowdstrikeNextGenSiem.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents24, _ = r.OutputCrowdstrikeNextGenSiem.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents24 = r.OutputCrowdstrikeNextGenSiem.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents24 = nil
 		}
-		compress29 := new(bool)
+		compress31 := new(bool)
 		if !r.OutputCrowdstrikeNextGenSiem.Compress.IsUnknown() && !r.OutputCrowdstrikeNextGenSiem.Compress.IsNull() {
-			*compress29 = r.OutputCrowdstrikeNextGenSiem.Compress.ValueBool()
+			*compress31 = r.OutputCrowdstrikeNextGenSiem.Compress.ValueBool()
 		} else {
-			compress29 = nil
+			compress31 = nil
 		}
 		rejectUnauthorized50 := new(bool)
 		if !r.OutputCrowdstrikeNextGenSiem.RejectUnauthorized.IsUnknown() && !r.OutputCrowdstrikeNextGenSiem.RejectUnauthorized.IsNull() {
@@ -17297,13 +17338,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec26 := new(float64)
 		if !r.OutputCrowdstrikeNextGenSiem.TimeoutSec.IsUnknown() && !r.OutputCrowdstrikeNextGenSiem.TimeoutSec.IsNull() {
-			*timeoutSec26, _ = r.OutputCrowdstrikeNextGenSiem.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec26 = r.OutputCrowdstrikeNextGenSiem.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec26 = nil
 		}
 		flushPeriodSec37 := new(float64)
 		if !r.OutputCrowdstrikeNextGenSiem.FlushPeriodSec.IsUnknown() && !r.OutputCrowdstrikeNextGenSiem.FlushPeriodSec.IsNull() {
-			*flushPeriodSec37, _ = r.OutputCrowdstrikeNextGenSiem.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec37 = r.OutputCrowdstrikeNextGenSiem.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec37 = nil
 		}
@@ -17354,23 +17395,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings25 []shared.OutputCrowdstrikeNextGenSiemResponseRetrySettings = []shared.OutputCrowdstrikeNextGenSiemResponseRetrySettings{}
 		for _, responseRetrySettingsItem25 := range r.OutputCrowdstrikeNextGenSiem.ResponseRetrySettings {
 			var httpStatus25 float64
-			httpStatus25, _ = responseRetrySettingsItem25.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus25 = responseRetrySettingsItem25.HTTPStatus.ValueFloat64()
 
 			initialBackoff54 := new(float64)
 			if !responseRetrySettingsItem25.InitialBackoff.IsUnknown() && !responseRetrySettingsItem25.InitialBackoff.IsNull() {
-				*initialBackoff54, _ = responseRetrySettingsItem25.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff54 = responseRetrySettingsItem25.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff54 = nil
 			}
 			backoffRate54 := new(float64)
 			if !responseRetrySettingsItem25.BackoffRate.IsUnknown() && !responseRetrySettingsItem25.BackoffRate.IsNull() {
-				*backoffRate54, _ = responseRetrySettingsItem25.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate54 = responseRetrySettingsItem25.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate54 = nil
 			}
 			maxBackoff50 := new(float64)
 			if !responseRetrySettingsItem25.MaxBackoff.IsUnknown() && !responseRetrySettingsItem25.MaxBackoff.IsNull() {
-				*maxBackoff50, _ = responseRetrySettingsItem25.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff50 = responseRetrySettingsItem25.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff50 = nil
 			}
@@ -17391,19 +17432,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff55 := new(float64)
 			if !r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff55, _ = r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff55 = r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff55 = nil
 			}
 			backoffRate55 := new(float64)
 			if !r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate55, _ = r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate55 = r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate55 = nil
 			}
 			maxBackoff51 := new(float64)
 			if !r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff51, _ = r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff51 = r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff51 = nil
 			}
@@ -17495,7 +17536,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Concurrency:                   concurrency27,
 			MaxPayloadSizeKB:              maxPayloadSizeKb26,
 			MaxPayloadEvents:              maxPayloadEvents24,
-			Compress:                      compress29,
+			Compress:                      compress31,
 			RejectUnauthorized:            rejectUnauthorized50,
 			TimeoutSec:                    timeoutSec26,
 			FlushPeriodSec:                flushPeriodSec37,
@@ -17625,7 +17666,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		durationSeconds6 := new(float64)
 		if !r.OutputDlS3.DurationSeconds.IsUnknown() && !r.OutputDlS3.DurationSeconds.IsNull() {
-			*durationSeconds6, _ = r.OutputDlS3.DurationSeconds.ValueBigFloat().Float64()
+			*durationSeconds6 = r.OutputDlS3.DurationSeconds.ValueFloat64()
 		} else {
 			durationSeconds6 = nil
 		}
@@ -17697,13 +17738,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxFileSizeMb7 := new(float64)
 		if !r.OutputDlS3.MaxFileSizeMB.IsUnknown() && !r.OutputDlS3.MaxFileSizeMB.IsNull() {
-			*maxFileSizeMb7, _ = r.OutputDlS3.MaxFileSizeMB.ValueBigFloat().Float64()
+			*maxFileSizeMb7 = r.OutputDlS3.MaxFileSizeMB.ValueFloat64()
 		} else {
 			maxFileSizeMb7 = nil
 		}
 		maxOpenFiles7 := new(float64)
 		if !r.OutputDlS3.MaxOpenFiles.IsUnknown() && !r.OutputDlS3.MaxOpenFiles.IsNull() {
-			*maxOpenFiles7, _ = r.OutputDlS3.MaxOpenFiles.ValueBigFloat().Float64()
+			*maxOpenFiles7 = r.OutputDlS3.MaxOpenFiles.ValueFloat64()
 		} else {
 			maxOpenFiles7 = nil
 		}
@@ -17715,7 +17756,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		writeHighWaterMark5 := new(float64)
 		if !r.OutputDlS3.WriteHighWaterMark.IsUnknown() && !r.OutputDlS3.WriteHighWaterMark.IsNull() {
-			*writeHighWaterMark5, _ = r.OutputDlS3.WriteHighWaterMark.ValueBigFloat().Float64()
+			*writeHighWaterMark5 = r.OutputDlS3.WriteHighWaterMark.ValueFloat64()
 		} else {
 			writeHighWaterMark5 = nil
 		}
@@ -17739,19 +17780,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxFileOpenTimeSec7 := new(float64)
 		if !r.OutputDlS3.MaxFileOpenTimeSec.IsUnknown() && !r.OutputDlS3.MaxFileOpenTimeSec.IsNull() {
-			*maxFileOpenTimeSec7, _ = r.OutputDlS3.MaxFileOpenTimeSec.ValueBigFloat().Float64()
+			*maxFileOpenTimeSec7 = r.OutputDlS3.MaxFileOpenTimeSec.ValueFloat64()
 		} else {
 			maxFileOpenTimeSec7 = nil
 		}
 		maxFileIdleTimeSec7 := new(float64)
 		if !r.OutputDlS3.MaxFileIdleTimeSec.IsUnknown() && !r.OutputDlS3.MaxFileIdleTimeSec.IsNull() {
-			*maxFileIdleTimeSec7, _ = r.OutputDlS3.MaxFileIdleTimeSec.ValueBigFloat().Float64()
+			*maxFileIdleTimeSec7 = r.OutputDlS3.MaxFileIdleTimeSec.ValueFloat64()
 		} else {
 			maxFileIdleTimeSec7 = nil
 		}
 		maxConcurrentFileParts4 := new(float64)
 		if !r.OutputDlS3.MaxConcurrentFileParts.IsUnknown() && !r.OutputDlS3.MaxConcurrentFileParts.IsNull() {
-			*maxConcurrentFileParts4, _ = r.OutputDlS3.MaxConcurrentFileParts.ValueBigFloat().Float64()
+			*maxConcurrentFileParts4 = r.OutputDlS3.MaxConcurrentFileParts.ValueFloat64()
 		} else {
 			maxConcurrentFileParts4 = nil
 		}
@@ -17763,7 +17804,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxClosingFilesToBackpressure1 := new(float64)
 		if !r.OutputDlS3.MaxClosingFilesToBackpressure.IsUnknown() && !r.OutputDlS3.MaxClosingFilesToBackpressure.IsNull() {
-			*maxClosingFilesToBackpressure1, _ = r.OutputDlS3.MaxClosingFilesToBackpressure.ValueBigFloat().Float64()
+			*maxClosingFilesToBackpressure1 = r.OutputDlS3.MaxClosingFilesToBackpressure.ValueFloat64()
 		} else {
 			maxClosingFilesToBackpressure1 = nil
 		}
@@ -17789,11 +17830,11 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		} else {
 			awsSecret8 = nil
 		}
-		compress30 := new(shared.OutputDlS3Compress)
+		compress32 := new(shared.OutputDlS3Compress)
 		if !r.OutputDlS3.Compress.IsUnknown() && !r.OutputDlS3.Compress.IsNull() {
-			*compress30 = shared.OutputDlS3Compress(r.OutputDlS3.Compress.ValueString())
+			*compress32 = shared.OutputDlS3Compress(r.OutputDlS3.Compress.ValueString())
 		} else {
-			compress30 = nil
+			compress32 = nil
 		}
 		compressionLevel5 := new(shared.OutputDlS3CompressionLevel)
 		if !r.OutputDlS3.CompressionLevel.IsUnknown() && !r.OutputDlS3.CompressionLevel.IsNull() {
@@ -17821,7 +17862,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		parquetRowGroupLength5 := new(float64)
 		if !r.OutputDlS3.ParquetRowGroupLength.IsUnknown() && !r.OutputDlS3.ParquetRowGroupLength.IsNull() {
-			*parquetRowGroupLength5, _ = r.OutputDlS3.ParquetRowGroupLength.ValueBigFloat().Float64()
+			*parquetRowGroupLength5 = r.OutputDlS3.ParquetRowGroupLength.ValueFloat64()
 		} else {
 			parquetRowGroupLength5 = nil
 		}
@@ -17873,7 +17914,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		emptyDirCleanupSec6 := new(float64)
 		if !r.OutputDlS3.EmptyDirCleanupSec.IsUnknown() && !r.OutputDlS3.EmptyDirCleanupSec.IsNull() {
-			*emptyDirCleanupSec6, _ = r.OutputDlS3.EmptyDirCleanupSec.ValueBigFloat().Float64()
+			*emptyDirCleanupSec6 = r.OutputDlS3.EmptyDirCleanupSec.ValueFloat64()
 		} else {
 			emptyDirCleanupSec6 = nil
 		}
@@ -17885,7 +17926,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxRetryNum6 := new(float64)
 		if !r.OutputDlS3.MaxRetryNum.IsUnknown() && !r.OutputDlS3.MaxRetryNum.IsNull() {
-			*maxRetryNum6, _ = r.OutputDlS3.MaxRetryNum.ValueBigFloat().Float64()
+			*maxRetryNum6 = r.OutputDlS3.MaxRetryNum.ValueFloat64()
 		} else {
 			maxRetryNum6 = nil
 		}
@@ -17935,7 +17976,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Description:                   description55,
 			AwsAPIKey:                     awsAPIKey9,
 			AwsSecret:                     awsSecret8,
-			Compress:                      compress30,
+			Compress:                      compress32,
 			CompressionLevel:              compressionLevel5,
 			AutomaticSchema:               automaticSchema5,
 			ParquetVersion:                parquetVersion5,
@@ -18050,7 +18091,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		durationSeconds7 := new(float64)
 		if !r.OutputSecurityLake.DurationSeconds.IsUnknown() && !r.OutputSecurityLake.DurationSeconds.IsNull() {
-			*durationSeconds7, _ = r.OutputSecurityLake.DurationSeconds.ValueBigFloat().Float64()
+			*durationSeconds7 = r.OutputSecurityLake.DurationSeconds.ValueFloat64()
 		} else {
 			durationSeconds7 = nil
 		}
@@ -18104,13 +18145,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxFileSizeMb8 := new(float64)
 		if !r.OutputSecurityLake.MaxFileSizeMB.IsUnknown() && !r.OutputSecurityLake.MaxFileSizeMB.IsNull() {
-			*maxFileSizeMb8, _ = r.OutputSecurityLake.MaxFileSizeMB.ValueBigFloat().Float64()
+			*maxFileSizeMb8 = r.OutputSecurityLake.MaxFileSizeMB.ValueFloat64()
 		} else {
 			maxFileSizeMb8 = nil
 		}
 		maxOpenFiles8 := new(float64)
 		if !r.OutputSecurityLake.MaxOpenFiles.IsUnknown() && !r.OutputSecurityLake.MaxOpenFiles.IsNull() {
-			*maxOpenFiles8, _ = r.OutputSecurityLake.MaxOpenFiles.ValueBigFloat().Float64()
+			*maxOpenFiles8 = r.OutputSecurityLake.MaxOpenFiles.ValueFloat64()
 		} else {
 			maxOpenFiles8 = nil
 		}
@@ -18122,7 +18163,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		writeHighWaterMark6 := new(float64)
 		if !r.OutputSecurityLake.WriteHighWaterMark.IsUnknown() && !r.OutputSecurityLake.WriteHighWaterMark.IsNull() {
-			*writeHighWaterMark6, _ = r.OutputSecurityLake.WriteHighWaterMark.ValueBigFloat().Float64()
+			*writeHighWaterMark6 = r.OutputSecurityLake.WriteHighWaterMark.ValueFloat64()
 		} else {
 			writeHighWaterMark6 = nil
 		}
@@ -18146,19 +18187,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxFileOpenTimeSec8 := new(float64)
 		if !r.OutputSecurityLake.MaxFileOpenTimeSec.IsUnknown() && !r.OutputSecurityLake.MaxFileOpenTimeSec.IsNull() {
-			*maxFileOpenTimeSec8, _ = r.OutputSecurityLake.MaxFileOpenTimeSec.ValueBigFloat().Float64()
+			*maxFileOpenTimeSec8 = r.OutputSecurityLake.MaxFileOpenTimeSec.ValueFloat64()
 		} else {
 			maxFileOpenTimeSec8 = nil
 		}
 		maxFileIdleTimeSec8 := new(float64)
 		if !r.OutputSecurityLake.MaxFileIdleTimeSec.IsUnknown() && !r.OutputSecurityLake.MaxFileIdleTimeSec.IsNull() {
-			*maxFileIdleTimeSec8, _ = r.OutputSecurityLake.MaxFileIdleTimeSec.ValueBigFloat().Float64()
+			*maxFileIdleTimeSec8 = r.OutputSecurityLake.MaxFileIdleTimeSec.ValueFloat64()
 		} else {
 			maxFileIdleTimeSec8 = nil
 		}
 		maxConcurrentFileParts5 := new(float64)
 		if !r.OutputSecurityLake.MaxConcurrentFileParts.IsUnknown() && !r.OutputSecurityLake.MaxConcurrentFileParts.IsNull() {
-			*maxConcurrentFileParts5, _ = r.OutputSecurityLake.MaxConcurrentFileParts.ValueBigFloat().Float64()
+			*maxConcurrentFileParts5 = r.OutputSecurityLake.MaxConcurrentFileParts.ValueFloat64()
 		} else {
 			maxConcurrentFileParts5 = nil
 		}
@@ -18170,7 +18211,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxClosingFilesToBackpressure2 := new(float64)
 		if !r.OutputSecurityLake.MaxClosingFilesToBackpressure.IsUnknown() && !r.OutputSecurityLake.MaxClosingFilesToBackpressure.IsNull() {
-			*maxClosingFilesToBackpressure2, _ = r.OutputSecurityLake.MaxClosingFilesToBackpressure.ValueBigFloat().Float64()
+			*maxClosingFilesToBackpressure2 = r.OutputSecurityLake.MaxClosingFilesToBackpressure.ValueFloat64()
 		} else {
 			maxClosingFilesToBackpressure2 = nil
 		}
@@ -18200,7 +18241,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		parquetRowGroupLength6 := new(float64)
 		if !r.OutputSecurityLake.ParquetRowGroupLength.IsUnknown() && !r.OutputSecurityLake.ParquetRowGroupLength.IsNull() {
-			*parquetRowGroupLength6, _ = r.OutputSecurityLake.ParquetRowGroupLength.ValueBigFloat().Float64()
+			*parquetRowGroupLength6 = r.OutputSecurityLake.ParquetRowGroupLength.ValueFloat64()
 		} else {
 			parquetRowGroupLength6 = nil
 		}
@@ -18270,7 +18311,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		emptyDirCleanupSec7 := new(float64)
 		if !r.OutputSecurityLake.EmptyDirCleanupSec.IsUnknown() && !r.OutputSecurityLake.EmptyDirCleanupSec.IsNull() {
-			*emptyDirCleanupSec7, _ = r.OutputSecurityLake.EmptyDirCleanupSec.ValueBigFloat().Float64()
+			*emptyDirCleanupSec7 = r.OutputSecurityLake.EmptyDirCleanupSec.ValueFloat64()
 		} else {
 			emptyDirCleanupSec7 = nil
 		}
@@ -18288,7 +18329,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxRetryNum7 := new(float64)
 		if !r.OutputSecurityLake.MaxRetryNum.IsUnknown() && !r.OutputSecurityLake.MaxRetryNum.IsNull() {
-			*maxRetryNum7, _ = r.OutputSecurityLake.MaxRetryNum.ValueBigFloat().Float64()
+			*maxRetryNum7 = r.OutputSecurityLake.MaxRetryNum.ValueFloat64()
 		} else {
 			maxRetryNum7 = nil
 		}
@@ -18448,7 +18489,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		durationSeconds8 := new(float64)
 		if !r.OutputCriblLake.DurationSeconds.IsUnknown() && !r.OutputCriblLake.DurationSeconds.IsNull() {
-			*durationSeconds8, _ = r.OutputCriblLake.DurationSeconds.ValueBigFloat().Float64()
+			*durationSeconds8 = r.OutputCriblLake.DurationSeconds.ValueFloat64()
 		} else {
 			durationSeconds8 = nil
 		}
@@ -18511,13 +18552,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxFileSizeMb9 := new(float64)
 		if !r.OutputCriblLake.MaxFileSizeMB.IsUnknown() && !r.OutputCriblLake.MaxFileSizeMB.IsNull() {
-			*maxFileSizeMb9, _ = r.OutputCriblLake.MaxFileSizeMB.ValueBigFloat().Float64()
+			*maxFileSizeMb9 = r.OutputCriblLake.MaxFileSizeMB.ValueFloat64()
 		} else {
 			maxFileSizeMb9 = nil
 		}
 		maxOpenFiles9 := new(float64)
 		if !r.OutputCriblLake.MaxOpenFiles.IsUnknown() && !r.OutputCriblLake.MaxOpenFiles.IsNull() {
-			*maxOpenFiles9, _ = r.OutputCriblLake.MaxOpenFiles.ValueBigFloat().Float64()
+			*maxOpenFiles9 = r.OutputCriblLake.MaxOpenFiles.ValueFloat64()
 		} else {
 			maxOpenFiles9 = nil
 		}
@@ -18529,7 +18570,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		writeHighWaterMark7 := new(float64)
 		if !r.OutputCriblLake.WriteHighWaterMark.IsUnknown() && !r.OutputCriblLake.WriteHighWaterMark.IsNull() {
-			*writeHighWaterMark7, _ = r.OutputCriblLake.WriteHighWaterMark.ValueBigFloat().Float64()
+			*writeHighWaterMark7 = r.OutputCriblLake.WriteHighWaterMark.ValueFloat64()
 		} else {
 			writeHighWaterMark7 = nil
 		}
@@ -18553,21 +18594,15 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxFileOpenTimeSec9 := new(float64)
 		if !r.OutputCriblLake.MaxFileOpenTimeSec.IsUnknown() && !r.OutputCriblLake.MaxFileOpenTimeSec.IsNull() {
-			*maxFileOpenTimeSec9, _ = r.OutputCriblLake.MaxFileOpenTimeSec.ValueBigFloat().Float64()
+			*maxFileOpenTimeSec9 = r.OutputCriblLake.MaxFileOpenTimeSec.ValueFloat64()
 		} else {
 			maxFileOpenTimeSec9 = nil
 		}
 		maxFileIdleTimeSec9 := new(float64)
 		if !r.OutputCriblLake.MaxFileIdleTimeSec.IsUnknown() && !r.OutputCriblLake.MaxFileIdleTimeSec.IsNull() {
-			*maxFileIdleTimeSec9, _ = r.OutputCriblLake.MaxFileIdleTimeSec.ValueBigFloat().Float64()
+			*maxFileIdleTimeSec9 = r.OutputCriblLake.MaxFileIdleTimeSec.ValueFloat64()
 		} else {
 			maxFileIdleTimeSec9 = nil
-		}
-		maxConcurrentFileParts6 := new(float64)
-		if !r.OutputCriblLake.MaxConcurrentFileParts.IsUnknown() && !r.OutputCriblLake.MaxConcurrentFileParts.IsNull() {
-			*maxConcurrentFileParts6, _ = r.OutputCriblLake.MaxConcurrentFileParts.ValueBigFloat().Float64()
-		} else {
-			maxConcurrentFileParts6 = nil
 		}
 		verifyPermissions5 := new(bool)
 		if !r.OutputCriblLake.VerifyPermissions.IsUnknown() && !r.OutputCriblLake.VerifyPermissions.IsNull() {
@@ -18577,7 +18612,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxClosingFilesToBackpressure3 := new(float64)
 		if !r.OutputCriblLake.MaxClosingFilesToBackpressure.IsUnknown() && !r.OutputCriblLake.MaxClosingFilesToBackpressure.IsNull() {
-			*maxClosingFilesToBackpressure3, _ = r.OutputCriblLake.MaxClosingFilesToBackpressure.ValueBigFloat().Float64()
+			*maxClosingFilesToBackpressure3 = r.OutputCriblLake.MaxClosingFilesToBackpressure.ValueFloat64()
 		} else {
 			maxClosingFilesToBackpressure3 = nil
 		}
@@ -18593,6 +18628,12 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		} else {
 			format17 = nil
 		}
+		maxConcurrentFileParts6 := new(float64)
+		if !r.OutputCriblLake.MaxConcurrentFileParts.IsUnknown() && !r.OutputCriblLake.MaxConcurrentFileParts.IsNull() {
+			*maxConcurrentFileParts6 = r.OutputCriblLake.MaxConcurrentFileParts.ValueFloat64()
+		} else {
+			maxConcurrentFileParts6 = nil
+		}
 		description57 := new(string)
 		if !r.OutputCriblLake.Description.IsUnknown() && !r.OutputCriblLake.Description.IsNull() {
 			*description57 = r.OutputCriblLake.Description.ValueString()
@@ -18601,7 +18642,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		emptyDirCleanupSec8 := new(float64)
 		if !r.OutputCriblLake.EmptyDirCleanupSec.IsUnknown() && !r.OutputCriblLake.EmptyDirCleanupSec.IsNull() {
-			*emptyDirCleanupSec8, _ = r.OutputCriblLake.EmptyDirCleanupSec.ValueBigFloat().Float64()
+			*emptyDirCleanupSec8 = r.OutputCriblLake.EmptyDirCleanupSec.ValueFloat64()
 		} else {
 			emptyDirCleanupSec8 = nil
 		}
@@ -18613,7 +18654,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		maxRetryNum8 := new(float64)
 		if !r.OutputCriblLake.MaxRetryNum.IsUnknown() && !r.OutputCriblLake.MaxRetryNum.IsNull() {
-			*maxRetryNum8, _ = r.OutputCriblLake.MaxRetryNum.ValueBigFloat().Float64()
+			*maxRetryNum8 = r.OutputCriblLake.MaxRetryNum.ValueFloat64()
 		} else {
 			maxRetryNum8 = nil
 		}
@@ -18654,11 +18695,11 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			OnDiskFullBackpressure:        onDiskFullBackpressure9,
 			MaxFileOpenTimeSec:            maxFileOpenTimeSec9,
 			MaxFileIdleTimeSec:            maxFileIdleTimeSec9,
-			MaxConcurrentFileParts:        maxConcurrentFileParts6,
 			VerifyPermissions:             verifyPermissions5,
 			MaxClosingFilesToBackpressure: maxClosingFilesToBackpressure3,
 			AwsAuthenticationMethod:       awsAuthenticationMethod10,
 			Format:                        format17,
+			MaxConcurrentFileParts:        maxConcurrentFileParts6,
 			Description:                   description57,
 			EmptyDirCleanupSec:            emptyDirCleanupSec8,
 			DeadletterPath:                deadletterPath8,
@@ -18714,11 +18755,11 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		} else {
 			maxDataTime1 = nil
 		}
-		compress31 := new(shared.OutputDiskSpoolCompression)
+		compress33 := new(shared.OutputDiskSpoolCompression)
 		if !r.OutputDiskSpool.Compress.IsUnknown() && !r.OutputDiskSpool.Compress.IsNull() {
-			*compress31 = shared.OutputDiskSpoolCompression(r.OutputDiskSpool.Compress.ValueString())
+			*compress33 = shared.OutputDiskSpoolCompression(r.OutputDiskSpool.Compress.ValueString())
 		} else {
-			compress31 = nil
+			compress33 = nil
 		}
 		partitionExpr6 := new(string)
 		if !r.OutputDiskSpool.PartitionExpr.IsUnknown() && !r.OutputDiskSpool.PartitionExpr.IsNull() {
@@ -18742,7 +18783,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			TimeWindow:    timeWindow,
 			MaxDataSize:   maxDataSize1,
 			MaxDataTime:   maxDataTime1,
-			Compress:      compress31,
+			Compress:      compress33,
 			PartitionExpr: partitionExpr6,
 			Description:   description58,
 		}
@@ -18889,27 +18930,27 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency28 := new(float64)
 		if !r.OutputClickHouse.Concurrency.IsUnknown() && !r.OutputClickHouse.Concurrency.IsNull() {
-			*concurrency28, _ = r.OutputClickHouse.Concurrency.ValueBigFloat().Float64()
+			*concurrency28 = r.OutputClickHouse.Concurrency.ValueFloat64()
 		} else {
 			concurrency28 = nil
 		}
 		maxPayloadSizeKb27 := new(float64)
 		if !r.OutputClickHouse.MaxPayloadSizeKB.IsUnknown() && !r.OutputClickHouse.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb27, _ = r.OutputClickHouse.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb27 = r.OutputClickHouse.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb27 = nil
 		}
 		maxPayloadEvents25 := new(float64)
 		if !r.OutputClickHouse.MaxPayloadEvents.IsUnknown() && !r.OutputClickHouse.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents25, _ = r.OutputClickHouse.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents25 = r.OutputClickHouse.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents25 = nil
 		}
-		compress32 := new(bool)
+		compress34 := new(bool)
 		if !r.OutputClickHouse.Compress.IsUnknown() && !r.OutputClickHouse.Compress.IsNull() {
-			*compress32 = r.OutputClickHouse.Compress.ValueBool()
+			*compress34 = r.OutputClickHouse.Compress.ValueBool()
 		} else {
-			compress32 = nil
+			compress34 = nil
 		}
 		rejectUnauthorized54 := new(bool)
 		if !r.OutputClickHouse.RejectUnauthorized.IsUnknown() && !r.OutputClickHouse.RejectUnauthorized.IsNull() {
@@ -18919,13 +18960,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec27 := new(float64)
 		if !r.OutputClickHouse.TimeoutSec.IsUnknown() && !r.OutputClickHouse.TimeoutSec.IsNull() {
-			*timeoutSec27, _ = r.OutputClickHouse.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec27 = r.OutputClickHouse.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec27 = nil
 		}
 		flushPeriodSec38 := new(float64)
 		if !r.OutputClickHouse.FlushPeriodSec.IsUnknown() && !r.OutputClickHouse.FlushPeriodSec.IsNull() {
-			*flushPeriodSec38, _ = r.OutputClickHouse.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec38 = r.OutputClickHouse.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec38 = nil
 		}
@@ -18964,23 +19005,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings26 []shared.OutputClickHouseResponseRetrySettings = []shared.OutputClickHouseResponseRetrySettings{}
 		for _, responseRetrySettingsItem26 := range r.OutputClickHouse.ResponseRetrySettings {
 			var httpStatus26 float64
-			httpStatus26, _ = responseRetrySettingsItem26.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus26 = responseRetrySettingsItem26.HTTPStatus.ValueFloat64()
 
 			initialBackoff56 := new(float64)
 			if !responseRetrySettingsItem26.InitialBackoff.IsUnknown() && !responseRetrySettingsItem26.InitialBackoff.IsNull() {
-				*initialBackoff56, _ = responseRetrySettingsItem26.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff56 = responseRetrySettingsItem26.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff56 = nil
 			}
 			backoffRate56 := new(float64)
 			if !responseRetrySettingsItem26.BackoffRate.IsUnknown() && !responseRetrySettingsItem26.BackoffRate.IsNull() {
-				*backoffRate56, _ = responseRetrySettingsItem26.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate56 = responseRetrySettingsItem26.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate56 = nil
 			}
 			maxBackoff52 := new(float64)
 			if !responseRetrySettingsItem26.MaxBackoff.IsUnknown() && !responseRetrySettingsItem26.MaxBackoff.IsNull() {
-				*maxBackoff52, _ = responseRetrySettingsItem26.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff52 = responseRetrySettingsItem26.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff52 = nil
 			}
@@ -19001,19 +19042,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff57 := new(float64)
 			if !r.OutputClickHouse.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputClickHouse.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff57, _ = r.OutputClickHouse.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff57 = r.OutputClickHouse.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff57 = nil
 			}
 			backoffRate57 := new(float64)
 			if !r.OutputClickHouse.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputClickHouse.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate57, _ = r.OutputClickHouse.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate57 = r.OutputClickHouse.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate57 = nil
 			}
 			maxBackoff53 := new(float64)
 			if !r.OutputClickHouse.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputClickHouse.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff53, _ = r.OutputClickHouse.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff53 = r.OutputClickHouse.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff53 = nil
 			}
@@ -19110,7 +19151,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		tokenTimeoutSecs4 := new(float64)
 		if !r.OutputClickHouse.TokenTimeoutSecs.IsUnknown() && !r.OutputClickHouse.TokenTimeoutSecs.IsNull() {
-			*tokenTimeoutSecs4, _ = r.OutputClickHouse.TokenTimeoutSecs.ValueBigFloat().Float64()
+			*tokenTimeoutSecs4 = r.OutputClickHouse.TokenTimeoutSecs.ValueFloat64()
 		} else {
 			tokenTimeoutSecs4 = nil
 		}
@@ -19240,7 +19281,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Concurrency:                   concurrency28,
 			MaxPayloadSizeKB:              maxPayloadSizeKb27,
 			MaxPayloadEvents:              maxPayloadEvents25,
-			Compress:                      compress32,
+			Compress:                      compress34,
 			RejectUnauthorized:            rejectUnauthorized54,
 			TimeoutSec:                    timeoutSec27,
 			FlushPeriodSec:                flushPeriodSec38,
@@ -19320,21 +19361,21 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency29 := new(float64)
 		if !r.OutputXsiam.Concurrency.IsUnknown() && !r.OutputXsiam.Concurrency.IsNull() {
-			*concurrency29, _ = r.OutputXsiam.Concurrency.ValueBigFloat().Float64()
+			*concurrency29 = r.OutputXsiam.Concurrency.ValueFloat64()
 		} else {
 			concurrency29 = nil
 		}
 		maxPayloadEvents26 := new(float64)
 		if !r.OutputXsiam.MaxPayloadEvents.IsUnknown() && !r.OutputXsiam.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents26, _ = r.OutputXsiam.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents26 = r.OutputXsiam.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents26 = nil
 		}
-		compress33 := new(bool)
+		compress35 := new(bool)
 		if !r.OutputXsiam.Compress.IsUnknown() && !r.OutputXsiam.Compress.IsNull() {
-			*compress33 = r.OutputXsiam.Compress.ValueBool()
+			*compress35 = r.OutputXsiam.Compress.ValueBool()
 		} else {
-			compress33 = nil
+			compress35 = nil
 		}
 		rejectUnauthorized55 := new(bool)
 		if !r.OutputXsiam.RejectUnauthorized.IsUnknown() && !r.OutputXsiam.RejectUnauthorized.IsNull() {
@@ -19344,13 +19385,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec28 := new(float64)
 		if !r.OutputXsiam.TimeoutSec.IsUnknown() && !r.OutputXsiam.TimeoutSec.IsNull() {
-			*timeoutSec28, _ = r.OutputXsiam.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec28 = r.OutputXsiam.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec28 = nil
 		}
 		flushPeriodSec39 := new(float64)
 		if !r.OutputXsiam.FlushPeriodSec.IsUnknown() && !r.OutputXsiam.FlushPeriodSec.IsNull() {
-			*flushPeriodSec39, _ = r.OutputXsiam.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec39 = r.OutputXsiam.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec39 = nil
 		}
@@ -19389,23 +19430,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings27 []shared.OutputXsiamResponseRetrySettings = []shared.OutputXsiamResponseRetrySettings{}
 		for _, responseRetrySettingsItem27 := range r.OutputXsiam.ResponseRetrySettings {
 			var httpStatus27 float64
-			httpStatus27, _ = responseRetrySettingsItem27.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus27 = responseRetrySettingsItem27.HTTPStatus.ValueFloat64()
 
 			initialBackoff58 := new(float64)
 			if !responseRetrySettingsItem27.InitialBackoff.IsUnknown() && !responseRetrySettingsItem27.InitialBackoff.IsNull() {
-				*initialBackoff58, _ = responseRetrySettingsItem27.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff58 = responseRetrySettingsItem27.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff58 = nil
 			}
 			backoffRate58 := new(float64)
 			if !responseRetrySettingsItem27.BackoffRate.IsUnknown() && !responseRetrySettingsItem27.BackoffRate.IsNull() {
-				*backoffRate58, _ = responseRetrySettingsItem27.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate58 = responseRetrySettingsItem27.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate58 = nil
 			}
 			maxBackoff54 := new(float64)
 			if !responseRetrySettingsItem27.MaxBackoff.IsUnknown() && !responseRetrySettingsItem27.MaxBackoff.IsNull() {
-				*maxBackoff54, _ = responseRetrySettingsItem27.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff54 = responseRetrySettingsItem27.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff54 = nil
 			}
@@ -19426,19 +19467,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff59 := new(float64)
 			if !r.OutputXsiam.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputXsiam.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff59, _ = r.OutputXsiam.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff59 = r.OutputXsiam.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff59 = nil
 			}
 			backoffRate59 := new(float64)
 			if !r.OutputXsiam.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputXsiam.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate59, _ = r.OutputXsiam.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate59 = r.OutputXsiam.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate59 = nil
 			}
 			maxBackoff55 := new(float64)
 			if !r.OutputXsiam.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputXsiam.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff55, _ = r.OutputXsiam.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff55 = r.OutputXsiam.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff55 = nil
 			}
@@ -19497,7 +19538,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			_ = json.Unmarshal([]byte(urlsItem4.URL.ValueString()), &url18)
 			weight7 := new(float64)
 			if !urlsItem4.Weight.IsUnknown() && !urlsItem4.Weight.IsNull() {
-				*weight7, _ = urlsItem4.Weight.ValueBigFloat().Float64()
+				*weight7 = urlsItem4.Weight.ValueFloat64()
 			} else {
 				weight7 = nil
 			}
@@ -19508,13 +19549,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		dnsResolvePeriodSec11 := new(float64)
 		if !r.OutputXsiam.DNSResolvePeriodSec.IsUnknown() && !r.OutputXsiam.DNSResolvePeriodSec.IsNull() {
-			*dnsResolvePeriodSec11, _ = r.OutputXsiam.DNSResolvePeriodSec.ValueBigFloat().Float64()
+			*dnsResolvePeriodSec11 = r.OutputXsiam.DNSResolvePeriodSec.ValueFloat64()
 		} else {
 			dnsResolvePeriodSec11 = nil
 		}
 		loadBalanceStatsPeriodSec7 := new(float64)
 		if !r.OutputXsiam.LoadBalanceStatsPeriodSec.IsUnknown() && !r.OutputXsiam.LoadBalanceStatsPeriodSec.IsNull() {
-			*loadBalanceStatsPeriodSec7, _ = r.OutputXsiam.LoadBalanceStatsPeriodSec.ValueBigFloat().Float64()
+			*loadBalanceStatsPeriodSec7 = r.OutputXsiam.LoadBalanceStatsPeriodSec.ValueFloat64()
 		} else {
 			loadBalanceStatsPeriodSec7 = nil
 		}
@@ -19580,7 +19621,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			LoadBalanced:                  loadBalanced7,
 			Concurrency:                   concurrency29,
 			MaxPayloadEvents:              maxPayloadEvents26,
-			Compress:                      compress33,
+			Compress:                      compress35,
 			RejectUnauthorized:            rejectUnauthorized55,
 			TimeoutSec:                    timeoutSec28,
 			FlushPeriodSec:                flushPeriodSec39,
@@ -19652,7 +19693,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 
 			port11 := new(float64)
 			if !hostsItem4.Port.IsUnknown() && !hostsItem4.Port.IsNull() {
-				*port11, _ = hostsItem4.Port.ValueBigFloat().Float64()
+				*port11 = hostsItem4.Port.ValueFloat64()
 			} else {
 				port11 = nil
 			}
@@ -19663,7 +19704,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		dnsResolvePeriodSec12 := new(float64)
 		if !r.OutputNetflow.DNSResolvePeriodSec.IsUnknown() && !r.OutputNetflow.DNSResolvePeriodSec.IsNull() {
-			*dnsResolvePeriodSec12, _ = r.OutputNetflow.DNSResolvePeriodSec.ValueBigFloat().Float64()
+			*dnsResolvePeriodSec12 = r.OutputNetflow.DNSResolvePeriodSec.ValueFloat64()
 		} else {
 			dnsResolvePeriodSec12 = nil
 		}
@@ -19738,27 +19779,27 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency30 := new(float64)
 		if !r.OutputDynatraceHTTP.Concurrency.IsUnknown() && !r.OutputDynatraceHTTP.Concurrency.IsNull() {
-			*concurrency30, _ = r.OutputDynatraceHTTP.Concurrency.ValueBigFloat().Float64()
+			*concurrency30 = r.OutputDynatraceHTTP.Concurrency.ValueFloat64()
 		} else {
 			concurrency30 = nil
 		}
 		maxPayloadSizeKb28 := new(float64)
 		if !r.OutputDynatraceHTTP.MaxPayloadSizeKB.IsUnknown() && !r.OutputDynatraceHTTP.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb28, _ = r.OutputDynatraceHTTP.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb28 = r.OutputDynatraceHTTP.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb28 = nil
 		}
 		maxPayloadEvents27 := new(float64)
 		if !r.OutputDynatraceHTTP.MaxPayloadEvents.IsUnknown() && !r.OutputDynatraceHTTP.MaxPayloadEvents.IsNull() {
-			*maxPayloadEvents27, _ = r.OutputDynatraceHTTP.MaxPayloadEvents.ValueBigFloat().Float64()
+			*maxPayloadEvents27 = r.OutputDynatraceHTTP.MaxPayloadEvents.ValueFloat64()
 		} else {
 			maxPayloadEvents27 = nil
 		}
-		compress34 := new(bool)
+		compress36 := new(bool)
 		if !r.OutputDynatraceHTTP.Compress.IsUnknown() && !r.OutputDynatraceHTTP.Compress.IsNull() {
-			*compress34 = r.OutputDynatraceHTTP.Compress.ValueBool()
+			*compress36 = r.OutputDynatraceHTTP.Compress.ValueBool()
 		} else {
-			compress34 = nil
+			compress36 = nil
 		}
 		rejectUnauthorized56 := new(bool)
 		if !r.OutputDynatraceHTTP.RejectUnauthorized.IsUnknown() && !r.OutputDynatraceHTTP.RejectUnauthorized.IsNull() {
@@ -19768,13 +19809,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		timeoutSec29 := new(float64)
 		if !r.OutputDynatraceHTTP.TimeoutSec.IsUnknown() && !r.OutputDynatraceHTTP.TimeoutSec.IsNull() {
-			*timeoutSec29, _ = r.OutputDynatraceHTTP.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec29 = r.OutputDynatraceHTTP.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec29 = nil
 		}
 		flushPeriodSec40 := new(float64)
 		if !r.OutputDynatraceHTTP.FlushPeriodSec.IsUnknown() && !r.OutputDynatraceHTTP.FlushPeriodSec.IsNull() {
-			*flushPeriodSec40, _ = r.OutputDynatraceHTTP.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec40 = r.OutputDynatraceHTTP.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec40 = nil
 		}
@@ -19813,23 +19854,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings28 []shared.OutputDynatraceHTTPResponseRetrySettings = []shared.OutputDynatraceHTTPResponseRetrySettings{}
 		for _, responseRetrySettingsItem28 := range r.OutputDynatraceHTTP.ResponseRetrySettings {
 			var httpStatus28 float64
-			httpStatus28, _ = responseRetrySettingsItem28.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus28 = responseRetrySettingsItem28.HTTPStatus.ValueFloat64()
 
 			initialBackoff60 := new(float64)
 			if !responseRetrySettingsItem28.InitialBackoff.IsUnknown() && !responseRetrySettingsItem28.InitialBackoff.IsNull() {
-				*initialBackoff60, _ = responseRetrySettingsItem28.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff60 = responseRetrySettingsItem28.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff60 = nil
 			}
 			backoffRate60 := new(float64)
 			if !responseRetrySettingsItem28.BackoffRate.IsUnknown() && !responseRetrySettingsItem28.BackoffRate.IsNull() {
-				*backoffRate60, _ = responseRetrySettingsItem28.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate60 = responseRetrySettingsItem28.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate60 = nil
 			}
 			maxBackoff56 := new(float64)
 			if !responseRetrySettingsItem28.MaxBackoff.IsUnknown() && !responseRetrySettingsItem28.MaxBackoff.IsNull() {
-				*maxBackoff56, _ = responseRetrySettingsItem28.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff56 = responseRetrySettingsItem28.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff56 = nil
 			}
@@ -19850,19 +19891,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff61 := new(float64)
 			if !r.OutputDynatraceHTTP.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputDynatraceHTTP.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff61, _ = r.OutputDynatraceHTTP.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff61 = r.OutputDynatraceHTTP.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff61 = nil
 			}
 			backoffRate61 := new(float64)
 			if !r.OutputDynatraceHTTP.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputDynatraceHTTP.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate61, _ = r.OutputDynatraceHTTP.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate61 = r.OutputDynatraceHTTP.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate61 = nil
 			}
 			maxBackoff57 := new(float64)
 			if !r.OutputDynatraceHTTP.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputDynatraceHTTP.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff57, _ = r.OutputDynatraceHTTP.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff57 = r.OutputDynatraceHTTP.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff57 = nil
 			}
@@ -19911,7 +19952,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		totalMemoryLimitKb9 := new(float64)
 		if !r.OutputDynatraceHTTP.TotalMemoryLimitKB.IsUnknown() && !r.OutputDynatraceHTTP.TotalMemoryLimitKB.IsNull() {
-			*totalMemoryLimitKb9, _ = r.OutputDynatraceHTTP.TotalMemoryLimitKB.ValueBigFloat().Float64()
+			*totalMemoryLimitKb9 = r.OutputDynatraceHTTP.TotalMemoryLimitKB.ValueFloat64()
 		} else {
 			totalMemoryLimitKb9 = nil
 		}
@@ -20003,7 +20044,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Concurrency:                   concurrency30,
 			MaxPayloadSizeKB:              maxPayloadSizeKb28,
 			MaxPayloadEvents:              maxPayloadEvents27,
-			Compress:                      compress34,
+			Compress:                      compress36,
 			RejectUnauthorized:            rejectUnauthorized56,
 			TimeoutSec:                    timeoutSec29,
 			FlushPeriodSec:                flushPeriodSec40,
@@ -20092,11 +20133,11 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		} else {
 			otlpVersion2 = nil
 		}
-		compress35 := new(shared.OutputDynatraceOtlpCompression)
+		compress37 := new(shared.OutputDynatraceOtlpCompression)
 		if !r.OutputDynatraceOtlp.Compress.IsUnknown() && !r.OutputDynatraceOtlp.Compress.IsNull() {
-			*compress35 = shared.OutputDynatraceOtlpCompression(r.OutputDynatraceOtlp.Compress.ValueString())
+			*compress37 = shared.OutputDynatraceOtlpCompression(r.OutputDynatraceOtlp.Compress.ValueString())
 		} else {
-			compress35 = nil
+			compress37 = nil
 		}
 		httpCompress2 := new(shared.OutputDynatraceOtlpHTTPCompressCompression)
 		if !r.OutputDynatraceOtlp.HTTPCompress.IsUnknown() && !r.OutputDynatraceOtlp.HTTPCompress.IsNull() {
@@ -20140,25 +20181,25 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		concurrency31 := new(float64)
 		if !r.OutputDynatraceOtlp.Concurrency.IsUnknown() && !r.OutputDynatraceOtlp.Concurrency.IsNull() {
-			*concurrency31, _ = r.OutputDynatraceOtlp.Concurrency.ValueBigFloat().Float64()
+			*concurrency31 = r.OutputDynatraceOtlp.Concurrency.ValueFloat64()
 		} else {
 			concurrency31 = nil
 		}
 		maxPayloadSizeKb29 := new(float64)
 		if !r.OutputDynatraceOtlp.MaxPayloadSizeKB.IsUnknown() && !r.OutputDynatraceOtlp.MaxPayloadSizeKB.IsNull() {
-			*maxPayloadSizeKb29, _ = r.OutputDynatraceOtlp.MaxPayloadSizeKB.ValueBigFloat().Float64()
+			*maxPayloadSizeKb29 = r.OutputDynatraceOtlp.MaxPayloadSizeKB.ValueFloat64()
 		} else {
 			maxPayloadSizeKb29 = nil
 		}
 		timeoutSec30 := new(float64)
 		if !r.OutputDynatraceOtlp.TimeoutSec.IsUnknown() && !r.OutputDynatraceOtlp.TimeoutSec.IsNull() {
-			*timeoutSec30, _ = r.OutputDynatraceOtlp.TimeoutSec.ValueBigFloat().Float64()
+			*timeoutSec30 = r.OutputDynatraceOtlp.TimeoutSec.ValueFloat64()
 		} else {
 			timeoutSec30 = nil
 		}
 		flushPeriodSec41 := new(float64)
 		if !r.OutputDynatraceOtlp.FlushPeriodSec.IsUnknown() && !r.OutputDynatraceOtlp.FlushPeriodSec.IsNull() {
-			*flushPeriodSec41, _ = r.OutputDynatraceOtlp.FlushPeriodSec.ValueBigFloat().Float64()
+			*flushPeriodSec41 = r.OutputDynatraceOtlp.FlushPeriodSec.ValueFloat64()
 		} else {
 			flushPeriodSec41 = nil
 		}
@@ -20170,13 +20211,13 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		}
 		connectionTimeout18 := new(float64)
 		if !r.OutputDynatraceOtlp.ConnectionTimeout.IsUnknown() && !r.OutputDynatraceOtlp.ConnectionTimeout.IsNull() {
-			*connectionTimeout18, _ = r.OutputDynatraceOtlp.ConnectionTimeout.ValueBigFloat().Float64()
+			*connectionTimeout18 = r.OutputDynatraceOtlp.ConnectionTimeout.ValueFloat64()
 		} else {
 			connectionTimeout18 = nil
 		}
 		keepAliveTime2 := new(float64)
 		if !r.OutputDynatraceOtlp.KeepAliveTime.IsUnknown() && !r.OutputDynatraceOtlp.KeepAliveTime.IsNull() {
-			*keepAliveTime2, _ = r.OutputDynatraceOtlp.KeepAliveTime.ValueBigFloat().Float64()
+			*keepAliveTime2 = r.OutputDynatraceOtlp.KeepAliveTime.ValueFloat64()
 		} else {
 			keepAliveTime2 = nil
 		}
@@ -20248,23 +20289,23 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 		var responseRetrySettings29 []shared.OutputDynatraceOtlpResponseRetrySettings = []shared.OutputDynatraceOtlpResponseRetrySettings{}
 		for _, responseRetrySettingsItem29 := range r.OutputDynatraceOtlp.ResponseRetrySettings {
 			var httpStatus29 float64
-			httpStatus29, _ = responseRetrySettingsItem29.HTTPStatus.ValueBigFloat().Float64()
+			httpStatus29 = responseRetrySettingsItem29.HTTPStatus.ValueFloat64()
 
 			initialBackoff62 := new(float64)
 			if !responseRetrySettingsItem29.InitialBackoff.IsUnknown() && !responseRetrySettingsItem29.InitialBackoff.IsNull() {
-				*initialBackoff62, _ = responseRetrySettingsItem29.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff62 = responseRetrySettingsItem29.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff62 = nil
 			}
 			backoffRate62 := new(float64)
 			if !responseRetrySettingsItem29.BackoffRate.IsUnknown() && !responseRetrySettingsItem29.BackoffRate.IsNull() {
-				*backoffRate62, _ = responseRetrySettingsItem29.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate62 = responseRetrySettingsItem29.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate62 = nil
 			}
 			maxBackoff58 := new(float64)
 			if !responseRetrySettingsItem29.MaxBackoff.IsUnknown() && !responseRetrySettingsItem29.MaxBackoff.IsNull() {
-				*maxBackoff58, _ = responseRetrySettingsItem29.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff58 = responseRetrySettingsItem29.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff58 = nil
 			}
@@ -20285,19 +20326,19 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			}
 			initialBackoff63 := new(float64)
 			if !r.OutputDynatraceOtlp.TimeoutRetrySettings.InitialBackoff.IsUnknown() && !r.OutputDynatraceOtlp.TimeoutRetrySettings.InitialBackoff.IsNull() {
-				*initialBackoff63, _ = r.OutputDynatraceOtlp.TimeoutRetrySettings.InitialBackoff.ValueBigFloat().Float64()
+				*initialBackoff63 = r.OutputDynatraceOtlp.TimeoutRetrySettings.InitialBackoff.ValueFloat64()
 			} else {
 				initialBackoff63 = nil
 			}
 			backoffRate63 := new(float64)
 			if !r.OutputDynatraceOtlp.TimeoutRetrySettings.BackoffRate.IsUnknown() && !r.OutputDynatraceOtlp.TimeoutRetrySettings.BackoffRate.IsNull() {
-				*backoffRate63, _ = r.OutputDynatraceOtlp.TimeoutRetrySettings.BackoffRate.ValueBigFloat().Float64()
+				*backoffRate63 = r.OutputDynatraceOtlp.TimeoutRetrySettings.BackoffRate.ValueFloat64()
 			} else {
 				backoffRate63 = nil
 			}
 			maxBackoff59 := new(float64)
 			if !r.OutputDynatraceOtlp.TimeoutRetrySettings.MaxBackoff.IsUnknown() && !r.OutputDynatraceOtlp.TimeoutRetrySettings.MaxBackoff.IsNull() {
-				*maxBackoff59, _ = r.OutputDynatraceOtlp.TimeoutRetrySettings.MaxBackoff.ValueBigFloat().Float64()
+				*maxBackoff59 = r.OutputDynatraceOtlp.TimeoutRetrySettings.MaxBackoff.ValueFloat64()
 			} else {
 				maxBackoff59 = nil
 			}
@@ -20364,7 +20405,7 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			Protocol:                      protocol6,
 			Endpoint:                      endpoint15,
 			OtlpVersion:                   otlpVersion2,
-			Compress:                      compress35,
+			Compress:                      compress37,
 			HTTPCompress:                  httpCompress2,
 			HTTPTracesEndpointOverride:    httpTracesEndpointOverride2,
 			HTTPMetricsEndpointOverride:   httpMetricsEndpointOverride2,
@@ -20407,7 +20448,9 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 	return &out
 }
 
-func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) {
+func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, resp *shared.Output) diag.Diagnostics {
+	var diags diag.Diagnostics
+
 	if resp.OutputAzureBlob != nil {
 		r.OutputAzureBlob = &tfTypes.OutputAzureBlob{}
 		r.OutputAzureBlob.AddIDToStagePath = types.BoolPointerValue(resp.OutputAzureBlob.AddIDToStagePath)
@@ -20443,11 +20486,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputAzureBlob.DeadletterPath = types.StringPointerValue(resp.OutputAzureBlob.DeadletterPath)
 		r.OutputAzureBlob.Description = types.StringPointerValue(resp.OutputAzureBlob.Description)
 		r.OutputAzureBlob.DestPath = types.StringPointerValue(resp.OutputAzureBlob.DestPath)
-		if resp.OutputAzureBlob.EmptyDirCleanupSec != nil {
-			r.OutputAzureBlob.EmptyDirCleanupSec = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureBlob.EmptyDirCleanupSec)))
-		} else {
-			r.OutputAzureBlob.EmptyDirCleanupSec = types.NumberNull()
-		}
+		r.OutputAzureBlob.EmptyDirCleanupSec = types.Float64PointerValue(resp.OutputAzureBlob.EmptyDirCleanupSec)
 		r.OutputAzureBlob.EnablePageChecksum = types.BoolPointerValue(resp.OutputAzureBlob.EnablePageChecksum)
 		r.OutputAzureBlob.EnableStatistics = types.BoolPointerValue(resp.OutputAzureBlob.EnableStatistics)
 		r.OutputAzureBlob.EnableWritePageIndex = types.BoolPointerValue(resp.OutputAzureBlob.EnableWritePageIndex)
@@ -20466,46 +20505,22 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputAzureBlob.KeyValueMetadata = r.OutputAzureBlob.KeyValueMetadata[:len(resp.OutputAzureBlob.KeyValueMetadata)]
 		}
 		for keyValueMetadataCount, keyValueMetadataItem := range resp.OutputAzureBlob.KeyValueMetadata {
-			var keyValueMetadata1 tfTypes.OutputAzureBlobKeyValueMetadata
-			keyValueMetadata1.Key = types.StringPointerValue(keyValueMetadataItem.Key)
-			keyValueMetadata1.Value = types.StringValue(keyValueMetadataItem.Value)
+			var keyValueMetadata tfTypes.OutputAzureBlobKeyValueMetadata
+			keyValueMetadata.Key = types.StringPointerValue(keyValueMetadataItem.Key)
+			keyValueMetadata.Value = types.StringValue(keyValueMetadataItem.Value)
 			if keyValueMetadataCount+1 > len(r.OutputAzureBlob.KeyValueMetadata) {
-				r.OutputAzureBlob.KeyValueMetadata = append(r.OutputAzureBlob.KeyValueMetadata, keyValueMetadata1)
+				r.OutputAzureBlob.KeyValueMetadata = append(r.OutputAzureBlob.KeyValueMetadata, keyValueMetadata)
 			} else {
-				r.OutputAzureBlob.KeyValueMetadata[keyValueMetadataCount].Key = keyValueMetadata1.Key
-				r.OutputAzureBlob.KeyValueMetadata[keyValueMetadataCount].Value = keyValueMetadata1.Value
+				r.OutputAzureBlob.KeyValueMetadata[keyValueMetadataCount].Key = keyValueMetadata.Key
+				r.OutputAzureBlob.KeyValueMetadata[keyValueMetadataCount].Value = keyValueMetadata.Value
 			}
 		}
-		if resp.OutputAzureBlob.MaxConcurrentFileParts != nil {
-			r.OutputAzureBlob.MaxConcurrentFileParts = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureBlob.MaxConcurrentFileParts)))
-		} else {
-			r.OutputAzureBlob.MaxConcurrentFileParts = types.NumberNull()
-		}
-		if resp.OutputAzureBlob.MaxFileIdleTimeSec != nil {
-			r.OutputAzureBlob.MaxFileIdleTimeSec = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureBlob.MaxFileIdleTimeSec)))
-		} else {
-			r.OutputAzureBlob.MaxFileIdleTimeSec = types.NumberNull()
-		}
-		if resp.OutputAzureBlob.MaxFileOpenTimeSec != nil {
-			r.OutputAzureBlob.MaxFileOpenTimeSec = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureBlob.MaxFileOpenTimeSec)))
-		} else {
-			r.OutputAzureBlob.MaxFileOpenTimeSec = types.NumberNull()
-		}
-		if resp.OutputAzureBlob.MaxFileSizeMB != nil {
-			r.OutputAzureBlob.MaxFileSizeMB = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureBlob.MaxFileSizeMB)))
-		} else {
-			r.OutputAzureBlob.MaxFileSizeMB = types.NumberNull()
-		}
-		if resp.OutputAzureBlob.MaxOpenFiles != nil {
-			r.OutputAzureBlob.MaxOpenFiles = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureBlob.MaxOpenFiles)))
-		} else {
-			r.OutputAzureBlob.MaxOpenFiles = types.NumberNull()
-		}
-		if resp.OutputAzureBlob.MaxRetryNum != nil {
-			r.OutputAzureBlob.MaxRetryNum = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureBlob.MaxRetryNum)))
-		} else {
-			r.OutputAzureBlob.MaxRetryNum = types.NumberNull()
-		}
+		r.OutputAzureBlob.MaxConcurrentFileParts = types.Float64PointerValue(resp.OutputAzureBlob.MaxConcurrentFileParts)
+		r.OutputAzureBlob.MaxFileIdleTimeSec = types.Float64PointerValue(resp.OutputAzureBlob.MaxFileIdleTimeSec)
+		r.OutputAzureBlob.MaxFileOpenTimeSec = types.Float64PointerValue(resp.OutputAzureBlob.MaxFileOpenTimeSec)
+		r.OutputAzureBlob.MaxFileSizeMB = types.Float64PointerValue(resp.OutputAzureBlob.MaxFileSizeMB)
+		r.OutputAzureBlob.MaxOpenFiles = types.Float64PointerValue(resp.OutputAzureBlob.MaxOpenFiles)
+		r.OutputAzureBlob.MaxRetryNum = types.Float64PointerValue(resp.OutputAzureBlob.MaxRetryNum)
 		if resp.OutputAzureBlob.OnBackpressure != nil {
 			r.OutputAzureBlob.OnBackpressure = types.StringValue(string(*resp.OutputAzureBlob.OnBackpressure))
 		} else {
@@ -20522,11 +20537,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputAzureBlob.ParquetDataPageVersion = types.StringNull()
 		}
 		r.OutputAzureBlob.ParquetPageSize = types.StringPointerValue(resp.OutputAzureBlob.ParquetPageSize)
-		if resp.OutputAzureBlob.ParquetRowGroupLength != nil {
-			r.OutputAzureBlob.ParquetRowGroupLength = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureBlob.ParquetRowGroupLength)))
-		} else {
-			r.OutputAzureBlob.ParquetRowGroupLength = types.NumberNull()
-		}
+		r.OutputAzureBlob.ParquetRowGroupLength = types.Float64PointerValue(resp.OutputAzureBlob.ParquetRowGroupLength)
 		if resp.OutputAzureBlob.ParquetVersion != nil {
 			r.OutputAzureBlob.ParquetVersion = types.StringValue(string(*resp.OutputAzureBlob.ParquetVersion))
 		} else {
@@ -20558,11 +20569,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputAzureBlob.Type = types.StringNull()
 		}
-		if resp.OutputAzureBlob.WriteHighWaterMark != nil {
-			r.OutputAzureBlob.WriteHighWaterMark = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureBlob.WriteHighWaterMark)))
-		} else {
-			r.OutputAzureBlob.WriteHighWaterMark = types.NumberNull()
-		}
+		r.OutputAzureBlob.WriteHighWaterMark = types.Float64PointerValue(resp.OutputAzureBlob.WriteHighWaterMark)
 	}
 	if resp.OutputAzureDataExplorer != nil {
 		r.OutputAzureDataExplorer = &tfTypes.OutputAzureDataExplorer{}
@@ -20572,14 +20579,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputAzureDataExplorer.AdditionalProperties = r.OutputAzureDataExplorer.AdditionalProperties[:len(resp.OutputAzureDataExplorer.AdditionalProperties)]
 		}
 		for additionalPropertiesCount, additionalPropertiesItem := range resp.OutputAzureDataExplorer.AdditionalProperties {
-			var additionalProperties1 tfTypes.AdditionalProperties
-			additionalProperties1.Key = types.StringValue(additionalPropertiesItem.Key)
-			additionalProperties1.Value = types.StringValue(additionalPropertiesItem.Value)
+			var additionalProperties tfTypes.AdditionalProperties
+			additionalProperties.Key = types.StringValue(additionalPropertiesItem.Key)
+			additionalProperties.Value = types.StringValue(additionalPropertiesItem.Value)
 			if additionalPropertiesCount+1 > len(r.OutputAzureDataExplorer.AdditionalProperties) {
-				r.OutputAzureDataExplorer.AdditionalProperties = append(r.OutputAzureDataExplorer.AdditionalProperties, additionalProperties1)
+				r.OutputAzureDataExplorer.AdditionalProperties = append(r.OutputAzureDataExplorer.AdditionalProperties, additionalProperties)
 			} else {
-				r.OutputAzureDataExplorer.AdditionalProperties[additionalPropertiesCount].Key = additionalProperties1.Key
-				r.OutputAzureDataExplorer.AdditionalProperties[additionalPropertiesCount].Value = additionalProperties1.Value
+				r.OutputAzureDataExplorer.AdditionalProperties[additionalPropertiesCount].Key = additionalProperties.Key
+				r.OutputAzureDataExplorer.AdditionalProperties[additionalPropertiesCount].Value = additionalProperties.Value
 			}
 		}
 		if resp.OutputAzureDataExplorer.Certificate == nil {
@@ -20596,11 +20603,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputAzureDataExplorer.Compress = types.StringNull()
 		}
-		if resp.OutputAzureDataExplorer.Concurrency != nil {
-			r.OutputAzureDataExplorer.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureDataExplorer.Concurrency)))
-		} else {
-			r.OutputAzureDataExplorer.Concurrency = types.NumberNull()
-		}
+		r.OutputAzureDataExplorer.Concurrency = types.Float64PointerValue(resp.OutputAzureDataExplorer.Concurrency)
 		r.OutputAzureDataExplorer.Database = types.StringValue(resp.OutputAzureDataExplorer.Database)
 		r.OutputAzureDataExplorer.DeadletterEnabled = types.BoolPointerValue(resp.OutputAzureDataExplorer.DeadletterEnabled)
 		r.OutputAzureDataExplorer.Description = types.StringPointerValue(resp.OutputAzureDataExplorer.Description)
@@ -20610,27 +20613,23 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputAzureDataExplorer.ExtentTags = r.OutputAzureDataExplorer.ExtentTags[:len(resp.OutputAzureDataExplorer.ExtentTags)]
 		}
 		for extentTagsCount, extentTagsItem := range resp.OutputAzureDataExplorer.ExtentTags {
-			var extentTags1 tfTypes.ExtentTags
+			var extentTags tfTypes.ExtentTags
 			if extentTagsItem.Prefix != nil {
-				extentTags1.Prefix = types.StringValue(string(*extentTagsItem.Prefix))
+				extentTags.Prefix = types.StringValue(string(*extentTagsItem.Prefix))
 			} else {
-				extentTags1.Prefix = types.StringNull()
+				extentTags.Prefix = types.StringNull()
 			}
-			extentTags1.Value = types.StringValue(extentTagsItem.Value)
+			extentTags.Value = types.StringValue(extentTagsItem.Value)
 			if extentTagsCount+1 > len(r.OutputAzureDataExplorer.ExtentTags) {
-				r.OutputAzureDataExplorer.ExtentTags = append(r.OutputAzureDataExplorer.ExtentTags, extentTags1)
+				r.OutputAzureDataExplorer.ExtentTags = append(r.OutputAzureDataExplorer.ExtentTags, extentTags)
 			} else {
-				r.OutputAzureDataExplorer.ExtentTags[extentTagsCount].Prefix = extentTags1.Prefix
-				r.OutputAzureDataExplorer.ExtentTags[extentTagsCount].Value = extentTags1.Value
+				r.OutputAzureDataExplorer.ExtentTags[extentTagsCount].Prefix = extentTags.Prefix
+				r.OutputAzureDataExplorer.ExtentTags[extentTagsCount].Value = extentTags.Value
 			}
 		}
 		r.OutputAzureDataExplorer.FileNameSuffix = types.StringPointerValue(resp.OutputAzureDataExplorer.FileNameSuffix)
 		r.OutputAzureDataExplorer.FlushImmediately = types.BoolPointerValue(resp.OutputAzureDataExplorer.FlushImmediately)
-		if resp.OutputAzureDataExplorer.FlushPeriodSec != nil {
-			r.OutputAzureDataExplorer.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureDataExplorer.FlushPeriodSec)))
-		} else {
-			r.OutputAzureDataExplorer.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputAzureDataExplorer.FlushPeriodSec = types.Float64PointerValue(resp.OutputAzureDataExplorer.FlushPeriodSec)
 		if resp.OutputAzureDataExplorer.Format != nil {
 			r.OutputAzureDataExplorer.Format = types.StringValue(string(*resp.OutputAzureDataExplorer.Format))
 		} else {
@@ -20642,12 +20641,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputAzureDataExplorer.IngestIfNotExists = r.OutputAzureDataExplorer.IngestIfNotExists[:len(resp.OutputAzureDataExplorer.IngestIfNotExists)]
 		}
 		for ingestIfNotExistsCount, ingestIfNotExistsItem := range resp.OutputAzureDataExplorer.IngestIfNotExists {
-			var ingestIfNotExists1 tfTypes.IngestIfNotExists
-			ingestIfNotExists1.Value = types.StringValue(ingestIfNotExistsItem.Value)
+			var ingestIfNotExists tfTypes.IngestIfNotExists
+			ingestIfNotExists.Value = types.StringValue(ingestIfNotExistsItem.Value)
 			if ingestIfNotExistsCount+1 > len(r.OutputAzureDataExplorer.IngestIfNotExists) {
-				r.OutputAzureDataExplorer.IngestIfNotExists = append(r.OutputAzureDataExplorer.IngestIfNotExists, ingestIfNotExists1)
+				r.OutputAzureDataExplorer.IngestIfNotExists = append(r.OutputAzureDataExplorer.IngestIfNotExists, ingestIfNotExists)
 			} else {
-				r.OutputAzureDataExplorer.IngestIfNotExists[ingestIfNotExistsCount].Value = ingestIfNotExists1.Value
+				r.OutputAzureDataExplorer.IngestIfNotExists[ingestIfNotExistsCount].Value = ingestIfNotExists.Value
 			}
 		}
 		if resp.OutputAzureDataExplorer.IngestMode != nil {
@@ -20659,41 +20658,13 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputAzureDataExplorer.IsMappingObj = types.BoolPointerValue(resp.OutputAzureDataExplorer.IsMappingObj)
 		r.OutputAzureDataExplorer.KeepAlive = types.BoolPointerValue(resp.OutputAzureDataExplorer.KeepAlive)
 		r.OutputAzureDataExplorer.MappingRef = types.StringPointerValue(resp.OutputAzureDataExplorer.MappingRef)
-		if resp.OutputAzureDataExplorer.MaxConcurrentFileParts != nil {
-			r.OutputAzureDataExplorer.MaxConcurrentFileParts = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureDataExplorer.MaxConcurrentFileParts)))
-		} else {
-			r.OutputAzureDataExplorer.MaxConcurrentFileParts = types.NumberNull()
-		}
-		if resp.OutputAzureDataExplorer.MaxFileIdleTimeSec != nil {
-			r.OutputAzureDataExplorer.MaxFileIdleTimeSec = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureDataExplorer.MaxFileIdleTimeSec)))
-		} else {
-			r.OutputAzureDataExplorer.MaxFileIdleTimeSec = types.NumberNull()
-		}
-		if resp.OutputAzureDataExplorer.MaxFileOpenTimeSec != nil {
-			r.OutputAzureDataExplorer.MaxFileOpenTimeSec = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureDataExplorer.MaxFileOpenTimeSec)))
-		} else {
-			r.OutputAzureDataExplorer.MaxFileOpenTimeSec = types.NumberNull()
-		}
-		if resp.OutputAzureDataExplorer.MaxFileSizeMB != nil {
-			r.OutputAzureDataExplorer.MaxFileSizeMB = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureDataExplorer.MaxFileSizeMB)))
-		} else {
-			r.OutputAzureDataExplorer.MaxFileSizeMB = types.NumberNull()
-		}
-		if resp.OutputAzureDataExplorer.MaxOpenFiles != nil {
-			r.OutputAzureDataExplorer.MaxOpenFiles = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureDataExplorer.MaxOpenFiles)))
-		} else {
-			r.OutputAzureDataExplorer.MaxOpenFiles = types.NumberNull()
-		}
-		if resp.OutputAzureDataExplorer.MaxPayloadEvents != nil {
-			r.OutputAzureDataExplorer.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureDataExplorer.MaxPayloadEvents)))
-		} else {
-			r.OutputAzureDataExplorer.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputAzureDataExplorer.MaxPayloadSizeKB != nil {
-			r.OutputAzureDataExplorer.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureDataExplorer.MaxPayloadSizeKB)))
-		} else {
-			r.OutputAzureDataExplorer.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputAzureDataExplorer.MaxConcurrentFileParts = types.Float64PointerValue(resp.OutputAzureDataExplorer.MaxConcurrentFileParts)
+		r.OutputAzureDataExplorer.MaxFileIdleTimeSec = types.Float64PointerValue(resp.OutputAzureDataExplorer.MaxFileIdleTimeSec)
+		r.OutputAzureDataExplorer.MaxFileOpenTimeSec = types.Float64PointerValue(resp.OutputAzureDataExplorer.MaxFileOpenTimeSec)
+		r.OutputAzureDataExplorer.MaxFileSizeMB = types.Float64PointerValue(resp.OutputAzureDataExplorer.MaxFileSizeMB)
+		r.OutputAzureDataExplorer.MaxOpenFiles = types.Float64PointerValue(resp.OutputAzureDataExplorer.MaxOpenFiles)
+		r.OutputAzureDataExplorer.MaxPayloadEvents = types.Float64PointerValue(resp.OutputAzureDataExplorer.MaxPayloadEvents)
+		r.OutputAzureDataExplorer.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputAzureDataExplorer.MaxPayloadSizeKB)
 		if resp.OutputAzureDataExplorer.OauthEndpoint != nil {
 			r.OutputAzureDataExplorer.OauthEndpoint = types.StringValue(string(*resp.OutputAzureDataExplorer.OauthEndpoint))
 		} else {
@@ -20756,30 +20727,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputAzureDataExplorer.ResponseRetrySettings = r.OutputAzureDataExplorer.ResponseRetrySettings[:len(resp.OutputAzureDataExplorer.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount, responseRetrySettingsItem := range resp.OutputAzureDataExplorer.ResponseRetrySettings {
-			var responseRetrySettings1 tfTypes.OutputAzureDataExplorerResponseRetrySettings
-			if responseRetrySettingsItem.BackoffRate != nil {
-				responseRetrySettings1.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem.BackoffRate)))
-			} else {
-				responseRetrySettings1.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings1.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem.HTTPStatus)))
-			if responseRetrySettingsItem.InitialBackoff != nil {
-				responseRetrySettings1.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem.InitialBackoff)))
-			} else {
-				responseRetrySettings1.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem.MaxBackoff != nil {
-				responseRetrySettings1.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem.MaxBackoff)))
-			} else {
-				responseRetrySettings1.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings tfTypes.OutputAzureDataExplorerResponseRetrySettings
+			responseRetrySettings.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem.BackoffRate)
+			responseRetrySettings.HTTPStatus = types.Float64Value(responseRetrySettingsItem.HTTPStatus)
+			responseRetrySettings.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem.InitialBackoff)
+			responseRetrySettings.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem.MaxBackoff)
 			if responseRetrySettingsCount+1 > len(r.OutputAzureDataExplorer.ResponseRetrySettings) {
-				r.OutputAzureDataExplorer.ResponseRetrySettings = append(r.OutputAzureDataExplorer.ResponseRetrySettings, responseRetrySettings1)
+				r.OutputAzureDataExplorer.ResponseRetrySettings = append(r.OutputAzureDataExplorer.ResponseRetrySettings, responseRetrySettings)
 			} else {
-				r.OutputAzureDataExplorer.ResponseRetrySettings[responseRetrySettingsCount].BackoffRate = responseRetrySettings1.BackoffRate
-				r.OutputAzureDataExplorer.ResponseRetrySettings[responseRetrySettingsCount].HTTPStatus = responseRetrySettings1.HTTPStatus
-				r.OutputAzureDataExplorer.ResponseRetrySettings[responseRetrySettingsCount].InitialBackoff = responseRetrySettings1.InitialBackoff
-				r.OutputAzureDataExplorer.ResponseRetrySettings[responseRetrySettingsCount].MaxBackoff = responseRetrySettings1.MaxBackoff
+				r.OutputAzureDataExplorer.ResponseRetrySettings[responseRetrySettingsCount].BackoffRate = responseRetrySettings.BackoffRate
+				r.OutputAzureDataExplorer.ResponseRetrySettings[responseRetrySettingsCount].HTTPStatus = responseRetrySettings.HTTPStatus
+				r.OutputAzureDataExplorer.ResponseRetrySettings[responseRetrySettingsCount].InitialBackoff = responseRetrySettings.InitialBackoff
+				r.OutputAzureDataExplorer.ResponseRetrySettings[responseRetrySettingsCount].MaxBackoff = responseRetrySettings.MaxBackoff
 			}
 		}
 		r.OutputAzureDataExplorer.RetainBlobOnSuccess = types.BoolPointerValue(resp.OutputAzureDataExplorer.RetainBlobOnSuccess)
@@ -20800,28 +20759,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputAzureDataExplorer.TimeoutRetrySettings = nil
 		} else {
 			r.OutputAzureDataExplorer.TimeoutRetrySettings = &tfTypes.OutputAzureDataExplorerTimeoutRetrySettings{}
-			if resp.OutputAzureDataExplorer.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputAzureDataExplorer.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureDataExplorer.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputAzureDataExplorer.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputAzureDataExplorer.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputAzureDataExplorer.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureDataExplorer.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputAzureDataExplorer.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputAzureDataExplorer.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputAzureDataExplorer.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureDataExplorer.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputAzureDataExplorer.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputAzureDataExplorer.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputAzureDataExplorer.TimeoutRetrySettings.BackoffRate)
+			r.OutputAzureDataExplorer.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputAzureDataExplorer.TimeoutRetrySettings.InitialBackoff)
+			r.OutputAzureDataExplorer.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputAzureDataExplorer.TimeoutRetrySettings.MaxBackoff)
 			r.OutputAzureDataExplorer.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputAzureDataExplorer.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputAzureDataExplorer.TimeoutSec != nil {
-			r.OutputAzureDataExplorer.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureDataExplorer.TimeoutSec)))
-		} else {
-			r.OutputAzureDataExplorer.TimeoutSec = types.NumberNull()
-		}
+		r.OutputAzureDataExplorer.TimeoutSec = types.Float64PointerValue(resp.OutputAzureDataExplorer.TimeoutSec)
 		if resp.OutputAzureDataExplorer.Type != nil {
 			r.OutputAzureDataExplorer.Type = types.StringValue(string(*resp.OutputAzureDataExplorer.Type))
 		} else {
@@ -20837,63 +20780,27 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputAzureEventhub.Ack = types.Int64Null()
 		}
-		if resp.OutputAzureEventhub.AuthenticationTimeout != nil {
-			r.OutputAzureEventhub.AuthenticationTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureEventhub.AuthenticationTimeout)))
-		} else {
-			r.OutputAzureEventhub.AuthenticationTimeout = types.NumberNull()
-		}
-		if resp.OutputAzureEventhub.BackoffRate != nil {
-			r.OutputAzureEventhub.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureEventhub.BackoffRate)))
-		} else {
-			r.OutputAzureEventhub.BackoffRate = types.NumberNull()
-		}
+		r.OutputAzureEventhub.AuthenticationTimeout = types.Float64PointerValue(resp.OutputAzureEventhub.AuthenticationTimeout)
+		r.OutputAzureEventhub.BackoffRate = types.Float64PointerValue(resp.OutputAzureEventhub.BackoffRate)
 		r.OutputAzureEventhub.Brokers = make([]types.String, 0, len(resp.OutputAzureEventhub.Brokers))
 		for _, v := range resp.OutputAzureEventhub.Brokers {
 			r.OutputAzureEventhub.Brokers = append(r.OutputAzureEventhub.Brokers, types.StringValue(v))
 		}
-		if resp.OutputAzureEventhub.ConnectionTimeout != nil {
-			r.OutputAzureEventhub.ConnectionTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureEventhub.ConnectionTimeout)))
-		} else {
-			r.OutputAzureEventhub.ConnectionTimeout = types.NumberNull()
-		}
+		r.OutputAzureEventhub.ConnectionTimeout = types.Float64PointerValue(resp.OutputAzureEventhub.ConnectionTimeout)
 		r.OutputAzureEventhub.Description = types.StringPointerValue(resp.OutputAzureEventhub.Description)
 		r.OutputAzureEventhub.Environment = types.StringPointerValue(resp.OutputAzureEventhub.Environment)
-		if resp.OutputAzureEventhub.FlushEventCount != nil {
-			r.OutputAzureEventhub.FlushEventCount = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureEventhub.FlushEventCount)))
-		} else {
-			r.OutputAzureEventhub.FlushEventCount = types.NumberNull()
-		}
-		if resp.OutputAzureEventhub.FlushPeriodSec != nil {
-			r.OutputAzureEventhub.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureEventhub.FlushPeriodSec)))
-		} else {
-			r.OutputAzureEventhub.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputAzureEventhub.FlushEventCount = types.Float64PointerValue(resp.OutputAzureEventhub.FlushEventCount)
+		r.OutputAzureEventhub.FlushPeriodSec = types.Float64PointerValue(resp.OutputAzureEventhub.FlushPeriodSec)
 		if resp.OutputAzureEventhub.Format != nil {
 			r.OutputAzureEventhub.Format = types.StringValue(string(*resp.OutputAzureEventhub.Format))
 		} else {
 			r.OutputAzureEventhub.Format = types.StringNull()
 		}
 		r.OutputAzureEventhub.ID = types.StringPointerValue(resp.OutputAzureEventhub.ID)
-		if resp.OutputAzureEventhub.InitialBackoff != nil {
-			r.OutputAzureEventhub.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureEventhub.InitialBackoff)))
-		} else {
-			r.OutputAzureEventhub.InitialBackoff = types.NumberNull()
-		}
-		if resp.OutputAzureEventhub.MaxBackOff != nil {
-			r.OutputAzureEventhub.MaxBackOff = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureEventhub.MaxBackOff)))
-		} else {
-			r.OutputAzureEventhub.MaxBackOff = types.NumberNull()
-		}
-		if resp.OutputAzureEventhub.MaxRecordSizeKB != nil {
-			r.OutputAzureEventhub.MaxRecordSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureEventhub.MaxRecordSizeKB)))
-		} else {
-			r.OutputAzureEventhub.MaxRecordSizeKB = types.NumberNull()
-		}
-		if resp.OutputAzureEventhub.MaxRetries != nil {
-			r.OutputAzureEventhub.MaxRetries = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureEventhub.MaxRetries)))
-		} else {
-			r.OutputAzureEventhub.MaxRetries = types.NumberNull()
-		}
+		r.OutputAzureEventhub.InitialBackoff = types.Float64PointerValue(resp.OutputAzureEventhub.InitialBackoff)
+		r.OutputAzureEventhub.MaxBackOff = types.Float64PointerValue(resp.OutputAzureEventhub.MaxBackOff)
+		r.OutputAzureEventhub.MaxRecordSizeKB = types.Float64PointerValue(resp.OutputAzureEventhub.MaxRecordSizeKB)
+		r.OutputAzureEventhub.MaxRetries = types.Float64PointerValue(resp.OutputAzureEventhub.MaxRetries)
 		if resp.OutputAzureEventhub.OnBackpressure != nil {
 			r.OutputAzureEventhub.OnBackpressure = types.StringValue(string(*resp.OutputAzureEventhub.OnBackpressure))
 		} else {
@@ -20923,16 +20830,8 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputAzureEventhub.PqOnBackpressure = types.StringNull()
 		}
 		r.OutputAzureEventhub.PqPath = types.StringPointerValue(resp.OutputAzureEventhub.PqPath)
-		if resp.OutputAzureEventhub.ReauthenticationThreshold != nil {
-			r.OutputAzureEventhub.ReauthenticationThreshold = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureEventhub.ReauthenticationThreshold)))
-		} else {
-			r.OutputAzureEventhub.ReauthenticationThreshold = types.NumberNull()
-		}
-		if resp.OutputAzureEventhub.RequestTimeout != nil {
-			r.OutputAzureEventhub.RequestTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureEventhub.RequestTimeout)))
-		} else {
-			r.OutputAzureEventhub.RequestTimeout = types.NumberNull()
-		}
+		r.OutputAzureEventhub.ReauthenticationThreshold = types.Float64PointerValue(resp.OutputAzureEventhub.ReauthenticationThreshold)
+		r.OutputAzureEventhub.RequestTimeout = types.Float64PointerValue(resp.OutputAzureEventhub.RequestTimeout)
 		if resp.OutputAzureEventhub.Sasl == nil {
 			r.OutputAzureEventhub.Sasl = nil
 		} else {
@@ -20975,11 +20874,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputAzureLogs.AuthType = types.StringNull()
 		}
 		r.OutputAzureLogs.Compress = types.BoolPointerValue(resp.OutputAzureLogs.Compress)
-		if resp.OutputAzureLogs.Concurrency != nil {
-			r.OutputAzureLogs.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureLogs.Concurrency)))
-		} else {
-			r.OutputAzureLogs.Concurrency = types.NumberNull()
-		}
+		r.OutputAzureLogs.Concurrency = types.Float64PointerValue(resp.OutputAzureLogs.Concurrency)
 		r.OutputAzureLogs.Description = types.StringPointerValue(resp.OutputAzureLogs.Description)
 		r.OutputAzureLogs.Environment = types.StringPointerValue(resp.OutputAzureLogs.Environment)
 		r.OutputAzureLogs.ExtraHTTPHeaders = []tfTypes.OutputAzureLogsExtraHTTPHeaders{}
@@ -20987,14 +20882,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputAzureLogs.ExtraHTTPHeaders = r.OutputAzureLogs.ExtraHTTPHeaders[:len(resp.OutputAzureLogs.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount, extraHTTPHeadersItem := range resp.OutputAzureLogs.ExtraHTTPHeaders {
-			var extraHTTPHeaders1 tfTypes.OutputAzureLogsExtraHTTPHeaders
-			extraHTTPHeaders1.Name = types.StringPointerValue(extraHTTPHeadersItem.Name)
-			extraHTTPHeaders1.Value = types.StringValue(extraHTTPHeadersItem.Value)
+			var extraHTTPHeaders tfTypes.OutputAzureLogsExtraHTTPHeaders
+			extraHTTPHeaders.Name = types.StringPointerValue(extraHTTPHeadersItem.Name)
+			extraHTTPHeaders.Value = types.StringValue(extraHTTPHeadersItem.Value)
 			if extraHTTPHeadersCount+1 > len(r.OutputAzureLogs.ExtraHTTPHeaders) {
-				r.OutputAzureLogs.ExtraHTTPHeaders = append(r.OutputAzureLogs.ExtraHTTPHeaders, extraHTTPHeaders1)
+				r.OutputAzureLogs.ExtraHTTPHeaders = append(r.OutputAzureLogs.ExtraHTTPHeaders, extraHTTPHeaders)
 			} else {
-				r.OutputAzureLogs.ExtraHTTPHeaders[extraHTTPHeadersCount].Name = extraHTTPHeaders1.Name
-				r.OutputAzureLogs.ExtraHTTPHeaders[extraHTTPHeadersCount].Value = extraHTTPHeaders1.Value
+				r.OutputAzureLogs.ExtraHTTPHeaders[extraHTTPHeadersCount].Name = extraHTTPHeaders.Name
+				r.OutputAzureLogs.ExtraHTTPHeaders[extraHTTPHeadersCount].Value = extraHTTPHeaders.Value
 			}
 		}
 		if resp.OutputAzureLogs.FailedRequestLoggingMode != nil {
@@ -21002,24 +20897,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputAzureLogs.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputAzureLogs.FlushPeriodSec != nil {
-			r.OutputAzureLogs.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureLogs.FlushPeriodSec)))
-		} else {
-			r.OutputAzureLogs.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputAzureLogs.FlushPeriodSec = types.Float64PointerValue(resp.OutputAzureLogs.FlushPeriodSec)
 		r.OutputAzureLogs.ID = types.StringPointerValue(resp.OutputAzureLogs.ID)
 		r.OutputAzureLogs.KeypairSecret = types.StringPointerValue(resp.OutputAzureLogs.KeypairSecret)
 		r.OutputAzureLogs.LogType = types.StringPointerValue(resp.OutputAzureLogs.LogType)
-		if resp.OutputAzureLogs.MaxPayloadEvents != nil {
-			r.OutputAzureLogs.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureLogs.MaxPayloadEvents)))
-		} else {
-			r.OutputAzureLogs.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputAzureLogs.MaxPayloadSizeKB != nil {
-			r.OutputAzureLogs.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureLogs.MaxPayloadSizeKB)))
-		} else {
-			r.OutputAzureLogs.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputAzureLogs.MaxPayloadEvents = types.Float64PointerValue(resp.OutputAzureLogs.MaxPayloadEvents)
+		r.OutputAzureLogs.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputAzureLogs.MaxPayloadSizeKB)
 		if resp.OutputAzureLogs.OnBackpressure != nil {
 			r.OutputAzureLogs.OnBackpressure = types.StringValue(string(*resp.OutputAzureLogs.OnBackpressure))
 		} else {
@@ -21057,30 +20940,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputAzureLogs.ResponseRetrySettings = r.OutputAzureLogs.ResponseRetrySettings[:len(resp.OutputAzureLogs.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount1, responseRetrySettingsItem1 := range resp.OutputAzureLogs.ResponseRetrySettings {
-			var responseRetrySettings3 tfTypes.OutputAzureLogsResponseRetrySettings
-			if responseRetrySettingsItem1.BackoffRate != nil {
-				responseRetrySettings3.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem1.BackoffRate)))
-			} else {
-				responseRetrySettings3.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings3.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem1.HTTPStatus)))
-			if responseRetrySettingsItem1.InitialBackoff != nil {
-				responseRetrySettings3.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem1.InitialBackoff)))
-			} else {
-				responseRetrySettings3.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem1.MaxBackoff != nil {
-				responseRetrySettings3.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem1.MaxBackoff)))
-			} else {
-				responseRetrySettings3.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings1 tfTypes.OutputAzureLogsResponseRetrySettings
+			responseRetrySettings1.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem1.BackoffRate)
+			responseRetrySettings1.HTTPStatus = types.Float64Value(responseRetrySettingsItem1.HTTPStatus)
+			responseRetrySettings1.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem1.InitialBackoff)
+			responseRetrySettings1.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem1.MaxBackoff)
 			if responseRetrySettingsCount1+1 > len(r.OutputAzureLogs.ResponseRetrySettings) {
-				r.OutputAzureLogs.ResponseRetrySettings = append(r.OutputAzureLogs.ResponseRetrySettings, responseRetrySettings3)
+				r.OutputAzureLogs.ResponseRetrySettings = append(r.OutputAzureLogs.ResponseRetrySettings, responseRetrySettings1)
 			} else {
-				r.OutputAzureLogs.ResponseRetrySettings[responseRetrySettingsCount1].BackoffRate = responseRetrySettings3.BackoffRate
-				r.OutputAzureLogs.ResponseRetrySettings[responseRetrySettingsCount1].HTTPStatus = responseRetrySettings3.HTTPStatus
-				r.OutputAzureLogs.ResponseRetrySettings[responseRetrySettingsCount1].InitialBackoff = responseRetrySettings3.InitialBackoff
-				r.OutputAzureLogs.ResponseRetrySettings[responseRetrySettingsCount1].MaxBackoff = responseRetrySettings3.MaxBackoff
+				r.OutputAzureLogs.ResponseRetrySettings[responseRetrySettingsCount1].BackoffRate = responseRetrySettings1.BackoffRate
+				r.OutputAzureLogs.ResponseRetrySettings[responseRetrySettingsCount1].HTTPStatus = responseRetrySettings1.HTTPStatus
+				r.OutputAzureLogs.ResponseRetrySettings[responseRetrySettingsCount1].InitialBackoff = responseRetrySettings1.InitialBackoff
+				r.OutputAzureLogs.ResponseRetrySettings[responseRetrySettingsCount1].MaxBackoff = responseRetrySettings1.MaxBackoff
 			}
 		}
 		r.OutputAzureLogs.SafeHeaders = make([]types.String, 0, len(resp.OutputAzureLogs.SafeHeaders))
@@ -21099,28 +20970,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputAzureLogs.TimeoutRetrySettings = nil
 		} else {
 			r.OutputAzureLogs.TimeoutRetrySettings = &tfTypes.OutputAzureLogsTimeoutRetrySettings{}
-			if resp.OutputAzureLogs.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputAzureLogs.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureLogs.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputAzureLogs.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputAzureLogs.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputAzureLogs.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureLogs.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputAzureLogs.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputAzureLogs.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputAzureLogs.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureLogs.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputAzureLogs.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputAzureLogs.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputAzureLogs.TimeoutRetrySettings.BackoffRate)
+			r.OutputAzureLogs.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputAzureLogs.TimeoutRetrySettings.InitialBackoff)
+			r.OutputAzureLogs.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputAzureLogs.TimeoutRetrySettings.MaxBackoff)
 			r.OutputAzureLogs.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputAzureLogs.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputAzureLogs.TimeoutSec != nil {
-			r.OutputAzureLogs.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputAzureLogs.TimeoutSec)))
-		} else {
-			r.OutputAzureLogs.TimeoutSec = types.NumberNull()
-		}
+		r.OutputAzureLogs.TimeoutSec = types.Float64PointerValue(resp.OutputAzureLogs.TimeoutSec)
 		r.OutputAzureLogs.Type = types.StringValue(string(resp.OutputAzureLogs.Type))
 		r.OutputAzureLogs.UseRoundRobinDNS = types.BoolPointerValue(resp.OutputAzureLogs.UseRoundRobinDNS)
 		r.OutputAzureLogs.WorkspaceID = types.StringPointerValue(resp.OutputAzureLogs.WorkspaceID)
@@ -21140,24 +20995,20 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputClickHouse.ColumnMappings = r.OutputClickHouse.ColumnMappings[:len(resp.OutputClickHouse.ColumnMappings)]
 		}
 		for columnMappingsCount, columnMappingsItem := range resp.OutputClickHouse.ColumnMappings {
-			var columnMappings1 tfTypes.ColumnMappings
-			columnMappings1.ColumnName = types.StringValue(columnMappingsItem.ColumnName)
-			columnMappings1.ColumnType = types.StringPointerValue(columnMappingsItem.ColumnType)
-			columnMappings1.ColumnValueExpression = types.StringValue(columnMappingsItem.ColumnValueExpression)
+			var columnMappings tfTypes.ColumnMappings
+			columnMappings.ColumnName = types.StringValue(columnMappingsItem.ColumnName)
+			columnMappings.ColumnType = types.StringPointerValue(columnMappingsItem.ColumnType)
+			columnMappings.ColumnValueExpression = types.StringValue(columnMappingsItem.ColumnValueExpression)
 			if columnMappingsCount+1 > len(r.OutputClickHouse.ColumnMappings) {
-				r.OutputClickHouse.ColumnMappings = append(r.OutputClickHouse.ColumnMappings, columnMappings1)
+				r.OutputClickHouse.ColumnMappings = append(r.OutputClickHouse.ColumnMappings, columnMappings)
 			} else {
-				r.OutputClickHouse.ColumnMappings[columnMappingsCount].ColumnName = columnMappings1.ColumnName
-				r.OutputClickHouse.ColumnMappings[columnMappingsCount].ColumnType = columnMappings1.ColumnType
-				r.OutputClickHouse.ColumnMappings[columnMappingsCount].ColumnValueExpression = columnMappings1.ColumnValueExpression
+				r.OutputClickHouse.ColumnMappings[columnMappingsCount].ColumnName = columnMappings.ColumnName
+				r.OutputClickHouse.ColumnMappings[columnMappingsCount].ColumnType = columnMappings.ColumnType
+				r.OutputClickHouse.ColumnMappings[columnMappingsCount].ColumnValueExpression = columnMappings.ColumnValueExpression
 			}
 		}
 		r.OutputClickHouse.Compress = types.BoolPointerValue(resp.OutputClickHouse.Compress)
-		if resp.OutputClickHouse.Concurrency != nil {
-			r.OutputClickHouse.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputClickHouse.Concurrency)))
-		} else {
-			r.OutputClickHouse.Concurrency = types.NumberNull()
-		}
+		r.OutputClickHouse.Concurrency = types.Float64PointerValue(resp.OutputClickHouse.Concurrency)
 		r.OutputClickHouse.CredentialsSecret = types.StringPointerValue(resp.OutputClickHouse.CredentialsSecret)
 		r.OutputClickHouse.Database = types.StringValue(resp.OutputClickHouse.Database)
 		r.OutputClickHouse.DescribeTable = types.StringPointerValue(resp.OutputClickHouse.DescribeTable)
@@ -21173,14 +21024,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputClickHouse.ExtraHTTPHeaders = r.OutputClickHouse.ExtraHTTPHeaders[:len(resp.OutputClickHouse.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount1, extraHTTPHeadersItem1 := range resp.OutputClickHouse.ExtraHTTPHeaders {
-			var extraHTTPHeaders3 tfTypes.OutputClickHouseExtraHTTPHeaders
-			extraHTTPHeaders3.Name = types.StringPointerValue(extraHTTPHeadersItem1.Name)
-			extraHTTPHeaders3.Value = types.StringValue(extraHTTPHeadersItem1.Value)
+			var extraHTTPHeaders1 tfTypes.OutputClickHouseExtraHTTPHeaders
+			extraHTTPHeaders1.Name = types.StringPointerValue(extraHTTPHeadersItem1.Name)
+			extraHTTPHeaders1.Value = types.StringValue(extraHTTPHeadersItem1.Value)
 			if extraHTTPHeadersCount1+1 > len(r.OutputClickHouse.ExtraHTTPHeaders) {
-				r.OutputClickHouse.ExtraHTTPHeaders = append(r.OutputClickHouse.ExtraHTTPHeaders, extraHTTPHeaders3)
+				r.OutputClickHouse.ExtraHTTPHeaders = append(r.OutputClickHouse.ExtraHTTPHeaders, extraHTTPHeaders1)
 			} else {
-				r.OutputClickHouse.ExtraHTTPHeaders[extraHTTPHeadersCount1].Name = extraHTTPHeaders3.Name
-				r.OutputClickHouse.ExtraHTTPHeaders[extraHTTPHeadersCount1].Value = extraHTTPHeaders3.Value
+				r.OutputClickHouse.ExtraHTTPHeaders[extraHTTPHeadersCount1].Name = extraHTTPHeaders1.Name
+				r.OutputClickHouse.ExtraHTTPHeaders[extraHTTPHeadersCount1].Value = extraHTTPHeaders1.Value
 			}
 		}
 		if resp.OutputClickHouse.FailedRequestLoggingMode != nil {
@@ -21188,11 +21039,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputClickHouse.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputClickHouse.FlushPeriodSec != nil {
-			r.OutputClickHouse.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputClickHouse.FlushPeriodSec)))
-		} else {
-			r.OutputClickHouse.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputClickHouse.FlushPeriodSec = types.Float64PointerValue(resp.OutputClickHouse.FlushPeriodSec)
 		if resp.OutputClickHouse.Format != nil {
 			r.OutputClickHouse.Format = types.StringValue(string(*resp.OutputClickHouse.Format))
 		} else {
@@ -21205,29 +21052,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputClickHouse.MappingType = types.StringNull()
 		}
-		if resp.OutputClickHouse.MaxPayloadEvents != nil {
-			r.OutputClickHouse.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputClickHouse.MaxPayloadEvents)))
-		} else {
-			r.OutputClickHouse.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputClickHouse.MaxPayloadSizeKB != nil {
-			r.OutputClickHouse.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputClickHouse.MaxPayloadSizeKB)))
-		} else {
-			r.OutputClickHouse.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputClickHouse.MaxPayloadEvents = types.Float64PointerValue(resp.OutputClickHouse.MaxPayloadEvents)
+		r.OutputClickHouse.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputClickHouse.MaxPayloadSizeKB)
 		r.OutputClickHouse.OauthHeaders = []tfTypes.OutputClickHouseOauthHeaders{}
 		if len(r.OutputClickHouse.OauthHeaders) > len(resp.OutputClickHouse.OauthHeaders) {
 			r.OutputClickHouse.OauthHeaders = r.OutputClickHouse.OauthHeaders[:len(resp.OutputClickHouse.OauthHeaders)]
 		}
 		for oauthHeadersCount, oauthHeadersItem := range resp.OutputClickHouse.OauthHeaders {
-			var oauthHeaders1 tfTypes.OutputClickHouseOauthHeaders
-			oauthHeaders1.Name = types.StringValue(oauthHeadersItem.Name)
-			oauthHeaders1.Value = types.StringValue(oauthHeadersItem.Value)
+			var oauthHeaders tfTypes.OutputClickHouseOauthHeaders
+			oauthHeaders.Name = types.StringValue(oauthHeadersItem.Name)
+			oauthHeaders.Value = types.StringValue(oauthHeadersItem.Value)
 			if oauthHeadersCount+1 > len(r.OutputClickHouse.OauthHeaders) {
-				r.OutputClickHouse.OauthHeaders = append(r.OutputClickHouse.OauthHeaders, oauthHeaders1)
+				r.OutputClickHouse.OauthHeaders = append(r.OutputClickHouse.OauthHeaders, oauthHeaders)
 			} else {
-				r.OutputClickHouse.OauthHeaders[oauthHeadersCount].Name = oauthHeaders1.Name
-				r.OutputClickHouse.OauthHeaders[oauthHeadersCount].Value = oauthHeaders1.Value
+				r.OutputClickHouse.OauthHeaders[oauthHeadersCount].Name = oauthHeaders.Name
+				r.OutputClickHouse.OauthHeaders[oauthHeadersCount].Value = oauthHeaders.Value
 			}
 		}
 		r.OutputClickHouse.OauthParams = []tfTypes.OutputClickHouseOauthParams{}
@@ -21235,14 +21074,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputClickHouse.OauthParams = r.OutputClickHouse.OauthParams[:len(resp.OutputClickHouse.OauthParams)]
 		}
 		for oauthParamsCount, oauthParamsItem := range resp.OutputClickHouse.OauthParams {
-			var oauthParams1 tfTypes.OutputClickHouseOauthParams
-			oauthParams1.Name = types.StringValue(oauthParamsItem.Name)
-			oauthParams1.Value = types.StringValue(oauthParamsItem.Value)
+			var oauthParams tfTypes.OutputClickHouseOauthParams
+			oauthParams.Name = types.StringValue(oauthParamsItem.Name)
+			oauthParams.Value = types.StringValue(oauthParamsItem.Value)
 			if oauthParamsCount+1 > len(r.OutputClickHouse.OauthParams) {
-				r.OutputClickHouse.OauthParams = append(r.OutputClickHouse.OauthParams, oauthParams1)
+				r.OutputClickHouse.OauthParams = append(r.OutputClickHouse.OauthParams, oauthParams)
 			} else {
-				r.OutputClickHouse.OauthParams[oauthParamsCount].Name = oauthParams1.Name
-				r.OutputClickHouse.OauthParams[oauthParamsCount].Value = oauthParams1.Value
+				r.OutputClickHouse.OauthParams[oauthParamsCount].Name = oauthParams.Name
+				r.OutputClickHouse.OauthParams[oauthParamsCount].Value = oauthParams.Value
 			}
 		}
 		if resp.OutputClickHouse.OnBackpressure != nil {
@@ -21282,30 +21121,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputClickHouse.ResponseRetrySettings = r.OutputClickHouse.ResponseRetrySettings[:len(resp.OutputClickHouse.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount2, responseRetrySettingsItem2 := range resp.OutputClickHouse.ResponseRetrySettings {
-			var responseRetrySettings5 tfTypes.OutputClickHouseResponseRetrySettings
-			if responseRetrySettingsItem2.BackoffRate != nil {
-				responseRetrySettings5.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem2.BackoffRate)))
-			} else {
-				responseRetrySettings5.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings5.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem2.HTTPStatus)))
-			if responseRetrySettingsItem2.InitialBackoff != nil {
-				responseRetrySettings5.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem2.InitialBackoff)))
-			} else {
-				responseRetrySettings5.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem2.MaxBackoff != nil {
-				responseRetrySettings5.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem2.MaxBackoff)))
-			} else {
-				responseRetrySettings5.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings2 tfTypes.OutputClickHouseResponseRetrySettings
+			responseRetrySettings2.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem2.BackoffRate)
+			responseRetrySettings2.HTTPStatus = types.Float64Value(responseRetrySettingsItem2.HTTPStatus)
+			responseRetrySettings2.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem2.InitialBackoff)
+			responseRetrySettings2.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem2.MaxBackoff)
 			if responseRetrySettingsCount2+1 > len(r.OutputClickHouse.ResponseRetrySettings) {
-				r.OutputClickHouse.ResponseRetrySettings = append(r.OutputClickHouse.ResponseRetrySettings, responseRetrySettings5)
+				r.OutputClickHouse.ResponseRetrySettings = append(r.OutputClickHouse.ResponseRetrySettings, responseRetrySettings2)
 			} else {
-				r.OutputClickHouse.ResponseRetrySettings[responseRetrySettingsCount2].BackoffRate = responseRetrySettings5.BackoffRate
-				r.OutputClickHouse.ResponseRetrySettings[responseRetrySettingsCount2].HTTPStatus = responseRetrySettings5.HTTPStatus
-				r.OutputClickHouse.ResponseRetrySettings[responseRetrySettingsCount2].InitialBackoff = responseRetrySettings5.InitialBackoff
-				r.OutputClickHouse.ResponseRetrySettings[responseRetrySettingsCount2].MaxBackoff = responseRetrySettings5.MaxBackoff
+				r.OutputClickHouse.ResponseRetrySettings[responseRetrySettingsCount2].BackoffRate = responseRetrySettings2.BackoffRate
+				r.OutputClickHouse.ResponseRetrySettings[responseRetrySettingsCount2].HTTPStatus = responseRetrySettings2.HTTPStatus
+				r.OutputClickHouse.ResponseRetrySettings[responseRetrySettingsCount2].InitialBackoff = responseRetrySettings2.InitialBackoff
+				r.OutputClickHouse.ResponseRetrySettings[responseRetrySettingsCount2].MaxBackoff = responseRetrySettings2.MaxBackoff
 			}
 		}
 		r.OutputClickHouse.SafeHeaders = make([]types.String, 0, len(resp.OutputClickHouse.SafeHeaders))
@@ -21329,28 +21156,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputClickHouse.TimeoutRetrySettings = nil
 		} else {
 			r.OutputClickHouse.TimeoutRetrySettings = &tfTypes.OutputClickHouseTimeoutRetrySettings{}
-			if resp.OutputClickHouse.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputClickHouse.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputClickHouse.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputClickHouse.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputClickHouse.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputClickHouse.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputClickHouse.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputClickHouse.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputClickHouse.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputClickHouse.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputClickHouse.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputClickHouse.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputClickHouse.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputClickHouse.TimeoutRetrySettings.BackoffRate)
+			r.OutputClickHouse.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputClickHouse.TimeoutRetrySettings.InitialBackoff)
+			r.OutputClickHouse.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputClickHouse.TimeoutRetrySettings.MaxBackoff)
 			r.OutputClickHouse.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputClickHouse.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputClickHouse.TimeoutSec != nil {
-			r.OutputClickHouse.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputClickHouse.TimeoutSec)))
-		} else {
-			r.OutputClickHouse.TimeoutSec = types.NumberNull()
-		}
+		r.OutputClickHouse.TimeoutSec = types.Float64PointerValue(resp.OutputClickHouse.TimeoutSec)
 		if resp.OutputClickHouse.TLS == nil {
 			r.OutputClickHouse.TLS = nil
 		} else {
@@ -21375,11 +21186,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		}
 		r.OutputClickHouse.Token = types.StringPointerValue(resp.OutputClickHouse.Token)
 		r.OutputClickHouse.TokenAttributeName = types.StringPointerValue(resp.OutputClickHouse.TokenAttributeName)
-		if resp.OutputClickHouse.TokenTimeoutSecs != nil {
-			r.OutputClickHouse.TokenTimeoutSecs = types.NumberValue(big.NewFloat(float64(*resp.OutputClickHouse.TokenTimeoutSecs)))
-		} else {
-			r.OutputClickHouse.TokenTimeoutSecs = types.NumberNull()
-		}
+		r.OutputClickHouse.TokenTimeoutSecs = types.Float64PointerValue(resp.OutputClickHouse.TokenTimeoutSecs)
 		if resp.OutputClickHouse.Type != nil {
 			r.OutputClickHouse.Type = types.StringValue(string(*resp.OutputClickHouse.Type))
 		} else {
@@ -21403,32 +21210,16 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputCloudwatch.AwsSecret = types.StringPointerValue(resp.OutputCloudwatch.AwsSecret)
 		r.OutputCloudwatch.AwsSecretKey = types.StringPointerValue(resp.OutputCloudwatch.AwsSecretKey)
 		r.OutputCloudwatch.Description = types.StringPointerValue(resp.OutputCloudwatch.Description)
-		if resp.OutputCloudwatch.DurationSeconds != nil {
-			r.OutputCloudwatch.DurationSeconds = types.NumberValue(big.NewFloat(float64(*resp.OutputCloudwatch.DurationSeconds)))
-		} else {
-			r.OutputCloudwatch.DurationSeconds = types.NumberNull()
-		}
+		r.OutputCloudwatch.DurationSeconds = types.Float64PointerValue(resp.OutputCloudwatch.DurationSeconds)
 		r.OutputCloudwatch.EnableAssumeRole = types.BoolPointerValue(resp.OutputCloudwatch.EnableAssumeRole)
 		r.OutputCloudwatch.Endpoint = types.StringPointerValue(resp.OutputCloudwatch.Endpoint)
 		r.OutputCloudwatch.Environment = types.StringPointerValue(resp.OutputCloudwatch.Environment)
-		if resp.OutputCloudwatch.FlushPeriodSec != nil {
-			r.OutputCloudwatch.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputCloudwatch.FlushPeriodSec)))
-		} else {
-			r.OutputCloudwatch.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputCloudwatch.FlushPeriodSec = types.Float64PointerValue(resp.OutputCloudwatch.FlushPeriodSec)
 		r.OutputCloudwatch.ID = types.StringPointerValue(resp.OutputCloudwatch.ID)
 		r.OutputCloudwatch.LogGroupName = types.StringValue(resp.OutputCloudwatch.LogGroupName)
 		r.OutputCloudwatch.LogStreamName = types.StringValue(resp.OutputCloudwatch.LogStreamName)
-		if resp.OutputCloudwatch.MaxQueueSize != nil {
-			r.OutputCloudwatch.MaxQueueSize = types.NumberValue(big.NewFloat(float64(*resp.OutputCloudwatch.MaxQueueSize)))
-		} else {
-			r.OutputCloudwatch.MaxQueueSize = types.NumberNull()
-		}
-		if resp.OutputCloudwatch.MaxRecordSizeKB != nil {
-			r.OutputCloudwatch.MaxRecordSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputCloudwatch.MaxRecordSizeKB)))
-		} else {
-			r.OutputCloudwatch.MaxRecordSizeKB = types.NumberNull()
-		}
+		r.OutputCloudwatch.MaxQueueSize = types.Float64PointerValue(resp.OutputCloudwatch.MaxQueueSize)
+		r.OutputCloudwatch.MaxRecordSizeKB = types.Float64PointerValue(resp.OutputCloudwatch.MaxRecordSizeKB)
 		if resp.OutputCloudwatch.OnBackpressure != nil {
 			r.OutputCloudwatch.OnBackpressure = types.StringValue(string(*resp.OutputCloudwatch.OnBackpressure))
 		} else {
@@ -21482,16 +21273,8 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputConfluentCloud.Ack = types.Int64Null()
 		}
-		if resp.OutputConfluentCloud.AuthenticationTimeout != nil {
-			r.OutputConfluentCloud.AuthenticationTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputConfluentCloud.AuthenticationTimeout)))
-		} else {
-			r.OutputConfluentCloud.AuthenticationTimeout = types.NumberNull()
-		}
-		if resp.OutputConfluentCloud.BackoffRate != nil {
-			r.OutputConfluentCloud.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputConfluentCloud.BackoffRate)))
-		} else {
-			r.OutputConfluentCloud.BackoffRate = types.NumberNull()
-		}
+		r.OutputConfluentCloud.AuthenticationTimeout = types.Float64PointerValue(resp.OutputConfluentCloud.AuthenticationTimeout)
+		r.OutputConfluentCloud.BackoffRate = types.Float64PointerValue(resp.OutputConfluentCloud.BackoffRate)
 		r.OutputConfluentCloud.Brokers = make([]types.String, 0, len(resp.OutputConfluentCloud.Brokers))
 		for _, v := range resp.OutputConfluentCloud.Brokers {
 			r.OutputConfluentCloud.Brokers = append(r.OutputConfluentCloud.Brokers, types.StringValue(v))
@@ -21501,34 +21284,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputConfluentCloud.Compression = types.StringNull()
 		}
-		if resp.OutputConfluentCloud.ConnectionTimeout != nil {
-			r.OutputConfluentCloud.ConnectionTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputConfluentCloud.ConnectionTimeout)))
-		} else {
-			r.OutputConfluentCloud.ConnectionTimeout = types.NumberNull()
-		}
+		r.OutputConfluentCloud.ConnectionTimeout = types.Float64PointerValue(resp.OutputConfluentCloud.ConnectionTimeout)
 		r.OutputConfluentCloud.Description = types.StringPointerValue(resp.OutputConfluentCloud.Description)
 		r.OutputConfluentCloud.Environment = types.StringPointerValue(resp.OutputConfluentCloud.Environment)
-		if resp.OutputConfluentCloud.FlushEventCount != nil {
-			r.OutputConfluentCloud.FlushEventCount = types.NumberValue(big.NewFloat(float64(*resp.OutputConfluentCloud.FlushEventCount)))
-		} else {
-			r.OutputConfluentCloud.FlushEventCount = types.NumberNull()
-		}
-		if resp.OutputConfluentCloud.FlushPeriodSec != nil {
-			r.OutputConfluentCloud.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputConfluentCloud.FlushPeriodSec)))
-		} else {
-			r.OutputConfluentCloud.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputConfluentCloud.FlushEventCount = types.Float64PointerValue(resp.OutputConfluentCloud.FlushEventCount)
+		r.OutputConfluentCloud.FlushPeriodSec = types.Float64PointerValue(resp.OutputConfluentCloud.FlushPeriodSec)
 		if resp.OutputConfluentCloud.Format != nil {
 			r.OutputConfluentCloud.Format = types.StringValue(string(*resp.OutputConfluentCloud.Format))
 		} else {
 			r.OutputConfluentCloud.Format = types.StringNull()
 		}
 		r.OutputConfluentCloud.ID = types.StringPointerValue(resp.OutputConfluentCloud.ID)
-		if resp.OutputConfluentCloud.InitialBackoff != nil {
-			r.OutputConfluentCloud.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputConfluentCloud.InitialBackoff)))
-		} else {
-			r.OutputConfluentCloud.InitialBackoff = types.NumberNull()
-		}
+		r.OutputConfluentCloud.InitialBackoff = types.Float64PointerValue(resp.OutputConfluentCloud.InitialBackoff)
 		if resp.OutputConfluentCloud.KafkaSchemaRegistry == nil {
 			r.OutputConfluentCloud.KafkaSchemaRegistry = nil
 		} else {
@@ -21540,32 +21307,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 				r.OutputConfluentCloud.KafkaSchemaRegistry.Auth.CredentialsSecret = types.StringPointerValue(resp.OutputConfluentCloud.KafkaSchemaRegistry.Auth.CredentialsSecret)
 				r.OutputConfluentCloud.KafkaSchemaRegistry.Auth.Disabled = types.BoolPointerValue(resp.OutputConfluentCloud.KafkaSchemaRegistry.Auth.Disabled)
 			}
-			if resp.OutputConfluentCloud.KafkaSchemaRegistry.ConnectionTimeout != nil {
-				r.OutputConfluentCloud.KafkaSchemaRegistry.ConnectionTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputConfluentCloud.KafkaSchemaRegistry.ConnectionTimeout)))
-			} else {
-				r.OutputConfluentCloud.KafkaSchemaRegistry.ConnectionTimeout = types.NumberNull()
-			}
-			if resp.OutputConfluentCloud.KafkaSchemaRegistry.DefaultKeySchemaID != nil {
-				r.OutputConfluentCloud.KafkaSchemaRegistry.DefaultKeySchemaID = types.NumberValue(big.NewFloat(float64(*resp.OutputConfluentCloud.KafkaSchemaRegistry.DefaultKeySchemaID)))
-			} else {
-				r.OutputConfluentCloud.KafkaSchemaRegistry.DefaultKeySchemaID = types.NumberNull()
-			}
-			if resp.OutputConfluentCloud.KafkaSchemaRegistry.DefaultValueSchemaID != nil {
-				r.OutputConfluentCloud.KafkaSchemaRegistry.DefaultValueSchemaID = types.NumberValue(big.NewFloat(float64(*resp.OutputConfluentCloud.KafkaSchemaRegistry.DefaultValueSchemaID)))
-			} else {
-				r.OutputConfluentCloud.KafkaSchemaRegistry.DefaultValueSchemaID = types.NumberNull()
-			}
+			r.OutputConfluentCloud.KafkaSchemaRegistry.ConnectionTimeout = types.Float64PointerValue(resp.OutputConfluentCloud.KafkaSchemaRegistry.ConnectionTimeout)
+			r.OutputConfluentCloud.KafkaSchemaRegistry.DefaultKeySchemaID = types.Float64PointerValue(resp.OutputConfluentCloud.KafkaSchemaRegistry.DefaultKeySchemaID)
+			r.OutputConfluentCloud.KafkaSchemaRegistry.DefaultValueSchemaID = types.Float64PointerValue(resp.OutputConfluentCloud.KafkaSchemaRegistry.DefaultValueSchemaID)
 			r.OutputConfluentCloud.KafkaSchemaRegistry.Disabled = types.BoolPointerValue(resp.OutputConfluentCloud.KafkaSchemaRegistry.Disabled)
-			if resp.OutputConfluentCloud.KafkaSchemaRegistry.MaxRetries != nil {
-				r.OutputConfluentCloud.KafkaSchemaRegistry.MaxRetries = types.NumberValue(big.NewFloat(float64(*resp.OutputConfluentCloud.KafkaSchemaRegistry.MaxRetries)))
-			} else {
-				r.OutputConfluentCloud.KafkaSchemaRegistry.MaxRetries = types.NumberNull()
-			}
-			if resp.OutputConfluentCloud.KafkaSchemaRegistry.RequestTimeout != nil {
-				r.OutputConfluentCloud.KafkaSchemaRegistry.RequestTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputConfluentCloud.KafkaSchemaRegistry.RequestTimeout)))
-			} else {
-				r.OutputConfluentCloud.KafkaSchemaRegistry.RequestTimeout = types.NumberNull()
-			}
+			r.OutputConfluentCloud.KafkaSchemaRegistry.MaxRetries = types.Float64PointerValue(resp.OutputConfluentCloud.KafkaSchemaRegistry.MaxRetries)
+			r.OutputConfluentCloud.KafkaSchemaRegistry.RequestTimeout = types.Float64PointerValue(resp.OutputConfluentCloud.KafkaSchemaRegistry.RequestTimeout)
 			r.OutputConfluentCloud.KafkaSchemaRegistry.SchemaRegistryURL = types.StringPointerValue(resp.OutputConfluentCloud.KafkaSchemaRegistry.SchemaRegistryURL)
 			if resp.OutputConfluentCloud.KafkaSchemaRegistry.TLS == nil {
 				r.OutputConfluentCloud.KafkaSchemaRegistry.TLS = nil
@@ -21591,21 +21338,9 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 				r.OutputConfluentCloud.KafkaSchemaRegistry.TLS.Servername = types.StringPointerValue(resp.OutputConfluentCloud.KafkaSchemaRegistry.TLS.Servername)
 			}
 		}
-		if resp.OutputConfluentCloud.MaxBackOff != nil {
-			r.OutputConfluentCloud.MaxBackOff = types.NumberValue(big.NewFloat(float64(*resp.OutputConfluentCloud.MaxBackOff)))
-		} else {
-			r.OutputConfluentCloud.MaxBackOff = types.NumberNull()
-		}
-		if resp.OutputConfluentCloud.MaxRecordSizeKB != nil {
-			r.OutputConfluentCloud.MaxRecordSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputConfluentCloud.MaxRecordSizeKB)))
-		} else {
-			r.OutputConfluentCloud.MaxRecordSizeKB = types.NumberNull()
-		}
-		if resp.OutputConfluentCloud.MaxRetries != nil {
-			r.OutputConfluentCloud.MaxRetries = types.NumberValue(big.NewFloat(float64(*resp.OutputConfluentCloud.MaxRetries)))
-		} else {
-			r.OutputConfluentCloud.MaxRetries = types.NumberNull()
-		}
+		r.OutputConfluentCloud.MaxBackOff = types.Float64PointerValue(resp.OutputConfluentCloud.MaxBackOff)
+		r.OutputConfluentCloud.MaxRecordSizeKB = types.Float64PointerValue(resp.OutputConfluentCloud.MaxRecordSizeKB)
+		r.OutputConfluentCloud.MaxRetries = types.Float64PointerValue(resp.OutputConfluentCloud.MaxRetries)
 		if resp.OutputConfluentCloud.OnBackpressure != nil {
 			r.OutputConfluentCloud.OnBackpressure = types.StringValue(string(*resp.OutputConfluentCloud.OnBackpressure))
 		} else {
@@ -21636,16 +21371,8 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		}
 		r.OutputConfluentCloud.PqPath = types.StringPointerValue(resp.OutputConfluentCloud.PqPath)
 		r.OutputConfluentCloud.ProtobufLibraryID = types.StringPointerValue(resp.OutputConfluentCloud.ProtobufLibraryID)
-		if resp.OutputConfluentCloud.ReauthenticationThreshold != nil {
-			r.OutputConfluentCloud.ReauthenticationThreshold = types.NumberValue(big.NewFloat(float64(*resp.OutputConfluentCloud.ReauthenticationThreshold)))
-		} else {
-			r.OutputConfluentCloud.ReauthenticationThreshold = types.NumberNull()
-		}
-		if resp.OutputConfluentCloud.RequestTimeout != nil {
-			r.OutputConfluentCloud.RequestTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputConfluentCloud.RequestTimeout)))
-		} else {
-			r.OutputConfluentCloud.RequestTimeout = types.NumberNull()
-		}
+		r.OutputConfluentCloud.ReauthenticationThreshold = types.Float64PointerValue(resp.OutputConfluentCloud.ReauthenticationThreshold)
+		r.OutputConfluentCloud.RequestTimeout = types.Float64PointerValue(resp.OutputConfluentCloud.RequestTimeout)
 		if resp.OutputConfluentCloud.Sasl == nil {
 			r.OutputConfluentCloud.Sasl = nil
 		} else {
@@ -21702,17 +21429,9 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputCriblHTTP.Compression = types.StringNull()
 		}
-		if resp.OutputCriblHTTP.Concurrency != nil {
-			r.OutputCriblHTTP.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblHTTP.Concurrency)))
-		} else {
-			r.OutputCriblHTTP.Concurrency = types.NumberNull()
-		}
+		r.OutputCriblHTTP.Concurrency = types.Float64PointerValue(resp.OutputCriblHTTP.Concurrency)
 		r.OutputCriblHTTP.Description = types.StringPointerValue(resp.OutputCriblHTTP.Description)
-		if resp.OutputCriblHTTP.DNSResolvePeriodSec != nil {
-			r.OutputCriblHTTP.DNSResolvePeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblHTTP.DNSResolvePeriodSec)))
-		} else {
-			r.OutputCriblHTTP.DNSResolvePeriodSec = types.NumberNull()
-		}
+		r.OutputCriblHTTP.DNSResolvePeriodSec = types.Float64PointerValue(resp.OutputCriblHTTP.DNSResolvePeriodSec)
 		r.OutputCriblHTTP.Environment = types.StringPointerValue(resp.OutputCriblHTTP.Environment)
 		r.OutputCriblHTTP.ExcludeFields = make([]types.String, 0, len(resp.OutputCriblHTTP.ExcludeFields))
 		for _, v := range resp.OutputCriblHTTP.ExcludeFields {
@@ -21724,14 +21443,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputCriblHTTP.ExtraHTTPHeaders = r.OutputCriblHTTP.ExtraHTTPHeaders[:len(resp.OutputCriblHTTP.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount2, extraHTTPHeadersItem2 := range resp.OutputCriblHTTP.ExtraHTTPHeaders {
-			var extraHTTPHeaders5 tfTypes.OutputCriblHTTPExtraHTTPHeaders
-			extraHTTPHeaders5.Name = types.StringPointerValue(extraHTTPHeadersItem2.Name)
-			extraHTTPHeaders5.Value = types.StringValue(extraHTTPHeadersItem2.Value)
+			var extraHTTPHeaders2 tfTypes.OutputCriblHTTPExtraHTTPHeaders
+			extraHTTPHeaders2.Name = types.StringPointerValue(extraHTTPHeadersItem2.Name)
+			extraHTTPHeaders2.Value = types.StringValue(extraHTTPHeadersItem2.Value)
 			if extraHTTPHeadersCount2+1 > len(r.OutputCriblHTTP.ExtraHTTPHeaders) {
-				r.OutputCriblHTTP.ExtraHTTPHeaders = append(r.OutputCriblHTTP.ExtraHTTPHeaders, extraHTTPHeaders5)
+				r.OutputCriblHTTP.ExtraHTTPHeaders = append(r.OutputCriblHTTP.ExtraHTTPHeaders, extraHTTPHeaders2)
 			} else {
-				r.OutputCriblHTTP.ExtraHTTPHeaders[extraHTTPHeadersCount2].Name = extraHTTPHeaders5.Name
-				r.OutputCriblHTTP.ExtraHTTPHeaders[extraHTTPHeadersCount2].Value = extraHTTPHeaders5.Value
+				r.OutputCriblHTTP.ExtraHTTPHeaders[extraHTTPHeadersCount2].Name = extraHTTPHeaders2.Name
+				r.OutputCriblHTTP.ExtraHTTPHeaders[extraHTTPHeadersCount2].Value = extraHTTPHeaders2.Value
 			}
 		}
 		if resp.OutputCriblHTTP.FailedRequestLoggingMode != nil {
@@ -21739,28 +21458,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputCriblHTTP.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputCriblHTTP.FlushPeriodSec != nil {
-			r.OutputCriblHTTP.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblHTTP.FlushPeriodSec)))
-		} else {
-			r.OutputCriblHTTP.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputCriblHTTP.FlushPeriodSec = types.Float64PointerValue(resp.OutputCriblHTTP.FlushPeriodSec)
 		r.OutputCriblHTTP.ID = types.StringValue(resp.OutputCriblHTTP.ID)
 		r.OutputCriblHTTP.LoadBalanced = types.BoolPointerValue(resp.OutputCriblHTTP.LoadBalanced)
-		if resp.OutputCriblHTTP.LoadBalanceStatsPeriodSec != nil {
-			r.OutputCriblHTTP.LoadBalanceStatsPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblHTTP.LoadBalanceStatsPeriodSec)))
-		} else {
-			r.OutputCriblHTTP.LoadBalanceStatsPeriodSec = types.NumberNull()
-		}
-		if resp.OutputCriblHTTP.MaxPayloadEvents != nil {
-			r.OutputCriblHTTP.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblHTTP.MaxPayloadEvents)))
-		} else {
-			r.OutputCriblHTTP.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputCriblHTTP.MaxPayloadSizeKB != nil {
-			r.OutputCriblHTTP.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblHTTP.MaxPayloadSizeKB)))
-		} else {
-			r.OutputCriblHTTP.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputCriblHTTP.LoadBalanceStatsPeriodSec = types.Float64PointerValue(resp.OutputCriblHTTP.LoadBalanceStatsPeriodSec)
+		r.OutputCriblHTTP.MaxPayloadEvents = types.Float64PointerValue(resp.OutputCriblHTTP.MaxPayloadEvents)
+		r.OutputCriblHTTP.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputCriblHTTP.MaxPayloadSizeKB)
 		if resp.OutputCriblHTTP.OnBackpressure != nil {
 			r.OutputCriblHTTP.OnBackpressure = types.StringValue(string(*resp.OutputCriblHTTP.OnBackpressure))
 		} else {
@@ -21797,35 +21500,38 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputCriblHTTP.ResponseRetrySettings = r.OutputCriblHTTP.ResponseRetrySettings[:len(resp.OutputCriblHTTP.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount3, responseRetrySettingsItem3 := range resp.OutputCriblHTTP.ResponseRetrySettings {
-			var responseRetrySettings7 tfTypes.OutputCriblHTTPResponseRetrySettings
-			if responseRetrySettingsItem3.BackoffRate != nil {
-				responseRetrySettings7.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem3.BackoffRate)))
-			} else {
-				responseRetrySettings7.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings7.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem3.HTTPStatus)))
-			if responseRetrySettingsItem3.InitialBackoff != nil {
-				responseRetrySettings7.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem3.InitialBackoff)))
-			} else {
-				responseRetrySettings7.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem3.MaxBackoff != nil {
-				responseRetrySettings7.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem3.MaxBackoff)))
-			} else {
-				responseRetrySettings7.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings3 tfTypes.OutputCriblHTTPResponseRetrySettings
+			responseRetrySettings3.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem3.BackoffRate)
+			responseRetrySettings3.HTTPStatus = types.Float64Value(responseRetrySettingsItem3.HTTPStatus)
+			responseRetrySettings3.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem3.InitialBackoff)
+			responseRetrySettings3.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem3.MaxBackoff)
 			if responseRetrySettingsCount3+1 > len(r.OutputCriblHTTP.ResponseRetrySettings) {
-				r.OutputCriblHTTP.ResponseRetrySettings = append(r.OutputCriblHTTP.ResponseRetrySettings, responseRetrySettings7)
+				r.OutputCriblHTTP.ResponseRetrySettings = append(r.OutputCriblHTTP.ResponseRetrySettings, responseRetrySettings3)
 			} else {
-				r.OutputCriblHTTP.ResponseRetrySettings[responseRetrySettingsCount3].BackoffRate = responseRetrySettings7.BackoffRate
-				r.OutputCriblHTTP.ResponseRetrySettings[responseRetrySettingsCount3].HTTPStatus = responseRetrySettings7.HTTPStatus
-				r.OutputCriblHTTP.ResponseRetrySettings[responseRetrySettingsCount3].InitialBackoff = responseRetrySettings7.InitialBackoff
-				r.OutputCriblHTTP.ResponseRetrySettings[responseRetrySettingsCount3].MaxBackoff = responseRetrySettings7.MaxBackoff
+				r.OutputCriblHTTP.ResponseRetrySettings[responseRetrySettingsCount3].BackoffRate = responseRetrySettings3.BackoffRate
+				r.OutputCriblHTTP.ResponseRetrySettings[responseRetrySettingsCount3].HTTPStatus = responseRetrySettings3.HTTPStatus
+				r.OutputCriblHTTP.ResponseRetrySettings[responseRetrySettingsCount3].InitialBackoff = responseRetrySettings3.InitialBackoff
+				r.OutputCriblHTTP.ResponseRetrySettings[responseRetrySettingsCount3].MaxBackoff = responseRetrySettings3.MaxBackoff
 			}
 		}
 		r.OutputCriblHTTP.SafeHeaders = make([]types.String, 0, len(resp.OutputCriblHTTP.SafeHeaders))
 		for _, v := range resp.OutputCriblHTTP.SafeHeaders {
 			r.OutputCriblHTTP.SafeHeaders = append(r.OutputCriblHTTP.SafeHeaders, types.StringValue(v))
+		}
+		if resp.OutputCriblHTTP.Status == nil {
+			r.OutputCriblHTTP.Status = nil
+		} else {
+			r.OutputCriblHTTP.Status = &tfTypes.OutputCriblHTTPStatus{}
+			r.OutputCriblHTTP.Status.Health = types.StringValue(string(resp.OutputCriblHTTP.Status.Health))
+			if len(resp.OutputCriblHTTP.Status.Metrics) > 0 {
+				r.OutputCriblHTTP.Status.Metrics = make(map[string]types.String, len(resp.OutputCriblHTTP.Status.Metrics))
+				for key, value := range resp.OutputCriblHTTP.Status.Metrics {
+					result, _ := json.Marshal(value)
+					r.OutputCriblHTTP.Status.Metrics[key] = types.StringValue(string(result))
+				}
+			}
+			r.OutputCriblHTTP.Status.Timestamp = types.Float64Value(resp.OutputCriblHTTP.Status.Timestamp)
+			r.OutputCriblHTTP.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputCriblHTTP.Status.UseStatusFromLB)
 		}
 		r.OutputCriblHTTP.Streamtags = make([]types.String, 0, len(resp.OutputCriblHTTP.Streamtags))
 		for _, v := range resp.OutputCriblHTTP.Streamtags {
@@ -21839,28 +21545,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputCriblHTTP.TimeoutRetrySettings = nil
 		} else {
 			r.OutputCriblHTTP.TimeoutRetrySettings = &tfTypes.OutputCriblHTTPTimeoutRetrySettings{}
-			if resp.OutputCriblHTTP.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputCriblHTTP.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblHTTP.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputCriblHTTP.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputCriblHTTP.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputCriblHTTP.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblHTTP.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputCriblHTTP.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputCriblHTTP.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputCriblHTTP.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblHTTP.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputCriblHTTP.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputCriblHTTP.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputCriblHTTP.TimeoutRetrySettings.BackoffRate)
+			r.OutputCriblHTTP.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputCriblHTTP.TimeoutRetrySettings.InitialBackoff)
+			r.OutputCriblHTTP.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputCriblHTTP.TimeoutRetrySettings.MaxBackoff)
 			r.OutputCriblHTTP.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputCriblHTTP.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputCriblHTTP.TimeoutSec != nil {
-			r.OutputCriblHTTP.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblHTTP.TimeoutSec)))
-		} else {
-			r.OutputCriblHTTP.TimeoutSec = types.NumberNull()
-		}
+		r.OutputCriblHTTP.TimeoutSec = types.Float64PointerValue(resp.OutputCriblHTTP.TimeoutSec)
 		if resp.OutputCriblHTTP.TLS == nil {
 			r.OutputCriblHTTP.TLS = nil
 		} else {
@@ -21884,11 +21574,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputCriblHTTP.TLS.RejectUnauthorized = types.BoolPointerValue(resp.OutputCriblHTTP.TLS.RejectUnauthorized)
 			r.OutputCriblHTTP.TLS.Servername = types.StringPointerValue(resp.OutputCriblHTTP.TLS.Servername)
 		}
-		if resp.OutputCriblHTTP.TokenTTLMinutes != nil {
-			r.OutputCriblHTTP.TokenTTLMinutes = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblHTTP.TokenTTLMinutes)))
-		} else {
-			r.OutputCriblHTTP.TokenTTLMinutes = types.NumberNull()
-		}
+		r.OutputCriblHTTP.TokenTTLMinutes = types.Float64PointerValue(resp.OutputCriblHTTP.TokenTTLMinutes)
 		r.OutputCriblHTTP.Type = types.StringValue(string(resp.OutputCriblHTTP.Type))
 		r.OutputCriblHTTP.URL = types.StringPointerValue(resp.OutputCriblHTTP.URL)
 		r.OutputCriblHTTP.Urls = []tfTypes.OutputCriblHTTPUrls{}
@@ -21896,18 +21582,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputCriblHTTP.Urls = r.OutputCriblHTTP.Urls[:len(resp.OutputCriblHTTP.Urls)]
 		}
 		for urlsCount, urlsItem := range resp.OutputCriblHTTP.Urls {
-			var urls1 tfTypes.OutputCriblHTTPUrls
-			urls1.URL = types.StringValue(urlsItem.URL)
-			if urlsItem.Weight != nil {
-				urls1.Weight = types.NumberValue(big.NewFloat(float64(*urlsItem.Weight)))
-			} else {
-				urls1.Weight = types.NumberNull()
-			}
+			var urls tfTypes.OutputCriblHTTPUrls
+			urls.URL = types.StringValue(urlsItem.URL)
+			urls.Weight = types.Float64PointerValue(urlsItem.Weight)
 			if urlsCount+1 > len(r.OutputCriblHTTP.Urls) {
-				r.OutputCriblHTTP.Urls = append(r.OutputCriblHTTP.Urls, urls1)
+				r.OutputCriblHTTP.Urls = append(r.OutputCriblHTTP.Urls, urls)
 			} else {
-				r.OutputCriblHTTP.Urls[urlsCount].URL = urls1.URL
-				r.OutputCriblHTTP.Urls[urlsCount].Weight = urls1.Weight
+				r.OutputCriblHTTP.Urls[urlsCount].URL = urls.URL
+				r.OutputCriblHTTP.Urls[urlsCount].Weight = urls.Weight
 			}
 		}
 		r.OutputCriblHTTP.UseRoundRobinDNS = types.BoolPointerValue(resp.OutputCriblHTTP.UseRoundRobinDNS)
@@ -21929,16 +21611,8 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputCriblLake.DeadletterPath = types.StringPointerValue(resp.OutputCriblLake.DeadletterPath)
 		r.OutputCriblLake.Description = types.StringPointerValue(resp.OutputCriblLake.Description)
 		r.OutputCriblLake.DestPath = types.StringValue(resp.OutputCriblLake.DestPath)
-		if resp.OutputCriblLake.DurationSeconds != nil {
-			r.OutputCriblLake.DurationSeconds = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblLake.DurationSeconds)))
-		} else {
-			r.OutputCriblLake.DurationSeconds = types.NumberNull()
-		}
-		if resp.OutputCriblLake.EmptyDirCleanupSec != nil {
-			r.OutputCriblLake.EmptyDirCleanupSec = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblLake.EmptyDirCleanupSec)))
-		} else {
-			r.OutputCriblLake.EmptyDirCleanupSec = types.NumberNull()
-		}
+		r.OutputCriblLake.DurationSeconds = types.Float64PointerValue(resp.OutputCriblLake.DurationSeconds)
+		r.OutputCriblLake.EmptyDirCleanupSec = types.Float64PointerValue(resp.OutputCriblLake.EmptyDirCleanupSec)
 		r.OutputCriblLake.EnableAssumeRole = types.BoolPointerValue(resp.OutputCriblLake.EnableAssumeRole)
 		r.OutputCriblLake.Endpoint = types.StringPointerValue(resp.OutputCriblLake.Endpoint)
 		r.OutputCriblLake.Environment = types.StringPointerValue(resp.OutputCriblLake.Environment)
@@ -21951,41 +21625,13 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputCriblLake.HeaderLine = types.StringPointerValue(resp.OutputCriblLake.HeaderLine)
 		r.OutputCriblLake.ID = types.StringPointerValue(resp.OutputCriblLake.ID)
 		r.OutputCriblLake.KmsKeyID = types.StringPointerValue(resp.OutputCriblLake.KmsKeyID)
-		if resp.OutputCriblLake.MaxClosingFilesToBackpressure != nil {
-			r.OutputCriblLake.MaxClosingFilesToBackpressure = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblLake.MaxClosingFilesToBackpressure)))
-		} else {
-			r.OutputCriblLake.MaxClosingFilesToBackpressure = types.NumberNull()
-		}
-		if resp.OutputCriblLake.MaxConcurrentFileParts != nil {
-			r.OutputCriblLake.MaxConcurrentFileParts = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblLake.MaxConcurrentFileParts)))
-		} else {
-			r.OutputCriblLake.MaxConcurrentFileParts = types.NumberNull()
-		}
-		if resp.OutputCriblLake.MaxFileIdleTimeSec != nil {
-			r.OutputCriblLake.MaxFileIdleTimeSec = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblLake.MaxFileIdleTimeSec)))
-		} else {
-			r.OutputCriblLake.MaxFileIdleTimeSec = types.NumberNull()
-		}
-		if resp.OutputCriblLake.MaxFileOpenTimeSec != nil {
-			r.OutputCriblLake.MaxFileOpenTimeSec = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblLake.MaxFileOpenTimeSec)))
-		} else {
-			r.OutputCriblLake.MaxFileOpenTimeSec = types.NumberNull()
-		}
-		if resp.OutputCriblLake.MaxFileSizeMB != nil {
-			r.OutputCriblLake.MaxFileSizeMB = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblLake.MaxFileSizeMB)))
-		} else {
-			r.OutputCriblLake.MaxFileSizeMB = types.NumberNull()
-		}
-		if resp.OutputCriblLake.MaxOpenFiles != nil {
-			r.OutputCriblLake.MaxOpenFiles = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblLake.MaxOpenFiles)))
-		} else {
-			r.OutputCriblLake.MaxOpenFiles = types.NumberNull()
-		}
-		if resp.OutputCriblLake.MaxRetryNum != nil {
-			r.OutputCriblLake.MaxRetryNum = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblLake.MaxRetryNum)))
-		} else {
-			r.OutputCriblLake.MaxRetryNum = types.NumberNull()
-		}
+		r.OutputCriblLake.MaxClosingFilesToBackpressure = types.Float64PointerValue(resp.OutputCriblLake.MaxClosingFilesToBackpressure)
+		r.OutputCriblLake.MaxConcurrentFileParts = types.Float64PointerValue(resp.OutputCriblLake.MaxConcurrentFileParts)
+		r.OutputCriblLake.MaxFileIdleTimeSec = types.Float64PointerValue(resp.OutputCriblLake.MaxFileIdleTimeSec)
+		r.OutputCriblLake.MaxFileOpenTimeSec = types.Float64PointerValue(resp.OutputCriblLake.MaxFileOpenTimeSec)
+		r.OutputCriblLake.MaxFileSizeMB = types.Float64PointerValue(resp.OutputCriblLake.MaxFileSizeMB)
+		r.OutputCriblLake.MaxOpenFiles = types.Float64PointerValue(resp.OutputCriblLake.MaxOpenFiles)
+		r.OutputCriblLake.MaxRetryNum = types.Float64PointerValue(resp.OutputCriblLake.MaxRetryNum)
 		if resp.OutputCriblLake.ObjectACL != nil {
 			r.OutputCriblLake.ObjectACL = types.StringValue(string(*resp.OutputCriblLake.ObjectACL))
 		} else {
@@ -22032,11 +21678,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		}
 		r.OutputCriblLake.Type = types.StringValue(string(resp.OutputCriblLake.Type))
 		r.OutputCriblLake.VerifyPermissions = types.BoolPointerValue(resp.OutputCriblLake.VerifyPermissions)
-		if resp.OutputCriblLake.WriteHighWaterMark != nil {
-			r.OutputCriblLake.WriteHighWaterMark = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblLake.WriteHighWaterMark)))
-		} else {
-			r.OutputCriblLake.WriteHighWaterMark = types.NumberNull()
-		}
+		r.OutputCriblLake.WriteHighWaterMark = types.Float64PointerValue(resp.OutputCriblLake.WriteHighWaterMark)
 	}
 	if resp.OutputCriblTCP != nil {
 		r.OutputCriblTCP = &tfTypes.OutputCriblTCP{}
@@ -22045,17 +21687,9 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputCriblTCP.Compression = types.StringNull()
 		}
-		if resp.OutputCriblTCP.ConnectionTimeout != nil {
-			r.OutputCriblTCP.ConnectionTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblTCP.ConnectionTimeout)))
-		} else {
-			r.OutputCriblTCP.ConnectionTimeout = types.NumberNull()
-		}
+		r.OutputCriblTCP.ConnectionTimeout = types.Float64PointerValue(resp.OutputCriblTCP.ConnectionTimeout)
 		r.OutputCriblTCP.Description = types.StringPointerValue(resp.OutputCriblTCP.Description)
-		if resp.OutputCriblTCP.DNSResolvePeriodSec != nil {
-			r.OutputCriblTCP.DNSResolvePeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblTCP.DNSResolvePeriodSec)))
-		} else {
-			r.OutputCriblTCP.DNSResolvePeriodSec = types.NumberNull()
-		}
+		r.OutputCriblTCP.DNSResolvePeriodSec = types.Float64PointerValue(resp.OutputCriblTCP.DNSResolvePeriodSec)
 		r.OutputCriblTCP.Environment = types.StringPointerValue(resp.OutputCriblTCP.Environment)
 		r.OutputCriblTCP.ExcludeFields = make([]types.String, 0, len(resp.OutputCriblTCP.ExcludeFields))
 		for _, v := range resp.OutputCriblTCP.ExcludeFields {
@@ -22068,58 +21702,38 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputCriblTCP.Hosts = r.OutputCriblTCP.Hosts[:len(resp.OutputCriblTCP.Hosts)]
 		}
 		for hostsCount, hostsItem := range resp.OutputCriblTCP.Hosts {
-			var hosts1 tfTypes.OutputCriblTCPHosts
-			hosts1.Host = types.StringValue(hostsItem.Host)
-			if hostsItem.Port != nil {
-				hosts1.Port = types.NumberValue(big.NewFloat(float64(*hostsItem.Port)))
-			} else {
-				hosts1.Port = types.NumberNull()
-			}
-			hosts1.Servername = types.StringPointerValue(hostsItem.Servername)
+			var hosts tfTypes.OutputCriblTCPHosts
+			hosts.Host = types.StringValue(hostsItem.Host)
+			hosts.Port = types.Float64PointerValue(hostsItem.Port)
+			hosts.Servername = types.StringPointerValue(hostsItem.Servername)
 			if hostsItem.TLS != nil {
-				hosts1.TLS = types.StringValue(string(*hostsItem.TLS))
+				hosts.TLS = types.StringValue(string(*hostsItem.TLS))
 			} else {
-				hosts1.TLS = types.StringNull()
+				hosts.TLS = types.StringNull()
 			}
-			if hostsItem.Weight != nil {
-				hosts1.Weight = types.NumberValue(big.NewFloat(float64(*hostsItem.Weight)))
-			} else {
-				hosts1.Weight = types.NumberNull()
-			}
+			hosts.Weight = types.Float64PointerValue(hostsItem.Weight)
 			if hostsCount+1 > len(r.OutputCriblTCP.Hosts) {
-				r.OutputCriblTCP.Hosts = append(r.OutputCriblTCP.Hosts, hosts1)
+				r.OutputCriblTCP.Hosts = append(r.OutputCriblTCP.Hosts, hosts)
 			} else {
-				r.OutputCriblTCP.Hosts[hostsCount].Host = hosts1.Host
-				r.OutputCriblTCP.Hosts[hostsCount].Port = hosts1.Port
-				r.OutputCriblTCP.Hosts[hostsCount].Servername = hosts1.Servername
-				r.OutputCriblTCP.Hosts[hostsCount].TLS = hosts1.TLS
-				r.OutputCriblTCP.Hosts[hostsCount].Weight = hosts1.Weight
+				r.OutputCriblTCP.Hosts[hostsCount].Host = hosts.Host
+				r.OutputCriblTCP.Hosts[hostsCount].Port = hosts.Port
+				r.OutputCriblTCP.Hosts[hostsCount].Servername = hosts.Servername
+				r.OutputCriblTCP.Hosts[hostsCount].TLS = hosts.TLS
+				r.OutputCriblTCP.Hosts[hostsCount].Weight = hosts.Weight
 			}
 		}
 		r.OutputCriblTCP.ID = types.StringValue(resp.OutputCriblTCP.ID)
 		r.OutputCriblTCP.LoadBalanced = types.BoolPointerValue(resp.OutputCriblTCP.LoadBalanced)
-		if resp.OutputCriblTCP.LoadBalanceStatsPeriodSec != nil {
-			r.OutputCriblTCP.LoadBalanceStatsPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblTCP.LoadBalanceStatsPeriodSec)))
-		} else {
-			r.OutputCriblTCP.LoadBalanceStatsPeriodSec = types.NumberNull()
-		}
+		r.OutputCriblTCP.LoadBalanceStatsPeriodSec = types.Float64PointerValue(resp.OutputCriblTCP.LoadBalanceStatsPeriodSec)
 		r.OutputCriblTCP.LogFailedRequests = types.BoolPointerValue(resp.OutputCriblTCP.LogFailedRequests)
-		if resp.OutputCriblTCP.MaxConcurrentSenders != nil {
-			r.OutputCriblTCP.MaxConcurrentSenders = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblTCP.MaxConcurrentSenders)))
-		} else {
-			r.OutputCriblTCP.MaxConcurrentSenders = types.NumberNull()
-		}
+		r.OutputCriblTCP.MaxConcurrentSenders = types.Float64PointerValue(resp.OutputCriblTCP.MaxConcurrentSenders)
 		if resp.OutputCriblTCP.OnBackpressure != nil {
 			r.OutputCriblTCP.OnBackpressure = types.StringValue(string(*resp.OutputCriblTCP.OnBackpressure))
 		} else {
 			r.OutputCriblTCP.OnBackpressure = types.StringNull()
 		}
 		r.OutputCriblTCP.Pipeline = types.StringPointerValue(resp.OutputCriblTCP.Pipeline)
-		if resp.OutputCriblTCP.Port != nil {
-			r.OutputCriblTCP.Port = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblTCP.Port)))
-		} else {
-			r.OutputCriblTCP.Port = types.NumberNull()
-		}
+		r.OutputCriblTCP.Port = types.Float64PointerValue(resp.OutputCriblTCP.Port)
 		if resp.OutputCriblTCP.PqCompress != nil {
 			r.OutputCriblTCP.PqCompress = types.StringValue(string(*resp.OutputCriblTCP.PqCompress))
 		} else {
@@ -22175,17 +21789,9 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputCriblTCP.TLS.RejectUnauthorized = types.BoolPointerValue(resp.OutputCriblTCP.TLS.RejectUnauthorized)
 			r.OutputCriblTCP.TLS.Servername = types.StringPointerValue(resp.OutputCriblTCP.TLS.Servername)
 		}
-		if resp.OutputCriblTCP.TokenTTLMinutes != nil {
-			r.OutputCriblTCP.TokenTTLMinutes = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblTCP.TokenTTLMinutes)))
-		} else {
-			r.OutputCriblTCP.TokenTTLMinutes = types.NumberNull()
-		}
+		r.OutputCriblTCP.TokenTTLMinutes = types.Float64PointerValue(resp.OutputCriblTCP.TokenTTLMinutes)
 		r.OutputCriblTCP.Type = types.StringValue(string(resp.OutputCriblTCP.Type))
-		if resp.OutputCriblTCP.WriteTimeout != nil {
-			r.OutputCriblTCP.WriteTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputCriblTCP.WriteTimeout)))
-		} else {
-			r.OutputCriblTCP.WriteTimeout = types.NumberNull()
-		}
+		r.OutputCriblTCP.WriteTimeout = types.Float64PointerValue(resp.OutputCriblTCP.WriteTimeout)
 	}
 	if resp.OutputCrowdstrikeNextGenSiem != nil {
 		r.OutputCrowdstrikeNextGenSiem = &tfTypes.OutputCrowdstrikeNextGenSiem{}
@@ -22195,11 +21801,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputCrowdstrikeNextGenSiem.AuthType = types.StringNull()
 		}
 		r.OutputCrowdstrikeNextGenSiem.Compress = types.BoolPointerValue(resp.OutputCrowdstrikeNextGenSiem.Compress)
-		if resp.OutputCrowdstrikeNextGenSiem.Concurrency != nil {
-			r.OutputCrowdstrikeNextGenSiem.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputCrowdstrikeNextGenSiem.Concurrency)))
-		} else {
-			r.OutputCrowdstrikeNextGenSiem.Concurrency = types.NumberNull()
-		}
+		r.OutputCrowdstrikeNextGenSiem.Concurrency = types.Float64PointerValue(resp.OutputCrowdstrikeNextGenSiem.Concurrency)
 		r.OutputCrowdstrikeNextGenSiem.Description = types.StringPointerValue(resp.OutputCrowdstrikeNextGenSiem.Description)
 		r.OutputCrowdstrikeNextGenSiem.Environment = types.StringPointerValue(resp.OutputCrowdstrikeNextGenSiem.Environment)
 		r.OutputCrowdstrikeNextGenSiem.ExtraHTTPHeaders = []tfTypes.OutputCrowdstrikeNextGenSiemExtraHTTPHeaders{}
@@ -22207,14 +21809,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputCrowdstrikeNextGenSiem.ExtraHTTPHeaders = r.OutputCrowdstrikeNextGenSiem.ExtraHTTPHeaders[:len(resp.OutputCrowdstrikeNextGenSiem.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount3, extraHTTPHeadersItem3 := range resp.OutputCrowdstrikeNextGenSiem.ExtraHTTPHeaders {
-			var extraHTTPHeaders7 tfTypes.OutputCrowdstrikeNextGenSiemExtraHTTPHeaders
-			extraHTTPHeaders7.Name = types.StringPointerValue(extraHTTPHeadersItem3.Name)
-			extraHTTPHeaders7.Value = types.StringValue(extraHTTPHeadersItem3.Value)
+			var extraHTTPHeaders3 tfTypes.OutputCrowdstrikeNextGenSiemExtraHTTPHeaders
+			extraHTTPHeaders3.Name = types.StringPointerValue(extraHTTPHeadersItem3.Name)
+			extraHTTPHeaders3.Value = types.StringValue(extraHTTPHeadersItem3.Value)
 			if extraHTTPHeadersCount3+1 > len(r.OutputCrowdstrikeNextGenSiem.ExtraHTTPHeaders) {
-				r.OutputCrowdstrikeNextGenSiem.ExtraHTTPHeaders = append(r.OutputCrowdstrikeNextGenSiem.ExtraHTTPHeaders, extraHTTPHeaders7)
+				r.OutputCrowdstrikeNextGenSiem.ExtraHTTPHeaders = append(r.OutputCrowdstrikeNextGenSiem.ExtraHTTPHeaders, extraHTTPHeaders3)
 			} else {
-				r.OutputCrowdstrikeNextGenSiem.ExtraHTTPHeaders[extraHTTPHeadersCount3].Name = extraHTTPHeaders7.Name
-				r.OutputCrowdstrikeNextGenSiem.ExtraHTTPHeaders[extraHTTPHeadersCount3].Value = extraHTTPHeaders7.Value
+				r.OutputCrowdstrikeNextGenSiem.ExtraHTTPHeaders[extraHTTPHeadersCount3].Name = extraHTTPHeaders3.Name
+				r.OutputCrowdstrikeNextGenSiem.ExtraHTTPHeaders[extraHTTPHeadersCount3].Value = extraHTTPHeaders3.Value
 			}
 		}
 		if resp.OutputCrowdstrikeNextGenSiem.FailedRequestLoggingMode != nil {
@@ -22222,27 +21824,15 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputCrowdstrikeNextGenSiem.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputCrowdstrikeNextGenSiem.FlushPeriodSec != nil {
-			r.OutputCrowdstrikeNextGenSiem.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputCrowdstrikeNextGenSiem.FlushPeriodSec)))
-		} else {
-			r.OutputCrowdstrikeNextGenSiem.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputCrowdstrikeNextGenSiem.FlushPeriodSec = types.Float64PointerValue(resp.OutputCrowdstrikeNextGenSiem.FlushPeriodSec)
 		if resp.OutputCrowdstrikeNextGenSiem.Format != nil {
 			r.OutputCrowdstrikeNextGenSiem.Format = types.StringValue(string(*resp.OutputCrowdstrikeNextGenSiem.Format))
 		} else {
 			r.OutputCrowdstrikeNextGenSiem.Format = types.StringNull()
 		}
 		r.OutputCrowdstrikeNextGenSiem.ID = types.StringPointerValue(resp.OutputCrowdstrikeNextGenSiem.ID)
-		if resp.OutputCrowdstrikeNextGenSiem.MaxPayloadEvents != nil {
-			r.OutputCrowdstrikeNextGenSiem.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputCrowdstrikeNextGenSiem.MaxPayloadEvents)))
-		} else {
-			r.OutputCrowdstrikeNextGenSiem.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputCrowdstrikeNextGenSiem.MaxPayloadSizeKB != nil {
-			r.OutputCrowdstrikeNextGenSiem.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputCrowdstrikeNextGenSiem.MaxPayloadSizeKB)))
-		} else {
-			r.OutputCrowdstrikeNextGenSiem.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputCrowdstrikeNextGenSiem.MaxPayloadEvents = types.Float64PointerValue(resp.OutputCrowdstrikeNextGenSiem.MaxPayloadEvents)
+		r.OutputCrowdstrikeNextGenSiem.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputCrowdstrikeNextGenSiem.MaxPayloadSizeKB)
 		if resp.OutputCrowdstrikeNextGenSiem.OnBackpressure != nil {
 			r.OutputCrowdstrikeNextGenSiem.OnBackpressure = types.StringValue(string(*resp.OutputCrowdstrikeNextGenSiem.OnBackpressure))
 		} else {
@@ -22279,30 +21869,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputCrowdstrikeNextGenSiem.ResponseRetrySettings = r.OutputCrowdstrikeNextGenSiem.ResponseRetrySettings[:len(resp.OutputCrowdstrikeNextGenSiem.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount4, responseRetrySettingsItem4 := range resp.OutputCrowdstrikeNextGenSiem.ResponseRetrySettings {
-			var responseRetrySettings9 tfTypes.OutputCrowdstrikeNextGenSiemResponseRetrySettings
-			if responseRetrySettingsItem4.BackoffRate != nil {
-				responseRetrySettings9.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem4.BackoffRate)))
-			} else {
-				responseRetrySettings9.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings9.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem4.HTTPStatus)))
-			if responseRetrySettingsItem4.InitialBackoff != nil {
-				responseRetrySettings9.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem4.InitialBackoff)))
-			} else {
-				responseRetrySettings9.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem4.MaxBackoff != nil {
-				responseRetrySettings9.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem4.MaxBackoff)))
-			} else {
-				responseRetrySettings9.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings4 tfTypes.OutputCrowdstrikeNextGenSiemResponseRetrySettings
+			responseRetrySettings4.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem4.BackoffRate)
+			responseRetrySettings4.HTTPStatus = types.Float64Value(responseRetrySettingsItem4.HTTPStatus)
+			responseRetrySettings4.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem4.InitialBackoff)
+			responseRetrySettings4.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem4.MaxBackoff)
 			if responseRetrySettingsCount4+1 > len(r.OutputCrowdstrikeNextGenSiem.ResponseRetrySettings) {
-				r.OutputCrowdstrikeNextGenSiem.ResponseRetrySettings = append(r.OutputCrowdstrikeNextGenSiem.ResponseRetrySettings, responseRetrySettings9)
+				r.OutputCrowdstrikeNextGenSiem.ResponseRetrySettings = append(r.OutputCrowdstrikeNextGenSiem.ResponseRetrySettings, responseRetrySettings4)
 			} else {
-				r.OutputCrowdstrikeNextGenSiem.ResponseRetrySettings[responseRetrySettingsCount4].BackoffRate = responseRetrySettings9.BackoffRate
-				r.OutputCrowdstrikeNextGenSiem.ResponseRetrySettings[responseRetrySettingsCount4].HTTPStatus = responseRetrySettings9.HTTPStatus
-				r.OutputCrowdstrikeNextGenSiem.ResponseRetrySettings[responseRetrySettingsCount4].InitialBackoff = responseRetrySettings9.InitialBackoff
-				r.OutputCrowdstrikeNextGenSiem.ResponseRetrySettings[responseRetrySettingsCount4].MaxBackoff = responseRetrySettings9.MaxBackoff
+				r.OutputCrowdstrikeNextGenSiem.ResponseRetrySettings[responseRetrySettingsCount4].BackoffRate = responseRetrySettings4.BackoffRate
+				r.OutputCrowdstrikeNextGenSiem.ResponseRetrySettings[responseRetrySettingsCount4].HTTPStatus = responseRetrySettings4.HTTPStatus
+				r.OutputCrowdstrikeNextGenSiem.ResponseRetrySettings[responseRetrySettingsCount4].InitialBackoff = responseRetrySettings4.InitialBackoff
+				r.OutputCrowdstrikeNextGenSiem.ResponseRetrySettings[responseRetrySettingsCount4].MaxBackoff = responseRetrySettings4.MaxBackoff
 			}
 		}
 		r.OutputCrowdstrikeNextGenSiem.SafeHeaders = make([]types.String, 0, len(resp.OutputCrowdstrikeNextGenSiem.SafeHeaders))
@@ -22322,28 +21900,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings = nil
 		} else {
 			r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings = &tfTypes.OutputCrowdstrikeNextGenSiemTimeoutRetrySettings{}
-			if resp.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.BackoffRate)
+			r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.InitialBackoff)
+			r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.MaxBackoff)
 			r.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputCrowdstrikeNextGenSiem.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputCrowdstrikeNextGenSiem.TimeoutSec != nil {
-			r.OutputCrowdstrikeNextGenSiem.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputCrowdstrikeNextGenSiem.TimeoutSec)))
-		} else {
-			r.OutputCrowdstrikeNextGenSiem.TimeoutSec = types.NumberNull()
-		}
+		r.OutputCrowdstrikeNextGenSiem.TimeoutSec = types.Float64PointerValue(resp.OutputCrowdstrikeNextGenSiem.TimeoutSec)
 		r.OutputCrowdstrikeNextGenSiem.Token = types.StringPointerValue(resp.OutputCrowdstrikeNextGenSiem.Token)
 		if resp.OutputCrowdstrikeNextGenSiem.Type != nil {
 			r.OutputCrowdstrikeNextGenSiem.Type = types.StringValue(string(*resp.OutputCrowdstrikeNextGenSiem.Type))
@@ -22364,11 +21926,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		}
 		r.OutputDatadog.BatchByTags = types.BoolPointerValue(resp.OutputDatadog.BatchByTags)
 		r.OutputDatadog.Compress = types.BoolPointerValue(resp.OutputDatadog.Compress)
-		if resp.OutputDatadog.Concurrency != nil {
-			r.OutputDatadog.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputDatadog.Concurrency)))
-		} else {
-			r.OutputDatadog.Concurrency = types.NumberNull()
-		}
+		r.OutputDatadog.Concurrency = types.Float64PointerValue(resp.OutputDatadog.Concurrency)
 		if resp.OutputDatadog.ContentType != nil {
 			r.OutputDatadog.ContentType = types.StringValue(string(*resp.OutputDatadog.ContentType))
 		} else {
@@ -22382,14 +21940,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputDatadog.ExtraHTTPHeaders = r.OutputDatadog.ExtraHTTPHeaders[:len(resp.OutputDatadog.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount4, extraHTTPHeadersItem4 := range resp.OutputDatadog.ExtraHTTPHeaders {
-			var extraHTTPHeaders9 tfTypes.OutputDatadogExtraHTTPHeaders
-			extraHTTPHeaders9.Name = types.StringPointerValue(extraHTTPHeadersItem4.Name)
-			extraHTTPHeaders9.Value = types.StringValue(extraHTTPHeadersItem4.Value)
+			var extraHTTPHeaders4 tfTypes.OutputDatadogExtraHTTPHeaders
+			extraHTTPHeaders4.Name = types.StringPointerValue(extraHTTPHeadersItem4.Name)
+			extraHTTPHeaders4.Value = types.StringValue(extraHTTPHeadersItem4.Value)
 			if extraHTTPHeadersCount4+1 > len(r.OutputDatadog.ExtraHTTPHeaders) {
-				r.OutputDatadog.ExtraHTTPHeaders = append(r.OutputDatadog.ExtraHTTPHeaders, extraHTTPHeaders9)
+				r.OutputDatadog.ExtraHTTPHeaders = append(r.OutputDatadog.ExtraHTTPHeaders, extraHTTPHeaders4)
 			} else {
-				r.OutputDatadog.ExtraHTTPHeaders[extraHTTPHeadersCount4].Name = extraHTTPHeaders9.Name
-				r.OutputDatadog.ExtraHTTPHeaders[extraHTTPHeadersCount4].Value = extraHTTPHeaders9.Value
+				r.OutputDatadog.ExtraHTTPHeaders[extraHTTPHeadersCount4].Name = extraHTTPHeaders4.Name
+				r.OutputDatadog.ExtraHTTPHeaders[extraHTTPHeadersCount4].Value = extraHTTPHeaders4.Value
 			}
 		}
 		if resp.OutputDatadog.FailedRequestLoggingMode != nil {
@@ -22397,23 +21955,11 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputDatadog.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputDatadog.FlushPeriodSec != nil {
-			r.OutputDatadog.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputDatadog.FlushPeriodSec)))
-		} else {
-			r.OutputDatadog.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputDatadog.FlushPeriodSec = types.Float64PointerValue(resp.OutputDatadog.FlushPeriodSec)
 		r.OutputDatadog.Host = types.StringPointerValue(resp.OutputDatadog.Host)
 		r.OutputDatadog.ID = types.StringValue(resp.OutputDatadog.ID)
-		if resp.OutputDatadog.MaxPayloadEvents != nil {
-			r.OutputDatadog.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputDatadog.MaxPayloadEvents)))
-		} else {
-			r.OutputDatadog.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputDatadog.MaxPayloadSizeKB != nil {
-			r.OutputDatadog.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputDatadog.MaxPayloadSizeKB)))
-		} else {
-			r.OutputDatadog.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputDatadog.MaxPayloadEvents = types.Float64PointerValue(resp.OutputDatadog.MaxPayloadEvents)
+		r.OutputDatadog.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputDatadog.MaxPayloadSizeKB)
 		r.OutputDatadog.Message = types.StringPointerValue(resp.OutputDatadog.Message)
 		if resp.OutputDatadog.OnBackpressure != nil {
 			r.OutputDatadog.OnBackpressure = types.StringValue(string(*resp.OutputDatadog.OnBackpressure))
@@ -22451,30 +21997,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputDatadog.ResponseRetrySettings = r.OutputDatadog.ResponseRetrySettings[:len(resp.OutputDatadog.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount5, responseRetrySettingsItem5 := range resp.OutputDatadog.ResponseRetrySettings {
-			var responseRetrySettings11 tfTypes.OutputDatadogResponseRetrySettings
-			if responseRetrySettingsItem5.BackoffRate != nil {
-				responseRetrySettings11.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem5.BackoffRate)))
-			} else {
-				responseRetrySettings11.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings11.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem5.HTTPStatus)))
-			if responseRetrySettingsItem5.InitialBackoff != nil {
-				responseRetrySettings11.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem5.InitialBackoff)))
-			} else {
-				responseRetrySettings11.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem5.MaxBackoff != nil {
-				responseRetrySettings11.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem5.MaxBackoff)))
-			} else {
-				responseRetrySettings11.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings5 tfTypes.OutputDatadogResponseRetrySettings
+			responseRetrySettings5.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem5.BackoffRate)
+			responseRetrySettings5.HTTPStatus = types.Float64Value(responseRetrySettingsItem5.HTTPStatus)
+			responseRetrySettings5.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem5.InitialBackoff)
+			responseRetrySettings5.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem5.MaxBackoff)
 			if responseRetrySettingsCount5+1 > len(r.OutputDatadog.ResponseRetrySettings) {
-				r.OutputDatadog.ResponseRetrySettings = append(r.OutputDatadog.ResponseRetrySettings, responseRetrySettings11)
+				r.OutputDatadog.ResponseRetrySettings = append(r.OutputDatadog.ResponseRetrySettings, responseRetrySettings5)
 			} else {
-				r.OutputDatadog.ResponseRetrySettings[responseRetrySettingsCount5].BackoffRate = responseRetrySettings11.BackoffRate
-				r.OutputDatadog.ResponseRetrySettings[responseRetrySettingsCount5].HTTPStatus = responseRetrySettings11.HTTPStatus
-				r.OutputDatadog.ResponseRetrySettings[responseRetrySettingsCount5].InitialBackoff = responseRetrySettings11.InitialBackoff
-				r.OutputDatadog.ResponseRetrySettings[responseRetrySettingsCount5].MaxBackoff = responseRetrySettings11.MaxBackoff
+				r.OutputDatadog.ResponseRetrySettings[responseRetrySettingsCount5].BackoffRate = responseRetrySettings5.BackoffRate
+				r.OutputDatadog.ResponseRetrySettings[responseRetrySettingsCount5].HTTPStatus = responseRetrySettings5.HTTPStatus
+				r.OutputDatadog.ResponseRetrySettings[responseRetrySettingsCount5].InitialBackoff = responseRetrySettings5.InitialBackoff
+				r.OutputDatadog.ResponseRetrySettings[responseRetrySettingsCount5].MaxBackoff = responseRetrySettings5.MaxBackoff
 			}
 		}
 		r.OutputDatadog.SafeHeaders = make([]types.String, 0, len(resp.OutputDatadog.SafeHeaders))
@@ -22511,33 +22045,13 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputDatadog.TimeoutRetrySettings = nil
 		} else {
 			r.OutputDatadog.TimeoutRetrySettings = &tfTypes.OutputDatadogTimeoutRetrySettings{}
-			if resp.OutputDatadog.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputDatadog.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputDatadog.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputDatadog.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputDatadog.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputDatadog.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputDatadog.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputDatadog.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputDatadog.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputDatadog.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputDatadog.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputDatadog.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputDatadog.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputDatadog.TimeoutRetrySettings.BackoffRate)
+			r.OutputDatadog.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputDatadog.TimeoutRetrySettings.InitialBackoff)
+			r.OutputDatadog.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputDatadog.TimeoutRetrySettings.MaxBackoff)
 			r.OutputDatadog.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputDatadog.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputDatadog.TimeoutSec != nil {
-			r.OutputDatadog.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputDatadog.TimeoutSec)))
-		} else {
-			r.OutputDatadog.TimeoutSec = types.NumberNull()
-		}
-		if resp.OutputDatadog.TotalMemoryLimitKB != nil {
-			r.OutputDatadog.TotalMemoryLimitKB = types.NumberValue(big.NewFloat(float64(*resp.OutputDatadog.TotalMemoryLimitKB)))
-		} else {
-			r.OutputDatadog.TotalMemoryLimitKB = types.NumberNull()
-		}
+		r.OutputDatadog.TimeoutSec = types.Float64PointerValue(resp.OutputDatadog.TimeoutSec)
+		r.OutputDatadog.TotalMemoryLimitKB = types.Float64PointerValue(resp.OutputDatadog.TotalMemoryLimitKB)
 		r.OutputDatadog.Type = types.StringValue(string(resp.OutputDatadog.Type))
 		r.OutputDatadog.UseRoundRobinDNS = types.BoolPointerValue(resp.OutputDatadog.UseRoundRobinDNS)
 	}
@@ -22550,11 +22064,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputDataset.AuthType = types.StringNull()
 		}
 		r.OutputDataset.Compress = types.BoolPointerValue(resp.OutputDataset.Compress)
-		if resp.OutputDataset.Concurrency != nil {
-			r.OutputDataset.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputDataset.Concurrency)))
-		} else {
-			r.OutputDataset.Concurrency = types.NumberNull()
-		}
+		r.OutputDataset.Concurrency = types.Float64PointerValue(resp.OutputDataset.Concurrency)
 		r.OutputDataset.CustomURL = types.StringPointerValue(resp.OutputDataset.CustomURL)
 		if resp.OutputDataset.DefaultSeverity != nil {
 			r.OutputDataset.DefaultSeverity = types.StringValue(string(*resp.OutputDataset.DefaultSeverity))
@@ -22572,14 +22082,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputDataset.ExtraHTTPHeaders = r.OutputDataset.ExtraHTTPHeaders[:len(resp.OutputDataset.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount5, extraHTTPHeadersItem5 := range resp.OutputDataset.ExtraHTTPHeaders {
-			var extraHTTPHeaders11 tfTypes.OutputDatasetExtraHTTPHeaders
-			extraHTTPHeaders11.Name = types.StringPointerValue(extraHTTPHeadersItem5.Name)
-			extraHTTPHeaders11.Value = types.StringValue(extraHTTPHeadersItem5.Value)
+			var extraHTTPHeaders5 tfTypes.OutputDatasetExtraHTTPHeaders
+			extraHTTPHeaders5.Name = types.StringPointerValue(extraHTTPHeadersItem5.Name)
+			extraHTTPHeaders5.Value = types.StringValue(extraHTTPHeadersItem5.Value)
 			if extraHTTPHeadersCount5+1 > len(r.OutputDataset.ExtraHTTPHeaders) {
-				r.OutputDataset.ExtraHTTPHeaders = append(r.OutputDataset.ExtraHTTPHeaders, extraHTTPHeaders11)
+				r.OutputDataset.ExtraHTTPHeaders = append(r.OutputDataset.ExtraHTTPHeaders, extraHTTPHeaders5)
 			} else {
-				r.OutputDataset.ExtraHTTPHeaders[extraHTTPHeadersCount5].Name = extraHTTPHeaders11.Name
-				r.OutputDataset.ExtraHTTPHeaders[extraHTTPHeadersCount5].Value = extraHTTPHeaders11.Value
+				r.OutputDataset.ExtraHTTPHeaders[extraHTTPHeadersCount5].Name = extraHTTPHeaders5.Name
+				r.OutputDataset.ExtraHTTPHeaders[extraHTTPHeadersCount5].Value = extraHTTPHeaders5.Value
 			}
 		}
 		if resp.OutputDataset.FailedRequestLoggingMode != nil {
@@ -22587,22 +22097,10 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputDataset.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputDataset.FlushPeriodSec != nil {
-			r.OutputDataset.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputDataset.FlushPeriodSec)))
-		} else {
-			r.OutputDataset.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputDataset.FlushPeriodSec = types.Float64PointerValue(resp.OutputDataset.FlushPeriodSec)
 		r.OutputDataset.ID = types.StringValue(resp.OutputDataset.ID)
-		if resp.OutputDataset.MaxPayloadEvents != nil {
-			r.OutputDataset.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputDataset.MaxPayloadEvents)))
-		} else {
-			r.OutputDataset.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputDataset.MaxPayloadSizeKB != nil {
-			r.OutputDataset.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputDataset.MaxPayloadSizeKB)))
-		} else {
-			r.OutputDataset.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputDataset.MaxPayloadEvents = types.Float64PointerValue(resp.OutputDataset.MaxPayloadEvents)
+		r.OutputDataset.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputDataset.MaxPayloadSizeKB)
 		r.OutputDataset.MessageField = types.StringPointerValue(resp.OutputDataset.MessageField)
 		if resp.OutputDataset.OnBackpressure != nil {
 			r.OutputDataset.OnBackpressure = types.StringValue(string(*resp.OutputDataset.OnBackpressure))
@@ -22640,30 +22138,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputDataset.ResponseRetrySettings = r.OutputDataset.ResponseRetrySettings[:len(resp.OutputDataset.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount6, responseRetrySettingsItem6 := range resp.OutputDataset.ResponseRetrySettings {
-			var responseRetrySettings13 tfTypes.OutputDatasetResponseRetrySettings
-			if responseRetrySettingsItem6.BackoffRate != nil {
-				responseRetrySettings13.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem6.BackoffRate)))
-			} else {
-				responseRetrySettings13.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings13.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem6.HTTPStatus)))
-			if responseRetrySettingsItem6.InitialBackoff != nil {
-				responseRetrySettings13.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem6.InitialBackoff)))
-			} else {
-				responseRetrySettings13.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem6.MaxBackoff != nil {
-				responseRetrySettings13.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem6.MaxBackoff)))
-			} else {
-				responseRetrySettings13.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings6 tfTypes.OutputDatasetResponseRetrySettings
+			responseRetrySettings6.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem6.BackoffRate)
+			responseRetrySettings6.HTTPStatus = types.Float64Value(responseRetrySettingsItem6.HTTPStatus)
+			responseRetrySettings6.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem6.InitialBackoff)
+			responseRetrySettings6.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem6.MaxBackoff)
 			if responseRetrySettingsCount6+1 > len(r.OutputDataset.ResponseRetrySettings) {
-				r.OutputDataset.ResponseRetrySettings = append(r.OutputDataset.ResponseRetrySettings, responseRetrySettings13)
+				r.OutputDataset.ResponseRetrySettings = append(r.OutputDataset.ResponseRetrySettings, responseRetrySettings6)
 			} else {
-				r.OutputDataset.ResponseRetrySettings[responseRetrySettingsCount6].BackoffRate = responseRetrySettings13.BackoffRate
-				r.OutputDataset.ResponseRetrySettings[responseRetrySettingsCount6].HTTPStatus = responseRetrySettings13.HTTPStatus
-				r.OutputDataset.ResponseRetrySettings[responseRetrySettingsCount6].InitialBackoff = responseRetrySettings13.InitialBackoff
-				r.OutputDataset.ResponseRetrySettings[responseRetrySettingsCount6].MaxBackoff = responseRetrySettings13.MaxBackoff
+				r.OutputDataset.ResponseRetrySettings[responseRetrySettingsCount6].BackoffRate = responseRetrySettings6.BackoffRate
+				r.OutputDataset.ResponseRetrySettings[responseRetrySettingsCount6].HTTPStatus = responseRetrySettings6.HTTPStatus
+				r.OutputDataset.ResponseRetrySettings[responseRetrySettingsCount6].InitialBackoff = responseRetrySettings6.InitialBackoff
+				r.OutputDataset.ResponseRetrySettings[responseRetrySettingsCount6].MaxBackoff = responseRetrySettings6.MaxBackoff
 			}
 		}
 		r.OutputDataset.SafeHeaders = make([]types.String, 0, len(resp.OutputDataset.SafeHeaders))
@@ -22689,34 +22175,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputDataset.TimeoutRetrySettings = nil
 		} else {
 			r.OutputDataset.TimeoutRetrySettings = &tfTypes.OutputDatasetTimeoutRetrySettings{}
-			if resp.OutputDataset.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputDataset.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputDataset.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputDataset.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputDataset.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputDataset.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputDataset.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputDataset.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputDataset.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputDataset.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputDataset.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputDataset.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputDataset.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputDataset.TimeoutRetrySettings.BackoffRate)
+			r.OutputDataset.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputDataset.TimeoutRetrySettings.InitialBackoff)
+			r.OutputDataset.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputDataset.TimeoutRetrySettings.MaxBackoff)
 			r.OutputDataset.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputDataset.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputDataset.TimeoutSec != nil {
-			r.OutputDataset.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputDataset.TimeoutSec)))
-		} else {
-			r.OutputDataset.TimeoutSec = types.NumberNull()
-		}
+		r.OutputDataset.TimeoutSec = types.Float64PointerValue(resp.OutputDataset.TimeoutSec)
 		r.OutputDataset.TimestampField = types.StringPointerValue(resp.OutputDataset.TimestampField)
-		if resp.OutputDataset.TotalMemoryLimitKB != nil {
-			r.OutputDataset.TotalMemoryLimitKB = types.NumberValue(big.NewFloat(float64(*resp.OutputDataset.TotalMemoryLimitKB)))
-		} else {
-			r.OutputDataset.TotalMemoryLimitKB = types.NumberNull()
-		}
+		r.OutputDataset.TotalMemoryLimitKB = types.Float64PointerValue(resp.OutputDataset.TotalMemoryLimitKB)
 		r.OutputDataset.Type = types.StringValue(string(resp.OutputDataset.Type))
 		r.OutputDataset.UseRoundRobinDNS = types.BoolPointerValue(resp.OutputDataset.UseRoundRobinDNS)
 	}
@@ -22806,16 +22272,8 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputDlS3.DeadletterPath = types.StringPointerValue(resp.OutputDlS3.DeadletterPath)
 		r.OutputDlS3.Description = types.StringPointerValue(resp.OutputDlS3.Description)
 		r.OutputDlS3.DestPath = types.StringPointerValue(resp.OutputDlS3.DestPath)
-		if resp.OutputDlS3.DurationSeconds != nil {
-			r.OutputDlS3.DurationSeconds = types.NumberValue(big.NewFloat(float64(*resp.OutputDlS3.DurationSeconds)))
-		} else {
-			r.OutputDlS3.DurationSeconds = types.NumberNull()
-		}
-		if resp.OutputDlS3.EmptyDirCleanupSec != nil {
-			r.OutputDlS3.EmptyDirCleanupSec = types.NumberValue(big.NewFloat(float64(*resp.OutputDlS3.EmptyDirCleanupSec)))
-		} else {
-			r.OutputDlS3.EmptyDirCleanupSec = types.NumberNull()
-		}
+		r.OutputDlS3.DurationSeconds = types.Float64PointerValue(resp.OutputDlS3.DurationSeconds)
+		r.OutputDlS3.EmptyDirCleanupSec = types.Float64PointerValue(resp.OutputDlS3.EmptyDirCleanupSec)
 		r.OutputDlS3.EnableAssumeRole = types.BoolPointerValue(resp.OutputDlS3.EnableAssumeRole)
 		r.OutputDlS3.EnablePageChecksum = types.BoolPointerValue(resp.OutputDlS3.EnablePageChecksum)
 		r.OutputDlS3.EnableStatistics = types.BoolPointerValue(resp.OutputDlS3.EnableStatistics)
@@ -22835,52 +22293,24 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputDlS3.KeyValueMetadata = r.OutputDlS3.KeyValueMetadata[:len(resp.OutputDlS3.KeyValueMetadata)]
 		}
 		for keyValueMetadataCount1, keyValueMetadataItem1 := range resp.OutputDlS3.KeyValueMetadata {
-			var keyValueMetadata3 tfTypes.OutputDlS3KeyValueMetadata
-			keyValueMetadata3.Key = types.StringPointerValue(keyValueMetadataItem1.Key)
-			keyValueMetadata3.Value = types.StringValue(keyValueMetadataItem1.Value)
+			var keyValueMetadata1 tfTypes.OutputDlS3KeyValueMetadata
+			keyValueMetadata1.Key = types.StringPointerValue(keyValueMetadataItem1.Key)
+			keyValueMetadata1.Value = types.StringValue(keyValueMetadataItem1.Value)
 			if keyValueMetadataCount1+1 > len(r.OutputDlS3.KeyValueMetadata) {
-				r.OutputDlS3.KeyValueMetadata = append(r.OutputDlS3.KeyValueMetadata, keyValueMetadata3)
+				r.OutputDlS3.KeyValueMetadata = append(r.OutputDlS3.KeyValueMetadata, keyValueMetadata1)
 			} else {
-				r.OutputDlS3.KeyValueMetadata[keyValueMetadataCount1].Key = keyValueMetadata3.Key
-				r.OutputDlS3.KeyValueMetadata[keyValueMetadataCount1].Value = keyValueMetadata3.Value
+				r.OutputDlS3.KeyValueMetadata[keyValueMetadataCount1].Key = keyValueMetadata1.Key
+				r.OutputDlS3.KeyValueMetadata[keyValueMetadataCount1].Value = keyValueMetadata1.Value
 			}
 		}
 		r.OutputDlS3.KmsKeyID = types.StringPointerValue(resp.OutputDlS3.KmsKeyID)
-		if resp.OutputDlS3.MaxClosingFilesToBackpressure != nil {
-			r.OutputDlS3.MaxClosingFilesToBackpressure = types.NumberValue(big.NewFloat(float64(*resp.OutputDlS3.MaxClosingFilesToBackpressure)))
-		} else {
-			r.OutputDlS3.MaxClosingFilesToBackpressure = types.NumberNull()
-		}
-		if resp.OutputDlS3.MaxConcurrentFileParts != nil {
-			r.OutputDlS3.MaxConcurrentFileParts = types.NumberValue(big.NewFloat(float64(*resp.OutputDlS3.MaxConcurrentFileParts)))
-		} else {
-			r.OutputDlS3.MaxConcurrentFileParts = types.NumberNull()
-		}
-		if resp.OutputDlS3.MaxFileIdleTimeSec != nil {
-			r.OutputDlS3.MaxFileIdleTimeSec = types.NumberValue(big.NewFloat(float64(*resp.OutputDlS3.MaxFileIdleTimeSec)))
-		} else {
-			r.OutputDlS3.MaxFileIdleTimeSec = types.NumberNull()
-		}
-		if resp.OutputDlS3.MaxFileOpenTimeSec != nil {
-			r.OutputDlS3.MaxFileOpenTimeSec = types.NumberValue(big.NewFloat(float64(*resp.OutputDlS3.MaxFileOpenTimeSec)))
-		} else {
-			r.OutputDlS3.MaxFileOpenTimeSec = types.NumberNull()
-		}
-		if resp.OutputDlS3.MaxFileSizeMB != nil {
-			r.OutputDlS3.MaxFileSizeMB = types.NumberValue(big.NewFloat(float64(*resp.OutputDlS3.MaxFileSizeMB)))
-		} else {
-			r.OutputDlS3.MaxFileSizeMB = types.NumberNull()
-		}
-		if resp.OutputDlS3.MaxOpenFiles != nil {
-			r.OutputDlS3.MaxOpenFiles = types.NumberValue(big.NewFloat(float64(*resp.OutputDlS3.MaxOpenFiles)))
-		} else {
-			r.OutputDlS3.MaxOpenFiles = types.NumberNull()
-		}
-		if resp.OutputDlS3.MaxRetryNum != nil {
-			r.OutputDlS3.MaxRetryNum = types.NumberValue(big.NewFloat(float64(*resp.OutputDlS3.MaxRetryNum)))
-		} else {
-			r.OutputDlS3.MaxRetryNum = types.NumberNull()
-		}
+		r.OutputDlS3.MaxClosingFilesToBackpressure = types.Float64PointerValue(resp.OutputDlS3.MaxClosingFilesToBackpressure)
+		r.OutputDlS3.MaxConcurrentFileParts = types.Float64PointerValue(resp.OutputDlS3.MaxConcurrentFileParts)
+		r.OutputDlS3.MaxFileIdleTimeSec = types.Float64PointerValue(resp.OutputDlS3.MaxFileIdleTimeSec)
+		r.OutputDlS3.MaxFileOpenTimeSec = types.Float64PointerValue(resp.OutputDlS3.MaxFileOpenTimeSec)
+		r.OutputDlS3.MaxFileSizeMB = types.Float64PointerValue(resp.OutputDlS3.MaxFileSizeMB)
+		r.OutputDlS3.MaxOpenFiles = types.Float64PointerValue(resp.OutputDlS3.MaxOpenFiles)
+		r.OutputDlS3.MaxRetryNum = types.Float64PointerValue(resp.OutputDlS3.MaxRetryNum)
 		if resp.OutputDlS3.ObjectACL != nil {
 			r.OutputDlS3.ObjectACL = types.StringValue(string(*resp.OutputDlS3.ObjectACL))
 		} else {
@@ -22902,11 +22332,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputDlS3.ParquetDataPageVersion = types.StringNull()
 		}
 		r.OutputDlS3.ParquetPageSize = types.StringPointerValue(resp.OutputDlS3.ParquetPageSize)
-		if resp.OutputDlS3.ParquetRowGroupLength != nil {
-			r.OutputDlS3.ParquetRowGroupLength = types.NumberValue(big.NewFloat(float64(*resp.OutputDlS3.ParquetRowGroupLength)))
-		} else {
-			r.OutputDlS3.ParquetRowGroupLength = types.NumberNull()
-		}
+		r.OutputDlS3.ParquetRowGroupLength = types.Float64PointerValue(resp.OutputDlS3.ParquetRowGroupLength)
 		if resp.OutputDlS3.ParquetVersion != nil {
 			r.OutputDlS3.ParquetVersion = types.StringValue(string(*resp.OutputDlS3.ParquetVersion))
 		} else {
@@ -22952,11 +22378,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputDlS3.Type = types.StringNull()
 		}
 		r.OutputDlS3.VerifyPermissions = types.BoolPointerValue(resp.OutputDlS3.VerifyPermissions)
-		if resp.OutputDlS3.WriteHighWaterMark != nil {
-			r.OutputDlS3.WriteHighWaterMark = types.NumberValue(big.NewFloat(float64(*resp.OutputDlS3.WriteHighWaterMark)))
-		} else {
-			r.OutputDlS3.WriteHighWaterMark = types.NumberNull()
-		}
+		r.OutputDlS3.WriteHighWaterMark = types.Float64PointerValue(resp.OutputDlS3.WriteHighWaterMark)
 	}
 	if resp.OutputDynatraceHTTP != nil {
 		r.OutputDynatraceHTTP = &tfTypes.OutputDynatraceHTTP{}
@@ -22967,11 +22389,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputDynatraceHTTP.AuthType = types.StringNull()
 		}
 		r.OutputDynatraceHTTP.Compress = types.BoolPointerValue(resp.OutputDynatraceHTTP.Compress)
-		if resp.OutputDynatraceHTTP.Concurrency != nil {
-			r.OutputDynatraceHTTP.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputDynatraceHTTP.Concurrency)))
-		} else {
-			r.OutputDynatraceHTTP.Concurrency = types.NumberNull()
-		}
+		r.OutputDynatraceHTTP.Concurrency = types.Float64PointerValue(resp.OutputDynatraceHTTP.Concurrency)
 		r.OutputDynatraceHTTP.Description = types.StringPointerValue(resp.OutputDynatraceHTTP.Description)
 		if resp.OutputDynatraceHTTP.Endpoint != nil {
 			r.OutputDynatraceHTTP.Endpoint = types.StringValue(string(*resp.OutputDynatraceHTTP.Endpoint))
@@ -22985,14 +22403,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputDynatraceHTTP.ExtraHTTPHeaders = r.OutputDynatraceHTTP.ExtraHTTPHeaders[:len(resp.OutputDynatraceHTTP.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount6, extraHTTPHeadersItem6 := range resp.OutputDynatraceHTTP.ExtraHTTPHeaders {
-			var extraHTTPHeaders13 tfTypes.OutputDynatraceHTTPExtraHTTPHeaders
-			extraHTTPHeaders13.Name = types.StringPointerValue(extraHTTPHeadersItem6.Name)
-			extraHTTPHeaders13.Value = types.StringValue(extraHTTPHeadersItem6.Value)
+			var extraHTTPHeaders6 tfTypes.OutputDynatraceHTTPExtraHTTPHeaders
+			extraHTTPHeaders6.Name = types.StringPointerValue(extraHTTPHeadersItem6.Name)
+			extraHTTPHeaders6.Value = types.StringValue(extraHTTPHeadersItem6.Value)
 			if extraHTTPHeadersCount6+1 > len(r.OutputDynatraceHTTP.ExtraHTTPHeaders) {
-				r.OutputDynatraceHTTP.ExtraHTTPHeaders = append(r.OutputDynatraceHTTP.ExtraHTTPHeaders, extraHTTPHeaders13)
+				r.OutputDynatraceHTTP.ExtraHTTPHeaders = append(r.OutputDynatraceHTTP.ExtraHTTPHeaders, extraHTTPHeaders6)
 			} else {
-				r.OutputDynatraceHTTP.ExtraHTTPHeaders[extraHTTPHeadersCount6].Name = extraHTTPHeaders13.Name
-				r.OutputDynatraceHTTP.ExtraHTTPHeaders[extraHTTPHeadersCount6].Value = extraHTTPHeaders13.Value
+				r.OutputDynatraceHTTP.ExtraHTTPHeaders[extraHTTPHeadersCount6].Name = extraHTTPHeaders6.Name
+				r.OutputDynatraceHTTP.ExtraHTTPHeaders[extraHTTPHeadersCount6].Value = extraHTTPHeaders6.Value
 			}
 		}
 		if resp.OutputDynatraceHTTP.FailedRequestLoggingMode != nil {
@@ -23000,11 +22418,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputDynatraceHTTP.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputDynatraceHTTP.FlushPeriodSec != nil {
-			r.OutputDynatraceHTTP.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputDynatraceHTTP.FlushPeriodSec)))
-		} else {
-			r.OutputDynatraceHTTP.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputDynatraceHTTP.FlushPeriodSec = types.Float64PointerValue(resp.OutputDynatraceHTTP.FlushPeriodSec)
 		if resp.OutputDynatraceHTTP.Format != nil {
 			r.OutputDynatraceHTTP.Format = types.StringValue(string(*resp.OutputDynatraceHTTP.Format))
 		} else {
@@ -23012,16 +22426,8 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		}
 		r.OutputDynatraceHTTP.ID = types.StringPointerValue(resp.OutputDynatraceHTTP.ID)
 		r.OutputDynatraceHTTP.KeepAlive = types.BoolPointerValue(resp.OutputDynatraceHTTP.KeepAlive)
-		if resp.OutputDynatraceHTTP.MaxPayloadEvents != nil {
-			r.OutputDynatraceHTTP.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputDynatraceHTTP.MaxPayloadEvents)))
-		} else {
-			r.OutputDynatraceHTTP.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputDynatraceHTTP.MaxPayloadSizeKB != nil {
-			r.OutputDynatraceHTTP.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputDynatraceHTTP.MaxPayloadSizeKB)))
-		} else {
-			r.OutputDynatraceHTTP.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputDynatraceHTTP.MaxPayloadEvents = types.Float64PointerValue(resp.OutputDynatraceHTTP.MaxPayloadEvents)
+		r.OutputDynatraceHTTP.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputDynatraceHTTP.MaxPayloadSizeKB)
 		if resp.OutputDynatraceHTTP.Method != nil {
 			r.OutputDynatraceHTTP.Method = types.StringValue(string(*resp.OutputDynatraceHTTP.Method))
 		} else {
@@ -23063,30 +22469,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputDynatraceHTTP.ResponseRetrySettings = r.OutputDynatraceHTTP.ResponseRetrySettings[:len(resp.OutputDynatraceHTTP.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount7, responseRetrySettingsItem7 := range resp.OutputDynatraceHTTP.ResponseRetrySettings {
-			var responseRetrySettings15 tfTypes.OutputDynatraceHTTPResponseRetrySettings
-			if responseRetrySettingsItem7.BackoffRate != nil {
-				responseRetrySettings15.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem7.BackoffRate)))
-			} else {
-				responseRetrySettings15.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings15.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem7.HTTPStatus)))
-			if responseRetrySettingsItem7.InitialBackoff != nil {
-				responseRetrySettings15.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem7.InitialBackoff)))
-			} else {
-				responseRetrySettings15.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem7.MaxBackoff != nil {
-				responseRetrySettings15.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem7.MaxBackoff)))
-			} else {
-				responseRetrySettings15.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings7 tfTypes.OutputDynatraceHTTPResponseRetrySettings
+			responseRetrySettings7.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem7.BackoffRate)
+			responseRetrySettings7.HTTPStatus = types.Float64Value(responseRetrySettingsItem7.HTTPStatus)
+			responseRetrySettings7.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem7.InitialBackoff)
+			responseRetrySettings7.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem7.MaxBackoff)
 			if responseRetrySettingsCount7+1 > len(r.OutputDynatraceHTTP.ResponseRetrySettings) {
-				r.OutputDynatraceHTTP.ResponseRetrySettings = append(r.OutputDynatraceHTTP.ResponseRetrySettings, responseRetrySettings15)
+				r.OutputDynatraceHTTP.ResponseRetrySettings = append(r.OutputDynatraceHTTP.ResponseRetrySettings, responseRetrySettings7)
 			} else {
-				r.OutputDynatraceHTTP.ResponseRetrySettings[responseRetrySettingsCount7].BackoffRate = responseRetrySettings15.BackoffRate
-				r.OutputDynatraceHTTP.ResponseRetrySettings[responseRetrySettingsCount7].HTTPStatus = responseRetrySettings15.HTTPStatus
-				r.OutputDynatraceHTTP.ResponseRetrySettings[responseRetrySettingsCount7].InitialBackoff = responseRetrySettings15.InitialBackoff
-				r.OutputDynatraceHTTP.ResponseRetrySettings[responseRetrySettingsCount7].MaxBackoff = responseRetrySettings15.MaxBackoff
+				r.OutputDynatraceHTTP.ResponseRetrySettings[responseRetrySettingsCount7].BackoffRate = responseRetrySettings7.BackoffRate
+				r.OutputDynatraceHTTP.ResponseRetrySettings[responseRetrySettingsCount7].HTTPStatus = responseRetrySettings7.HTTPStatus
+				r.OutputDynatraceHTTP.ResponseRetrySettings[responseRetrySettingsCount7].InitialBackoff = responseRetrySettings7.InitialBackoff
+				r.OutputDynatraceHTTP.ResponseRetrySettings[responseRetrySettingsCount7].MaxBackoff = responseRetrySettings7.MaxBackoff
 			}
 		}
 		r.OutputDynatraceHTTP.SafeHeaders = make([]types.String, 0, len(resp.OutputDynatraceHTTP.SafeHeaders))
@@ -23111,34 +22505,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputDynatraceHTTP.TimeoutRetrySettings = nil
 		} else {
 			r.OutputDynatraceHTTP.TimeoutRetrySettings = &tfTypes.OutputDynatraceHTTPTimeoutRetrySettings{}
-			if resp.OutputDynatraceHTTP.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputDynatraceHTTP.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputDynatraceHTTP.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputDynatraceHTTP.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputDynatraceHTTP.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputDynatraceHTTP.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputDynatraceHTTP.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputDynatraceHTTP.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputDynatraceHTTP.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputDynatraceHTTP.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputDynatraceHTTP.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputDynatraceHTTP.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputDynatraceHTTP.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputDynatraceHTTP.TimeoutRetrySettings.BackoffRate)
+			r.OutputDynatraceHTTP.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputDynatraceHTTP.TimeoutRetrySettings.InitialBackoff)
+			r.OutputDynatraceHTTP.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputDynatraceHTTP.TimeoutRetrySettings.MaxBackoff)
 			r.OutputDynatraceHTTP.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputDynatraceHTTP.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputDynatraceHTTP.TimeoutSec != nil {
-			r.OutputDynatraceHTTP.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputDynatraceHTTP.TimeoutSec)))
-		} else {
-			r.OutputDynatraceHTTP.TimeoutSec = types.NumberNull()
-		}
+		r.OutputDynatraceHTTP.TimeoutSec = types.Float64PointerValue(resp.OutputDynatraceHTTP.TimeoutSec)
 		r.OutputDynatraceHTTP.Token = types.StringPointerValue(resp.OutputDynatraceHTTP.Token)
-		if resp.OutputDynatraceHTTP.TotalMemoryLimitKB != nil {
-			r.OutputDynatraceHTTP.TotalMemoryLimitKB = types.NumberValue(big.NewFloat(float64(*resp.OutputDynatraceHTTP.TotalMemoryLimitKB)))
-		} else {
-			r.OutputDynatraceHTTP.TotalMemoryLimitKB = types.NumberNull()
-		}
+		r.OutputDynatraceHTTP.TotalMemoryLimitKB = types.Float64PointerValue(resp.OutputDynatraceHTTP.TotalMemoryLimitKB)
 		if resp.OutputDynatraceHTTP.Type != nil {
 			r.OutputDynatraceHTTP.Type = types.StringValue(string(*resp.OutputDynatraceHTTP.Type))
 		} else {
@@ -23155,16 +22529,8 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputDynatraceOtlp.Compress = types.StringNull()
 		}
-		if resp.OutputDynatraceOtlp.Concurrency != nil {
-			r.OutputDynatraceOtlp.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputDynatraceOtlp.Concurrency)))
-		} else {
-			r.OutputDynatraceOtlp.Concurrency = types.NumberNull()
-		}
-		if resp.OutputDynatraceOtlp.ConnectionTimeout != nil {
-			r.OutputDynatraceOtlp.ConnectionTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputDynatraceOtlp.ConnectionTimeout)))
-		} else {
-			r.OutputDynatraceOtlp.ConnectionTimeout = types.NumberNull()
-		}
+		r.OutputDynatraceOtlp.Concurrency = types.Float64PointerValue(resp.OutputDynatraceOtlp.Concurrency)
+		r.OutputDynatraceOtlp.ConnectionTimeout = types.Float64PointerValue(resp.OutputDynatraceOtlp.ConnectionTimeout)
 		r.OutputDynatraceOtlp.Description = types.StringPointerValue(resp.OutputDynatraceOtlp.Description)
 		r.OutputDynatraceOtlp.Endpoint = types.StringPointerValue(resp.OutputDynatraceOtlp.Endpoint)
 		if resp.OutputDynatraceOtlp.EndpointType != nil {
@@ -23178,14 +22544,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputDynatraceOtlp.ExtraHTTPHeaders = r.OutputDynatraceOtlp.ExtraHTTPHeaders[:len(resp.OutputDynatraceOtlp.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount7, extraHTTPHeadersItem7 := range resp.OutputDynatraceOtlp.ExtraHTTPHeaders {
-			var extraHTTPHeaders15 tfTypes.OutputDynatraceOtlpExtraHTTPHeaders
-			extraHTTPHeaders15.Name = types.StringPointerValue(extraHTTPHeadersItem7.Name)
-			extraHTTPHeaders15.Value = types.StringValue(extraHTTPHeadersItem7.Value)
+			var extraHTTPHeaders7 tfTypes.OutputDynatraceOtlpExtraHTTPHeaders
+			extraHTTPHeaders7.Name = types.StringPointerValue(extraHTTPHeadersItem7.Name)
+			extraHTTPHeaders7.Value = types.StringValue(extraHTTPHeadersItem7.Value)
 			if extraHTTPHeadersCount7+1 > len(r.OutputDynatraceOtlp.ExtraHTTPHeaders) {
-				r.OutputDynatraceOtlp.ExtraHTTPHeaders = append(r.OutputDynatraceOtlp.ExtraHTTPHeaders, extraHTTPHeaders15)
+				r.OutputDynatraceOtlp.ExtraHTTPHeaders = append(r.OutputDynatraceOtlp.ExtraHTTPHeaders, extraHTTPHeaders7)
 			} else {
-				r.OutputDynatraceOtlp.ExtraHTTPHeaders[extraHTTPHeadersCount7].Name = extraHTTPHeaders15.Name
-				r.OutputDynatraceOtlp.ExtraHTTPHeaders[extraHTTPHeadersCount7].Value = extraHTTPHeaders15.Value
+				r.OutputDynatraceOtlp.ExtraHTTPHeaders[extraHTTPHeadersCount7].Name = extraHTTPHeaders7.Name
+				r.OutputDynatraceOtlp.ExtraHTTPHeaders[extraHTTPHeadersCount7].Value = extraHTTPHeaders7.Value
 			}
 		}
 		if resp.OutputDynatraceOtlp.FailedRequestLoggingMode != nil {
@@ -23193,11 +22559,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputDynatraceOtlp.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputDynatraceOtlp.FlushPeriodSec != nil {
-			r.OutputDynatraceOtlp.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputDynatraceOtlp.FlushPeriodSec)))
-		} else {
-			r.OutputDynatraceOtlp.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputDynatraceOtlp.FlushPeriodSec = types.Float64PointerValue(resp.OutputDynatraceOtlp.FlushPeriodSec)
 		if resp.OutputDynatraceOtlp.HTTPCompress != nil {
 			r.OutputDynatraceOtlp.HTTPCompress = types.StringValue(string(*resp.OutputDynatraceOtlp.HTTPCompress))
 		} else {
@@ -23208,29 +22570,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputDynatraceOtlp.HTTPTracesEndpointOverride = types.StringPointerValue(resp.OutputDynatraceOtlp.HTTPTracesEndpointOverride)
 		r.OutputDynatraceOtlp.ID = types.StringPointerValue(resp.OutputDynatraceOtlp.ID)
 		r.OutputDynatraceOtlp.KeepAlive = types.BoolPointerValue(resp.OutputDynatraceOtlp.KeepAlive)
-		if resp.OutputDynatraceOtlp.KeepAliveTime != nil {
-			r.OutputDynatraceOtlp.KeepAliveTime = types.NumberValue(big.NewFloat(float64(*resp.OutputDynatraceOtlp.KeepAliveTime)))
-		} else {
-			r.OutputDynatraceOtlp.KeepAliveTime = types.NumberNull()
-		}
-		if resp.OutputDynatraceOtlp.MaxPayloadSizeKB != nil {
-			r.OutputDynatraceOtlp.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputDynatraceOtlp.MaxPayloadSizeKB)))
-		} else {
-			r.OutputDynatraceOtlp.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputDynatraceOtlp.KeepAliveTime = types.Float64PointerValue(resp.OutputDynatraceOtlp.KeepAliveTime)
+		r.OutputDynatraceOtlp.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputDynatraceOtlp.MaxPayloadSizeKB)
 		r.OutputDynatraceOtlp.Metadata = []tfTypes.OutputDynatraceOtlpMetadata{}
 		if len(r.OutputDynatraceOtlp.Metadata) > len(resp.OutputDynatraceOtlp.Metadata) {
 			r.OutputDynatraceOtlp.Metadata = r.OutputDynatraceOtlp.Metadata[:len(resp.OutputDynatraceOtlp.Metadata)]
 		}
 		for metadataCount, metadataItem := range resp.OutputDynatraceOtlp.Metadata {
-			var metadata1 tfTypes.OutputDynatraceOtlpMetadata
-			metadata1.Key = types.StringPointerValue(metadataItem.Key)
-			metadata1.Value = types.StringValue(metadataItem.Value)
+			var metadata tfTypes.OutputDynatraceOtlpMetadata
+			metadata.Key = types.StringPointerValue(metadataItem.Key)
+			metadata.Value = types.StringValue(metadataItem.Value)
 			if metadataCount+1 > len(r.OutputDynatraceOtlp.Metadata) {
-				r.OutputDynatraceOtlp.Metadata = append(r.OutputDynatraceOtlp.Metadata, metadata1)
+				r.OutputDynatraceOtlp.Metadata = append(r.OutputDynatraceOtlp.Metadata, metadata)
 			} else {
-				r.OutputDynatraceOtlp.Metadata[metadataCount].Key = metadata1.Key
-				r.OutputDynatraceOtlp.Metadata[metadataCount].Value = metadata1.Value
+				r.OutputDynatraceOtlp.Metadata[metadataCount].Key = metadata.Key
+				r.OutputDynatraceOtlp.Metadata[metadataCount].Value = metadata.Value
 			}
 		}
 		if resp.OutputDynatraceOtlp.OnBackpressure != nil {
@@ -23279,30 +22633,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputDynatraceOtlp.ResponseRetrySettings = r.OutputDynatraceOtlp.ResponseRetrySettings[:len(resp.OutputDynatraceOtlp.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount8, responseRetrySettingsItem8 := range resp.OutputDynatraceOtlp.ResponseRetrySettings {
-			var responseRetrySettings17 tfTypes.OutputDynatraceOtlpResponseRetrySettings
-			if responseRetrySettingsItem8.BackoffRate != nil {
-				responseRetrySettings17.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem8.BackoffRate)))
-			} else {
-				responseRetrySettings17.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings17.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem8.HTTPStatus)))
-			if responseRetrySettingsItem8.InitialBackoff != nil {
-				responseRetrySettings17.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem8.InitialBackoff)))
-			} else {
-				responseRetrySettings17.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem8.MaxBackoff != nil {
-				responseRetrySettings17.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem8.MaxBackoff)))
-			} else {
-				responseRetrySettings17.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings8 tfTypes.OutputDynatraceOtlpResponseRetrySettings
+			responseRetrySettings8.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem8.BackoffRate)
+			responseRetrySettings8.HTTPStatus = types.Float64Value(responseRetrySettingsItem8.HTTPStatus)
+			responseRetrySettings8.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem8.InitialBackoff)
+			responseRetrySettings8.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem8.MaxBackoff)
 			if responseRetrySettingsCount8+1 > len(r.OutputDynatraceOtlp.ResponseRetrySettings) {
-				r.OutputDynatraceOtlp.ResponseRetrySettings = append(r.OutputDynatraceOtlp.ResponseRetrySettings, responseRetrySettings17)
+				r.OutputDynatraceOtlp.ResponseRetrySettings = append(r.OutputDynatraceOtlp.ResponseRetrySettings, responseRetrySettings8)
 			} else {
-				r.OutputDynatraceOtlp.ResponseRetrySettings[responseRetrySettingsCount8].BackoffRate = responseRetrySettings17.BackoffRate
-				r.OutputDynatraceOtlp.ResponseRetrySettings[responseRetrySettingsCount8].HTTPStatus = responseRetrySettings17.HTTPStatus
-				r.OutputDynatraceOtlp.ResponseRetrySettings[responseRetrySettingsCount8].InitialBackoff = responseRetrySettings17.InitialBackoff
-				r.OutputDynatraceOtlp.ResponseRetrySettings[responseRetrySettingsCount8].MaxBackoff = responseRetrySettings17.MaxBackoff
+				r.OutputDynatraceOtlp.ResponseRetrySettings[responseRetrySettingsCount8].BackoffRate = responseRetrySettings8.BackoffRate
+				r.OutputDynatraceOtlp.ResponseRetrySettings[responseRetrySettingsCount8].HTTPStatus = responseRetrySettings8.HTTPStatus
+				r.OutputDynatraceOtlp.ResponseRetrySettings[responseRetrySettingsCount8].InitialBackoff = responseRetrySettings8.InitialBackoff
+				r.OutputDynatraceOtlp.ResponseRetrySettings[responseRetrySettingsCount8].MaxBackoff = responseRetrySettings8.MaxBackoff
 			}
 		}
 		r.OutputDynatraceOtlp.SafeHeaders = make([]types.String, 0, len(resp.OutputDynatraceOtlp.SafeHeaders))
@@ -23321,28 +22663,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputDynatraceOtlp.TimeoutRetrySettings = nil
 		} else {
 			r.OutputDynatraceOtlp.TimeoutRetrySettings = &tfTypes.OutputDynatraceOtlpTimeoutRetrySettings{}
-			if resp.OutputDynatraceOtlp.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputDynatraceOtlp.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputDynatraceOtlp.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputDynatraceOtlp.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputDynatraceOtlp.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputDynatraceOtlp.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputDynatraceOtlp.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputDynatraceOtlp.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputDynatraceOtlp.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputDynatraceOtlp.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputDynatraceOtlp.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputDynatraceOtlp.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputDynatraceOtlp.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputDynatraceOtlp.TimeoutRetrySettings.BackoffRate)
+			r.OutputDynatraceOtlp.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputDynatraceOtlp.TimeoutRetrySettings.InitialBackoff)
+			r.OutputDynatraceOtlp.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputDynatraceOtlp.TimeoutRetrySettings.MaxBackoff)
 			r.OutputDynatraceOtlp.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputDynatraceOtlp.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputDynatraceOtlp.TimeoutSec != nil {
-			r.OutputDynatraceOtlp.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputDynatraceOtlp.TimeoutSec)))
-		} else {
-			r.OutputDynatraceOtlp.TimeoutSec = types.NumberNull()
-		}
+		r.OutputDynatraceOtlp.TimeoutSec = types.Float64PointerValue(resp.OutputDynatraceOtlp.TimeoutSec)
 		r.OutputDynatraceOtlp.TokenSecret = types.StringValue(resp.OutputDynatraceOtlp.TokenSecret)
 		if resp.OutputDynatraceOtlp.Type != nil {
 			r.OutputDynatraceOtlp.Type = types.StringValue(string(*resp.OutputDynatraceOtlp.Type))
@@ -23365,17 +22691,9 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputElastic.Auth.Disabled = types.BoolPointerValue(resp.OutputElastic.Auth.Disabled)
 		}
 		r.OutputElastic.Compress = types.BoolPointerValue(resp.OutputElastic.Compress)
-		if resp.OutputElastic.Concurrency != nil {
-			r.OutputElastic.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputElastic.Concurrency)))
-		} else {
-			r.OutputElastic.Concurrency = types.NumberNull()
-		}
+		r.OutputElastic.Concurrency = types.Float64PointerValue(resp.OutputElastic.Concurrency)
 		r.OutputElastic.Description = types.StringPointerValue(resp.OutputElastic.Description)
-		if resp.OutputElastic.DNSResolvePeriodSec != nil {
-			r.OutputElastic.DNSResolvePeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputElastic.DNSResolvePeriodSec)))
-		} else {
-			r.OutputElastic.DNSResolvePeriodSec = types.NumberNull()
-		}
+		r.OutputElastic.DNSResolvePeriodSec = types.Float64PointerValue(resp.OutputElastic.DNSResolvePeriodSec)
 		r.OutputElastic.DocType = types.StringPointerValue(resp.OutputElastic.DocType)
 		r.OutputElastic.ElasticPipeline = types.StringPointerValue(resp.OutputElastic.ElasticPipeline)
 		if resp.OutputElastic.ElasticVersion != nil {
@@ -23390,14 +22708,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputElastic.ExtraHTTPHeaders = r.OutputElastic.ExtraHTTPHeaders[:len(resp.OutputElastic.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount8, extraHTTPHeadersItem8 := range resp.OutputElastic.ExtraHTTPHeaders {
-			var extraHTTPHeaders17 tfTypes.OutputElasticExtraHTTPHeaders
-			extraHTTPHeaders17.Name = types.StringPointerValue(extraHTTPHeadersItem8.Name)
-			extraHTTPHeaders17.Value = types.StringValue(extraHTTPHeadersItem8.Value)
+			var extraHTTPHeaders8 tfTypes.OutputElasticExtraHTTPHeaders
+			extraHTTPHeaders8.Name = types.StringPointerValue(extraHTTPHeadersItem8.Name)
+			extraHTTPHeaders8.Value = types.StringValue(extraHTTPHeadersItem8.Value)
 			if extraHTTPHeadersCount8+1 > len(r.OutputElastic.ExtraHTTPHeaders) {
-				r.OutputElastic.ExtraHTTPHeaders = append(r.OutputElastic.ExtraHTTPHeaders, extraHTTPHeaders17)
+				r.OutputElastic.ExtraHTTPHeaders = append(r.OutputElastic.ExtraHTTPHeaders, extraHTTPHeaders8)
 			} else {
-				r.OutputElastic.ExtraHTTPHeaders[extraHTTPHeadersCount8].Name = extraHTTPHeaders17.Name
-				r.OutputElastic.ExtraHTTPHeaders[extraHTTPHeadersCount8].Value = extraHTTPHeaders17.Value
+				r.OutputElastic.ExtraHTTPHeaders[extraHTTPHeadersCount8].Name = extraHTTPHeaders8.Name
+				r.OutputElastic.ExtraHTTPHeaders[extraHTTPHeadersCount8].Value = extraHTTPHeaders8.Value
 			}
 		}
 		r.OutputElastic.ExtraParams = []tfTypes.ExtraParams{}
@@ -23405,14 +22723,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputElastic.ExtraParams = r.OutputElastic.ExtraParams[:len(resp.OutputElastic.ExtraParams)]
 		}
 		for extraParamsCount, extraParamsItem := range resp.OutputElastic.ExtraParams {
-			var extraParams1 tfTypes.ExtraParams
-			extraParams1.Name = types.StringValue(extraParamsItem.Name)
-			extraParams1.Value = types.StringValue(extraParamsItem.Value)
+			var extraParams tfTypes.ExtraParams
+			extraParams.Name = types.StringValue(extraParamsItem.Name)
+			extraParams.Value = types.StringValue(extraParamsItem.Value)
 			if extraParamsCount+1 > len(r.OutputElastic.ExtraParams) {
-				r.OutputElastic.ExtraParams = append(r.OutputElastic.ExtraParams, extraParams1)
+				r.OutputElastic.ExtraParams = append(r.OutputElastic.ExtraParams, extraParams)
 			} else {
-				r.OutputElastic.ExtraParams[extraParamsCount].Name = extraParams1.Name
-				r.OutputElastic.ExtraParams[extraParamsCount].Value = extraParams1.Value
+				r.OutputElastic.ExtraParams[extraParamsCount].Name = extraParams.Name
+				r.OutputElastic.ExtraParams[extraParamsCount].Value = extraParams.Value
 			}
 		}
 		if resp.OutputElastic.FailedRequestLoggingMode != nil {
@@ -23420,30 +22738,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputElastic.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputElastic.FlushPeriodSec != nil {
-			r.OutputElastic.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputElastic.FlushPeriodSec)))
-		} else {
-			r.OutputElastic.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputElastic.FlushPeriodSec = types.Float64PointerValue(resp.OutputElastic.FlushPeriodSec)
 		r.OutputElastic.ID = types.StringPointerValue(resp.OutputElastic.ID)
 		r.OutputElastic.IncludeDocID = types.BoolPointerValue(resp.OutputElastic.IncludeDocID)
 		r.OutputElastic.Index = types.StringValue(resp.OutputElastic.Index)
 		r.OutputElastic.LoadBalanced = types.BoolPointerValue(resp.OutputElastic.LoadBalanced)
-		if resp.OutputElastic.LoadBalanceStatsPeriodSec != nil {
-			r.OutputElastic.LoadBalanceStatsPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputElastic.LoadBalanceStatsPeriodSec)))
-		} else {
-			r.OutputElastic.LoadBalanceStatsPeriodSec = types.NumberNull()
-		}
-		if resp.OutputElastic.MaxPayloadEvents != nil {
-			r.OutputElastic.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputElastic.MaxPayloadEvents)))
-		} else {
-			r.OutputElastic.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputElastic.MaxPayloadSizeKB != nil {
-			r.OutputElastic.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputElastic.MaxPayloadSizeKB)))
-		} else {
-			r.OutputElastic.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputElastic.LoadBalanceStatsPeriodSec = types.Float64PointerValue(resp.OutputElastic.LoadBalanceStatsPeriodSec)
+		r.OutputElastic.MaxPayloadEvents = types.Float64PointerValue(resp.OutputElastic.MaxPayloadEvents)
+		r.OutputElastic.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputElastic.MaxPayloadSizeKB)
 		if resp.OutputElastic.OnBackpressure != nil {
 			r.OutputElastic.OnBackpressure = types.StringValue(string(*resp.OutputElastic.OnBackpressure))
 		} else {
@@ -23480,30 +22782,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputElastic.ResponseRetrySettings = r.OutputElastic.ResponseRetrySettings[:len(resp.OutputElastic.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount9, responseRetrySettingsItem9 := range resp.OutputElastic.ResponseRetrySettings {
-			var responseRetrySettings19 tfTypes.OutputElasticResponseRetrySettings
-			if responseRetrySettingsItem9.BackoffRate != nil {
-				responseRetrySettings19.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem9.BackoffRate)))
-			} else {
-				responseRetrySettings19.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings19.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem9.HTTPStatus)))
-			if responseRetrySettingsItem9.InitialBackoff != nil {
-				responseRetrySettings19.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem9.InitialBackoff)))
-			} else {
-				responseRetrySettings19.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem9.MaxBackoff != nil {
-				responseRetrySettings19.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem9.MaxBackoff)))
-			} else {
-				responseRetrySettings19.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings9 tfTypes.OutputElasticResponseRetrySettings
+			responseRetrySettings9.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem9.BackoffRate)
+			responseRetrySettings9.HTTPStatus = types.Float64Value(responseRetrySettingsItem9.HTTPStatus)
+			responseRetrySettings9.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem9.InitialBackoff)
+			responseRetrySettings9.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem9.MaxBackoff)
 			if responseRetrySettingsCount9+1 > len(r.OutputElastic.ResponseRetrySettings) {
-				r.OutputElastic.ResponseRetrySettings = append(r.OutputElastic.ResponseRetrySettings, responseRetrySettings19)
+				r.OutputElastic.ResponseRetrySettings = append(r.OutputElastic.ResponseRetrySettings, responseRetrySettings9)
 			} else {
-				r.OutputElastic.ResponseRetrySettings[responseRetrySettingsCount9].BackoffRate = responseRetrySettings19.BackoffRate
-				r.OutputElastic.ResponseRetrySettings[responseRetrySettingsCount9].HTTPStatus = responseRetrySettings19.HTTPStatus
-				r.OutputElastic.ResponseRetrySettings[responseRetrySettingsCount9].InitialBackoff = responseRetrySettings19.InitialBackoff
-				r.OutputElastic.ResponseRetrySettings[responseRetrySettingsCount9].MaxBackoff = responseRetrySettings19.MaxBackoff
+				r.OutputElastic.ResponseRetrySettings[responseRetrySettingsCount9].BackoffRate = responseRetrySettings9.BackoffRate
+				r.OutputElastic.ResponseRetrySettings[responseRetrySettingsCount9].HTTPStatus = responseRetrySettings9.HTTPStatus
+				r.OutputElastic.ResponseRetrySettings[responseRetrySettingsCount9].InitialBackoff = responseRetrySettings9.InitialBackoff
+				r.OutputElastic.ResponseRetrySettings[responseRetrySettingsCount9].MaxBackoff = responseRetrySettings9.MaxBackoff
 			}
 		}
 		r.OutputElastic.RetryPartialErrors = types.BoolPointerValue(resp.OutputElastic.RetryPartialErrors)
@@ -23523,28 +22813,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputElastic.TimeoutRetrySettings = nil
 		} else {
 			r.OutputElastic.TimeoutRetrySettings = &tfTypes.OutputElasticTimeoutRetrySettings{}
-			if resp.OutputElastic.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputElastic.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputElastic.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputElastic.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputElastic.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputElastic.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputElastic.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputElastic.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputElastic.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputElastic.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputElastic.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputElastic.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputElastic.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputElastic.TimeoutRetrySettings.BackoffRate)
+			r.OutputElastic.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputElastic.TimeoutRetrySettings.InitialBackoff)
+			r.OutputElastic.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputElastic.TimeoutRetrySettings.MaxBackoff)
 			r.OutputElastic.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputElastic.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputElastic.TimeoutSec != nil {
-			r.OutputElastic.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputElastic.TimeoutSec)))
-		} else {
-			r.OutputElastic.TimeoutSec = types.NumberNull()
-		}
+		r.OutputElastic.TimeoutSec = types.Float64PointerValue(resp.OutputElastic.TimeoutSec)
 		r.OutputElastic.Type = types.StringValue(string(resp.OutputElastic.Type))
 		r.OutputElastic.URL = types.StringPointerValue(resp.OutputElastic.URL)
 		r.OutputElastic.Urls = []tfTypes.OutputElasticUrls{}
@@ -23552,18 +22826,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputElastic.Urls = r.OutputElastic.Urls[:len(resp.OutputElastic.Urls)]
 		}
 		for urlsCount1, urlsItem1 := range resp.OutputElastic.Urls {
-			var urls3 tfTypes.OutputElasticUrls
-			urls3.URL = types.StringValue(urlsItem1.URL)
-			if urlsItem1.Weight != nil {
-				urls3.Weight = types.NumberValue(big.NewFloat(float64(*urlsItem1.Weight)))
-			} else {
-				urls3.Weight = types.NumberNull()
-			}
+			var urls1 tfTypes.OutputElasticUrls
+			urls1.URL = types.StringValue(urlsItem1.URL)
+			urls1.Weight = types.Float64PointerValue(urlsItem1.Weight)
 			if urlsCount1+1 > len(r.OutputElastic.Urls) {
-				r.OutputElastic.Urls = append(r.OutputElastic.Urls, urls3)
+				r.OutputElastic.Urls = append(r.OutputElastic.Urls, urls1)
 			} else {
-				r.OutputElastic.Urls[urlsCount1].URL = urls3.URL
-				r.OutputElastic.Urls[urlsCount1].Weight = urls3.Weight
+				r.OutputElastic.Urls[urlsCount1].URL = urls1.URL
+				r.OutputElastic.Urls[urlsCount1].Weight = urls1.Weight
 			}
 		}
 		r.OutputElastic.UseRoundRobinDNS = types.BoolPointerValue(resp.OutputElastic.UseRoundRobinDNS)
@@ -23587,11 +22857,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputElasticCloud.Auth.Disabled = types.BoolPointerValue(resp.OutputElasticCloud.Auth.Disabled)
 		}
 		r.OutputElasticCloud.Compress = types.BoolPointerValue(resp.OutputElasticCloud.Compress)
-		if resp.OutputElasticCloud.Concurrency != nil {
-			r.OutputElasticCloud.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputElasticCloud.Concurrency)))
-		} else {
-			r.OutputElasticCloud.Concurrency = types.NumberNull()
-		}
+		r.OutputElasticCloud.Concurrency = types.Float64PointerValue(resp.OutputElasticCloud.Concurrency)
 		r.OutputElasticCloud.Description = types.StringPointerValue(resp.OutputElasticCloud.Description)
 		r.OutputElasticCloud.ElasticPipeline = types.StringPointerValue(resp.OutputElasticCloud.ElasticPipeline)
 		r.OutputElasticCloud.Environment = types.StringPointerValue(resp.OutputElasticCloud.Environment)
@@ -23600,14 +22866,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputElasticCloud.ExtraHTTPHeaders = r.OutputElasticCloud.ExtraHTTPHeaders[:len(resp.OutputElasticCloud.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount9, extraHTTPHeadersItem9 := range resp.OutputElasticCloud.ExtraHTTPHeaders {
-			var extraHTTPHeaders19 tfTypes.OutputElasticCloudExtraHTTPHeaders
-			extraHTTPHeaders19.Name = types.StringPointerValue(extraHTTPHeadersItem9.Name)
-			extraHTTPHeaders19.Value = types.StringValue(extraHTTPHeadersItem9.Value)
+			var extraHTTPHeaders9 tfTypes.OutputElasticCloudExtraHTTPHeaders
+			extraHTTPHeaders9.Name = types.StringPointerValue(extraHTTPHeadersItem9.Name)
+			extraHTTPHeaders9.Value = types.StringValue(extraHTTPHeadersItem9.Value)
 			if extraHTTPHeadersCount9+1 > len(r.OutputElasticCloud.ExtraHTTPHeaders) {
-				r.OutputElasticCloud.ExtraHTTPHeaders = append(r.OutputElasticCloud.ExtraHTTPHeaders, extraHTTPHeaders19)
+				r.OutputElasticCloud.ExtraHTTPHeaders = append(r.OutputElasticCloud.ExtraHTTPHeaders, extraHTTPHeaders9)
 			} else {
-				r.OutputElasticCloud.ExtraHTTPHeaders[extraHTTPHeadersCount9].Name = extraHTTPHeaders19.Name
-				r.OutputElasticCloud.ExtraHTTPHeaders[extraHTTPHeadersCount9].Value = extraHTTPHeaders19.Value
+				r.OutputElasticCloud.ExtraHTTPHeaders[extraHTTPHeadersCount9].Name = extraHTTPHeaders9.Name
+				r.OutputElasticCloud.ExtraHTTPHeaders[extraHTTPHeadersCount9].Value = extraHTTPHeaders9.Value
 			}
 		}
 		r.OutputElasticCloud.ExtraParams = []tfTypes.OutputElasticCloudExtraParams{}
@@ -23615,14 +22881,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputElasticCloud.ExtraParams = r.OutputElasticCloud.ExtraParams[:len(resp.OutputElasticCloud.ExtraParams)]
 		}
 		for extraParamsCount1, extraParamsItem1 := range resp.OutputElasticCloud.ExtraParams {
-			var extraParams3 tfTypes.OutputElasticCloudExtraParams
-			extraParams3.Name = types.StringValue(extraParamsItem1.Name)
-			extraParams3.Value = types.StringValue(extraParamsItem1.Value)
+			var extraParams1 tfTypes.OutputElasticCloudExtraParams
+			extraParams1.Name = types.StringValue(extraParamsItem1.Name)
+			extraParams1.Value = types.StringValue(extraParamsItem1.Value)
 			if extraParamsCount1+1 > len(r.OutputElasticCloud.ExtraParams) {
-				r.OutputElasticCloud.ExtraParams = append(r.OutputElasticCloud.ExtraParams, extraParams3)
+				r.OutputElasticCloud.ExtraParams = append(r.OutputElasticCloud.ExtraParams, extraParams1)
 			} else {
-				r.OutputElasticCloud.ExtraParams[extraParamsCount1].Name = extraParams3.Name
-				r.OutputElasticCloud.ExtraParams[extraParamsCount1].Value = extraParams3.Value
+				r.OutputElasticCloud.ExtraParams[extraParamsCount1].Name = extraParams1.Name
+				r.OutputElasticCloud.ExtraParams[extraParamsCount1].Value = extraParams1.Value
 			}
 		}
 		if resp.OutputElasticCloud.FailedRequestLoggingMode != nil {
@@ -23630,24 +22896,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputElasticCloud.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputElasticCloud.FlushPeriodSec != nil {
-			r.OutputElasticCloud.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputElasticCloud.FlushPeriodSec)))
-		} else {
-			r.OutputElasticCloud.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputElasticCloud.FlushPeriodSec = types.Float64PointerValue(resp.OutputElasticCloud.FlushPeriodSec)
 		r.OutputElasticCloud.ID = types.StringPointerValue(resp.OutputElasticCloud.ID)
 		r.OutputElasticCloud.IncludeDocID = types.BoolPointerValue(resp.OutputElasticCloud.IncludeDocID)
 		r.OutputElasticCloud.Index = types.StringValue(resp.OutputElasticCloud.Index)
-		if resp.OutputElasticCloud.MaxPayloadEvents != nil {
-			r.OutputElasticCloud.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputElasticCloud.MaxPayloadEvents)))
-		} else {
-			r.OutputElasticCloud.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputElasticCloud.MaxPayloadSizeKB != nil {
-			r.OutputElasticCloud.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputElasticCloud.MaxPayloadSizeKB)))
-		} else {
-			r.OutputElasticCloud.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputElasticCloud.MaxPayloadEvents = types.Float64PointerValue(resp.OutputElasticCloud.MaxPayloadEvents)
+		r.OutputElasticCloud.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputElasticCloud.MaxPayloadSizeKB)
 		if resp.OutputElasticCloud.OnBackpressure != nil {
 			r.OutputElasticCloud.OnBackpressure = types.StringValue(string(*resp.OutputElasticCloud.OnBackpressure))
 		} else {
@@ -23684,30 +22938,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputElasticCloud.ResponseRetrySettings = r.OutputElasticCloud.ResponseRetrySettings[:len(resp.OutputElasticCloud.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount10, responseRetrySettingsItem10 := range resp.OutputElasticCloud.ResponseRetrySettings {
-			var responseRetrySettings21 tfTypes.OutputElasticCloudResponseRetrySettings
-			if responseRetrySettingsItem10.BackoffRate != nil {
-				responseRetrySettings21.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem10.BackoffRate)))
-			} else {
-				responseRetrySettings21.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings21.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem10.HTTPStatus)))
-			if responseRetrySettingsItem10.InitialBackoff != nil {
-				responseRetrySettings21.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem10.InitialBackoff)))
-			} else {
-				responseRetrySettings21.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem10.MaxBackoff != nil {
-				responseRetrySettings21.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem10.MaxBackoff)))
-			} else {
-				responseRetrySettings21.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings10 tfTypes.OutputElasticCloudResponseRetrySettings
+			responseRetrySettings10.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem10.BackoffRate)
+			responseRetrySettings10.HTTPStatus = types.Float64Value(responseRetrySettingsItem10.HTTPStatus)
+			responseRetrySettings10.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem10.InitialBackoff)
+			responseRetrySettings10.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem10.MaxBackoff)
 			if responseRetrySettingsCount10+1 > len(r.OutputElasticCloud.ResponseRetrySettings) {
-				r.OutputElasticCloud.ResponseRetrySettings = append(r.OutputElasticCloud.ResponseRetrySettings, responseRetrySettings21)
+				r.OutputElasticCloud.ResponseRetrySettings = append(r.OutputElasticCloud.ResponseRetrySettings, responseRetrySettings10)
 			} else {
-				r.OutputElasticCloud.ResponseRetrySettings[responseRetrySettingsCount10].BackoffRate = responseRetrySettings21.BackoffRate
-				r.OutputElasticCloud.ResponseRetrySettings[responseRetrySettingsCount10].HTTPStatus = responseRetrySettings21.HTTPStatus
-				r.OutputElasticCloud.ResponseRetrySettings[responseRetrySettingsCount10].InitialBackoff = responseRetrySettings21.InitialBackoff
-				r.OutputElasticCloud.ResponseRetrySettings[responseRetrySettingsCount10].MaxBackoff = responseRetrySettings21.MaxBackoff
+				r.OutputElasticCloud.ResponseRetrySettings[responseRetrySettingsCount10].BackoffRate = responseRetrySettings10.BackoffRate
+				r.OutputElasticCloud.ResponseRetrySettings[responseRetrySettingsCount10].HTTPStatus = responseRetrySettings10.HTTPStatus
+				r.OutputElasticCloud.ResponseRetrySettings[responseRetrySettingsCount10].InitialBackoff = responseRetrySettings10.InitialBackoff
+				r.OutputElasticCloud.ResponseRetrySettings[responseRetrySettingsCount10].MaxBackoff = responseRetrySettings10.MaxBackoff
 			}
 		}
 		r.OutputElasticCloud.SafeHeaders = make([]types.String, 0, len(resp.OutputElasticCloud.SafeHeaders))
@@ -23726,28 +22968,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputElasticCloud.TimeoutRetrySettings = nil
 		} else {
 			r.OutputElasticCloud.TimeoutRetrySettings = &tfTypes.OutputElasticCloudTimeoutRetrySettings{}
-			if resp.OutputElasticCloud.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputElasticCloud.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputElasticCloud.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputElasticCloud.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputElasticCloud.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputElasticCloud.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputElasticCloud.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputElasticCloud.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputElasticCloud.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputElasticCloud.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputElasticCloud.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputElasticCloud.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputElasticCloud.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputElasticCloud.TimeoutRetrySettings.BackoffRate)
+			r.OutputElasticCloud.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputElasticCloud.TimeoutRetrySettings.InitialBackoff)
+			r.OutputElasticCloud.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputElasticCloud.TimeoutRetrySettings.MaxBackoff)
 			r.OutputElasticCloud.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputElasticCloud.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputElasticCloud.TimeoutSec != nil {
-			r.OutputElasticCloud.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputElasticCloud.TimeoutSec)))
-		} else {
-			r.OutputElasticCloud.TimeoutSec = types.NumberNull()
-		}
+		r.OutputElasticCloud.TimeoutSec = types.Float64PointerValue(resp.OutputElasticCloud.TimeoutSec)
 		if resp.OutputElasticCloud.Type != nil {
 			r.OutputElasticCloud.Type = types.StringValue(string(*resp.OutputElasticCloud.Type))
 		} else {
@@ -23765,40 +22991,16 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputExabeam.DeadletterEnabled = types.BoolPointerValue(resp.OutputExabeam.DeadletterEnabled)
 		r.OutputExabeam.DeadletterPath = types.StringPointerValue(resp.OutputExabeam.DeadletterPath)
 		r.OutputExabeam.Description = types.StringPointerValue(resp.OutputExabeam.Description)
-		if resp.OutputExabeam.EmptyDirCleanupSec != nil {
-			r.OutputExabeam.EmptyDirCleanupSec = types.NumberValue(big.NewFloat(float64(*resp.OutputExabeam.EmptyDirCleanupSec)))
-		} else {
-			r.OutputExabeam.EmptyDirCleanupSec = types.NumberNull()
-		}
+		r.OutputExabeam.EmptyDirCleanupSec = types.Float64PointerValue(resp.OutputExabeam.EmptyDirCleanupSec)
 		r.OutputExabeam.EncodedConfiguration = types.StringPointerValue(resp.OutputExabeam.EncodedConfiguration)
 		r.OutputExabeam.Endpoint = types.StringPointerValue(resp.OutputExabeam.Endpoint)
 		r.OutputExabeam.Environment = types.StringPointerValue(resp.OutputExabeam.Environment)
 		r.OutputExabeam.ID = types.StringPointerValue(resp.OutputExabeam.ID)
-		if resp.OutputExabeam.MaxFileIdleTimeSec != nil {
-			r.OutputExabeam.MaxFileIdleTimeSec = types.NumberValue(big.NewFloat(float64(*resp.OutputExabeam.MaxFileIdleTimeSec)))
-		} else {
-			r.OutputExabeam.MaxFileIdleTimeSec = types.NumberNull()
-		}
-		if resp.OutputExabeam.MaxFileOpenTimeSec != nil {
-			r.OutputExabeam.MaxFileOpenTimeSec = types.NumberValue(big.NewFloat(float64(*resp.OutputExabeam.MaxFileOpenTimeSec)))
-		} else {
-			r.OutputExabeam.MaxFileOpenTimeSec = types.NumberNull()
-		}
-		if resp.OutputExabeam.MaxFileSizeMB != nil {
-			r.OutputExabeam.MaxFileSizeMB = types.NumberValue(big.NewFloat(float64(*resp.OutputExabeam.MaxFileSizeMB)))
-		} else {
-			r.OutputExabeam.MaxFileSizeMB = types.NumberNull()
-		}
-		if resp.OutputExabeam.MaxOpenFiles != nil {
-			r.OutputExabeam.MaxOpenFiles = types.NumberValue(big.NewFloat(float64(*resp.OutputExabeam.MaxOpenFiles)))
-		} else {
-			r.OutputExabeam.MaxOpenFiles = types.NumberNull()
-		}
-		if resp.OutputExabeam.MaxRetryNum != nil {
-			r.OutputExabeam.MaxRetryNum = types.NumberValue(big.NewFloat(float64(*resp.OutputExabeam.MaxRetryNum)))
-		} else {
-			r.OutputExabeam.MaxRetryNum = types.NumberNull()
-		}
+		r.OutputExabeam.MaxFileIdleTimeSec = types.Float64PointerValue(resp.OutputExabeam.MaxFileIdleTimeSec)
+		r.OutputExabeam.MaxFileOpenTimeSec = types.Float64PointerValue(resp.OutputExabeam.MaxFileOpenTimeSec)
+		r.OutputExabeam.MaxFileSizeMB = types.Float64PointerValue(resp.OutputExabeam.MaxFileSizeMB)
+		r.OutputExabeam.MaxOpenFiles = types.Float64PointerValue(resp.OutputExabeam.MaxOpenFiles)
+		r.OutputExabeam.MaxRetryNum = types.Float64PointerValue(resp.OutputExabeam.MaxRetryNum)
 		if resp.OutputExabeam.ObjectACL != nil {
 			r.OutputExabeam.ObjectACL = types.StringValue(string(*resp.OutputExabeam.ObjectACL))
 		} else {
@@ -23866,11 +23068,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputFilesystem.DeadletterPath = types.StringPointerValue(resp.OutputFilesystem.DeadletterPath)
 		r.OutputFilesystem.Description = types.StringPointerValue(resp.OutputFilesystem.Description)
 		r.OutputFilesystem.DestPath = types.StringValue(resp.OutputFilesystem.DestPath)
-		if resp.OutputFilesystem.EmptyDirCleanupSec != nil {
-			r.OutputFilesystem.EmptyDirCleanupSec = types.NumberValue(big.NewFloat(float64(*resp.OutputFilesystem.EmptyDirCleanupSec)))
-		} else {
-			r.OutputFilesystem.EmptyDirCleanupSec = types.NumberNull()
-		}
+		r.OutputFilesystem.EmptyDirCleanupSec = types.Float64PointerValue(resp.OutputFilesystem.EmptyDirCleanupSec)
 		r.OutputFilesystem.EnablePageChecksum = types.BoolPointerValue(resp.OutputFilesystem.EnablePageChecksum)
 		r.OutputFilesystem.EnableStatistics = types.BoolPointerValue(resp.OutputFilesystem.EnableStatistics)
 		r.OutputFilesystem.EnableWritePageIndex = types.BoolPointerValue(resp.OutputFilesystem.EnableWritePageIndex)
@@ -23888,41 +23086,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputFilesystem.KeyValueMetadata = r.OutputFilesystem.KeyValueMetadata[:len(resp.OutputFilesystem.KeyValueMetadata)]
 		}
 		for keyValueMetadataCount2, keyValueMetadataItem2 := range resp.OutputFilesystem.KeyValueMetadata {
-			var keyValueMetadata5 tfTypes.KeyValueMetadata
-			keyValueMetadata5.Key = types.StringPointerValue(keyValueMetadataItem2.Key)
-			keyValueMetadata5.Value = types.StringValue(keyValueMetadataItem2.Value)
+			var keyValueMetadata2 tfTypes.KeyValueMetadata
+			keyValueMetadata2.Key = types.StringPointerValue(keyValueMetadataItem2.Key)
+			keyValueMetadata2.Value = types.StringValue(keyValueMetadataItem2.Value)
 			if keyValueMetadataCount2+1 > len(r.OutputFilesystem.KeyValueMetadata) {
-				r.OutputFilesystem.KeyValueMetadata = append(r.OutputFilesystem.KeyValueMetadata, keyValueMetadata5)
+				r.OutputFilesystem.KeyValueMetadata = append(r.OutputFilesystem.KeyValueMetadata, keyValueMetadata2)
 			} else {
-				r.OutputFilesystem.KeyValueMetadata[keyValueMetadataCount2].Key = keyValueMetadata5.Key
-				r.OutputFilesystem.KeyValueMetadata[keyValueMetadataCount2].Value = keyValueMetadata5.Value
+				r.OutputFilesystem.KeyValueMetadata[keyValueMetadataCount2].Key = keyValueMetadata2.Key
+				r.OutputFilesystem.KeyValueMetadata[keyValueMetadataCount2].Value = keyValueMetadata2.Value
 			}
 		}
-		if resp.OutputFilesystem.MaxFileIdleTimeSec != nil {
-			r.OutputFilesystem.MaxFileIdleTimeSec = types.NumberValue(big.NewFloat(float64(*resp.OutputFilesystem.MaxFileIdleTimeSec)))
-		} else {
-			r.OutputFilesystem.MaxFileIdleTimeSec = types.NumberNull()
-		}
-		if resp.OutputFilesystem.MaxFileOpenTimeSec != nil {
-			r.OutputFilesystem.MaxFileOpenTimeSec = types.NumberValue(big.NewFloat(float64(*resp.OutputFilesystem.MaxFileOpenTimeSec)))
-		} else {
-			r.OutputFilesystem.MaxFileOpenTimeSec = types.NumberNull()
-		}
-		if resp.OutputFilesystem.MaxFileSizeMB != nil {
-			r.OutputFilesystem.MaxFileSizeMB = types.NumberValue(big.NewFloat(float64(*resp.OutputFilesystem.MaxFileSizeMB)))
-		} else {
-			r.OutputFilesystem.MaxFileSizeMB = types.NumberNull()
-		}
-		if resp.OutputFilesystem.MaxOpenFiles != nil {
-			r.OutputFilesystem.MaxOpenFiles = types.NumberValue(big.NewFloat(float64(*resp.OutputFilesystem.MaxOpenFiles)))
-		} else {
-			r.OutputFilesystem.MaxOpenFiles = types.NumberNull()
-		}
-		if resp.OutputFilesystem.MaxRetryNum != nil {
-			r.OutputFilesystem.MaxRetryNum = types.NumberValue(big.NewFloat(float64(*resp.OutputFilesystem.MaxRetryNum)))
-		} else {
-			r.OutputFilesystem.MaxRetryNum = types.NumberNull()
-		}
+		r.OutputFilesystem.MaxFileIdleTimeSec = types.Float64PointerValue(resp.OutputFilesystem.MaxFileIdleTimeSec)
+		r.OutputFilesystem.MaxFileOpenTimeSec = types.Float64PointerValue(resp.OutputFilesystem.MaxFileOpenTimeSec)
+		r.OutputFilesystem.MaxFileSizeMB = types.Float64PointerValue(resp.OutputFilesystem.MaxFileSizeMB)
+		r.OutputFilesystem.MaxOpenFiles = types.Float64PointerValue(resp.OutputFilesystem.MaxOpenFiles)
+		r.OutputFilesystem.MaxRetryNum = types.Float64PointerValue(resp.OutputFilesystem.MaxRetryNum)
 		if resp.OutputFilesystem.OnBackpressure != nil {
 			r.OutputFilesystem.OnBackpressure = types.StringValue(string(*resp.OutputFilesystem.OnBackpressure))
 		} else {
@@ -23939,11 +23117,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputFilesystem.ParquetDataPageVersion = types.StringNull()
 		}
 		r.OutputFilesystem.ParquetPageSize = types.StringPointerValue(resp.OutputFilesystem.ParquetPageSize)
-		if resp.OutputFilesystem.ParquetRowGroupLength != nil {
-			r.OutputFilesystem.ParquetRowGroupLength = types.NumberValue(big.NewFloat(float64(*resp.OutputFilesystem.ParquetRowGroupLength)))
-		} else {
-			r.OutputFilesystem.ParquetRowGroupLength = types.NumberNull()
-		}
+		r.OutputFilesystem.ParquetRowGroupLength = types.Float64PointerValue(resp.OutputFilesystem.ParquetRowGroupLength)
 		if resp.OutputFilesystem.ParquetVersion != nil {
 			r.OutputFilesystem.ParquetVersion = types.StringValue(string(*resp.OutputFilesystem.ParquetVersion))
 		} else {
@@ -23963,11 +23137,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputFilesystem.SystemFields = append(r.OutputFilesystem.SystemFields, types.StringValue(v))
 		}
 		r.OutputFilesystem.Type = types.StringValue(string(resp.OutputFilesystem.Type))
-		if resp.OutputFilesystem.WriteHighWaterMark != nil {
-			r.OutputFilesystem.WriteHighWaterMark = types.NumberValue(big.NewFloat(float64(*resp.OutputFilesystem.WriteHighWaterMark)))
-		} else {
-			r.OutputFilesystem.WriteHighWaterMark = types.NumberNull()
-		}
+		r.OutputFilesystem.WriteHighWaterMark = types.Float64PointerValue(resp.OutputFilesystem.WriteHighWaterMark)
 	}
 	if resp.OutputGoogleChronicle != nil {
 		r.OutputGoogleChronicle = &tfTypes.OutputGoogleChronicle{}
@@ -23984,25 +23154,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputGoogleChronicle.AuthenticationMethod = types.StringNull()
 		}
 		r.OutputGoogleChronicle.Compress = types.BoolPointerValue(resp.OutputGoogleChronicle.Compress)
-		if resp.OutputGoogleChronicle.Concurrency != nil {
-			r.OutputGoogleChronicle.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleChronicle.Concurrency)))
-		} else {
-			r.OutputGoogleChronicle.Concurrency = types.NumberNull()
-		}
+		r.OutputGoogleChronicle.Concurrency = types.Float64PointerValue(resp.OutputGoogleChronicle.Concurrency)
 		r.OutputGoogleChronicle.CustomerID = types.StringPointerValue(resp.OutputGoogleChronicle.CustomerID)
 		r.OutputGoogleChronicle.CustomLabels = []tfTypes.CustomLabels{}
 		if len(r.OutputGoogleChronicle.CustomLabels) > len(resp.OutputGoogleChronicle.CustomLabels) {
 			r.OutputGoogleChronicle.CustomLabels = r.OutputGoogleChronicle.CustomLabels[:len(resp.OutputGoogleChronicle.CustomLabels)]
 		}
 		for customLabelsCount, customLabelsItem := range resp.OutputGoogleChronicle.CustomLabels {
-			var customLabels1 tfTypes.CustomLabels
-			customLabels1.Key = types.StringValue(customLabelsItem.Key)
-			customLabels1.Value = types.StringValue(customLabelsItem.Value)
+			var customLabels tfTypes.CustomLabels
+			customLabels.Key = types.StringValue(customLabelsItem.Key)
+			customLabels.Value = types.StringValue(customLabelsItem.Value)
 			if customLabelsCount+1 > len(r.OutputGoogleChronicle.CustomLabels) {
-				r.OutputGoogleChronicle.CustomLabels = append(r.OutputGoogleChronicle.CustomLabels, customLabels1)
+				r.OutputGoogleChronicle.CustomLabels = append(r.OutputGoogleChronicle.CustomLabels, customLabels)
 			} else {
-				r.OutputGoogleChronicle.CustomLabels[customLabelsCount].Key = customLabels1.Key
-				r.OutputGoogleChronicle.CustomLabels[customLabelsCount].Value = customLabels1.Value
+				r.OutputGoogleChronicle.CustomLabels[customLabelsCount].Key = customLabels.Key
+				r.OutputGoogleChronicle.CustomLabels[customLabelsCount].Value = customLabels.Value
 			}
 		}
 		r.OutputGoogleChronicle.Description = types.StringPointerValue(resp.OutputGoogleChronicle.Description)
@@ -24012,14 +23178,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputGoogleChronicle.ExtraHTTPHeaders = r.OutputGoogleChronicle.ExtraHTTPHeaders[:len(resp.OutputGoogleChronicle.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount10, extraHTTPHeadersItem10 := range resp.OutputGoogleChronicle.ExtraHTTPHeaders {
-			var extraHTTPHeaders21 tfTypes.OutputGoogleChronicleExtraHTTPHeaders
-			extraHTTPHeaders21.Name = types.StringPointerValue(extraHTTPHeadersItem10.Name)
-			extraHTTPHeaders21.Value = types.StringValue(extraHTTPHeadersItem10.Value)
+			var extraHTTPHeaders10 tfTypes.OutputGoogleChronicleExtraHTTPHeaders
+			extraHTTPHeaders10.Name = types.StringPointerValue(extraHTTPHeadersItem10.Name)
+			extraHTTPHeaders10.Value = types.StringValue(extraHTTPHeadersItem10.Value)
 			if extraHTTPHeadersCount10+1 > len(r.OutputGoogleChronicle.ExtraHTTPHeaders) {
-				r.OutputGoogleChronicle.ExtraHTTPHeaders = append(r.OutputGoogleChronicle.ExtraHTTPHeaders, extraHTTPHeaders21)
+				r.OutputGoogleChronicle.ExtraHTTPHeaders = append(r.OutputGoogleChronicle.ExtraHTTPHeaders, extraHTTPHeaders10)
 			} else {
-				r.OutputGoogleChronicle.ExtraHTTPHeaders[extraHTTPHeadersCount10].Name = extraHTTPHeaders21.Name
-				r.OutputGoogleChronicle.ExtraHTTPHeaders[extraHTTPHeadersCount10].Value = extraHTTPHeaders21.Value
+				r.OutputGoogleChronicle.ExtraHTTPHeaders[extraHTTPHeadersCount10].Name = extraHTTPHeaders10.Name
+				r.OutputGoogleChronicle.ExtraHTTPHeaders[extraHTTPHeadersCount10].Value = extraHTTPHeaders10.Value
 			}
 		}
 		r.OutputGoogleChronicle.ExtraLogTypes = []tfTypes.ExtraLogTypes{}
@@ -24027,14 +23193,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputGoogleChronicle.ExtraLogTypes = r.OutputGoogleChronicle.ExtraLogTypes[:len(resp.OutputGoogleChronicle.ExtraLogTypes)]
 		}
 		for extraLogTypesCount, extraLogTypesItem := range resp.OutputGoogleChronicle.ExtraLogTypes {
-			var extraLogTypes1 tfTypes.ExtraLogTypes
-			extraLogTypes1.Description = types.StringPointerValue(extraLogTypesItem.Description)
-			extraLogTypes1.LogType = types.StringValue(extraLogTypesItem.LogType)
+			var extraLogTypes tfTypes.ExtraLogTypes
+			extraLogTypes.Description = types.StringPointerValue(extraLogTypesItem.Description)
+			extraLogTypes.LogType = types.StringValue(extraLogTypesItem.LogType)
 			if extraLogTypesCount+1 > len(r.OutputGoogleChronicle.ExtraLogTypes) {
-				r.OutputGoogleChronicle.ExtraLogTypes = append(r.OutputGoogleChronicle.ExtraLogTypes, extraLogTypes1)
+				r.OutputGoogleChronicle.ExtraLogTypes = append(r.OutputGoogleChronicle.ExtraLogTypes, extraLogTypes)
 			} else {
-				r.OutputGoogleChronicle.ExtraLogTypes[extraLogTypesCount].Description = extraLogTypes1.Description
-				r.OutputGoogleChronicle.ExtraLogTypes[extraLogTypesCount].LogType = extraLogTypes1.LogType
+				r.OutputGoogleChronicle.ExtraLogTypes[extraLogTypesCount].Description = extraLogTypes.Description
+				r.OutputGoogleChronicle.ExtraLogTypes[extraLogTypesCount].LogType = extraLogTypes.LogType
 			}
 		}
 		if resp.OutputGoogleChronicle.FailedRequestLoggingMode != nil {
@@ -24042,11 +23208,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputGoogleChronicle.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputGoogleChronicle.FlushPeriodSec != nil {
-			r.OutputGoogleChronicle.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleChronicle.FlushPeriodSec)))
-		} else {
-			r.OutputGoogleChronicle.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputGoogleChronicle.FlushPeriodSec = types.Float64PointerValue(resp.OutputGoogleChronicle.FlushPeriodSec)
 		r.OutputGoogleChronicle.ID = types.StringPointerValue(resp.OutputGoogleChronicle.ID)
 		if resp.OutputGoogleChronicle.LogFormatType != nil {
 			r.OutputGoogleChronicle.LogFormatType = types.StringValue(string(*resp.OutputGoogleChronicle.LogFormatType))
@@ -24055,16 +23217,8 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		}
 		r.OutputGoogleChronicle.LogTextField = types.StringPointerValue(resp.OutputGoogleChronicle.LogTextField)
 		r.OutputGoogleChronicle.LogType = types.StringPointerValue(resp.OutputGoogleChronicle.LogType)
-		if resp.OutputGoogleChronicle.MaxPayloadEvents != nil {
-			r.OutputGoogleChronicle.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleChronicle.MaxPayloadEvents)))
-		} else {
-			r.OutputGoogleChronicle.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputGoogleChronicle.MaxPayloadSizeKB != nil {
-			r.OutputGoogleChronicle.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleChronicle.MaxPayloadSizeKB)))
-		} else {
-			r.OutputGoogleChronicle.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputGoogleChronicle.MaxPayloadEvents = types.Float64PointerValue(resp.OutputGoogleChronicle.MaxPayloadEvents)
+		r.OutputGoogleChronicle.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputGoogleChronicle.MaxPayloadSizeKB)
 		r.OutputGoogleChronicle.Namespace = types.StringPointerValue(resp.OutputGoogleChronicle.Namespace)
 		if resp.OutputGoogleChronicle.OnBackpressure != nil {
 			r.OutputGoogleChronicle.OnBackpressure = types.StringValue(string(*resp.OutputGoogleChronicle.OnBackpressure))
@@ -24103,30 +23257,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputGoogleChronicle.ResponseRetrySettings = r.OutputGoogleChronicle.ResponseRetrySettings[:len(resp.OutputGoogleChronicle.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount11, responseRetrySettingsItem11 := range resp.OutputGoogleChronicle.ResponseRetrySettings {
-			var responseRetrySettings23 tfTypes.OutputGoogleChronicleResponseRetrySettings
-			if responseRetrySettingsItem11.BackoffRate != nil {
-				responseRetrySettings23.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem11.BackoffRate)))
-			} else {
-				responseRetrySettings23.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings23.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem11.HTTPStatus)))
-			if responseRetrySettingsItem11.InitialBackoff != nil {
-				responseRetrySettings23.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem11.InitialBackoff)))
-			} else {
-				responseRetrySettings23.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem11.MaxBackoff != nil {
-				responseRetrySettings23.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem11.MaxBackoff)))
-			} else {
-				responseRetrySettings23.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings11 tfTypes.OutputGoogleChronicleResponseRetrySettings
+			responseRetrySettings11.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem11.BackoffRate)
+			responseRetrySettings11.HTTPStatus = types.Float64Value(responseRetrySettingsItem11.HTTPStatus)
+			responseRetrySettings11.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem11.InitialBackoff)
+			responseRetrySettings11.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem11.MaxBackoff)
 			if responseRetrySettingsCount11+1 > len(r.OutputGoogleChronicle.ResponseRetrySettings) {
-				r.OutputGoogleChronicle.ResponseRetrySettings = append(r.OutputGoogleChronicle.ResponseRetrySettings, responseRetrySettings23)
+				r.OutputGoogleChronicle.ResponseRetrySettings = append(r.OutputGoogleChronicle.ResponseRetrySettings, responseRetrySettings11)
 			} else {
-				r.OutputGoogleChronicle.ResponseRetrySettings[responseRetrySettingsCount11].BackoffRate = responseRetrySettings23.BackoffRate
-				r.OutputGoogleChronicle.ResponseRetrySettings[responseRetrySettingsCount11].HTTPStatus = responseRetrySettings23.HTTPStatus
-				r.OutputGoogleChronicle.ResponseRetrySettings[responseRetrySettingsCount11].InitialBackoff = responseRetrySettings23.InitialBackoff
-				r.OutputGoogleChronicle.ResponseRetrySettings[responseRetrySettingsCount11].MaxBackoff = responseRetrySettings23.MaxBackoff
+				r.OutputGoogleChronicle.ResponseRetrySettings[responseRetrySettingsCount11].BackoffRate = responseRetrySettings11.BackoffRate
+				r.OutputGoogleChronicle.ResponseRetrySettings[responseRetrySettingsCount11].HTTPStatus = responseRetrySettings11.HTTPStatus
+				r.OutputGoogleChronicle.ResponseRetrySettings[responseRetrySettingsCount11].InitialBackoff = responseRetrySettings11.InitialBackoff
+				r.OutputGoogleChronicle.ResponseRetrySettings[responseRetrySettingsCount11].MaxBackoff = responseRetrySettings11.MaxBackoff
 			}
 		}
 		r.OutputGoogleChronicle.SafeHeaders = make([]types.String, 0, len(resp.OutputGoogleChronicle.SafeHeaders))
@@ -24147,33 +23289,13 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputGoogleChronicle.TimeoutRetrySettings = nil
 		} else {
 			r.OutputGoogleChronicle.TimeoutRetrySettings = &tfTypes.OutputGoogleChronicleTimeoutRetrySettings{}
-			if resp.OutputGoogleChronicle.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputGoogleChronicle.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleChronicle.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputGoogleChronicle.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputGoogleChronicle.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputGoogleChronicle.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleChronicle.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputGoogleChronicle.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputGoogleChronicle.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputGoogleChronicle.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleChronicle.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputGoogleChronicle.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputGoogleChronicle.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputGoogleChronicle.TimeoutRetrySettings.BackoffRate)
+			r.OutputGoogleChronicle.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputGoogleChronicle.TimeoutRetrySettings.InitialBackoff)
+			r.OutputGoogleChronicle.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputGoogleChronicle.TimeoutRetrySettings.MaxBackoff)
 			r.OutputGoogleChronicle.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputGoogleChronicle.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputGoogleChronicle.TimeoutSec != nil {
-			r.OutputGoogleChronicle.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleChronicle.TimeoutSec)))
-		} else {
-			r.OutputGoogleChronicle.TimeoutSec = types.NumberNull()
-		}
-		if resp.OutputGoogleChronicle.TotalMemoryLimitKB != nil {
-			r.OutputGoogleChronicle.TotalMemoryLimitKB = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleChronicle.TotalMemoryLimitKB)))
-		} else {
-			r.OutputGoogleChronicle.TotalMemoryLimitKB = types.NumberNull()
-		}
+		r.OutputGoogleChronicle.TimeoutSec = types.Float64PointerValue(resp.OutputGoogleChronicle.TimeoutSec)
+		r.OutputGoogleChronicle.TotalMemoryLimitKB = types.Float64PointerValue(resp.OutputGoogleChronicle.TotalMemoryLimitKB)
 		r.OutputGoogleChronicle.Type = types.StringValue(string(resp.OutputGoogleChronicle.Type))
 		r.OutputGoogleChronicle.UseRoundRobinDNS = types.BoolPointerValue(resp.OutputGoogleChronicle.UseRoundRobinDNS)
 	}
@@ -24183,25 +23305,13 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputGoogleCloudLogging.CacheHitExpression = types.StringPointerValue(resp.OutputGoogleCloudLogging.CacheHitExpression)
 		r.OutputGoogleCloudLogging.CacheLookupExpression = types.StringPointerValue(resp.OutputGoogleCloudLogging.CacheLookupExpression)
 		r.OutputGoogleCloudLogging.CacheValidatedExpression = types.StringPointerValue(resp.OutputGoogleCloudLogging.CacheValidatedExpression)
-		if resp.OutputGoogleCloudLogging.Concurrency != nil {
-			r.OutputGoogleCloudLogging.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleCloudLogging.Concurrency)))
-		} else {
-			r.OutputGoogleCloudLogging.Concurrency = types.NumberNull()
-		}
-		if resp.OutputGoogleCloudLogging.ConnectionTimeout != nil {
-			r.OutputGoogleCloudLogging.ConnectionTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleCloudLogging.ConnectionTimeout)))
-		} else {
-			r.OutputGoogleCloudLogging.ConnectionTimeout = types.NumberNull()
-		}
+		r.OutputGoogleCloudLogging.Concurrency = types.Float64PointerValue(resp.OutputGoogleCloudLogging.Concurrency)
+		r.OutputGoogleCloudLogging.ConnectionTimeout = types.Float64PointerValue(resp.OutputGoogleCloudLogging.ConnectionTimeout)
 		r.OutputGoogleCloudLogging.Description = types.StringPointerValue(resp.OutputGoogleCloudLogging.Description)
 		r.OutputGoogleCloudLogging.Environment = types.StringPointerValue(resp.OutputGoogleCloudLogging.Environment)
 		r.OutputGoogleCloudLogging.FileExpression = types.StringPointerValue(resp.OutputGoogleCloudLogging.FileExpression)
 		r.OutputGoogleCloudLogging.FirstExpression = types.StringPointerValue(resp.OutputGoogleCloudLogging.FirstExpression)
-		if resp.OutputGoogleCloudLogging.FlushPeriodSec != nil {
-			r.OutputGoogleCloudLogging.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleCloudLogging.FlushPeriodSec)))
-		} else {
-			r.OutputGoogleCloudLogging.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputGoogleCloudLogging.FlushPeriodSec = types.Float64PointerValue(resp.OutputGoogleCloudLogging.FlushPeriodSec)
 		r.OutputGoogleCloudLogging.FunctionExpression = types.StringPointerValue(resp.OutputGoogleCloudLogging.FunctionExpression)
 		if resp.OutputGoogleCloudLogging.GoogleAuthMethod != nil {
 			r.OutputGoogleCloudLogging.GoogleAuthMethod = types.StringValue(string(*resp.OutputGoogleCloudLogging.GoogleAuthMethod))
@@ -24220,29 +23330,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputGoogleCloudLogging.LogLabels = r.OutputGoogleCloudLogging.LogLabels[:len(resp.OutputGoogleCloudLogging.LogLabels)]
 		}
 		for logLabelsCount, logLabelsItem := range resp.OutputGoogleCloudLogging.LogLabels {
-			var logLabels1 tfTypes.LogLabels
-			logLabels1.Label = types.StringValue(logLabelsItem.Label)
-			logLabels1.ValueExpression = types.StringValue(logLabelsItem.ValueExpression)
+			var logLabels tfTypes.LogLabels
+			logLabels.Label = types.StringValue(logLabelsItem.Label)
+			logLabels.ValueExpression = types.StringValue(logLabelsItem.ValueExpression)
 			if logLabelsCount+1 > len(r.OutputGoogleCloudLogging.LogLabels) {
-				r.OutputGoogleCloudLogging.LogLabels = append(r.OutputGoogleCloudLogging.LogLabels, logLabels1)
+				r.OutputGoogleCloudLogging.LogLabels = append(r.OutputGoogleCloudLogging.LogLabels, logLabels)
 			} else {
-				r.OutputGoogleCloudLogging.LogLabels[logLabelsCount].Label = logLabels1.Label
-				r.OutputGoogleCloudLogging.LogLabels[logLabelsCount].ValueExpression = logLabels1.ValueExpression
+				r.OutputGoogleCloudLogging.LogLabels[logLabelsCount].Label = logLabels.Label
+				r.OutputGoogleCloudLogging.LogLabels[logLabelsCount].ValueExpression = logLabels.ValueExpression
 			}
 		}
 		r.OutputGoogleCloudLogging.LogLocationExpression = types.StringValue(resp.OutputGoogleCloudLogging.LogLocationExpression)
 		r.OutputGoogleCloudLogging.LogLocationType = types.StringValue(string(resp.OutputGoogleCloudLogging.LogLocationType))
 		r.OutputGoogleCloudLogging.LogNameExpression = types.StringValue(resp.OutputGoogleCloudLogging.LogNameExpression)
-		if resp.OutputGoogleCloudLogging.MaxPayloadEvents != nil {
-			r.OutputGoogleCloudLogging.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleCloudLogging.MaxPayloadEvents)))
-		} else {
-			r.OutputGoogleCloudLogging.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputGoogleCloudLogging.MaxPayloadSizeKB != nil {
-			r.OutputGoogleCloudLogging.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleCloudLogging.MaxPayloadSizeKB)))
-		} else {
-			r.OutputGoogleCloudLogging.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputGoogleCloudLogging.MaxPayloadEvents = types.Float64PointerValue(resp.OutputGoogleCloudLogging.MaxPayloadEvents)
+		r.OutputGoogleCloudLogging.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputGoogleCloudLogging.MaxPayloadSizeKB)
 		if resp.OutputGoogleCloudLogging.OnBackpressure != nil {
 			r.OutputGoogleCloudLogging.OnBackpressure = types.StringValue(string(*resp.OutputGoogleCloudLogging.OnBackpressure))
 		} else {
@@ -24291,14 +23393,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputGoogleCloudLogging.ResourceTypeLabels = r.OutputGoogleCloudLogging.ResourceTypeLabels[:len(resp.OutputGoogleCloudLogging.ResourceTypeLabels)]
 		}
 		for resourceTypeLabelsCount, resourceTypeLabelsItem := range resp.OutputGoogleCloudLogging.ResourceTypeLabels {
-			var resourceTypeLabels1 tfTypes.ResourceTypeLabels
-			resourceTypeLabels1.Label = types.StringValue(resourceTypeLabelsItem.Label)
-			resourceTypeLabels1.ValueExpression = types.StringValue(resourceTypeLabelsItem.ValueExpression)
+			var resourceTypeLabels tfTypes.ResourceTypeLabels
+			resourceTypeLabels.Label = types.StringValue(resourceTypeLabelsItem.Label)
+			resourceTypeLabels.ValueExpression = types.StringValue(resourceTypeLabelsItem.ValueExpression)
 			if resourceTypeLabelsCount+1 > len(r.OutputGoogleCloudLogging.ResourceTypeLabels) {
-				r.OutputGoogleCloudLogging.ResourceTypeLabels = append(r.OutputGoogleCloudLogging.ResourceTypeLabels, resourceTypeLabels1)
+				r.OutputGoogleCloudLogging.ResourceTypeLabels = append(r.OutputGoogleCloudLogging.ResourceTypeLabels, resourceTypeLabels)
 			} else {
-				r.OutputGoogleCloudLogging.ResourceTypeLabels[resourceTypeLabelsCount].Label = resourceTypeLabels1.Label
-				r.OutputGoogleCloudLogging.ResourceTypeLabels[resourceTypeLabelsCount].ValueExpression = resourceTypeLabels1.ValueExpression
+				r.OutputGoogleCloudLogging.ResourceTypeLabels[resourceTypeLabelsCount].Label = resourceTypeLabels.Label
+				r.OutputGoogleCloudLogging.ResourceTypeLabels[resourceTypeLabelsCount].ValueExpression = resourceTypeLabels.ValueExpression
 			}
 		}
 		r.OutputGoogleCloudLogging.ResponseSizeExpression = types.StringPointerValue(resp.OutputGoogleCloudLogging.ResponseSizeExpression)
@@ -24317,16 +23419,8 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputGoogleCloudLogging.SystemFields = append(r.OutputGoogleCloudLogging.SystemFields, types.StringValue(v))
 		}
 		r.OutputGoogleCloudLogging.ThrottleRateReqPerSec = types.Int64PointerValue(resp.OutputGoogleCloudLogging.ThrottleRateReqPerSec)
-		if resp.OutputGoogleCloudLogging.TimeoutSec != nil {
-			r.OutputGoogleCloudLogging.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleCloudLogging.TimeoutSec)))
-		} else {
-			r.OutputGoogleCloudLogging.TimeoutSec = types.NumberNull()
-		}
-		if resp.OutputGoogleCloudLogging.TotalMemoryLimitKB != nil {
-			r.OutputGoogleCloudLogging.TotalMemoryLimitKB = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleCloudLogging.TotalMemoryLimitKB)))
-		} else {
-			r.OutputGoogleCloudLogging.TotalMemoryLimitKB = types.NumberNull()
-		}
+		r.OutputGoogleCloudLogging.TimeoutSec = types.Float64PointerValue(resp.OutputGoogleCloudLogging.TimeoutSec)
+		r.OutputGoogleCloudLogging.TotalMemoryLimitKB = types.Float64PointerValue(resp.OutputGoogleCloudLogging.TotalMemoryLimitKB)
 		r.OutputGoogleCloudLogging.TotalSplitsExpression = types.StringPointerValue(resp.OutputGoogleCloudLogging.TotalSplitsExpression)
 		r.OutputGoogleCloudLogging.TraceExpression = types.StringPointerValue(resp.OutputGoogleCloudLogging.TraceExpression)
 		r.OutputGoogleCloudLogging.TraceSampledExpression = types.StringPointerValue(resp.OutputGoogleCloudLogging.TraceSampledExpression)
@@ -24366,11 +23460,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputGoogleCloudStorage.DeadletterPath = types.StringPointerValue(resp.OutputGoogleCloudStorage.DeadletterPath)
 		r.OutputGoogleCloudStorage.Description = types.StringPointerValue(resp.OutputGoogleCloudStorage.Description)
 		r.OutputGoogleCloudStorage.DestPath = types.StringPointerValue(resp.OutputGoogleCloudStorage.DestPath)
-		if resp.OutputGoogleCloudStorage.EmptyDirCleanupSec != nil {
-			r.OutputGoogleCloudStorage.EmptyDirCleanupSec = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleCloudStorage.EmptyDirCleanupSec)))
-		} else {
-			r.OutputGoogleCloudStorage.EmptyDirCleanupSec = types.NumberNull()
-		}
+		r.OutputGoogleCloudStorage.EmptyDirCleanupSec = types.Float64PointerValue(resp.OutputGoogleCloudStorage.EmptyDirCleanupSec)
 		r.OutputGoogleCloudStorage.EnablePageChecksum = types.BoolPointerValue(resp.OutputGoogleCloudStorage.EnablePageChecksum)
 		r.OutputGoogleCloudStorage.EnableStatistics = types.BoolPointerValue(resp.OutputGoogleCloudStorage.EnableStatistics)
 		r.OutputGoogleCloudStorage.EnableWritePageIndex = types.BoolPointerValue(resp.OutputGoogleCloudStorage.EnableWritePageIndex)
@@ -24389,41 +23479,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputGoogleCloudStorage.KeyValueMetadata = r.OutputGoogleCloudStorage.KeyValueMetadata[:len(resp.OutputGoogleCloudStorage.KeyValueMetadata)]
 		}
 		for keyValueMetadataCount3, keyValueMetadataItem3 := range resp.OutputGoogleCloudStorage.KeyValueMetadata {
-			var keyValueMetadata7 tfTypes.OutputGoogleCloudStorageKeyValueMetadata
-			keyValueMetadata7.Key = types.StringPointerValue(keyValueMetadataItem3.Key)
-			keyValueMetadata7.Value = types.StringValue(keyValueMetadataItem3.Value)
+			var keyValueMetadata3 tfTypes.OutputGoogleCloudStorageKeyValueMetadata
+			keyValueMetadata3.Key = types.StringPointerValue(keyValueMetadataItem3.Key)
+			keyValueMetadata3.Value = types.StringValue(keyValueMetadataItem3.Value)
 			if keyValueMetadataCount3+1 > len(r.OutputGoogleCloudStorage.KeyValueMetadata) {
-				r.OutputGoogleCloudStorage.KeyValueMetadata = append(r.OutputGoogleCloudStorage.KeyValueMetadata, keyValueMetadata7)
+				r.OutputGoogleCloudStorage.KeyValueMetadata = append(r.OutputGoogleCloudStorage.KeyValueMetadata, keyValueMetadata3)
 			} else {
-				r.OutputGoogleCloudStorage.KeyValueMetadata[keyValueMetadataCount3].Key = keyValueMetadata7.Key
-				r.OutputGoogleCloudStorage.KeyValueMetadata[keyValueMetadataCount3].Value = keyValueMetadata7.Value
+				r.OutputGoogleCloudStorage.KeyValueMetadata[keyValueMetadataCount3].Key = keyValueMetadata3.Key
+				r.OutputGoogleCloudStorage.KeyValueMetadata[keyValueMetadataCount3].Value = keyValueMetadata3.Value
 			}
 		}
-		if resp.OutputGoogleCloudStorage.MaxFileIdleTimeSec != nil {
-			r.OutputGoogleCloudStorage.MaxFileIdleTimeSec = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleCloudStorage.MaxFileIdleTimeSec)))
-		} else {
-			r.OutputGoogleCloudStorage.MaxFileIdleTimeSec = types.NumberNull()
-		}
-		if resp.OutputGoogleCloudStorage.MaxFileOpenTimeSec != nil {
-			r.OutputGoogleCloudStorage.MaxFileOpenTimeSec = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleCloudStorage.MaxFileOpenTimeSec)))
-		} else {
-			r.OutputGoogleCloudStorage.MaxFileOpenTimeSec = types.NumberNull()
-		}
-		if resp.OutputGoogleCloudStorage.MaxFileSizeMB != nil {
-			r.OutputGoogleCloudStorage.MaxFileSizeMB = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleCloudStorage.MaxFileSizeMB)))
-		} else {
-			r.OutputGoogleCloudStorage.MaxFileSizeMB = types.NumberNull()
-		}
-		if resp.OutputGoogleCloudStorage.MaxOpenFiles != nil {
-			r.OutputGoogleCloudStorage.MaxOpenFiles = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleCloudStorage.MaxOpenFiles)))
-		} else {
-			r.OutputGoogleCloudStorage.MaxOpenFiles = types.NumberNull()
-		}
-		if resp.OutputGoogleCloudStorage.MaxRetryNum != nil {
-			r.OutputGoogleCloudStorage.MaxRetryNum = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleCloudStorage.MaxRetryNum)))
-		} else {
-			r.OutputGoogleCloudStorage.MaxRetryNum = types.NumberNull()
-		}
+		r.OutputGoogleCloudStorage.MaxFileIdleTimeSec = types.Float64PointerValue(resp.OutputGoogleCloudStorage.MaxFileIdleTimeSec)
+		r.OutputGoogleCloudStorage.MaxFileOpenTimeSec = types.Float64PointerValue(resp.OutputGoogleCloudStorage.MaxFileOpenTimeSec)
+		r.OutputGoogleCloudStorage.MaxFileSizeMB = types.Float64PointerValue(resp.OutputGoogleCloudStorage.MaxFileSizeMB)
+		r.OutputGoogleCloudStorage.MaxOpenFiles = types.Float64PointerValue(resp.OutputGoogleCloudStorage.MaxOpenFiles)
+		r.OutputGoogleCloudStorage.MaxRetryNum = types.Float64PointerValue(resp.OutputGoogleCloudStorage.MaxRetryNum)
 		if resp.OutputGoogleCloudStorage.ObjectACL != nil {
 			r.OutputGoogleCloudStorage.ObjectACL = types.StringValue(string(*resp.OutputGoogleCloudStorage.ObjectACL))
 		} else {
@@ -24445,11 +23515,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputGoogleCloudStorage.ParquetDataPageVersion = types.StringNull()
 		}
 		r.OutputGoogleCloudStorage.ParquetPageSize = types.StringPointerValue(resp.OutputGoogleCloudStorage.ParquetPageSize)
-		if resp.OutputGoogleCloudStorage.ParquetRowGroupLength != nil {
-			r.OutputGoogleCloudStorage.ParquetRowGroupLength = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleCloudStorage.ParquetRowGroupLength)))
-		} else {
-			r.OutputGoogleCloudStorage.ParquetRowGroupLength = types.NumberNull()
-		}
+		r.OutputGoogleCloudStorage.ParquetRowGroupLength = types.Float64PointerValue(resp.OutputGoogleCloudStorage.ParquetRowGroupLength)
 		if resp.OutputGoogleCloudStorage.ParquetVersion != nil {
 			r.OutputGoogleCloudStorage.ParquetVersion = types.StringValue(string(*resp.OutputGoogleCloudStorage.ParquetVersion))
 		} else {
@@ -24487,53 +23553,25 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputGoogleCloudStorage.Type = types.StringNull()
 		}
 		r.OutputGoogleCloudStorage.VerifyPermissions = types.BoolPointerValue(resp.OutputGoogleCloudStorage.VerifyPermissions)
-		if resp.OutputGoogleCloudStorage.WriteHighWaterMark != nil {
-			r.OutputGoogleCloudStorage.WriteHighWaterMark = types.NumberValue(big.NewFloat(float64(*resp.OutputGoogleCloudStorage.WriteHighWaterMark)))
-		} else {
-			r.OutputGoogleCloudStorage.WriteHighWaterMark = types.NumberNull()
-		}
+		r.OutputGoogleCloudStorage.WriteHighWaterMark = types.Float64PointerValue(resp.OutputGoogleCloudStorage.WriteHighWaterMark)
 	}
 	if resp.OutputGooglePubsub != nil {
 		r.OutputGooglePubsub = &tfTypes.OutputGooglePubsub{}
-		if resp.OutputGooglePubsub.BatchSize != nil {
-			r.OutputGooglePubsub.BatchSize = types.NumberValue(big.NewFloat(float64(*resp.OutputGooglePubsub.BatchSize)))
-		} else {
-			r.OutputGooglePubsub.BatchSize = types.NumberNull()
-		}
-		if resp.OutputGooglePubsub.BatchTimeout != nil {
-			r.OutputGooglePubsub.BatchTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputGooglePubsub.BatchTimeout)))
-		} else {
-			r.OutputGooglePubsub.BatchTimeout = types.NumberNull()
-		}
+		r.OutputGooglePubsub.BatchSize = types.Float64PointerValue(resp.OutputGooglePubsub.BatchSize)
+		r.OutputGooglePubsub.BatchTimeout = types.Float64PointerValue(resp.OutputGooglePubsub.BatchTimeout)
 		r.OutputGooglePubsub.CreateTopic = types.BoolPointerValue(resp.OutputGooglePubsub.CreateTopic)
 		r.OutputGooglePubsub.Description = types.StringPointerValue(resp.OutputGooglePubsub.Description)
 		r.OutputGooglePubsub.Environment = types.StringPointerValue(resp.OutputGooglePubsub.Environment)
-		if resp.OutputGooglePubsub.FlushPeriodSec != nil {
-			r.OutputGooglePubsub.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputGooglePubsub.FlushPeriodSec)))
-		} else {
-			r.OutputGooglePubsub.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputGooglePubsub.FlushPeriodSec = types.Float64PointerValue(resp.OutputGooglePubsub.FlushPeriodSec)
 		if resp.OutputGooglePubsub.GoogleAuthMethod != nil {
 			r.OutputGooglePubsub.GoogleAuthMethod = types.StringValue(string(*resp.OutputGooglePubsub.GoogleAuthMethod))
 		} else {
 			r.OutputGooglePubsub.GoogleAuthMethod = types.StringNull()
 		}
 		r.OutputGooglePubsub.ID = types.StringPointerValue(resp.OutputGooglePubsub.ID)
-		if resp.OutputGooglePubsub.MaxInProgress != nil {
-			r.OutputGooglePubsub.MaxInProgress = types.NumberValue(big.NewFloat(float64(*resp.OutputGooglePubsub.MaxInProgress)))
-		} else {
-			r.OutputGooglePubsub.MaxInProgress = types.NumberNull()
-		}
-		if resp.OutputGooglePubsub.MaxQueueSize != nil {
-			r.OutputGooglePubsub.MaxQueueSize = types.NumberValue(big.NewFloat(float64(*resp.OutputGooglePubsub.MaxQueueSize)))
-		} else {
-			r.OutputGooglePubsub.MaxQueueSize = types.NumberNull()
-		}
-		if resp.OutputGooglePubsub.MaxRecordSizeKB != nil {
-			r.OutputGooglePubsub.MaxRecordSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputGooglePubsub.MaxRecordSizeKB)))
-		} else {
-			r.OutputGooglePubsub.MaxRecordSizeKB = types.NumberNull()
-		}
+		r.OutputGooglePubsub.MaxInProgress = types.Float64PointerValue(resp.OutputGooglePubsub.MaxInProgress)
+		r.OutputGooglePubsub.MaxQueueSize = types.Float64PointerValue(resp.OutputGooglePubsub.MaxQueueSize)
+		r.OutputGooglePubsub.MaxRecordSizeKB = types.Float64PointerValue(resp.OutputGooglePubsub.MaxRecordSizeKB)
 		if resp.OutputGooglePubsub.OnBackpressure != nil {
 			r.OutputGooglePubsub.OnBackpressure = types.StringValue(string(*resp.OutputGooglePubsub.OnBackpressure))
 		} else {
@@ -24583,11 +23621,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		if resp.OutputGrafanaCloud.OutputGrafanaCloud1 != nil {
 			r.OutputGrafanaCloud.One = &tfTypes.OutputGrafanaCloud1{}
 			r.OutputGrafanaCloud.One.Compress = types.BoolPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud1.Compress)
-			if resp.OutputGrafanaCloud.OutputGrafanaCloud1.Concurrency != nil {
-				r.OutputGrafanaCloud.One.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputGrafanaCloud.OutputGrafanaCloud1.Concurrency)))
-			} else {
-				r.OutputGrafanaCloud.One.Concurrency = types.NumberNull()
-			}
+			r.OutputGrafanaCloud.One.Concurrency = types.Float64PointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud1.Concurrency)
 			r.OutputGrafanaCloud.One.Description = types.StringPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud1.Description)
 			r.OutputGrafanaCloud.One.Environment = types.StringPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud1.Environment)
 			r.OutputGrafanaCloud.One.ExtraHTTPHeaders = []tfTypes.OutputGrafanaCloudExtraHTTPHeaders{}
@@ -24595,14 +23629,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 				r.OutputGrafanaCloud.One.ExtraHTTPHeaders = r.OutputGrafanaCloud.One.ExtraHTTPHeaders[:len(resp.OutputGrafanaCloud.OutputGrafanaCloud1.ExtraHTTPHeaders)]
 			}
 			for extraHTTPHeadersCount11, extraHTTPHeadersItem11 := range resp.OutputGrafanaCloud.OutputGrafanaCloud1.ExtraHTTPHeaders {
-				var extraHTTPHeaders23 tfTypes.OutputGrafanaCloudExtraHTTPHeaders
-				extraHTTPHeaders23.Name = types.StringPointerValue(extraHTTPHeadersItem11.Name)
-				extraHTTPHeaders23.Value = types.StringValue(extraHTTPHeadersItem11.Value)
+				var extraHTTPHeaders11 tfTypes.OutputGrafanaCloudExtraHTTPHeaders
+				extraHTTPHeaders11.Name = types.StringPointerValue(extraHTTPHeadersItem11.Name)
+				extraHTTPHeaders11.Value = types.StringValue(extraHTTPHeadersItem11.Value)
 				if extraHTTPHeadersCount11+1 > len(r.OutputGrafanaCloud.One.ExtraHTTPHeaders) {
-					r.OutputGrafanaCloud.One.ExtraHTTPHeaders = append(r.OutputGrafanaCloud.One.ExtraHTTPHeaders, extraHTTPHeaders23)
+					r.OutputGrafanaCloud.One.ExtraHTTPHeaders = append(r.OutputGrafanaCloud.One.ExtraHTTPHeaders, extraHTTPHeaders11)
 				} else {
-					r.OutputGrafanaCloud.One.ExtraHTTPHeaders[extraHTTPHeadersCount11].Name = extraHTTPHeaders23.Name
-					r.OutputGrafanaCloud.One.ExtraHTTPHeaders[extraHTTPHeadersCount11].Value = extraHTTPHeaders23.Value
+					r.OutputGrafanaCloud.One.ExtraHTTPHeaders[extraHTTPHeadersCount11].Name = extraHTTPHeaders11.Name
+					r.OutputGrafanaCloud.One.ExtraHTTPHeaders[extraHTTPHeadersCount11].Value = extraHTTPHeaders11.Value
 				}
 			}
 			if resp.OutputGrafanaCloud.OutputGrafanaCloud1.FailedRequestLoggingMode != nil {
@@ -24610,25 +23644,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			} else {
 				r.OutputGrafanaCloud.One.FailedRequestLoggingMode = types.StringNull()
 			}
-			if resp.OutputGrafanaCloud.OutputGrafanaCloud1.FlushPeriodSec != nil {
-				r.OutputGrafanaCloud.One.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputGrafanaCloud.OutputGrafanaCloud1.FlushPeriodSec)))
-			} else {
-				r.OutputGrafanaCloud.One.FlushPeriodSec = types.NumberNull()
-			}
+			r.OutputGrafanaCloud.One.FlushPeriodSec = types.Float64PointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud1.FlushPeriodSec)
 			r.OutputGrafanaCloud.One.ID = types.StringValue(resp.OutputGrafanaCloud.OutputGrafanaCloud1.ID)
 			r.OutputGrafanaCloud.One.Labels = []tfTypes.OutputGrafanaCloud1Labels{}
 			if len(r.OutputGrafanaCloud.One.Labels) > len(resp.OutputGrafanaCloud.OutputGrafanaCloud1.Labels) {
 				r.OutputGrafanaCloud.One.Labels = r.OutputGrafanaCloud.One.Labels[:len(resp.OutputGrafanaCloud.OutputGrafanaCloud1.Labels)]
 			}
 			for labelsCount, labelsItem := range resp.OutputGrafanaCloud.OutputGrafanaCloud1.Labels {
-				var labels1 tfTypes.OutputGrafanaCloud1Labels
-				labels1.Name = types.StringPointerValue(labelsItem.Name)
-				labels1.Value = types.StringValue(labelsItem.Value)
+				var labels tfTypes.OutputGrafanaCloud1Labels
+				labels.Name = types.StringPointerValue(labelsItem.Name)
+				labels.Value = types.StringValue(labelsItem.Value)
 				if labelsCount+1 > len(r.OutputGrafanaCloud.One.Labels) {
-					r.OutputGrafanaCloud.One.Labels = append(r.OutputGrafanaCloud.One.Labels, labels1)
+					r.OutputGrafanaCloud.One.Labels = append(r.OutputGrafanaCloud.One.Labels, labels)
 				} else {
-					r.OutputGrafanaCloud.One.Labels[labelsCount].Name = labels1.Name
-					r.OutputGrafanaCloud.One.Labels[labelsCount].Value = labels1.Value
+					r.OutputGrafanaCloud.One.Labels[labelsCount].Name = labels.Name
+					r.OutputGrafanaCloud.One.Labels[labelsCount].Value = labels.Value
 				}
 			}
 			if resp.OutputGrafanaCloud.OutputGrafanaCloud1.LokiAuth == nil {
@@ -24647,16 +23677,8 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 				r.OutputGrafanaCloud.One.LokiAuth.Username = types.StringPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud1.LokiAuth.Username)
 			}
 			r.OutputGrafanaCloud.One.LokiURL = types.StringValue(resp.OutputGrafanaCloud.OutputGrafanaCloud1.LokiURL)
-			if resp.OutputGrafanaCloud.OutputGrafanaCloud1.MaxPayloadEvents != nil {
-				r.OutputGrafanaCloud.One.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputGrafanaCloud.OutputGrafanaCloud1.MaxPayloadEvents)))
-			} else {
-				r.OutputGrafanaCloud.One.MaxPayloadEvents = types.NumberNull()
-			}
-			if resp.OutputGrafanaCloud.OutputGrafanaCloud1.MaxPayloadSizeKB != nil {
-				r.OutputGrafanaCloud.One.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputGrafanaCloud.OutputGrafanaCloud1.MaxPayloadSizeKB)))
-			} else {
-				r.OutputGrafanaCloud.One.MaxPayloadSizeKB = types.NumberNull()
-			}
+			r.OutputGrafanaCloud.One.MaxPayloadEvents = types.Float64PointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud1.MaxPayloadEvents)
+			r.OutputGrafanaCloud.One.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud1.MaxPayloadSizeKB)
 			r.OutputGrafanaCloud.One.Message = types.StringPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud1.Message)
 			if resp.OutputGrafanaCloud.OutputGrafanaCloud1.MessageFormat != nil {
 				r.OutputGrafanaCloud.One.MessageFormat = types.StringValue(string(*resp.OutputGrafanaCloud.OutputGrafanaCloud1.MessageFormat))
@@ -24716,30 +23738,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 				r.OutputGrafanaCloud.One.ResponseRetrySettings = r.OutputGrafanaCloud.One.ResponseRetrySettings[:len(resp.OutputGrafanaCloud.OutputGrafanaCloud1.ResponseRetrySettings)]
 			}
 			for responseRetrySettingsCount12, responseRetrySettingsItem12 := range resp.OutputGrafanaCloud.OutputGrafanaCloud1.ResponseRetrySettings {
-				var responseRetrySettings25 tfTypes.OutputGrafanaCloudResponseRetrySettings
-				if responseRetrySettingsItem12.BackoffRate != nil {
-					responseRetrySettings25.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem12.BackoffRate)))
-				} else {
-					responseRetrySettings25.BackoffRate = types.NumberNull()
-				}
-				responseRetrySettings25.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem12.HTTPStatus)))
-				if responseRetrySettingsItem12.InitialBackoff != nil {
-					responseRetrySettings25.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem12.InitialBackoff)))
-				} else {
-					responseRetrySettings25.InitialBackoff = types.NumberNull()
-				}
-				if responseRetrySettingsItem12.MaxBackoff != nil {
-					responseRetrySettings25.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem12.MaxBackoff)))
-				} else {
-					responseRetrySettings25.MaxBackoff = types.NumberNull()
-				}
+				var responseRetrySettings12 tfTypes.OutputGrafanaCloudResponseRetrySettings
+				responseRetrySettings12.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem12.BackoffRate)
+				responseRetrySettings12.HTTPStatus = types.Float64Value(responseRetrySettingsItem12.HTTPStatus)
+				responseRetrySettings12.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem12.InitialBackoff)
+				responseRetrySettings12.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem12.MaxBackoff)
 				if responseRetrySettingsCount12+1 > len(r.OutputGrafanaCloud.One.ResponseRetrySettings) {
-					r.OutputGrafanaCloud.One.ResponseRetrySettings = append(r.OutputGrafanaCloud.One.ResponseRetrySettings, responseRetrySettings25)
+					r.OutputGrafanaCloud.One.ResponseRetrySettings = append(r.OutputGrafanaCloud.One.ResponseRetrySettings, responseRetrySettings12)
 				} else {
-					r.OutputGrafanaCloud.One.ResponseRetrySettings[responseRetrySettingsCount12].BackoffRate = responseRetrySettings25.BackoffRate
-					r.OutputGrafanaCloud.One.ResponseRetrySettings[responseRetrySettingsCount12].HTTPStatus = responseRetrySettings25.HTTPStatus
-					r.OutputGrafanaCloud.One.ResponseRetrySettings[responseRetrySettingsCount12].InitialBackoff = responseRetrySettings25.InitialBackoff
-					r.OutputGrafanaCloud.One.ResponseRetrySettings[responseRetrySettingsCount12].MaxBackoff = responseRetrySettings25.MaxBackoff
+					r.OutputGrafanaCloud.One.ResponseRetrySettings[responseRetrySettingsCount12].BackoffRate = responseRetrySettings12.BackoffRate
+					r.OutputGrafanaCloud.One.ResponseRetrySettings[responseRetrySettingsCount12].HTTPStatus = responseRetrySettings12.HTTPStatus
+					r.OutputGrafanaCloud.One.ResponseRetrySettings[responseRetrySettingsCount12].InitialBackoff = responseRetrySettings12.InitialBackoff
+					r.OutputGrafanaCloud.One.ResponseRetrySettings[responseRetrySettingsCount12].MaxBackoff = responseRetrySettings12.MaxBackoff
 				}
 			}
 			r.OutputGrafanaCloud.One.SafeHeaders = make([]types.String, 0, len(resp.OutputGrafanaCloud.OutputGrafanaCloud1.SafeHeaders))
@@ -24758,39 +23768,19 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 				r.OutputGrafanaCloud.One.TimeoutRetrySettings = nil
 			} else {
 				r.OutputGrafanaCloud.One.TimeoutRetrySettings = &tfTypes.OutputGrafanaCloudTimeoutRetrySettings{}
-				if resp.OutputGrafanaCloud.OutputGrafanaCloud1.TimeoutRetrySettings.BackoffRate != nil {
-					r.OutputGrafanaCloud.One.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputGrafanaCloud.OutputGrafanaCloud1.TimeoutRetrySettings.BackoffRate)))
-				} else {
-					r.OutputGrafanaCloud.One.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-				}
-				if resp.OutputGrafanaCloud.OutputGrafanaCloud1.TimeoutRetrySettings.InitialBackoff != nil {
-					r.OutputGrafanaCloud.One.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputGrafanaCloud.OutputGrafanaCloud1.TimeoutRetrySettings.InitialBackoff)))
-				} else {
-					r.OutputGrafanaCloud.One.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-				}
-				if resp.OutputGrafanaCloud.OutputGrafanaCloud1.TimeoutRetrySettings.MaxBackoff != nil {
-					r.OutputGrafanaCloud.One.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputGrafanaCloud.OutputGrafanaCloud1.TimeoutRetrySettings.MaxBackoff)))
-				} else {
-					r.OutputGrafanaCloud.One.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-				}
+				r.OutputGrafanaCloud.One.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud1.TimeoutRetrySettings.BackoffRate)
+				r.OutputGrafanaCloud.One.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud1.TimeoutRetrySettings.InitialBackoff)
+				r.OutputGrafanaCloud.One.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud1.TimeoutRetrySettings.MaxBackoff)
 				r.OutputGrafanaCloud.One.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud1.TimeoutRetrySettings.TimeoutRetry)
 			}
-			if resp.OutputGrafanaCloud.OutputGrafanaCloud1.TimeoutSec != nil {
-				r.OutputGrafanaCloud.One.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputGrafanaCloud.OutputGrafanaCloud1.TimeoutSec)))
-			} else {
-				r.OutputGrafanaCloud.One.TimeoutSec = types.NumberNull()
-			}
+			r.OutputGrafanaCloud.One.TimeoutSec = types.Float64PointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud1.TimeoutSec)
 			r.OutputGrafanaCloud.One.Type = types.StringValue(string(resp.OutputGrafanaCloud.OutputGrafanaCloud1.Type))
 			r.OutputGrafanaCloud.One.UseRoundRobinDNS = types.BoolPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud1.UseRoundRobinDNS)
 		}
 		if resp.OutputGrafanaCloud.OutputGrafanaCloud2 != nil {
 			r.OutputGrafanaCloud.Two = &tfTypes.OutputGrafanaCloud2{}
 			r.OutputGrafanaCloud.Two.Compress = types.BoolPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.Compress)
-			if resp.OutputGrafanaCloud.OutputGrafanaCloud2.Concurrency != nil {
-				r.OutputGrafanaCloud.Two.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputGrafanaCloud.OutputGrafanaCloud2.Concurrency)))
-			} else {
-				r.OutputGrafanaCloud.Two.Concurrency = types.NumberNull()
-			}
+			r.OutputGrafanaCloud.Two.Concurrency = types.Float64PointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.Concurrency)
 			r.OutputGrafanaCloud.Two.Description = types.StringPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.Description)
 			r.OutputGrafanaCloud.Two.Environment = types.StringPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.Environment)
 			r.OutputGrafanaCloud.Two.ExtraHTTPHeaders = []tfTypes.OutputGrafanaCloud2ExtraHTTPHeaders{}
@@ -24798,14 +23788,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 				r.OutputGrafanaCloud.Two.ExtraHTTPHeaders = r.OutputGrafanaCloud.Two.ExtraHTTPHeaders[:len(resp.OutputGrafanaCloud.OutputGrafanaCloud2.ExtraHTTPHeaders)]
 			}
 			for extraHTTPHeadersCount12, extraHTTPHeadersItem12 := range resp.OutputGrafanaCloud.OutputGrafanaCloud2.ExtraHTTPHeaders {
-				var extraHTTPHeaders25 tfTypes.OutputGrafanaCloud2ExtraHTTPHeaders
-				extraHTTPHeaders25.Name = types.StringPointerValue(extraHTTPHeadersItem12.Name)
-				extraHTTPHeaders25.Value = types.StringValue(extraHTTPHeadersItem12.Value)
+				var extraHTTPHeaders12 tfTypes.OutputGrafanaCloud2ExtraHTTPHeaders
+				extraHTTPHeaders12.Name = types.StringPointerValue(extraHTTPHeadersItem12.Name)
+				extraHTTPHeaders12.Value = types.StringValue(extraHTTPHeadersItem12.Value)
 				if extraHTTPHeadersCount12+1 > len(r.OutputGrafanaCloud.Two.ExtraHTTPHeaders) {
-					r.OutputGrafanaCloud.Two.ExtraHTTPHeaders = append(r.OutputGrafanaCloud.Two.ExtraHTTPHeaders, extraHTTPHeaders25)
+					r.OutputGrafanaCloud.Two.ExtraHTTPHeaders = append(r.OutputGrafanaCloud.Two.ExtraHTTPHeaders, extraHTTPHeaders12)
 				} else {
-					r.OutputGrafanaCloud.Two.ExtraHTTPHeaders[extraHTTPHeadersCount12].Name = extraHTTPHeaders25.Name
-					r.OutputGrafanaCloud.Two.ExtraHTTPHeaders[extraHTTPHeadersCount12].Value = extraHTTPHeaders25.Value
+					r.OutputGrafanaCloud.Two.ExtraHTTPHeaders[extraHTTPHeadersCount12].Name = extraHTTPHeaders12.Name
+					r.OutputGrafanaCloud.Two.ExtraHTTPHeaders[extraHTTPHeadersCount12].Value = extraHTTPHeaders12.Value
 				}
 			}
 			if resp.OutputGrafanaCloud.OutputGrafanaCloud2.FailedRequestLoggingMode != nil {
@@ -24813,25 +23803,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			} else {
 				r.OutputGrafanaCloud.Two.FailedRequestLoggingMode = types.StringNull()
 			}
-			if resp.OutputGrafanaCloud.OutputGrafanaCloud2.FlushPeriodSec != nil {
-				r.OutputGrafanaCloud.Two.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputGrafanaCloud.OutputGrafanaCloud2.FlushPeriodSec)))
-			} else {
-				r.OutputGrafanaCloud.Two.FlushPeriodSec = types.NumberNull()
-			}
+			r.OutputGrafanaCloud.Two.FlushPeriodSec = types.Float64PointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.FlushPeriodSec)
 			r.OutputGrafanaCloud.Two.ID = types.StringValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.ID)
 			r.OutputGrafanaCloud.Two.Labels = []tfTypes.OutputGrafanaCloudLabels{}
 			if len(r.OutputGrafanaCloud.Two.Labels) > len(resp.OutputGrafanaCloud.OutputGrafanaCloud2.Labels) {
 				r.OutputGrafanaCloud.Two.Labels = r.OutputGrafanaCloud.Two.Labels[:len(resp.OutputGrafanaCloud.OutputGrafanaCloud2.Labels)]
 			}
 			for labelsCount1, labelsItem1 := range resp.OutputGrafanaCloud.OutputGrafanaCloud2.Labels {
-				var labels3 tfTypes.OutputGrafanaCloudLabels
-				labels3.Name = types.StringPointerValue(labelsItem1.Name)
-				labels3.Value = types.StringValue(labelsItem1.Value)
+				var labels1 tfTypes.OutputGrafanaCloudLabels
+				labels1.Name = types.StringPointerValue(labelsItem1.Name)
+				labels1.Value = types.StringValue(labelsItem1.Value)
 				if labelsCount1+1 > len(r.OutputGrafanaCloud.Two.Labels) {
-					r.OutputGrafanaCloud.Two.Labels = append(r.OutputGrafanaCloud.Two.Labels, labels3)
+					r.OutputGrafanaCloud.Two.Labels = append(r.OutputGrafanaCloud.Two.Labels, labels1)
 				} else {
-					r.OutputGrafanaCloud.Two.Labels[labelsCount1].Name = labels3.Name
-					r.OutputGrafanaCloud.Two.Labels[labelsCount1].Value = labels3.Value
+					r.OutputGrafanaCloud.Two.Labels[labelsCount1].Name = labels1.Name
+					r.OutputGrafanaCloud.Two.Labels[labelsCount1].Value = labels1.Value
 				}
 			}
 			if resp.OutputGrafanaCloud.OutputGrafanaCloud2.LokiAuth == nil {
@@ -24850,16 +23836,8 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 				r.OutputGrafanaCloud.Two.LokiAuth.Username = types.StringPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.LokiAuth.Username)
 			}
 			r.OutputGrafanaCloud.Two.LokiURL = types.StringPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.LokiURL)
-			if resp.OutputGrafanaCloud.OutputGrafanaCloud2.MaxPayloadEvents != nil {
-				r.OutputGrafanaCloud.Two.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputGrafanaCloud.OutputGrafanaCloud2.MaxPayloadEvents)))
-			} else {
-				r.OutputGrafanaCloud.Two.MaxPayloadEvents = types.NumberNull()
-			}
-			if resp.OutputGrafanaCloud.OutputGrafanaCloud2.MaxPayloadSizeKB != nil {
-				r.OutputGrafanaCloud.Two.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputGrafanaCloud.OutputGrafanaCloud2.MaxPayloadSizeKB)))
-			} else {
-				r.OutputGrafanaCloud.Two.MaxPayloadSizeKB = types.NumberNull()
-			}
+			r.OutputGrafanaCloud.Two.MaxPayloadEvents = types.Float64PointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.MaxPayloadEvents)
+			r.OutputGrafanaCloud.Two.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.MaxPayloadSizeKB)
 			r.OutputGrafanaCloud.Two.Message = types.StringPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.Message)
 			if resp.OutputGrafanaCloud.OutputGrafanaCloud2.MessageFormat != nil {
 				r.OutputGrafanaCloud.Two.MessageFormat = types.StringValue(string(*resp.OutputGrafanaCloud.OutputGrafanaCloud2.MessageFormat))
@@ -24919,30 +23897,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 				r.OutputGrafanaCloud.Two.ResponseRetrySettings = r.OutputGrafanaCloud.Two.ResponseRetrySettings[:len(resp.OutputGrafanaCloud.OutputGrafanaCloud2.ResponseRetrySettings)]
 			}
 			for responseRetrySettingsCount13, responseRetrySettingsItem13 := range resp.OutputGrafanaCloud.OutputGrafanaCloud2.ResponseRetrySettings {
-				var responseRetrySettings27 tfTypes.OutputGrafanaCloud2ResponseRetrySettings
-				if responseRetrySettingsItem13.BackoffRate != nil {
-					responseRetrySettings27.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem13.BackoffRate)))
-				} else {
-					responseRetrySettings27.BackoffRate = types.NumberNull()
-				}
-				responseRetrySettings27.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem13.HTTPStatus)))
-				if responseRetrySettingsItem13.InitialBackoff != nil {
-					responseRetrySettings27.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem13.InitialBackoff)))
-				} else {
-					responseRetrySettings27.InitialBackoff = types.NumberNull()
-				}
-				if responseRetrySettingsItem13.MaxBackoff != nil {
-					responseRetrySettings27.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem13.MaxBackoff)))
-				} else {
-					responseRetrySettings27.MaxBackoff = types.NumberNull()
-				}
+				var responseRetrySettings13 tfTypes.OutputGrafanaCloud2ResponseRetrySettings
+				responseRetrySettings13.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem13.BackoffRate)
+				responseRetrySettings13.HTTPStatus = types.Float64Value(responseRetrySettingsItem13.HTTPStatus)
+				responseRetrySettings13.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem13.InitialBackoff)
+				responseRetrySettings13.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem13.MaxBackoff)
 				if responseRetrySettingsCount13+1 > len(r.OutputGrafanaCloud.Two.ResponseRetrySettings) {
-					r.OutputGrafanaCloud.Two.ResponseRetrySettings = append(r.OutputGrafanaCloud.Two.ResponseRetrySettings, responseRetrySettings27)
+					r.OutputGrafanaCloud.Two.ResponseRetrySettings = append(r.OutputGrafanaCloud.Two.ResponseRetrySettings, responseRetrySettings13)
 				} else {
-					r.OutputGrafanaCloud.Two.ResponseRetrySettings[responseRetrySettingsCount13].BackoffRate = responseRetrySettings27.BackoffRate
-					r.OutputGrafanaCloud.Two.ResponseRetrySettings[responseRetrySettingsCount13].HTTPStatus = responseRetrySettings27.HTTPStatus
-					r.OutputGrafanaCloud.Two.ResponseRetrySettings[responseRetrySettingsCount13].InitialBackoff = responseRetrySettings27.InitialBackoff
-					r.OutputGrafanaCloud.Two.ResponseRetrySettings[responseRetrySettingsCount13].MaxBackoff = responseRetrySettings27.MaxBackoff
+					r.OutputGrafanaCloud.Two.ResponseRetrySettings[responseRetrySettingsCount13].BackoffRate = responseRetrySettings13.BackoffRate
+					r.OutputGrafanaCloud.Two.ResponseRetrySettings[responseRetrySettingsCount13].HTTPStatus = responseRetrySettings13.HTTPStatus
+					r.OutputGrafanaCloud.Two.ResponseRetrySettings[responseRetrySettingsCount13].InitialBackoff = responseRetrySettings13.InitialBackoff
+					r.OutputGrafanaCloud.Two.ResponseRetrySettings[responseRetrySettingsCount13].MaxBackoff = responseRetrySettings13.MaxBackoff
 				}
 			}
 			r.OutputGrafanaCloud.Two.SafeHeaders = make([]types.String, 0, len(resp.OutputGrafanaCloud.OutputGrafanaCloud2.SafeHeaders))
@@ -24961,69 +23927,33 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 				r.OutputGrafanaCloud.Two.TimeoutRetrySettings = nil
 			} else {
 				r.OutputGrafanaCloud.Two.TimeoutRetrySettings = &tfTypes.OutputGrafanaCloud2TimeoutRetrySettings{}
-				if resp.OutputGrafanaCloud.OutputGrafanaCloud2.TimeoutRetrySettings.BackoffRate != nil {
-					r.OutputGrafanaCloud.Two.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputGrafanaCloud.OutputGrafanaCloud2.TimeoutRetrySettings.BackoffRate)))
-				} else {
-					r.OutputGrafanaCloud.Two.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-				}
-				if resp.OutputGrafanaCloud.OutputGrafanaCloud2.TimeoutRetrySettings.InitialBackoff != nil {
-					r.OutputGrafanaCloud.Two.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputGrafanaCloud.OutputGrafanaCloud2.TimeoutRetrySettings.InitialBackoff)))
-				} else {
-					r.OutputGrafanaCloud.Two.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-				}
-				if resp.OutputGrafanaCloud.OutputGrafanaCloud2.TimeoutRetrySettings.MaxBackoff != nil {
-					r.OutputGrafanaCloud.Two.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputGrafanaCloud.OutputGrafanaCloud2.TimeoutRetrySettings.MaxBackoff)))
-				} else {
-					r.OutputGrafanaCloud.Two.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-				}
+				r.OutputGrafanaCloud.Two.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.TimeoutRetrySettings.BackoffRate)
+				r.OutputGrafanaCloud.Two.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.TimeoutRetrySettings.InitialBackoff)
+				r.OutputGrafanaCloud.Two.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.TimeoutRetrySettings.MaxBackoff)
 				r.OutputGrafanaCloud.Two.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.TimeoutRetrySettings.TimeoutRetry)
 			}
-			if resp.OutputGrafanaCloud.OutputGrafanaCloud2.TimeoutSec != nil {
-				r.OutputGrafanaCloud.Two.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputGrafanaCloud.OutputGrafanaCloud2.TimeoutSec)))
-			} else {
-				r.OutputGrafanaCloud.Two.TimeoutSec = types.NumberNull()
-			}
+			r.OutputGrafanaCloud.Two.TimeoutSec = types.Float64PointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.TimeoutSec)
 			r.OutputGrafanaCloud.Two.Type = types.StringValue(string(resp.OutputGrafanaCloud.OutputGrafanaCloud2.Type))
 			r.OutputGrafanaCloud.Two.UseRoundRobinDNS = types.BoolPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.UseRoundRobinDNS)
 		}
 	}
 	if resp.OutputGraphite != nil {
 		r.OutputGraphite = &tfTypes.OutputGraphite{}
-		if resp.OutputGraphite.ConnectionTimeout != nil {
-			r.OutputGraphite.ConnectionTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputGraphite.ConnectionTimeout)))
-		} else {
-			r.OutputGraphite.ConnectionTimeout = types.NumberNull()
-		}
+		r.OutputGraphite.ConnectionTimeout = types.Float64PointerValue(resp.OutputGraphite.ConnectionTimeout)
 		r.OutputGraphite.Description = types.StringPointerValue(resp.OutputGraphite.Description)
-		if resp.OutputGraphite.DNSResolvePeriodSec != nil {
-			r.OutputGraphite.DNSResolvePeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputGraphite.DNSResolvePeriodSec)))
-		} else {
-			r.OutputGraphite.DNSResolvePeriodSec = types.NumberNull()
-		}
+		r.OutputGraphite.DNSResolvePeriodSec = types.Float64PointerValue(resp.OutputGraphite.DNSResolvePeriodSec)
 		r.OutputGraphite.Environment = types.StringPointerValue(resp.OutputGraphite.Environment)
-		if resp.OutputGraphite.FlushPeriodSec != nil {
-			r.OutputGraphite.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputGraphite.FlushPeriodSec)))
-		} else {
-			r.OutputGraphite.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputGraphite.FlushPeriodSec = types.Float64PointerValue(resp.OutputGraphite.FlushPeriodSec)
 		r.OutputGraphite.Host = types.StringValue(resp.OutputGraphite.Host)
 		r.OutputGraphite.ID = types.StringPointerValue(resp.OutputGraphite.ID)
-		if resp.OutputGraphite.Mtu != nil {
-			r.OutputGraphite.Mtu = types.NumberValue(big.NewFloat(float64(*resp.OutputGraphite.Mtu)))
-		} else {
-			r.OutputGraphite.Mtu = types.NumberNull()
-		}
+		r.OutputGraphite.Mtu = types.Float64PointerValue(resp.OutputGraphite.Mtu)
 		if resp.OutputGraphite.OnBackpressure != nil {
 			r.OutputGraphite.OnBackpressure = types.StringValue(string(*resp.OutputGraphite.OnBackpressure))
 		} else {
 			r.OutputGraphite.OnBackpressure = types.StringNull()
 		}
 		r.OutputGraphite.Pipeline = types.StringPointerValue(resp.OutputGraphite.Pipeline)
-		if resp.OutputGraphite.Port != nil {
-			r.OutputGraphite.Port = types.NumberValue(big.NewFloat(float64(*resp.OutputGraphite.Port)))
-		} else {
-			r.OutputGraphite.Port = types.NumberNull()
-		}
+		r.OutputGraphite.Port = types.Float64PointerValue(resp.OutputGraphite.Port)
 		if resp.OutputGraphite.PqCompress != nil {
 			r.OutputGraphite.PqCompress = types.StringValue(string(*resp.OutputGraphite.PqCompress))
 		} else {
@@ -25066,11 +23996,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputGraphite.Type = types.StringNull()
 		}
-		if resp.OutputGraphite.WriteTimeout != nil {
-			r.OutputGraphite.WriteTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputGraphite.WriteTimeout)))
-		} else {
-			r.OutputGraphite.WriteTimeout = types.NumberNull()
-		}
+		r.OutputGraphite.WriteTimeout = types.Float64PointerValue(resp.OutputGraphite.WriteTimeout)
 	}
 	if resp.OutputHoneycomb != nil {
 		r.OutputHoneycomb = &tfTypes.OutputHoneycomb{}
@@ -25080,11 +24006,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputHoneycomb.AuthType = types.StringNull()
 		}
 		r.OutputHoneycomb.Compress = types.BoolPointerValue(resp.OutputHoneycomb.Compress)
-		if resp.OutputHoneycomb.Concurrency != nil {
-			r.OutputHoneycomb.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputHoneycomb.Concurrency)))
-		} else {
-			r.OutputHoneycomb.Concurrency = types.NumberNull()
-		}
+		r.OutputHoneycomb.Concurrency = types.Float64PointerValue(resp.OutputHoneycomb.Concurrency)
 		r.OutputHoneycomb.Dataset = types.StringValue(resp.OutputHoneycomb.Dataset)
 		r.OutputHoneycomb.Description = types.StringPointerValue(resp.OutputHoneycomb.Description)
 		r.OutputHoneycomb.Environment = types.StringPointerValue(resp.OutputHoneycomb.Environment)
@@ -25093,14 +24015,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputHoneycomb.ExtraHTTPHeaders = r.OutputHoneycomb.ExtraHTTPHeaders[:len(resp.OutputHoneycomb.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount13, extraHTTPHeadersItem13 := range resp.OutputHoneycomb.ExtraHTTPHeaders {
-			var extraHTTPHeaders27 tfTypes.OutputHoneycombExtraHTTPHeaders
-			extraHTTPHeaders27.Name = types.StringPointerValue(extraHTTPHeadersItem13.Name)
-			extraHTTPHeaders27.Value = types.StringValue(extraHTTPHeadersItem13.Value)
+			var extraHTTPHeaders13 tfTypes.OutputHoneycombExtraHTTPHeaders
+			extraHTTPHeaders13.Name = types.StringPointerValue(extraHTTPHeadersItem13.Name)
+			extraHTTPHeaders13.Value = types.StringValue(extraHTTPHeadersItem13.Value)
 			if extraHTTPHeadersCount13+1 > len(r.OutputHoneycomb.ExtraHTTPHeaders) {
-				r.OutputHoneycomb.ExtraHTTPHeaders = append(r.OutputHoneycomb.ExtraHTTPHeaders, extraHTTPHeaders27)
+				r.OutputHoneycomb.ExtraHTTPHeaders = append(r.OutputHoneycomb.ExtraHTTPHeaders, extraHTTPHeaders13)
 			} else {
-				r.OutputHoneycomb.ExtraHTTPHeaders[extraHTTPHeadersCount13].Name = extraHTTPHeaders27.Name
-				r.OutputHoneycomb.ExtraHTTPHeaders[extraHTTPHeadersCount13].Value = extraHTTPHeaders27.Value
+				r.OutputHoneycomb.ExtraHTTPHeaders[extraHTTPHeadersCount13].Name = extraHTTPHeaders13.Name
+				r.OutputHoneycomb.ExtraHTTPHeaders[extraHTTPHeadersCount13].Value = extraHTTPHeaders13.Value
 			}
 		}
 		if resp.OutputHoneycomb.FailedRequestLoggingMode != nil {
@@ -25108,22 +24030,10 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputHoneycomb.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputHoneycomb.FlushPeriodSec != nil {
-			r.OutputHoneycomb.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputHoneycomb.FlushPeriodSec)))
-		} else {
-			r.OutputHoneycomb.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputHoneycomb.FlushPeriodSec = types.Float64PointerValue(resp.OutputHoneycomb.FlushPeriodSec)
 		r.OutputHoneycomb.ID = types.StringPointerValue(resp.OutputHoneycomb.ID)
-		if resp.OutputHoneycomb.MaxPayloadEvents != nil {
-			r.OutputHoneycomb.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputHoneycomb.MaxPayloadEvents)))
-		} else {
-			r.OutputHoneycomb.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputHoneycomb.MaxPayloadSizeKB != nil {
-			r.OutputHoneycomb.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputHoneycomb.MaxPayloadSizeKB)))
-		} else {
-			r.OutputHoneycomb.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputHoneycomb.MaxPayloadEvents = types.Float64PointerValue(resp.OutputHoneycomb.MaxPayloadEvents)
+		r.OutputHoneycomb.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputHoneycomb.MaxPayloadSizeKB)
 		if resp.OutputHoneycomb.OnBackpressure != nil {
 			r.OutputHoneycomb.OnBackpressure = types.StringValue(string(*resp.OutputHoneycomb.OnBackpressure))
 		} else {
@@ -25160,30 +24070,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputHoneycomb.ResponseRetrySettings = r.OutputHoneycomb.ResponseRetrySettings[:len(resp.OutputHoneycomb.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount14, responseRetrySettingsItem14 := range resp.OutputHoneycomb.ResponseRetrySettings {
-			var responseRetrySettings29 tfTypes.OutputHoneycombResponseRetrySettings
-			if responseRetrySettingsItem14.BackoffRate != nil {
-				responseRetrySettings29.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem14.BackoffRate)))
-			} else {
-				responseRetrySettings29.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings29.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem14.HTTPStatus)))
-			if responseRetrySettingsItem14.InitialBackoff != nil {
-				responseRetrySettings29.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem14.InitialBackoff)))
-			} else {
-				responseRetrySettings29.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem14.MaxBackoff != nil {
-				responseRetrySettings29.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem14.MaxBackoff)))
-			} else {
-				responseRetrySettings29.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings14 tfTypes.OutputHoneycombResponseRetrySettings
+			responseRetrySettings14.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem14.BackoffRate)
+			responseRetrySettings14.HTTPStatus = types.Float64Value(responseRetrySettingsItem14.HTTPStatus)
+			responseRetrySettings14.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem14.InitialBackoff)
+			responseRetrySettings14.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem14.MaxBackoff)
 			if responseRetrySettingsCount14+1 > len(r.OutputHoneycomb.ResponseRetrySettings) {
-				r.OutputHoneycomb.ResponseRetrySettings = append(r.OutputHoneycomb.ResponseRetrySettings, responseRetrySettings29)
+				r.OutputHoneycomb.ResponseRetrySettings = append(r.OutputHoneycomb.ResponseRetrySettings, responseRetrySettings14)
 			} else {
-				r.OutputHoneycomb.ResponseRetrySettings[responseRetrySettingsCount14].BackoffRate = responseRetrySettings29.BackoffRate
-				r.OutputHoneycomb.ResponseRetrySettings[responseRetrySettingsCount14].HTTPStatus = responseRetrySettings29.HTTPStatus
-				r.OutputHoneycomb.ResponseRetrySettings[responseRetrySettingsCount14].InitialBackoff = responseRetrySettings29.InitialBackoff
-				r.OutputHoneycomb.ResponseRetrySettings[responseRetrySettingsCount14].MaxBackoff = responseRetrySettings29.MaxBackoff
+				r.OutputHoneycomb.ResponseRetrySettings[responseRetrySettingsCount14].BackoffRate = responseRetrySettings14.BackoffRate
+				r.OutputHoneycomb.ResponseRetrySettings[responseRetrySettingsCount14].HTTPStatus = responseRetrySettings14.HTTPStatus
+				r.OutputHoneycomb.ResponseRetrySettings[responseRetrySettingsCount14].InitialBackoff = responseRetrySettings14.InitialBackoff
+				r.OutputHoneycomb.ResponseRetrySettings[responseRetrySettingsCount14].MaxBackoff = responseRetrySettings14.MaxBackoff
 			}
 		}
 		r.OutputHoneycomb.SafeHeaders = make([]types.String, 0, len(resp.OutputHoneycomb.SafeHeaders))
@@ -25204,28 +24102,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputHoneycomb.TimeoutRetrySettings = nil
 		} else {
 			r.OutputHoneycomb.TimeoutRetrySettings = &tfTypes.OutputHoneycombTimeoutRetrySettings{}
-			if resp.OutputHoneycomb.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputHoneycomb.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputHoneycomb.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputHoneycomb.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputHoneycomb.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputHoneycomb.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputHoneycomb.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputHoneycomb.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputHoneycomb.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputHoneycomb.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputHoneycomb.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputHoneycomb.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputHoneycomb.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputHoneycomb.TimeoutRetrySettings.BackoffRate)
+			r.OutputHoneycomb.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputHoneycomb.TimeoutRetrySettings.InitialBackoff)
+			r.OutputHoneycomb.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputHoneycomb.TimeoutRetrySettings.MaxBackoff)
 			r.OutputHoneycomb.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputHoneycomb.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputHoneycomb.TimeoutSec != nil {
-			r.OutputHoneycomb.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputHoneycomb.TimeoutSec)))
-		} else {
-			r.OutputHoneycomb.TimeoutSec = types.NumberNull()
-		}
+		r.OutputHoneycomb.TimeoutSec = types.Float64PointerValue(resp.OutputHoneycomb.TimeoutSec)
 		r.OutputHoneycomb.Type = types.StringValue(string(resp.OutputHoneycomb.Type))
 		r.OutputHoneycomb.UseRoundRobinDNS = types.BoolPointerValue(resp.OutputHoneycomb.UseRoundRobinDNS)
 	}
@@ -25237,11 +24119,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputHumioHec.AuthType = types.StringNull()
 		}
 		r.OutputHumioHec.Compress = types.BoolPointerValue(resp.OutputHumioHec.Compress)
-		if resp.OutputHumioHec.Concurrency != nil {
-			r.OutputHumioHec.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputHumioHec.Concurrency)))
-		} else {
-			r.OutputHumioHec.Concurrency = types.NumberNull()
-		}
+		r.OutputHumioHec.Concurrency = types.Float64PointerValue(resp.OutputHumioHec.Concurrency)
 		r.OutputHumioHec.Description = types.StringPointerValue(resp.OutputHumioHec.Description)
 		r.OutputHumioHec.Environment = types.StringPointerValue(resp.OutputHumioHec.Environment)
 		r.OutputHumioHec.ExtraHTTPHeaders = []tfTypes.OutputHumioHecExtraHTTPHeaders{}
@@ -25249,14 +24127,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputHumioHec.ExtraHTTPHeaders = r.OutputHumioHec.ExtraHTTPHeaders[:len(resp.OutputHumioHec.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount14, extraHTTPHeadersItem14 := range resp.OutputHumioHec.ExtraHTTPHeaders {
-			var extraHTTPHeaders29 tfTypes.OutputHumioHecExtraHTTPHeaders
-			extraHTTPHeaders29.Name = types.StringPointerValue(extraHTTPHeadersItem14.Name)
-			extraHTTPHeaders29.Value = types.StringValue(extraHTTPHeadersItem14.Value)
+			var extraHTTPHeaders14 tfTypes.OutputHumioHecExtraHTTPHeaders
+			extraHTTPHeaders14.Name = types.StringPointerValue(extraHTTPHeadersItem14.Name)
+			extraHTTPHeaders14.Value = types.StringValue(extraHTTPHeadersItem14.Value)
 			if extraHTTPHeadersCount14+1 > len(r.OutputHumioHec.ExtraHTTPHeaders) {
-				r.OutputHumioHec.ExtraHTTPHeaders = append(r.OutputHumioHec.ExtraHTTPHeaders, extraHTTPHeaders29)
+				r.OutputHumioHec.ExtraHTTPHeaders = append(r.OutputHumioHec.ExtraHTTPHeaders, extraHTTPHeaders14)
 			} else {
-				r.OutputHumioHec.ExtraHTTPHeaders[extraHTTPHeadersCount14].Name = extraHTTPHeaders29.Name
-				r.OutputHumioHec.ExtraHTTPHeaders[extraHTTPHeadersCount14].Value = extraHTTPHeaders29.Value
+				r.OutputHumioHec.ExtraHTTPHeaders[extraHTTPHeadersCount14].Name = extraHTTPHeaders14.Name
+				r.OutputHumioHec.ExtraHTTPHeaders[extraHTTPHeadersCount14].Value = extraHTTPHeaders14.Value
 			}
 		}
 		if resp.OutputHumioHec.FailedRequestLoggingMode != nil {
@@ -25264,27 +24142,15 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputHumioHec.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputHumioHec.FlushPeriodSec != nil {
-			r.OutputHumioHec.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputHumioHec.FlushPeriodSec)))
-		} else {
-			r.OutputHumioHec.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputHumioHec.FlushPeriodSec = types.Float64PointerValue(resp.OutputHumioHec.FlushPeriodSec)
 		if resp.OutputHumioHec.Format != nil {
 			r.OutputHumioHec.Format = types.StringValue(string(*resp.OutputHumioHec.Format))
 		} else {
 			r.OutputHumioHec.Format = types.StringNull()
 		}
 		r.OutputHumioHec.ID = types.StringPointerValue(resp.OutputHumioHec.ID)
-		if resp.OutputHumioHec.MaxPayloadEvents != nil {
-			r.OutputHumioHec.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputHumioHec.MaxPayloadEvents)))
-		} else {
-			r.OutputHumioHec.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputHumioHec.MaxPayloadSizeKB != nil {
-			r.OutputHumioHec.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputHumioHec.MaxPayloadSizeKB)))
-		} else {
-			r.OutputHumioHec.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputHumioHec.MaxPayloadEvents = types.Float64PointerValue(resp.OutputHumioHec.MaxPayloadEvents)
+		r.OutputHumioHec.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputHumioHec.MaxPayloadSizeKB)
 		if resp.OutputHumioHec.OnBackpressure != nil {
 			r.OutputHumioHec.OnBackpressure = types.StringValue(string(*resp.OutputHumioHec.OnBackpressure))
 		} else {
@@ -25321,30 +24187,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputHumioHec.ResponseRetrySettings = r.OutputHumioHec.ResponseRetrySettings[:len(resp.OutputHumioHec.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount15, responseRetrySettingsItem15 := range resp.OutputHumioHec.ResponseRetrySettings {
-			var responseRetrySettings31 tfTypes.OutputHumioHecResponseRetrySettings
-			if responseRetrySettingsItem15.BackoffRate != nil {
-				responseRetrySettings31.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem15.BackoffRate)))
-			} else {
-				responseRetrySettings31.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings31.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem15.HTTPStatus)))
-			if responseRetrySettingsItem15.InitialBackoff != nil {
-				responseRetrySettings31.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem15.InitialBackoff)))
-			} else {
-				responseRetrySettings31.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem15.MaxBackoff != nil {
-				responseRetrySettings31.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem15.MaxBackoff)))
-			} else {
-				responseRetrySettings31.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings15 tfTypes.OutputHumioHecResponseRetrySettings
+			responseRetrySettings15.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem15.BackoffRate)
+			responseRetrySettings15.HTTPStatus = types.Float64Value(responseRetrySettingsItem15.HTTPStatus)
+			responseRetrySettings15.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem15.InitialBackoff)
+			responseRetrySettings15.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem15.MaxBackoff)
 			if responseRetrySettingsCount15+1 > len(r.OutputHumioHec.ResponseRetrySettings) {
-				r.OutputHumioHec.ResponseRetrySettings = append(r.OutputHumioHec.ResponseRetrySettings, responseRetrySettings31)
+				r.OutputHumioHec.ResponseRetrySettings = append(r.OutputHumioHec.ResponseRetrySettings, responseRetrySettings15)
 			} else {
-				r.OutputHumioHec.ResponseRetrySettings[responseRetrySettingsCount15].BackoffRate = responseRetrySettings31.BackoffRate
-				r.OutputHumioHec.ResponseRetrySettings[responseRetrySettingsCount15].HTTPStatus = responseRetrySettings31.HTTPStatus
-				r.OutputHumioHec.ResponseRetrySettings[responseRetrySettingsCount15].InitialBackoff = responseRetrySettings31.InitialBackoff
-				r.OutputHumioHec.ResponseRetrySettings[responseRetrySettingsCount15].MaxBackoff = responseRetrySettings31.MaxBackoff
+				r.OutputHumioHec.ResponseRetrySettings[responseRetrySettingsCount15].BackoffRate = responseRetrySettings15.BackoffRate
+				r.OutputHumioHec.ResponseRetrySettings[responseRetrySettingsCount15].HTTPStatus = responseRetrySettings15.HTTPStatus
+				r.OutputHumioHec.ResponseRetrySettings[responseRetrySettingsCount15].InitialBackoff = responseRetrySettings15.InitialBackoff
+				r.OutputHumioHec.ResponseRetrySettings[responseRetrySettingsCount15].MaxBackoff = responseRetrySettings15.MaxBackoff
 			}
 		}
 		r.OutputHumioHec.SafeHeaders = make([]types.String, 0, len(resp.OutputHumioHec.SafeHeaders))
@@ -25364,28 +24218,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputHumioHec.TimeoutRetrySettings = nil
 		} else {
 			r.OutputHumioHec.TimeoutRetrySettings = &tfTypes.OutputHumioHecTimeoutRetrySettings{}
-			if resp.OutputHumioHec.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputHumioHec.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputHumioHec.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputHumioHec.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputHumioHec.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputHumioHec.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputHumioHec.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputHumioHec.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputHumioHec.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputHumioHec.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputHumioHec.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputHumioHec.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputHumioHec.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputHumioHec.TimeoutRetrySettings.BackoffRate)
+			r.OutputHumioHec.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputHumioHec.TimeoutRetrySettings.InitialBackoff)
+			r.OutputHumioHec.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputHumioHec.TimeoutRetrySettings.MaxBackoff)
 			r.OutputHumioHec.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputHumioHec.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputHumioHec.TimeoutSec != nil {
-			r.OutputHumioHec.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputHumioHec.TimeoutSec)))
-		} else {
-			r.OutputHumioHec.TimeoutSec = types.NumberNull()
-		}
+		r.OutputHumioHec.TimeoutSec = types.Float64PointerValue(resp.OutputHumioHec.TimeoutSec)
 		r.OutputHumioHec.Token = types.StringPointerValue(resp.OutputHumioHec.Token)
 		if resp.OutputHumioHec.Type != nil {
 			r.OutputHumioHec.Type = types.StringValue(string(*resp.OutputHumioHec.Type))
@@ -25405,11 +24243,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		}
 		r.OutputInfluxdb.Bucket = types.StringPointerValue(resp.OutputInfluxdb.Bucket)
 		r.OutputInfluxdb.Compress = types.BoolPointerValue(resp.OutputInfluxdb.Compress)
-		if resp.OutputInfluxdb.Concurrency != nil {
-			r.OutputInfluxdb.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputInfluxdb.Concurrency)))
-		} else {
-			r.OutputInfluxdb.Concurrency = types.NumberNull()
-		}
+		r.OutputInfluxdb.Concurrency = types.Float64PointerValue(resp.OutputInfluxdb.Concurrency)
 		r.OutputInfluxdb.CredentialsSecret = types.StringPointerValue(resp.OutputInfluxdb.CredentialsSecret)
 		r.OutputInfluxdb.Database = types.StringPointerValue(resp.OutputInfluxdb.Database)
 		r.OutputInfluxdb.Description = types.StringPointerValue(resp.OutputInfluxdb.Description)
@@ -25420,14 +24254,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputInfluxdb.ExtraHTTPHeaders = r.OutputInfluxdb.ExtraHTTPHeaders[:len(resp.OutputInfluxdb.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount15, extraHTTPHeadersItem15 := range resp.OutputInfluxdb.ExtraHTTPHeaders {
-			var extraHTTPHeaders31 tfTypes.OutputInfluxdbExtraHTTPHeaders
-			extraHTTPHeaders31.Name = types.StringPointerValue(extraHTTPHeadersItem15.Name)
-			extraHTTPHeaders31.Value = types.StringValue(extraHTTPHeadersItem15.Value)
+			var extraHTTPHeaders15 tfTypes.OutputInfluxdbExtraHTTPHeaders
+			extraHTTPHeaders15.Name = types.StringPointerValue(extraHTTPHeadersItem15.Name)
+			extraHTTPHeaders15.Value = types.StringValue(extraHTTPHeadersItem15.Value)
 			if extraHTTPHeadersCount15+1 > len(r.OutputInfluxdb.ExtraHTTPHeaders) {
-				r.OutputInfluxdb.ExtraHTTPHeaders = append(r.OutputInfluxdb.ExtraHTTPHeaders, extraHTTPHeaders31)
+				r.OutputInfluxdb.ExtraHTTPHeaders = append(r.OutputInfluxdb.ExtraHTTPHeaders, extraHTTPHeaders15)
 			} else {
-				r.OutputInfluxdb.ExtraHTTPHeaders[extraHTTPHeadersCount15].Name = extraHTTPHeaders31.Name
-				r.OutputInfluxdb.ExtraHTTPHeaders[extraHTTPHeadersCount15].Value = extraHTTPHeaders31.Value
+				r.OutputInfluxdb.ExtraHTTPHeaders[extraHTTPHeadersCount15].Name = extraHTTPHeaders15.Name
+				r.OutputInfluxdb.ExtraHTTPHeaders[extraHTTPHeadersCount15].Value = extraHTTPHeaders15.Value
 			}
 		}
 		if resp.OutputInfluxdb.FailedRequestLoggingMode != nil {
@@ -25435,36 +24269,24 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputInfluxdb.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputInfluxdb.FlushPeriodSec != nil {
-			r.OutputInfluxdb.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputInfluxdb.FlushPeriodSec)))
-		} else {
-			r.OutputInfluxdb.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputInfluxdb.FlushPeriodSec = types.Float64PointerValue(resp.OutputInfluxdb.FlushPeriodSec)
 		r.OutputInfluxdb.ID = types.StringPointerValue(resp.OutputInfluxdb.ID)
 		r.OutputInfluxdb.LoginURL = types.StringPointerValue(resp.OutputInfluxdb.LoginURL)
-		if resp.OutputInfluxdb.MaxPayloadEvents != nil {
-			r.OutputInfluxdb.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputInfluxdb.MaxPayloadEvents)))
-		} else {
-			r.OutputInfluxdb.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputInfluxdb.MaxPayloadSizeKB != nil {
-			r.OutputInfluxdb.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputInfluxdb.MaxPayloadSizeKB)))
-		} else {
-			r.OutputInfluxdb.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputInfluxdb.MaxPayloadEvents = types.Float64PointerValue(resp.OutputInfluxdb.MaxPayloadEvents)
+		r.OutputInfluxdb.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputInfluxdb.MaxPayloadSizeKB)
 		r.OutputInfluxdb.OauthHeaders = []tfTypes.OutputInfluxdbOauthHeaders{}
 		if len(r.OutputInfluxdb.OauthHeaders) > len(resp.OutputInfluxdb.OauthHeaders) {
 			r.OutputInfluxdb.OauthHeaders = r.OutputInfluxdb.OauthHeaders[:len(resp.OutputInfluxdb.OauthHeaders)]
 		}
 		for oauthHeadersCount1, oauthHeadersItem1 := range resp.OutputInfluxdb.OauthHeaders {
-			var oauthHeaders3 tfTypes.OutputInfluxdbOauthHeaders
-			oauthHeaders3.Name = types.StringValue(oauthHeadersItem1.Name)
-			oauthHeaders3.Value = types.StringValue(oauthHeadersItem1.Value)
+			var oauthHeaders1 tfTypes.OutputInfluxdbOauthHeaders
+			oauthHeaders1.Name = types.StringValue(oauthHeadersItem1.Name)
+			oauthHeaders1.Value = types.StringValue(oauthHeadersItem1.Value)
 			if oauthHeadersCount1+1 > len(r.OutputInfluxdb.OauthHeaders) {
-				r.OutputInfluxdb.OauthHeaders = append(r.OutputInfluxdb.OauthHeaders, oauthHeaders3)
+				r.OutputInfluxdb.OauthHeaders = append(r.OutputInfluxdb.OauthHeaders, oauthHeaders1)
 			} else {
-				r.OutputInfluxdb.OauthHeaders[oauthHeadersCount1].Name = oauthHeaders3.Name
-				r.OutputInfluxdb.OauthHeaders[oauthHeadersCount1].Value = oauthHeaders3.Value
+				r.OutputInfluxdb.OauthHeaders[oauthHeadersCount1].Name = oauthHeaders1.Name
+				r.OutputInfluxdb.OauthHeaders[oauthHeadersCount1].Value = oauthHeaders1.Value
 			}
 		}
 		r.OutputInfluxdb.OauthParams = []tfTypes.OutputInfluxdbOauthParams{}
@@ -25472,14 +24294,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputInfluxdb.OauthParams = r.OutputInfluxdb.OauthParams[:len(resp.OutputInfluxdb.OauthParams)]
 		}
 		for oauthParamsCount1, oauthParamsItem1 := range resp.OutputInfluxdb.OauthParams {
-			var oauthParams3 tfTypes.OutputInfluxdbOauthParams
-			oauthParams3.Name = types.StringValue(oauthParamsItem1.Name)
-			oauthParams3.Value = types.StringValue(oauthParamsItem1.Value)
+			var oauthParams1 tfTypes.OutputInfluxdbOauthParams
+			oauthParams1.Name = types.StringValue(oauthParamsItem1.Name)
+			oauthParams1.Value = types.StringValue(oauthParamsItem1.Value)
 			if oauthParamsCount1+1 > len(r.OutputInfluxdb.OauthParams) {
-				r.OutputInfluxdb.OauthParams = append(r.OutputInfluxdb.OauthParams, oauthParams3)
+				r.OutputInfluxdb.OauthParams = append(r.OutputInfluxdb.OauthParams, oauthParams1)
 			} else {
-				r.OutputInfluxdb.OauthParams[oauthParamsCount1].Name = oauthParams3.Name
-				r.OutputInfluxdb.OauthParams[oauthParamsCount1].Value = oauthParams3.Value
+				r.OutputInfluxdb.OauthParams[oauthParamsCount1].Name = oauthParams1.Name
+				r.OutputInfluxdb.OauthParams[oauthParamsCount1].Value = oauthParams1.Value
 			}
 		}
 		if resp.OutputInfluxdb.OnBackpressure != nil {
@@ -25520,30 +24342,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputInfluxdb.ResponseRetrySettings = r.OutputInfluxdb.ResponseRetrySettings[:len(resp.OutputInfluxdb.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount16, responseRetrySettingsItem16 := range resp.OutputInfluxdb.ResponseRetrySettings {
-			var responseRetrySettings33 tfTypes.OutputInfluxdbResponseRetrySettings
-			if responseRetrySettingsItem16.BackoffRate != nil {
-				responseRetrySettings33.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem16.BackoffRate)))
-			} else {
-				responseRetrySettings33.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings33.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem16.HTTPStatus)))
-			if responseRetrySettingsItem16.InitialBackoff != nil {
-				responseRetrySettings33.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem16.InitialBackoff)))
-			} else {
-				responseRetrySettings33.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem16.MaxBackoff != nil {
-				responseRetrySettings33.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem16.MaxBackoff)))
-			} else {
-				responseRetrySettings33.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings16 tfTypes.OutputInfluxdbResponseRetrySettings
+			responseRetrySettings16.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem16.BackoffRate)
+			responseRetrySettings16.HTTPStatus = types.Float64Value(responseRetrySettingsItem16.HTTPStatus)
+			responseRetrySettings16.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem16.InitialBackoff)
+			responseRetrySettings16.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem16.MaxBackoff)
 			if responseRetrySettingsCount16+1 > len(r.OutputInfluxdb.ResponseRetrySettings) {
-				r.OutputInfluxdb.ResponseRetrySettings = append(r.OutputInfluxdb.ResponseRetrySettings, responseRetrySettings33)
+				r.OutputInfluxdb.ResponseRetrySettings = append(r.OutputInfluxdb.ResponseRetrySettings, responseRetrySettings16)
 			} else {
-				r.OutputInfluxdb.ResponseRetrySettings[responseRetrySettingsCount16].BackoffRate = responseRetrySettings33.BackoffRate
-				r.OutputInfluxdb.ResponseRetrySettings[responseRetrySettingsCount16].HTTPStatus = responseRetrySettings33.HTTPStatus
-				r.OutputInfluxdb.ResponseRetrySettings[responseRetrySettingsCount16].InitialBackoff = responseRetrySettings33.InitialBackoff
-				r.OutputInfluxdb.ResponseRetrySettings[responseRetrySettingsCount16].MaxBackoff = responseRetrySettings33.MaxBackoff
+				r.OutputInfluxdb.ResponseRetrySettings[responseRetrySettingsCount16].BackoffRate = responseRetrySettings16.BackoffRate
+				r.OutputInfluxdb.ResponseRetrySettings[responseRetrySettingsCount16].HTTPStatus = responseRetrySettings16.HTTPStatus
+				r.OutputInfluxdb.ResponseRetrySettings[responseRetrySettingsCount16].InitialBackoff = responseRetrySettings16.InitialBackoff
+				r.OutputInfluxdb.ResponseRetrySettings[responseRetrySettingsCount16].MaxBackoff = responseRetrySettings16.MaxBackoff
 			}
 		}
 		r.OutputInfluxdb.SafeHeaders = make([]types.String, 0, len(resp.OutputInfluxdb.SafeHeaders))
@@ -25565,28 +24375,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputInfluxdb.TimeoutRetrySettings = nil
 		} else {
 			r.OutputInfluxdb.TimeoutRetrySettings = &tfTypes.OutputInfluxdbTimeoutRetrySettings{}
-			if resp.OutputInfluxdb.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputInfluxdb.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputInfluxdb.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputInfluxdb.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputInfluxdb.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputInfluxdb.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputInfluxdb.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputInfluxdb.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputInfluxdb.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputInfluxdb.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputInfluxdb.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputInfluxdb.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputInfluxdb.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputInfluxdb.TimeoutRetrySettings.BackoffRate)
+			r.OutputInfluxdb.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputInfluxdb.TimeoutRetrySettings.InitialBackoff)
+			r.OutputInfluxdb.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputInfluxdb.TimeoutRetrySettings.MaxBackoff)
 			r.OutputInfluxdb.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputInfluxdb.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputInfluxdb.TimeoutSec != nil {
-			r.OutputInfluxdb.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputInfluxdb.TimeoutSec)))
-		} else {
-			r.OutputInfluxdb.TimeoutSec = types.NumberNull()
-		}
+		r.OutputInfluxdb.TimeoutSec = types.Float64PointerValue(resp.OutputInfluxdb.TimeoutSec)
 		if resp.OutputInfluxdb.TimestampPrecision != nil {
 			r.OutputInfluxdb.TimestampPrecision = types.StringValue(string(*resp.OutputInfluxdb.TimestampPrecision))
 		} else {
@@ -25594,11 +24388,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		}
 		r.OutputInfluxdb.Token = types.StringPointerValue(resp.OutputInfluxdb.Token)
 		r.OutputInfluxdb.TokenAttributeName = types.StringPointerValue(resp.OutputInfluxdb.TokenAttributeName)
-		if resp.OutputInfluxdb.TokenTimeoutSecs != nil {
-			r.OutputInfluxdb.TokenTimeoutSecs = types.NumberValue(big.NewFloat(float64(*resp.OutputInfluxdb.TokenTimeoutSecs)))
-		} else {
-			r.OutputInfluxdb.TokenTimeoutSecs = types.NumberNull()
-		}
+		r.OutputInfluxdb.TokenTimeoutSecs = types.Float64PointerValue(resp.OutputInfluxdb.TokenTimeoutSecs)
 		r.OutputInfluxdb.Type = types.StringValue(string(resp.OutputInfluxdb.Type))
 		r.OutputInfluxdb.URL = types.StringValue(resp.OutputInfluxdb.URL)
 		r.OutputInfluxdb.Username = types.StringPointerValue(resp.OutputInfluxdb.Username)
@@ -25613,16 +24403,8 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputKafka.Ack = types.Int64Null()
 		}
-		if resp.OutputKafka.AuthenticationTimeout != nil {
-			r.OutputKafka.AuthenticationTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputKafka.AuthenticationTimeout)))
-		} else {
-			r.OutputKafka.AuthenticationTimeout = types.NumberNull()
-		}
-		if resp.OutputKafka.BackoffRate != nil {
-			r.OutputKafka.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputKafka.BackoffRate)))
-		} else {
-			r.OutputKafka.BackoffRate = types.NumberNull()
-		}
+		r.OutputKafka.AuthenticationTimeout = types.Float64PointerValue(resp.OutputKafka.AuthenticationTimeout)
+		r.OutputKafka.BackoffRate = types.Float64PointerValue(resp.OutputKafka.BackoffRate)
 		r.OutputKafka.Brokers = make([]types.String, 0, len(resp.OutputKafka.Brokers))
 		for _, v := range resp.OutputKafka.Brokers {
 			r.OutputKafka.Brokers = append(r.OutputKafka.Brokers, types.StringValue(v))
@@ -25632,34 +24414,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputKafka.Compression = types.StringNull()
 		}
-		if resp.OutputKafka.ConnectionTimeout != nil {
-			r.OutputKafka.ConnectionTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputKafka.ConnectionTimeout)))
-		} else {
-			r.OutputKafka.ConnectionTimeout = types.NumberNull()
-		}
+		r.OutputKafka.ConnectionTimeout = types.Float64PointerValue(resp.OutputKafka.ConnectionTimeout)
 		r.OutputKafka.Description = types.StringPointerValue(resp.OutputKafka.Description)
 		r.OutputKafka.Environment = types.StringPointerValue(resp.OutputKafka.Environment)
-		if resp.OutputKafka.FlushEventCount != nil {
-			r.OutputKafka.FlushEventCount = types.NumberValue(big.NewFloat(float64(*resp.OutputKafka.FlushEventCount)))
-		} else {
-			r.OutputKafka.FlushEventCount = types.NumberNull()
-		}
-		if resp.OutputKafka.FlushPeriodSec != nil {
-			r.OutputKafka.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputKafka.FlushPeriodSec)))
-		} else {
-			r.OutputKafka.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputKafka.FlushEventCount = types.Float64PointerValue(resp.OutputKafka.FlushEventCount)
+		r.OutputKafka.FlushPeriodSec = types.Float64PointerValue(resp.OutputKafka.FlushPeriodSec)
 		if resp.OutputKafka.Format != nil {
 			r.OutputKafka.Format = types.StringValue(string(*resp.OutputKafka.Format))
 		} else {
 			r.OutputKafka.Format = types.StringNull()
 		}
 		r.OutputKafka.ID = types.StringPointerValue(resp.OutputKafka.ID)
-		if resp.OutputKafka.InitialBackoff != nil {
-			r.OutputKafka.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputKafka.InitialBackoff)))
-		} else {
-			r.OutputKafka.InitialBackoff = types.NumberNull()
-		}
+		r.OutputKafka.InitialBackoff = types.Float64PointerValue(resp.OutputKafka.InitialBackoff)
 		if resp.OutputKafka.KafkaSchemaRegistry == nil {
 			r.OutputKafka.KafkaSchemaRegistry = nil
 		} else {
@@ -25671,32 +24437,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 				r.OutputKafka.KafkaSchemaRegistry.Auth.CredentialsSecret = types.StringPointerValue(resp.OutputKafka.KafkaSchemaRegistry.Auth.CredentialsSecret)
 				r.OutputKafka.KafkaSchemaRegistry.Auth.Disabled = types.BoolPointerValue(resp.OutputKafka.KafkaSchemaRegistry.Auth.Disabled)
 			}
-			if resp.OutputKafka.KafkaSchemaRegistry.ConnectionTimeout != nil {
-				r.OutputKafka.KafkaSchemaRegistry.ConnectionTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputKafka.KafkaSchemaRegistry.ConnectionTimeout)))
-			} else {
-				r.OutputKafka.KafkaSchemaRegistry.ConnectionTimeout = types.NumberNull()
-			}
-			if resp.OutputKafka.KafkaSchemaRegistry.DefaultKeySchemaID != nil {
-				r.OutputKafka.KafkaSchemaRegistry.DefaultKeySchemaID = types.NumberValue(big.NewFloat(float64(*resp.OutputKafka.KafkaSchemaRegistry.DefaultKeySchemaID)))
-			} else {
-				r.OutputKafka.KafkaSchemaRegistry.DefaultKeySchemaID = types.NumberNull()
-			}
-			if resp.OutputKafka.KafkaSchemaRegistry.DefaultValueSchemaID != nil {
-				r.OutputKafka.KafkaSchemaRegistry.DefaultValueSchemaID = types.NumberValue(big.NewFloat(float64(*resp.OutputKafka.KafkaSchemaRegistry.DefaultValueSchemaID)))
-			} else {
-				r.OutputKafka.KafkaSchemaRegistry.DefaultValueSchemaID = types.NumberNull()
-			}
+			r.OutputKafka.KafkaSchemaRegistry.ConnectionTimeout = types.Float64PointerValue(resp.OutputKafka.KafkaSchemaRegistry.ConnectionTimeout)
+			r.OutputKafka.KafkaSchemaRegistry.DefaultKeySchemaID = types.Float64PointerValue(resp.OutputKafka.KafkaSchemaRegistry.DefaultKeySchemaID)
+			r.OutputKafka.KafkaSchemaRegistry.DefaultValueSchemaID = types.Float64PointerValue(resp.OutputKafka.KafkaSchemaRegistry.DefaultValueSchemaID)
 			r.OutputKafka.KafkaSchemaRegistry.Disabled = types.BoolPointerValue(resp.OutputKafka.KafkaSchemaRegistry.Disabled)
-			if resp.OutputKafka.KafkaSchemaRegistry.MaxRetries != nil {
-				r.OutputKafka.KafkaSchemaRegistry.MaxRetries = types.NumberValue(big.NewFloat(float64(*resp.OutputKafka.KafkaSchemaRegistry.MaxRetries)))
-			} else {
-				r.OutputKafka.KafkaSchemaRegistry.MaxRetries = types.NumberNull()
-			}
-			if resp.OutputKafka.KafkaSchemaRegistry.RequestTimeout != nil {
-				r.OutputKafka.KafkaSchemaRegistry.RequestTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputKafka.KafkaSchemaRegistry.RequestTimeout)))
-			} else {
-				r.OutputKafka.KafkaSchemaRegistry.RequestTimeout = types.NumberNull()
-			}
+			r.OutputKafka.KafkaSchemaRegistry.MaxRetries = types.Float64PointerValue(resp.OutputKafka.KafkaSchemaRegistry.MaxRetries)
+			r.OutputKafka.KafkaSchemaRegistry.RequestTimeout = types.Float64PointerValue(resp.OutputKafka.KafkaSchemaRegistry.RequestTimeout)
 			r.OutputKafka.KafkaSchemaRegistry.SchemaRegistryURL = types.StringPointerValue(resp.OutputKafka.KafkaSchemaRegistry.SchemaRegistryURL)
 			if resp.OutputKafka.KafkaSchemaRegistry.TLS == nil {
 				r.OutputKafka.KafkaSchemaRegistry.TLS = nil
@@ -25722,21 +24468,9 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 				r.OutputKafka.KafkaSchemaRegistry.TLS.Servername = types.StringPointerValue(resp.OutputKafka.KafkaSchemaRegistry.TLS.Servername)
 			}
 		}
-		if resp.OutputKafka.MaxBackOff != nil {
-			r.OutputKafka.MaxBackOff = types.NumberValue(big.NewFloat(float64(*resp.OutputKafka.MaxBackOff)))
-		} else {
-			r.OutputKafka.MaxBackOff = types.NumberNull()
-		}
-		if resp.OutputKafka.MaxRecordSizeKB != nil {
-			r.OutputKafka.MaxRecordSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputKafka.MaxRecordSizeKB)))
-		} else {
-			r.OutputKafka.MaxRecordSizeKB = types.NumberNull()
-		}
-		if resp.OutputKafka.MaxRetries != nil {
-			r.OutputKafka.MaxRetries = types.NumberValue(big.NewFloat(float64(*resp.OutputKafka.MaxRetries)))
-		} else {
-			r.OutputKafka.MaxRetries = types.NumberNull()
-		}
+		r.OutputKafka.MaxBackOff = types.Float64PointerValue(resp.OutputKafka.MaxBackOff)
+		r.OutputKafka.MaxRecordSizeKB = types.Float64PointerValue(resp.OutputKafka.MaxRecordSizeKB)
+		r.OutputKafka.MaxRetries = types.Float64PointerValue(resp.OutputKafka.MaxRetries)
 		if resp.OutputKafka.OnBackpressure != nil {
 			r.OutputKafka.OnBackpressure = types.StringValue(string(*resp.OutputKafka.OnBackpressure))
 		} else {
@@ -25767,16 +24501,8 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		}
 		r.OutputKafka.PqPath = types.StringPointerValue(resp.OutputKafka.PqPath)
 		r.OutputKafka.ProtobufLibraryID = types.StringPointerValue(resp.OutputKafka.ProtobufLibraryID)
-		if resp.OutputKafka.ReauthenticationThreshold != nil {
-			r.OutputKafka.ReauthenticationThreshold = types.NumberValue(big.NewFloat(float64(*resp.OutputKafka.ReauthenticationThreshold)))
-		} else {
-			r.OutputKafka.ReauthenticationThreshold = types.NumberNull()
-		}
-		if resp.OutputKafka.RequestTimeout != nil {
-			r.OutputKafka.RequestTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputKafka.RequestTimeout)))
-		} else {
-			r.OutputKafka.RequestTimeout = types.NumberNull()
-		}
+		r.OutputKafka.ReauthenticationThreshold = types.Float64PointerValue(resp.OutputKafka.ReauthenticationThreshold)
+		r.OutputKafka.RequestTimeout = types.Float64PointerValue(resp.OutputKafka.RequestTimeout)
 		if resp.OutputKafka.Sasl == nil {
 			r.OutputKafka.Sasl = nil
 		} else {
@@ -25844,31 +24570,15 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputKinesis.Compression = types.StringNull()
 		}
-		if resp.OutputKinesis.Concurrency != nil {
-			r.OutputKinesis.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputKinesis.Concurrency)))
-		} else {
-			r.OutputKinesis.Concurrency = types.NumberNull()
-		}
+		r.OutputKinesis.Concurrency = types.Float64PointerValue(resp.OutputKinesis.Concurrency)
 		r.OutputKinesis.Description = types.StringPointerValue(resp.OutputKinesis.Description)
-		if resp.OutputKinesis.DurationSeconds != nil {
-			r.OutputKinesis.DurationSeconds = types.NumberValue(big.NewFloat(float64(*resp.OutputKinesis.DurationSeconds)))
-		} else {
-			r.OutputKinesis.DurationSeconds = types.NumberNull()
-		}
+		r.OutputKinesis.DurationSeconds = types.Float64PointerValue(resp.OutputKinesis.DurationSeconds)
 		r.OutputKinesis.EnableAssumeRole = types.BoolPointerValue(resp.OutputKinesis.EnableAssumeRole)
 		r.OutputKinesis.Endpoint = types.StringPointerValue(resp.OutputKinesis.Endpoint)
 		r.OutputKinesis.Environment = types.StringPointerValue(resp.OutputKinesis.Environment)
-		if resp.OutputKinesis.FlushPeriodSec != nil {
-			r.OutputKinesis.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputKinesis.FlushPeriodSec)))
-		} else {
-			r.OutputKinesis.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputKinesis.FlushPeriodSec = types.Float64PointerValue(resp.OutputKinesis.FlushPeriodSec)
 		r.OutputKinesis.ID = types.StringPointerValue(resp.OutputKinesis.ID)
-		if resp.OutputKinesis.MaxRecordSizeKB != nil {
-			r.OutputKinesis.MaxRecordSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputKinesis.MaxRecordSizeKB)))
-		} else {
-			r.OutputKinesis.MaxRecordSizeKB = types.NumberNull()
-		}
+		r.OutputKinesis.MaxRecordSizeKB = types.Float64PointerValue(resp.OutputKinesis.MaxRecordSizeKB)
 		if resp.OutputKinesis.OnBackpressure != nil {
 			r.OutputKinesis.OnBackpressure = types.StringValue(string(*resp.OutputKinesis.OnBackpressure))
 		} else {
@@ -25930,11 +24640,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputLoki.AuthType = types.StringNull()
 		}
 		r.OutputLoki.Compress = types.BoolPointerValue(resp.OutputLoki.Compress)
-		if resp.OutputLoki.Concurrency != nil {
-			r.OutputLoki.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputLoki.Concurrency)))
-		} else {
-			r.OutputLoki.Concurrency = types.NumberNull()
-		}
+		r.OutputLoki.Concurrency = types.Float64PointerValue(resp.OutputLoki.Concurrency)
 		r.OutputLoki.CredentialsSecret = types.StringPointerValue(resp.OutputLoki.CredentialsSecret)
 		r.OutputLoki.Description = types.StringPointerValue(resp.OutputLoki.Description)
 		r.OutputLoki.Environment = types.StringPointerValue(resp.OutputLoki.Environment)
@@ -25943,14 +24649,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputLoki.ExtraHTTPHeaders = r.OutputLoki.ExtraHTTPHeaders[:len(resp.OutputLoki.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount16, extraHTTPHeadersItem16 := range resp.OutputLoki.ExtraHTTPHeaders {
-			var extraHTTPHeaders33 tfTypes.OutputLokiExtraHTTPHeaders
-			extraHTTPHeaders33.Name = types.StringPointerValue(extraHTTPHeadersItem16.Name)
-			extraHTTPHeaders33.Value = types.StringValue(extraHTTPHeadersItem16.Value)
+			var extraHTTPHeaders16 tfTypes.OutputLokiExtraHTTPHeaders
+			extraHTTPHeaders16.Name = types.StringPointerValue(extraHTTPHeadersItem16.Name)
+			extraHTTPHeaders16.Value = types.StringValue(extraHTTPHeadersItem16.Value)
 			if extraHTTPHeadersCount16+1 > len(r.OutputLoki.ExtraHTTPHeaders) {
-				r.OutputLoki.ExtraHTTPHeaders = append(r.OutputLoki.ExtraHTTPHeaders, extraHTTPHeaders33)
+				r.OutputLoki.ExtraHTTPHeaders = append(r.OutputLoki.ExtraHTTPHeaders, extraHTTPHeaders16)
 			} else {
-				r.OutputLoki.ExtraHTTPHeaders[extraHTTPHeadersCount16].Name = extraHTTPHeaders33.Name
-				r.OutputLoki.ExtraHTTPHeaders[extraHTTPHeadersCount16].Value = extraHTTPHeaders33.Value
+				r.OutputLoki.ExtraHTTPHeaders[extraHTTPHeadersCount16].Name = extraHTTPHeaders16.Name
+				r.OutputLoki.ExtraHTTPHeaders[extraHTTPHeadersCount16].Value = extraHTTPHeaders16.Value
 			}
 		}
 		if resp.OutputLoki.FailedRequestLoggingMode != nil {
@@ -25958,37 +24664,25 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputLoki.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputLoki.FlushPeriodSec != nil {
-			r.OutputLoki.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputLoki.FlushPeriodSec)))
-		} else {
-			r.OutputLoki.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputLoki.FlushPeriodSec = types.Float64PointerValue(resp.OutputLoki.FlushPeriodSec)
 		r.OutputLoki.ID = types.StringPointerValue(resp.OutputLoki.ID)
 		r.OutputLoki.Labels = []tfTypes.Labels{}
 		if len(r.OutputLoki.Labels) > len(resp.OutputLoki.Labels) {
 			r.OutputLoki.Labels = r.OutputLoki.Labels[:len(resp.OutputLoki.Labels)]
 		}
 		for labelsCount2, labelsItem2 := range resp.OutputLoki.Labels {
-			var labels5 tfTypes.Labels
-			labels5.Name = types.StringPointerValue(labelsItem2.Name)
-			labels5.Value = types.StringValue(labelsItem2.Value)
+			var labels2 tfTypes.Labels
+			labels2.Name = types.StringPointerValue(labelsItem2.Name)
+			labels2.Value = types.StringValue(labelsItem2.Value)
 			if labelsCount2+1 > len(r.OutputLoki.Labels) {
-				r.OutputLoki.Labels = append(r.OutputLoki.Labels, labels5)
+				r.OutputLoki.Labels = append(r.OutputLoki.Labels, labels2)
 			} else {
-				r.OutputLoki.Labels[labelsCount2].Name = labels5.Name
-				r.OutputLoki.Labels[labelsCount2].Value = labels5.Value
+				r.OutputLoki.Labels[labelsCount2].Name = labels2.Name
+				r.OutputLoki.Labels[labelsCount2].Value = labels2.Value
 			}
 		}
-		if resp.OutputLoki.MaxPayloadEvents != nil {
-			r.OutputLoki.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputLoki.MaxPayloadEvents)))
-		} else {
-			r.OutputLoki.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputLoki.MaxPayloadSizeKB != nil {
-			r.OutputLoki.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputLoki.MaxPayloadSizeKB)))
-		} else {
-			r.OutputLoki.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputLoki.MaxPayloadEvents = types.Float64PointerValue(resp.OutputLoki.MaxPayloadEvents)
+		r.OutputLoki.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputLoki.MaxPayloadSizeKB)
 		r.OutputLoki.Message = types.StringPointerValue(resp.OutputLoki.Message)
 		if resp.OutputLoki.MessageFormat != nil {
 			r.OutputLoki.MessageFormat = types.StringValue(string(*resp.OutputLoki.MessageFormat))
@@ -26032,30 +24726,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputLoki.ResponseRetrySettings = r.OutputLoki.ResponseRetrySettings[:len(resp.OutputLoki.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount17, responseRetrySettingsItem17 := range resp.OutputLoki.ResponseRetrySettings {
-			var responseRetrySettings35 tfTypes.OutputLokiResponseRetrySettings
-			if responseRetrySettingsItem17.BackoffRate != nil {
-				responseRetrySettings35.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem17.BackoffRate)))
-			} else {
-				responseRetrySettings35.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings35.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem17.HTTPStatus)))
-			if responseRetrySettingsItem17.InitialBackoff != nil {
-				responseRetrySettings35.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem17.InitialBackoff)))
-			} else {
-				responseRetrySettings35.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem17.MaxBackoff != nil {
-				responseRetrySettings35.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem17.MaxBackoff)))
-			} else {
-				responseRetrySettings35.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings17 tfTypes.OutputLokiResponseRetrySettings
+			responseRetrySettings17.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem17.BackoffRate)
+			responseRetrySettings17.HTTPStatus = types.Float64Value(responseRetrySettingsItem17.HTTPStatus)
+			responseRetrySettings17.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem17.InitialBackoff)
+			responseRetrySettings17.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem17.MaxBackoff)
 			if responseRetrySettingsCount17+1 > len(r.OutputLoki.ResponseRetrySettings) {
-				r.OutputLoki.ResponseRetrySettings = append(r.OutputLoki.ResponseRetrySettings, responseRetrySettings35)
+				r.OutputLoki.ResponseRetrySettings = append(r.OutputLoki.ResponseRetrySettings, responseRetrySettings17)
 			} else {
-				r.OutputLoki.ResponseRetrySettings[responseRetrySettingsCount17].BackoffRate = responseRetrySettings35.BackoffRate
-				r.OutputLoki.ResponseRetrySettings[responseRetrySettingsCount17].HTTPStatus = responseRetrySettings35.HTTPStatus
-				r.OutputLoki.ResponseRetrySettings[responseRetrySettingsCount17].InitialBackoff = responseRetrySettings35.InitialBackoff
-				r.OutputLoki.ResponseRetrySettings[responseRetrySettingsCount17].MaxBackoff = responseRetrySettings35.MaxBackoff
+				r.OutputLoki.ResponseRetrySettings[responseRetrySettingsCount17].BackoffRate = responseRetrySettings17.BackoffRate
+				r.OutputLoki.ResponseRetrySettings[responseRetrySettingsCount17].HTTPStatus = responseRetrySettings17.HTTPStatus
+				r.OutputLoki.ResponseRetrySettings[responseRetrySettingsCount17].InitialBackoff = responseRetrySettings17.InitialBackoff
+				r.OutputLoki.ResponseRetrySettings[responseRetrySettingsCount17].MaxBackoff = responseRetrySettings17.MaxBackoff
 			}
 		}
 		r.OutputLoki.SafeHeaders = make([]types.String, 0, len(resp.OutputLoki.SafeHeaders))
@@ -26075,34 +24757,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputLoki.TimeoutRetrySettings = nil
 		} else {
 			r.OutputLoki.TimeoutRetrySettings = &tfTypes.OutputLokiTimeoutRetrySettings{}
-			if resp.OutputLoki.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputLoki.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputLoki.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputLoki.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputLoki.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputLoki.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputLoki.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputLoki.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputLoki.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputLoki.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputLoki.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputLoki.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputLoki.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputLoki.TimeoutRetrySettings.BackoffRate)
+			r.OutputLoki.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputLoki.TimeoutRetrySettings.InitialBackoff)
+			r.OutputLoki.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputLoki.TimeoutRetrySettings.MaxBackoff)
 			r.OutputLoki.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputLoki.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputLoki.TimeoutSec != nil {
-			r.OutputLoki.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputLoki.TimeoutSec)))
-		} else {
-			r.OutputLoki.TimeoutSec = types.NumberNull()
-		}
+		r.OutputLoki.TimeoutSec = types.Float64PointerValue(resp.OutputLoki.TimeoutSec)
 		r.OutputLoki.Token = types.StringPointerValue(resp.OutputLoki.Token)
-		if resp.OutputLoki.TotalMemoryLimitKB != nil {
-			r.OutputLoki.TotalMemoryLimitKB = types.NumberValue(big.NewFloat(float64(*resp.OutputLoki.TotalMemoryLimitKB)))
-		} else {
-			r.OutputLoki.TotalMemoryLimitKB = types.NumberNull()
-		}
+		r.OutputLoki.TotalMemoryLimitKB = types.Float64PointerValue(resp.OutputLoki.TotalMemoryLimitKB)
 		r.OutputLoki.Type = types.StringValue(string(resp.OutputLoki.Type))
 		r.OutputLoki.URL = types.StringValue(resp.OutputLoki.URL)
 		r.OutputLoki.Username = types.StringPointerValue(resp.OutputLoki.Username)
@@ -26136,11 +24798,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputMinio.DeadletterPath = types.StringPointerValue(resp.OutputMinio.DeadletterPath)
 		r.OutputMinio.Description = types.StringPointerValue(resp.OutputMinio.Description)
 		r.OutputMinio.DestPath = types.StringPointerValue(resp.OutputMinio.DestPath)
-		if resp.OutputMinio.EmptyDirCleanupSec != nil {
-			r.OutputMinio.EmptyDirCleanupSec = types.NumberValue(big.NewFloat(float64(*resp.OutputMinio.EmptyDirCleanupSec)))
-		} else {
-			r.OutputMinio.EmptyDirCleanupSec = types.NumberNull()
-		}
+		r.OutputMinio.EmptyDirCleanupSec = types.Float64PointerValue(resp.OutputMinio.EmptyDirCleanupSec)
 		r.OutputMinio.EnablePageChecksum = types.BoolPointerValue(resp.OutputMinio.EnablePageChecksum)
 		r.OutputMinio.EnableStatistics = types.BoolPointerValue(resp.OutputMinio.EnableStatistics)
 		r.OutputMinio.EnableWritePageIndex = types.BoolPointerValue(resp.OutputMinio.EnableWritePageIndex)
@@ -26159,46 +24817,22 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputMinio.KeyValueMetadata = r.OutputMinio.KeyValueMetadata[:len(resp.OutputMinio.KeyValueMetadata)]
 		}
 		for keyValueMetadataCount4, keyValueMetadataItem4 := range resp.OutputMinio.KeyValueMetadata {
-			var keyValueMetadata9 tfTypes.OutputMinioKeyValueMetadata
-			keyValueMetadata9.Key = types.StringPointerValue(keyValueMetadataItem4.Key)
-			keyValueMetadata9.Value = types.StringValue(keyValueMetadataItem4.Value)
+			var keyValueMetadata4 tfTypes.OutputMinioKeyValueMetadata
+			keyValueMetadata4.Key = types.StringPointerValue(keyValueMetadataItem4.Key)
+			keyValueMetadata4.Value = types.StringValue(keyValueMetadataItem4.Value)
 			if keyValueMetadataCount4+1 > len(r.OutputMinio.KeyValueMetadata) {
-				r.OutputMinio.KeyValueMetadata = append(r.OutputMinio.KeyValueMetadata, keyValueMetadata9)
+				r.OutputMinio.KeyValueMetadata = append(r.OutputMinio.KeyValueMetadata, keyValueMetadata4)
 			} else {
-				r.OutputMinio.KeyValueMetadata[keyValueMetadataCount4].Key = keyValueMetadata9.Key
-				r.OutputMinio.KeyValueMetadata[keyValueMetadataCount4].Value = keyValueMetadata9.Value
+				r.OutputMinio.KeyValueMetadata[keyValueMetadataCount4].Key = keyValueMetadata4.Key
+				r.OutputMinio.KeyValueMetadata[keyValueMetadataCount4].Value = keyValueMetadata4.Value
 			}
 		}
-		if resp.OutputMinio.MaxConcurrentFileParts != nil {
-			r.OutputMinio.MaxConcurrentFileParts = types.NumberValue(big.NewFloat(float64(*resp.OutputMinio.MaxConcurrentFileParts)))
-		} else {
-			r.OutputMinio.MaxConcurrentFileParts = types.NumberNull()
-		}
-		if resp.OutputMinio.MaxFileIdleTimeSec != nil {
-			r.OutputMinio.MaxFileIdleTimeSec = types.NumberValue(big.NewFloat(float64(*resp.OutputMinio.MaxFileIdleTimeSec)))
-		} else {
-			r.OutputMinio.MaxFileIdleTimeSec = types.NumberNull()
-		}
-		if resp.OutputMinio.MaxFileOpenTimeSec != nil {
-			r.OutputMinio.MaxFileOpenTimeSec = types.NumberValue(big.NewFloat(float64(*resp.OutputMinio.MaxFileOpenTimeSec)))
-		} else {
-			r.OutputMinio.MaxFileOpenTimeSec = types.NumberNull()
-		}
-		if resp.OutputMinio.MaxFileSizeMB != nil {
-			r.OutputMinio.MaxFileSizeMB = types.NumberValue(big.NewFloat(float64(*resp.OutputMinio.MaxFileSizeMB)))
-		} else {
-			r.OutputMinio.MaxFileSizeMB = types.NumberNull()
-		}
-		if resp.OutputMinio.MaxOpenFiles != nil {
-			r.OutputMinio.MaxOpenFiles = types.NumberValue(big.NewFloat(float64(*resp.OutputMinio.MaxOpenFiles)))
-		} else {
-			r.OutputMinio.MaxOpenFiles = types.NumberNull()
-		}
-		if resp.OutputMinio.MaxRetryNum != nil {
-			r.OutputMinio.MaxRetryNum = types.NumberValue(big.NewFloat(float64(*resp.OutputMinio.MaxRetryNum)))
-		} else {
-			r.OutputMinio.MaxRetryNum = types.NumberNull()
-		}
+		r.OutputMinio.MaxConcurrentFileParts = types.Float64PointerValue(resp.OutputMinio.MaxConcurrentFileParts)
+		r.OutputMinio.MaxFileIdleTimeSec = types.Float64PointerValue(resp.OutputMinio.MaxFileIdleTimeSec)
+		r.OutputMinio.MaxFileOpenTimeSec = types.Float64PointerValue(resp.OutputMinio.MaxFileOpenTimeSec)
+		r.OutputMinio.MaxFileSizeMB = types.Float64PointerValue(resp.OutputMinio.MaxFileSizeMB)
+		r.OutputMinio.MaxOpenFiles = types.Float64PointerValue(resp.OutputMinio.MaxOpenFiles)
+		r.OutputMinio.MaxRetryNum = types.Float64PointerValue(resp.OutputMinio.MaxRetryNum)
 		if resp.OutputMinio.ObjectACL != nil {
 			r.OutputMinio.ObjectACL = types.StringValue(string(*resp.OutputMinio.ObjectACL))
 		} else {
@@ -26220,11 +24854,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputMinio.ParquetDataPageVersion = types.StringNull()
 		}
 		r.OutputMinio.ParquetPageSize = types.StringPointerValue(resp.OutputMinio.ParquetPageSize)
-		if resp.OutputMinio.ParquetRowGroupLength != nil {
-			r.OutputMinio.ParquetRowGroupLength = types.NumberValue(big.NewFloat(float64(*resp.OutputMinio.ParquetRowGroupLength)))
-		} else {
-			r.OutputMinio.ParquetRowGroupLength = types.NumberNull()
-		}
+		r.OutputMinio.ParquetRowGroupLength = types.Float64PointerValue(resp.OutputMinio.ParquetRowGroupLength)
 		if resp.OutputMinio.ParquetVersion != nil {
 			r.OutputMinio.ParquetVersion = types.StringValue(string(*resp.OutputMinio.ParquetVersion))
 		} else {
@@ -26267,11 +24897,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputMinio.Type = types.StringNull()
 		}
 		r.OutputMinio.VerifyPermissions = types.BoolPointerValue(resp.OutputMinio.VerifyPermissions)
-		if resp.OutputMinio.WriteHighWaterMark != nil {
-			r.OutputMinio.WriteHighWaterMark = types.NumberValue(big.NewFloat(float64(*resp.OutputMinio.WriteHighWaterMark)))
-		} else {
-			r.OutputMinio.WriteHighWaterMark = types.NumberNull()
-		}
+		r.OutputMinio.WriteHighWaterMark = types.Float64PointerValue(resp.OutputMinio.WriteHighWaterMark)
 	}
 	if resp.OutputMsk != nil {
 		r.OutputMsk = &tfTypes.OutputMsk{}
@@ -26282,11 +24908,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		}
 		r.OutputMsk.AssumeRoleArn = types.StringPointerValue(resp.OutputMsk.AssumeRoleArn)
 		r.OutputMsk.AssumeRoleExternalID = types.StringPointerValue(resp.OutputMsk.AssumeRoleExternalID)
-		if resp.OutputMsk.AuthenticationTimeout != nil {
-			r.OutputMsk.AuthenticationTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputMsk.AuthenticationTimeout)))
-		} else {
-			r.OutputMsk.AuthenticationTimeout = types.NumberNull()
-		}
+		r.OutputMsk.AuthenticationTimeout = types.Float64PointerValue(resp.OutputMsk.AuthenticationTimeout)
 		r.OutputMsk.AwsAPIKey = types.StringPointerValue(resp.OutputMsk.AwsAPIKey)
 		if resp.OutputMsk.AwsAuthenticationMethod != nil {
 			r.OutputMsk.AwsAuthenticationMethod = types.StringValue(string(*resp.OutputMsk.AwsAuthenticationMethod))
@@ -26295,11 +24917,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		}
 		r.OutputMsk.AwsSecret = types.StringPointerValue(resp.OutputMsk.AwsSecret)
 		r.OutputMsk.AwsSecretKey = types.StringPointerValue(resp.OutputMsk.AwsSecretKey)
-		if resp.OutputMsk.BackoffRate != nil {
-			r.OutputMsk.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputMsk.BackoffRate)))
-		} else {
-			r.OutputMsk.BackoffRate = types.NumberNull()
-		}
+		r.OutputMsk.BackoffRate = types.Float64PointerValue(resp.OutputMsk.BackoffRate)
 		r.OutputMsk.Brokers = make([]types.String, 0, len(resp.OutputMsk.Brokers))
 		for _, v := range resp.OutputMsk.Brokers {
 			r.OutputMsk.Brokers = append(r.OutputMsk.Brokers, types.StringValue(v))
@@ -26309,41 +24927,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputMsk.Compression = types.StringNull()
 		}
-		if resp.OutputMsk.ConnectionTimeout != nil {
-			r.OutputMsk.ConnectionTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputMsk.ConnectionTimeout)))
-		} else {
-			r.OutputMsk.ConnectionTimeout = types.NumberNull()
-		}
+		r.OutputMsk.ConnectionTimeout = types.Float64PointerValue(resp.OutputMsk.ConnectionTimeout)
 		r.OutputMsk.Description = types.StringPointerValue(resp.OutputMsk.Description)
-		if resp.OutputMsk.DurationSeconds != nil {
-			r.OutputMsk.DurationSeconds = types.NumberValue(big.NewFloat(float64(*resp.OutputMsk.DurationSeconds)))
-		} else {
-			r.OutputMsk.DurationSeconds = types.NumberNull()
-		}
+		r.OutputMsk.DurationSeconds = types.Float64PointerValue(resp.OutputMsk.DurationSeconds)
 		r.OutputMsk.EnableAssumeRole = types.BoolPointerValue(resp.OutputMsk.EnableAssumeRole)
 		r.OutputMsk.Endpoint = types.StringPointerValue(resp.OutputMsk.Endpoint)
 		r.OutputMsk.Environment = types.StringPointerValue(resp.OutputMsk.Environment)
-		if resp.OutputMsk.FlushEventCount != nil {
-			r.OutputMsk.FlushEventCount = types.NumberValue(big.NewFloat(float64(*resp.OutputMsk.FlushEventCount)))
-		} else {
-			r.OutputMsk.FlushEventCount = types.NumberNull()
-		}
-		if resp.OutputMsk.FlushPeriodSec != nil {
-			r.OutputMsk.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputMsk.FlushPeriodSec)))
-		} else {
-			r.OutputMsk.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputMsk.FlushEventCount = types.Float64PointerValue(resp.OutputMsk.FlushEventCount)
+		r.OutputMsk.FlushPeriodSec = types.Float64PointerValue(resp.OutputMsk.FlushPeriodSec)
 		if resp.OutputMsk.Format != nil {
 			r.OutputMsk.Format = types.StringValue(string(*resp.OutputMsk.Format))
 		} else {
 			r.OutputMsk.Format = types.StringNull()
 		}
 		r.OutputMsk.ID = types.StringPointerValue(resp.OutputMsk.ID)
-		if resp.OutputMsk.InitialBackoff != nil {
-			r.OutputMsk.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputMsk.InitialBackoff)))
-		} else {
-			r.OutputMsk.InitialBackoff = types.NumberNull()
-		}
+		r.OutputMsk.InitialBackoff = types.Float64PointerValue(resp.OutputMsk.InitialBackoff)
 		if resp.OutputMsk.KafkaSchemaRegistry == nil {
 			r.OutputMsk.KafkaSchemaRegistry = nil
 		} else {
@@ -26355,32 +24953,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 				r.OutputMsk.KafkaSchemaRegistry.Auth.CredentialsSecret = types.StringPointerValue(resp.OutputMsk.KafkaSchemaRegistry.Auth.CredentialsSecret)
 				r.OutputMsk.KafkaSchemaRegistry.Auth.Disabled = types.BoolPointerValue(resp.OutputMsk.KafkaSchemaRegistry.Auth.Disabled)
 			}
-			if resp.OutputMsk.KafkaSchemaRegistry.ConnectionTimeout != nil {
-				r.OutputMsk.KafkaSchemaRegistry.ConnectionTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputMsk.KafkaSchemaRegistry.ConnectionTimeout)))
-			} else {
-				r.OutputMsk.KafkaSchemaRegistry.ConnectionTimeout = types.NumberNull()
-			}
-			if resp.OutputMsk.KafkaSchemaRegistry.DefaultKeySchemaID != nil {
-				r.OutputMsk.KafkaSchemaRegistry.DefaultKeySchemaID = types.NumberValue(big.NewFloat(float64(*resp.OutputMsk.KafkaSchemaRegistry.DefaultKeySchemaID)))
-			} else {
-				r.OutputMsk.KafkaSchemaRegistry.DefaultKeySchemaID = types.NumberNull()
-			}
-			if resp.OutputMsk.KafkaSchemaRegistry.DefaultValueSchemaID != nil {
-				r.OutputMsk.KafkaSchemaRegistry.DefaultValueSchemaID = types.NumberValue(big.NewFloat(float64(*resp.OutputMsk.KafkaSchemaRegistry.DefaultValueSchemaID)))
-			} else {
-				r.OutputMsk.KafkaSchemaRegistry.DefaultValueSchemaID = types.NumberNull()
-			}
+			r.OutputMsk.KafkaSchemaRegistry.ConnectionTimeout = types.Float64PointerValue(resp.OutputMsk.KafkaSchemaRegistry.ConnectionTimeout)
+			r.OutputMsk.KafkaSchemaRegistry.DefaultKeySchemaID = types.Float64PointerValue(resp.OutputMsk.KafkaSchemaRegistry.DefaultKeySchemaID)
+			r.OutputMsk.KafkaSchemaRegistry.DefaultValueSchemaID = types.Float64PointerValue(resp.OutputMsk.KafkaSchemaRegistry.DefaultValueSchemaID)
 			r.OutputMsk.KafkaSchemaRegistry.Disabled = types.BoolPointerValue(resp.OutputMsk.KafkaSchemaRegistry.Disabled)
-			if resp.OutputMsk.KafkaSchemaRegistry.MaxRetries != nil {
-				r.OutputMsk.KafkaSchemaRegistry.MaxRetries = types.NumberValue(big.NewFloat(float64(*resp.OutputMsk.KafkaSchemaRegistry.MaxRetries)))
-			} else {
-				r.OutputMsk.KafkaSchemaRegistry.MaxRetries = types.NumberNull()
-			}
-			if resp.OutputMsk.KafkaSchemaRegistry.RequestTimeout != nil {
-				r.OutputMsk.KafkaSchemaRegistry.RequestTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputMsk.KafkaSchemaRegistry.RequestTimeout)))
-			} else {
-				r.OutputMsk.KafkaSchemaRegistry.RequestTimeout = types.NumberNull()
-			}
+			r.OutputMsk.KafkaSchemaRegistry.MaxRetries = types.Float64PointerValue(resp.OutputMsk.KafkaSchemaRegistry.MaxRetries)
+			r.OutputMsk.KafkaSchemaRegistry.RequestTimeout = types.Float64PointerValue(resp.OutputMsk.KafkaSchemaRegistry.RequestTimeout)
 			r.OutputMsk.KafkaSchemaRegistry.SchemaRegistryURL = types.StringPointerValue(resp.OutputMsk.KafkaSchemaRegistry.SchemaRegistryURL)
 			if resp.OutputMsk.KafkaSchemaRegistry.TLS == nil {
 				r.OutputMsk.KafkaSchemaRegistry.TLS = nil
@@ -26406,21 +24984,9 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 				r.OutputMsk.KafkaSchemaRegistry.TLS.Servername = types.StringPointerValue(resp.OutputMsk.KafkaSchemaRegistry.TLS.Servername)
 			}
 		}
-		if resp.OutputMsk.MaxBackOff != nil {
-			r.OutputMsk.MaxBackOff = types.NumberValue(big.NewFloat(float64(*resp.OutputMsk.MaxBackOff)))
-		} else {
-			r.OutputMsk.MaxBackOff = types.NumberNull()
-		}
-		if resp.OutputMsk.MaxRecordSizeKB != nil {
-			r.OutputMsk.MaxRecordSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputMsk.MaxRecordSizeKB)))
-		} else {
-			r.OutputMsk.MaxRecordSizeKB = types.NumberNull()
-		}
-		if resp.OutputMsk.MaxRetries != nil {
-			r.OutputMsk.MaxRetries = types.NumberValue(big.NewFloat(float64(*resp.OutputMsk.MaxRetries)))
-		} else {
-			r.OutputMsk.MaxRetries = types.NumberNull()
-		}
+		r.OutputMsk.MaxBackOff = types.Float64PointerValue(resp.OutputMsk.MaxBackOff)
+		r.OutputMsk.MaxRecordSizeKB = types.Float64PointerValue(resp.OutputMsk.MaxRecordSizeKB)
+		r.OutputMsk.MaxRetries = types.Float64PointerValue(resp.OutputMsk.MaxRetries)
 		if resp.OutputMsk.OnBackpressure != nil {
 			r.OutputMsk.OnBackpressure = types.StringValue(string(*resp.OutputMsk.OnBackpressure))
 		} else {
@@ -26451,18 +25017,10 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		}
 		r.OutputMsk.PqPath = types.StringPointerValue(resp.OutputMsk.PqPath)
 		r.OutputMsk.ProtobufLibraryID = types.StringPointerValue(resp.OutputMsk.ProtobufLibraryID)
-		if resp.OutputMsk.ReauthenticationThreshold != nil {
-			r.OutputMsk.ReauthenticationThreshold = types.NumberValue(big.NewFloat(float64(*resp.OutputMsk.ReauthenticationThreshold)))
-		} else {
-			r.OutputMsk.ReauthenticationThreshold = types.NumberNull()
-		}
+		r.OutputMsk.ReauthenticationThreshold = types.Float64PointerValue(resp.OutputMsk.ReauthenticationThreshold)
 		r.OutputMsk.Region = types.StringValue(resp.OutputMsk.Region)
 		r.OutputMsk.RejectUnauthorized = types.BoolPointerValue(resp.OutputMsk.RejectUnauthorized)
-		if resp.OutputMsk.RequestTimeout != nil {
-			r.OutputMsk.RequestTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputMsk.RequestTimeout)))
-		} else {
-			r.OutputMsk.RequestTimeout = types.NumberNull()
-		}
+		r.OutputMsk.RequestTimeout = types.Float64PointerValue(resp.OutputMsk.RequestTimeout)
 		r.OutputMsk.ReuseConnections = types.BoolPointerValue(resp.OutputMsk.ReuseConnections)
 		if resp.OutputMsk.SignatureVersion != nil {
 			r.OutputMsk.SignatureVersion = types.StringValue(string(*resp.OutputMsk.SignatureVersion))
@@ -26510,29 +25068,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 	if resp.OutputNetflow != nil {
 		r.OutputNetflow = &tfTypes.OutputNetflow{}
 		r.OutputNetflow.Description = types.StringPointerValue(resp.OutputNetflow.Description)
-		if resp.OutputNetflow.DNSResolvePeriodSec != nil {
-			r.OutputNetflow.DNSResolvePeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputNetflow.DNSResolvePeriodSec)))
-		} else {
-			r.OutputNetflow.DNSResolvePeriodSec = types.NumberNull()
-		}
+		r.OutputNetflow.DNSResolvePeriodSec = types.Float64PointerValue(resp.OutputNetflow.DNSResolvePeriodSec)
 		r.OutputNetflow.Environment = types.StringPointerValue(resp.OutputNetflow.Environment)
 		r.OutputNetflow.Hosts = []tfTypes.OutputNetflowHosts{}
 		if len(r.OutputNetflow.Hosts) > len(resp.OutputNetflow.Hosts) {
 			r.OutputNetflow.Hosts = r.OutputNetflow.Hosts[:len(resp.OutputNetflow.Hosts)]
 		}
 		for hostsCount1, hostsItem1 := range resp.OutputNetflow.Hosts {
-			var hosts3 tfTypes.OutputNetflowHosts
-			hosts3.Host = types.StringValue(hostsItem1.Host)
-			if hostsItem1.Port != nil {
-				hosts3.Port = types.NumberValue(big.NewFloat(float64(*hostsItem1.Port)))
-			} else {
-				hosts3.Port = types.NumberNull()
-			}
+			var hosts1 tfTypes.OutputNetflowHosts
+			hosts1.Host = types.StringValue(hostsItem1.Host)
+			hosts1.Port = types.Float64PointerValue(hostsItem1.Port)
 			if hostsCount1+1 > len(r.OutputNetflow.Hosts) {
-				r.OutputNetflow.Hosts = append(r.OutputNetflow.Hosts, hosts3)
+				r.OutputNetflow.Hosts = append(r.OutputNetflow.Hosts, hosts1)
 			} else {
-				r.OutputNetflow.Hosts[hostsCount1].Host = hosts3.Host
-				r.OutputNetflow.Hosts[hostsCount1].Port = hosts3.Port
+				r.OutputNetflow.Hosts[hostsCount1].Host = hosts1.Host
+				r.OutputNetflow.Hosts[hostsCount1].Port = hosts1.Port
 			}
 		}
 		r.OutputNetflow.ID = types.StringPointerValue(resp.OutputNetflow.ID)
@@ -26556,11 +25106,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputNewrelic.AuthType = types.StringNull()
 		}
 		r.OutputNewrelic.Compress = types.BoolPointerValue(resp.OutputNewrelic.Compress)
-		if resp.OutputNewrelic.Concurrency != nil {
-			r.OutputNewrelic.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputNewrelic.Concurrency)))
-		} else {
-			r.OutputNewrelic.Concurrency = types.NumberNull()
-		}
+		r.OutputNewrelic.Concurrency = types.Float64PointerValue(resp.OutputNewrelic.Concurrency)
 		r.OutputNewrelic.CustomURL = types.StringPointerValue(resp.OutputNewrelic.CustomURL)
 		r.OutputNewrelic.Description = types.StringPointerValue(resp.OutputNewrelic.Description)
 		r.OutputNewrelic.Environment = types.StringPointerValue(resp.OutputNewrelic.Environment)
@@ -26569,14 +25115,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputNewrelic.ExtraHTTPHeaders = r.OutputNewrelic.ExtraHTTPHeaders[:len(resp.OutputNewrelic.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount17, extraHTTPHeadersItem17 := range resp.OutputNewrelic.ExtraHTTPHeaders {
-			var extraHTTPHeaders35 tfTypes.OutputNewrelicExtraHTTPHeaders
-			extraHTTPHeaders35.Name = types.StringPointerValue(extraHTTPHeadersItem17.Name)
-			extraHTTPHeaders35.Value = types.StringValue(extraHTTPHeadersItem17.Value)
+			var extraHTTPHeaders17 tfTypes.OutputNewrelicExtraHTTPHeaders
+			extraHTTPHeaders17.Name = types.StringPointerValue(extraHTTPHeadersItem17.Name)
+			extraHTTPHeaders17.Value = types.StringValue(extraHTTPHeadersItem17.Value)
 			if extraHTTPHeadersCount17+1 > len(r.OutputNewrelic.ExtraHTTPHeaders) {
-				r.OutputNewrelic.ExtraHTTPHeaders = append(r.OutputNewrelic.ExtraHTTPHeaders, extraHTTPHeaders35)
+				r.OutputNewrelic.ExtraHTTPHeaders = append(r.OutputNewrelic.ExtraHTTPHeaders, extraHTTPHeaders17)
 			} else {
-				r.OutputNewrelic.ExtraHTTPHeaders[extraHTTPHeadersCount17].Name = extraHTTPHeaders35.Name
-				r.OutputNewrelic.ExtraHTTPHeaders[extraHTTPHeadersCount17].Value = extraHTTPHeaders35.Value
+				r.OutputNewrelic.ExtraHTTPHeaders[extraHTTPHeadersCount17].Name = extraHTTPHeaders17.Name
+				r.OutputNewrelic.ExtraHTTPHeaders[extraHTTPHeadersCount17].Value = extraHTTPHeaders17.Value
 			}
 		}
 		if resp.OutputNewrelic.FailedRequestLoggingMode != nil {
@@ -26584,37 +25130,25 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputNewrelic.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputNewrelic.FlushPeriodSec != nil {
-			r.OutputNewrelic.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputNewrelic.FlushPeriodSec)))
-		} else {
-			r.OutputNewrelic.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputNewrelic.FlushPeriodSec = types.Float64PointerValue(resp.OutputNewrelic.FlushPeriodSec)
 		r.OutputNewrelic.ID = types.StringValue(resp.OutputNewrelic.ID)
 		r.OutputNewrelic.LogType = types.StringPointerValue(resp.OutputNewrelic.LogType)
-		if resp.OutputNewrelic.MaxPayloadEvents != nil {
-			r.OutputNewrelic.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputNewrelic.MaxPayloadEvents)))
-		} else {
-			r.OutputNewrelic.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputNewrelic.MaxPayloadSizeKB != nil {
-			r.OutputNewrelic.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputNewrelic.MaxPayloadSizeKB)))
-		} else {
-			r.OutputNewrelic.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputNewrelic.MaxPayloadEvents = types.Float64PointerValue(resp.OutputNewrelic.MaxPayloadEvents)
+		r.OutputNewrelic.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputNewrelic.MaxPayloadSizeKB)
 		r.OutputNewrelic.MessageField = types.StringPointerValue(resp.OutputNewrelic.MessageField)
 		r.OutputNewrelic.Metadata = []tfTypes.OutputNewrelicMetadata{}
 		if len(r.OutputNewrelic.Metadata) > len(resp.OutputNewrelic.Metadata) {
 			r.OutputNewrelic.Metadata = r.OutputNewrelic.Metadata[:len(resp.OutputNewrelic.Metadata)]
 		}
 		for metadataCount1, metadataItem1 := range resp.OutputNewrelic.Metadata {
-			var metadata3 tfTypes.OutputNewrelicMetadata
-			metadata3.Name = types.StringValue(string(metadataItem1.Name))
-			metadata3.Value = types.StringValue(metadataItem1.Value)
+			var metadata1 tfTypes.OutputNewrelicMetadata
+			metadata1.Name = types.StringValue(string(metadataItem1.Name))
+			metadata1.Value = types.StringValue(metadataItem1.Value)
 			if metadataCount1+1 > len(r.OutputNewrelic.Metadata) {
-				r.OutputNewrelic.Metadata = append(r.OutputNewrelic.Metadata, metadata3)
+				r.OutputNewrelic.Metadata = append(r.OutputNewrelic.Metadata, metadata1)
 			} else {
-				r.OutputNewrelic.Metadata[metadataCount1].Name = metadata3.Name
-				r.OutputNewrelic.Metadata[metadataCount1].Value = metadata3.Value
+				r.OutputNewrelic.Metadata[metadataCount1].Name = metadata1.Name
+				r.OutputNewrelic.Metadata[metadataCount1].Value = metadata1.Value
 			}
 		}
 		if resp.OutputNewrelic.OnBackpressure != nil {
@@ -26658,30 +25192,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputNewrelic.ResponseRetrySettings = r.OutputNewrelic.ResponseRetrySettings[:len(resp.OutputNewrelic.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount18, responseRetrySettingsItem18 := range resp.OutputNewrelic.ResponseRetrySettings {
-			var responseRetrySettings37 tfTypes.OutputNewrelicResponseRetrySettings
-			if responseRetrySettingsItem18.BackoffRate != nil {
-				responseRetrySettings37.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem18.BackoffRate)))
-			} else {
-				responseRetrySettings37.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings37.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem18.HTTPStatus)))
-			if responseRetrySettingsItem18.InitialBackoff != nil {
-				responseRetrySettings37.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem18.InitialBackoff)))
-			} else {
-				responseRetrySettings37.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem18.MaxBackoff != nil {
-				responseRetrySettings37.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem18.MaxBackoff)))
-			} else {
-				responseRetrySettings37.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings18 tfTypes.OutputNewrelicResponseRetrySettings
+			responseRetrySettings18.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem18.BackoffRate)
+			responseRetrySettings18.HTTPStatus = types.Float64Value(responseRetrySettingsItem18.HTTPStatus)
+			responseRetrySettings18.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem18.InitialBackoff)
+			responseRetrySettings18.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem18.MaxBackoff)
 			if responseRetrySettingsCount18+1 > len(r.OutputNewrelic.ResponseRetrySettings) {
-				r.OutputNewrelic.ResponseRetrySettings = append(r.OutputNewrelic.ResponseRetrySettings, responseRetrySettings37)
+				r.OutputNewrelic.ResponseRetrySettings = append(r.OutputNewrelic.ResponseRetrySettings, responseRetrySettings18)
 			} else {
-				r.OutputNewrelic.ResponseRetrySettings[responseRetrySettingsCount18].BackoffRate = responseRetrySettings37.BackoffRate
-				r.OutputNewrelic.ResponseRetrySettings[responseRetrySettingsCount18].HTTPStatus = responseRetrySettings37.HTTPStatus
-				r.OutputNewrelic.ResponseRetrySettings[responseRetrySettingsCount18].InitialBackoff = responseRetrySettings37.InitialBackoff
-				r.OutputNewrelic.ResponseRetrySettings[responseRetrySettingsCount18].MaxBackoff = responseRetrySettings37.MaxBackoff
+				r.OutputNewrelic.ResponseRetrySettings[responseRetrySettingsCount18].BackoffRate = responseRetrySettings18.BackoffRate
+				r.OutputNewrelic.ResponseRetrySettings[responseRetrySettingsCount18].HTTPStatus = responseRetrySettings18.HTTPStatus
+				r.OutputNewrelic.ResponseRetrySettings[responseRetrySettingsCount18].InitialBackoff = responseRetrySettings18.InitialBackoff
+				r.OutputNewrelic.ResponseRetrySettings[responseRetrySettingsCount18].MaxBackoff = responseRetrySettings18.MaxBackoff
 			}
 		}
 		r.OutputNewrelic.SafeHeaders = make([]types.String, 0, len(resp.OutputNewrelic.SafeHeaders))
@@ -26701,33 +25223,13 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputNewrelic.TimeoutRetrySettings = nil
 		} else {
 			r.OutputNewrelic.TimeoutRetrySettings = &tfTypes.OutputNewrelicTimeoutRetrySettings{}
-			if resp.OutputNewrelic.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputNewrelic.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputNewrelic.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputNewrelic.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputNewrelic.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputNewrelic.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputNewrelic.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputNewrelic.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputNewrelic.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputNewrelic.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputNewrelic.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputNewrelic.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputNewrelic.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputNewrelic.TimeoutRetrySettings.BackoffRate)
+			r.OutputNewrelic.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputNewrelic.TimeoutRetrySettings.InitialBackoff)
+			r.OutputNewrelic.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputNewrelic.TimeoutRetrySettings.MaxBackoff)
 			r.OutputNewrelic.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputNewrelic.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputNewrelic.TimeoutSec != nil {
-			r.OutputNewrelic.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputNewrelic.TimeoutSec)))
-		} else {
-			r.OutputNewrelic.TimeoutSec = types.NumberNull()
-		}
-		if resp.OutputNewrelic.TotalMemoryLimitKB != nil {
-			r.OutputNewrelic.TotalMemoryLimitKB = types.NumberValue(big.NewFloat(float64(*resp.OutputNewrelic.TotalMemoryLimitKB)))
-		} else {
-			r.OutputNewrelic.TotalMemoryLimitKB = types.NumberNull()
-		}
+		r.OutputNewrelic.TimeoutSec = types.Float64PointerValue(resp.OutputNewrelic.TimeoutSec)
+		r.OutputNewrelic.TotalMemoryLimitKB = types.Float64PointerValue(resp.OutputNewrelic.TotalMemoryLimitKB)
 		r.OutputNewrelic.Type = types.StringValue(string(resp.OutputNewrelic.Type))
 		r.OutputNewrelic.UseRoundRobinDNS = types.BoolPointerValue(resp.OutputNewrelic.UseRoundRobinDNS)
 	}
@@ -26741,11 +25243,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputNewrelicEvents.AuthType = types.StringNull()
 		}
 		r.OutputNewrelicEvents.Compress = types.BoolPointerValue(resp.OutputNewrelicEvents.Compress)
-		if resp.OutputNewrelicEvents.Concurrency != nil {
-			r.OutputNewrelicEvents.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputNewrelicEvents.Concurrency)))
-		} else {
-			r.OutputNewrelicEvents.Concurrency = types.NumberNull()
-		}
+		r.OutputNewrelicEvents.Concurrency = types.Float64PointerValue(resp.OutputNewrelicEvents.Concurrency)
 		r.OutputNewrelicEvents.CustomURL = types.StringPointerValue(resp.OutputNewrelicEvents.CustomURL)
 		r.OutputNewrelicEvents.Description = types.StringPointerValue(resp.OutputNewrelicEvents.Description)
 		r.OutputNewrelicEvents.Environment = types.StringPointerValue(resp.OutputNewrelicEvents.Environment)
@@ -26755,14 +25253,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputNewrelicEvents.ExtraHTTPHeaders = r.OutputNewrelicEvents.ExtraHTTPHeaders[:len(resp.OutputNewrelicEvents.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount18, extraHTTPHeadersItem18 := range resp.OutputNewrelicEvents.ExtraHTTPHeaders {
-			var extraHTTPHeaders37 tfTypes.OutputNewrelicEventsExtraHTTPHeaders
-			extraHTTPHeaders37.Name = types.StringPointerValue(extraHTTPHeadersItem18.Name)
-			extraHTTPHeaders37.Value = types.StringValue(extraHTTPHeadersItem18.Value)
+			var extraHTTPHeaders18 tfTypes.OutputNewrelicEventsExtraHTTPHeaders
+			extraHTTPHeaders18.Name = types.StringPointerValue(extraHTTPHeadersItem18.Name)
+			extraHTTPHeaders18.Value = types.StringValue(extraHTTPHeadersItem18.Value)
 			if extraHTTPHeadersCount18+1 > len(r.OutputNewrelicEvents.ExtraHTTPHeaders) {
-				r.OutputNewrelicEvents.ExtraHTTPHeaders = append(r.OutputNewrelicEvents.ExtraHTTPHeaders, extraHTTPHeaders37)
+				r.OutputNewrelicEvents.ExtraHTTPHeaders = append(r.OutputNewrelicEvents.ExtraHTTPHeaders, extraHTTPHeaders18)
 			} else {
-				r.OutputNewrelicEvents.ExtraHTTPHeaders[extraHTTPHeadersCount18].Name = extraHTTPHeaders37.Name
-				r.OutputNewrelicEvents.ExtraHTTPHeaders[extraHTTPHeadersCount18].Value = extraHTTPHeaders37.Value
+				r.OutputNewrelicEvents.ExtraHTTPHeaders[extraHTTPHeadersCount18].Name = extraHTTPHeaders18.Name
+				r.OutputNewrelicEvents.ExtraHTTPHeaders[extraHTTPHeadersCount18].Value = extraHTTPHeaders18.Value
 			}
 		}
 		if resp.OutputNewrelicEvents.FailedRequestLoggingMode != nil {
@@ -26770,22 +25268,10 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputNewrelicEvents.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputNewrelicEvents.FlushPeriodSec != nil {
-			r.OutputNewrelicEvents.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputNewrelicEvents.FlushPeriodSec)))
-		} else {
-			r.OutputNewrelicEvents.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputNewrelicEvents.FlushPeriodSec = types.Float64PointerValue(resp.OutputNewrelicEvents.FlushPeriodSec)
 		r.OutputNewrelicEvents.ID = types.StringPointerValue(resp.OutputNewrelicEvents.ID)
-		if resp.OutputNewrelicEvents.MaxPayloadEvents != nil {
-			r.OutputNewrelicEvents.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputNewrelicEvents.MaxPayloadEvents)))
-		} else {
-			r.OutputNewrelicEvents.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputNewrelicEvents.MaxPayloadSizeKB != nil {
-			r.OutputNewrelicEvents.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputNewrelicEvents.MaxPayloadSizeKB)))
-		} else {
-			r.OutputNewrelicEvents.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputNewrelicEvents.MaxPayloadEvents = types.Float64PointerValue(resp.OutputNewrelicEvents.MaxPayloadEvents)
+		r.OutputNewrelicEvents.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputNewrelicEvents.MaxPayloadSizeKB)
 		if resp.OutputNewrelicEvents.OnBackpressure != nil {
 			r.OutputNewrelicEvents.OnBackpressure = types.StringValue(string(*resp.OutputNewrelicEvents.OnBackpressure))
 		} else {
@@ -26827,30 +25313,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputNewrelicEvents.ResponseRetrySettings = r.OutputNewrelicEvents.ResponseRetrySettings[:len(resp.OutputNewrelicEvents.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount19, responseRetrySettingsItem19 := range resp.OutputNewrelicEvents.ResponseRetrySettings {
-			var responseRetrySettings39 tfTypes.OutputNewrelicEventsResponseRetrySettings
-			if responseRetrySettingsItem19.BackoffRate != nil {
-				responseRetrySettings39.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem19.BackoffRate)))
-			} else {
-				responseRetrySettings39.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings39.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem19.HTTPStatus)))
-			if responseRetrySettingsItem19.InitialBackoff != nil {
-				responseRetrySettings39.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem19.InitialBackoff)))
-			} else {
-				responseRetrySettings39.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem19.MaxBackoff != nil {
-				responseRetrySettings39.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem19.MaxBackoff)))
-			} else {
-				responseRetrySettings39.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings19 tfTypes.OutputNewrelicEventsResponseRetrySettings
+			responseRetrySettings19.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem19.BackoffRate)
+			responseRetrySettings19.HTTPStatus = types.Float64Value(responseRetrySettingsItem19.HTTPStatus)
+			responseRetrySettings19.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem19.InitialBackoff)
+			responseRetrySettings19.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem19.MaxBackoff)
 			if responseRetrySettingsCount19+1 > len(r.OutputNewrelicEvents.ResponseRetrySettings) {
-				r.OutputNewrelicEvents.ResponseRetrySettings = append(r.OutputNewrelicEvents.ResponseRetrySettings, responseRetrySettings39)
+				r.OutputNewrelicEvents.ResponseRetrySettings = append(r.OutputNewrelicEvents.ResponseRetrySettings, responseRetrySettings19)
 			} else {
-				r.OutputNewrelicEvents.ResponseRetrySettings[responseRetrySettingsCount19].BackoffRate = responseRetrySettings39.BackoffRate
-				r.OutputNewrelicEvents.ResponseRetrySettings[responseRetrySettingsCount19].HTTPStatus = responseRetrySettings39.HTTPStatus
-				r.OutputNewrelicEvents.ResponseRetrySettings[responseRetrySettingsCount19].InitialBackoff = responseRetrySettings39.InitialBackoff
-				r.OutputNewrelicEvents.ResponseRetrySettings[responseRetrySettingsCount19].MaxBackoff = responseRetrySettings39.MaxBackoff
+				r.OutputNewrelicEvents.ResponseRetrySettings[responseRetrySettingsCount19].BackoffRate = responseRetrySettings19.BackoffRate
+				r.OutputNewrelicEvents.ResponseRetrySettings[responseRetrySettingsCount19].HTTPStatus = responseRetrySettings19.HTTPStatus
+				r.OutputNewrelicEvents.ResponseRetrySettings[responseRetrySettingsCount19].InitialBackoff = responseRetrySettings19.InitialBackoff
+				r.OutputNewrelicEvents.ResponseRetrySettings[responseRetrySettingsCount19].MaxBackoff = responseRetrySettings19.MaxBackoff
 			}
 		}
 		r.OutputNewrelicEvents.SafeHeaders = make([]types.String, 0, len(resp.OutputNewrelicEvents.SafeHeaders))
@@ -26870,28 +25344,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputNewrelicEvents.TimeoutRetrySettings = nil
 		} else {
 			r.OutputNewrelicEvents.TimeoutRetrySettings = &tfTypes.OutputNewrelicEventsTimeoutRetrySettings{}
-			if resp.OutputNewrelicEvents.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputNewrelicEvents.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputNewrelicEvents.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputNewrelicEvents.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputNewrelicEvents.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputNewrelicEvents.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputNewrelicEvents.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputNewrelicEvents.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputNewrelicEvents.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputNewrelicEvents.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputNewrelicEvents.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputNewrelicEvents.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputNewrelicEvents.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputNewrelicEvents.TimeoutRetrySettings.BackoffRate)
+			r.OutputNewrelicEvents.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputNewrelicEvents.TimeoutRetrySettings.InitialBackoff)
+			r.OutputNewrelicEvents.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputNewrelicEvents.TimeoutRetrySettings.MaxBackoff)
 			r.OutputNewrelicEvents.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputNewrelicEvents.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputNewrelicEvents.TimeoutSec != nil {
-			r.OutputNewrelicEvents.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputNewrelicEvents.TimeoutSec)))
-		} else {
-			r.OutputNewrelicEvents.TimeoutSec = types.NumberNull()
-		}
+		r.OutputNewrelicEvents.TimeoutSec = types.Float64PointerValue(resp.OutputNewrelicEvents.TimeoutSec)
 		if resp.OutputNewrelicEvents.Type != nil {
 			r.OutputNewrelicEvents.Type = types.StringValue(string(*resp.OutputNewrelicEvents.Type))
 		} else {
@@ -26912,16 +25370,8 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputOpenTelemetry.Compress = types.StringNull()
 		}
-		if resp.OutputOpenTelemetry.Concurrency != nil {
-			r.OutputOpenTelemetry.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputOpenTelemetry.Concurrency)))
-		} else {
-			r.OutputOpenTelemetry.Concurrency = types.NumberNull()
-		}
-		if resp.OutputOpenTelemetry.ConnectionTimeout != nil {
-			r.OutputOpenTelemetry.ConnectionTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputOpenTelemetry.ConnectionTimeout)))
-		} else {
-			r.OutputOpenTelemetry.ConnectionTimeout = types.NumberNull()
-		}
+		r.OutputOpenTelemetry.Concurrency = types.Float64PointerValue(resp.OutputOpenTelemetry.Concurrency)
+		r.OutputOpenTelemetry.ConnectionTimeout = types.Float64PointerValue(resp.OutputOpenTelemetry.ConnectionTimeout)
 		r.OutputOpenTelemetry.CredentialsSecret = types.StringPointerValue(resp.OutputOpenTelemetry.CredentialsSecret)
 		r.OutputOpenTelemetry.Description = types.StringPointerValue(resp.OutputOpenTelemetry.Description)
 		r.OutputOpenTelemetry.Endpoint = types.StringValue(resp.OutputOpenTelemetry.Endpoint)
@@ -26931,14 +25381,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputOpenTelemetry.ExtraHTTPHeaders = r.OutputOpenTelemetry.ExtraHTTPHeaders[:len(resp.OutputOpenTelemetry.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount19, extraHTTPHeadersItem19 := range resp.OutputOpenTelemetry.ExtraHTTPHeaders {
-			var extraHTTPHeaders39 tfTypes.OutputOpenTelemetryExtraHTTPHeaders
-			extraHTTPHeaders39.Name = types.StringPointerValue(extraHTTPHeadersItem19.Name)
-			extraHTTPHeaders39.Value = types.StringValue(extraHTTPHeadersItem19.Value)
+			var extraHTTPHeaders19 tfTypes.OutputOpenTelemetryExtraHTTPHeaders
+			extraHTTPHeaders19.Name = types.StringPointerValue(extraHTTPHeadersItem19.Name)
+			extraHTTPHeaders19.Value = types.StringValue(extraHTTPHeadersItem19.Value)
 			if extraHTTPHeadersCount19+1 > len(r.OutputOpenTelemetry.ExtraHTTPHeaders) {
-				r.OutputOpenTelemetry.ExtraHTTPHeaders = append(r.OutputOpenTelemetry.ExtraHTTPHeaders, extraHTTPHeaders39)
+				r.OutputOpenTelemetry.ExtraHTTPHeaders = append(r.OutputOpenTelemetry.ExtraHTTPHeaders, extraHTTPHeaders19)
 			} else {
-				r.OutputOpenTelemetry.ExtraHTTPHeaders[extraHTTPHeadersCount19].Name = extraHTTPHeaders39.Name
-				r.OutputOpenTelemetry.ExtraHTTPHeaders[extraHTTPHeadersCount19].Value = extraHTTPHeaders39.Value
+				r.OutputOpenTelemetry.ExtraHTTPHeaders[extraHTTPHeadersCount19].Name = extraHTTPHeaders19.Name
+				r.OutputOpenTelemetry.ExtraHTTPHeaders[extraHTTPHeadersCount19].Value = extraHTTPHeaders19.Value
 			}
 		}
 		if resp.OutputOpenTelemetry.FailedRequestLoggingMode != nil {
@@ -26946,11 +25396,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputOpenTelemetry.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputOpenTelemetry.FlushPeriodSec != nil {
-			r.OutputOpenTelemetry.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputOpenTelemetry.FlushPeriodSec)))
-		} else {
-			r.OutputOpenTelemetry.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputOpenTelemetry.FlushPeriodSec = types.Float64PointerValue(resp.OutputOpenTelemetry.FlushPeriodSec)
 		if resp.OutputOpenTelemetry.HTTPCompress != nil {
 			r.OutputOpenTelemetry.HTTPCompress = types.StringValue(string(*resp.OutputOpenTelemetry.HTTPCompress))
 		} else {
@@ -26961,30 +25407,22 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputOpenTelemetry.HTTPTracesEndpointOverride = types.StringPointerValue(resp.OutputOpenTelemetry.HTTPTracesEndpointOverride)
 		r.OutputOpenTelemetry.ID = types.StringPointerValue(resp.OutputOpenTelemetry.ID)
 		r.OutputOpenTelemetry.KeepAlive = types.BoolPointerValue(resp.OutputOpenTelemetry.KeepAlive)
-		if resp.OutputOpenTelemetry.KeepAliveTime != nil {
-			r.OutputOpenTelemetry.KeepAliveTime = types.NumberValue(big.NewFloat(float64(*resp.OutputOpenTelemetry.KeepAliveTime)))
-		} else {
-			r.OutputOpenTelemetry.KeepAliveTime = types.NumberNull()
-		}
+		r.OutputOpenTelemetry.KeepAliveTime = types.Float64PointerValue(resp.OutputOpenTelemetry.KeepAliveTime)
 		r.OutputOpenTelemetry.LoginURL = types.StringPointerValue(resp.OutputOpenTelemetry.LoginURL)
-		if resp.OutputOpenTelemetry.MaxPayloadSizeKB != nil {
-			r.OutputOpenTelemetry.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputOpenTelemetry.MaxPayloadSizeKB)))
-		} else {
-			r.OutputOpenTelemetry.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputOpenTelemetry.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputOpenTelemetry.MaxPayloadSizeKB)
 		r.OutputOpenTelemetry.Metadata = []tfTypes.OutputOpenTelemetryMetadata{}
 		if len(r.OutputOpenTelemetry.Metadata) > len(resp.OutputOpenTelemetry.Metadata) {
 			r.OutputOpenTelemetry.Metadata = r.OutputOpenTelemetry.Metadata[:len(resp.OutputOpenTelemetry.Metadata)]
 		}
 		for metadataCount2, metadataItem2 := range resp.OutputOpenTelemetry.Metadata {
-			var metadata5 tfTypes.OutputOpenTelemetryMetadata
-			metadata5.Key = types.StringPointerValue(metadataItem2.Key)
-			metadata5.Value = types.StringValue(metadataItem2.Value)
+			var metadata2 tfTypes.OutputOpenTelemetryMetadata
+			metadata2.Key = types.StringPointerValue(metadataItem2.Key)
+			metadata2.Value = types.StringValue(metadataItem2.Value)
 			if metadataCount2+1 > len(r.OutputOpenTelemetry.Metadata) {
-				r.OutputOpenTelemetry.Metadata = append(r.OutputOpenTelemetry.Metadata, metadata5)
+				r.OutputOpenTelemetry.Metadata = append(r.OutputOpenTelemetry.Metadata, metadata2)
 			} else {
-				r.OutputOpenTelemetry.Metadata[metadataCount2].Key = metadata5.Key
-				r.OutputOpenTelemetry.Metadata[metadataCount2].Value = metadata5.Value
+				r.OutputOpenTelemetry.Metadata[metadataCount2].Key = metadata2.Key
+				r.OutputOpenTelemetry.Metadata[metadataCount2].Value = metadata2.Value
 			}
 		}
 		r.OutputOpenTelemetry.OauthHeaders = []tfTypes.OutputOpenTelemetryOauthHeaders{}
@@ -26992,14 +25430,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputOpenTelemetry.OauthHeaders = r.OutputOpenTelemetry.OauthHeaders[:len(resp.OutputOpenTelemetry.OauthHeaders)]
 		}
 		for oauthHeadersCount2, oauthHeadersItem2 := range resp.OutputOpenTelemetry.OauthHeaders {
-			var oauthHeaders5 tfTypes.OutputOpenTelemetryOauthHeaders
-			oauthHeaders5.Name = types.StringValue(oauthHeadersItem2.Name)
-			oauthHeaders5.Value = types.StringValue(oauthHeadersItem2.Value)
+			var oauthHeaders2 tfTypes.OutputOpenTelemetryOauthHeaders
+			oauthHeaders2.Name = types.StringValue(oauthHeadersItem2.Name)
+			oauthHeaders2.Value = types.StringValue(oauthHeadersItem2.Value)
 			if oauthHeadersCount2+1 > len(r.OutputOpenTelemetry.OauthHeaders) {
-				r.OutputOpenTelemetry.OauthHeaders = append(r.OutputOpenTelemetry.OauthHeaders, oauthHeaders5)
+				r.OutputOpenTelemetry.OauthHeaders = append(r.OutputOpenTelemetry.OauthHeaders, oauthHeaders2)
 			} else {
-				r.OutputOpenTelemetry.OauthHeaders[oauthHeadersCount2].Name = oauthHeaders5.Name
-				r.OutputOpenTelemetry.OauthHeaders[oauthHeadersCount2].Value = oauthHeaders5.Value
+				r.OutputOpenTelemetry.OauthHeaders[oauthHeadersCount2].Name = oauthHeaders2.Name
+				r.OutputOpenTelemetry.OauthHeaders[oauthHeadersCount2].Value = oauthHeaders2.Value
 			}
 		}
 		r.OutputOpenTelemetry.OauthParams = []tfTypes.OutputOpenTelemetryOauthParams{}
@@ -27007,14 +25445,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputOpenTelemetry.OauthParams = r.OutputOpenTelemetry.OauthParams[:len(resp.OutputOpenTelemetry.OauthParams)]
 		}
 		for oauthParamsCount2, oauthParamsItem2 := range resp.OutputOpenTelemetry.OauthParams {
-			var oauthParams5 tfTypes.OutputOpenTelemetryOauthParams
-			oauthParams5.Name = types.StringValue(oauthParamsItem2.Name)
-			oauthParams5.Value = types.StringValue(oauthParamsItem2.Value)
+			var oauthParams2 tfTypes.OutputOpenTelemetryOauthParams
+			oauthParams2.Name = types.StringValue(oauthParamsItem2.Name)
+			oauthParams2.Value = types.StringValue(oauthParamsItem2.Value)
 			if oauthParamsCount2+1 > len(r.OutputOpenTelemetry.OauthParams) {
-				r.OutputOpenTelemetry.OauthParams = append(r.OutputOpenTelemetry.OauthParams, oauthParams5)
+				r.OutputOpenTelemetry.OauthParams = append(r.OutputOpenTelemetry.OauthParams, oauthParams2)
 			} else {
-				r.OutputOpenTelemetry.OauthParams[oauthParamsCount2].Name = oauthParams5.Name
-				r.OutputOpenTelemetry.OauthParams[oauthParamsCount2].Value = oauthParams5.Value
+				r.OutputOpenTelemetry.OauthParams[oauthParamsCount2].Name = oauthParams2.Name
+				r.OutputOpenTelemetry.OauthParams[oauthParamsCount2].Value = oauthParams2.Value
 			}
 		}
 		if resp.OutputOpenTelemetry.OnBackpressure != nil {
@@ -27064,30 +25502,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputOpenTelemetry.ResponseRetrySettings = r.OutputOpenTelemetry.ResponseRetrySettings[:len(resp.OutputOpenTelemetry.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount20, responseRetrySettingsItem20 := range resp.OutputOpenTelemetry.ResponseRetrySettings {
-			var responseRetrySettings41 tfTypes.OutputOpenTelemetryResponseRetrySettings
-			if responseRetrySettingsItem20.BackoffRate != nil {
-				responseRetrySettings41.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem20.BackoffRate)))
-			} else {
-				responseRetrySettings41.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings41.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem20.HTTPStatus)))
-			if responseRetrySettingsItem20.InitialBackoff != nil {
-				responseRetrySettings41.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem20.InitialBackoff)))
-			} else {
-				responseRetrySettings41.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem20.MaxBackoff != nil {
-				responseRetrySettings41.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem20.MaxBackoff)))
-			} else {
-				responseRetrySettings41.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings20 tfTypes.OutputOpenTelemetryResponseRetrySettings
+			responseRetrySettings20.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem20.BackoffRate)
+			responseRetrySettings20.HTTPStatus = types.Float64Value(responseRetrySettingsItem20.HTTPStatus)
+			responseRetrySettings20.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem20.InitialBackoff)
+			responseRetrySettings20.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem20.MaxBackoff)
 			if responseRetrySettingsCount20+1 > len(r.OutputOpenTelemetry.ResponseRetrySettings) {
-				r.OutputOpenTelemetry.ResponseRetrySettings = append(r.OutputOpenTelemetry.ResponseRetrySettings, responseRetrySettings41)
+				r.OutputOpenTelemetry.ResponseRetrySettings = append(r.OutputOpenTelemetry.ResponseRetrySettings, responseRetrySettings20)
 			} else {
-				r.OutputOpenTelemetry.ResponseRetrySettings[responseRetrySettingsCount20].BackoffRate = responseRetrySettings41.BackoffRate
-				r.OutputOpenTelemetry.ResponseRetrySettings[responseRetrySettingsCount20].HTTPStatus = responseRetrySettings41.HTTPStatus
-				r.OutputOpenTelemetry.ResponseRetrySettings[responseRetrySettingsCount20].InitialBackoff = responseRetrySettings41.InitialBackoff
-				r.OutputOpenTelemetry.ResponseRetrySettings[responseRetrySettingsCount20].MaxBackoff = responseRetrySettings41.MaxBackoff
+				r.OutputOpenTelemetry.ResponseRetrySettings[responseRetrySettingsCount20].BackoffRate = responseRetrySettings20.BackoffRate
+				r.OutputOpenTelemetry.ResponseRetrySettings[responseRetrySettingsCount20].HTTPStatus = responseRetrySettings20.HTTPStatus
+				r.OutputOpenTelemetry.ResponseRetrySettings[responseRetrySettingsCount20].InitialBackoff = responseRetrySettings20.InitialBackoff
+				r.OutputOpenTelemetry.ResponseRetrySettings[responseRetrySettingsCount20].MaxBackoff = responseRetrySettings20.MaxBackoff
 			}
 		}
 		r.OutputOpenTelemetry.SafeHeaders = make([]types.String, 0, len(resp.OutputOpenTelemetry.SafeHeaders))
@@ -27109,28 +25535,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputOpenTelemetry.TimeoutRetrySettings = nil
 		} else {
 			r.OutputOpenTelemetry.TimeoutRetrySettings = &tfTypes.OutputOpenTelemetryTimeoutRetrySettings{}
-			if resp.OutputOpenTelemetry.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputOpenTelemetry.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputOpenTelemetry.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputOpenTelemetry.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputOpenTelemetry.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputOpenTelemetry.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputOpenTelemetry.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputOpenTelemetry.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputOpenTelemetry.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputOpenTelemetry.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputOpenTelemetry.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputOpenTelemetry.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputOpenTelemetry.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputOpenTelemetry.TimeoutRetrySettings.BackoffRate)
+			r.OutputOpenTelemetry.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputOpenTelemetry.TimeoutRetrySettings.InitialBackoff)
+			r.OutputOpenTelemetry.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputOpenTelemetry.TimeoutRetrySettings.MaxBackoff)
 			r.OutputOpenTelemetry.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputOpenTelemetry.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputOpenTelemetry.TimeoutSec != nil {
-			r.OutputOpenTelemetry.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputOpenTelemetry.TimeoutSec)))
-		} else {
-			r.OutputOpenTelemetry.TimeoutSec = types.NumberNull()
-		}
+		r.OutputOpenTelemetry.TimeoutSec = types.Float64PointerValue(resp.OutputOpenTelemetry.TimeoutSec)
 		if resp.OutputOpenTelemetry.TLS == nil {
 			r.OutputOpenTelemetry.TLS = nil
 		} else {
@@ -27155,11 +25565,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		}
 		r.OutputOpenTelemetry.Token = types.StringPointerValue(resp.OutputOpenTelemetry.Token)
 		r.OutputOpenTelemetry.TokenAttributeName = types.StringPointerValue(resp.OutputOpenTelemetry.TokenAttributeName)
-		if resp.OutputOpenTelemetry.TokenTimeoutSecs != nil {
-			r.OutputOpenTelemetry.TokenTimeoutSecs = types.NumberValue(big.NewFloat(float64(*resp.OutputOpenTelemetry.TokenTimeoutSecs)))
-		} else {
-			r.OutputOpenTelemetry.TokenTimeoutSecs = types.NumberNull()
-		}
+		r.OutputOpenTelemetry.TokenTimeoutSecs = types.Float64PointerValue(resp.OutputOpenTelemetry.TokenTimeoutSecs)
 		r.OutputOpenTelemetry.Type = types.StringValue(string(resp.OutputOpenTelemetry.Type))
 		r.OutputOpenTelemetry.Username = types.StringPointerValue(resp.OutputOpenTelemetry.Username)
 		r.OutputOpenTelemetry.UseRoundRobinDNS = types.BoolPointerValue(resp.OutputOpenTelemetry.UseRoundRobinDNS)
@@ -27172,11 +25578,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputPrometheus.AuthType = types.StringNull()
 		}
-		if resp.OutputPrometheus.Concurrency != nil {
-			r.OutputPrometheus.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputPrometheus.Concurrency)))
-		} else {
-			r.OutputPrometheus.Concurrency = types.NumberNull()
-		}
+		r.OutputPrometheus.Concurrency = types.Float64PointerValue(resp.OutputPrometheus.Concurrency)
 		r.OutputPrometheus.CredentialsSecret = types.StringPointerValue(resp.OutputPrometheus.CredentialsSecret)
 		r.OutputPrometheus.Description = types.StringPointerValue(resp.OutputPrometheus.Description)
 		r.OutputPrometheus.Environment = types.StringPointerValue(resp.OutputPrometheus.Environment)
@@ -27185,14 +25587,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputPrometheus.ExtraHTTPHeaders = r.OutputPrometheus.ExtraHTTPHeaders[:len(resp.OutputPrometheus.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount20, extraHTTPHeadersItem20 := range resp.OutputPrometheus.ExtraHTTPHeaders {
-			var extraHTTPHeaders41 tfTypes.OutputPrometheusExtraHTTPHeaders
-			extraHTTPHeaders41.Name = types.StringPointerValue(extraHTTPHeadersItem20.Name)
-			extraHTTPHeaders41.Value = types.StringValue(extraHTTPHeadersItem20.Value)
+			var extraHTTPHeaders20 tfTypes.OutputPrometheusExtraHTTPHeaders
+			extraHTTPHeaders20.Name = types.StringPointerValue(extraHTTPHeadersItem20.Name)
+			extraHTTPHeaders20.Value = types.StringValue(extraHTTPHeadersItem20.Value)
 			if extraHTTPHeadersCount20+1 > len(r.OutputPrometheus.ExtraHTTPHeaders) {
-				r.OutputPrometheus.ExtraHTTPHeaders = append(r.OutputPrometheus.ExtraHTTPHeaders, extraHTTPHeaders41)
+				r.OutputPrometheus.ExtraHTTPHeaders = append(r.OutputPrometheus.ExtraHTTPHeaders, extraHTTPHeaders20)
 			} else {
-				r.OutputPrometheus.ExtraHTTPHeaders[extraHTTPHeadersCount20].Name = extraHTTPHeaders41.Name
-				r.OutputPrometheus.ExtraHTTPHeaders[extraHTTPHeadersCount20].Value = extraHTTPHeaders41.Value
+				r.OutputPrometheus.ExtraHTTPHeaders[extraHTTPHeadersCount20].Name = extraHTTPHeaders20.Name
+				r.OutputPrometheus.ExtraHTTPHeaders[extraHTTPHeadersCount20].Value = extraHTTPHeaders20.Value
 			}
 		}
 		if resp.OutputPrometheus.FailedRequestLoggingMode != nil {
@@ -27200,42 +25602,26 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputPrometheus.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputPrometheus.FlushPeriodSec != nil {
-			r.OutputPrometheus.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputPrometheus.FlushPeriodSec)))
-		} else {
-			r.OutputPrometheus.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputPrometheus.FlushPeriodSec = types.Float64PointerValue(resp.OutputPrometheus.FlushPeriodSec)
 		r.OutputPrometheus.ID = types.StringPointerValue(resp.OutputPrometheus.ID)
 		r.OutputPrometheus.LoginURL = types.StringPointerValue(resp.OutputPrometheus.LoginURL)
-		if resp.OutputPrometheus.MaxPayloadEvents != nil {
-			r.OutputPrometheus.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputPrometheus.MaxPayloadEvents)))
-		} else {
-			r.OutputPrometheus.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputPrometheus.MaxPayloadSizeKB != nil {
-			r.OutputPrometheus.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputPrometheus.MaxPayloadSizeKB)))
-		} else {
-			r.OutputPrometheus.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputPrometheus.MaxPayloadEvents = types.Float64PointerValue(resp.OutputPrometheus.MaxPayloadEvents)
+		r.OutputPrometheus.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputPrometheus.MaxPayloadSizeKB)
 		r.OutputPrometheus.MetricRenameExpr = types.StringPointerValue(resp.OutputPrometheus.MetricRenameExpr)
-		if resp.OutputPrometheus.MetricsFlushPeriodSec != nil {
-			r.OutputPrometheus.MetricsFlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputPrometheus.MetricsFlushPeriodSec)))
-		} else {
-			r.OutputPrometheus.MetricsFlushPeriodSec = types.NumberNull()
-		}
+		r.OutputPrometheus.MetricsFlushPeriodSec = types.Float64PointerValue(resp.OutputPrometheus.MetricsFlushPeriodSec)
 		r.OutputPrometheus.OauthHeaders = []tfTypes.OutputPrometheusOauthHeaders{}
 		if len(r.OutputPrometheus.OauthHeaders) > len(resp.OutputPrometheus.OauthHeaders) {
 			r.OutputPrometheus.OauthHeaders = r.OutputPrometheus.OauthHeaders[:len(resp.OutputPrometheus.OauthHeaders)]
 		}
 		for oauthHeadersCount3, oauthHeadersItem3 := range resp.OutputPrometheus.OauthHeaders {
-			var oauthHeaders7 tfTypes.OutputPrometheusOauthHeaders
-			oauthHeaders7.Name = types.StringValue(oauthHeadersItem3.Name)
-			oauthHeaders7.Value = types.StringValue(oauthHeadersItem3.Value)
+			var oauthHeaders3 tfTypes.OutputPrometheusOauthHeaders
+			oauthHeaders3.Name = types.StringValue(oauthHeadersItem3.Name)
+			oauthHeaders3.Value = types.StringValue(oauthHeadersItem3.Value)
 			if oauthHeadersCount3+1 > len(r.OutputPrometheus.OauthHeaders) {
-				r.OutputPrometheus.OauthHeaders = append(r.OutputPrometheus.OauthHeaders, oauthHeaders7)
+				r.OutputPrometheus.OauthHeaders = append(r.OutputPrometheus.OauthHeaders, oauthHeaders3)
 			} else {
-				r.OutputPrometheus.OauthHeaders[oauthHeadersCount3].Name = oauthHeaders7.Name
-				r.OutputPrometheus.OauthHeaders[oauthHeadersCount3].Value = oauthHeaders7.Value
+				r.OutputPrometheus.OauthHeaders[oauthHeadersCount3].Name = oauthHeaders3.Name
+				r.OutputPrometheus.OauthHeaders[oauthHeadersCount3].Value = oauthHeaders3.Value
 			}
 		}
 		r.OutputPrometheus.OauthParams = []tfTypes.OutputPrometheusOauthParams{}
@@ -27243,14 +25629,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputPrometheus.OauthParams = r.OutputPrometheus.OauthParams[:len(resp.OutputPrometheus.OauthParams)]
 		}
 		for oauthParamsCount3, oauthParamsItem3 := range resp.OutputPrometheus.OauthParams {
-			var oauthParams7 tfTypes.OutputPrometheusOauthParams
-			oauthParams7.Name = types.StringValue(oauthParamsItem3.Name)
-			oauthParams7.Value = types.StringValue(oauthParamsItem3.Value)
+			var oauthParams3 tfTypes.OutputPrometheusOauthParams
+			oauthParams3.Name = types.StringValue(oauthParamsItem3.Name)
+			oauthParams3.Value = types.StringValue(oauthParamsItem3.Value)
 			if oauthParamsCount3+1 > len(r.OutputPrometheus.OauthParams) {
-				r.OutputPrometheus.OauthParams = append(r.OutputPrometheus.OauthParams, oauthParams7)
+				r.OutputPrometheus.OauthParams = append(r.OutputPrometheus.OauthParams, oauthParams3)
 			} else {
-				r.OutputPrometheus.OauthParams[oauthParamsCount3].Name = oauthParams7.Name
-				r.OutputPrometheus.OauthParams[oauthParamsCount3].Value = oauthParams7.Value
+				r.OutputPrometheus.OauthParams[oauthParamsCount3].Name = oauthParams3.Name
+				r.OutputPrometheus.OauthParams[oauthParamsCount3].Value = oauthParams3.Value
 			}
 		}
 		if resp.OutputPrometheus.OnBackpressure != nil {
@@ -27290,30 +25676,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputPrometheus.ResponseRetrySettings = r.OutputPrometheus.ResponseRetrySettings[:len(resp.OutputPrometheus.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount21, responseRetrySettingsItem21 := range resp.OutputPrometheus.ResponseRetrySettings {
-			var responseRetrySettings43 tfTypes.OutputPrometheusResponseRetrySettings
-			if responseRetrySettingsItem21.BackoffRate != nil {
-				responseRetrySettings43.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem21.BackoffRate)))
-			} else {
-				responseRetrySettings43.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings43.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem21.HTTPStatus)))
-			if responseRetrySettingsItem21.InitialBackoff != nil {
-				responseRetrySettings43.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem21.InitialBackoff)))
-			} else {
-				responseRetrySettings43.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem21.MaxBackoff != nil {
-				responseRetrySettings43.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem21.MaxBackoff)))
-			} else {
-				responseRetrySettings43.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings21 tfTypes.OutputPrometheusResponseRetrySettings
+			responseRetrySettings21.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem21.BackoffRate)
+			responseRetrySettings21.HTTPStatus = types.Float64Value(responseRetrySettingsItem21.HTTPStatus)
+			responseRetrySettings21.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem21.InitialBackoff)
+			responseRetrySettings21.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem21.MaxBackoff)
 			if responseRetrySettingsCount21+1 > len(r.OutputPrometheus.ResponseRetrySettings) {
-				r.OutputPrometheus.ResponseRetrySettings = append(r.OutputPrometheus.ResponseRetrySettings, responseRetrySettings43)
+				r.OutputPrometheus.ResponseRetrySettings = append(r.OutputPrometheus.ResponseRetrySettings, responseRetrySettings21)
 			} else {
-				r.OutputPrometheus.ResponseRetrySettings[responseRetrySettingsCount21].BackoffRate = responseRetrySettings43.BackoffRate
-				r.OutputPrometheus.ResponseRetrySettings[responseRetrySettingsCount21].HTTPStatus = responseRetrySettings43.HTTPStatus
-				r.OutputPrometheus.ResponseRetrySettings[responseRetrySettingsCount21].InitialBackoff = responseRetrySettings43.InitialBackoff
-				r.OutputPrometheus.ResponseRetrySettings[responseRetrySettingsCount21].MaxBackoff = responseRetrySettings43.MaxBackoff
+				r.OutputPrometheus.ResponseRetrySettings[responseRetrySettingsCount21].BackoffRate = responseRetrySettings21.BackoffRate
+				r.OutputPrometheus.ResponseRetrySettings[responseRetrySettingsCount21].HTTPStatus = responseRetrySettings21.HTTPStatus
+				r.OutputPrometheus.ResponseRetrySettings[responseRetrySettingsCount21].InitialBackoff = responseRetrySettings21.InitialBackoff
+				r.OutputPrometheus.ResponseRetrySettings[responseRetrySettingsCount21].MaxBackoff = responseRetrySettings21.MaxBackoff
 			}
 		}
 		r.OutputPrometheus.SafeHeaders = make([]types.String, 0, len(resp.OutputPrometheus.SafeHeaders))
@@ -27336,35 +25710,15 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputPrometheus.TimeoutRetrySettings = nil
 		} else {
 			r.OutputPrometheus.TimeoutRetrySettings = &tfTypes.OutputPrometheusTimeoutRetrySettings{}
-			if resp.OutputPrometheus.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputPrometheus.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputPrometheus.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputPrometheus.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputPrometheus.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputPrometheus.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputPrometheus.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputPrometheus.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputPrometheus.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputPrometheus.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputPrometheus.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputPrometheus.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputPrometheus.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputPrometheus.TimeoutRetrySettings.BackoffRate)
+			r.OutputPrometheus.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputPrometheus.TimeoutRetrySettings.InitialBackoff)
+			r.OutputPrometheus.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputPrometheus.TimeoutRetrySettings.MaxBackoff)
 			r.OutputPrometheus.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputPrometheus.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputPrometheus.TimeoutSec != nil {
-			r.OutputPrometheus.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputPrometheus.TimeoutSec)))
-		} else {
-			r.OutputPrometheus.TimeoutSec = types.NumberNull()
-		}
+		r.OutputPrometheus.TimeoutSec = types.Float64PointerValue(resp.OutputPrometheus.TimeoutSec)
 		r.OutputPrometheus.Token = types.StringPointerValue(resp.OutputPrometheus.Token)
 		r.OutputPrometheus.TokenAttributeName = types.StringPointerValue(resp.OutputPrometheus.TokenAttributeName)
-		if resp.OutputPrometheus.TokenTimeoutSecs != nil {
-			r.OutputPrometheus.TokenTimeoutSecs = types.NumberValue(big.NewFloat(float64(*resp.OutputPrometheus.TokenTimeoutSecs)))
-		} else {
-			r.OutputPrometheus.TokenTimeoutSecs = types.NumberNull()
-		}
+		r.OutputPrometheus.TokenTimeoutSecs = types.Float64PointerValue(resp.OutputPrometheus.TokenTimeoutSecs)
 		r.OutputPrometheus.Type = types.StringValue(string(resp.OutputPrometheus.Type))
 		r.OutputPrometheus.URL = types.StringValue(resp.OutputPrometheus.URL)
 		r.OutputPrometheus.Username = types.StringPointerValue(resp.OutputPrometheus.Username)
@@ -27416,18 +25770,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputRouter.Rules = r.OutputRouter.Rules[:len(resp.OutputRouter.Rules)]
 		}
 		for rulesCount, rulesItem := range resp.OutputRouter.Rules {
-			var rules1 tfTypes.OutputRouterRules
-			rules1.Description = types.StringPointerValue(rulesItem.Description)
-			rules1.Filter = types.StringValue(rulesItem.Filter)
-			rules1.Final = types.BoolPointerValue(rulesItem.Final)
-			rules1.Output = types.StringValue(rulesItem.Output)
+			var rules tfTypes.OutputRouterRules
+			rules.Description = types.StringPointerValue(rulesItem.Description)
+			rules.Filter = types.StringValue(rulesItem.Filter)
+			rules.Final = types.BoolPointerValue(rulesItem.Final)
+			rules.Output = types.StringValue(rulesItem.Output)
 			if rulesCount+1 > len(r.OutputRouter.Rules) {
-				r.OutputRouter.Rules = append(r.OutputRouter.Rules, rules1)
+				r.OutputRouter.Rules = append(r.OutputRouter.Rules, rules)
 			} else {
-				r.OutputRouter.Rules[rulesCount].Description = rules1.Description
-				r.OutputRouter.Rules[rulesCount].Filter = rules1.Filter
-				r.OutputRouter.Rules[rulesCount].Final = rules1.Final
-				r.OutputRouter.Rules[rulesCount].Output = rules1.Output
+				r.OutputRouter.Rules[rulesCount].Description = rules.Description
+				r.OutputRouter.Rules[rulesCount].Filter = rules.Filter
+				r.OutputRouter.Rules[rulesCount].Final = rules.Final
+				r.OutputRouter.Rules[rulesCount].Output = rules.Output
 			}
 		}
 		r.OutputRouter.Streamtags = make([]types.String, 0, len(resp.OutputRouter.Streamtags))
@@ -27470,16 +25824,8 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputS3.DeadletterPath = types.StringPointerValue(resp.OutputS3.DeadletterPath)
 		r.OutputS3.Description = types.StringPointerValue(resp.OutputS3.Description)
 		r.OutputS3.DestPath = types.StringPointerValue(resp.OutputS3.DestPath)
-		if resp.OutputS3.DurationSeconds != nil {
-			r.OutputS3.DurationSeconds = types.NumberValue(big.NewFloat(float64(*resp.OutputS3.DurationSeconds)))
-		} else {
-			r.OutputS3.DurationSeconds = types.NumberNull()
-		}
-		if resp.OutputS3.EmptyDirCleanupSec != nil {
-			r.OutputS3.EmptyDirCleanupSec = types.NumberValue(big.NewFloat(float64(*resp.OutputS3.EmptyDirCleanupSec)))
-		} else {
-			r.OutputS3.EmptyDirCleanupSec = types.NumberNull()
-		}
+		r.OutputS3.DurationSeconds = types.Float64PointerValue(resp.OutputS3.DurationSeconds)
+		r.OutputS3.EmptyDirCleanupSec = types.Float64PointerValue(resp.OutputS3.EmptyDirCleanupSec)
 		r.OutputS3.EnableAssumeRole = types.BoolPointerValue(resp.OutputS3.EnableAssumeRole)
 		r.OutputS3.EnablePageChecksum = types.BoolPointerValue(resp.OutputS3.EnablePageChecksum)
 		r.OutputS3.EnableStatistics = types.BoolPointerValue(resp.OutputS3.EnableStatistics)
@@ -27499,52 +25845,24 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputS3.KeyValueMetadata = r.OutputS3.KeyValueMetadata[:len(resp.OutputS3.KeyValueMetadata)]
 		}
 		for keyValueMetadataCount5, keyValueMetadataItem5 := range resp.OutputS3.KeyValueMetadata {
-			var keyValueMetadata11 tfTypes.OutputS3KeyValueMetadata
-			keyValueMetadata11.Key = types.StringPointerValue(keyValueMetadataItem5.Key)
-			keyValueMetadata11.Value = types.StringValue(keyValueMetadataItem5.Value)
+			var keyValueMetadata5 tfTypes.OutputS3KeyValueMetadata
+			keyValueMetadata5.Key = types.StringPointerValue(keyValueMetadataItem5.Key)
+			keyValueMetadata5.Value = types.StringValue(keyValueMetadataItem5.Value)
 			if keyValueMetadataCount5+1 > len(r.OutputS3.KeyValueMetadata) {
-				r.OutputS3.KeyValueMetadata = append(r.OutputS3.KeyValueMetadata, keyValueMetadata11)
+				r.OutputS3.KeyValueMetadata = append(r.OutputS3.KeyValueMetadata, keyValueMetadata5)
 			} else {
-				r.OutputS3.KeyValueMetadata[keyValueMetadataCount5].Key = keyValueMetadata11.Key
-				r.OutputS3.KeyValueMetadata[keyValueMetadataCount5].Value = keyValueMetadata11.Value
+				r.OutputS3.KeyValueMetadata[keyValueMetadataCount5].Key = keyValueMetadata5.Key
+				r.OutputS3.KeyValueMetadata[keyValueMetadataCount5].Value = keyValueMetadata5.Value
 			}
 		}
 		r.OutputS3.KmsKeyID = types.StringPointerValue(resp.OutputS3.KmsKeyID)
-		if resp.OutputS3.MaxClosingFilesToBackpressure != nil {
-			r.OutputS3.MaxClosingFilesToBackpressure = types.NumberValue(big.NewFloat(float64(*resp.OutputS3.MaxClosingFilesToBackpressure)))
-		} else {
-			r.OutputS3.MaxClosingFilesToBackpressure = types.NumberNull()
-		}
-		if resp.OutputS3.MaxConcurrentFileParts != nil {
-			r.OutputS3.MaxConcurrentFileParts = types.NumberValue(big.NewFloat(float64(*resp.OutputS3.MaxConcurrentFileParts)))
-		} else {
-			r.OutputS3.MaxConcurrentFileParts = types.NumberNull()
-		}
-		if resp.OutputS3.MaxFileIdleTimeSec != nil {
-			r.OutputS3.MaxFileIdleTimeSec = types.NumberValue(big.NewFloat(float64(*resp.OutputS3.MaxFileIdleTimeSec)))
-		} else {
-			r.OutputS3.MaxFileIdleTimeSec = types.NumberNull()
-		}
-		if resp.OutputS3.MaxFileOpenTimeSec != nil {
-			r.OutputS3.MaxFileOpenTimeSec = types.NumberValue(big.NewFloat(float64(*resp.OutputS3.MaxFileOpenTimeSec)))
-		} else {
-			r.OutputS3.MaxFileOpenTimeSec = types.NumberNull()
-		}
-		if resp.OutputS3.MaxFileSizeMB != nil {
-			r.OutputS3.MaxFileSizeMB = types.NumberValue(big.NewFloat(float64(*resp.OutputS3.MaxFileSizeMB)))
-		} else {
-			r.OutputS3.MaxFileSizeMB = types.NumberNull()
-		}
-		if resp.OutputS3.MaxOpenFiles != nil {
-			r.OutputS3.MaxOpenFiles = types.NumberValue(big.NewFloat(float64(*resp.OutputS3.MaxOpenFiles)))
-		} else {
-			r.OutputS3.MaxOpenFiles = types.NumberNull()
-		}
-		if resp.OutputS3.MaxRetryNum != nil {
-			r.OutputS3.MaxRetryNum = types.NumberValue(big.NewFloat(float64(*resp.OutputS3.MaxRetryNum)))
-		} else {
-			r.OutputS3.MaxRetryNum = types.NumberNull()
-		}
+		r.OutputS3.MaxClosingFilesToBackpressure = types.Float64PointerValue(resp.OutputS3.MaxClosingFilesToBackpressure)
+		r.OutputS3.MaxConcurrentFileParts = types.Float64PointerValue(resp.OutputS3.MaxConcurrentFileParts)
+		r.OutputS3.MaxFileIdleTimeSec = types.Float64PointerValue(resp.OutputS3.MaxFileIdleTimeSec)
+		r.OutputS3.MaxFileOpenTimeSec = types.Float64PointerValue(resp.OutputS3.MaxFileOpenTimeSec)
+		r.OutputS3.MaxFileSizeMB = types.Float64PointerValue(resp.OutputS3.MaxFileSizeMB)
+		r.OutputS3.MaxOpenFiles = types.Float64PointerValue(resp.OutputS3.MaxOpenFiles)
+		r.OutputS3.MaxRetryNum = types.Float64PointerValue(resp.OutputS3.MaxRetryNum)
 		if resp.OutputS3.ObjectACL != nil {
 			r.OutputS3.ObjectACL = types.StringValue(string(*resp.OutputS3.ObjectACL))
 		} else {
@@ -27566,11 +25884,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputS3.ParquetDataPageVersion = types.StringNull()
 		}
 		r.OutputS3.ParquetPageSize = types.StringPointerValue(resp.OutputS3.ParquetPageSize)
-		if resp.OutputS3.ParquetRowGroupLength != nil {
-			r.OutputS3.ParquetRowGroupLength = types.NumberValue(big.NewFloat(float64(*resp.OutputS3.ParquetRowGroupLength)))
-		} else {
-			r.OutputS3.ParquetRowGroupLength = types.NumberNull()
-		}
+		r.OutputS3.ParquetRowGroupLength = types.Float64PointerValue(resp.OutputS3.ParquetRowGroupLength)
 		if resp.OutputS3.ParquetVersion != nil {
 			r.OutputS3.ParquetVersion = types.StringValue(string(*resp.OutputS3.ParquetVersion))
 		} else {
@@ -27613,11 +25927,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputS3.Type = types.StringNull()
 		}
 		r.OutputS3.VerifyPermissions = types.BoolPointerValue(resp.OutputS3.VerifyPermissions)
-		if resp.OutputS3.WriteHighWaterMark != nil {
-			r.OutputS3.WriteHighWaterMark = types.NumberValue(big.NewFloat(float64(*resp.OutputS3.WriteHighWaterMark)))
-		} else {
-			r.OutputS3.WriteHighWaterMark = types.NumberNull()
-		}
+		r.OutputS3.WriteHighWaterMark = types.Float64PointerValue(resp.OutputS3.WriteHighWaterMark)
 	}
 	if resp.OutputSecurityLake != nil {
 		r.OutputSecurityLake = &tfTypes.OutputSecurityLake{}
@@ -27640,16 +25950,8 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputSecurityLake.DeadletterEnabled = types.BoolPointerValue(resp.OutputSecurityLake.DeadletterEnabled)
 		r.OutputSecurityLake.DeadletterPath = types.StringPointerValue(resp.OutputSecurityLake.DeadletterPath)
 		r.OutputSecurityLake.Description = types.StringPointerValue(resp.OutputSecurityLake.Description)
-		if resp.OutputSecurityLake.DurationSeconds != nil {
-			r.OutputSecurityLake.DurationSeconds = types.NumberValue(big.NewFloat(float64(*resp.OutputSecurityLake.DurationSeconds)))
-		} else {
-			r.OutputSecurityLake.DurationSeconds = types.NumberNull()
-		}
-		if resp.OutputSecurityLake.EmptyDirCleanupSec != nil {
-			r.OutputSecurityLake.EmptyDirCleanupSec = types.NumberValue(big.NewFloat(float64(*resp.OutputSecurityLake.EmptyDirCleanupSec)))
-		} else {
-			r.OutputSecurityLake.EmptyDirCleanupSec = types.NumberNull()
-		}
+		r.OutputSecurityLake.DurationSeconds = types.Float64PointerValue(resp.OutputSecurityLake.DurationSeconds)
+		r.OutputSecurityLake.EmptyDirCleanupSec = types.Float64PointerValue(resp.OutputSecurityLake.EmptyDirCleanupSec)
 		r.OutputSecurityLake.EnableAssumeRole = types.BoolPointerValue(resp.OutputSecurityLake.EnableAssumeRole)
 		r.OutputSecurityLake.EnablePageChecksum = types.BoolPointerValue(resp.OutputSecurityLake.EnablePageChecksum)
 		r.OutputSecurityLake.EnableStatistics = types.BoolPointerValue(resp.OutputSecurityLake.EnableStatistics)
@@ -27663,52 +25965,24 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSecurityLake.KeyValueMetadata = r.OutputSecurityLake.KeyValueMetadata[:len(resp.OutputSecurityLake.KeyValueMetadata)]
 		}
 		for keyValueMetadataCount6, keyValueMetadataItem6 := range resp.OutputSecurityLake.KeyValueMetadata {
-			var keyValueMetadata13 tfTypes.OutputSecurityLakeKeyValueMetadata
-			keyValueMetadata13.Key = types.StringPointerValue(keyValueMetadataItem6.Key)
-			keyValueMetadata13.Value = types.StringValue(keyValueMetadataItem6.Value)
+			var keyValueMetadata6 tfTypes.OutputSecurityLakeKeyValueMetadata
+			keyValueMetadata6.Key = types.StringPointerValue(keyValueMetadataItem6.Key)
+			keyValueMetadata6.Value = types.StringValue(keyValueMetadataItem6.Value)
 			if keyValueMetadataCount6+1 > len(r.OutputSecurityLake.KeyValueMetadata) {
-				r.OutputSecurityLake.KeyValueMetadata = append(r.OutputSecurityLake.KeyValueMetadata, keyValueMetadata13)
+				r.OutputSecurityLake.KeyValueMetadata = append(r.OutputSecurityLake.KeyValueMetadata, keyValueMetadata6)
 			} else {
-				r.OutputSecurityLake.KeyValueMetadata[keyValueMetadataCount6].Key = keyValueMetadata13.Key
-				r.OutputSecurityLake.KeyValueMetadata[keyValueMetadataCount6].Value = keyValueMetadata13.Value
+				r.OutputSecurityLake.KeyValueMetadata[keyValueMetadataCount6].Key = keyValueMetadata6.Key
+				r.OutputSecurityLake.KeyValueMetadata[keyValueMetadataCount6].Value = keyValueMetadata6.Value
 			}
 		}
 		r.OutputSecurityLake.KmsKeyID = types.StringPointerValue(resp.OutputSecurityLake.KmsKeyID)
-		if resp.OutputSecurityLake.MaxClosingFilesToBackpressure != nil {
-			r.OutputSecurityLake.MaxClosingFilesToBackpressure = types.NumberValue(big.NewFloat(float64(*resp.OutputSecurityLake.MaxClosingFilesToBackpressure)))
-		} else {
-			r.OutputSecurityLake.MaxClosingFilesToBackpressure = types.NumberNull()
-		}
-		if resp.OutputSecurityLake.MaxConcurrentFileParts != nil {
-			r.OutputSecurityLake.MaxConcurrentFileParts = types.NumberValue(big.NewFloat(float64(*resp.OutputSecurityLake.MaxConcurrentFileParts)))
-		} else {
-			r.OutputSecurityLake.MaxConcurrentFileParts = types.NumberNull()
-		}
-		if resp.OutputSecurityLake.MaxFileIdleTimeSec != nil {
-			r.OutputSecurityLake.MaxFileIdleTimeSec = types.NumberValue(big.NewFloat(float64(*resp.OutputSecurityLake.MaxFileIdleTimeSec)))
-		} else {
-			r.OutputSecurityLake.MaxFileIdleTimeSec = types.NumberNull()
-		}
-		if resp.OutputSecurityLake.MaxFileOpenTimeSec != nil {
-			r.OutputSecurityLake.MaxFileOpenTimeSec = types.NumberValue(big.NewFloat(float64(*resp.OutputSecurityLake.MaxFileOpenTimeSec)))
-		} else {
-			r.OutputSecurityLake.MaxFileOpenTimeSec = types.NumberNull()
-		}
-		if resp.OutputSecurityLake.MaxFileSizeMB != nil {
-			r.OutputSecurityLake.MaxFileSizeMB = types.NumberValue(big.NewFloat(float64(*resp.OutputSecurityLake.MaxFileSizeMB)))
-		} else {
-			r.OutputSecurityLake.MaxFileSizeMB = types.NumberNull()
-		}
-		if resp.OutputSecurityLake.MaxOpenFiles != nil {
-			r.OutputSecurityLake.MaxOpenFiles = types.NumberValue(big.NewFloat(float64(*resp.OutputSecurityLake.MaxOpenFiles)))
-		} else {
-			r.OutputSecurityLake.MaxOpenFiles = types.NumberNull()
-		}
-		if resp.OutputSecurityLake.MaxRetryNum != nil {
-			r.OutputSecurityLake.MaxRetryNum = types.NumberValue(big.NewFloat(float64(*resp.OutputSecurityLake.MaxRetryNum)))
-		} else {
-			r.OutputSecurityLake.MaxRetryNum = types.NumberNull()
-		}
+		r.OutputSecurityLake.MaxClosingFilesToBackpressure = types.Float64PointerValue(resp.OutputSecurityLake.MaxClosingFilesToBackpressure)
+		r.OutputSecurityLake.MaxConcurrentFileParts = types.Float64PointerValue(resp.OutputSecurityLake.MaxConcurrentFileParts)
+		r.OutputSecurityLake.MaxFileIdleTimeSec = types.Float64PointerValue(resp.OutputSecurityLake.MaxFileIdleTimeSec)
+		r.OutputSecurityLake.MaxFileOpenTimeSec = types.Float64PointerValue(resp.OutputSecurityLake.MaxFileOpenTimeSec)
+		r.OutputSecurityLake.MaxFileSizeMB = types.Float64PointerValue(resp.OutputSecurityLake.MaxFileSizeMB)
+		r.OutputSecurityLake.MaxOpenFiles = types.Float64PointerValue(resp.OutputSecurityLake.MaxOpenFiles)
+		r.OutputSecurityLake.MaxRetryNum = types.Float64PointerValue(resp.OutputSecurityLake.MaxRetryNum)
 		if resp.OutputSecurityLake.ObjectACL != nil {
 			r.OutputSecurityLake.ObjectACL = types.StringValue(string(*resp.OutputSecurityLake.ObjectACL))
 		} else {
@@ -27730,11 +26004,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSecurityLake.ParquetDataPageVersion = types.StringNull()
 		}
 		r.OutputSecurityLake.ParquetPageSize = types.StringPointerValue(resp.OutputSecurityLake.ParquetPageSize)
-		if resp.OutputSecurityLake.ParquetRowGroupLength != nil {
-			r.OutputSecurityLake.ParquetRowGroupLength = types.NumberValue(big.NewFloat(float64(*resp.OutputSecurityLake.ParquetRowGroupLength)))
-		} else {
-			r.OutputSecurityLake.ParquetRowGroupLength = types.NumberNull()
-		}
+		r.OutputSecurityLake.ParquetRowGroupLength = types.Float64PointerValue(resp.OutputSecurityLake.ParquetRowGroupLength)
 		r.OutputSecurityLake.ParquetSchema = types.StringPointerValue(resp.OutputSecurityLake.ParquetSchema)
 		if resp.OutputSecurityLake.ParquetVersion != nil {
 			r.OutputSecurityLake.ParquetVersion = types.StringValue(string(*resp.OutputSecurityLake.ParquetVersion))
@@ -27777,11 +26047,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSecurityLake.Type = types.StringNull()
 		}
 		r.OutputSecurityLake.VerifyPermissions = types.BoolPointerValue(resp.OutputSecurityLake.VerifyPermissions)
-		if resp.OutputSecurityLake.WriteHighWaterMark != nil {
-			r.OutputSecurityLake.WriteHighWaterMark = types.NumberValue(big.NewFloat(float64(*resp.OutputSecurityLake.WriteHighWaterMark)))
-		} else {
-			r.OutputSecurityLake.WriteHighWaterMark = types.NumberNull()
-		}
+		r.OutputSecurityLake.WriteHighWaterMark = types.Float64PointerValue(resp.OutputSecurityLake.WriteHighWaterMark)
 	}
 	if resp.OutputSentinel != nil {
 		r.OutputSentinel = &tfTypes.OutputSentinel{}
@@ -27793,11 +26059,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		}
 		r.OutputSentinel.ClientID = types.StringValue(resp.OutputSentinel.ClientID)
 		r.OutputSentinel.Compress = types.BoolPointerValue(resp.OutputSentinel.Compress)
-		if resp.OutputSentinel.Concurrency != nil {
-			r.OutputSentinel.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputSentinel.Concurrency)))
-		} else {
-			r.OutputSentinel.Concurrency = types.NumberNull()
-		}
+		r.OutputSentinel.Concurrency = types.Float64PointerValue(resp.OutputSentinel.Concurrency)
 		r.OutputSentinel.CustomContentType = types.StringPointerValue(resp.OutputSentinel.CustomContentType)
 		r.OutputSentinel.CustomDropWhenNull = types.BoolPointerValue(resp.OutputSentinel.CustomDropWhenNull)
 		r.OutputSentinel.CustomEventDelimiter = types.StringPointerValue(resp.OutputSentinel.CustomEventDelimiter)
@@ -27817,14 +26079,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSentinel.ExtraHTTPHeaders = r.OutputSentinel.ExtraHTTPHeaders[:len(resp.OutputSentinel.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount21, extraHTTPHeadersItem21 := range resp.OutputSentinel.ExtraHTTPHeaders {
-			var extraHTTPHeaders43 tfTypes.OutputSentinelExtraHTTPHeaders
-			extraHTTPHeaders43.Name = types.StringPointerValue(extraHTTPHeadersItem21.Name)
-			extraHTTPHeaders43.Value = types.StringValue(extraHTTPHeadersItem21.Value)
+			var extraHTTPHeaders21 tfTypes.OutputSentinelExtraHTTPHeaders
+			extraHTTPHeaders21.Name = types.StringPointerValue(extraHTTPHeadersItem21.Name)
+			extraHTTPHeaders21.Value = types.StringValue(extraHTTPHeadersItem21.Value)
 			if extraHTTPHeadersCount21+1 > len(r.OutputSentinel.ExtraHTTPHeaders) {
-				r.OutputSentinel.ExtraHTTPHeaders = append(r.OutputSentinel.ExtraHTTPHeaders, extraHTTPHeaders43)
+				r.OutputSentinel.ExtraHTTPHeaders = append(r.OutputSentinel.ExtraHTTPHeaders, extraHTTPHeaders21)
 			} else {
-				r.OutputSentinel.ExtraHTTPHeaders[extraHTTPHeadersCount21].Name = extraHTTPHeaders43.Name
-				r.OutputSentinel.ExtraHTTPHeaders[extraHTTPHeadersCount21].Value = extraHTTPHeaders43.Value
+				r.OutputSentinel.ExtraHTTPHeaders[extraHTTPHeadersCount21].Name = extraHTTPHeaders21.Name
+				r.OutputSentinel.ExtraHTTPHeaders[extraHTTPHeadersCount21].Value = extraHTTPHeaders21.Value
 			}
 		}
 		if resp.OutputSentinel.FailedRequestLoggingMode != nil {
@@ -27832,11 +26094,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputSentinel.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputSentinel.FlushPeriodSec != nil {
-			r.OutputSentinel.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputSentinel.FlushPeriodSec)))
-		} else {
-			r.OutputSentinel.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputSentinel.FlushPeriodSec = types.Float64PointerValue(resp.OutputSentinel.FlushPeriodSec)
 		if resp.OutputSentinel.Format != nil {
 			r.OutputSentinel.Format = types.StringValue(string(*resp.OutputSentinel.Format))
 		} else {
@@ -27847,16 +26105,8 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputSentinel.ID = types.StringPointerValue(resp.OutputSentinel.ID)
 		r.OutputSentinel.KeepAlive = types.BoolPointerValue(resp.OutputSentinel.KeepAlive)
 		r.OutputSentinel.LoginURL = types.StringValue(resp.OutputSentinel.LoginURL)
-		if resp.OutputSentinel.MaxPayloadEvents != nil {
-			r.OutputSentinel.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputSentinel.MaxPayloadEvents)))
-		} else {
-			r.OutputSentinel.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputSentinel.MaxPayloadSizeKB != nil {
-			r.OutputSentinel.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputSentinel.MaxPayloadSizeKB)))
-		} else {
-			r.OutputSentinel.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputSentinel.MaxPayloadEvents = types.Float64PointerValue(resp.OutputSentinel.MaxPayloadEvents)
+		r.OutputSentinel.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputSentinel.MaxPayloadSizeKB)
 		if resp.OutputSentinel.OnBackpressure != nil {
 			r.OutputSentinel.OnBackpressure = types.StringValue(string(*resp.OutputSentinel.OnBackpressure))
 		} else {
@@ -27893,30 +26143,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSentinel.ResponseRetrySettings = r.OutputSentinel.ResponseRetrySettings[:len(resp.OutputSentinel.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount22, responseRetrySettingsItem22 := range resp.OutputSentinel.ResponseRetrySettings {
-			var responseRetrySettings45 tfTypes.OutputSentinelResponseRetrySettings
-			if responseRetrySettingsItem22.BackoffRate != nil {
-				responseRetrySettings45.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem22.BackoffRate)))
-			} else {
-				responseRetrySettings45.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings45.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem22.HTTPStatus)))
-			if responseRetrySettingsItem22.InitialBackoff != nil {
-				responseRetrySettings45.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem22.InitialBackoff)))
-			} else {
-				responseRetrySettings45.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem22.MaxBackoff != nil {
-				responseRetrySettings45.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem22.MaxBackoff)))
-			} else {
-				responseRetrySettings45.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings22 tfTypes.OutputSentinelResponseRetrySettings
+			responseRetrySettings22.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem22.BackoffRate)
+			responseRetrySettings22.HTTPStatus = types.Float64Value(responseRetrySettingsItem22.HTTPStatus)
+			responseRetrySettings22.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem22.InitialBackoff)
+			responseRetrySettings22.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem22.MaxBackoff)
 			if responseRetrySettingsCount22+1 > len(r.OutputSentinel.ResponseRetrySettings) {
-				r.OutputSentinel.ResponseRetrySettings = append(r.OutputSentinel.ResponseRetrySettings, responseRetrySettings45)
+				r.OutputSentinel.ResponseRetrySettings = append(r.OutputSentinel.ResponseRetrySettings, responseRetrySettings22)
 			} else {
-				r.OutputSentinel.ResponseRetrySettings[responseRetrySettingsCount22].BackoffRate = responseRetrySettings45.BackoffRate
-				r.OutputSentinel.ResponseRetrySettings[responseRetrySettingsCount22].HTTPStatus = responseRetrySettings45.HTTPStatus
-				r.OutputSentinel.ResponseRetrySettings[responseRetrySettingsCount22].InitialBackoff = responseRetrySettings45.InitialBackoff
-				r.OutputSentinel.ResponseRetrySettings[responseRetrySettingsCount22].MaxBackoff = responseRetrySettings45.MaxBackoff
+				r.OutputSentinel.ResponseRetrySettings[responseRetrySettingsCount22].BackoffRate = responseRetrySettings22.BackoffRate
+				r.OutputSentinel.ResponseRetrySettings[responseRetrySettingsCount22].HTTPStatus = responseRetrySettings22.HTTPStatus
+				r.OutputSentinel.ResponseRetrySettings[responseRetrySettingsCount22].InitialBackoff = responseRetrySettings22.InitialBackoff
+				r.OutputSentinel.ResponseRetrySettings[responseRetrySettingsCount22].MaxBackoff = responseRetrySettings22.MaxBackoff
 			}
 		}
 		r.OutputSentinel.SafeHeaders = make([]types.String, 0, len(resp.OutputSentinel.SafeHeaders))
@@ -27938,33 +26176,13 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSentinel.TimeoutRetrySettings = nil
 		} else {
 			r.OutputSentinel.TimeoutRetrySettings = &tfTypes.OutputSentinelTimeoutRetrySettings{}
-			if resp.OutputSentinel.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputSentinel.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputSentinel.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputSentinel.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputSentinel.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputSentinel.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputSentinel.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputSentinel.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputSentinel.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputSentinel.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputSentinel.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputSentinel.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputSentinel.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputSentinel.TimeoutRetrySettings.BackoffRate)
+			r.OutputSentinel.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputSentinel.TimeoutRetrySettings.InitialBackoff)
+			r.OutputSentinel.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputSentinel.TimeoutRetrySettings.MaxBackoff)
 			r.OutputSentinel.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputSentinel.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputSentinel.TimeoutSec != nil {
-			r.OutputSentinel.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputSentinel.TimeoutSec)))
-		} else {
-			r.OutputSentinel.TimeoutSec = types.NumberNull()
-		}
-		if resp.OutputSentinel.TotalMemoryLimitKB != nil {
-			r.OutputSentinel.TotalMemoryLimitKB = types.NumberValue(big.NewFloat(float64(*resp.OutputSentinel.TotalMemoryLimitKB)))
-		} else {
-			r.OutputSentinel.TotalMemoryLimitKB = types.NumberNull()
-		}
+		r.OutputSentinel.TimeoutSec = types.Float64PointerValue(resp.OutputSentinel.TimeoutSec)
+		r.OutputSentinel.TotalMemoryLimitKB = types.Float64PointerValue(resp.OutputSentinel.TotalMemoryLimitKB)
 		if resp.OutputSentinel.Type != nil {
 			r.OutputSentinel.Type = types.StringValue(string(*resp.OutputSentinel.Type))
 		} else {
@@ -27981,16 +26199,8 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputServiceNow.Compress = types.StringNull()
 		}
-		if resp.OutputServiceNow.Concurrency != nil {
-			r.OutputServiceNow.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputServiceNow.Concurrency)))
-		} else {
-			r.OutputServiceNow.Concurrency = types.NumberNull()
-		}
-		if resp.OutputServiceNow.ConnectionTimeout != nil {
-			r.OutputServiceNow.ConnectionTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputServiceNow.ConnectionTimeout)))
-		} else {
-			r.OutputServiceNow.ConnectionTimeout = types.NumberNull()
-		}
+		r.OutputServiceNow.Concurrency = types.Float64PointerValue(resp.OutputServiceNow.Concurrency)
+		r.OutputServiceNow.ConnectionTimeout = types.Float64PointerValue(resp.OutputServiceNow.ConnectionTimeout)
 		r.OutputServiceNow.Description = types.StringPointerValue(resp.OutputServiceNow.Description)
 		r.OutputServiceNow.Endpoint = types.StringPointerValue(resp.OutputServiceNow.Endpoint)
 		r.OutputServiceNow.Environment = types.StringPointerValue(resp.OutputServiceNow.Environment)
@@ -27999,14 +26209,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputServiceNow.ExtraHTTPHeaders = r.OutputServiceNow.ExtraHTTPHeaders[:len(resp.OutputServiceNow.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount22, extraHTTPHeadersItem22 := range resp.OutputServiceNow.ExtraHTTPHeaders {
-			var extraHTTPHeaders45 tfTypes.OutputServiceNowExtraHTTPHeaders
-			extraHTTPHeaders45.Name = types.StringPointerValue(extraHTTPHeadersItem22.Name)
-			extraHTTPHeaders45.Value = types.StringValue(extraHTTPHeadersItem22.Value)
+			var extraHTTPHeaders22 tfTypes.OutputServiceNowExtraHTTPHeaders
+			extraHTTPHeaders22.Name = types.StringPointerValue(extraHTTPHeadersItem22.Name)
+			extraHTTPHeaders22.Value = types.StringValue(extraHTTPHeadersItem22.Value)
 			if extraHTTPHeadersCount22+1 > len(r.OutputServiceNow.ExtraHTTPHeaders) {
-				r.OutputServiceNow.ExtraHTTPHeaders = append(r.OutputServiceNow.ExtraHTTPHeaders, extraHTTPHeaders45)
+				r.OutputServiceNow.ExtraHTTPHeaders = append(r.OutputServiceNow.ExtraHTTPHeaders, extraHTTPHeaders22)
 			} else {
-				r.OutputServiceNow.ExtraHTTPHeaders[extraHTTPHeadersCount22].Name = extraHTTPHeaders45.Name
-				r.OutputServiceNow.ExtraHTTPHeaders[extraHTTPHeadersCount22].Value = extraHTTPHeaders45.Value
+				r.OutputServiceNow.ExtraHTTPHeaders[extraHTTPHeadersCount22].Name = extraHTTPHeaders22.Name
+				r.OutputServiceNow.ExtraHTTPHeaders[extraHTTPHeadersCount22].Value = extraHTTPHeaders22.Value
 			}
 		}
 		if resp.OutputServiceNow.FailedRequestLoggingMode != nil {
@@ -28014,11 +26224,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputServiceNow.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputServiceNow.FlushPeriodSec != nil {
-			r.OutputServiceNow.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputServiceNow.FlushPeriodSec)))
-		} else {
-			r.OutputServiceNow.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputServiceNow.FlushPeriodSec = types.Float64PointerValue(resp.OutputServiceNow.FlushPeriodSec)
 		if resp.OutputServiceNow.HTTPCompress != nil {
 			r.OutputServiceNow.HTTPCompress = types.StringValue(string(*resp.OutputServiceNow.HTTPCompress))
 		} else {
@@ -28029,29 +26235,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputServiceNow.HTTPTracesEndpointOverride = types.StringPointerValue(resp.OutputServiceNow.HTTPTracesEndpointOverride)
 		r.OutputServiceNow.ID = types.StringPointerValue(resp.OutputServiceNow.ID)
 		r.OutputServiceNow.KeepAlive = types.BoolPointerValue(resp.OutputServiceNow.KeepAlive)
-		if resp.OutputServiceNow.KeepAliveTime != nil {
-			r.OutputServiceNow.KeepAliveTime = types.NumberValue(big.NewFloat(float64(*resp.OutputServiceNow.KeepAliveTime)))
-		} else {
-			r.OutputServiceNow.KeepAliveTime = types.NumberNull()
-		}
-		if resp.OutputServiceNow.MaxPayloadSizeKB != nil {
-			r.OutputServiceNow.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputServiceNow.MaxPayloadSizeKB)))
-		} else {
-			r.OutputServiceNow.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputServiceNow.KeepAliveTime = types.Float64PointerValue(resp.OutputServiceNow.KeepAliveTime)
+		r.OutputServiceNow.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputServiceNow.MaxPayloadSizeKB)
 		r.OutputServiceNow.Metadata = []tfTypes.OutputServiceNowMetadata{}
 		if len(r.OutputServiceNow.Metadata) > len(resp.OutputServiceNow.Metadata) {
 			r.OutputServiceNow.Metadata = r.OutputServiceNow.Metadata[:len(resp.OutputServiceNow.Metadata)]
 		}
 		for metadataCount3, metadataItem3 := range resp.OutputServiceNow.Metadata {
-			var metadata7 tfTypes.OutputServiceNowMetadata
-			metadata7.Key = types.StringPointerValue(metadataItem3.Key)
-			metadata7.Value = types.StringValue(metadataItem3.Value)
+			var metadata3 tfTypes.OutputServiceNowMetadata
+			metadata3.Key = types.StringPointerValue(metadataItem3.Key)
+			metadata3.Value = types.StringValue(metadataItem3.Value)
 			if metadataCount3+1 > len(r.OutputServiceNow.Metadata) {
-				r.OutputServiceNow.Metadata = append(r.OutputServiceNow.Metadata, metadata7)
+				r.OutputServiceNow.Metadata = append(r.OutputServiceNow.Metadata, metadata3)
 			} else {
-				r.OutputServiceNow.Metadata[metadataCount3].Key = metadata7.Key
-				r.OutputServiceNow.Metadata[metadataCount3].Value = metadata7.Value
+				r.OutputServiceNow.Metadata[metadataCount3].Key = metadata3.Key
+				r.OutputServiceNow.Metadata[metadataCount3].Value = metadata3.Value
 			}
 		}
 		if resp.OutputServiceNow.OnBackpressure != nil {
@@ -28100,30 +26298,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputServiceNow.ResponseRetrySettings = r.OutputServiceNow.ResponseRetrySettings[:len(resp.OutputServiceNow.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount23, responseRetrySettingsItem23 := range resp.OutputServiceNow.ResponseRetrySettings {
-			var responseRetrySettings47 tfTypes.OutputServiceNowResponseRetrySettings
-			if responseRetrySettingsItem23.BackoffRate != nil {
-				responseRetrySettings47.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem23.BackoffRate)))
-			} else {
-				responseRetrySettings47.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings47.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem23.HTTPStatus)))
-			if responseRetrySettingsItem23.InitialBackoff != nil {
-				responseRetrySettings47.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem23.InitialBackoff)))
-			} else {
-				responseRetrySettings47.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem23.MaxBackoff != nil {
-				responseRetrySettings47.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem23.MaxBackoff)))
-			} else {
-				responseRetrySettings47.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings23 tfTypes.OutputServiceNowResponseRetrySettings
+			responseRetrySettings23.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem23.BackoffRate)
+			responseRetrySettings23.HTTPStatus = types.Float64Value(responseRetrySettingsItem23.HTTPStatus)
+			responseRetrySettings23.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem23.InitialBackoff)
+			responseRetrySettings23.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem23.MaxBackoff)
 			if responseRetrySettingsCount23+1 > len(r.OutputServiceNow.ResponseRetrySettings) {
-				r.OutputServiceNow.ResponseRetrySettings = append(r.OutputServiceNow.ResponseRetrySettings, responseRetrySettings47)
+				r.OutputServiceNow.ResponseRetrySettings = append(r.OutputServiceNow.ResponseRetrySettings, responseRetrySettings23)
 			} else {
-				r.OutputServiceNow.ResponseRetrySettings[responseRetrySettingsCount23].BackoffRate = responseRetrySettings47.BackoffRate
-				r.OutputServiceNow.ResponseRetrySettings[responseRetrySettingsCount23].HTTPStatus = responseRetrySettings47.HTTPStatus
-				r.OutputServiceNow.ResponseRetrySettings[responseRetrySettingsCount23].InitialBackoff = responseRetrySettings47.InitialBackoff
-				r.OutputServiceNow.ResponseRetrySettings[responseRetrySettingsCount23].MaxBackoff = responseRetrySettings47.MaxBackoff
+				r.OutputServiceNow.ResponseRetrySettings[responseRetrySettingsCount23].BackoffRate = responseRetrySettings23.BackoffRate
+				r.OutputServiceNow.ResponseRetrySettings[responseRetrySettingsCount23].HTTPStatus = responseRetrySettings23.HTTPStatus
+				r.OutputServiceNow.ResponseRetrySettings[responseRetrySettingsCount23].InitialBackoff = responseRetrySettings23.InitialBackoff
+				r.OutputServiceNow.ResponseRetrySettings[responseRetrySettingsCount23].MaxBackoff = responseRetrySettings23.MaxBackoff
 			}
 		}
 		r.OutputServiceNow.SafeHeaders = make([]types.String, 0, len(resp.OutputServiceNow.SafeHeaders))
@@ -28142,28 +26328,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputServiceNow.TimeoutRetrySettings = nil
 		} else {
 			r.OutputServiceNow.TimeoutRetrySettings = &tfTypes.OutputServiceNowTimeoutRetrySettings{}
-			if resp.OutputServiceNow.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputServiceNow.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputServiceNow.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputServiceNow.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputServiceNow.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputServiceNow.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputServiceNow.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputServiceNow.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputServiceNow.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputServiceNow.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputServiceNow.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputServiceNow.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputServiceNow.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputServiceNow.TimeoutRetrySettings.BackoffRate)
+			r.OutputServiceNow.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputServiceNow.TimeoutRetrySettings.InitialBackoff)
+			r.OutputServiceNow.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputServiceNow.TimeoutRetrySettings.MaxBackoff)
 			r.OutputServiceNow.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputServiceNow.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputServiceNow.TimeoutSec != nil {
-			r.OutputServiceNow.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputServiceNow.TimeoutSec)))
-		} else {
-			r.OutputServiceNow.TimeoutSec = types.NumberNull()
-		}
+		r.OutputServiceNow.TimeoutSec = types.Float64PointerValue(resp.OutputServiceNow.TimeoutSec)
 		if resp.OutputServiceNow.TLS == nil {
 			r.OutputServiceNow.TLS = nil
 		} else {
@@ -28202,11 +26372,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSignalfx.AuthType = types.StringNull()
 		}
 		r.OutputSignalfx.Compress = types.BoolPointerValue(resp.OutputSignalfx.Compress)
-		if resp.OutputSignalfx.Concurrency != nil {
-			r.OutputSignalfx.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputSignalfx.Concurrency)))
-		} else {
-			r.OutputSignalfx.Concurrency = types.NumberNull()
-		}
+		r.OutputSignalfx.Concurrency = types.Float64PointerValue(resp.OutputSignalfx.Concurrency)
 		r.OutputSignalfx.Description = types.StringPointerValue(resp.OutputSignalfx.Description)
 		r.OutputSignalfx.Environment = types.StringPointerValue(resp.OutputSignalfx.Environment)
 		r.OutputSignalfx.ExtraHTTPHeaders = []tfTypes.OutputSignalfxExtraHTTPHeaders{}
@@ -28214,14 +26380,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSignalfx.ExtraHTTPHeaders = r.OutputSignalfx.ExtraHTTPHeaders[:len(resp.OutputSignalfx.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount23, extraHTTPHeadersItem23 := range resp.OutputSignalfx.ExtraHTTPHeaders {
-			var extraHTTPHeaders47 tfTypes.OutputSignalfxExtraHTTPHeaders
-			extraHTTPHeaders47.Name = types.StringPointerValue(extraHTTPHeadersItem23.Name)
-			extraHTTPHeaders47.Value = types.StringValue(extraHTTPHeadersItem23.Value)
+			var extraHTTPHeaders23 tfTypes.OutputSignalfxExtraHTTPHeaders
+			extraHTTPHeaders23.Name = types.StringPointerValue(extraHTTPHeadersItem23.Name)
+			extraHTTPHeaders23.Value = types.StringValue(extraHTTPHeadersItem23.Value)
 			if extraHTTPHeadersCount23+1 > len(r.OutputSignalfx.ExtraHTTPHeaders) {
-				r.OutputSignalfx.ExtraHTTPHeaders = append(r.OutputSignalfx.ExtraHTTPHeaders, extraHTTPHeaders47)
+				r.OutputSignalfx.ExtraHTTPHeaders = append(r.OutputSignalfx.ExtraHTTPHeaders, extraHTTPHeaders23)
 			} else {
-				r.OutputSignalfx.ExtraHTTPHeaders[extraHTTPHeadersCount23].Name = extraHTTPHeaders47.Name
-				r.OutputSignalfx.ExtraHTTPHeaders[extraHTTPHeadersCount23].Value = extraHTTPHeaders47.Value
+				r.OutputSignalfx.ExtraHTTPHeaders[extraHTTPHeadersCount23].Name = extraHTTPHeaders23.Name
+				r.OutputSignalfx.ExtraHTTPHeaders[extraHTTPHeadersCount23].Value = extraHTTPHeaders23.Value
 			}
 		}
 		if resp.OutputSignalfx.FailedRequestLoggingMode != nil {
@@ -28229,22 +26395,10 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputSignalfx.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputSignalfx.FlushPeriodSec != nil {
-			r.OutputSignalfx.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputSignalfx.FlushPeriodSec)))
-		} else {
-			r.OutputSignalfx.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputSignalfx.FlushPeriodSec = types.Float64PointerValue(resp.OutputSignalfx.FlushPeriodSec)
 		r.OutputSignalfx.ID = types.StringPointerValue(resp.OutputSignalfx.ID)
-		if resp.OutputSignalfx.MaxPayloadEvents != nil {
-			r.OutputSignalfx.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputSignalfx.MaxPayloadEvents)))
-		} else {
-			r.OutputSignalfx.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputSignalfx.MaxPayloadSizeKB != nil {
-			r.OutputSignalfx.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputSignalfx.MaxPayloadSizeKB)))
-		} else {
-			r.OutputSignalfx.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputSignalfx.MaxPayloadEvents = types.Float64PointerValue(resp.OutputSignalfx.MaxPayloadEvents)
+		r.OutputSignalfx.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputSignalfx.MaxPayloadSizeKB)
 		if resp.OutputSignalfx.OnBackpressure != nil {
 			r.OutputSignalfx.OnBackpressure = types.StringValue(string(*resp.OutputSignalfx.OnBackpressure))
 		} else {
@@ -28282,30 +26436,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSignalfx.ResponseRetrySettings = r.OutputSignalfx.ResponseRetrySettings[:len(resp.OutputSignalfx.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount24, responseRetrySettingsItem24 := range resp.OutputSignalfx.ResponseRetrySettings {
-			var responseRetrySettings49 tfTypes.OutputSignalfxResponseRetrySettings
-			if responseRetrySettingsItem24.BackoffRate != nil {
-				responseRetrySettings49.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem24.BackoffRate)))
-			} else {
-				responseRetrySettings49.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings49.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem24.HTTPStatus)))
-			if responseRetrySettingsItem24.InitialBackoff != nil {
-				responseRetrySettings49.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem24.InitialBackoff)))
-			} else {
-				responseRetrySettings49.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem24.MaxBackoff != nil {
-				responseRetrySettings49.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem24.MaxBackoff)))
-			} else {
-				responseRetrySettings49.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings24 tfTypes.OutputSignalfxResponseRetrySettings
+			responseRetrySettings24.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem24.BackoffRate)
+			responseRetrySettings24.HTTPStatus = types.Float64Value(responseRetrySettingsItem24.HTTPStatus)
+			responseRetrySettings24.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem24.InitialBackoff)
+			responseRetrySettings24.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem24.MaxBackoff)
 			if responseRetrySettingsCount24+1 > len(r.OutputSignalfx.ResponseRetrySettings) {
-				r.OutputSignalfx.ResponseRetrySettings = append(r.OutputSignalfx.ResponseRetrySettings, responseRetrySettings49)
+				r.OutputSignalfx.ResponseRetrySettings = append(r.OutputSignalfx.ResponseRetrySettings, responseRetrySettings24)
 			} else {
-				r.OutputSignalfx.ResponseRetrySettings[responseRetrySettingsCount24].BackoffRate = responseRetrySettings49.BackoffRate
-				r.OutputSignalfx.ResponseRetrySettings[responseRetrySettingsCount24].HTTPStatus = responseRetrySettings49.HTTPStatus
-				r.OutputSignalfx.ResponseRetrySettings[responseRetrySettingsCount24].InitialBackoff = responseRetrySettings49.InitialBackoff
-				r.OutputSignalfx.ResponseRetrySettings[responseRetrySettingsCount24].MaxBackoff = responseRetrySettings49.MaxBackoff
+				r.OutputSignalfx.ResponseRetrySettings[responseRetrySettingsCount24].BackoffRate = responseRetrySettings24.BackoffRate
+				r.OutputSignalfx.ResponseRetrySettings[responseRetrySettingsCount24].HTTPStatus = responseRetrySettings24.HTTPStatus
+				r.OutputSignalfx.ResponseRetrySettings[responseRetrySettingsCount24].InitialBackoff = responseRetrySettings24.InitialBackoff
+				r.OutputSignalfx.ResponseRetrySettings[responseRetrySettingsCount24].MaxBackoff = responseRetrySettings24.MaxBackoff
 			}
 		}
 		r.OutputSignalfx.SafeHeaders = make([]types.String, 0, len(resp.OutputSignalfx.SafeHeaders))
@@ -28325,28 +26467,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSignalfx.TimeoutRetrySettings = nil
 		} else {
 			r.OutputSignalfx.TimeoutRetrySettings = &tfTypes.OutputSignalfxTimeoutRetrySettings{}
-			if resp.OutputSignalfx.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputSignalfx.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputSignalfx.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputSignalfx.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputSignalfx.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputSignalfx.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputSignalfx.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputSignalfx.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputSignalfx.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputSignalfx.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputSignalfx.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputSignalfx.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputSignalfx.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputSignalfx.TimeoutRetrySettings.BackoffRate)
+			r.OutputSignalfx.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputSignalfx.TimeoutRetrySettings.InitialBackoff)
+			r.OutputSignalfx.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputSignalfx.TimeoutRetrySettings.MaxBackoff)
 			r.OutputSignalfx.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputSignalfx.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputSignalfx.TimeoutSec != nil {
-			r.OutputSignalfx.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputSignalfx.TimeoutSec)))
-		} else {
-			r.OutputSignalfx.TimeoutSec = types.NumberNull()
-		}
+		r.OutputSignalfx.TimeoutSec = types.Float64PointerValue(resp.OutputSignalfx.TimeoutSec)
 		r.OutputSignalfx.Token = types.StringPointerValue(resp.OutputSignalfx.Token)
 		r.OutputSignalfx.Type = types.StringValue(string(resp.OutputSignalfx.Type))
 		r.OutputSignalfx.UseRoundRobinDNS = types.BoolPointerValue(resp.OutputSignalfx.UseRoundRobinDNS)
@@ -28354,29 +26480,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 	if resp.OutputSnmp != nil {
 		r.OutputSnmp = &tfTypes.OutputSnmp{}
 		r.OutputSnmp.Description = types.StringPointerValue(resp.OutputSnmp.Description)
-		if resp.OutputSnmp.DNSResolvePeriodSec != nil {
-			r.OutputSnmp.DNSResolvePeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputSnmp.DNSResolvePeriodSec)))
-		} else {
-			r.OutputSnmp.DNSResolvePeriodSec = types.NumberNull()
-		}
+		r.OutputSnmp.DNSResolvePeriodSec = types.Float64PointerValue(resp.OutputSnmp.DNSResolvePeriodSec)
 		r.OutputSnmp.Environment = types.StringPointerValue(resp.OutputSnmp.Environment)
 		r.OutputSnmp.Hosts = []tfTypes.OutputSnmpHosts{}
 		if len(r.OutputSnmp.Hosts) > len(resp.OutputSnmp.Hosts) {
 			r.OutputSnmp.Hosts = r.OutputSnmp.Hosts[:len(resp.OutputSnmp.Hosts)]
 		}
 		for hostsCount2, hostsItem2 := range resp.OutputSnmp.Hosts {
-			var hosts5 tfTypes.OutputSnmpHosts
-			hosts5.Host = types.StringValue(hostsItem2.Host)
-			if hostsItem2.Port != nil {
-				hosts5.Port = types.NumberValue(big.NewFloat(float64(*hostsItem2.Port)))
-			} else {
-				hosts5.Port = types.NumberNull()
-			}
+			var hosts2 tfTypes.OutputSnmpHosts
+			hosts2.Host = types.StringValue(hostsItem2.Host)
+			hosts2.Port = types.Float64PointerValue(hostsItem2.Port)
 			if hostsCount2+1 > len(r.OutputSnmp.Hosts) {
-				r.OutputSnmp.Hosts = append(r.OutputSnmp.Hosts, hosts5)
+				r.OutputSnmp.Hosts = append(r.OutputSnmp.Hosts, hosts2)
 			} else {
-				r.OutputSnmp.Hosts[hostsCount2].Host = hosts5.Host
-				r.OutputSnmp.Hosts[hostsCount2].Port = hosts5.Port
+				r.OutputSnmp.Hosts[hostsCount2].Host = hosts2.Host
+				r.OutputSnmp.Hosts[hostsCount2].Port = hosts2.Port
 			}
 		}
 		r.OutputSnmp.ID = types.StringPointerValue(resp.OutputSnmp.ID)
@@ -28404,20 +26522,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputSns.AwsSecret = types.StringPointerValue(resp.OutputSns.AwsSecret)
 		r.OutputSns.AwsSecretKey = types.StringPointerValue(resp.OutputSns.AwsSecretKey)
 		r.OutputSns.Description = types.StringPointerValue(resp.OutputSns.Description)
-		if resp.OutputSns.DurationSeconds != nil {
-			r.OutputSns.DurationSeconds = types.NumberValue(big.NewFloat(float64(*resp.OutputSns.DurationSeconds)))
-		} else {
-			r.OutputSns.DurationSeconds = types.NumberNull()
-		}
+		r.OutputSns.DurationSeconds = types.Float64PointerValue(resp.OutputSns.DurationSeconds)
 		r.OutputSns.EnableAssumeRole = types.BoolPointerValue(resp.OutputSns.EnableAssumeRole)
 		r.OutputSns.Endpoint = types.StringPointerValue(resp.OutputSns.Endpoint)
 		r.OutputSns.Environment = types.StringPointerValue(resp.OutputSns.Environment)
 		r.OutputSns.ID = types.StringPointerValue(resp.OutputSns.ID)
-		if resp.OutputSns.MaxRetries != nil {
-			r.OutputSns.MaxRetries = types.NumberValue(big.NewFloat(float64(*resp.OutputSns.MaxRetries)))
-		} else {
-			r.OutputSns.MaxRetries = types.NumberNull()
-		}
+		r.OutputSns.MaxRetries = types.Float64PointerValue(resp.OutputSns.MaxRetries)
 		r.OutputSns.MessageGroupID = types.StringValue(resp.OutputSns.MessageGroupID)
 		if resp.OutputSns.OnBackpressure != nil {
 			r.OutputSns.OnBackpressure = types.StringValue(string(*resp.OutputSns.OnBackpressure))
@@ -28479,11 +26589,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputSplunk.AuthType = types.StringNull()
 		}
-		if resp.OutputSplunk.ConnectionTimeout != nil {
-			r.OutputSplunk.ConnectionTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunk.ConnectionTimeout)))
+		if resp.OutputSplunk.Compress != nil {
+			r.OutputSplunk.Compress = types.StringValue(string(*resp.OutputSplunk.Compress))
 		} else {
-			r.OutputSplunk.ConnectionTimeout = types.NumberNull()
+			r.OutputSplunk.Compress = types.StringNull()
 		}
+		r.OutputSplunk.ConnectionTimeout = types.Float64PointerValue(resp.OutputSplunk.ConnectionTimeout)
 		r.OutputSplunk.Description = types.StringPointerValue(resp.OutputSplunk.Description)
 		r.OutputSplunk.EnableACK = types.BoolPointerValue(resp.OutputSplunk.EnableACK)
 		r.OutputSplunk.EnableMultiMetrics = types.BoolPointerValue(resp.OutputSplunk.EnableMultiMetrics)
@@ -28491,11 +26602,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputSplunk.Host = types.StringValue(resp.OutputSplunk.Host)
 		r.OutputSplunk.ID = types.StringPointerValue(resp.OutputSplunk.ID)
 		r.OutputSplunk.LogFailedRequests = types.BoolPointerValue(resp.OutputSplunk.LogFailedRequests)
-		if resp.OutputSplunk.MaxFailedHealthChecks != nil {
-			r.OutputSplunk.MaxFailedHealthChecks = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunk.MaxFailedHealthChecks)))
-		} else {
-			r.OutputSplunk.MaxFailedHealthChecks = types.NumberNull()
-		}
+		r.OutputSplunk.MaxFailedHealthChecks = types.Float64PointerValue(resp.OutputSplunk.MaxFailedHealthChecks)
 		if resp.OutputSplunk.MaxS2Sversion != nil {
 			r.OutputSplunk.MaxS2Sversion = types.StringValue(string(*resp.OutputSplunk.MaxS2Sversion))
 		} else {
@@ -28512,11 +26619,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSplunk.OnBackpressure = types.StringNull()
 		}
 		r.OutputSplunk.Pipeline = types.StringPointerValue(resp.OutputSplunk.Pipeline)
-		if resp.OutputSplunk.Port != nil {
-			r.OutputSplunk.Port = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunk.Port)))
-		} else {
-			r.OutputSplunk.Port = types.NumberNull()
-		}
+		r.OutputSplunk.Port = types.Float64PointerValue(resp.OutputSplunk.Port)
 		if resp.OutputSplunk.PqCompress != nil {
 			r.OutputSplunk.PqCompress = types.StringValue(string(*resp.OutputSplunk.PqCompress))
 		} else {
@@ -28578,11 +26681,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputSplunk.Type = types.StringNull()
 		}
-		if resp.OutputSplunk.WriteTimeout != nil {
-			r.OutputSplunk.WriteTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunk.WriteTimeout)))
-		} else {
-			r.OutputSplunk.WriteTimeout = types.NumberNull()
-		}
+		r.OutputSplunk.WriteTimeout = types.Float64PointerValue(resp.OutputSplunk.WriteTimeout)
 	}
 	if resp.OutputSplunkHec != nil {
 		r.OutputSplunkHec = &tfTypes.OutputSplunkHec{}
@@ -28592,17 +26691,9 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSplunkHec.AuthType = types.StringNull()
 		}
 		r.OutputSplunkHec.Compress = types.BoolPointerValue(resp.OutputSplunkHec.Compress)
-		if resp.OutputSplunkHec.Concurrency != nil {
-			r.OutputSplunkHec.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunkHec.Concurrency)))
-		} else {
-			r.OutputSplunkHec.Concurrency = types.NumberNull()
-		}
+		r.OutputSplunkHec.Concurrency = types.Float64PointerValue(resp.OutputSplunkHec.Concurrency)
 		r.OutputSplunkHec.Description = types.StringPointerValue(resp.OutputSplunkHec.Description)
-		if resp.OutputSplunkHec.DNSResolvePeriodSec != nil {
-			r.OutputSplunkHec.DNSResolvePeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunkHec.DNSResolvePeriodSec)))
-		} else {
-			r.OutputSplunkHec.DNSResolvePeriodSec = types.NumberNull()
-		}
+		r.OutputSplunkHec.DNSResolvePeriodSec = types.Float64PointerValue(resp.OutputSplunkHec.DNSResolvePeriodSec)
 		r.OutputSplunkHec.EnableMultiMetrics = types.BoolPointerValue(resp.OutputSplunkHec.EnableMultiMetrics)
 		r.OutputSplunkHec.Environment = types.StringPointerValue(resp.OutputSplunkHec.Environment)
 		r.OutputSplunkHec.ExcludeSelf = types.BoolPointerValue(resp.OutputSplunkHec.ExcludeSelf)
@@ -28611,14 +26702,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSplunkHec.ExtraHTTPHeaders = r.OutputSplunkHec.ExtraHTTPHeaders[:len(resp.OutputSplunkHec.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount24, extraHTTPHeadersItem24 := range resp.OutputSplunkHec.ExtraHTTPHeaders {
-			var extraHTTPHeaders49 tfTypes.OutputSplunkHecExtraHTTPHeaders
-			extraHTTPHeaders49.Name = types.StringPointerValue(extraHTTPHeadersItem24.Name)
-			extraHTTPHeaders49.Value = types.StringValue(extraHTTPHeadersItem24.Value)
+			var extraHTTPHeaders24 tfTypes.OutputSplunkHecExtraHTTPHeaders
+			extraHTTPHeaders24.Name = types.StringPointerValue(extraHTTPHeadersItem24.Name)
+			extraHTTPHeaders24.Value = types.StringValue(extraHTTPHeadersItem24.Value)
 			if extraHTTPHeadersCount24+1 > len(r.OutputSplunkHec.ExtraHTTPHeaders) {
-				r.OutputSplunkHec.ExtraHTTPHeaders = append(r.OutputSplunkHec.ExtraHTTPHeaders, extraHTTPHeaders49)
+				r.OutputSplunkHec.ExtraHTTPHeaders = append(r.OutputSplunkHec.ExtraHTTPHeaders, extraHTTPHeaders24)
 			} else {
-				r.OutputSplunkHec.ExtraHTTPHeaders[extraHTTPHeadersCount24].Name = extraHTTPHeaders49.Name
-				r.OutputSplunkHec.ExtraHTTPHeaders[extraHTTPHeadersCount24].Value = extraHTTPHeaders49.Value
+				r.OutputSplunkHec.ExtraHTTPHeaders[extraHTTPHeadersCount24].Name = extraHTTPHeaders24.Name
+				r.OutputSplunkHec.ExtraHTTPHeaders[extraHTTPHeadersCount24].Value = extraHTTPHeaders24.Value
 			}
 		}
 		if resp.OutputSplunkHec.FailedRequestLoggingMode != nil {
@@ -28626,28 +26717,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputSplunkHec.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputSplunkHec.FlushPeriodSec != nil {
-			r.OutputSplunkHec.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunkHec.FlushPeriodSec)))
-		} else {
-			r.OutputSplunkHec.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputSplunkHec.FlushPeriodSec = types.Float64PointerValue(resp.OutputSplunkHec.FlushPeriodSec)
 		r.OutputSplunkHec.ID = types.StringValue(resp.OutputSplunkHec.ID)
 		r.OutputSplunkHec.LoadBalanced = types.BoolPointerValue(resp.OutputSplunkHec.LoadBalanced)
-		if resp.OutputSplunkHec.LoadBalanceStatsPeriodSec != nil {
-			r.OutputSplunkHec.LoadBalanceStatsPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunkHec.LoadBalanceStatsPeriodSec)))
-		} else {
-			r.OutputSplunkHec.LoadBalanceStatsPeriodSec = types.NumberNull()
-		}
-		if resp.OutputSplunkHec.MaxPayloadEvents != nil {
-			r.OutputSplunkHec.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunkHec.MaxPayloadEvents)))
-		} else {
-			r.OutputSplunkHec.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputSplunkHec.MaxPayloadSizeKB != nil {
-			r.OutputSplunkHec.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunkHec.MaxPayloadSizeKB)))
-		} else {
-			r.OutputSplunkHec.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputSplunkHec.LoadBalanceStatsPeriodSec = types.Float64PointerValue(resp.OutputSplunkHec.LoadBalanceStatsPeriodSec)
+		r.OutputSplunkHec.MaxPayloadEvents = types.Float64PointerValue(resp.OutputSplunkHec.MaxPayloadEvents)
+		r.OutputSplunkHec.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputSplunkHec.MaxPayloadSizeKB)
 		r.OutputSplunkHec.NextQueue = types.StringPointerValue(resp.OutputSplunkHec.NextQueue)
 		if resp.OutputSplunkHec.OnBackpressure != nil {
 			r.OutputSplunkHec.OnBackpressure = types.StringValue(string(*resp.OutputSplunkHec.OnBackpressure))
@@ -28685,30 +26760,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSplunkHec.ResponseRetrySettings = r.OutputSplunkHec.ResponseRetrySettings[:len(resp.OutputSplunkHec.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount25, responseRetrySettingsItem25 := range resp.OutputSplunkHec.ResponseRetrySettings {
-			var responseRetrySettings51 tfTypes.OutputSplunkHecResponseRetrySettings
-			if responseRetrySettingsItem25.BackoffRate != nil {
-				responseRetrySettings51.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem25.BackoffRate)))
-			} else {
-				responseRetrySettings51.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings51.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem25.HTTPStatus)))
-			if responseRetrySettingsItem25.InitialBackoff != nil {
-				responseRetrySettings51.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem25.InitialBackoff)))
-			} else {
-				responseRetrySettings51.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem25.MaxBackoff != nil {
-				responseRetrySettings51.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem25.MaxBackoff)))
-			} else {
-				responseRetrySettings51.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings25 tfTypes.OutputSplunkHecResponseRetrySettings
+			responseRetrySettings25.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem25.BackoffRate)
+			responseRetrySettings25.HTTPStatus = types.Float64Value(responseRetrySettingsItem25.HTTPStatus)
+			responseRetrySettings25.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem25.InitialBackoff)
+			responseRetrySettings25.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem25.MaxBackoff)
 			if responseRetrySettingsCount25+1 > len(r.OutputSplunkHec.ResponseRetrySettings) {
-				r.OutputSplunkHec.ResponseRetrySettings = append(r.OutputSplunkHec.ResponseRetrySettings, responseRetrySettings51)
+				r.OutputSplunkHec.ResponseRetrySettings = append(r.OutputSplunkHec.ResponseRetrySettings, responseRetrySettings25)
 			} else {
-				r.OutputSplunkHec.ResponseRetrySettings[responseRetrySettingsCount25].BackoffRate = responseRetrySettings51.BackoffRate
-				r.OutputSplunkHec.ResponseRetrySettings[responseRetrySettingsCount25].HTTPStatus = responseRetrySettings51.HTTPStatus
-				r.OutputSplunkHec.ResponseRetrySettings[responseRetrySettingsCount25].InitialBackoff = responseRetrySettings51.InitialBackoff
-				r.OutputSplunkHec.ResponseRetrySettings[responseRetrySettingsCount25].MaxBackoff = responseRetrySettings51.MaxBackoff
+				r.OutputSplunkHec.ResponseRetrySettings[responseRetrySettingsCount25].BackoffRate = responseRetrySettings25.BackoffRate
+				r.OutputSplunkHec.ResponseRetrySettings[responseRetrySettingsCount25].HTTPStatus = responseRetrySettings25.HTTPStatus
+				r.OutputSplunkHec.ResponseRetrySettings[responseRetrySettingsCount25].InitialBackoff = responseRetrySettings25.InitialBackoff
+				r.OutputSplunkHec.ResponseRetrySettings[responseRetrySettingsCount25].MaxBackoff = responseRetrySettings25.MaxBackoff
 			}
 		}
 		r.OutputSplunkHec.SafeHeaders = make([]types.String, 0, len(resp.OutputSplunkHec.SafeHeaders))
@@ -28729,28 +26792,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSplunkHec.TimeoutRetrySettings = nil
 		} else {
 			r.OutputSplunkHec.TimeoutRetrySettings = &tfTypes.OutputSplunkHecTimeoutRetrySettings{}
-			if resp.OutputSplunkHec.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputSplunkHec.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunkHec.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputSplunkHec.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputSplunkHec.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputSplunkHec.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunkHec.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputSplunkHec.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputSplunkHec.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputSplunkHec.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunkHec.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputSplunkHec.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputSplunkHec.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputSplunkHec.TimeoutRetrySettings.BackoffRate)
+			r.OutputSplunkHec.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputSplunkHec.TimeoutRetrySettings.InitialBackoff)
+			r.OutputSplunkHec.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputSplunkHec.TimeoutRetrySettings.MaxBackoff)
 			r.OutputSplunkHec.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputSplunkHec.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputSplunkHec.TimeoutSec != nil {
-			r.OutputSplunkHec.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunkHec.TimeoutSec)))
-		} else {
-			r.OutputSplunkHec.TimeoutSec = types.NumberNull()
-		}
+		r.OutputSplunkHec.TimeoutSec = types.Float64PointerValue(resp.OutputSplunkHec.TimeoutSec)
 		r.OutputSplunkHec.Token = types.StringPointerValue(resp.OutputSplunkHec.Token)
 		r.OutputSplunkHec.Type = types.StringValue(string(resp.OutputSplunkHec.Type))
 		r.OutputSplunkHec.URL = types.StringPointerValue(resp.OutputSplunkHec.URL)
@@ -28759,18 +26806,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSplunkHec.Urls = r.OutputSplunkHec.Urls[:len(resp.OutputSplunkHec.Urls)]
 		}
 		for urlsCount2, urlsItem2 := range resp.OutputSplunkHec.Urls {
-			var urls5 tfTypes.OutputSplunkHecUrls
-			urls5.URL = types.StringPointerValue(urlsItem2.URL)
-			if urlsItem2.Weight != nil {
-				urls5.Weight = types.NumberValue(big.NewFloat(float64(*urlsItem2.Weight)))
-			} else {
-				urls5.Weight = types.NumberNull()
-			}
+			var urls2 tfTypes.OutputSplunkHecUrls
+			urls2.URL = types.StringPointerValue(urlsItem2.URL)
+			urls2.Weight = types.Float64PointerValue(urlsItem2.Weight)
 			if urlsCount2+1 > len(r.OutputSplunkHec.Urls) {
-				r.OutputSplunkHec.Urls = append(r.OutputSplunkHec.Urls, urls5)
+				r.OutputSplunkHec.Urls = append(r.OutputSplunkHec.Urls, urls2)
 			} else {
-				r.OutputSplunkHec.Urls[urlsCount2].URL = urls5.URL
-				r.OutputSplunkHec.Urls[urlsCount2].Weight = urls5.Weight
+				r.OutputSplunkHec.Urls[urlsCount2].URL = urls2.URL
+				r.OutputSplunkHec.Urls[urlsCount2].Weight = urls2.Weight
 			}
 		}
 		r.OutputSplunkHec.UseRoundRobinDNS = types.BoolPointerValue(resp.OutputSplunkHec.UseRoundRobinDNS)
@@ -28783,17 +26826,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputSplunkLb.AuthType = types.StringNull()
 		}
-		if resp.OutputSplunkLb.ConnectionTimeout != nil {
-			r.OutputSplunkLb.ConnectionTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunkLb.ConnectionTimeout)))
+		if resp.OutputSplunkLb.Compress != nil {
+			r.OutputSplunkLb.Compress = types.StringValue(string(*resp.OutputSplunkLb.Compress))
 		} else {
-			r.OutputSplunkLb.ConnectionTimeout = types.NumberNull()
+			r.OutputSplunkLb.Compress = types.StringNull()
 		}
+		r.OutputSplunkLb.ConnectionTimeout = types.Float64PointerValue(resp.OutputSplunkLb.ConnectionTimeout)
 		r.OutputSplunkLb.Description = types.StringPointerValue(resp.OutputSplunkLb.Description)
-		if resp.OutputSplunkLb.DNSResolvePeriodSec != nil {
-			r.OutputSplunkLb.DNSResolvePeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunkLb.DNSResolvePeriodSec)))
-		} else {
-			r.OutputSplunkLb.DNSResolvePeriodSec = types.NumberNull()
-		}
+		r.OutputSplunkLb.DNSResolvePeriodSec = types.Float64PointerValue(resp.OutputSplunkLb.DNSResolvePeriodSec)
 		r.OutputSplunkLb.EnableACK = types.BoolPointerValue(resp.OutputSplunkLb.EnableACK)
 		r.OutputSplunkLb.EnableMultiMetrics = types.BoolPointerValue(resp.OutputSplunkLb.EnableMultiMetrics)
 		r.OutputSplunkLb.Environment = types.StringPointerValue(resp.OutputSplunkLb.Environment)
@@ -28803,32 +26843,24 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSplunkLb.Hosts = r.OutputSplunkLb.Hosts[:len(resp.OutputSplunkLb.Hosts)]
 		}
 		for hostsCount3, hostsItem3 := range resp.OutputSplunkLb.Hosts {
-			var hosts7 tfTypes.Hosts
-			hosts7.Host = types.StringValue(hostsItem3.Host)
-			if hostsItem3.Port != nil {
-				hosts7.Port = types.NumberValue(big.NewFloat(float64(*hostsItem3.Port)))
-			} else {
-				hosts7.Port = types.NumberNull()
-			}
-			hosts7.Servername = types.StringPointerValue(hostsItem3.Servername)
+			var hosts3 tfTypes.Hosts
+			hosts3.Host = types.StringValue(hostsItem3.Host)
+			hosts3.Port = types.Float64PointerValue(hostsItem3.Port)
+			hosts3.Servername = types.StringPointerValue(hostsItem3.Servername)
 			if hostsItem3.TLS != nil {
-				hosts7.TLS = types.StringValue(string(*hostsItem3.TLS))
+				hosts3.TLS = types.StringValue(string(*hostsItem3.TLS))
 			} else {
-				hosts7.TLS = types.StringNull()
+				hosts3.TLS = types.StringNull()
 			}
-			if hostsItem3.Weight != nil {
-				hosts7.Weight = types.NumberValue(big.NewFloat(float64(*hostsItem3.Weight)))
-			} else {
-				hosts7.Weight = types.NumberNull()
-			}
+			hosts3.Weight = types.Float64PointerValue(hostsItem3.Weight)
 			if hostsCount3+1 > len(r.OutputSplunkLb.Hosts) {
-				r.OutputSplunkLb.Hosts = append(r.OutputSplunkLb.Hosts, hosts7)
+				r.OutputSplunkLb.Hosts = append(r.OutputSplunkLb.Hosts, hosts3)
 			} else {
-				r.OutputSplunkLb.Hosts[hostsCount3].Host = hosts7.Host
-				r.OutputSplunkLb.Hosts[hostsCount3].Port = hosts7.Port
-				r.OutputSplunkLb.Hosts[hostsCount3].Servername = hosts7.Servername
-				r.OutputSplunkLb.Hosts[hostsCount3].TLS = hosts7.TLS
-				r.OutputSplunkLb.Hosts[hostsCount3].Weight = hosts7.Weight
+				r.OutputSplunkLb.Hosts[hostsCount3].Host = hosts3.Host
+				r.OutputSplunkLb.Hosts[hostsCount3].Port = hosts3.Port
+				r.OutputSplunkLb.Hosts[hostsCount3].Servername = hosts3.Servername
+				r.OutputSplunkLb.Hosts[hostsCount3].TLS = hosts3.TLS
+				r.OutputSplunkLb.Hosts[hostsCount3].Weight = hosts3.Weight
 			}
 		}
 		r.OutputSplunkLb.ID = types.StringPointerValue(resp.OutputSplunkLb.ID)
@@ -28843,16 +26875,16 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 				r.OutputSplunkLb.IndexerDiscoveryConfigs.AuthTokens = r.OutputSplunkLb.IndexerDiscoveryConfigs.AuthTokens[:len(resp.OutputSplunkLb.IndexerDiscoveryConfigs.AuthTokens)]
 			}
 			for authTokensCount, authTokensItem := range resp.OutputSplunkLb.IndexerDiscoveryConfigs.AuthTokens {
-				var authTokens1 tfTypes.OutputSplunkLbAuthTokens
+				var authTokens tfTypes.OutputSplunkLbAuthTokens
 				if authTokensItem.AuthType != nil {
-					authTokens1.AuthType = types.StringValue(string(*authTokensItem.AuthType))
+					authTokens.AuthType = types.StringValue(string(*authTokensItem.AuthType))
 				} else {
-					authTokens1.AuthType = types.StringNull()
+					authTokens.AuthType = types.StringNull()
 				}
 				if authTokensCount+1 > len(r.OutputSplunkLb.IndexerDiscoveryConfigs.AuthTokens) {
-					r.OutputSplunkLb.IndexerDiscoveryConfigs.AuthTokens = append(r.OutputSplunkLb.IndexerDiscoveryConfigs.AuthTokens, authTokens1)
+					r.OutputSplunkLb.IndexerDiscoveryConfigs.AuthTokens = append(r.OutputSplunkLb.IndexerDiscoveryConfigs.AuthTokens, authTokens)
 				} else {
-					r.OutputSplunkLb.IndexerDiscoveryConfigs.AuthTokens[authTokensCount].AuthType = authTokens1.AuthType
+					r.OutputSplunkLb.IndexerDiscoveryConfigs.AuthTokens[authTokensCount].AuthType = authTokens.AuthType
 				}
 			}
 			if resp.OutputSplunkLb.IndexerDiscoveryConfigs.AuthType != nil {
@@ -28861,31 +26893,15 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 				r.OutputSplunkLb.IndexerDiscoveryConfigs.AuthType = types.StringNull()
 			}
 			r.OutputSplunkLb.IndexerDiscoveryConfigs.MasterURI = types.StringValue(resp.OutputSplunkLb.IndexerDiscoveryConfigs.MasterURI)
-			if resp.OutputSplunkLb.IndexerDiscoveryConfigs.RefreshIntervalSec != nil {
-				r.OutputSplunkLb.IndexerDiscoveryConfigs.RefreshIntervalSec = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunkLb.IndexerDiscoveryConfigs.RefreshIntervalSec)))
-			} else {
-				r.OutputSplunkLb.IndexerDiscoveryConfigs.RefreshIntervalSec = types.NumberNull()
-			}
+			r.OutputSplunkLb.IndexerDiscoveryConfigs.RefreshIntervalSec = types.Float64PointerValue(resp.OutputSplunkLb.IndexerDiscoveryConfigs.RefreshIntervalSec)
 			r.OutputSplunkLb.IndexerDiscoveryConfigs.RejectUnauthorized = types.BoolPointerValue(resp.OutputSplunkLb.IndexerDiscoveryConfigs.RejectUnauthorized)
 			r.OutputSplunkLb.IndexerDiscoveryConfigs.Site = types.StringPointerValue(resp.OutputSplunkLb.IndexerDiscoveryConfigs.Site)
 			r.OutputSplunkLb.IndexerDiscoveryConfigs.TextSecret = types.StringPointerValue(resp.OutputSplunkLb.IndexerDiscoveryConfigs.TextSecret)
 		}
-		if resp.OutputSplunkLb.LoadBalanceStatsPeriodSec != nil {
-			r.OutputSplunkLb.LoadBalanceStatsPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunkLb.LoadBalanceStatsPeriodSec)))
-		} else {
-			r.OutputSplunkLb.LoadBalanceStatsPeriodSec = types.NumberNull()
-		}
+		r.OutputSplunkLb.LoadBalanceStatsPeriodSec = types.Float64PointerValue(resp.OutputSplunkLb.LoadBalanceStatsPeriodSec)
 		r.OutputSplunkLb.LogFailedRequests = types.BoolPointerValue(resp.OutputSplunkLb.LogFailedRequests)
-		if resp.OutputSplunkLb.MaxConcurrentSenders != nil {
-			r.OutputSplunkLb.MaxConcurrentSenders = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunkLb.MaxConcurrentSenders)))
-		} else {
-			r.OutputSplunkLb.MaxConcurrentSenders = types.NumberNull()
-		}
-		if resp.OutputSplunkLb.MaxFailedHealthChecks != nil {
-			r.OutputSplunkLb.MaxFailedHealthChecks = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunkLb.MaxFailedHealthChecks)))
-		} else {
-			r.OutputSplunkLb.MaxFailedHealthChecks = types.NumberNull()
-		}
+		r.OutputSplunkLb.MaxConcurrentSenders = types.Float64PointerValue(resp.OutputSplunkLb.MaxConcurrentSenders)
+		r.OutputSplunkLb.MaxFailedHealthChecks = types.Float64PointerValue(resp.OutputSplunkLb.MaxFailedHealthChecks)
 		if resp.OutputSplunkLb.MaxS2Sversion != nil {
 			r.OutputSplunkLb.MaxS2Sversion = types.StringValue(string(*resp.OutputSplunkLb.MaxS2Sversion))
 		} else {
@@ -28925,11 +26941,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSplunkLb.PqOnBackpressure = types.StringNull()
 		}
 		r.OutputSplunkLb.PqPath = types.StringPointerValue(resp.OutputSplunkLb.PqPath)
-		if resp.OutputSplunkLb.SenderUnhealthyTimeAllowance != nil {
-			r.OutputSplunkLb.SenderUnhealthyTimeAllowance = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunkLb.SenderUnhealthyTimeAllowance)))
-		} else {
-			r.OutputSplunkLb.SenderUnhealthyTimeAllowance = types.NumberNull()
-		}
+		r.OutputSplunkLb.SenderUnhealthyTimeAllowance = types.Float64PointerValue(resp.OutputSplunkLb.SenderUnhealthyTimeAllowance)
 		r.OutputSplunkLb.Streamtags = make([]types.String, 0, len(resp.OutputSplunkLb.Streamtags))
 		for _, v := range resp.OutputSplunkLb.Streamtags {
 			r.OutputSplunkLb.Streamtags = append(r.OutputSplunkLb.Streamtags, types.StringValue(v))
@@ -28964,11 +26976,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSplunkLb.TLS.Servername = types.StringPointerValue(resp.OutputSplunkLb.TLS.Servername)
 		}
 		r.OutputSplunkLb.Type = types.StringValue(string(resp.OutputSplunkLb.Type))
-		if resp.OutputSplunkLb.WriteTimeout != nil {
-			r.OutputSplunkLb.WriteTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputSplunkLb.WriteTimeout)))
-		} else {
-			r.OutputSplunkLb.WriteTimeout = types.NumberNull()
-		}
+		r.OutputSplunkLb.WriteTimeout = types.Float64PointerValue(resp.OutputSplunkLb.WriteTimeout)
 	}
 	if resp.OutputSqs != nil {
 		r.OutputSqs = &tfTypes.OutputSqs{}
@@ -28985,35 +26993,15 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputSqs.AwsSecretKey = types.StringPointerValue(resp.OutputSqs.AwsSecretKey)
 		r.OutputSqs.CreateQueue = types.BoolPointerValue(resp.OutputSqs.CreateQueue)
 		r.OutputSqs.Description = types.StringPointerValue(resp.OutputSqs.Description)
-		if resp.OutputSqs.DurationSeconds != nil {
-			r.OutputSqs.DurationSeconds = types.NumberValue(big.NewFloat(float64(*resp.OutputSqs.DurationSeconds)))
-		} else {
-			r.OutputSqs.DurationSeconds = types.NumberNull()
-		}
+		r.OutputSqs.DurationSeconds = types.Float64PointerValue(resp.OutputSqs.DurationSeconds)
 		r.OutputSqs.EnableAssumeRole = types.BoolPointerValue(resp.OutputSqs.EnableAssumeRole)
 		r.OutputSqs.Endpoint = types.StringPointerValue(resp.OutputSqs.Endpoint)
 		r.OutputSqs.Environment = types.StringPointerValue(resp.OutputSqs.Environment)
-		if resp.OutputSqs.FlushPeriodSec != nil {
-			r.OutputSqs.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputSqs.FlushPeriodSec)))
-		} else {
-			r.OutputSqs.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputSqs.FlushPeriodSec = types.Float64PointerValue(resp.OutputSqs.FlushPeriodSec)
 		r.OutputSqs.ID = types.StringPointerValue(resp.OutputSqs.ID)
-		if resp.OutputSqs.MaxInProgress != nil {
-			r.OutputSqs.MaxInProgress = types.NumberValue(big.NewFloat(float64(*resp.OutputSqs.MaxInProgress)))
-		} else {
-			r.OutputSqs.MaxInProgress = types.NumberNull()
-		}
-		if resp.OutputSqs.MaxQueueSize != nil {
-			r.OutputSqs.MaxQueueSize = types.NumberValue(big.NewFloat(float64(*resp.OutputSqs.MaxQueueSize)))
-		} else {
-			r.OutputSqs.MaxQueueSize = types.NumberNull()
-		}
-		if resp.OutputSqs.MaxRecordSizeKB != nil {
-			r.OutputSqs.MaxRecordSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputSqs.MaxRecordSizeKB)))
-		} else {
-			r.OutputSqs.MaxRecordSizeKB = types.NumberNull()
-		}
+		r.OutputSqs.MaxInProgress = types.Float64PointerValue(resp.OutputSqs.MaxInProgress)
+		r.OutputSqs.MaxQueueSize = types.Float64PointerValue(resp.OutputSqs.MaxQueueSize)
+		r.OutputSqs.MaxRecordSizeKB = types.Float64PointerValue(resp.OutputSqs.MaxRecordSizeKB)
 		r.OutputSqs.MessageGroupID = types.StringPointerValue(resp.OutputSqs.MessageGroupID)
 		if resp.OutputSqs.OnBackpressure != nil {
 			r.OutputSqs.OnBackpressure = types.StringValue(string(*resp.OutputSqs.OnBackpressure))
@@ -29074,41 +27062,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 	}
 	if resp.OutputStatsd != nil {
 		r.OutputStatsd = &tfTypes.OutputStatsd{}
-		if resp.OutputStatsd.ConnectionTimeout != nil {
-			r.OutputStatsd.ConnectionTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputStatsd.ConnectionTimeout)))
-		} else {
-			r.OutputStatsd.ConnectionTimeout = types.NumberNull()
-		}
+		r.OutputStatsd.ConnectionTimeout = types.Float64PointerValue(resp.OutputStatsd.ConnectionTimeout)
 		r.OutputStatsd.Description = types.StringPointerValue(resp.OutputStatsd.Description)
-		if resp.OutputStatsd.DNSResolvePeriodSec != nil {
-			r.OutputStatsd.DNSResolvePeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputStatsd.DNSResolvePeriodSec)))
-		} else {
-			r.OutputStatsd.DNSResolvePeriodSec = types.NumberNull()
-		}
+		r.OutputStatsd.DNSResolvePeriodSec = types.Float64PointerValue(resp.OutputStatsd.DNSResolvePeriodSec)
 		r.OutputStatsd.Environment = types.StringPointerValue(resp.OutputStatsd.Environment)
-		if resp.OutputStatsd.FlushPeriodSec != nil {
-			r.OutputStatsd.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputStatsd.FlushPeriodSec)))
-		} else {
-			r.OutputStatsd.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputStatsd.FlushPeriodSec = types.Float64PointerValue(resp.OutputStatsd.FlushPeriodSec)
 		r.OutputStatsd.Host = types.StringValue(resp.OutputStatsd.Host)
 		r.OutputStatsd.ID = types.StringPointerValue(resp.OutputStatsd.ID)
-		if resp.OutputStatsd.Mtu != nil {
-			r.OutputStatsd.Mtu = types.NumberValue(big.NewFloat(float64(*resp.OutputStatsd.Mtu)))
-		} else {
-			r.OutputStatsd.Mtu = types.NumberNull()
-		}
+		r.OutputStatsd.Mtu = types.Float64PointerValue(resp.OutputStatsd.Mtu)
 		if resp.OutputStatsd.OnBackpressure != nil {
 			r.OutputStatsd.OnBackpressure = types.StringValue(string(*resp.OutputStatsd.OnBackpressure))
 		} else {
 			r.OutputStatsd.OnBackpressure = types.StringNull()
 		}
 		r.OutputStatsd.Pipeline = types.StringPointerValue(resp.OutputStatsd.Pipeline)
-		if resp.OutputStatsd.Port != nil {
-			r.OutputStatsd.Port = types.NumberValue(big.NewFloat(float64(*resp.OutputStatsd.Port)))
-		} else {
-			r.OutputStatsd.Port = types.NumberNull()
-		}
+		r.OutputStatsd.Port = types.Float64PointerValue(resp.OutputStatsd.Port)
 		if resp.OutputStatsd.PqCompress != nil {
 			r.OutputStatsd.PqCompress = types.StringValue(string(*resp.OutputStatsd.PqCompress))
 		} else {
@@ -29151,49 +27119,25 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputStatsd.Type = types.StringNull()
 		}
-		if resp.OutputStatsd.WriteTimeout != nil {
-			r.OutputStatsd.WriteTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputStatsd.WriteTimeout)))
-		} else {
-			r.OutputStatsd.WriteTimeout = types.NumberNull()
-		}
+		r.OutputStatsd.WriteTimeout = types.Float64PointerValue(resp.OutputStatsd.WriteTimeout)
 	}
 	if resp.OutputStatsdExt != nil {
 		r.OutputStatsdExt = &tfTypes.OutputStatsdExt{}
-		if resp.OutputStatsdExt.ConnectionTimeout != nil {
-			r.OutputStatsdExt.ConnectionTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputStatsdExt.ConnectionTimeout)))
-		} else {
-			r.OutputStatsdExt.ConnectionTimeout = types.NumberNull()
-		}
+		r.OutputStatsdExt.ConnectionTimeout = types.Float64PointerValue(resp.OutputStatsdExt.ConnectionTimeout)
 		r.OutputStatsdExt.Description = types.StringPointerValue(resp.OutputStatsdExt.Description)
-		if resp.OutputStatsdExt.DNSResolvePeriodSec != nil {
-			r.OutputStatsdExt.DNSResolvePeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputStatsdExt.DNSResolvePeriodSec)))
-		} else {
-			r.OutputStatsdExt.DNSResolvePeriodSec = types.NumberNull()
-		}
+		r.OutputStatsdExt.DNSResolvePeriodSec = types.Float64PointerValue(resp.OutputStatsdExt.DNSResolvePeriodSec)
 		r.OutputStatsdExt.Environment = types.StringPointerValue(resp.OutputStatsdExt.Environment)
-		if resp.OutputStatsdExt.FlushPeriodSec != nil {
-			r.OutputStatsdExt.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputStatsdExt.FlushPeriodSec)))
-		} else {
-			r.OutputStatsdExt.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputStatsdExt.FlushPeriodSec = types.Float64PointerValue(resp.OutputStatsdExt.FlushPeriodSec)
 		r.OutputStatsdExt.Host = types.StringValue(resp.OutputStatsdExt.Host)
 		r.OutputStatsdExt.ID = types.StringPointerValue(resp.OutputStatsdExt.ID)
-		if resp.OutputStatsdExt.Mtu != nil {
-			r.OutputStatsdExt.Mtu = types.NumberValue(big.NewFloat(float64(*resp.OutputStatsdExt.Mtu)))
-		} else {
-			r.OutputStatsdExt.Mtu = types.NumberNull()
-		}
+		r.OutputStatsdExt.Mtu = types.Float64PointerValue(resp.OutputStatsdExt.Mtu)
 		if resp.OutputStatsdExt.OnBackpressure != nil {
 			r.OutputStatsdExt.OnBackpressure = types.StringValue(string(*resp.OutputStatsdExt.OnBackpressure))
 		} else {
 			r.OutputStatsdExt.OnBackpressure = types.StringNull()
 		}
 		r.OutputStatsdExt.Pipeline = types.StringPointerValue(resp.OutputStatsdExt.Pipeline)
-		if resp.OutputStatsdExt.Port != nil {
-			r.OutputStatsdExt.Port = types.NumberValue(big.NewFloat(float64(*resp.OutputStatsdExt.Port)))
-		} else {
-			r.OutputStatsdExt.Port = types.NumberNull()
-		}
+		r.OutputStatsdExt.Port = types.Float64PointerValue(resp.OutputStatsdExt.Port)
 		if resp.OutputStatsdExt.PqCompress != nil {
 			r.OutputStatsdExt.PqCompress = types.StringValue(string(*resp.OutputStatsdExt.PqCompress))
 		} else {
@@ -29236,20 +27180,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputStatsdExt.Type = types.StringNull()
 		}
-		if resp.OutputStatsdExt.WriteTimeout != nil {
-			r.OutputStatsdExt.WriteTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputStatsdExt.WriteTimeout)))
-		} else {
-			r.OutputStatsdExt.WriteTimeout = types.NumberNull()
-		}
+		r.OutputStatsdExt.WriteTimeout = types.Float64PointerValue(resp.OutputStatsdExt.WriteTimeout)
 	}
 	if resp.OutputSumoLogic != nil {
 		r.OutputSumoLogic = &tfTypes.OutputSumoLogic{}
 		r.OutputSumoLogic.Compress = types.BoolPointerValue(resp.OutputSumoLogic.Compress)
-		if resp.OutputSumoLogic.Concurrency != nil {
-			r.OutputSumoLogic.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputSumoLogic.Concurrency)))
-		} else {
-			r.OutputSumoLogic.Concurrency = types.NumberNull()
-		}
+		r.OutputSumoLogic.Concurrency = types.Float64PointerValue(resp.OutputSumoLogic.Concurrency)
 		r.OutputSumoLogic.CustomCategory = types.StringPointerValue(resp.OutputSumoLogic.CustomCategory)
 		r.OutputSumoLogic.CustomSource = types.StringPointerValue(resp.OutputSumoLogic.CustomSource)
 		r.OutputSumoLogic.Description = types.StringPointerValue(resp.OutputSumoLogic.Description)
@@ -29259,14 +27195,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSumoLogic.ExtraHTTPHeaders = r.OutputSumoLogic.ExtraHTTPHeaders[:len(resp.OutputSumoLogic.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount25, extraHTTPHeadersItem25 := range resp.OutputSumoLogic.ExtraHTTPHeaders {
-			var extraHTTPHeaders51 tfTypes.OutputSumoLogicExtraHTTPHeaders
-			extraHTTPHeaders51.Name = types.StringPointerValue(extraHTTPHeadersItem25.Name)
-			extraHTTPHeaders51.Value = types.StringValue(extraHTTPHeadersItem25.Value)
+			var extraHTTPHeaders25 tfTypes.OutputSumoLogicExtraHTTPHeaders
+			extraHTTPHeaders25.Name = types.StringPointerValue(extraHTTPHeadersItem25.Name)
+			extraHTTPHeaders25.Value = types.StringValue(extraHTTPHeadersItem25.Value)
 			if extraHTTPHeadersCount25+1 > len(r.OutputSumoLogic.ExtraHTTPHeaders) {
-				r.OutputSumoLogic.ExtraHTTPHeaders = append(r.OutputSumoLogic.ExtraHTTPHeaders, extraHTTPHeaders51)
+				r.OutputSumoLogic.ExtraHTTPHeaders = append(r.OutputSumoLogic.ExtraHTTPHeaders, extraHTTPHeaders25)
 			} else {
-				r.OutputSumoLogic.ExtraHTTPHeaders[extraHTTPHeadersCount25].Name = extraHTTPHeaders51.Name
-				r.OutputSumoLogic.ExtraHTTPHeaders[extraHTTPHeadersCount25].Value = extraHTTPHeaders51.Value
+				r.OutputSumoLogic.ExtraHTTPHeaders[extraHTTPHeadersCount25].Name = extraHTTPHeaders25.Name
+				r.OutputSumoLogic.ExtraHTTPHeaders[extraHTTPHeadersCount25].Value = extraHTTPHeaders25.Value
 			}
 		}
 		if resp.OutputSumoLogic.FailedRequestLoggingMode != nil {
@@ -29274,27 +27210,15 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputSumoLogic.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputSumoLogic.FlushPeriodSec != nil {
-			r.OutputSumoLogic.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputSumoLogic.FlushPeriodSec)))
-		} else {
-			r.OutputSumoLogic.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputSumoLogic.FlushPeriodSec = types.Float64PointerValue(resp.OutputSumoLogic.FlushPeriodSec)
 		if resp.OutputSumoLogic.Format != nil {
 			r.OutputSumoLogic.Format = types.StringValue(string(*resp.OutputSumoLogic.Format))
 		} else {
 			r.OutputSumoLogic.Format = types.StringNull()
 		}
 		r.OutputSumoLogic.ID = types.StringPointerValue(resp.OutputSumoLogic.ID)
-		if resp.OutputSumoLogic.MaxPayloadEvents != nil {
-			r.OutputSumoLogic.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputSumoLogic.MaxPayloadEvents)))
-		} else {
-			r.OutputSumoLogic.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputSumoLogic.MaxPayloadSizeKB != nil {
-			r.OutputSumoLogic.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputSumoLogic.MaxPayloadSizeKB)))
-		} else {
-			r.OutputSumoLogic.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputSumoLogic.MaxPayloadEvents = types.Float64PointerValue(resp.OutputSumoLogic.MaxPayloadEvents)
+		r.OutputSumoLogic.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputSumoLogic.MaxPayloadSizeKB)
 		if resp.OutputSumoLogic.OnBackpressure != nil {
 			r.OutputSumoLogic.OnBackpressure = types.StringValue(string(*resp.OutputSumoLogic.OnBackpressure))
 		} else {
@@ -29331,30 +27255,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSumoLogic.ResponseRetrySettings = r.OutputSumoLogic.ResponseRetrySettings[:len(resp.OutputSumoLogic.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount26, responseRetrySettingsItem26 := range resp.OutputSumoLogic.ResponseRetrySettings {
-			var responseRetrySettings53 tfTypes.OutputSumoLogicResponseRetrySettings
-			if responseRetrySettingsItem26.BackoffRate != nil {
-				responseRetrySettings53.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem26.BackoffRate)))
-			} else {
-				responseRetrySettings53.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings53.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem26.HTTPStatus)))
-			if responseRetrySettingsItem26.InitialBackoff != nil {
-				responseRetrySettings53.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem26.InitialBackoff)))
-			} else {
-				responseRetrySettings53.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem26.MaxBackoff != nil {
-				responseRetrySettings53.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem26.MaxBackoff)))
-			} else {
-				responseRetrySettings53.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings26 tfTypes.OutputSumoLogicResponseRetrySettings
+			responseRetrySettings26.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem26.BackoffRate)
+			responseRetrySettings26.HTTPStatus = types.Float64Value(responseRetrySettingsItem26.HTTPStatus)
+			responseRetrySettings26.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem26.InitialBackoff)
+			responseRetrySettings26.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem26.MaxBackoff)
 			if responseRetrySettingsCount26+1 > len(r.OutputSumoLogic.ResponseRetrySettings) {
-				r.OutputSumoLogic.ResponseRetrySettings = append(r.OutputSumoLogic.ResponseRetrySettings, responseRetrySettings53)
+				r.OutputSumoLogic.ResponseRetrySettings = append(r.OutputSumoLogic.ResponseRetrySettings, responseRetrySettings26)
 			} else {
-				r.OutputSumoLogic.ResponseRetrySettings[responseRetrySettingsCount26].BackoffRate = responseRetrySettings53.BackoffRate
-				r.OutputSumoLogic.ResponseRetrySettings[responseRetrySettingsCount26].HTTPStatus = responseRetrySettings53.HTTPStatus
-				r.OutputSumoLogic.ResponseRetrySettings[responseRetrySettingsCount26].InitialBackoff = responseRetrySettings53.InitialBackoff
-				r.OutputSumoLogic.ResponseRetrySettings[responseRetrySettingsCount26].MaxBackoff = responseRetrySettings53.MaxBackoff
+				r.OutputSumoLogic.ResponseRetrySettings[responseRetrySettingsCount26].BackoffRate = responseRetrySettings26.BackoffRate
+				r.OutputSumoLogic.ResponseRetrySettings[responseRetrySettingsCount26].HTTPStatus = responseRetrySettings26.HTTPStatus
+				r.OutputSumoLogic.ResponseRetrySettings[responseRetrySettingsCount26].InitialBackoff = responseRetrySettings26.InitialBackoff
+				r.OutputSumoLogic.ResponseRetrySettings[responseRetrySettingsCount26].MaxBackoff = responseRetrySettings26.MaxBackoff
 			}
 		}
 		r.OutputSumoLogic.SafeHeaders = make([]types.String, 0, len(resp.OutputSumoLogic.SafeHeaders))
@@ -29373,33 +27285,13 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSumoLogic.TimeoutRetrySettings = nil
 		} else {
 			r.OutputSumoLogic.TimeoutRetrySettings = &tfTypes.OutputSumoLogicTimeoutRetrySettings{}
-			if resp.OutputSumoLogic.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputSumoLogic.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputSumoLogic.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputSumoLogic.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputSumoLogic.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputSumoLogic.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputSumoLogic.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputSumoLogic.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputSumoLogic.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputSumoLogic.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputSumoLogic.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputSumoLogic.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputSumoLogic.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputSumoLogic.TimeoutRetrySettings.BackoffRate)
+			r.OutputSumoLogic.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputSumoLogic.TimeoutRetrySettings.InitialBackoff)
+			r.OutputSumoLogic.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputSumoLogic.TimeoutRetrySettings.MaxBackoff)
 			r.OutputSumoLogic.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputSumoLogic.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputSumoLogic.TimeoutSec != nil {
-			r.OutputSumoLogic.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputSumoLogic.TimeoutSec)))
-		} else {
-			r.OutputSumoLogic.TimeoutSec = types.NumberNull()
-		}
-		if resp.OutputSumoLogic.TotalMemoryLimitKB != nil {
-			r.OutputSumoLogic.TotalMemoryLimitKB = types.NumberValue(big.NewFloat(float64(*resp.OutputSumoLogic.TotalMemoryLimitKB)))
-		} else {
-			r.OutputSumoLogic.TotalMemoryLimitKB = types.NumberNull()
-		}
+		r.OutputSumoLogic.TimeoutSec = types.Float64PointerValue(resp.OutputSumoLogic.TimeoutSec)
+		r.OutputSumoLogic.TotalMemoryLimitKB = types.Float64PointerValue(resp.OutputSumoLogic.TotalMemoryLimitKB)
 		r.OutputSumoLogic.Type = types.StringValue(string(resp.OutputSumoLogic.Type))
 		r.OutputSumoLogic.URL = types.StringValue(resp.OutputSumoLogic.URL)
 		r.OutputSumoLogic.UseRoundRobinDNS = types.BoolPointerValue(resp.OutputSumoLogic.UseRoundRobinDNS)
@@ -29407,11 +27299,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 	if resp.OutputSyslog != nil {
 		r.OutputSyslog = &tfTypes.OutputSyslog{}
 		r.OutputSyslog.AppName = types.StringPointerValue(resp.OutputSyslog.AppName)
-		if resp.OutputSyslog.ConnectionTimeout != nil {
-			r.OutputSyslog.ConnectionTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputSyslog.ConnectionTimeout)))
-		} else {
-			r.OutputSyslog.ConnectionTimeout = types.NumberNull()
-		}
+		r.OutputSyslog.ConnectionTimeout = types.Float64PointerValue(resp.OutputSyslog.ConnectionTimeout)
 		r.OutputSyslog.Description = types.StringPointerValue(resp.OutputSyslog.Description)
 		r.OutputSyslog.Environment = types.StringPointerValue(resp.OutputSyslog.Environment)
 		if resp.OutputSyslog.Facility != nil {
@@ -29423,11 +27311,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputSyslog.ID = types.StringValue(resp.OutputSyslog.ID)
 		r.OutputSyslog.LoadBalanced = types.BoolPointerValue(resp.OutputSyslog.LoadBalanced)
 		r.OutputSyslog.LogFailedRequests = types.BoolPointerValue(resp.OutputSyslog.LogFailedRequests)
-		if resp.OutputSyslog.MaxRecordSize != nil {
-			r.OutputSyslog.MaxRecordSize = types.NumberValue(big.NewFloat(float64(*resp.OutputSyslog.MaxRecordSize)))
-		} else {
-			r.OutputSyslog.MaxRecordSize = types.NumberNull()
-		}
+		r.OutputSyslog.MaxRecordSize = types.Float64PointerValue(resp.OutputSyslog.MaxRecordSize)
 		if resp.OutputSyslog.MessageFormat != nil {
 			r.OutputSyslog.MessageFormat = types.StringValue(string(*resp.OutputSyslog.MessageFormat))
 		} else {
@@ -29440,11 +27324,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSyslog.OnBackpressure = types.StringNull()
 		}
 		r.OutputSyslog.Pipeline = types.StringPointerValue(resp.OutputSyslog.Pipeline)
-		if resp.OutputSyslog.Port != nil {
-			r.OutputSyslog.Port = types.NumberValue(big.NewFloat(float64(*resp.OutputSyslog.Port)))
-		} else {
-			r.OutputSyslog.Port = types.NumberNull()
-		}
+		r.OutputSyslog.Port = types.Float64PointerValue(resp.OutputSyslog.Port)
 		if resp.OutputSyslog.PqCompress != nil {
 			r.OutputSyslog.PqCompress = types.StringValue(string(*resp.OutputSyslog.PqCompress))
 		} else {
@@ -29516,16 +27396,8 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputSyslog.TLS.Servername = types.StringPointerValue(resp.OutputSyslog.TLS.Servername)
 		}
 		r.OutputSyslog.Type = types.StringValue(string(resp.OutputSyslog.Type))
-		if resp.OutputSyslog.UDPDNSResolvePeriodSec != nil {
-			r.OutputSyslog.UDPDNSResolvePeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputSyslog.UDPDNSResolvePeriodSec)))
-		} else {
-			r.OutputSyslog.UDPDNSResolvePeriodSec = types.NumberNull()
-		}
-		if resp.OutputSyslog.WriteTimeout != nil {
-			r.OutputSyslog.WriteTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputSyslog.WriteTimeout)))
-		} else {
-			r.OutputSyslog.WriteTimeout = types.NumberNull()
-		}
+		r.OutputSyslog.UDPDNSResolvePeriodSec = types.Float64PointerValue(resp.OutputSyslog.UDPDNSResolvePeriodSec)
+		r.OutputSyslog.WriteTimeout = types.Float64PointerValue(resp.OutputSyslog.WriteTimeout)
 	}
 	if resp.OutputTcpjson != nil {
 		r.OutputTcpjson = &tfTypes.OutputTcpjson{}
@@ -29540,17 +27412,9 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputTcpjson.Compression = types.StringNull()
 		}
-		if resp.OutputTcpjson.ConnectionTimeout != nil {
-			r.OutputTcpjson.ConnectionTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputTcpjson.ConnectionTimeout)))
-		} else {
-			r.OutputTcpjson.ConnectionTimeout = types.NumberNull()
-		}
+		r.OutputTcpjson.ConnectionTimeout = types.Float64PointerValue(resp.OutputTcpjson.ConnectionTimeout)
 		r.OutputTcpjson.Description = types.StringPointerValue(resp.OutputTcpjson.Description)
-		if resp.OutputTcpjson.DNSResolvePeriodSec != nil {
-			r.OutputTcpjson.DNSResolvePeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputTcpjson.DNSResolvePeriodSec)))
-		} else {
-			r.OutputTcpjson.DNSResolvePeriodSec = types.NumberNull()
-		}
+		r.OutputTcpjson.DNSResolvePeriodSec = types.Float64PointerValue(resp.OutputTcpjson.DNSResolvePeriodSec)
 		r.OutputTcpjson.Environment = types.StringPointerValue(resp.OutputTcpjson.Environment)
 		r.OutputTcpjson.ExcludeSelf = types.BoolPointerValue(resp.OutputTcpjson.ExcludeSelf)
 		r.OutputTcpjson.Host = types.StringPointerValue(resp.OutputTcpjson.Host)
@@ -29559,54 +27423,38 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputTcpjson.Hosts = r.OutputTcpjson.Hosts[:len(resp.OutputTcpjson.Hosts)]
 		}
 		for hostsCount4, hostsItem4 := range resp.OutputTcpjson.Hosts {
-			var hosts9 tfTypes.OutputTcpjsonHosts
-			hosts9.Host = types.StringValue(hostsItem4.Host)
-			hosts9.Port = types.NumberValue(big.NewFloat(float64(hostsItem4.Port)))
-			hosts9.Servername = types.StringPointerValue(hostsItem4.Servername)
+			var hosts4 tfTypes.OutputTcpjsonHosts
+			hosts4.Host = types.StringValue(hostsItem4.Host)
+			hosts4.Port = types.Float64Value(hostsItem4.Port)
+			hosts4.Servername = types.StringPointerValue(hostsItem4.Servername)
 			if hostsItem4.TLS != nil {
-				hosts9.TLS = types.StringValue(string(*hostsItem4.TLS))
+				hosts4.TLS = types.StringValue(string(*hostsItem4.TLS))
 			} else {
-				hosts9.TLS = types.StringNull()
+				hosts4.TLS = types.StringNull()
 			}
-			if hostsItem4.Weight != nil {
-				hosts9.Weight = types.NumberValue(big.NewFloat(float64(*hostsItem4.Weight)))
-			} else {
-				hosts9.Weight = types.NumberNull()
-			}
+			hosts4.Weight = types.Float64PointerValue(hostsItem4.Weight)
 			if hostsCount4+1 > len(r.OutputTcpjson.Hosts) {
-				r.OutputTcpjson.Hosts = append(r.OutputTcpjson.Hosts, hosts9)
+				r.OutputTcpjson.Hosts = append(r.OutputTcpjson.Hosts, hosts4)
 			} else {
-				r.OutputTcpjson.Hosts[hostsCount4].Host = hosts9.Host
-				r.OutputTcpjson.Hosts[hostsCount4].Port = hosts9.Port
-				r.OutputTcpjson.Hosts[hostsCount4].Servername = hosts9.Servername
-				r.OutputTcpjson.Hosts[hostsCount4].TLS = hosts9.TLS
-				r.OutputTcpjson.Hosts[hostsCount4].Weight = hosts9.Weight
+				r.OutputTcpjson.Hosts[hostsCount4].Host = hosts4.Host
+				r.OutputTcpjson.Hosts[hostsCount4].Port = hosts4.Port
+				r.OutputTcpjson.Hosts[hostsCount4].Servername = hosts4.Servername
+				r.OutputTcpjson.Hosts[hostsCount4].TLS = hosts4.TLS
+				r.OutputTcpjson.Hosts[hostsCount4].Weight = hosts4.Weight
 			}
 		}
 		r.OutputTcpjson.ID = types.StringValue(resp.OutputTcpjson.ID)
 		r.OutputTcpjson.LoadBalanced = types.BoolPointerValue(resp.OutputTcpjson.LoadBalanced)
-		if resp.OutputTcpjson.LoadBalanceStatsPeriodSec != nil {
-			r.OutputTcpjson.LoadBalanceStatsPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputTcpjson.LoadBalanceStatsPeriodSec)))
-		} else {
-			r.OutputTcpjson.LoadBalanceStatsPeriodSec = types.NumberNull()
-		}
+		r.OutputTcpjson.LoadBalanceStatsPeriodSec = types.Float64PointerValue(resp.OutputTcpjson.LoadBalanceStatsPeriodSec)
 		r.OutputTcpjson.LogFailedRequests = types.BoolPointerValue(resp.OutputTcpjson.LogFailedRequests)
-		if resp.OutputTcpjson.MaxConcurrentSenders != nil {
-			r.OutputTcpjson.MaxConcurrentSenders = types.NumberValue(big.NewFloat(float64(*resp.OutputTcpjson.MaxConcurrentSenders)))
-		} else {
-			r.OutputTcpjson.MaxConcurrentSenders = types.NumberNull()
-		}
+		r.OutputTcpjson.MaxConcurrentSenders = types.Float64PointerValue(resp.OutputTcpjson.MaxConcurrentSenders)
 		if resp.OutputTcpjson.OnBackpressure != nil {
 			r.OutputTcpjson.OnBackpressure = types.StringValue(string(*resp.OutputTcpjson.OnBackpressure))
 		} else {
 			r.OutputTcpjson.OnBackpressure = types.StringNull()
 		}
 		r.OutputTcpjson.Pipeline = types.StringPointerValue(resp.OutputTcpjson.Pipeline)
-		if resp.OutputTcpjson.Port != nil {
-			r.OutputTcpjson.Port = types.NumberValue(big.NewFloat(float64(*resp.OutputTcpjson.Port)))
-		} else {
-			r.OutputTcpjson.Port = types.NumberNull()
-		}
+		r.OutputTcpjson.Port = types.Float64PointerValue(resp.OutputTcpjson.Port)
 		if resp.OutputTcpjson.PqCompress != nil {
 			r.OutputTcpjson.PqCompress = types.StringValue(string(*resp.OutputTcpjson.PqCompress))
 		} else {
@@ -29664,17 +27512,9 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputTcpjson.TLS.RejectUnauthorized = types.BoolPointerValue(resp.OutputTcpjson.TLS.RejectUnauthorized)
 			r.OutputTcpjson.TLS.Servername = types.StringPointerValue(resp.OutputTcpjson.TLS.Servername)
 		}
-		if resp.OutputTcpjson.TokenTTLMinutes != nil {
-			r.OutputTcpjson.TokenTTLMinutes = types.NumberValue(big.NewFloat(float64(*resp.OutputTcpjson.TokenTTLMinutes)))
-		} else {
-			r.OutputTcpjson.TokenTTLMinutes = types.NumberNull()
-		}
+		r.OutputTcpjson.TokenTTLMinutes = types.Float64PointerValue(resp.OutputTcpjson.TokenTTLMinutes)
 		r.OutputTcpjson.Type = types.StringValue(string(resp.OutputTcpjson.Type))
-		if resp.OutputTcpjson.WriteTimeout != nil {
-			r.OutputTcpjson.WriteTimeout = types.NumberValue(big.NewFloat(float64(*resp.OutputTcpjson.WriteTimeout)))
-		} else {
-			r.OutputTcpjson.WriteTimeout = types.NumberNull()
-		}
+		r.OutputTcpjson.WriteTimeout = types.Float64PointerValue(resp.OutputTcpjson.WriteTimeout)
 	}
 	if resp.OutputWavefront != nil {
 		r.OutputWavefront = &tfTypes.OutputWavefront{}
@@ -29684,11 +27524,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputWavefront.AuthType = types.StringNull()
 		}
 		r.OutputWavefront.Compress = types.BoolPointerValue(resp.OutputWavefront.Compress)
-		if resp.OutputWavefront.Concurrency != nil {
-			r.OutputWavefront.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputWavefront.Concurrency)))
-		} else {
-			r.OutputWavefront.Concurrency = types.NumberNull()
-		}
+		r.OutputWavefront.Concurrency = types.Float64PointerValue(resp.OutputWavefront.Concurrency)
 		r.OutputWavefront.Description = types.StringPointerValue(resp.OutputWavefront.Description)
 		r.OutputWavefront.Domain = types.StringPointerValue(resp.OutputWavefront.Domain)
 		r.OutputWavefront.Environment = types.StringPointerValue(resp.OutputWavefront.Environment)
@@ -29697,14 +27533,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputWavefront.ExtraHTTPHeaders = r.OutputWavefront.ExtraHTTPHeaders[:len(resp.OutputWavefront.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount26, extraHTTPHeadersItem26 := range resp.OutputWavefront.ExtraHTTPHeaders {
-			var extraHTTPHeaders53 tfTypes.OutputWavefrontExtraHTTPHeaders
-			extraHTTPHeaders53.Name = types.StringPointerValue(extraHTTPHeadersItem26.Name)
-			extraHTTPHeaders53.Value = types.StringValue(extraHTTPHeadersItem26.Value)
+			var extraHTTPHeaders26 tfTypes.OutputWavefrontExtraHTTPHeaders
+			extraHTTPHeaders26.Name = types.StringPointerValue(extraHTTPHeadersItem26.Name)
+			extraHTTPHeaders26.Value = types.StringValue(extraHTTPHeadersItem26.Value)
 			if extraHTTPHeadersCount26+1 > len(r.OutputWavefront.ExtraHTTPHeaders) {
-				r.OutputWavefront.ExtraHTTPHeaders = append(r.OutputWavefront.ExtraHTTPHeaders, extraHTTPHeaders53)
+				r.OutputWavefront.ExtraHTTPHeaders = append(r.OutputWavefront.ExtraHTTPHeaders, extraHTTPHeaders26)
 			} else {
-				r.OutputWavefront.ExtraHTTPHeaders[extraHTTPHeadersCount26].Name = extraHTTPHeaders53.Name
-				r.OutputWavefront.ExtraHTTPHeaders[extraHTTPHeadersCount26].Value = extraHTTPHeaders53.Value
+				r.OutputWavefront.ExtraHTTPHeaders[extraHTTPHeadersCount26].Name = extraHTTPHeaders26.Name
+				r.OutputWavefront.ExtraHTTPHeaders[extraHTTPHeadersCount26].Value = extraHTTPHeaders26.Value
 			}
 		}
 		if resp.OutputWavefront.FailedRequestLoggingMode != nil {
@@ -29712,22 +27548,10 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputWavefront.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputWavefront.FlushPeriodSec != nil {
-			r.OutputWavefront.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputWavefront.FlushPeriodSec)))
-		} else {
-			r.OutputWavefront.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputWavefront.FlushPeriodSec = types.Float64PointerValue(resp.OutputWavefront.FlushPeriodSec)
 		r.OutputWavefront.ID = types.StringPointerValue(resp.OutputWavefront.ID)
-		if resp.OutputWavefront.MaxPayloadEvents != nil {
-			r.OutputWavefront.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputWavefront.MaxPayloadEvents)))
-		} else {
-			r.OutputWavefront.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputWavefront.MaxPayloadSizeKB != nil {
-			r.OutputWavefront.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputWavefront.MaxPayloadSizeKB)))
-		} else {
-			r.OutputWavefront.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputWavefront.MaxPayloadEvents = types.Float64PointerValue(resp.OutputWavefront.MaxPayloadEvents)
+		r.OutputWavefront.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputWavefront.MaxPayloadSizeKB)
 		if resp.OutputWavefront.OnBackpressure != nil {
 			r.OutputWavefront.OnBackpressure = types.StringValue(string(*resp.OutputWavefront.OnBackpressure))
 		} else {
@@ -29764,30 +27588,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputWavefront.ResponseRetrySettings = r.OutputWavefront.ResponseRetrySettings[:len(resp.OutputWavefront.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount27, responseRetrySettingsItem27 := range resp.OutputWavefront.ResponseRetrySettings {
-			var responseRetrySettings55 tfTypes.OutputWavefrontResponseRetrySettings
-			if responseRetrySettingsItem27.BackoffRate != nil {
-				responseRetrySettings55.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem27.BackoffRate)))
-			} else {
-				responseRetrySettings55.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings55.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem27.HTTPStatus)))
-			if responseRetrySettingsItem27.InitialBackoff != nil {
-				responseRetrySettings55.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem27.InitialBackoff)))
-			} else {
-				responseRetrySettings55.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem27.MaxBackoff != nil {
-				responseRetrySettings55.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem27.MaxBackoff)))
-			} else {
-				responseRetrySettings55.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings27 tfTypes.OutputWavefrontResponseRetrySettings
+			responseRetrySettings27.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem27.BackoffRate)
+			responseRetrySettings27.HTTPStatus = types.Float64Value(responseRetrySettingsItem27.HTTPStatus)
+			responseRetrySettings27.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem27.InitialBackoff)
+			responseRetrySettings27.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem27.MaxBackoff)
 			if responseRetrySettingsCount27+1 > len(r.OutputWavefront.ResponseRetrySettings) {
-				r.OutputWavefront.ResponseRetrySettings = append(r.OutputWavefront.ResponseRetrySettings, responseRetrySettings55)
+				r.OutputWavefront.ResponseRetrySettings = append(r.OutputWavefront.ResponseRetrySettings, responseRetrySettings27)
 			} else {
-				r.OutputWavefront.ResponseRetrySettings[responseRetrySettingsCount27].BackoffRate = responseRetrySettings55.BackoffRate
-				r.OutputWavefront.ResponseRetrySettings[responseRetrySettingsCount27].HTTPStatus = responseRetrySettings55.HTTPStatus
-				r.OutputWavefront.ResponseRetrySettings[responseRetrySettingsCount27].InitialBackoff = responseRetrySettings55.InitialBackoff
-				r.OutputWavefront.ResponseRetrySettings[responseRetrySettingsCount27].MaxBackoff = responseRetrySettings55.MaxBackoff
+				r.OutputWavefront.ResponseRetrySettings[responseRetrySettingsCount27].BackoffRate = responseRetrySettings27.BackoffRate
+				r.OutputWavefront.ResponseRetrySettings[responseRetrySettingsCount27].HTTPStatus = responseRetrySettings27.HTTPStatus
+				r.OutputWavefront.ResponseRetrySettings[responseRetrySettingsCount27].InitialBackoff = responseRetrySettings27.InitialBackoff
+				r.OutputWavefront.ResponseRetrySettings[responseRetrySettingsCount27].MaxBackoff = responseRetrySettings27.MaxBackoff
 			}
 		}
 		r.OutputWavefront.SafeHeaders = make([]types.String, 0, len(resp.OutputWavefront.SafeHeaders))
@@ -29807,28 +27619,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputWavefront.TimeoutRetrySettings = nil
 		} else {
 			r.OutputWavefront.TimeoutRetrySettings = &tfTypes.OutputWavefrontTimeoutRetrySettings{}
-			if resp.OutputWavefront.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputWavefront.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputWavefront.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputWavefront.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputWavefront.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputWavefront.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputWavefront.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputWavefront.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputWavefront.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputWavefront.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputWavefront.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputWavefront.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputWavefront.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputWavefront.TimeoutRetrySettings.BackoffRate)
+			r.OutputWavefront.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputWavefront.TimeoutRetrySettings.InitialBackoff)
+			r.OutputWavefront.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputWavefront.TimeoutRetrySettings.MaxBackoff)
 			r.OutputWavefront.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputWavefront.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputWavefront.TimeoutSec != nil {
-			r.OutputWavefront.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputWavefront.TimeoutSec)))
-		} else {
-			r.OutputWavefront.TimeoutSec = types.NumberNull()
-		}
+		r.OutputWavefront.TimeoutSec = types.Float64PointerValue(resp.OutputWavefront.TimeoutSec)
 		r.OutputWavefront.Token = types.StringPointerValue(resp.OutputWavefront.Token)
 		r.OutputWavefront.Type = types.StringValue(string(resp.OutputWavefront.Type))
 		r.OutputWavefront.UseRoundRobinDNS = types.BoolPointerValue(resp.OutputWavefront.UseRoundRobinDNS)
@@ -29843,11 +27639,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputWebhook.AuthType = types.StringNull()
 		}
 		r.OutputWebhook.Compress = types.BoolPointerValue(resp.OutputWebhook.Compress)
-		if resp.OutputWebhook.Concurrency != nil {
-			r.OutputWebhook.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputWebhook.Concurrency)))
-		} else {
-			r.OutputWebhook.Concurrency = types.NumberNull()
-		}
+		r.OutputWebhook.Concurrency = types.Float64PointerValue(resp.OutputWebhook.Concurrency)
 		r.OutputWebhook.CredentialsSecret = types.StringPointerValue(resp.OutputWebhook.CredentialsSecret)
 		r.OutputWebhook.CustomContentType = types.StringPointerValue(resp.OutputWebhook.CustomContentType)
 		r.OutputWebhook.CustomDropWhenNull = types.BoolPointerValue(resp.OutputWebhook.CustomDropWhenNull)
@@ -29855,11 +27647,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputWebhook.CustomPayloadExpression = types.StringPointerValue(resp.OutputWebhook.CustomPayloadExpression)
 		r.OutputWebhook.CustomSourceExpression = types.StringPointerValue(resp.OutputWebhook.CustomSourceExpression)
 		r.OutputWebhook.Description = types.StringPointerValue(resp.OutputWebhook.Description)
-		if resp.OutputWebhook.DNSResolvePeriodSec != nil {
-			r.OutputWebhook.DNSResolvePeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputWebhook.DNSResolvePeriodSec)))
-		} else {
-			r.OutputWebhook.DNSResolvePeriodSec = types.NumberNull()
-		}
+		r.OutputWebhook.DNSResolvePeriodSec = types.Float64PointerValue(resp.OutputWebhook.DNSResolvePeriodSec)
 		r.OutputWebhook.Environment = types.StringPointerValue(resp.OutputWebhook.Environment)
 		r.OutputWebhook.ExcludeSelf = types.BoolPointerValue(resp.OutputWebhook.ExcludeSelf)
 		r.OutputWebhook.ExtraHTTPHeaders = []tfTypes.OutputWebhookExtraHTTPHeaders{}
@@ -29867,14 +27655,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputWebhook.ExtraHTTPHeaders = r.OutputWebhook.ExtraHTTPHeaders[:len(resp.OutputWebhook.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount27, extraHTTPHeadersItem27 := range resp.OutputWebhook.ExtraHTTPHeaders {
-			var extraHTTPHeaders55 tfTypes.OutputWebhookExtraHTTPHeaders
-			extraHTTPHeaders55.Name = types.StringPointerValue(extraHTTPHeadersItem27.Name)
-			extraHTTPHeaders55.Value = types.StringValue(extraHTTPHeadersItem27.Value)
+			var extraHTTPHeaders27 tfTypes.OutputWebhookExtraHTTPHeaders
+			extraHTTPHeaders27.Name = types.StringPointerValue(extraHTTPHeadersItem27.Name)
+			extraHTTPHeaders27.Value = types.StringValue(extraHTTPHeadersItem27.Value)
 			if extraHTTPHeadersCount27+1 > len(r.OutputWebhook.ExtraHTTPHeaders) {
-				r.OutputWebhook.ExtraHTTPHeaders = append(r.OutputWebhook.ExtraHTTPHeaders, extraHTTPHeaders55)
+				r.OutputWebhook.ExtraHTTPHeaders = append(r.OutputWebhook.ExtraHTTPHeaders, extraHTTPHeaders27)
 			} else {
-				r.OutputWebhook.ExtraHTTPHeaders[extraHTTPHeadersCount27].Name = extraHTTPHeaders55.Name
-				r.OutputWebhook.ExtraHTTPHeaders[extraHTTPHeadersCount27].Value = extraHTTPHeaders55.Value
+				r.OutputWebhook.ExtraHTTPHeaders[extraHTTPHeadersCount27].Name = extraHTTPHeaders27.Name
+				r.OutputWebhook.ExtraHTTPHeaders[extraHTTPHeadersCount27].Value = extraHTTPHeaders27.Value
 			}
 		}
 		if resp.OutputWebhook.FailedRequestLoggingMode != nil {
@@ -29882,11 +27670,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputWebhook.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputWebhook.FlushPeriodSec != nil {
-			r.OutputWebhook.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputWebhook.FlushPeriodSec)))
-		} else {
-			r.OutputWebhook.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputWebhook.FlushPeriodSec = types.Float64PointerValue(resp.OutputWebhook.FlushPeriodSec)
 		if resp.OutputWebhook.Format != nil {
 			r.OutputWebhook.Format = types.StringValue(string(*resp.OutputWebhook.Format))
 		} else {
@@ -29897,22 +27681,10 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		r.OutputWebhook.ID = types.StringValue(resp.OutputWebhook.ID)
 		r.OutputWebhook.KeepAlive = types.BoolPointerValue(resp.OutputWebhook.KeepAlive)
 		r.OutputWebhook.LoadBalanced = types.BoolPointerValue(resp.OutputWebhook.LoadBalanced)
-		if resp.OutputWebhook.LoadBalanceStatsPeriodSec != nil {
-			r.OutputWebhook.LoadBalanceStatsPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputWebhook.LoadBalanceStatsPeriodSec)))
-		} else {
-			r.OutputWebhook.LoadBalanceStatsPeriodSec = types.NumberNull()
-		}
+		r.OutputWebhook.LoadBalanceStatsPeriodSec = types.Float64PointerValue(resp.OutputWebhook.LoadBalanceStatsPeriodSec)
 		r.OutputWebhook.LoginURL = types.StringPointerValue(resp.OutputWebhook.LoginURL)
-		if resp.OutputWebhook.MaxPayloadEvents != nil {
-			r.OutputWebhook.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputWebhook.MaxPayloadEvents)))
-		} else {
-			r.OutputWebhook.MaxPayloadEvents = types.NumberNull()
-		}
-		if resp.OutputWebhook.MaxPayloadSizeKB != nil {
-			r.OutputWebhook.MaxPayloadSizeKB = types.NumberValue(big.NewFloat(float64(*resp.OutputWebhook.MaxPayloadSizeKB)))
-		} else {
-			r.OutputWebhook.MaxPayloadSizeKB = types.NumberNull()
-		}
+		r.OutputWebhook.MaxPayloadEvents = types.Float64PointerValue(resp.OutputWebhook.MaxPayloadEvents)
+		r.OutputWebhook.MaxPayloadSizeKB = types.Float64PointerValue(resp.OutputWebhook.MaxPayloadSizeKB)
 		if resp.OutputWebhook.Method != nil {
 			r.OutputWebhook.Method = types.StringValue(string(*resp.OutputWebhook.Method))
 		} else {
@@ -29923,14 +27695,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputWebhook.OauthHeaders = r.OutputWebhook.OauthHeaders[:len(resp.OutputWebhook.OauthHeaders)]
 		}
 		for oauthHeadersCount4, oauthHeadersItem4 := range resp.OutputWebhook.OauthHeaders {
-			var oauthHeaders9 tfTypes.OutputWebhookOauthHeaders
-			oauthHeaders9.Name = types.StringValue(oauthHeadersItem4.Name)
-			oauthHeaders9.Value = types.StringValue(oauthHeadersItem4.Value)
+			var oauthHeaders4 tfTypes.OutputWebhookOauthHeaders
+			oauthHeaders4.Name = types.StringValue(oauthHeadersItem4.Name)
+			oauthHeaders4.Value = types.StringValue(oauthHeadersItem4.Value)
 			if oauthHeadersCount4+1 > len(r.OutputWebhook.OauthHeaders) {
-				r.OutputWebhook.OauthHeaders = append(r.OutputWebhook.OauthHeaders, oauthHeaders9)
+				r.OutputWebhook.OauthHeaders = append(r.OutputWebhook.OauthHeaders, oauthHeaders4)
 			} else {
-				r.OutputWebhook.OauthHeaders[oauthHeadersCount4].Name = oauthHeaders9.Name
-				r.OutputWebhook.OauthHeaders[oauthHeadersCount4].Value = oauthHeaders9.Value
+				r.OutputWebhook.OauthHeaders[oauthHeadersCount4].Name = oauthHeaders4.Name
+				r.OutputWebhook.OauthHeaders[oauthHeadersCount4].Value = oauthHeaders4.Value
 			}
 		}
 		r.OutputWebhook.OauthParams = []tfTypes.OutputWebhookOauthParams{}
@@ -29938,14 +27710,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputWebhook.OauthParams = r.OutputWebhook.OauthParams[:len(resp.OutputWebhook.OauthParams)]
 		}
 		for oauthParamsCount4, oauthParamsItem4 := range resp.OutputWebhook.OauthParams {
-			var oauthParams9 tfTypes.OutputWebhookOauthParams
-			oauthParams9.Name = types.StringValue(oauthParamsItem4.Name)
-			oauthParams9.Value = types.StringValue(oauthParamsItem4.Value)
+			var oauthParams4 tfTypes.OutputWebhookOauthParams
+			oauthParams4.Name = types.StringValue(oauthParamsItem4.Name)
+			oauthParams4.Value = types.StringValue(oauthParamsItem4.Value)
 			if oauthParamsCount4+1 > len(r.OutputWebhook.OauthParams) {
-				r.OutputWebhook.OauthParams = append(r.OutputWebhook.OauthParams, oauthParams9)
+				r.OutputWebhook.OauthParams = append(r.OutputWebhook.OauthParams, oauthParams4)
 			} else {
-				r.OutputWebhook.OauthParams[oauthParamsCount4].Name = oauthParams9.Name
-				r.OutputWebhook.OauthParams[oauthParamsCount4].Value = oauthParams9.Value
+				r.OutputWebhook.OauthParams[oauthParamsCount4].Name = oauthParams4.Name
+				r.OutputWebhook.OauthParams[oauthParamsCount4].Value = oauthParams4.Value
 			}
 		}
 		if resp.OutputWebhook.OnBackpressure != nil {
@@ -29985,30 +27757,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputWebhook.ResponseRetrySettings = r.OutputWebhook.ResponseRetrySettings[:len(resp.OutputWebhook.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount28, responseRetrySettingsItem28 := range resp.OutputWebhook.ResponseRetrySettings {
-			var responseRetrySettings57 tfTypes.ResponseRetrySettings
-			if responseRetrySettingsItem28.BackoffRate != nil {
-				responseRetrySettings57.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem28.BackoffRate)))
-			} else {
-				responseRetrySettings57.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings57.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem28.HTTPStatus)))
-			if responseRetrySettingsItem28.InitialBackoff != nil {
-				responseRetrySettings57.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem28.InitialBackoff)))
-			} else {
-				responseRetrySettings57.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem28.MaxBackoff != nil {
-				responseRetrySettings57.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem28.MaxBackoff)))
-			} else {
-				responseRetrySettings57.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings28 tfTypes.ResponseRetrySettings
+			responseRetrySettings28.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem28.BackoffRate)
+			responseRetrySettings28.HTTPStatus = types.Float64Value(responseRetrySettingsItem28.HTTPStatus)
+			responseRetrySettings28.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem28.InitialBackoff)
+			responseRetrySettings28.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem28.MaxBackoff)
 			if responseRetrySettingsCount28+1 > len(r.OutputWebhook.ResponseRetrySettings) {
-				r.OutputWebhook.ResponseRetrySettings = append(r.OutputWebhook.ResponseRetrySettings, responseRetrySettings57)
+				r.OutputWebhook.ResponseRetrySettings = append(r.OutputWebhook.ResponseRetrySettings, responseRetrySettings28)
 			} else {
-				r.OutputWebhook.ResponseRetrySettings[responseRetrySettingsCount28].BackoffRate = responseRetrySettings57.BackoffRate
-				r.OutputWebhook.ResponseRetrySettings[responseRetrySettingsCount28].HTTPStatus = responseRetrySettings57.HTTPStatus
-				r.OutputWebhook.ResponseRetrySettings[responseRetrySettingsCount28].InitialBackoff = responseRetrySettings57.InitialBackoff
-				r.OutputWebhook.ResponseRetrySettings[responseRetrySettingsCount28].MaxBackoff = responseRetrySettings57.MaxBackoff
+				r.OutputWebhook.ResponseRetrySettings[responseRetrySettingsCount28].BackoffRate = responseRetrySettings28.BackoffRate
+				r.OutputWebhook.ResponseRetrySettings[responseRetrySettingsCount28].HTTPStatus = responseRetrySettings28.HTTPStatus
+				r.OutputWebhook.ResponseRetrySettings[responseRetrySettingsCount28].InitialBackoff = responseRetrySettings28.InitialBackoff
+				r.OutputWebhook.ResponseRetrySettings[responseRetrySettingsCount28].MaxBackoff = responseRetrySettings28.MaxBackoff
 			}
 		}
 		r.OutputWebhook.SafeHeaders = make([]types.String, 0, len(resp.OutputWebhook.SafeHeaders))
@@ -30030,28 +27790,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputWebhook.TimeoutRetrySettings = nil
 		} else {
 			r.OutputWebhook.TimeoutRetrySettings = &tfTypes.TimeoutRetrySettings{}
-			if resp.OutputWebhook.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputWebhook.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputWebhook.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputWebhook.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputWebhook.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputWebhook.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputWebhook.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputWebhook.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputWebhook.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputWebhook.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputWebhook.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputWebhook.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputWebhook.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputWebhook.TimeoutRetrySettings.BackoffRate)
+			r.OutputWebhook.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputWebhook.TimeoutRetrySettings.InitialBackoff)
+			r.OutputWebhook.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputWebhook.TimeoutRetrySettings.MaxBackoff)
 			r.OutputWebhook.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputWebhook.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputWebhook.TimeoutSec != nil {
-			r.OutputWebhook.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputWebhook.TimeoutSec)))
-		} else {
-			r.OutputWebhook.TimeoutSec = types.NumberNull()
-		}
+		r.OutputWebhook.TimeoutSec = types.Float64PointerValue(resp.OutputWebhook.TimeoutSec)
 		if resp.OutputWebhook.TLS == nil {
 			r.OutputWebhook.TLS = nil
 		} else {
@@ -30076,16 +27820,8 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		}
 		r.OutputWebhook.Token = types.StringPointerValue(resp.OutputWebhook.Token)
 		r.OutputWebhook.TokenAttributeName = types.StringPointerValue(resp.OutputWebhook.TokenAttributeName)
-		if resp.OutputWebhook.TokenTimeoutSecs != nil {
-			r.OutputWebhook.TokenTimeoutSecs = types.NumberValue(big.NewFloat(float64(*resp.OutputWebhook.TokenTimeoutSecs)))
-		} else {
-			r.OutputWebhook.TokenTimeoutSecs = types.NumberNull()
-		}
-		if resp.OutputWebhook.TotalMemoryLimitKB != nil {
-			r.OutputWebhook.TotalMemoryLimitKB = types.NumberValue(big.NewFloat(float64(*resp.OutputWebhook.TotalMemoryLimitKB)))
-		} else {
-			r.OutputWebhook.TotalMemoryLimitKB = types.NumberNull()
-		}
+		r.OutputWebhook.TokenTimeoutSecs = types.Float64PointerValue(resp.OutputWebhook.TokenTimeoutSecs)
+		r.OutputWebhook.TotalMemoryLimitKB = types.Float64PointerValue(resp.OutputWebhook.TotalMemoryLimitKB)
 		r.OutputWebhook.Type = types.StringValue(string(resp.OutputWebhook.Type))
 		r.OutputWebhook.URL = types.StringPointerValue(resp.OutputWebhook.URL)
 		r.OutputWebhook.Urls = []tfTypes.Urls{}
@@ -30093,18 +27829,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputWebhook.Urls = r.OutputWebhook.Urls[:len(resp.OutputWebhook.Urls)]
 		}
 		for urlsCount3, urlsItem3 := range resp.OutputWebhook.Urls {
-			var urls7 tfTypes.Urls
-			urls7.URL = types.StringValue(urlsItem3.URL)
-			if urlsItem3.Weight != nil {
-				urls7.Weight = types.NumberValue(big.NewFloat(float64(*urlsItem3.Weight)))
-			} else {
-				urls7.Weight = types.NumberNull()
-			}
+			var urls3 tfTypes.Urls
+			urls3.URL = types.StringValue(urlsItem3.URL)
+			urls3.Weight = types.Float64PointerValue(urlsItem3.Weight)
 			if urlsCount3+1 > len(r.OutputWebhook.Urls) {
-				r.OutputWebhook.Urls = append(r.OutputWebhook.Urls, urls7)
+				r.OutputWebhook.Urls = append(r.OutputWebhook.Urls, urls3)
 			} else {
-				r.OutputWebhook.Urls[urlsCount3].URL = urls7.URL
-				r.OutputWebhook.Urls[urlsCount3].Weight = urls7.Weight
+				r.OutputWebhook.Urls[urlsCount3].URL = urls3.URL
+				r.OutputWebhook.Urls[urlsCount3].Weight = urls3.Weight
 			}
 		}
 		r.OutputWebhook.Username = types.StringPointerValue(resp.OutputWebhook.Username)
@@ -30118,17 +27850,9 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputXsiam.AuthType = types.StringNull()
 		}
 		r.OutputXsiam.Compress = types.BoolPointerValue(resp.OutputXsiam.Compress)
-		if resp.OutputXsiam.Concurrency != nil {
-			r.OutputXsiam.Concurrency = types.NumberValue(big.NewFloat(float64(*resp.OutputXsiam.Concurrency)))
-		} else {
-			r.OutputXsiam.Concurrency = types.NumberNull()
-		}
+		r.OutputXsiam.Concurrency = types.Float64PointerValue(resp.OutputXsiam.Concurrency)
 		r.OutputXsiam.Description = types.StringPointerValue(resp.OutputXsiam.Description)
-		if resp.OutputXsiam.DNSResolvePeriodSec != nil {
-			r.OutputXsiam.DNSResolvePeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputXsiam.DNSResolvePeriodSec)))
-		} else {
-			r.OutputXsiam.DNSResolvePeriodSec = types.NumberNull()
-		}
+		r.OutputXsiam.DNSResolvePeriodSec = types.Float64PointerValue(resp.OutputXsiam.DNSResolvePeriodSec)
 		r.OutputXsiam.Environment = types.StringPointerValue(resp.OutputXsiam.Environment)
 		r.OutputXsiam.ExcludeSelf = types.BoolPointerValue(resp.OutputXsiam.ExcludeSelf)
 		r.OutputXsiam.ExtraHTTPHeaders = []tfTypes.OutputXsiamExtraHTTPHeaders{}
@@ -30136,14 +27860,14 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputXsiam.ExtraHTTPHeaders = r.OutputXsiam.ExtraHTTPHeaders[:len(resp.OutputXsiam.ExtraHTTPHeaders)]
 		}
 		for extraHTTPHeadersCount28, extraHTTPHeadersItem28 := range resp.OutputXsiam.ExtraHTTPHeaders {
-			var extraHTTPHeaders57 tfTypes.OutputXsiamExtraHTTPHeaders
-			extraHTTPHeaders57.Name = types.StringPointerValue(extraHTTPHeadersItem28.Name)
-			extraHTTPHeaders57.Value = types.StringValue(extraHTTPHeadersItem28.Value)
+			var extraHTTPHeaders28 tfTypes.OutputXsiamExtraHTTPHeaders
+			extraHTTPHeaders28.Name = types.StringPointerValue(extraHTTPHeadersItem28.Name)
+			extraHTTPHeaders28.Value = types.StringValue(extraHTTPHeadersItem28.Value)
 			if extraHTTPHeadersCount28+1 > len(r.OutputXsiam.ExtraHTTPHeaders) {
-				r.OutputXsiam.ExtraHTTPHeaders = append(r.OutputXsiam.ExtraHTTPHeaders, extraHTTPHeaders57)
+				r.OutputXsiam.ExtraHTTPHeaders = append(r.OutputXsiam.ExtraHTTPHeaders, extraHTTPHeaders28)
 			} else {
-				r.OutputXsiam.ExtraHTTPHeaders[extraHTTPHeadersCount28].Name = extraHTTPHeaders57.Name
-				r.OutputXsiam.ExtraHTTPHeaders[extraHTTPHeadersCount28].Value = extraHTTPHeaders57.Value
+				r.OutputXsiam.ExtraHTTPHeaders[extraHTTPHeadersCount28].Name = extraHTTPHeaders28.Name
+				r.OutputXsiam.ExtraHTTPHeaders[extraHTTPHeadersCount28].Value = extraHTTPHeaders28.Value
 			}
 		}
 		if resp.OutputXsiam.FailedRequestLoggingMode != nil {
@@ -30151,23 +27875,11 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 		} else {
 			r.OutputXsiam.FailedRequestLoggingMode = types.StringNull()
 		}
-		if resp.OutputXsiam.FlushPeriodSec != nil {
-			r.OutputXsiam.FlushPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputXsiam.FlushPeriodSec)))
-		} else {
-			r.OutputXsiam.FlushPeriodSec = types.NumberNull()
-		}
+		r.OutputXsiam.FlushPeriodSec = types.Float64PointerValue(resp.OutputXsiam.FlushPeriodSec)
 		r.OutputXsiam.ID = types.StringValue(resp.OutputXsiam.ID)
 		r.OutputXsiam.LoadBalanced = types.BoolPointerValue(resp.OutputXsiam.LoadBalanced)
-		if resp.OutputXsiam.LoadBalanceStatsPeriodSec != nil {
-			r.OutputXsiam.LoadBalanceStatsPeriodSec = types.NumberValue(big.NewFloat(float64(*resp.OutputXsiam.LoadBalanceStatsPeriodSec)))
-		} else {
-			r.OutputXsiam.LoadBalanceStatsPeriodSec = types.NumberNull()
-		}
-		if resp.OutputXsiam.MaxPayloadEvents != nil {
-			r.OutputXsiam.MaxPayloadEvents = types.NumberValue(big.NewFloat(float64(*resp.OutputXsiam.MaxPayloadEvents)))
-		} else {
-			r.OutputXsiam.MaxPayloadEvents = types.NumberNull()
-		}
+		r.OutputXsiam.LoadBalanceStatsPeriodSec = types.Float64PointerValue(resp.OutputXsiam.LoadBalanceStatsPeriodSec)
+		r.OutputXsiam.MaxPayloadEvents = types.Float64PointerValue(resp.OutputXsiam.MaxPayloadEvents)
 		if resp.OutputXsiam.OnBackpressure != nil {
 			r.OutputXsiam.OnBackpressure = types.StringValue(string(*resp.OutputXsiam.OnBackpressure))
 		} else {
@@ -30204,30 +27916,18 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputXsiam.ResponseRetrySettings = r.OutputXsiam.ResponseRetrySettings[:len(resp.OutputXsiam.ResponseRetrySettings)]
 		}
 		for responseRetrySettingsCount29, responseRetrySettingsItem29 := range resp.OutputXsiam.ResponseRetrySettings {
-			var responseRetrySettings59 tfTypes.OutputXsiamResponseRetrySettings
-			if responseRetrySettingsItem29.BackoffRate != nil {
-				responseRetrySettings59.BackoffRate = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem29.BackoffRate)))
-			} else {
-				responseRetrySettings59.BackoffRate = types.NumberNull()
-			}
-			responseRetrySettings59.HTTPStatus = types.NumberValue(big.NewFloat(float64(responseRetrySettingsItem29.HTTPStatus)))
-			if responseRetrySettingsItem29.InitialBackoff != nil {
-				responseRetrySettings59.InitialBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem29.InitialBackoff)))
-			} else {
-				responseRetrySettings59.InitialBackoff = types.NumberNull()
-			}
-			if responseRetrySettingsItem29.MaxBackoff != nil {
-				responseRetrySettings59.MaxBackoff = types.NumberValue(big.NewFloat(float64(*responseRetrySettingsItem29.MaxBackoff)))
-			} else {
-				responseRetrySettings59.MaxBackoff = types.NumberNull()
-			}
+			var responseRetrySettings29 tfTypes.OutputXsiamResponseRetrySettings
+			responseRetrySettings29.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem29.BackoffRate)
+			responseRetrySettings29.HTTPStatus = types.Float64Value(responseRetrySettingsItem29.HTTPStatus)
+			responseRetrySettings29.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem29.InitialBackoff)
+			responseRetrySettings29.MaxBackoff = types.Float64PointerValue(responseRetrySettingsItem29.MaxBackoff)
 			if responseRetrySettingsCount29+1 > len(r.OutputXsiam.ResponseRetrySettings) {
-				r.OutputXsiam.ResponseRetrySettings = append(r.OutputXsiam.ResponseRetrySettings, responseRetrySettings59)
+				r.OutputXsiam.ResponseRetrySettings = append(r.OutputXsiam.ResponseRetrySettings, responseRetrySettings29)
 			} else {
-				r.OutputXsiam.ResponseRetrySettings[responseRetrySettingsCount29].BackoffRate = responseRetrySettings59.BackoffRate
-				r.OutputXsiam.ResponseRetrySettings[responseRetrySettingsCount29].HTTPStatus = responseRetrySettings59.HTTPStatus
-				r.OutputXsiam.ResponseRetrySettings[responseRetrySettingsCount29].InitialBackoff = responseRetrySettings59.InitialBackoff
-				r.OutputXsiam.ResponseRetrySettings[responseRetrySettingsCount29].MaxBackoff = responseRetrySettings59.MaxBackoff
+				r.OutputXsiam.ResponseRetrySettings[responseRetrySettingsCount29].BackoffRate = responseRetrySettings29.BackoffRate
+				r.OutputXsiam.ResponseRetrySettings[responseRetrySettingsCount29].HTTPStatus = responseRetrySettings29.HTTPStatus
+				r.OutputXsiam.ResponseRetrySettings[responseRetrySettingsCount29].InitialBackoff = responseRetrySettings29.InitialBackoff
+				r.OutputXsiam.ResponseRetrySettings[responseRetrySettingsCount29].MaxBackoff = responseRetrySettings29.MaxBackoff
 			}
 		}
 		r.OutputXsiam.SafeHeaders = make([]types.String, 0, len(resp.OutputXsiam.SafeHeaders))
@@ -30248,28 +27948,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputXsiam.TimeoutRetrySettings = nil
 		} else {
 			r.OutputXsiam.TimeoutRetrySettings = &tfTypes.OutputXsiamTimeoutRetrySettings{}
-			if resp.OutputXsiam.TimeoutRetrySettings.BackoffRate != nil {
-				r.OutputXsiam.TimeoutRetrySettings.BackoffRate = types.NumberValue(big.NewFloat(float64(*resp.OutputXsiam.TimeoutRetrySettings.BackoffRate)))
-			} else {
-				r.OutputXsiam.TimeoutRetrySettings.BackoffRate = types.NumberNull()
-			}
-			if resp.OutputXsiam.TimeoutRetrySettings.InitialBackoff != nil {
-				r.OutputXsiam.TimeoutRetrySettings.InitialBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputXsiam.TimeoutRetrySettings.InitialBackoff)))
-			} else {
-				r.OutputXsiam.TimeoutRetrySettings.InitialBackoff = types.NumberNull()
-			}
-			if resp.OutputXsiam.TimeoutRetrySettings.MaxBackoff != nil {
-				r.OutputXsiam.TimeoutRetrySettings.MaxBackoff = types.NumberValue(big.NewFloat(float64(*resp.OutputXsiam.TimeoutRetrySettings.MaxBackoff)))
-			} else {
-				r.OutputXsiam.TimeoutRetrySettings.MaxBackoff = types.NumberNull()
-			}
+			r.OutputXsiam.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputXsiam.TimeoutRetrySettings.BackoffRate)
+			r.OutputXsiam.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputXsiam.TimeoutRetrySettings.InitialBackoff)
+			r.OutputXsiam.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputXsiam.TimeoutRetrySettings.MaxBackoff)
 			r.OutputXsiam.TimeoutRetrySettings.TimeoutRetry = types.BoolPointerValue(resp.OutputXsiam.TimeoutRetrySettings.TimeoutRetry)
 		}
-		if resp.OutputXsiam.TimeoutSec != nil {
-			r.OutputXsiam.TimeoutSec = types.NumberValue(big.NewFloat(float64(*resp.OutputXsiam.TimeoutSec)))
-		} else {
-			r.OutputXsiam.TimeoutSec = types.NumberNull()
-		}
+		r.OutputXsiam.TimeoutSec = types.Float64PointerValue(resp.OutputXsiam.TimeoutSec)
 		r.OutputXsiam.Token = types.StringPointerValue(resp.OutputXsiam.Token)
 		r.OutputXsiam.Type = types.StringValue(string(resp.OutputXsiam.Type))
 		r.OutputXsiam.URL = types.StringPointerValue(resp.OutputXsiam.URL)
@@ -30278,21 +27962,19 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(resp *shared.Output) 
 			r.OutputXsiam.Urls = r.OutputXsiam.Urls[:len(resp.OutputXsiam.Urls)]
 		}
 		for urlsCount4, urlsItem4 := range resp.OutputXsiam.Urls {
-			var urls9 tfTypes.OutputXsiamUrls
+			var urls4 tfTypes.OutputXsiamUrls
 			urlResult, _ := json.Marshal(urlsItem4.URL)
-			urls9.URL = types.StringValue(string(urlResult))
-			if urlsItem4.Weight != nil {
-				urls9.Weight = types.NumberValue(big.NewFloat(float64(*urlsItem4.Weight)))
-			} else {
-				urls9.Weight = types.NumberNull()
-			}
+			urls4.URL = types.StringValue(string(urlResult))
+			urls4.Weight = types.Float64PointerValue(urlsItem4.Weight)
 			if urlsCount4+1 > len(r.OutputXsiam.Urls) {
-				r.OutputXsiam.Urls = append(r.OutputXsiam.Urls, urls9)
+				r.OutputXsiam.Urls = append(r.OutputXsiam.Urls, urls4)
 			} else {
-				r.OutputXsiam.Urls[urlsCount4].URL = urls9.URL
-				r.OutputXsiam.Urls[urlsCount4].Weight = urls9.Weight
+				r.OutputXsiam.Urls[urlsCount4].URL = urls4.URL
+				r.OutputXsiam.Urls[urlsCount4].Weight = urls4.Weight
 			}
 		}
 		r.OutputXsiam.UseRoundRobinDNS = types.BoolPointerValue(resp.OutputXsiam.UseRoundRobinDNS)
 	}
+
+	return diags
 }

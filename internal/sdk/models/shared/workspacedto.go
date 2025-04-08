@@ -9,28 +9,28 @@ import (
 	"time"
 )
 
-type WorkspaceDTOState string
+type State string
 
 const (
-	WorkspaceDTOStateWorkspaceRequested                 WorkspaceDTOState = "Workspace-Requested"
-	WorkspaceDTOStateWorkspaceProvisioning              WorkspaceDTOState = "Workspace-Provisioning"
-	WorkspaceDTOStateWorkspaceProvisioningFailed        WorkspaceDTOState = "Workspace-Provisioning-Failed"
-	WorkspaceDTOStateWorkspaceProvisioned               WorkspaceDTOState = "Workspace-Provisioned"
-	WorkspaceDTOStateWorkspaceActive                    WorkspaceDTOState = "Workspace-Active"
-	WorkspaceDTOStateWorkspaceUpdated                   WorkspaceDTOState = "Workspace-Updated"
-	WorkspaceDTOStateWorkspaceFailedUpdate              WorkspaceDTOState = "Workspace-Failed-Update"
-	WorkspaceDTOStateWorkspaceCleanupRequested          WorkspaceDTOState = "Workspace-Cleanup-Requested"
-	WorkspaceDTOStateWorkspaceCleanupStarted            WorkspaceDTOState = "Workspace-Cleanup-Started"
-	WorkspaceDTOStateWorkspaceCleanupTerraformCompleted WorkspaceDTOState = "Workspace-Cleanup-Terraform-Completed"
-	WorkspaceDTOStateWorkspaceCleanupTerraformFailed    WorkspaceDTOState = "Workspace-Cleanup-Terraform-Failed"
-	WorkspaceDTOStateWorkspaceCleanupCompleted          WorkspaceDTOState = "Workspace-Cleanup-Completed"
-	WorkspaceDTOStateWorkspaceCleanupFailed             WorkspaceDTOState = "Workspace-Cleanup-Failed"
+	StateWorkspaceRequested                 State = "Workspace-Requested"
+	StateWorkspaceProvisioning              State = "Workspace-Provisioning"
+	StateWorkspaceProvisioningFailed        State = "Workspace-Provisioning-Failed"
+	StateWorkspaceProvisioned               State = "Workspace-Provisioned"
+	StateWorkspaceActive                    State = "Workspace-Active"
+	StateWorkspaceUpdated                   State = "Workspace-Updated"
+	StateWorkspaceFailedUpdate              State = "Workspace-Failed-Update"
+	StateWorkspaceCleanupRequested          State = "Workspace-Cleanup-Requested"
+	StateWorkspaceCleanupStarted            State = "Workspace-Cleanup-Started"
+	StateWorkspaceCleanupTerraformCompleted State = "Workspace-Cleanup-Terraform-Completed"
+	StateWorkspaceCleanupTerraformFailed    State = "Workspace-Cleanup-Terraform-Failed"
+	StateWorkspaceCleanupCompleted          State = "Workspace-Cleanup-Completed"
+	StateWorkspaceCleanupFailed             State = "Workspace-Cleanup-Failed"
 )
 
-func (e WorkspaceDTOState) ToPointer() *WorkspaceDTOState {
+func (e State) ToPointer() *State {
 	return &e
 }
-func (e *WorkspaceDTOState) UnmarshalJSON(data []byte) error {
+func (e *State) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -61,22 +61,22 @@ func (e *WorkspaceDTOState) UnmarshalJSON(data []byte) error {
 	case "Workspace-Cleanup-Completed":
 		fallthrough
 	case "Workspace-Cleanup-Failed":
-		*e = WorkspaceDTOState(v)
+		*e = State(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for WorkspaceDTOState: %v", v)
+		return fmt.Errorf("invalid value for State: %v", v)
 	}
 }
 
 type WorkspaceDTO struct {
-	Alias       *string           `json:"alias,omitempty"`
-	Description *string           `json:"description,omitempty"`
-	Tags        []string          `json:"tags,omitempty"`
-	WorkspaceID string            `json:"workspaceId"`
-	Region      string            `json:"region"`
-	LastUpdated time.Time         `json:"lastUpdated"`
-	LeaderFQDN  string            `json:"leaderFQDN"`
-	State       WorkspaceDTOState `json:"state"`
+	Alias       *string   `json:"alias,omitempty"`
+	Description *string   `json:"description,omitempty"`
+	Tags        []string  `json:"tags,omitempty"`
+	WorkspaceID string    `json:"workspaceId"`
+	Region      string    `json:"region"`
+	LastUpdated time.Time `json:"lastUpdated"`
+	LeaderFQDN  string    `json:"leaderFQDN"`
+	State       State     `json:"state"`
 }
 
 func (w WorkspaceDTO) MarshalJSON() ([]byte, error) {
@@ -139,9 +139,9 @@ func (o *WorkspaceDTO) GetLeaderFQDN() string {
 	return o.LeaderFQDN
 }
 
-func (o *WorkspaceDTO) GetState() WorkspaceDTOState {
+func (o *WorkspaceDTO) GetState() State {
 	if o == nil {
-		return WorkspaceDTOState("")
+		return State("")
 	}
 	return o.State
 }

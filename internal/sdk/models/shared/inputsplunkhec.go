@@ -50,7 +50,7 @@ func (o *InputSplunkHecConnections) GetOutput() string {
 	return o.Output
 }
 
-// InputSplunkHecMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+// InputSplunkHecMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 type InputSplunkHecMode string
 
 const (
@@ -105,7 +105,7 @@ func (e *InputSplunkHecCompression) UnmarshalJSON(data []byte) error {
 }
 
 type InputSplunkHecPq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 	Mode *InputSplunkHecMode `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
@@ -529,7 +529,7 @@ type InputSplunkHec struct {
 	MaxRequestsPerSocket *int64 `default:"0" json:"maxRequestsPerSocket"`
 	// Enable when clients are connecting through a proxy that supports the x-forwarded-for header to keep the client's original IP address on the event instead of the proxy's IP address
 	EnableProxyHeader *bool `default:"false" json:"enableProxyHeader"`
-	// Toggle this to Yes to add request headers to events, in the __headers field.
+	// Add request headers to events, in the __headers field
 	CaptureHeaders *bool `default:"false" json:"captureHeaders"`
 	// How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc.
 	ActivityLogSampleRate *float64 `default:"100" json:"activityLogSampleRate"`
@@ -540,7 +540,7 @@ type InputSplunkHec struct {
 	// After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 sec.; maximum 600 sec. (10 min.).
 	KeepAliveTimeout  *float64 `default:"5" json:"keepAliveTimeout"`
 	EnableHealthCheck any      `json:"enableHealthCheck,omitempty"`
-	// Messages from matched IP addresses will be processed, unless also matched by the denylist.
+	// Messages from matched IP addresses will be processed, unless also matched by the denylist
 	IPAllowlistRegex *string `default:"/.*/" json:"ipAllowlistRegex"`
 	// Messages from matched IP addresses will be ignored. This takes precedence over the allowlist.
 	IPDenylistRegex *string `default:"/^\\$/" json:"ipDenylistRegex"`
@@ -550,7 +550,7 @@ type InputSplunkHec struct {
 	Metadata []InputSplunkHecMetadata `json:"metadata,omitempty"`
 	// List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level.
 	AllowedIndexes []string `json:"allowedIndexes,omitempty"`
-	// Whether to enable Splunk HEC acknowledgements
+	// Enable Splunk HEC acknowledgements
 	SplunkHecAcks *bool `default:"false" json:"splunkHecAcks"`
 	// A list of event-breaking rulesets that will be applied, in order, to the input data stream
 	BreakerRulesets []string `json:"breakerRulesets,omitempty"`
@@ -566,7 +566,7 @@ type InputSplunkHec struct {
 	AccessControlAllowOrigin []string `json:"accessControlAllowOrigin,omitempty"`
 	// Optionally, list HTTP headers that @{product} will send to allowed origins as "Access-Control-Allow-Headers" in a CORS preflight response. Use "*" to allow all headers.
 	AccessControlAllowHeaders []string `json:"accessControlAllowHeaders,omitempty"`
-	// Enable to emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics
+	// Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics
 	EmitTokenMetrics *bool   `default:"false" json:"emitTokenMetrics"`
 	Description      *string `json:"description,omitempty"`
 }

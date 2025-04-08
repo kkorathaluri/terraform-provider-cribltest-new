@@ -51,7 +51,7 @@ func (o *InputGrafana2Connections) GetOutput() string {
 	return o.Output
 }
 
-// InputGrafana2Mode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+// InputGrafana2Mode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 type InputGrafana2Mode string
 
 const (
@@ -106,7 +106,7 @@ func (e *InputGrafana2Compression) UnmarshalJSON(data []byte) error {
 }
 
 type InputGrafana2Pq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 	Mode *InputGrafana2Mode `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
@@ -442,10 +442,8 @@ func (o *InputGrafana2OauthHeaders) GetValue() string {
 type InputGrafanaPrometheusAuth struct {
 	// Remote Write authentication type
 	AuthType *InputGrafana2AuthenticationType `default:"none" json:"authType"`
-	// Username for Basic authentication
-	Username *string `json:"username,omitempty"`
-	// Password for Basic authentication
-	Password *string `json:"password,omitempty"`
+	Username *string                          `json:"username,omitempty"`
+	Password *string                          `json:"password,omitempty"`
 	// Bearer token to include in the authorization header
 	Token *string `json:"token,omitempty"`
 	// Select or create a secret that references your credentials
@@ -663,10 +661,8 @@ func (o *InputGrafana2LokiAuthOauthHeaders) GetValue() string {
 type InputGrafanaLokiAuth struct {
 	// Loki logs authentication type
 	AuthType *InputGrafana2LokiAuthAuthenticationType `default:"none" json:"authType"`
-	// Username for Basic authentication
-	Username *string `json:"username,omitempty"`
-	// Password for Basic authentication
-	Password *string `json:"password,omitempty"`
+	Username *string                                  `json:"username,omitempty"`
+	Password *string                                  `json:"password,omitempty"`
 	// Bearer token to include in the authorization header
 	Token *string `json:"token,omitempty"`
 	// Select or create a secret that references your credentials
@@ -849,7 +845,7 @@ type InputGrafana2 struct {
 	MaxRequestsPerSocket *int64 `default:"0" json:"maxRequestsPerSocket"`
 	// Enable when clients are connecting through a proxy that supports the x-forwarded-for header to keep the client's original IP address on the event instead of the proxy's IP address
 	EnableProxyHeader *bool `default:"false" json:"enableProxyHeader"`
-	// Toggle this to Yes to add request headers to events, in the __headers field.
+	// Add request headers to events, in the __headers field
 	CaptureHeaders *bool `default:"false" json:"captureHeaders"`
 	// How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc.
 	ActivityLogSampleRate *float64 `default:"100" json:"activityLogSampleRate"`
@@ -861,7 +857,7 @@ type InputGrafana2 struct {
 	KeepAliveTimeout *float64 `default:"5" json:"keepAliveTimeout"`
 	// Enable to expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy
 	EnableHealthCheck *bool `default:"false" json:"enableHealthCheck"`
-	// Messages from matched IP addresses will be processed, unless also matched by the denylist.
+	// Messages from matched IP addresses will be processed, unless also matched by the denylist
 	IPAllowlistRegex *string `default:"/.*/" json:"ipAllowlistRegex"`
 	// Messages from matched IP addresses will be ignored. This takes precedence over the allowlist.
 	IPDenylistRegex *string `default:"/^\\$/" json:"ipDenylistRegex"`
@@ -1139,7 +1135,7 @@ func (o *InputGrafanaConnections) GetOutput() string {
 	return o.Output
 }
 
-// InputGrafanaMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+// InputGrafanaMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 type InputGrafanaMode string
 
 const (
@@ -1194,7 +1190,7 @@ func (e *InputGrafanaCompression) UnmarshalJSON(data []byte) error {
 }
 
 type InputGrafanaPq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 	Mode *InputGrafanaMode `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
@@ -1530,10 +1526,8 @@ func (o *InputGrafanaOauthHeaders) GetValue() string {
 type PrometheusAuth struct {
 	// Remote Write authentication type
 	AuthType *InputGrafanaAuthenticationType `default:"none" json:"authType"`
-	// Username for Basic authentication
-	Username *string `json:"username,omitempty"`
-	// Password for Basic authentication
-	Password *string `json:"password,omitempty"`
+	Username *string                         `json:"username,omitempty"`
+	Password *string                         `json:"password,omitempty"`
 	// Bearer token to include in the authorization header
 	Token *string `json:"token,omitempty"`
 	// Select or create a secret that references your credentials
@@ -1751,10 +1745,8 @@ func (o *InputGrafana1OauthHeaders) GetValue() string {
 type LokiAuth struct {
 	// Loki logs authentication type
 	AuthType *InputGrafana1AuthenticationType `default:"none" json:"authType"`
-	// Username for Basic authentication
-	Username *string `json:"username,omitempty"`
-	// Password for Basic authentication
-	Password *string `json:"password,omitempty"`
+	Username *string                          `json:"username,omitempty"`
+	Password *string                          `json:"password,omitempty"`
 	// Bearer token to include in the authorization header
 	Token *string `json:"token,omitempty"`
 	// Select or create a secret that references your credentials
@@ -1937,7 +1929,7 @@ type InputGrafana1 struct {
 	MaxRequestsPerSocket *int64 `default:"0" json:"maxRequestsPerSocket"`
 	// Enable when clients are connecting through a proxy that supports the x-forwarded-for header to keep the client's original IP address on the event instead of the proxy's IP address
 	EnableProxyHeader *bool `default:"false" json:"enableProxyHeader"`
-	// Toggle this to Yes to add request headers to events, in the __headers field.
+	// Add request headers to events, in the __headers field
 	CaptureHeaders *bool `default:"false" json:"captureHeaders"`
 	// How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc.
 	ActivityLogSampleRate *float64 `default:"100" json:"activityLogSampleRate"`
@@ -1949,7 +1941,7 @@ type InputGrafana1 struct {
 	KeepAliveTimeout *float64 `default:"5" json:"keepAliveTimeout"`
 	// Enable to expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy
 	EnableHealthCheck *bool `default:"false" json:"enableHealthCheck"`
-	// Messages from matched IP addresses will be processed, unless also matched by the denylist.
+	// Messages from matched IP addresses will be processed, unless also matched by the denylist
 	IPAllowlistRegex *string `default:"/.*/" json:"ipAllowlistRegex"`
 	// Messages from matched IP addresses will be ignored. This takes precedence over the allowlist.
 	IPDenylistRegex *string `default:"/^\\$/" json:"ipDenylistRegex"`

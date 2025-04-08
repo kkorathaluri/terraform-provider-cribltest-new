@@ -390,11 +390,11 @@ type OutputAzureLogs struct {
 	// In Error mode, PQ writes events to the filesystem only when it detects a non-retryable Destination error. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination or when there are non-retryable Destination errors. In Always On mode, PQ always writes events to the filesystem.
 	PqMode     *OutputAzureLogsMode       `default:"error" json:"pqMode"`
 	PqControls *OutputAzureLogsPqControls `json:"pqControls,omitempty"`
-	// Azure Log Analytics Workspace ID. See Azure Dashboard Workspace > Advanced settings.
+	// Azure Log Analytics Workspace ID. See Azure Dashboard Workspace > Advanced settings.
 	WorkspaceID *string `json:"workspaceId,omitempty"`
-	// Azure Log Analytics Workspace Primary or Secondary Shared Key. See Azure Dashboard Workspace > Advanced settings.
+	// Azure Log Analytics Workspace Primary or Secondary Shared Key. See Azure Dashboard Workspace > Advanced settings.
 	WorkspaceKey *string `json:"workspaceKey,omitempty"`
-	// Select or create a stored secret that references your access key and secret key.
+	// Select or create a stored secret that references your access key and secret key
 	KeypairSecret *string `json:"keypairSecret,omitempty"`
 }
 

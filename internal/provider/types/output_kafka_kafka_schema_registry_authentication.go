@@ -6,12 +6,12 @@ import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type OutputKafkaKafkaSchemaRegistryAuthentication struct {
 	Auth                 *OutputKafkaAuth                                     `tfsdk:"auth"`
-	ConnectionTimeout    types.Number                                         `tfsdk:"connection_timeout"`
-	DefaultKeySchemaID   types.Number                                         `tfsdk:"default_key_schema_id"`
-	DefaultValueSchemaID types.Number                                         `tfsdk:"default_value_schema_id"`
+	ConnectionTimeout    types.Float64                                        `tfsdk:"connection_timeout"`
+	DefaultKeySchemaID   types.Float64                                        `tfsdk:"default_key_schema_id"`
+	DefaultValueSchemaID types.Float64                                        `tfsdk:"default_value_schema_id"`
 	Disabled             types.Bool                                           `tfsdk:"disabled"`
-	MaxRetries           types.Number                                         `tfsdk:"max_retries"`
-	RequestTimeout       types.Number                                         `tfsdk:"request_timeout"`
+	MaxRetries           types.Float64                                        `tfsdk:"max_retries"`
+	RequestTimeout       types.Float64                                        `tfsdk:"request_timeout"`
 	SchemaRegistryURL    types.String                                         `tfsdk:"schema_registry_url"`
 	TLS                  *OutputKafkaKafkaSchemaRegistryTLSSettingsClientSide `tfsdk:"tls"`
 }

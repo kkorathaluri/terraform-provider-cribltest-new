@@ -13,15 +13,15 @@ type InputExec struct {
 	Disabled            types.Bool             `tfsdk:"disabled"`
 	Environment         types.String           `tfsdk:"environment"`
 	ID                  types.String           `tfsdk:"id"`
-	Interval            types.Number           `tfsdk:"interval"`
+	Interval            types.Float64          `tfsdk:"interval"`
 	Metadata            []InputExecMetadata    `tfsdk:"metadata"`
 	Pipeline            types.String           `tfsdk:"pipeline"`
 	Pq                  *InputExecPq           `tfsdk:"pq"`
 	PqEnabled           types.Bool             `tfsdk:"pq_enabled"`
-	Retries             types.Number           `tfsdk:"retries"`
+	Retries             types.Float64          `tfsdk:"retries"`
 	ScheduleType        types.String           `tfsdk:"schedule_type"`
 	SendToRoutes        types.Bool             `tfsdk:"send_to_routes"`
-	StaleChannelFlushMs types.Number           `tfsdk:"stale_channel_flush_ms"`
+	StaleChannelFlushMs types.Float64          `tfsdk:"stale_channel_flush_ms"`
 	Streamtags          []types.String         `tfsdk:"streamtags"`
 	Type                types.String           `tfsdk:"type"`
 }

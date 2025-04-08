@@ -17,7 +17,7 @@ type InputCollection struct {
 	PqEnabled           types.Bool                `tfsdk:"pq_enabled"`
 	Preprocess          *Preprocess               `tfsdk:"preprocess"`
 	SendToRoutes        types.Bool                `tfsdk:"send_to_routes"`
-	StaleChannelFlushMs types.Number              `tfsdk:"stale_channel_flush_ms"`
+	StaleChannelFlushMs types.Float64             `tfsdk:"stale_channel_flush_ms"`
 	Streamtags          []types.String            `tfsdk:"streamtags"`
 	ThrottleRatePerSec  types.String              `tfsdk:"throttle_rate_per_sec"`
 	Type                types.String              `tfsdk:"type"`

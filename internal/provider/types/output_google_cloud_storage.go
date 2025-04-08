@@ -19,7 +19,7 @@ type OutputGoogleCloudStorage struct {
 	DeadletterPath          types.String                               `tfsdk:"deadletter_path"`
 	Description             types.String                               `tfsdk:"description"`
 	DestPath                types.String                               `tfsdk:"dest_path"`
-	EmptyDirCleanupSec      types.Number                               `tfsdk:"empty_dir_cleanup_sec"`
+	EmptyDirCleanupSec      types.Float64                              `tfsdk:"empty_dir_cleanup_sec"`
 	EnablePageChecksum      types.Bool                                 `tfsdk:"enable_page_checksum"`
 	EnableStatistics        types.Bool                                 `tfsdk:"enable_statistics"`
 	EnableWritePageIndex    types.Bool                                 `tfsdk:"enable_write_page_index"`
@@ -30,17 +30,17 @@ type OutputGoogleCloudStorage struct {
 	HeaderLine              types.String                               `tfsdk:"header_line"`
 	ID                      types.String                               `tfsdk:"id"`
 	KeyValueMetadata        []OutputGoogleCloudStorageKeyValueMetadata `tfsdk:"key_value_metadata"`
-	MaxFileIdleTimeSec      types.Number                               `tfsdk:"max_file_idle_time_sec"`
-	MaxFileOpenTimeSec      types.Number                               `tfsdk:"max_file_open_time_sec"`
-	MaxFileSizeMB           types.Number                               `tfsdk:"max_file_size_mb"`
-	MaxOpenFiles            types.Number                               `tfsdk:"max_open_files"`
-	MaxRetryNum             types.Number                               `tfsdk:"max_retry_num"`
+	MaxFileIdleTimeSec      types.Float64                              `tfsdk:"max_file_idle_time_sec"`
+	MaxFileOpenTimeSec      types.Float64                              `tfsdk:"max_file_open_time_sec"`
+	MaxFileSizeMB           types.Float64                              `tfsdk:"max_file_size_mb"`
+	MaxOpenFiles            types.Float64                              `tfsdk:"max_open_files"`
+	MaxRetryNum             types.Float64                              `tfsdk:"max_retry_num"`
 	ObjectACL               types.String                               `tfsdk:"object_acl"`
 	OnBackpressure          types.String                               `tfsdk:"on_backpressure"`
 	OnDiskFullBackpressure  types.String                               `tfsdk:"on_disk_full_backpressure"`
 	ParquetDataPageVersion  types.String                               `tfsdk:"parquet_data_page_version"`
 	ParquetPageSize         types.String                               `tfsdk:"parquet_page_size"`
-	ParquetRowGroupLength   types.Number                               `tfsdk:"parquet_row_group_length"`
+	ParquetRowGroupLength   types.Float64                              `tfsdk:"parquet_row_group_length"`
 	ParquetVersion          types.String                               `tfsdk:"parquet_version"`
 	PartitionExpr           types.String                               `tfsdk:"partition_expr"`
 	Pipeline                types.String                               `tfsdk:"pipeline"`
@@ -56,5 +56,5 @@ type OutputGoogleCloudStorage struct {
 	SystemFields            []types.String                             `tfsdk:"system_fields"`
 	Type                    types.String                               `tfsdk:"type"`
 	VerifyPermissions       types.Bool                                 `tfsdk:"verify_permissions"`
-	WriteHighWaterMark      types.Number                               `tfsdk:"write_high_water_mark"`
+	WriteHighWaterMark      types.Float64                              `tfsdk:"write_high_water_mark"`
 }

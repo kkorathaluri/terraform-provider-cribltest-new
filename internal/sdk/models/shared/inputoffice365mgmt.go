@@ -50,7 +50,7 @@ func (o *InputOffice365MgmtConnections) GetOutput() string {
 	return o.Output
 }
 
-// InputOffice365MgmtMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+// InputOffice365MgmtMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 type InputOffice365MgmtMode string
 
 const (
@@ -105,7 +105,7 @@ func (e *InputOffice365MgmtCompression) UnmarshalJSON(data []byte) error {
 }
 
 type InputOffice365MgmtPq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 	Mode *InputOffice365MgmtMode `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
@@ -356,9 +356,9 @@ type InputOffice365MgmtRetryRules struct {
 	Codes []float64 `json:"codes,omitempty"`
 	// Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored.
 	EnableHeader *bool `default:"true" json:"enableHeader"`
-	// When toggled to Yes, a single retry attempt will be made when a connection timeout (ETIMEDOUT) error occurs
+	// Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs
 	RetryConnectTimeout *bool `default:"false" json:"retryConnectTimeout"`
-	// When toggled to Yes, the request will be retried when a connection reset (ECONNRESET) error occurs
+	// Retry request when a connection reset (ECONNRESET) error occurs
 	RetryConnectReset *bool `default:"false" json:"retryConnectReset"`
 }
 

@@ -9,16 +9,7 @@ import (
 
 // GetPacksResponseBody - a list of PackInfo objects
 type GetPacksResponseBody struct {
-	// number of items present in the items array
-	Count *int64            `json:"count,omitempty"`
 	Items []shared.PackInfo `json:"items,omitempty"`
-}
-
-func (o *GetPacksResponseBody) GetCount() *int64 {
-	if o == nil {
-		return nil
-	}
-	return o.Count
 }
 
 func (o *GetPacksResponseBody) GetItems() []shared.PackInfo {

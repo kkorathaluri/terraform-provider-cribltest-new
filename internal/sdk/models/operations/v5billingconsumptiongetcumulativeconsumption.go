@@ -9,19 +9,12 @@ import (
 	"time"
 )
 
-type V5BillingConsumptionGetCumulativeConsumptionGlobals struct {
-	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
-}
-
-func (o *V5BillingConsumptionGetCumulativeConsumptionGlobals) GetOrganizationID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.OrganizationID
+var V5BillingConsumptionGetCumulativeConsumptionServerList = []string{
+	"https://api.cribl-staging.cloud",
 }
 
 type V5BillingConsumptionGetCumulativeConsumptionRequest struct {
-	OrganizationID *string                    `pathParam:"style=simple,explode=false,name=organizationId"`
+	OrganizationID string                     `pathParam:"style=simple,explode=false,name=organizationId"`
 	StartingOn     time.Time                  `queryParam:"style=form,explode=true,name=startingOn"`
 	EndingBefore   time.Time                  `queryParam:"style=form,explode=true,name=endingBefore"`
 	Window         shared.ConsumptionWindowV5 `queryParam:"style=form,explode=true,name=window"`
@@ -38,9 +31,9 @@ func (v *V5BillingConsumptionGetCumulativeConsumptionRequest) UnmarshalJSON(data
 	return nil
 }
 
-func (o *V5BillingConsumptionGetCumulativeConsumptionRequest) GetOrganizationID() *string {
+func (o *V5BillingConsumptionGetCumulativeConsumptionRequest) GetOrganizationID() string {
 	if o == nil {
-		return nil
+		return ""
 	}
 	return o.OrganizationID
 }

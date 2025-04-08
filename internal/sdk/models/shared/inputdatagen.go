@@ -8,191 +8,26 @@ import (
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/internal/utils"
 )
 
-type InputType string
+type InputDatagenType string
 
 const (
-	InputTypeSplunk               InputType = "splunk"
-	InputTypeSplunkHec            InputType = "splunk_hec"
-	InputTypeSyslog               InputType = "syslog"
-	InputTypeTcpjson              InputType = "tcpjson"
-	InputTypeGrafana              InputType = "grafana"
-	InputTypeLoki                 InputType = "loki"
-	InputTypeHTTP                 InputType = "http"
-	InputTypeHTTPRaw              InputType = "http_raw"
-	InputTypeFirehose             InputType = "firehose"
-	InputTypeElastic              InputType = "elastic"
-	InputTypeKafka                InputType = "kafka"
-	InputTypeConfluentCloud       InputType = "confluent_cloud"
-	InputTypeMsk                  InputType = "msk"
-	InputTypeKinesis              InputType = "kinesis"
-	InputTypeEventhub             InputType = "eventhub"
-	InputTypeAzureBlob            InputType = "azure_blob"
-	InputTypeMetrics              InputType = "metrics"
-	InputTypeSqs                  InputType = "sqs"
-	InputTypeS3                   InputType = "s3"
-	InputTypeS3Inventory          InputType = "s3_inventory"
-	InputTypeSnmp                 InputType = "snmp"
-	InputTypeCrowdstrike          InputType = "crowdstrike"
-	InputTypeTCP                  InputType = "tcp"
-	InputTypeRawUDP               InputType = "raw_udp"
-	InputTypeNetflow              InputType = "netflow"
-	InputTypeOffice365Service     InputType = "office365_service"
-	InputTypeOffice365Mgmt        InputType = "office365_mgmt"
-	InputTypeOffice365MsgTrace    InputType = "office365_msg_trace"
-	InputTypePrometheus           InputType = "prometheus"
-	InputTypeEdgePrometheus       InputType = "edge_prometheus"
-	InputTypePrometheusRw         InputType = "prometheus_rw"
-	InputTypeAppscope             InputType = "appscope"
-	InputTypeGooglePubsub         InputType = "google_pubsub"
-	InputTypeOpenTelemetry        InputType = "open_telemetry"
-	InputTypeModelDrivenTelemetry InputType = "model_driven_telemetry"
-	InputTypeDatadogAgent         InputType = "datadog_agent"
-	InputTypeWef                  InputType = "wef"
-	InputTypeWiz                  InputType = "wiz"
-	InputTypeZscalerHec           InputType = "zscaler_hec"
-	InputTypeDatagen              InputType = "datagen"
-	InputTypeCribl                InputType = "cribl"
-	InputTypeCriblmetrics         InputType = "criblmetrics"
-	InputTypeCriblHTTP            InputType = "cribl_http"
-	InputTypeCriblTCP             InputType = "cribl_tcp"
-	InputTypeWinEventLogs         InputType = "win_event_logs"
-	InputTypeSystemMetrics        InputType = "system_metrics"
-	InputTypeWindowsMetrics       InputType = "windows_metrics"
-	InputTypeSystemState          InputType = "system_state"
-	InputTypeKubeMetrics          InputType = "kube_metrics"
-	InputTypeKubeLogs             InputType = "kube_logs"
-	InputTypeKubeEvents           InputType = "kube_events"
-	InputTypeExec                 InputType = "exec"
-	InputTypeSplunkSearch         InputType = "splunk_search"
-	InputTypeFile                 InputType = "file"
-	InputTypeJournalFiles         InputType = "journal_files"
-	InputTypeSecurityLake         InputType = "security_lake"
+	InputDatagenTypeDatagen InputDatagenType = "datagen"
 )
 
-func (e InputType) ToPointer() *InputType {
+func (e InputDatagenType) ToPointer() *InputDatagenType {
 	return &e
 }
-func (e *InputType) UnmarshalJSON(data []byte) error {
+func (e *InputDatagenType) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 	switch v {
-	case "splunk":
-		fallthrough
-	case "splunk_hec":
-		fallthrough
-	case "syslog":
-		fallthrough
-	case "tcpjson":
-		fallthrough
-	case "grafana":
-		fallthrough
-	case "loki":
-		fallthrough
-	case "http":
-		fallthrough
-	case "http_raw":
-		fallthrough
-	case "firehose":
-		fallthrough
-	case "elastic":
-		fallthrough
-	case "kafka":
-		fallthrough
-	case "confluent_cloud":
-		fallthrough
-	case "msk":
-		fallthrough
-	case "kinesis":
-		fallthrough
-	case "eventhub":
-		fallthrough
-	case "azure_blob":
-		fallthrough
-	case "metrics":
-		fallthrough
-	case "sqs":
-		fallthrough
-	case "s3":
-		fallthrough
-	case "s3_inventory":
-		fallthrough
-	case "snmp":
-		fallthrough
-	case "crowdstrike":
-		fallthrough
-	case "tcp":
-		fallthrough
-	case "raw_udp":
-		fallthrough
-	case "netflow":
-		fallthrough
-	case "office365_service":
-		fallthrough
-	case "office365_mgmt":
-		fallthrough
-	case "office365_msg_trace":
-		fallthrough
-	case "prometheus":
-		fallthrough
-	case "edge_prometheus":
-		fallthrough
-	case "prometheus_rw":
-		fallthrough
-	case "appscope":
-		fallthrough
-	case "google_pubsub":
-		fallthrough
-	case "open_telemetry":
-		fallthrough
-	case "model_driven_telemetry":
-		fallthrough
-	case "datadog_agent":
-		fallthrough
-	case "wef":
-		fallthrough
-	case "wiz":
-		fallthrough
-	case "zscaler_hec":
-		fallthrough
 	case "datagen":
-		fallthrough
-	case "cribl":
-		fallthrough
-	case "criblmetrics":
-		fallthrough
-	case "cribl_http":
-		fallthrough
-	case "cribl_tcp":
-		fallthrough
-	case "win_event_logs":
-		fallthrough
-	case "system_metrics":
-		fallthrough
-	case "windows_metrics":
-		fallthrough
-	case "system_state":
-		fallthrough
-	case "kube_metrics":
-		fallthrough
-	case "kube_logs":
-		fallthrough
-	case "kube_events":
-		fallthrough
-	case "exec":
-		fallthrough
-	case "splunk_search":
-		fallthrough
-	case "file":
-		fallthrough
-	case "journal_files":
-		fallthrough
-	case "security_lake":
-		*e = InputType(v)
+		*e = InputDatagenType(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for InputType: %v", v)
+		return fmt.Errorf("invalid value for InputDatagenType: %v", v)
 	}
 }
 
@@ -215,7 +50,7 @@ func (o *InputDatagenConnections) GetOutput() string {
 	return o.Output
 }
 
-// InputDatagenMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+// InputDatagenMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 type InputDatagenMode string
 
 const (
@@ -270,7 +105,7 @@ func (e *InputDatagenCompression) UnmarshalJSON(data []byte) error {
 }
 
 type InputDatagenPq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 	Mode *InputDatagenMode `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
@@ -400,9 +235,9 @@ func (o *InputDatagenMetadata) GetValue() string {
 
 type InputDatagen struct {
 	// Unique ID for this input
-	ID       *string   `json:"id,omitempty"`
-	Type     InputType `json:"type"`
-	Disabled *bool     `default:"false" json:"disabled"`
+	ID       *string          `json:"id,omitempty"`
+	Type     InputDatagenType `json:"type"`
+	Disabled *bool            `default:"false" json:"disabled"`
 	// Pipeline to process data from this Source before sending it through the Routes
 	Pipeline *string `json:"pipeline,omitempty"`
 	// Select whether to send data to Routes, or directly to Destinations.
@@ -441,9 +276,9 @@ func (o *InputDatagen) GetID() *string {
 	return o.ID
 }
 
-func (o *InputDatagen) GetType() InputType {
+func (o *InputDatagen) GetType() InputDatagenType {
 	if o == nil {
-		return InputType("")
+		return InputDatagenType("")
 	}
 	return o.Type
 }

@@ -482,9 +482,9 @@ type OutputMinio struct {
 	// Maximum number of parts to upload in parallel per file. Minimum part size is 5MB.
 	MaxConcurrentFileParts *float64 `default:"4" json:"maxConcurrentFileParts"`
 	Description            *string  `json:"description,omitempty"`
-	// Access key. This value can be a constant or a JavaScript expression(e.g., `${C.env.SOME_ACCESS_KEY}`).
+	// This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)
 	AwsAPIKey *string `json:"awsApiKey,omitempty"`
-	// Select or create a stored secret that references your access key and secret key.
+	// Select or create a stored secret that references your access key and secret key
 	AwsSecret *string `json:"awsSecret,omitempty"`
 	// Choose data compression format to apply before moving files to final destination
 	Compress *OutputMinioCompress `default:"gzip" json:"compress"`

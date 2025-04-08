@@ -302,7 +302,7 @@ type OutputCriblLake struct {
 	Region *string `json:"region,omitempty"`
 	// Secret key. This value can be a constant or a JavaScript expression(e.g., `${C.env.SOME_SECRET}`).
 	AwsSecretKey *string `json:"awsSecretKey,omitempty"`
-	// S3 service endpoint. If empty, defaults to AWS' Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint.
+	// S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint.
 	Endpoint *string `json:"endpoint,omitempty"`
 	// Signature version to use for signing S3 requests
 	SignatureVersion *OutputCriblLakeSignatureVersion `default:"v4" json:"signatureVersion"`
@@ -356,15 +356,15 @@ type OutputCriblLake struct {
 	MaxFileOpenTimeSec *float64 `default:"300" json:"maxFileOpenTimeSec"`
 	// Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location.
 	MaxFileIdleTimeSec *float64 `default:"30" json:"maxFileIdleTimeSec"`
-	// Maximum number of parts to upload in parallel per file. Minimum part size is 5MB.
-	MaxConcurrentFileParts *float64 `default:"4" json:"maxConcurrentFileParts"`
 	// Disable if you can access files within the bucket but not the bucket itself.
 	VerifyPermissions *bool `default:"true" json:"verifyPermissions"`
 	// Maximum number of files that can be waiting for upload before backpressure is applied
 	MaxClosingFilesToBackpressure *float64                 `default:"100" json:"maxClosingFilesToBackpressure"`
 	AwsAuthenticationMethod       *AwsAuthenticationMethod `default:"auto" json:"awsAuthenticationMethod"`
 	Format                        *OutputCriblLakeFormat   `json:"format,omitempty"`
-	Description                   *string                  `json:"description,omitempty"`
+	// Maximum number of parts to upload in parallel per file. Minimum part size is 5MB.
+	MaxConcurrentFileParts *float64 `default:"1" json:"maxConcurrentFileParts"`
+	Description            *string  `json:"description,omitempty"`
 	// How frequently, in seconds, to clean up empty directories when 'Remove empty staging dirs' is enabled
 	EmptyDirCleanupSec *float64 `default:"300" json:"emptyDirCleanupSec"`
 	// Storage location for files that fail to reach their final destination after maximum retries are exceeded
@@ -636,13 +636,6 @@ func (o *OutputCriblLake) GetMaxFileIdleTimeSec() *float64 {
 	return o.MaxFileIdleTimeSec
 }
 
-func (o *OutputCriblLake) GetMaxConcurrentFileParts() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxConcurrentFileParts
-}
-
 func (o *OutputCriblLake) GetVerifyPermissions() *bool {
 	if o == nil {
 		return nil
@@ -669,6 +662,13 @@ func (o *OutputCriblLake) GetFormat() *OutputCriblLakeFormat {
 		return nil
 	}
 	return o.Format
+}
+
+func (o *OutputCriblLake) GetMaxConcurrentFileParts() *float64 {
+	if o == nil {
+		return nil
+	}
+	return o.MaxConcurrentFileParts
 }
 
 func (o *OutputCriblLake) GetDescription() *string {

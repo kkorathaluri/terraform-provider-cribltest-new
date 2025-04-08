@@ -5,8 +5,8 @@ package types
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type Targets struct {
-	Host     types.String `tfsdk:"host"`
-	Path     types.String `tfsdk:"path"`
-	Port     types.Number `tfsdk:"port"`
-	Protocol types.String `tfsdk:"protocol"`
+	Host     types.String  `tfsdk:"host"`
+	Path     types.String  `tfsdk:"path"`
+	Port     types.Float64 `tfsdk:"port"`
+	Protocol types.String  `tfsdk:"protocol"`
 }

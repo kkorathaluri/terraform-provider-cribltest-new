@@ -5,6 +5,6 @@ package types
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type OutputElasticUrls struct {
-	URL    types.String `tfsdk:"url"`
-	Weight types.Number `tfsdk:"weight"`
+	URL    types.String  `tfsdk:"url"`
+	Weight types.Float64 `tfsdk:"weight"`
 }

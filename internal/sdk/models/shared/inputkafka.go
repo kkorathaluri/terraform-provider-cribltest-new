@@ -50,7 +50,7 @@ func (o *InputKafkaConnections) GetOutput() string {
 	return o.Output
 }
 
-// InputKafkaMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+// InputKafkaMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 type InputKafkaMode string
 
 const (
@@ -105,7 +105,7 @@ func (e *InputKafkaCompression) UnmarshalJSON(data []byte) error {
 }
 
 type InputKafkaPq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 	Mode *InputKafkaMode `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
@@ -747,7 +747,7 @@ type InputKafka struct {
 	ConnectionTimeout *float64 `default:"10000" json:"connectionTimeout"`
 	// Maximum time to wait for Kafka to respond to a request
 	RequestTimeout *float64 `default:"60000" json:"requestTimeout"`
-	// If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data.
+	// If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data
 	MaxRetries *float64 `default:"5" json:"maxRetries"`
 	// The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds).
 	MaxBackOff *float64 `default:"30000" json:"maxBackOff"`

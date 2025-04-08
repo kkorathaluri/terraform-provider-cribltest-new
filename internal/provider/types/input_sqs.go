@@ -16,16 +16,16 @@ type InputSqs struct {
 	CreateQueue             types.Bool            `tfsdk:"create_queue"`
 	Description             types.String          `tfsdk:"description"`
 	Disabled                types.Bool            `tfsdk:"disabled"`
-	DurationSeconds         types.Number          `tfsdk:"duration_seconds"`
+	DurationSeconds         types.Float64         `tfsdk:"duration_seconds"`
 	EnableAssumeRole        types.Bool            `tfsdk:"enable_assume_role"`
 	Endpoint                types.String          `tfsdk:"endpoint"`
 	Environment             types.String          `tfsdk:"environment"`
 	ID                      types.String          `tfsdk:"id"`
-	MaxMessages             types.Number          `tfsdk:"max_messages"`
+	MaxMessages             types.Float64         `tfsdk:"max_messages"`
 	Metadata                []InputSqsMetadata    `tfsdk:"metadata"`
-	NumReceivers            types.Number          `tfsdk:"num_receivers"`
+	NumReceivers            types.Float64         `tfsdk:"num_receivers"`
 	Pipeline                types.String          `tfsdk:"pipeline"`
-	PollTimeout             types.Number          `tfsdk:"poll_timeout"`
+	PollTimeout             types.Float64         `tfsdk:"poll_timeout"`
 	Pq                      *InputSqsPq           `tfsdk:"pq"`
 	PqEnabled               types.Bool            `tfsdk:"pq_enabled"`
 	QueueName               types.String          `tfsdk:"queue_name"`
@@ -37,5 +37,5 @@ type InputSqs struct {
 	SignatureVersion        types.String          `tfsdk:"signature_version"`
 	Streamtags              []types.String        `tfsdk:"streamtags"`
 	Type                    types.String          `tfsdk:"type"`
-	VisibilityTimeout       types.Number          `tfsdk:"visibility_timeout"`
+	VisibilityTimeout       types.Float64         `tfsdk:"visibility_timeout"`
 }

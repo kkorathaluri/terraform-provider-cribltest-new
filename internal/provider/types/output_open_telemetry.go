@@ -8,24 +8,24 @@ type OutputOpenTelemetry struct {
 	AuthHeaderExpr                types.String                               `tfsdk:"auth_header_expr"`
 	AuthType                      types.String                               `tfsdk:"auth_type"`
 	Compress                      types.String                               `tfsdk:"compress"`
-	Concurrency                   types.Number                               `tfsdk:"concurrency"`
-	ConnectionTimeout             types.Number                               `tfsdk:"connection_timeout"`
+	Concurrency                   types.Float64                              `tfsdk:"concurrency"`
+	ConnectionTimeout             types.Float64                              `tfsdk:"connection_timeout"`
 	CredentialsSecret             types.String                               `tfsdk:"credentials_secret"`
 	Description                   types.String                               `tfsdk:"description"`
 	Endpoint                      types.String                               `tfsdk:"endpoint"`
 	Environment                   types.String                               `tfsdk:"environment"`
 	ExtraHTTPHeaders              []OutputOpenTelemetryExtraHTTPHeaders      `tfsdk:"extra_http_headers"`
 	FailedRequestLoggingMode      types.String                               `tfsdk:"failed_request_logging_mode"`
-	FlushPeriodSec                types.Number                               `tfsdk:"flush_period_sec"`
+	FlushPeriodSec                types.Float64                              `tfsdk:"flush_period_sec"`
 	HTTPCompress                  types.String                               `tfsdk:"http_compress"`
 	HTTPLogsEndpointOverride      types.String                               `tfsdk:"http_logs_endpoint_override"`
 	HTTPMetricsEndpointOverride   types.String                               `tfsdk:"http_metrics_endpoint_override"`
 	HTTPTracesEndpointOverride    types.String                               `tfsdk:"http_traces_endpoint_override"`
 	ID                            types.String                               `tfsdk:"id"`
 	KeepAlive                     types.Bool                                 `tfsdk:"keep_alive"`
-	KeepAliveTime                 types.Number                               `tfsdk:"keep_alive_time"`
+	KeepAliveTime                 types.Float64                              `tfsdk:"keep_alive_time"`
 	LoginURL                      types.String                               `tfsdk:"login_url"`
-	MaxPayloadSizeKB              types.Number                               `tfsdk:"max_payload_size_kb"`
+	MaxPayloadSizeKB              types.Float64                              `tfsdk:"max_payload_size_kb"`
 	Metadata                      []OutputOpenTelemetryMetadata              `tfsdk:"metadata"`
 	OauthHeaders                  []OutputOpenTelemetryOauthHeaders          `tfsdk:"oauth_headers"`
 	OauthParams                   []OutputOpenTelemetryOauthParams           `tfsdk:"oauth_params"`
@@ -51,11 +51,11 @@ type OutputOpenTelemetry struct {
 	SystemFields                  []types.String                             `tfsdk:"system_fields"`
 	TextSecret                    types.String                               `tfsdk:"text_secret"`
 	TimeoutRetrySettings          *OutputOpenTelemetryTimeoutRetrySettings   `tfsdk:"timeout_retry_settings"`
-	TimeoutSec                    types.Number                               `tfsdk:"timeout_sec"`
+	TimeoutSec                    types.Float64                              `tfsdk:"timeout_sec"`
 	TLS                           *OutputOpenTelemetryTLSSettingsClientSide  `tfsdk:"tls"`
 	Token                         types.String                               `tfsdk:"token"`
 	TokenAttributeName            types.String                               `tfsdk:"token_attribute_name"`
-	TokenTimeoutSecs              types.Number                               `tfsdk:"token_timeout_secs"`
+	TokenTimeoutSecs              types.Float64                              `tfsdk:"token_timeout_secs"`
 	Type                          types.String                               `tfsdk:"type"`
 	Username                      types.String                               `tfsdk:"username"`
 	UseRoundRobinDNS              types.Bool                                 `tfsdk:"use_round_robin_dns"`

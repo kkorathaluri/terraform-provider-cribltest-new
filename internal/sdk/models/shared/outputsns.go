@@ -225,11 +225,10 @@ type OutputSns struct {
 	MaxRetries *float64 `json:"maxRetries,omitempty"`
 	// AWS authentication method. Choose Auto to use IAM roles.
 	AwsAuthenticationMethod *OutputSnsAuthenticationMethod `default:"auto" json:"awsAuthenticationMethod"`
-	// Secret key
-	AwsSecretKey *string `json:"awsSecretKey,omitempty"`
+	AwsSecretKey            *string                        `json:"awsSecretKey,omitempty"`
 	// Region where the SNS is located
 	Region *string `json:"region,omitempty"`
-	// SNS service endpoint. If empty, defaults to AWS' Region-specific endpoint. Otherwise, it must point to SNS-compatible endpoint.
+	// SNS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SNS-compatible endpoint.
 	Endpoint *string `json:"endpoint,omitempty"`
 	// Signature version to use for signing SNS requests
 	SignatureVersion *OutputSnsSignatureVersion `default:"v4" json:"signatureVersion"`
@@ -248,9 +247,8 @@ type OutputSns struct {
 	// Whether to block, drop, or queue events when all receivers are exerting backpressure.
 	OnBackpressure *OutputSnsBackpressureBehavior `default:"block" json:"onBackpressure"`
 	Description    *string                        `json:"description,omitempty"`
-	// Access key
-	AwsAPIKey *string `json:"awsApiKey,omitempty"`
-	// Select or create a stored secret that references your access key and secret key.
+	AwsAPIKey      *string                        `json:"awsApiKey,omitempty"`
+	// Select or create a stored secret that references your access key and secret key
 	AwsSecret *string `json:"awsSecret,omitempty"`
 	// The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.).
 	PqMaxFileSize *string `default:"1 MB" json:"pqMaxFileSize"`

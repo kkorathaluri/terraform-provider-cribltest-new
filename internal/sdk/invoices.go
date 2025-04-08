@@ -25,10 +25,6 @@ func newInvoices(sdkConfig sdkConfiguration) *Invoices {
 }
 
 func (s *Invoices) V5BillingInvoicesGetInvoices(ctx context.Context, request operations.V5BillingInvoicesGetInvoicesRequest, opts ...operations.Option) (*operations.V5BillingInvoicesGetInvoicesResponse, error) {
-	globals := operations.V5BillingInvoicesGetInvoicesGlobals{
-		OrganizationID: s.sdkConfiguration.Globals.OrganizationID,
-	}
-
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -40,13 +36,12 @@ func (s *Invoices) V5BillingInvoicesGetInvoices(ctx context.Context, request ope
 		}
 	}
 
-	var baseURL string
-	if o.ServerURL == nil {
-		baseURL = utils.ReplaceParameters(s.sdkConfiguration.GetServerDetails())
-	} else {
+	baseURL := utils.ReplaceParameters(operations.V5BillingInvoicesGetInvoicesServerList[0], map[string]string{})
+	if o.ServerURL != nil {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v5/organizations/{organizationId}/billing/invoices", request, globals)
+
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v5/organizations/{organizationId}/billing/invoices", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -155,10 +150,6 @@ func (s *Invoices) V5BillingInvoicesGetInvoices(ctx context.Context, request ope
 }
 
 func (s *Invoices) V5BillingInvoicesGetInvoice(ctx context.Context, request operations.V5BillingInvoicesGetInvoiceRequest, opts ...operations.Option) (*operations.V5BillingInvoicesGetInvoiceResponse, error) {
-	globals := operations.V5BillingInvoicesGetInvoiceGlobals{
-		OrganizationID: s.sdkConfiguration.Globals.OrganizationID,
-	}
-
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -170,13 +161,12 @@ func (s *Invoices) V5BillingInvoicesGetInvoice(ctx context.Context, request oper
 		}
 	}
 
-	var baseURL string
-	if o.ServerURL == nil {
-		baseURL = utils.ReplaceParameters(s.sdkConfiguration.GetServerDetails())
-	} else {
+	baseURL := utils.ReplaceParameters(operations.V5BillingInvoicesGetInvoiceServerList[0], map[string]string{})
+	if o.ServerURL != nil {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v5/organizations/{organizationId}/billing/invoices/{invoiceId}", request, globals)
+
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v5/organizations/{organizationId}/billing/invoices/{invoiceId}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}

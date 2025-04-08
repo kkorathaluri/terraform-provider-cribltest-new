@@ -50,7 +50,7 @@ func (o *InputSqsConnections) GetOutput() string {
 	return o.Output
 }
 
-// InputSqsMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+// InputSqsMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 type InputSqsMode string
 
 const (
@@ -105,7 +105,7 @@ func (e *InputSqsCompression) UnmarshalJSON(data []byte) error {
 }
 
 type InputSqsPq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 	Mode *InputSqsMode `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
@@ -303,7 +303,7 @@ type InputSqs struct {
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
 	Connections []InputSqsConnections `json:"connections,omitempty"`
 	Pq          *InputSqsPq           `json:"pq,omitempty"`
-	// The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. E.g., 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. E.g. referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`.
+	// The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`.
 	QueueName string `json:"queueName"`
 	// The queue type used (or created). Defaults to Standard
 	QueueType *QueueType `default:"standard" json:"queueType"`
@@ -313,11 +313,10 @@ type InputSqs struct {
 	CreateQueue *bool `default:"false" json:"createQueue"`
 	// AWS authentication method. Choose Auto to use IAM roles.
 	AwsAuthenticationMethod *InputSqsAuthenticationMethod `default:"auto" json:"awsAuthenticationMethod"`
-	// Secret key
-	AwsSecretKey *string `json:"awsSecretKey,omitempty"`
+	AwsSecretKey            *string                       `json:"awsSecretKey,omitempty"`
 	// AWS Region where the SQS queue is located. Required, unless the Queue entry is a URL or ARN that includes a Region.
 	Region *string `json:"region,omitempty"`
-	// SQS service endpoint. If empty, defaults to AWS' Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint.
+	// SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint.
 	Endpoint *string `json:"endpoint,omitempty"`
 	// Signature version to use for signing SQS requests
 	SignatureVersion *InputSqsSignatureVersion `default:"v4" json:"signatureVersion"`
@@ -339,14 +338,13 @@ type InputSqs struct {
 	VisibilityTimeout *float64 `default:"600" json:"visibilityTimeout"`
 	// Fields to add to events from this input
 	Metadata []InputSqsMetadata `json:"metadata,omitempty"`
-	// The amount of time to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts.
+	// How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts.
 	PollTimeout *float64 `default:"10" json:"pollTimeout"`
 	Description *string  `json:"description,omitempty"`
-	// Access key
-	AwsAPIKey *string `json:"awsApiKey,omitempty"`
-	// Select or create a stored secret that references your access key and secret key.
+	AwsAPIKey   *string  `json:"awsApiKey,omitempty"`
+	// Select or create a stored secret that references your access key and secret key
 	AwsSecret *string `json:"awsSecret,omitempty"`
-	// The Number of receiver processes to run, the higher the number the better throughput at the expense of CPU overhead
+	// How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead.
 	NumReceivers *float64 `default:"3" json:"numReceivers"`
 }
 

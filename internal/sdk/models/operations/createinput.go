@@ -9,16 +9,7 @@ import (
 
 // CreateInputResponseBody - a list of Input objects
 type CreateInputResponseBody struct {
-	// number of items present in the items array
-	CountTotal *int64         `json:"count_total,omitempty"`
-	Items      []shared.Input `json:"items,omitempty"`
-}
-
-func (o *CreateInputResponseBody) GetCountTotal() *int64 {
-	if o == nil {
-		return nil
-	}
-	return o.CountTotal
+	Items []shared.Input `json:"items,omitempty"`
 }
 
 func (o *CreateInputResponseBody) GetItems() []shared.Input {

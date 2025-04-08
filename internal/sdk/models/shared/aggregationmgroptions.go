@@ -5,6 +5,7 @@ package shared
 type AggregationMgrOptions struct {
 	Aggregations             []string       `json:"aggregations"`
 	Cumulative               bool           `json:"cumulative"`
+	DotsAsLiterals           *bool          `json:"dotsAsLiterals,omitempty"`
 	FlushEventLimit          float64        `json:"flushEventLimit"`
 	FlushMemLimit            float64        `json:"flushMemLimit"`
 	Hostname                 string         `json:"hostname"`
@@ -31,6 +32,13 @@ func (o *AggregationMgrOptions) GetCumulative() bool {
 		return false
 	}
 	return o.Cumulative
+}
+
+func (o *AggregationMgrOptions) GetDotsAsLiterals() *bool {
+	if o == nil {
+		return nil
+	}
+	return o.DotsAsLiterals
 }
 
 func (o *AggregationMgrOptions) GetFlushEventLimit() float64 {

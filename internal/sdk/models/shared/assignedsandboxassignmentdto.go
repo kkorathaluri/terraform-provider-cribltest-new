@@ -9,37 +9,37 @@ import (
 	"time"
 )
 
-type State string
+type AssignedSandboxAssignmentDTOState string
 
 const (
-	StateAssigned State = "ASSIGNED"
+	AssignedSandboxAssignmentDTOStateAssigned AssignedSandboxAssignmentDTOState = "ASSIGNED"
 )
 
-func (e State) ToPointer() *State {
+func (e AssignedSandboxAssignmentDTOState) ToPointer() *AssignedSandboxAssignmentDTOState {
 	return &e
 }
-func (e *State) UnmarshalJSON(data []byte) error {
+func (e *AssignedSandboxAssignmentDTOState) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 	switch v {
 	case "ASSIGNED":
-		*e = State(v)
+		*e = AssignedSandboxAssignmentDTOState(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for State: %v", v)
+		return fmt.Errorf("invalid value for AssignedSandboxAssignmentDTOState: %v", v)
 	}
 }
 
 type AssignedSandboxAssignmentDTO struct {
-	OrganizationID string    `json:"organizationId"`
-	WorkspaceID    string    `json:"workspaceId"`
-	State          State     `json:"state"`
-	UserID         string    `json:"userId"`
-	CourseID       string    `json:"courseId"`
-	AssignedAt     time.Time `json:"assignedAt"`
-	ExpiresAt      time.Time `json:"expiresAt"`
+	OrganizationID string                            `json:"organizationId"`
+	WorkspaceID    string                            `json:"workspaceId"`
+	State          AssignedSandboxAssignmentDTOState `json:"state"`
+	UserID         string                            `json:"userId"`
+	CourseID       string                            `json:"courseId"`
+	AssignedAt     time.Time                         `json:"assignedAt"`
+	ExpiresAt      time.Time                         `json:"expiresAt"`
 }
 
 func (a AssignedSandboxAssignmentDTO) MarshalJSON() ([]byte, error) {
@@ -67,9 +67,9 @@ func (o *AssignedSandboxAssignmentDTO) GetWorkspaceID() string {
 	return o.WorkspaceID
 }
 
-func (o *AssignedSandboxAssignmentDTO) GetState() State {
+func (o *AssignedSandboxAssignmentDTO) GetState() AssignedSandboxAssignmentDTOState {
 	if o == nil {
-		return State("")
+		return AssignedSandboxAssignmentDTOState("")
 	}
 	return o.State
 }

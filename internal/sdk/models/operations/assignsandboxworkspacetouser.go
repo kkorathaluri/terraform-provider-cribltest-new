@@ -7,6 +7,10 @@ import (
 	"net/http"
 )
 
+var AssignSandboxWorkspaceToUserServerList = []string{
+	"https://api.cribl-staging.cloud",
+}
+
 type AssignSandboxWorkspaceToUserRequest struct {
 	CourseID string `pathParam:"style=simple,explode=false,name=courseId"`
 }

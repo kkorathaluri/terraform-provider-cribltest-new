@@ -798,7 +798,7 @@ type OutputMsk struct {
 	ConnectionTimeout *float64 `default:"10000" json:"connectionTimeout"`
 	// Maximum time to wait for Kafka to respond to a request
 	RequestTimeout *float64 `default:"60000" json:"requestTimeout"`
-	// If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data.
+	// If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data
 	MaxRetries *float64 `default:"5" json:"maxRetries"`
 	// The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds).
 	MaxBackOff *float64 `default:"30000" json:"maxBackOff"`
@@ -812,11 +812,10 @@ type OutputMsk struct {
 	ReauthenticationThreshold *float64 `default:"10000" json:"reauthenticationThreshold"`
 	// AWS authentication method. Choose Auto to use IAM roles.
 	AwsAuthenticationMethod *OutputMskAuthenticationMethod `default:"auto" json:"awsAuthenticationMethod"`
-	// Secret key
-	AwsSecretKey *string `json:"awsSecretKey,omitempty"`
+	AwsSecretKey            *string                        `json:"awsSecretKey,omitempty"`
 	// Region where the MSK cluster is located
 	Region string `json:"region"`
-	// MSK cluster service endpoint. If empty, defaults to AWS' Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint.
+	// MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint.
 	Endpoint *string `json:"endpoint,omitempty"`
 	// Signature version to use for signing MSK cluster requests
 	SignatureVersion *OutputMskSignatureVersion `default:"v4" json:"signatureVersion"`
@@ -836,9 +835,8 @@ type OutputMsk struct {
 	// Whether to block, drop, or queue events when all receivers are exerting backpressure.
 	OnBackpressure *OutputMskBackpressureBehavior `default:"block" json:"onBackpressure"`
 	Description    *string                        `json:"description,omitempty"`
-	// Access key
-	AwsAPIKey *string `json:"awsApiKey,omitempty"`
-	// Select or create a stored secret that references your access key and secret key.
+	AwsAPIKey      *string                        `json:"awsApiKey,omitempty"`
+	// Select or create a stored secret that references your access key and secret key
 	AwsSecret *string `json:"awsSecret,omitempty"`
 	// Select a set of Protobuf definitions for the events you want to send
 	ProtobufLibraryID *string `json:"protobufLibraryId,omitempty"`

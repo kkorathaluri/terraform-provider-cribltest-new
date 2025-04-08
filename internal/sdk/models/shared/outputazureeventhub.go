@@ -326,7 +326,7 @@ type OutputAzureEventhub struct {
 	ConnectionTimeout *float64 `default:"10000" json:"connectionTimeout"`
 	// Maximum time to wait for Kafka to respond to a request
 	RequestTimeout *float64 `default:"60000" json:"requestTimeout"`
-	// If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data.
+	// If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data
 	MaxRetries *float64 `default:"5" json:"maxRetries"`
 	// The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds).
 	MaxBackOff *float64 `default:"30000" json:"maxBackOff"`

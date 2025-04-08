@@ -8,19 +8,19 @@ type OutputDynatraceHTTP struct {
 	ActiveGateDomain              types.String                               `tfsdk:"active_gate_domain"`
 	AuthType                      types.String                               `tfsdk:"auth_type"`
 	Compress                      types.Bool                                 `tfsdk:"compress"`
-	Concurrency                   types.Number                               `tfsdk:"concurrency"`
+	Concurrency                   types.Float64                              `tfsdk:"concurrency"`
 	Description                   types.String                               `tfsdk:"description"`
 	Endpoint                      types.String                               `tfsdk:"endpoint"`
 	Environment                   types.String                               `tfsdk:"environment"`
 	EnvironmentID                 types.String                               `tfsdk:"environment_id"`
 	ExtraHTTPHeaders              []OutputDynatraceHTTPExtraHTTPHeaders      `tfsdk:"extra_http_headers"`
 	FailedRequestLoggingMode      types.String                               `tfsdk:"failed_request_logging_mode"`
-	FlushPeriodSec                types.Number                               `tfsdk:"flush_period_sec"`
+	FlushPeriodSec                types.Float64                              `tfsdk:"flush_period_sec"`
 	Format                        types.String                               `tfsdk:"format"`
 	ID                            types.String                               `tfsdk:"id"`
 	KeepAlive                     types.Bool                                 `tfsdk:"keep_alive"`
-	MaxPayloadEvents              types.Number                               `tfsdk:"max_payload_events"`
-	MaxPayloadSizeKB              types.Number                               `tfsdk:"max_payload_size_kb"`
+	MaxPayloadEvents              types.Float64                              `tfsdk:"max_payload_events"`
+	MaxPayloadSizeKB              types.Float64                              `tfsdk:"max_payload_size_kb"`
 	Method                        types.String                               `tfsdk:"method"`
 	OnBackpressure                types.String                               `tfsdk:"on_backpressure"`
 	Pipeline                      types.String                               `tfsdk:"pipeline"`
@@ -40,9 +40,9 @@ type OutputDynatraceHTTP struct {
 	TelemetryType                 types.String                               `tfsdk:"telemetry_type"`
 	TextSecret                    types.String                               `tfsdk:"text_secret"`
 	TimeoutRetrySettings          *OutputDynatraceHTTPTimeoutRetrySettings   `tfsdk:"timeout_retry_settings"`
-	TimeoutSec                    types.Number                               `tfsdk:"timeout_sec"`
+	TimeoutSec                    types.Float64                              `tfsdk:"timeout_sec"`
 	Token                         types.String                               `tfsdk:"token"`
-	TotalMemoryLimitKB            types.Number                               `tfsdk:"total_memory_limit_kb"`
+	TotalMemoryLimitKB            types.Float64                              `tfsdk:"total_memory_limit_kb"`
 	Type                          types.String                               `tfsdk:"type"`
 	URL                           types.String                               `tfsdk:"url"`
 	UseRoundRobinDNS              types.Bool                                 `tfsdk:"use_round_robin_dns"`

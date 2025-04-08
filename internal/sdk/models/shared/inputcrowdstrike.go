@@ -50,7 +50,7 @@ func (o *InputCrowdstrikeConnections) GetOutput() string {
 	return o.Output
 }
 
-// InputCrowdstrikeMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+// InputCrowdstrikeMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 type InputCrowdstrikeMode string
 
 const (
@@ -105,7 +105,7 @@ func (e *InputCrowdstrikeCompression) UnmarshalJSON(data []byte) error {
 }
 
 type InputCrowdstrikePq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 	Mode *InputCrowdstrikeMode `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
@@ -299,7 +299,7 @@ func (o *InputCrowdstrikeMetadata) GetValue() string {
 }
 
 type Checkpointing struct {
-	// Enable checkpointing to resume processing files after an interruption.
+	// Resume processing files after an interruption
 	Enabled *bool `default:"false" json:"enabled"`
 	// If checkpointing is enabled, the number of times to retry processing when a processing error occurs. If skip file on error is enabled, this setting is ignored.
 	Retries *float64 `default:"5" json:"retries"`
@@ -348,7 +348,7 @@ type InputCrowdstrike struct {
 	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
 	Connections []InputCrowdstrikeConnections `json:"connections,omitempty"`
 	Pq          *InputCrowdstrikePq           `json:"pq,omitempty"`
-	// The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. E.g., 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. E.g., referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`.
+	// The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`.
 	QueueName string `json:"queueName"`
 	// Regex matching file names to download and process. Defaults to: .*
 	FileFilter *string `default:"/.*/" json:"fileFilter"`
@@ -356,11 +356,10 @@ type InputCrowdstrike struct {
 	AwsAccountID *string `json:"awsAccountId,omitempty"`
 	// AWS authentication method. Choose Auto to use IAM roles.
 	AwsAuthenticationMethod *InputCrowdstrikeAuthenticationMethod `default:"auto" json:"awsAuthenticationMethod"`
-	// Secret key
-	AwsSecretKey *string `json:"awsSecretKey,omitempty"`
+	AwsSecretKey            *string                               `json:"awsSecretKey,omitempty"`
 	// AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region.
 	Region *string `json:"region,omitempty"`
-	// S3 service endpoint. If empty, defaults to AWS' Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint.
+	// S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint.
 	Endpoint *string `json:"endpoint,omitempty"`
 	// Signature version to use for signing S3 requests
 	SignatureVersion *InputCrowdstrikeSignatureVersion `default:"v4" json:"signatureVersion"`
@@ -376,11 +375,11 @@ type InputCrowdstrike struct {
 	MaxMessages *float64 `default:"1" json:"maxMessages"`
 	// After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours).
 	VisibilityTimeout *float64 `default:"21600" json:"visibilityTimeout"`
-	// The Number of receiver processes to run, the higher the number the better throughput at the expense of CPU overhead
+	// How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead.
 	NumReceivers *float64 `default:"1" json:"numReceivers"`
 	// Socket inactivity timeout (in seconds). Increase this value if timeouts occur due to backpressure.
 	SocketTimeout *float64 `default:"300" json:"socketTimeout"`
-	// Toggle to Yes to skip files that trigger a processing error. Defaults to No, which enables retries after processing errors.
+	// Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors.
 	SkipOnError *bool `default:"false" json:"skipOnError"`
 	// Use Assume Role credentials to access S3
 	EnableAssumeRole *bool `default:"true" json:"enableAssumeRole"`
@@ -390,20 +389,19 @@ type InputCrowdstrike struct {
 	AssumeRoleExternalID *string `json:"assumeRoleExternalId,omitempty"`
 	// Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours).
 	DurationSeconds *float64 `default:"3600" json:"durationSeconds"`
-	// Use Assume Role credentials when accessing SQS.
+	// Use Assume Role credentials when accessing SQS
 	EnableSQSAssumeRole *bool                       `default:"false" json:"enableSQSAssumeRole"`
 	Preprocess          *InputCrowdstrikePreprocess `json:"preprocess,omitempty"`
 	// Fields to add to events from this input
 	Metadata      []InputCrowdstrikeMetadata `json:"metadata,omitempty"`
 	Checkpointing *Checkpointing             `json:"checkpointing,omitempty"`
-	// The amount of time to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts.
+	// How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts.
 	PollTimeout *float64 `default:"10" json:"pollTimeout"`
 	// Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters.
 	Encoding    *string `json:"encoding,omitempty"`
 	Description *string `json:"description,omitempty"`
-	// Access key
-	AwsAPIKey *string `json:"awsApiKey,omitempty"`
-	// Select or create a stored secret that references your access key and secret key.
+	AwsAPIKey   *string `json:"awsApiKey,omitempty"`
+	// Select or create a stored secret that references your access key and secret key
 	AwsSecret *string `json:"awsSecret,omitempty"`
 }
 

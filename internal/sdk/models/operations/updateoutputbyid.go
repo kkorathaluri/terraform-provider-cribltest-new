@@ -30,16 +30,7 @@ func (o *UpdateOutputByIDRequest) GetOutput() shared.Output {
 
 // UpdateOutputByIDResponseBody - a list of Output objects
 type UpdateOutputByIDResponseBody struct {
-	// number of items present in the items array
-	Count *int64          `json:"count,omitempty"`
 	Items []shared.Output `json:"items,omitempty"`
-}
-
-func (o *UpdateOutputByIDResponseBody) GetCount() *int64 {
-	if o == nil {
-		return nil
-	}
-	return o.Count
 }
 
 func (o *UpdateOutputByIDResponseBody) GetItems() []shared.Output {

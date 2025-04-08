@@ -685,10 +685,8 @@ type OutputClickHouse struct {
 	// Whether to block, drop, or queue events when all receivers are exerting backpressure.
 	OnBackpressure *OutputClickHouseBackpressureBehavior `default:"block" json:"onBackpressure"`
 	Description    *string                               `json:"description,omitempty"`
-	// Username for Basic authentication
-	Username *string `json:"username,omitempty"`
-	// Password for Basic authentication
-	Password *string `json:"password,omitempty"`
+	Username       *string                               `json:"username,omitempty"`
+	Password       *string                               `json:"password,omitempty"`
 	// Bearer token to include in the authorization header
 	Token *string `json:"token,omitempty"`
 	// Select or create a secret that references your credentials

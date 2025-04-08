@@ -17,7 +17,7 @@ type InputS3 struct {
 	Connections                 []InputS3Connections  `tfsdk:"connections"`
 	Description                 types.String          `tfsdk:"description"`
 	Disabled                    types.Bool            `tfsdk:"disabled"`
-	DurationSeconds             types.Number          `tfsdk:"duration_seconds"`
+	DurationSeconds             types.Float64         `tfsdk:"duration_seconds"`
 	EnableAssumeRole            types.Bool            `tfsdk:"enable_assume_role"`
 	EnableSQSAssumeRole         types.Bool            `tfsdk:"enable_sqs_assume_role"`
 	Encoding                    types.String          `tfsdk:"encoding"`
@@ -25,13 +25,13 @@ type InputS3 struct {
 	Environment                 types.String          `tfsdk:"environment"`
 	FileFilter                  types.String          `tfsdk:"file_filter"`
 	ID                          types.String          `tfsdk:"id"`
-	MaxMessages                 types.Number          `tfsdk:"max_messages"`
+	MaxMessages                 types.Float64         `tfsdk:"max_messages"`
 	Metadata                    []InputS3Metadata     `tfsdk:"metadata"`
-	NumReceivers                types.Number          `tfsdk:"num_receivers"`
-	ParquetChunkDownloadTimeout types.Number          `tfsdk:"parquet_chunk_download_timeout"`
-	ParquetChunkSizeMB          types.Number          `tfsdk:"parquet_chunk_size_mb"`
+	NumReceivers                types.Float64         `tfsdk:"num_receivers"`
+	ParquetChunkDownloadTimeout types.Float64         `tfsdk:"parquet_chunk_download_timeout"`
+	ParquetChunkSizeMB          types.Float64         `tfsdk:"parquet_chunk_size_mb"`
 	Pipeline                    types.String          `tfsdk:"pipeline"`
-	PollTimeout                 types.Number          `tfsdk:"poll_timeout"`
+	PollTimeout                 types.Float64         `tfsdk:"poll_timeout"`
 	Pq                          *InputS3Pq            `tfsdk:"pq"`
 	PqEnabled                   types.Bool            `tfsdk:"pq_enabled"`
 	Preprocess                  *InputS3Preprocess    `tfsdk:"preprocess"`
@@ -42,9 +42,9 @@ type InputS3 struct {
 	SendToRoutes                types.Bool            `tfsdk:"send_to_routes"`
 	SignatureVersion            types.String          `tfsdk:"signature_version"`
 	SkipOnError                 types.Bool            `tfsdk:"skip_on_error"`
-	SocketTimeout               types.Number          `tfsdk:"socket_timeout"`
-	StaleChannelFlushMs         types.Number          `tfsdk:"stale_channel_flush_ms"`
+	SocketTimeout               types.Float64         `tfsdk:"socket_timeout"`
+	StaleChannelFlushMs         types.Float64         `tfsdk:"stale_channel_flush_ms"`
 	Streamtags                  []types.String        `tfsdk:"streamtags"`
 	Type                        types.String          `tfsdk:"type"`
-	VisibilityTimeout           types.Number          `tfsdk:"visibility_timeout"`
+	VisibilityTimeout           types.Float64         `tfsdk:"visibility_timeout"`
 }

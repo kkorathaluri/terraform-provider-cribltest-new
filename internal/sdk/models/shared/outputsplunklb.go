@@ -312,6 +312,36 @@ func (e *OutputSplunkLbAuthenticationMethod) UnmarshalJSON(data []byte) error {
 	}
 }
 
+// OutputSplunkLbCompression - Controls whether the sender should send compressed data to the server. Select 'Disabled' to reject compressed connections or 'Always' to ignore server's configuration and send compressed data.
+type OutputSplunkLbCompression string
+
+const (
+	OutputSplunkLbCompressionDisabled OutputSplunkLbCompression = "disabled"
+	OutputSplunkLbCompressionAuto     OutputSplunkLbCompression = "auto"
+	OutputSplunkLbCompressionAlways   OutputSplunkLbCompression = "always"
+)
+
+func (e OutputSplunkLbCompression) ToPointer() *OutputSplunkLbCompression {
+	return &e
+}
+func (e *OutputSplunkLbCompression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "disabled":
+		fallthrough
+	case "auto":
+		fallthrough
+	case "always":
+		*e = OutputSplunkLbCompression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for OutputSplunkLbCompression: %v", v)
+	}
+}
+
 // OutputSplunkLbIndexerDiscoveryConfigsAuthTokensAuthenticationMethod - Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
 type OutputSplunkLbIndexerDiscoveryConfigsAuthTokensAuthenticationMethod string
 
@@ -562,18 +592,18 @@ func (o *Hosts) GetWeight() *float64 {
 	return o.Weight
 }
 
-// OutputSplunkLbCompression - Codec to use to compress the persisted data.
-type OutputSplunkLbCompression string
+// OutputSplunkLbPqCompressCompression - Codec to use to compress the persisted data.
+type OutputSplunkLbPqCompressCompression string
 
 const (
-	OutputSplunkLbCompressionNone OutputSplunkLbCompression = "none"
-	OutputSplunkLbCompressionGzip OutputSplunkLbCompression = "gzip"
+	OutputSplunkLbPqCompressCompressionNone OutputSplunkLbPqCompressCompression = "none"
+	OutputSplunkLbPqCompressCompressionGzip OutputSplunkLbPqCompressCompression = "gzip"
 )
 
-func (e OutputSplunkLbCompression) ToPointer() *OutputSplunkLbCompression {
+func (e OutputSplunkLbPqCompressCompression) ToPointer() *OutputSplunkLbPqCompressCompression {
 	return &e
 }
-func (e *OutputSplunkLbCompression) UnmarshalJSON(data []byte) error {
+func (e *OutputSplunkLbPqCompressCompression) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -582,10 +612,10 @@ func (e *OutputSplunkLbCompression) UnmarshalJSON(data []byte) error {
 	case "none":
 		fallthrough
 	case "gzip":
-		*e = OutputSplunkLbCompression(v)
+		*e = OutputSplunkLbPqCompressCompression(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for OutputSplunkLbCompression: %v", v)
+		return fmt.Errorf("invalid value for OutputSplunkLbPqCompressCompression: %v", v)
 	}
 }
 
@@ -695,6 +725,8 @@ type OutputSplunkLb struct {
 	Description *string                             `json:"description,omitempty"`
 	// Maximum number of times healthcheck can fail before we close connection. If set to 0 (disabled), and the connection to Splunk is forcibly closed, some data loss might occur.
 	MaxFailedHealthChecks *float64 `default:"1" json:"maxFailedHealthChecks"`
+	// Controls whether the sender should send compressed data to the server. Select 'Disabled' to reject compressed connections or 'Always' to ignore server's configuration and send compressed data.
+	Compress *OutputSplunkLbCompression `default:"disabled" json:"compress"`
 	// List of configurations to set up indexer discovery in Splunk Indexer clustering environment.
 	IndexerDiscoveryConfigs *IndexerDiscoveryConfigs `json:"indexerDiscoveryConfigs,omitempty"`
 	// Exclude all IPs of the current host from the list of any resolved hostnames.
@@ -708,7 +740,7 @@ type OutputSplunkLb struct {
 	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>.
 	PqPath *string `default:"\\$CRIBL_HOME/state/queues" json:"pqPath"`
 	// Codec to use to compress the persisted data.
-	PqCompress *OutputSplunkLbCompression `default:"none" json:"pqCompress"`
+	PqCompress *OutputSplunkLbPqCompressCompression `default:"none" json:"pqCompress"`
 	// Whether to block or drop events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged.
 	PqOnBackpressure *OutputSplunkLbQueueFullBehavior `default:"block" json:"pqOnBackpressure"`
 	// In Error mode, PQ writes events to the filesystem only when it detects a non-retryable Destination error. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination or when there are non-retryable Destination errors. In Always On mode, PQ always writes events to the filesystem.
@@ -899,6 +931,13 @@ func (o *OutputSplunkLb) GetMaxFailedHealthChecks() *float64 {
 	return o.MaxFailedHealthChecks
 }
 
+func (o *OutputSplunkLb) GetCompress() *OutputSplunkLbCompression {
+	if o == nil {
+		return nil
+	}
+	return o.Compress
+}
+
 func (o *OutputSplunkLb) GetIndexerDiscoveryConfigs() *IndexerDiscoveryConfigs {
 	if o == nil {
 		return nil
@@ -941,7 +980,7 @@ func (o *OutputSplunkLb) GetPqPath() *string {
 	return o.PqPath
 }
 
-func (o *OutputSplunkLb) GetPqCompress() *OutputSplunkLbCompression {
+func (o *OutputSplunkLb) GetPqCompress() *OutputSplunkLbPqCompressCompression {
 	if o == nil {
 		return nil
 	}

@@ -494,10 +494,8 @@ type OutputInfluxdb struct {
 	// In Error mode, PQ writes events to the filesystem only when it detects a non-retryable Destination error. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination or when there are non-retryable Destination errors. In Always On mode, PQ always writes events to the filesystem.
 	PqMode     *OutputInfluxdbMode       `default:"error" json:"pqMode"`
 	PqControls *OutputInfluxdbPqControls `json:"pqControls,omitempty"`
-	// Username for Basic authentication
-	Username *string `json:"username,omitempty"`
-	// Password for Basic authentication
-	Password *string `json:"password,omitempty"`
+	Username   *string                   `json:"username,omitempty"`
+	Password   *string                   `json:"password,omitempty"`
 	// Bearer token to include in the authorization header
 	Token *string `json:"token,omitempty"`
 	// Select or create a secret that references your credentials

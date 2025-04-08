@@ -5,8 +5,8 @@ package types
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type OutputCrowdstrikeNextGenSiemResponseRetrySettings struct {
-	BackoffRate    types.Number `tfsdk:"backoff_rate"`
-	HTTPStatus     types.Number `tfsdk:"http_status"`
-	InitialBackoff types.Number `tfsdk:"initial_backoff"`
-	MaxBackoff     types.Number `tfsdk:"max_backoff"`
+	BackoffRate    types.Float64 `tfsdk:"backoff_rate"`
+	HTTPStatus     types.Float64 `tfsdk:"http_status"`
+	InitialBackoff types.Float64 `tfsdk:"initial_backoff"`
+	MaxBackoff     types.Float64 `tfsdk:"max_backoff"`
 }

@@ -1,4 +1,5 @@
 resource "cribl-terraform_destination" "my_destination" {
+  id = "...my_id..."
   output_azure_blob = {
     add_id_to_stage_path = false
     auth_type            = "manual"
@@ -554,6 +555,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 4.29
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3155,6 +3164,7 @@ resource "cribl-terraform_destination" "my_destination" {
   output_splunk = {
     auth_token               = "...my_auth_token..."
     auth_type                = "secret"
+    compress                 = "always"
     connection_timeout       = 3.87
     description              = "...my_description..."
     enable_ack               = true
@@ -3277,6 +3287,7 @@ resource "cribl-terraform_destination" "my_destination" {
   output_splunk_lb = {
     auth_token             = "...my_auth_token..."
     auth_type              = "manual"
+    compress               = "auto"
     connection_timeout     = 6.82
     description            = "...my_description..."
     dns_resolve_period_sec = 42455.46
@@ -3795,7 +3806,7 @@ resource "cribl-terraform_destination" "my_destination" {
     token_attribute_name  = "...my_token_attribute_name..."
     token_timeout_secs    = 235590.21
     total_memory_limit_kb = 5.04
-    type                  = "dynatrace_http"
+    type                  = "webhook"
     url                   = "...my_url..."
     urls = [
       {

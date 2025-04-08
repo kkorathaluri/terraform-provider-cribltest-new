@@ -12,7 +12,7 @@ type InputSystemMetrics struct {
 	Environment  types.String                    `tfsdk:"environment"`
 	Host         *Host                           `tfsdk:"host"`
 	ID           types.String                    `tfsdk:"id"`
-	Interval     types.Number                    `tfsdk:"interval"`
+	Interval     types.Float64                   `tfsdk:"interval"`
 	Metadata     []InputSystemMetricsMetadata    `tfsdk:"metadata"`
 	Persistence  *InputSystemMetricsPersistence  `tfsdk:"persistence"`
 	Pipeline     types.String                    `tfsdk:"pipeline"`

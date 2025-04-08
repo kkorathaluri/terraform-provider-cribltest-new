@@ -11,7 +11,7 @@ type InputSystemState struct {
 	Disabled     types.Bool                    `tfsdk:"disabled"`
 	Environment  types.String                  `tfsdk:"environment"`
 	ID           types.String                  `tfsdk:"id"`
-	Interval     types.Number                  `tfsdk:"interval"`
+	Interval     types.Float64                 `tfsdk:"interval"`
 	Metadata     []InputSystemStateMetadata    `tfsdk:"metadata"`
 	Persistence  *Persistence                  `tfsdk:"persistence"`
 	Pipeline     types.String                  `tfsdk:"pipeline"`

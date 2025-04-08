@@ -8,17 +8,17 @@ type OutputAzureLogs struct {
 	APIURL                        types.String                           `tfsdk:"api_url"`
 	AuthType                      types.String                           `tfsdk:"auth_type"`
 	Compress                      types.Bool                             `tfsdk:"compress"`
-	Concurrency                   types.Number                           `tfsdk:"concurrency"`
+	Concurrency                   types.Float64                          `tfsdk:"concurrency"`
 	Description                   types.String                           `tfsdk:"description"`
 	Environment                   types.String                           `tfsdk:"environment"`
 	ExtraHTTPHeaders              []OutputAzureLogsExtraHTTPHeaders      `tfsdk:"extra_http_headers"`
 	FailedRequestLoggingMode      types.String                           `tfsdk:"failed_request_logging_mode"`
-	FlushPeriodSec                types.Number                           `tfsdk:"flush_period_sec"`
+	FlushPeriodSec                types.Float64                          `tfsdk:"flush_period_sec"`
 	ID                            types.String                           `tfsdk:"id"`
 	KeypairSecret                 types.String                           `tfsdk:"keypair_secret"`
 	LogType                       types.String                           `tfsdk:"log_type"`
-	MaxPayloadEvents              types.Number                           `tfsdk:"max_payload_events"`
-	MaxPayloadSizeKB              types.Number                           `tfsdk:"max_payload_size_kb"`
+	MaxPayloadEvents              types.Float64                          `tfsdk:"max_payload_events"`
+	MaxPayloadSizeKB              types.Float64                          `tfsdk:"max_payload_size_kb"`
 	OnBackpressure                types.String                           `tfsdk:"on_backpressure"`
 	Pipeline                      types.String                           `tfsdk:"pipeline"`
 	PqCompress                    types.String                           `tfsdk:"pq_compress"`
@@ -36,7 +36,7 @@ type OutputAzureLogs struct {
 	Streamtags                    []types.String                         `tfsdk:"streamtags"`
 	SystemFields                  []types.String                         `tfsdk:"system_fields"`
 	TimeoutRetrySettings          *OutputAzureLogsTimeoutRetrySettings   `tfsdk:"timeout_retry_settings"`
-	TimeoutSec                    types.Number                           `tfsdk:"timeout_sec"`
+	TimeoutSec                    types.Float64                          `tfsdk:"timeout_sec"`
 	Type                          types.String                           `tfsdk:"type"`
 	UseRoundRobinDNS              types.Bool                             `tfsdk:"use_round_robin_dns"`
 	WorkspaceID                   types.String                           `tfsdk:"workspace_id"`

@@ -50,7 +50,7 @@ func (o *InputKinesisConnections) GetOutput() string {
 	return o.Output
 }
 
-// InputKinesisMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+// InputKinesisMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 type InputKinesisMode string
 
 const (
@@ -105,7 +105,7 @@ func (e *InputKinesisCompression) UnmarshalJSON(data []byte) error {
 }
 
 type InputKinesisPq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 	Mode *InputKinesisMode `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
@@ -381,11 +381,10 @@ type InputKinesis struct {
 	LoadBalancingAlgorithm *ShardLoadBalancing `default:"ConsistentHashing" json:"loadBalancingAlgorithm"`
 	// AWS authentication method. Choose Auto to use IAM roles.
 	AwsAuthenticationMethod *InputKinesisAuthenticationMethod `default:"auto" json:"awsAuthenticationMethod"`
-	// Secret key
-	AwsSecretKey *string `json:"awsSecretKey,omitempty"`
+	AwsSecretKey            *string                           `json:"awsSecretKey,omitempty"`
 	// Region where the Kinesis stream is located
 	Region string `json:"region"`
-	// Kinesis stream service endpoint. If empty, defaults to AWS' Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint.
+	// Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint.
 	Endpoint *string `json:"endpoint,omitempty"`
 	// Signature version to use for signing Kinesis stream requests
 	SignatureVersion *InputKinesisSignatureVersion `default:"v4" json:"signatureVersion"`
@@ -408,9 +407,8 @@ type InputKinesis struct {
 	// Fields to add to events from this input
 	Metadata    []InputKinesisMetadata `json:"metadata,omitempty"`
 	Description *string                `json:"description,omitempty"`
-	// Access key
-	AwsAPIKey *string `json:"awsApiKey,omitempty"`
-	// Select or create a stored secret that references your access key and secret key.
+	AwsAPIKey   *string                `json:"awsApiKey,omitempty"`
+	// Select or create a stored secret that references your access key and secret key
 	AwsSecret *string `json:"awsSecret,omitempty"`
 }
 

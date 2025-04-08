@@ -6,40 +6,25 @@ import (
 	"net/http"
 )
 
-type WorkspacesControllerDeleteWorkspaceGlobals struct {
-	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
-	WorkspaceID    *string `pathParam:"style=simple,explode=false,name=workspaceId"`
-}
-
-func (o *WorkspacesControllerDeleteWorkspaceGlobals) GetOrganizationID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.OrganizationID
-}
-
-func (o *WorkspacesControllerDeleteWorkspaceGlobals) GetWorkspaceID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.WorkspaceID
+var WorkspacesControllerDeleteWorkspaceServerList = []string{
+	"https://api.cribl-staging.cloud",
 }
 
 type WorkspacesControllerDeleteWorkspaceRequest struct {
-	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
-	WorkspaceID    *string `pathParam:"style=simple,explode=false,name=workspaceId"`
+	OrganizationID string `pathParam:"style=simple,explode=false,name=organizationId"`
+	WorkspaceID    string `pathParam:"style=simple,explode=false,name=workspaceId"`
 }
 
-func (o *WorkspacesControllerDeleteWorkspaceRequest) GetOrganizationID() *string {
+func (o *WorkspacesControllerDeleteWorkspaceRequest) GetOrganizationID() string {
 	if o == nil {
-		return nil
+		return ""
 	}
 	return o.OrganizationID
 }
 
-func (o *WorkspacesControllerDeleteWorkspaceRequest) GetWorkspaceID() *string {
+func (o *WorkspacesControllerDeleteWorkspaceRequest) GetWorkspaceID() string {
 	if o == nil {
-		return nil
+		return ""
 	}
 	return o.WorkspaceID
 }

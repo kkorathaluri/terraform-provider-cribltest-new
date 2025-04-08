@@ -9,13 +9,13 @@ type OutputGoogleCloudLogging struct {
 	CacheHitExpression        types.String                        `tfsdk:"cache_hit_expression"`
 	CacheLookupExpression     types.String                        `tfsdk:"cache_lookup_expression"`
 	CacheValidatedExpression  types.String                        `tfsdk:"cache_validated_expression"`
-	Concurrency               types.Number                        `tfsdk:"concurrency"`
-	ConnectionTimeout         types.Number                        `tfsdk:"connection_timeout"`
+	Concurrency               types.Float64                       `tfsdk:"concurrency"`
+	ConnectionTimeout         types.Float64                       `tfsdk:"connection_timeout"`
 	Description               types.String                        `tfsdk:"description"`
 	Environment               types.String                        `tfsdk:"environment"`
 	FileExpression            types.String                        `tfsdk:"file_expression"`
 	FirstExpression           types.String                        `tfsdk:"first_expression"`
-	FlushPeriodSec            types.Number                        `tfsdk:"flush_period_sec"`
+	FlushPeriodSec            types.Float64                       `tfsdk:"flush_period_sec"`
 	FunctionExpression        types.String                        `tfsdk:"function_expression"`
 	GoogleAuthMethod          types.String                        `tfsdk:"google_auth_method"`
 	ID                        types.String                        `tfsdk:"id"`
@@ -29,8 +29,8 @@ type OutputGoogleCloudLogging struct {
 	LogLocationExpression     types.String                        `tfsdk:"log_location_expression"`
 	LogLocationType           types.String                        `tfsdk:"log_location_type"`
 	LogNameExpression         types.String                        `tfsdk:"log_name_expression"`
-	MaxPayloadEvents          types.Number                        `tfsdk:"max_payload_events"`
-	MaxPayloadSizeKB          types.Number                        `tfsdk:"max_payload_size_kb"`
+	MaxPayloadEvents          types.Float64                       `tfsdk:"max_payload_events"`
+	MaxPayloadSizeKB          types.Float64                       `tfsdk:"max_payload_size_kb"`
 	OnBackpressure            types.String                        `tfsdk:"on_backpressure"`
 	PayloadExpression         types.String                        `tfsdk:"payload_expression"`
 	PayloadFormat             types.String                        `tfsdk:"payload_format"`
@@ -61,8 +61,8 @@ type OutputGoogleCloudLogging struct {
 	Streamtags                []types.String                      `tfsdk:"streamtags"`
 	SystemFields              []types.String                      `tfsdk:"system_fields"`
 	ThrottleRateReqPerSec     types.Int64                         `tfsdk:"throttle_rate_req_per_sec"`
-	TimeoutSec                types.Number                        `tfsdk:"timeout_sec"`
-	TotalMemoryLimitKB        types.Number                        `tfsdk:"total_memory_limit_kb"`
+	TimeoutSec                types.Float64                       `tfsdk:"timeout_sec"`
+	TotalMemoryLimitKB        types.Float64                       `tfsdk:"total_memory_limit_kb"`
 	TotalSplitsExpression     types.String                        `tfsdk:"total_splits_expression"`
 	TraceExpression           types.String                        `tfsdk:"trace_expression"`
 	TraceSampledExpression    types.String                        `tfsdk:"trace_sampled_expression"`

@@ -8,7 +8,7 @@ type OutputDataset struct {
 	APIKey                        types.String                         `tfsdk:"api_key"`
 	AuthType                      types.String                         `tfsdk:"auth_type"`
 	Compress                      types.Bool                           `tfsdk:"compress"`
-	Concurrency                   types.Number                         `tfsdk:"concurrency"`
+	Concurrency                   types.Float64                        `tfsdk:"concurrency"`
 	CustomURL                     types.String                         `tfsdk:"custom_url"`
 	DefaultSeverity               types.String                         `tfsdk:"default_severity"`
 	Description                   types.String                         `tfsdk:"description"`
@@ -16,10 +16,10 @@ type OutputDataset struct {
 	ExcludeFields                 []types.String                       `tfsdk:"exclude_fields"`
 	ExtraHTTPHeaders              []OutputDatasetExtraHTTPHeaders      `tfsdk:"extra_http_headers"`
 	FailedRequestLoggingMode      types.String                         `tfsdk:"failed_request_logging_mode"`
-	FlushPeriodSec                types.Number                         `tfsdk:"flush_period_sec"`
+	FlushPeriodSec                types.Float64                        `tfsdk:"flush_period_sec"`
 	ID                            types.String                         `tfsdk:"id"`
-	MaxPayloadEvents              types.Number                         `tfsdk:"max_payload_events"`
-	MaxPayloadSizeKB              types.Number                         `tfsdk:"max_payload_size_kb"`
+	MaxPayloadEvents              types.Float64                        `tfsdk:"max_payload_events"`
+	MaxPayloadSizeKB              types.Float64                        `tfsdk:"max_payload_size_kb"`
 	MessageField                  types.String                         `tfsdk:"message_field"`
 	OnBackpressure                types.String                         `tfsdk:"on_backpressure"`
 	Pipeline                      types.String                         `tfsdk:"pipeline"`
@@ -40,9 +40,9 @@ type OutputDataset struct {
 	SystemFields                  []types.String                       `tfsdk:"system_fields"`
 	TextSecret                    types.String                         `tfsdk:"text_secret"`
 	TimeoutRetrySettings          *OutputDatasetTimeoutRetrySettings   `tfsdk:"timeout_retry_settings"`
-	TimeoutSec                    types.Number                         `tfsdk:"timeout_sec"`
+	TimeoutSec                    types.Float64                        `tfsdk:"timeout_sec"`
 	TimestampField                types.String                         `tfsdk:"timestamp_field"`
-	TotalMemoryLimitKB            types.Number                         `tfsdk:"total_memory_limit_kb"`
+	TotalMemoryLimitKB            types.Float64                        `tfsdk:"total_memory_limit_kb"`
 	Type                          types.String                         `tfsdk:"type"`
 	UseRoundRobinDNS              types.Bool                           `tfsdk:"use_round_robin_dns"`
 }

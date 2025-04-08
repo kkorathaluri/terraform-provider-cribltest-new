@@ -6,7 +6,7 @@ import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type OutputSyslog struct {
 	AppName                types.String                       `tfsdk:"app_name"`
-	ConnectionTimeout      types.Number                       `tfsdk:"connection_timeout"`
+	ConnectionTimeout      types.Float64                      `tfsdk:"connection_timeout"`
 	Description            types.String                       `tfsdk:"description"`
 	Environment            types.String                       `tfsdk:"environment"`
 	Facility               types.Int64                        `tfsdk:"facility"`
@@ -14,12 +14,12 @@ type OutputSyslog struct {
 	ID                     types.String                       `tfsdk:"id"`
 	LoadBalanced           types.Bool                         `tfsdk:"load_balanced"`
 	LogFailedRequests      types.Bool                         `tfsdk:"log_failed_requests"`
-	MaxRecordSize          types.Number                       `tfsdk:"max_record_size"`
+	MaxRecordSize          types.Float64                      `tfsdk:"max_record_size"`
 	MessageFormat          types.String                       `tfsdk:"message_format"`
 	OctetCountFraming      types.Bool                         `tfsdk:"octet_count_framing"`
 	OnBackpressure         types.String                       `tfsdk:"on_backpressure"`
 	Pipeline               types.String                       `tfsdk:"pipeline"`
-	Port                   types.Number                       `tfsdk:"port"`
+	Port                   types.Float64                      `tfsdk:"port"`
 	PqCompress             types.String                       `tfsdk:"pq_compress"`
 	PqControls             *OutputSyslogPqControls            `tfsdk:"pq_controls"`
 	PqMaxFileSize          types.String                       `tfsdk:"pq_max_file_size"`
@@ -35,6 +35,6 @@ type OutputSyslog struct {
 	TimestampFormat        types.String                       `tfsdk:"timestamp_format"`
 	TLS                    *OutputSyslogTLSSettingsClientSide `tfsdk:"tls"`
 	Type                   types.String                       `tfsdk:"type"`
-	UDPDNSResolvePeriodSec types.Number                       `tfsdk:"udp_dns_resolve_period_sec"`
-	WriteTimeout           types.Number                       `tfsdk:"write_timeout"`
+	UDPDNSResolvePeriodSec types.Float64                      `tfsdk:"udp_dns_resolve_period_sec"`
+	WriteTimeout           types.Float64                      `tfsdk:"write_timeout"`
 }

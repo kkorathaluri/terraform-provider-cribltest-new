@@ -5,7 +5,7 @@ package types
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type InputGooglePubsub struct {
-	Concurrency               types.Number                   `tfsdk:"concurrency"`
+	Concurrency               types.Float64                  `tfsdk:"concurrency"`
 	Connections               []InputGooglePubsubConnections `tfsdk:"connections"`
 	CreateSubscription        types.Bool                     `tfsdk:"create_subscription"`
 	CreateTopic               types.Bool                     `tfsdk:"create_topic"`
@@ -14,14 +14,14 @@ type InputGooglePubsub struct {
 	Environment               types.String                   `tfsdk:"environment"`
 	GoogleAuthMethod          types.String                   `tfsdk:"google_auth_method"`
 	ID                        types.String                   `tfsdk:"id"`
-	MaxBacklog                types.Number                   `tfsdk:"max_backlog"`
+	MaxBacklog                types.Float64                  `tfsdk:"max_backlog"`
 	Metadata                  []InputGooglePubsubMetadata    `tfsdk:"metadata"`
 	OrderedDelivery           types.Bool                     `tfsdk:"ordered_delivery"`
 	Pipeline                  types.String                   `tfsdk:"pipeline"`
 	Pq                        *InputGooglePubsubPq           `tfsdk:"pq"`
 	PqEnabled                 types.Bool                     `tfsdk:"pq_enabled"`
 	Region                    types.String                   `tfsdk:"region"`
-	RequestTimeout            types.Number                   `tfsdk:"request_timeout"`
+	RequestTimeout            types.Float64                  `tfsdk:"request_timeout"`
 	Secret                    types.String                   `tfsdk:"secret"`
 	SendToRoutes              types.Bool                     `tfsdk:"send_to_routes"`
 	ServiceAccountCredentials types.String                   `tfsdk:"service_account_credentials"`

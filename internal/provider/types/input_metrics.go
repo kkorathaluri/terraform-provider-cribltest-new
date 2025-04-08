@@ -13,16 +13,16 @@ type InputMetrics struct {
 	Host               types.String                       `tfsdk:"host"`
 	ID                 types.String                       `tfsdk:"id"`
 	IPWhitelistRegex   types.String                       `tfsdk:"ip_whitelist_regex"`
-	MaxBufferSize      types.Number                       `tfsdk:"max_buffer_size"`
+	MaxBufferSize      types.Float64                      `tfsdk:"max_buffer_size"`
 	Metadata           []InputMetricsMetadata             `tfsdk:"metadata"`
 	Pipeline           types.String                       `tfsdk:"pipeline"`
 	Pq                 *InputMetricsPq                    `tfsdk:"pq"`
 	PqEnabled          types.Bool                         `tfsdk:"pq_enabled"`
 	SendToRoutes       types.Bool                         `tfsdk:"send_to_routes"`
 	Streamtags         []types.String                     `tfsdk:"streamtags"`
-	TCPPort            types.Number                       `tfsdk:"tcp_port"`
+	TCPPort            types.Float64                      `tfsdk:"tcp_port"`
 	TLS                *InputMetricsTLSSettingsServerSide `tfsdk:"tls"`
 	Type               types.String                       `tfsdk:"type"`
-	UDPPort            types.Number                       `tfsdk:"udp_port"`
-	UDPSocketRxBufSize types.Number                       `tfsdk:"udp_socket_rx_buf_size"`
+	UDPPort            types.Float64                      `tfsdk:"udp_port"`
+	UDPSocketRxBufSize types.Float64                      `tfsdk:"udp_socket_rx_buf_size"`
 }

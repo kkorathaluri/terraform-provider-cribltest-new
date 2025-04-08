@@ -6,20 +6,20 @@ import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type OutputAzureEventhub struct {
 	Ack                       types.Int64                               `tfsdk:"ack"`
-	AuthenticationTimeout     types.Number                              `tfsdk:"authentication_timeout"`
-	BackoffRate               types.Number                              `tfsdk:"backoff_rate"`
+	AuthenticationTimeout     types.Float64                             `tfsdk:"authentication_timeout"`
+	BackoffRate               types.Float64                             `tfsdk:"backoff_rate"`
 	Brokers                   []types.String                            `tfsdk:"brokers"`
-	ConnectionTimeout         types.Number                              `tfsdk:"connection_timeout"`
+	ConnectionTimeout         types.Float64                             `tfsdk:"connection_timeout"`
 	Description               types.String                              `tfsdk:"description"`
 	Environment               types.String                              `tfsdk:"environment"`
-	FlushEventCount           types.Number                              `tfsdk:"flush_event_count"`
-	FlushPeriodSec            types.Number                              `tfsdk:"flush_period_sec"`
+	FlushEventCount           types.Float64                             `tfsdk:"flush_event_count"`
+	FlushPeriodSec            types.Float64                             `tfsdk:"flush_period_sec"`
 	Format                    types.String                              `tfsdk:"format"`
 	ID                        types.String                              `tfsdk:"id"`
-	InitialBackoff            types.Number                              `tfsdk:"initial_backoff"`
-	MaxBackOff                types.Number                              `tfsdk:"max_back_off"`
-	MaxRecordSizeKB           types.Number                              `tfsdk:"max_record_size_kb"`
-	MaxRetries                types.Number                              `tfsdk:"max_retries"`
+	InitialBackoff            types.Float64                             `tfsdk:"initial_backoff"`
+	MaxBackOff                types.Float64                             `tfsdk:"max_back_off"`
+	MaxRecordSizeKB           types.Float64                             `tfsdk:"max_record_size_kb"`
+	MaxRetries                types.Float64                             `tfsdk:"max_retries"`
 	OnBackpressure            types.String                              `tfsdk:"on_backpressure"`
 	Pipeline                  types.String                              `tfsdk:"pipeline"`
 	PqCompress                types.String                              `tfsdk:"pq_compress"`
@@ -29,8 +29,8 @@ type OutputAzureEventhub struct {
 	PqMode                    types.String                              `tfsdk:"pq_mode"`
 	PqOnBackpressure          types.String                              `tfsdk:"pq_on_backpressure"`
 	PqPath                    types.String                              `tfsdk:"pq_path"`
-	ReauthenticationThreshold types.Number                              `tfsdk:"reauthentication_threshold"`
-	RequestTimeout            types.Number                              `tfsdk:"request_timeout"`
+	ReauthenticationThreshold types.Float64                             `tfsdk:"reauthentication_threshold"`
+	RequestTimeout            types.Float64                             `tfsdk:"request_timeout"`
 	Sasl                      *OutputAzureEventhubAuthentication        `tfsdk:"sasl"`
 	Streamtags                []types.String                            `tfsdk:"streamtags"`
 	SystemFields              []types.String                            `tfsdk:"system_fields"`

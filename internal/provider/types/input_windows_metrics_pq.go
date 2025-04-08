@@ -5,11 +5,11 @@ package types
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type InputWindowsMetricsPq struct {
-	CommitFrequency types.Number `tfsdk:"commit_frequency"`
-	Compress        types.String `tfsdk:"compress"`
-	MaxBufferSize   types.Number `tfsdk:"max_buffer_size"`
-	MaxFileSize     types.String `tfsdk:"max_file_size"`
-	MaxSize         types.String `tfsdk:"max_size"`
-	Mode            types.String `tfsdk:"mode"`
-	Path            types.String `tfsdk:"path"`
+	CommitFrequency types.Float64 `tfsdk:"commit_frequency"`
+	Compress        types.String  `tfsdk:"compress"`
+	MaxBufferSize   types.Float64 `tfsdk:"max_buffer_size"`
+	MaxFileSize     types.String  `tfsdk:"max_file_size"`
+	MaxSize         types.String  `tfsdk:"max_size"`
+	Mode            types.String  `tfsdk:"mode"`
+	Path            types.String  `tfsdk:"path"`
 }

@@ -50,7 +50,7 @@ func (o *InputAzureBlobConnections) GetOutput() string {
 	return o.Output
 }
 
-// InputAzureBlobMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+// InputAzureBlobMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 type InputAzureBlobMode string
 
 const (
@@ -105,7 +105,7 @@ func (e *InputAzureBlobCompression) UnmarshalJSON(data []byte) error {
 }
 
 type InputAzureBlobPq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 	Mode *InputAzureBlobMode `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
@@ -270,13 +270,13 @@ type InputAzureBlob struct {
 	FileFilter *string `default:"/.*/" json:"fileFilter"`
 	// The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a ReceiveMessage request.
 	VisibilityTimeout *float64 `default:"600" json:"visibilityTimeout"`
-	// The Number of receiver processes to run, the higher the number the better throughput at the expense of CPU overhead
+	// How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead.
 	NumReceivers *float64 `default:"1" json:"numReceivers"`
 	// The maximum number of messages to return in a poll request. Azure storage queues never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 32.
 	MaxMessages *float64 `default:"1" json:"maxMessages"`
 	// The duration (in seconds) which pollers should be validated and restarted if exited
 	ServicePeriodSecs *float64 `default:"5" json:"servicePeriodSecs"`
-	// Toggle to Yes to skip files that trigger a processing error. Defaults to No, which enables retries after processing errors.
+	// Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors.
 	SkipOnError *bool `default:"false" json:"skipOnError"`
 	// Fields to add to events from this input
 	Metadata []InputAzureBlobMetadata `json:"metadata,omitempty"`
@@ -284,9 +284,9 @@ type InputAzureBlob struct {
 	BreakerRulesets []string `json:"breakerRulesets,omitempty"`
 	// How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines
 	StaleChannelFlushMs *float64 `default:"10000" json:"staleChannelFlushMs"`
-	// Maximum file size for each Parquet chunk.
+	// Maximum file size for each Parquet chunk
 	ParquetChunkSizeMB *float64 `default:"5" json:"parquetChunkSizeMB"`
-	// The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified.
+	// The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified.
 	ParquetChunkDownloadTimeout *float64 `default:"600" json:"parquetChunkDownloadTimeout"`
 	// Enter connection string directly, or select a stored secret
 	AuthType    *InputAzureBlobAuthenticationMethod `default:"manual" json:"authType"`

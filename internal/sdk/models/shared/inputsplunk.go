@@ -50,7 +50,7 @@ func (o *InputSplunkConnections) GetOutput() string {
 	return o.Output
 }
 
-// InputSplunkMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+// InputSplunkMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 type InputSplunkMode string
 
 const (
@@ -105,7 +105,7 @@ func (e *InputSplunkCompression) UnmarshalJSON(data []byte) error {
 }
 
 type InputSplunkPq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 	Mode *InputSplunkMode `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
@@ -378,7 +378,7 @@ func (o *InputSplunkMetadata) GetValue() string {
 }
 
 type AuthTokens struct {
-	// Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted.
+	// Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted.
 	Token       string  `json:"token"`
 	Description *string `json:"description,omitempty"`
 }
@@ -424,6 +424,36 @@ func (e *MaxS2SVersion) UnmarshalJSON(data []byte) error {
 	}
 }
 
+// Compression - Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections.
+type Compression string
+
+const (
+	CompressionDisabled Compression = "disabled"
+	CompressionAuto     Compression = "auto"
+	CompressionAlways   Compression = "always"
+)
+
+func (e Compression) ToPointer() *Compression {
+	return &e
+}
+func (e *Compression) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "disabled":
+		fallthrough
+	case "auto":
+		fallthrough
+	case "always":
+		*e = Compression(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for Compression: %v", v)
+	}
+}
+
 type InputSplunk struct {
 	// Unique ID for this input
 	ID       *string          `json:"id,omitempty"`
@@ -465,7 +495,7 @@ type InputSplunk struct {
 	BreakerRulesets []string `json:"breakerRulesets,omitempty"`
 	// How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines
 	StaleChannelFlushMs *float64 `default:"10000" json:"staleChannelFlushMs"`
-	// Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted.
+	// Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted.
 	AuthTokens []AuthTokens `json:"authTokens,omitempty"`
 	// The highest S2S protocol version to advertise during handshake
 	MaxS2Sversion *MaxS2SVersion `default:"v3" json:"maxS2Sversion"`
@@ -477,7 +507,7 @@ type InputSplunk struct {
 	// Extract and process Splunk-generated metrics as Cribl metrics
 	ExtractMetrics *bool `default:"false" json:"extractMetrics"`
 	// Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections.
-	Compress *string `default:"disabled" json:"compress"`
+	Compress *Compression `default:"disabled" json:"compress"`
 }
 
 func (i InputSplunk) MarshalJSON() ([]byte, error) {
@@ -687,7 +717,7 @@ func (o *InputSplunk) GetExtractMetrics() *bool {
 	return o.ExtractMetrics
 }
 
-func (o *InputSplunk) GetCompress() *string {
+func (o *InputSplunk) GetCompress() *Compression {
 	if o == nil {
 		return nil
 	}

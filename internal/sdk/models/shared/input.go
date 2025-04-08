@@ -3,7511 +3,71 @@
 package shared
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/internal/utils"
 )
 
-type Input57Type string
+type InputType string
 
 const (
-	Input57TypeZscalerHec Input57Type = "zscaler_hec"
-)
-
-func (e Input57Type) ToPointer() *Input57Type {
-	return &e
-}
-func (e *Input57Type) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "zscaler_hec":
-		*e = Input57Type(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input57Type: %v", v)
-	}
-}
-
-type Input57Connections struct {
-	Pipeline *string `json:"pipeline,omitempty"`
-	Output   string  `json:"output"`
-}
-
-func (o *Input57Connections) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *Input57Connections) GetOutput() string {
-	if o == nil {
-		return ""
-	}
-	return o.Output
-}
-
-// Input57Mode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type Input57Mode string
-
-const (
-	Input57ModeSmart  Input57Mode = "smart"
-	Input57ModeAlways Input57Mode = "always"
-)
-
-func (e Input57Mode) ToPointer() *Input57Mode {
-	return &e
-}
-func (e *Input57Mode) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "smart":
-		fallthrough
-	case "always":
-		*e = Input57Mode(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input57Mode: %v", v)
-	}
-}
-
-// Input57Compression - Codec to use to compress the persisted data
-type Input57Compression string
-
-const (
-	Input57CompressionNone Input57Compression = "none"
-	Input57CompressionGzip Input57Compression = "gzip"
-)
-
-func (e Input57Compression) ToPointer() *Input57Compression {
-	return &e
-}
-func (e *Input57Compression) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "none":
-		fallthrough
-	case "gzip":
-		*e = Input57Compression(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input57Compression: %v", v)
-	}
-}
-
-type Input57Pq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *Input57Mode `default:"always" json:"mode"`
-	// The maximum number of events to hold in memory before writing the events to disk
-	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
-	// The number of events to send downstream before committing that Stream has read them
-	CommitFrequency *float64 `default:"42" json:"commitFrequency"`
-	// The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc.
-	MaxFileSize *string `default:"1 MB" json:"maxFileSize"`
-	// The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc.
-	MaxSize *string `default:"5GB" json:"maxSize"`
-	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
-	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
-	// Codec to use to compress the persisted data
-	Compress *Input57Compression `default:"none" json:"compress"`
-}
-
-func (i Input57Pq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
-}
-
-func (i *Input57Pq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *Input57Pq) GetMode() *Input57Mode {
-	if o == nil {
-		return nil
-	}
-	return o.Mode
-}
-
-func (o *Input57Pq) GetMaxBufferSize() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxBufferSize
-}
-
-func (o *Input57Pq) GetCommitFrequency() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.CommitFrequency
-}
-
-func (o *Input57Pq) GetMaxFileSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxFileSize
-}
-
-func (o *Input57Pq) GetMaxSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxSize
-}
-
-func (o *Input57Pq) GetPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Path
-}
-
-func (o *Input57Pq) GetCompress() *Input57Compression {
-	if o == nil {
-		return nil
-	}
-	return o.Compress
-}
-
-// Input57AuthenticationMethod - Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
-type Input57AuthenticationMethod string
-
-const (
-	Input57AuthenticationMethodManual Input57AuthenticationMethod = "manual"
-	Input57AuthenticationMethodSecret Input57AuthenticationMethod = "secret"
-)
-
-func (e Input57AuthenticationMethod) ToPointer() *Input57AuthenticationMethod {
-	return &e
-}
-func (e *Input57AuthenticationMethod) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "manual":
-		fallthrough
-	case "secret":
-		*e = Input57AuthenticationMethod(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input57AuthenticationMethod: %v", v)
-	}
-}
-
-type Input57AuthTokensMetadata struct {
-	Name string `json:"name"`
-	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
-	Value string `json:"value"`
-}
-
-func (o *Input57AuthTokensMetadata) GetName() string {
-	if o == nil {
-		return ""
-	}
-	return o.Name
-}
-
-func (o *Input57AuthTokensMetadata) GetValue() string {
-	if o == nil {
-		return ""
-	}
-	return o.Value
-}
-
-type InputAuthTokens struct {
-	// Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
-	AuthType    *Input57AuthenticationMethod `default:"manual" json:"authType"`
-	TokenSecret any                          `json:"tokenSecret,omitempty"`
-	Token       any                          `json:"token"`
-	Enabled     *bool                        `default:"true" json:"enabled"`
-	Description *string                      `json:"description,omitempty"`
-	// Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank.
-	AllowedIndexesAtToken []string `json:"allowedIndexesAtToken,omitempty"`
-	// Fields to add to events referencing this token
-	Metadata []Input57AuthTokensMetadata `json:"metadata,omitempty"`
-}
-
-func (i InputAuthTokens) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
-}
-
-func (i *InputAuthTokens) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *InputAuthTokens) GetAuthType() *Input57AuthenticationMethod {
-	if o == nil {
-		return nil
-	}
-	return o.AuthType
-}
-
-func (o *InputAuthTokens) GetTokenSecret() any {
-	if o == nil {
-		return nil
-	}
-	return o.TokenSecret
-}
-
-func (o *InputAuthTokens) GetToken() any {
-	if o == nil {
-		return nil
-	}
-	return o.Token
-}
-
-func (o *InputAuthTokens) GetEnabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Enabled
-}
-
-func (o *InputAuthTokens) GetDescription() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Description
-}
-
-func (o *InputAuthTokens) GetAllowedIndexesAtToken() []string {
-	if o == nil {
-		return nil
-	}
-	return o.AllowedIndexesAtToken
-}
-
-func (o *InputAuthTokens) GetMetadata() []Input57AuthTokensMetadata {
-	if o == nil {
-		return nil
-	}
-	return o.Metadata
-}
-
-// Input57MinimumTLSVersion - Minimum TLS version to accept from connections
-type Input57MinimumTLSVersion string
-
-const (
-	Input57MinimumTLSVersionTlSv1  Input57MinimumTLSVersion = "TLSv1"
-	Input57MinimumTLSVersionTlSv11 Input57MinimumTLSVersion = "TLSv1.1"
-	Input57MinimumTLSVersionTlSv12 Input57MinimumTLSVersion = "TLSv1.2"
-	Input57MinimumTLSVersionTlSv13 Input57MinimumTLSVersion = "TLSv1.3"
-)
-
-func (e Input57MinimumTLSVersion) ToPointer() *Input57MinimumTLSVersion {
-	return &e
-}
-func (e *Input57MinimumTLSVersion) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "TLSv1":
-		fallthrough
-	case "TLSv1.1":
-		fallthrough
-	case "TLSv1.2":
-		fallthrough
-	case "TLSv1.3":
-		*e = Input57MinimumTLSVersion(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input57MinimumTLSVersion: %v", v)
-	}
-}
-
-// Input57MaximumTLSVersion - Maximum TLS version to accept from connections
-type Input57MaximumTLSVersion string
-
-const (
-	Input57MaximumTLSVersionTlSv1  Input57MaximumTLSVersion = "TLSv1"
-	Input57MaximumTLSVersionTlSv11 Input57MaximumTLSVersion = "TLSv1.1"
-	Input57MaximumTLSVersionTlSv12 Input57MaximumTLSVersion = "TLSv1.2"
-	Input57MaximumTLSVersionTlSv13 Input57MaximumTLSVersion = "TLSv1.3"
-)
-
-func (e Input57MaximumTLSVersion) ToPointer() *Input57MaximumTLSVersion {
-	return &e
-}
-func (e *Input57MaximumTLSVersion) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "TLSv1":
-		fallthrough
-	case "TLSv1.1":
-		fallthrough
-	case "TLSv1.2":
-		fallthrough
-	case "TLSv1.3":
-		*e = Input57MaximumTLSVersion(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input57MaximumTLSVersion: %v", v)
-	}
-}
-
-type Input57TLSSettingsServerSide struct {
-	Disabled *bool `default:"true" json:"disabled"`
-	// The name of the predefined certificate
-	CertificateName *string `json:"certificateName,omitempty"`
-	// Path on server containing the private key to use. PEM format. Can reference $ENV_VARS.
-	PrivKeyPath *string `json:"privKeyPath,omitempty"`
-	// Passphrase to use to decrypt private key
-	Passphrase *string `json:"passphrase,omitempty"`
-	// Path on server containing certificates to use. PEM format. Can reference $ENV_VARS.
-	CertPath *string `json:"certPath,omitempty"`
-	// Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
-	CaPath *string `json:"caPath,omitempty"`
-	// Require clients to present their certificates. Used to perform client authentication using SSL certs.
-	RequestCert        *bool `default:"false" json:"requestCert"`
-	RejectUnauthorized any   `json:"rejectUnauthorized,omitempty"`
-	CommonNameRegex    any   `json:"commonNameRegex,omitempty"`
-	// Minimum TLS version to accept from connections
-	MinVersion *Input57MinimumTLSVersion `json:"minVersion,omitempty"`
-	// Maximum TLS version to accept from connections
-	MaxVersion *Input57MaximumTLSVersion `json:"maxVersion,omitempty"`
-}
-
-func (i Input57TLSSettingsServerSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
-}
-
-func (i *Input57TLSSettingsServerSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *Input57TLSSettingsServerSide) GetDisabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Disabled
-}
-
-func (o *Input57TLSSettingsServerSide) GetCertificateName() *string {
-	if o == nil {
-		return nil
-	}
-	return o.CertificateName
-}
-
-func (o *Input57TLSSettingsServerSide) GetPrivKeyPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.PrivKeyPath
-}
-
-func (o *Input57TLSSettingsServerSide) GetPassphrase() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Passphrase
-}
-
-func (o *Input57TLSSettingsServerSide) GetCertPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.CertPath
-}
-
-func (o *Input57TLSSettingsServerSide) GetCaPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.CaPath
-}
-
-func (o *Input57TLSSettingsServerSide) GetRequestCert() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.RequestCert
-}
-
-func (o *Input57TLSSettingsServerSide) GetRejectUnauthorized() any {
-	if o == nil {
-		return nil
-	}
-	return o.RejectUnauthorized
-}
-
-func (o *Input57TLSSettingsServerSide) GetCommonNameRegex() any {
-	if o == nil {
-		return nil
-	}
-	return o.CommonNameRegex
-}
-
-func (o *Input57TLSSettingsServerSide) GetMinVersion() *Input57MinimumTLSVersion {
-	if o == nil {
-		return nil
-	}
-	return o.MinVersion
-}
-
-func (o *Input57TLSSettingsServerSide) GetMaxVersion() *Input57MaximumTLSVersion {
-	if o == nil {
-		return nil
-	}
-	return o.MaxVersion
-}
-
-type Input57Metadata struct {
-	Name string `json:"name"`
-	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
-	Value string `json:"value"`
-}
-
-func (o *Input57Metadata) GetName() string {
-	if o == nil {
-		return ""
-	}
-	return o.Name
-}
-
-func (o *Input57Metadata) GetValue() string {
-	if o == nil {
-		return ""
-	}
-	return o.Value
-}
-
-type Input57Metrics struct {
-	Buffered *float64 `json:"buffered,omitempty"`
-	Dropped  *float64 `json:"dropped,omitempty"`
-	Received *float64 `json:"received,omitempty"`
-}
-
-func (o *Input57Metrics) GetBuffered() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Buffered
-}
-
-func (o *Input57Metrics) GetDropped() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Dropped
-}
-
-func (o *Input57Metrics) GetReceived() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Received
-}
-
-type Input57Status struct {
-	Health    *string         `json:"health,omitempty"`
-	Timestamp *float64        `json:"timestamp,omitempty"`
-	Metrics   *Input57Metrics `json:"metrics,omitempty"`
-}
-
-func (o *Input57Status) GetHealth() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Health
-}
-
-func (o *Input57Status) GetTimestamp() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Timestamp
-}
-
-func (o *Input57Status) GetMetrics() *Input57Metrics {
-	if o == nil {
-		return nil
-	}
-	return o.Metrics
-}
-
-type FiftySeven struct {
-	// Unique ID for this input
-	ID       *string      `json:"id,omitempty"`
-	Type     *Input57Type `json:"type,omitempty"`
-	Disabled *bool        `default:"false" json:"disabled"`
-	// Pipeline to process data from this Source before sending it through the Routes
-	Pipeline *string `json:"pipeline,omitempty"`
-	// Select whether to send data to Routes, or directly to Destinations.
-	SendToRoutes *bool `default:"true" json:"sendToRoutes"`
-	// Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-	Environment *string `json:"environment,omitempty"`
-	// Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers).
-	PqEnabled *bool `default:"false" json:"pqEnabled"`
-	// Tags for filtering and grouping in @{product}
-	Streamtags []string `json:"streamtags,omitempty"`
-	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []Input57Connections `json:"connections,omitempty"`
-	Pq          *Input57Pq           `json:"pq,omitempty"`
-	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
-	Host *string `default:"0.0.0.0" json:"host"`
-	// Port to listen on
-	Port float64 `json:"port"`
-	// Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted.
-	AuthTokens []InputAuthTokens             `json:"authTokens,omitempty"`
-	TLS        *Input57TLSSettingsServerSide `json:"tls,omitempty"`
-	// Maximum number of active requests per Worker Process. Use 0 for unlimited.
-	MaxActiveReq *float64 `default:"256" json:"maxActiveReq"`
-	// Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited).
-	MaxRequestsPerSocket *int64 `default:"0" json:"maxRequestsPerSocket"`
-	// Enable when clients are connecting through a proxy that supports the x-forwarded-for header to keep the client's original IP address on the event instead of the proxy's IP address
-	EnableProxyHeader *bool `default:"false" json:"enableProxyHeader"`
-	// Toggle this to Yes to add request headers to events, in the __headers field.
-	CaptureHeaders *bool `default:"false" json:"captureHeaders"`
-	// How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc.
-	ActivityLogSampleRate *float64 `default:"100" json:"activityLogSampleRate"`
-	// How long to wait for an incoming request to complete before aborting it. Use 0 to disable.
-	RequestTimeout *float64 `default:"0" json:"requestTimeout"`
-	// How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0.
-	SocketTimeout *float64 `default:"0" json:"socketTimeout"`
-	// After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 sec.; maximum 600 sec. (10 min.).
-	KeepAliveTimeout  *float64 `default:"5" json:"keepAliveTimeout"`
-	EnableHealthCheck any      `json:"enableHealthCheck,omitempty"`
-	// Messages from matched IP addresses will be processed, unless also matched by the denylist.
-	IPAllowlistRegex *string `default:"/.*/" json:"ipAllowlistRegex"`
-	// Messages from matched IP addresses will be ignored. This takes precedence over the allowlist.
-	IPDenylistRegex *string `default:"/^\\$/" json:"ipDenylistRegex"`
-	// Absolute path on which to listen for the Zscaler HTTP Event Collector API requests. This input supports the /event endpoint.
-	HecAPI *string `default:"/services/collector" json:"hecAPI"`
-	// Fields to add to every event. May be overridden by fields added at the token or request level.
-	Metadata []Input57Metadata `json:"metadata,omitempty"`
-	// List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level.
-	AllowedIndexes []string `json:"allowedIndexes,omitempty"`
-	// Whether to enable zscaler HEC acknowledgements
-	HecAcks *bool `default:"false" json:"hecAcks"`
-	// Optionally, list HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards.
-	AccessControlAllowOrigin []string `json:"accessControlAllowOrigin,omitempty"`
-	// Optionally, list HTTP headers that @{product} will send to allowed origins as "Access-Control-Allow-Headers" in a CORS preflight response. Use "*" to allow all headers.
-	AccessControlAllowHeaders []string `json:"accessControlAllowHeaders,omitempty"`
-	// Enable to emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics
-	EmitTokenMetrics *bool          `default:"false" json:"emitTokenMetrics"`
-	Description      *string        `json:"description,omitempty"`
-	Status           *Input57Status `json:"status,omitempty"`
-}
-
-func (f FiftySeven) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(f, "", false)
-}
-
-func (f *FiftySeven) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &f, "", false, true); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *FiftySeven) GetID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.ID
-}
-
-func (o *FiftySeven) GetType() *Input57Type {
-	if o == nil {
-		return nil
-	}
-	return o.Type
-}
-
-func (o *FiftySeven) GetDisabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Disabled
-}
-
-func (o *FiftySeven) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *FiftySeven) GetSendToRoutes() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.SendToRoutes
-}
-
-func (o *FiftySeven) GetEnvironment() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Environment
-}
-
-func (o *FiftySeven) GetPqEnabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.PqEnabled
-}
-
-func (o *FiftySeven) GetStreamtags() []string {
-	if o == nil {
-		return nil
-	}
-	return o.Streamtags
-}
-
-func (o *FiftySeven) GetConnections() []Input57Connections {
-	if o == nil {
-		return nil
-	}
-	return o.Connections
-}
-
-func (o *FiftySeven) GetPq() *Input57Pq {
-	if o == nil {
-		return nil
-	}
-	return o.Pq
-}
-
-func (o *FiftySeven) GetHost() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Host
-}
-
-func (o *FiftySeven) GetPort() float64 {
-	if o == nil {
-		return 0.0
-	}
-	return o.Port
-}
-
-func (o *FiftySeven) GetAuthTokens() []InputAuthTokens {
-	if o == nil {
-		return nil
-	}
-	return o.AuthTokens
-}
-
-func (o *FiftySeven) GetTLS() *Input57TLSSettingsServerSide {
-	if o == nil {
-		return nil
-	}
-	return o.TLS
-}
-
-func (o *FiftySeven) GetMaxActiveReq() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxActiveReq
-}
-
-func (o *FiftySeven) GetMaxRequestsPerSocket() *int64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxRequestsPerSocket
-}
-
-func (o *FiftySeven) GetEnableProxyHeader() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.EnableProxyHeader
-}
-
-func (o *FiftySeven) GetCaptureHeaders() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.CaptureHeaders
-}
-
-func (o *FiftySeven) GetActivityLogSampleRate() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.ActivityLogSampleRate
-}
-
-func (o *FiftySeven) GetRequestTimeout() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.RequestTimeout
-}
-
-func (o *FiftySeven) GetSocketTimeout() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.SocketTimeout
-}
-
-func (o *FiftySeven) GetKeepAliveTimeout() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.KeepAliveTimeout
-}
-
-func (o *FiftySeven) GetEnableHealthCheck() any {
-	if o == nil {
-		return nil
-	}
-	return o.EnableHealthCheck
-}
-
-func (o *FiftySeven) GetIPAllowlistRegex() *string {
-	if o == nil {
-		return nil
-	}
-	return o.IPAllowlistRegex
-}
-
-func (o *FiftySeven) GetIPDenylistRegex() *string {
-	if o == nil {
-		return nil
-	}
-	return o.IPDenylistRegex
-}
-
-func (o *FiftySeven) GetHecAPI() *string {
-	if o == nil {
-		return nil
-	}
-	return o.HecAPI
-}
-
-func (o *FiftySeven) GetMetadata() []Input57Metadata {
-	if o == nil {
-		return nil
-	}
-	return o.Metadata
-}
-
-func (o *FiftySeven) GetAllowedIndexes() []string {
-	if o == nil {
-		return nil
-	}
-	return o.AllowedIndexes
-}
-
-func (o *FiftySeven) GetHecAcks() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.HecAcks
-}
-
-func (o *FiftySeven) GetAccessControlAllowOrigin() []string {
-	if o == nil {
-		return nil
-	}
-	return o.AccessControlAllowOrigin
-}
-
-func (o *FiftySeven) GetAccessControlAllowHeaders() []string {
-	if o == nil {
-		return nil
-	}
-	return o.AccessControlAllowHeaders
-}
-
-func (o *FiftySeven) GetEmitTokenMetrics() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.EmitTokenMetrics
-}
-
-func (o *FiftySeven) GetDescription() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Description
-}
-
-func (o *FiftySeven) GetStatus() *Input57Status {
-	if o == nil {
-		return nil
-	}
-	return o.Status
-}
-
-type Input56Type string
-
-const (
-	Input56TypeSecurityLake Input56Type = "security_lake"
-)
-
-func (e Input56Type) ToPointer() *Input56Type {
-	return &e
-}
-func (e *Input56Type) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "security_lake":
-		*e = Input56Type(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input56Type: %v", v)
-	}
-}
-
-type Input56Connections struct {
-	Pipeline *string `json:"pipeline,omitempty"`
-	Output   string  `json:"output"`
-}
-
-func (o *Input56Connections) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *Input56Connections) GetOutput() string {
-	if o == nil {
-		return ""
-	}
-	return o.Output
-}
-
-// Input56Mode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type Input56Mode string
-
-const (
-	Input56ModeSmart  Input56Mode = "smart"
-	Input56ModeAlways Input56Mode = "always"
-)
-
-func (e Input56Mode) ToPointer() *Input56Mode {
-	return &e
-}
-func (e *Input56Mode) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "smart":
-		fallthrough
-	case "always":
-		*e = Input56Mode(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input56Mode: %v", v)
-	}
-}
-
-// Input56Compression - Codec to use to compress the persisted data
-type Input56Compression string
-
-const (
-	Input56CompressionNone Input56Compression = "none"
-	Input56CompressionGzip Input56Compression = "gzip"
-)
-
-func (e Input56Compression) ToPointer() *Input56Compression {
-	return &e
-}
-func (e *Input56Compression) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "none":
-		fallthrough
-	case "gzip":
-		*e = Input56Compression(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input56Compression: %v", v)
-	}
-}
-
-type Input56Pq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *Input56Mode `default:"always" json:"mode"`
-	// The maximum number of events to hold in memory before writing the events to disk
-	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
-	// The number of events to send downstream before committing that Stream has read them
-	CommitFrequency *float64 `default:"42" json:"commitFrequency"`
-	// The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc.
-	MaxFileSize *string `default:"1 MB" json:"maxFileSize"`
-	// The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc.
-	MaxSize *string `default:"5GB" json:"maxSize"`
-	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
-	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
-	// Codec to use to compress the persisted data
-	Compress *Input56Compression `default:"none" json:"compress"`
-}
-
-func (i Input56Pq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
-}
-
-func (i *Input56Pq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *Input56Pq) GetMode() *Input56Mode {
-	if o == nil {
-		return nil
-	}
-	return o.Mode
-}
-
-func (o *Input56Pq) GetMaxBufferSize() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxBufferSize
-}
-
-func (o *Input56Pq) GetCommitFrequency() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.CommitFrequency
-}
-
-func (o *Input56Pq) GetMaxFileSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxFileSize
-}
-
-func (o *Input56Pq) GetMaxSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxSize
-}
-
-func (o *Input56Pq) GetPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Path
-}
-
-func (o *Input56Pq) GetCompress() *Input56Compression {
-	if o == nil {
-		return nil
-	}
-	return o.Compress
-}
-
-// Input56AuthenticationMethod - AWS authentication method. Choose Auto to use IAM roles.
-type Input56AuthenticationMethod string
-
-const (
-	Input56AuthenticationMethodAuto   Input56AuthenticationMethod = "auto"
-	Input56AuthenticationMethodManual Input56AuthenticationMethod = "manual"
-	Input56AuthenticationMethodSecret Input56AuthenticationMethod = "secret"
-)
-
-func (e Input56AuthenticationMethod) ToPointer() *Input56AuthenticationMethod {
-	return &e
-}
-func (e *Input56AuthenticationMethod) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "auto":
-		fallthrough
-	case "manual":
-		fallthrough
-	case "secret":
-		*e = Input56AuthenticationMethod(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input56AuthenticationMethod: %v", v)
-	}
-}
-
-// InputSignatureVersion - Signature version to use for signing S3 requests
-type InputSignatureVersion string
-
-const (
-	InputSignatureVersionV2 InputSignatureVersion = "v2"
-	InputSignatureVersionV4 InputSignatureVersion = "v4"
-)
-
-func (e InputSignatureVersion) ToPointer() *InputSignatureVersion {
-	return &e
-}
-func (e *InputSignatureVersion) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "v2":
-		fallthrough
-	case "v4":
-		*e = InputSignatureVersion(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for InputSignatureVersion: %v", v)
-	}
-}
-
-type Input56Preprocess struct {
-	Disabled *bool `default:"true" json:"disabled"`
-	// Command to feed the data through (via stdin) and process its output (stdout)
-	Command *string `json:"command,omitempty"`
-	// Arguments to be added to the custom command
-	Args []string `json:"args,omitempty"`
-}
-
-func (i Input56Preprocess) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
-}
-
-func (i *Input56Preprocess) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *Input56Preprocess) GetDisabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Disabled
-}
-
-func (o *Input56Preprocess) GetCommand() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Command
-}
-
-func (o *Input56Preprocess) GetArgs() []string {
-	if o == nil {
-		return nil
-	}
-	return o.Args
-}
-
-type Input56Metadata struct {
-	Name string `json:"name"`
-	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
-	Value string `json:"value"`
-}
-
-func (o *Input56Metadata) GetName() string {
-	if o == nil {
-		return ""
-	}
-	return o.Name
-}
-
-func (o *Input56Metadata) GetValue() string {
-	if o == nil {
-		return ""
-	}
-	return o.Value
-}
-
-type InputCheckpointing struct {
-	// Enable checkpointing to resume processing files after an interruption.
-	Enabled *bool `default:"false" json:"enabled"`
-	// If checkpointing is enabled, the number of times to retry processing when a processing error occurs. If skip file on error is enabled, this setting is ignored.
-	Retries *float64 `default:"5" json:"retries"`
-}
-
-func (i InputCheckpointing) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
-}
-
-func (i *InputCheckpointing) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *InputCheckpointing) GetEnabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Enabled
-}
-
-func (o *InputCheckpointing) GetRetries() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Retries
-}
-
-type Input56Metrics struct {
-	Buffered *float64 `json:"buffered,omitempty"`
-	Dropped  *float64 `json:"dropped,omitempty"`
-	Received *float64 `json:"received,omitempty"`
-}
-
-func (o *Input56Metrics) GetBuffered() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Buffered
-}
-
-func (o *Input56Metrics) GetDropped() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Dropped
-}
-
-func (o *Input56Metrics) GetReceived() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Received
-}
-
-type Input56Status struct {
-	Health    *string         `json:"health,omitempty"`
-	Timestamp *float64        `json:"timestamp,omitempty"`
-	Metrics   *Input56Metrics `json:"metrics,omitempty"`
-}
-
-func (o *Input56Status) GetHealth() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Health
-}
-
-func (o *Input56Status) GetTimestamp() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Timestamp
-}
-
-func (o *Input56Status) GetMetrics() *Input56Metrics {
-	if o == nil {
-		return nil
-	}
-	return o.Metrics
-}
-
-type FiftySix struct {
-	// Unique ID for this input
-	ID       *string     `json:"id,omitempty"`
-	Type     Input56Type `json:"type"`
-	Disabled *bool       `default:"false" json:"disabled"`
-	// Pipeline to process data from this Source before sending it through the Routes
-	Pipeline *string `json:"pipeline,omitempty"`
-	// Select whether to send data to Routes, or directly to Destinations.
-	SendToRoutes *bool `default:"true" json:"sendToRoutes"`
-	// Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-	Environment *string `json:"environment,omitempty"`
-	// Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers).
-	PqEnabled *bool `default:"false" json:"pqEnabled"`
-	// Tags for filtering and grouping in @{product}
-	Streamtags []string `json:"streamtags,omitempty"`
-	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []Input56Connections `json:"connections,omitempty"`
-	Pq          *Input56Pq           `json:"pq,omitempty"`
-	// The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. E.g., 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. E.g., referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`.
-	QueueName string `json:"queueName"`
-	// Regex matching file names to download and process. Defaults to: .*
-	FileFilter *string `default:"/.*/" json:"fileFilter"`
-	// SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account.
-	AwsAccountID *string `json:"awsAccountId,omitempty"`
-	// AWS authentication method. Choose Auto to use IAM roles.
-	AwsAuthenticationMethod *Input56AuthenticationMethod `default:"auto" json:"awsAuthenticationMethod"`
-	// Secret key
-	AwsSecretKey *string `json:"awsSecretKey,omitempty"`
-	// AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region.
-	Region *string `json:"region,omitempty"`
-	// S3 service endpoint. If empty, defaults to AWS' Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint.
-	Endpoint *string `json:"endpoint,omitempty"`
-	// Signature version to use for signing S3 requests
-	SignatureVersion *InputSignatureVersion `default:"v4" json:"signatureVersion"`
-	// Reuse connections between requests, which can improve performance
-	ReuseConnections *bool `default:"true" json:"reuseConnections"`
-	// Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
-	RejectUnauthorized *bool `default:"true" json:"rejectUnauthorized"`
-	// A list of event-breaking rulesets that will be applied, in order, to the input data stream
-	BreakerRulesets []string `json:"breakerRulesets,omitempty"`
-	// How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines
-	StaleChannelFlushMs *float64 `default:"10000" json:"staleChannelFlushMs"`
-	// The maximum number of messages SQS should return in a poll request. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10.
-	MaxMessages *float64 `default:"1" json:"maxMessages"`
-	// After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours).
-	VisibilityTimeout *float64 `default:"600" json:"visibilityTimeout"`
-	// The Number of receiver processes to run, the higher the number the better throughput at the expense of CPU overhead
-	NumReceivers *float64 `default:"1" json:"numReceivers"`
-	// Socket inactivity timeout (in seconds). Increase this value if timeouts occur due to backpressure.
-	SocketTimeout *float64 `default:"300" json:"socketTimeout"`
-	// Toggle to Yes to skip files that trigger a processing error. Defaults to No, which enables retries after processing errors.
-	SkipOnError *bool `default:"false" json:"skipOnError"`
-	// Use Assume Role credentials to access S3
-	EnableAssumeRole *bool `default:"true" json:"enableAssumeRole"`
-	// Amazon Resource Name (ARN) of the role to assume
-	AssumeRoleArn *string `json:"assumeRoleArn,omitempty"`
-	// External ID to use when assuming role
-	AssumeRoleExternalID *string `json:"assumeRoleExternalId,omitempty"`
-	// Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours).
-	DurationSeconds *float64 `default:"3600" json:"durationSeconds"`
-	// Use Assume Role credentials when accessing SQS.
-	EnableSQSAssumeRole *bool              `default:"false" json:"enableSQSAssumeRole"`
-	Preprocess          *Input56Preprocess `json:"preprocess,omitempty"`
-	// Fields to add to events from this input
-	Metadata []Input56Metadata `json:"metadata,omitempty"`
-	// Maximum file size for each Parquet chunk.
-	ParquetChunkSizeMB *float64 `default:"5" json:"parquetChunkSizeMB"`
-	// The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified.
-	ParquetChunkDownloadTimeout *float64            `default:"600" json:"parquetChunkDownloadTimeout"`
-	Checkpointing               *InputCheckpointing `json:"checkpointing,omitempty"`
-	// The amount of time to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts.
-	PollTimeout *float64 `default:"10" json:"pollTimeout"`
-	// Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters.
-	Encoding    *string `json:"encoding,omitempty"`
-	Description *string `json:"description,omitempty"`
-	// Access key
-	AwsAPIKey *string `json:"awsApiKey,omitempty"`
-	// Select or create a stored secret that references your access key and secret key.
-	AwsSecret *string        `json:"awsSecret,omitempty"`
-	Status    *Input56Status `json:"status,omitempty"`
-}
-
-func (f FiftySix) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(f, "", false)
-}
-
-func (f *FiftySix) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &f, "", false, true); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *FiftySix) GetID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.ID
-}
-
-func (o *FiftySix) GetType() Input56Type {
-	if o == nil {
-		return Input56Type("")
-	}
-	return o.Type
-}
-
-func (o *FiftySix) GetDisabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Disabled
-}
-
-func (o *FiftySix) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *FiftySix) GetSendToRoutes() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.SendToRoutes
-}
-
-func (o *FiftySix) GetEnvironment() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Environment
-}
-
-func (o *FiftySix) GetPqEnabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.PqEnabled
-}
-
-func (o *FiftySix) GetStreamtags() []string {
-	if o == nil {
-		return nil
-	}
-	return o.Streamtags
-}
-
-func (o *FiftySix) GetConnections() []Input56Connections {
-	if o == nil {
-		return nil
-	}
-	return o.Connections
-}
-
-func (o *FiftySix) GetPq() *Input56Pq {
-	if o == nil {
-		return nil
-	}
-	return o.Pq
-}
-
-func (o *FiftySix) GetQueueName() string {
-	if o == nil {
-		return ""
-	}
-	return o.QueueName
-}
-
-func (o *FiftySix) GetFileFilter() *string {
-	if o == nil {
-		return nil
-	}
-	return o.FileFilter
-}
-
-func (o *FiftySix) GetAwsAccountID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.AwsAccountID
-}
-
-func (o *FiftySix) GetAwsAuthenticationMethod() *Input56AuthenticationMethod {
-	if o == nil {
-		return nil
-	}
-	return o.AwsAuthenticationMethod
-}
-
-func (o *FiftySix) GetAwsSecretKey() *string {
-	if o == nil {
-		return nil
-	}
-	return o.AwsSecretKey
-}
-
-func (o *FiftySix) GetRegion() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Region
-}
-
-func (o *FiftySix) GetEndpoint() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Endpoint
-}
-
-func (o *FiftySix) GetSignatureVersion() *InputSignatureVersion {
-	if o == nil {
-		return nil
-	}
-	return o.SignatureVersion
-}
-
-func (o *FiftySix) GetReuseConnections() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.ReuseConnections
-}
-
-func (o *FiftySix) GetRejectUnauthorized() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.RejectUnauthorized
-}
-
-func (o *FiftySix) GetBreakerRulesets() []string {
-	if o == nil {
-		return nil
-	}
-	return o.BreakerRulesets
-}
-
-func (o *FiftySix) GetStaleChannelFlushMs() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.StaleChannelFlushMs
-}
-
-func (o *FiftySix) GetMaxMessages() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxMessages
-}
-
-func (o *FiftySix) GetVisibilityTimeout() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.VisibilityTimeout
-}
-
-func (o *FiftySix) GetNumReceivers() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.NumReceivers
-}
-
-func (o *FiftySix) GetSocketTimeout() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.SocketTimeout
-}
-
-func (o *FiftySix) GetSkipOnError() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.SkipOnError
-}
-
-func (o *FiftySix) GetEnableAssumeRole() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.EnableAssumeRole
-}
-
-func (o *FiftySix) GetAssumeRoleArn() *string {
-	if o == nil {
-		return nil
-	}
-	return o.AssumeRoleArn
-}
-
-func (o *FiftySix) GetAssumeRoleExternalID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.AssumeRoleExternalID
-}
-
-func (o *FiftySix) GetDurationSeconds() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.DurationSeconds
-}
-
-func (o *FiftySix) GetEnableSQSAssumeRole() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.EnableSQSAssumeRole
-}
-
-func (o *FiftySix) GetPreprocess() *Input56Preprocess {
-	if o == nil {
-		return nil
-	}
-	return o.Preprocess
-}
-
-func (o *FiftySix) GetMetadata() []Input56Metadata {
-	if o == nil {
-		return nil
-	}
-	return o.Metadata
-}
-
-func (o *FiftySix) GetParquetChunkSizeMB() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.ParquetChunkSizeMB
-}
-
-func (o *FiftySix) GetParquetChunkDownloadTimeout() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.ParquetChunkDownloadTimeout
-}
-
-func (o *FiftySix) GetCheckpointing() *InputCheckpointing {
-	if o == nil {
-		return nil
-	}
-	return o.Checkpointing
-}
-
-func (o *FiftySix) GetPollTimeout() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.PollTimeout
-}
-
-func (o *FiftySix) GetEncoding() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Encoding
-}
-
-func (o *FiftySix) GetDescription() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Description
-}
-
-func (o *FiftySix) GetAwsAPIKey() *string {
-	if o == nil {
-		return nil
-	}
-	return o.AwsAPIKey
-}
-
-func (o *FiftySix) GetAwsSecret() *string {
-	if o == nil {
-		return nil
-	}
-	return o.AwsSecret
-}
-
-func (o *FiftySix) GetStatus() *Input56Status {
-	if o == nil {
-		return nil
-	}
-	return o.Status
-}
-
-type Input55Type string
-
-const (
-	Input55TypeNetflow Input55Type = "netflow"
-)
-
-func (e Input55Type) ToPointer() *Input55Type {
-	return &e
-}
-func (e *Input55Type) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "netflow":
-		*e = Input55Type(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input55Type: %v", v)
-	}
-}
-
-type Input55Connections struct {
-	Pipeline *string `json:"pipeline,omitempty"`
-	Output   string  `json:"output"`
-}
-
-func (o *Input55Connections) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *Input55Connections) GetOutput() string {
-	if o == nil {
-		return ""
-	}
-	return o.Output
-}
-
-// Input55Mode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type Input55Mode string
-
-const (
-	Input55ModeSmart  Input55Mode = "smart"
-	Input55ModeAlways Input55Mode = "always"
-)
-
-func (e Input55Mode) ToPointer() *Input55Mode {
-	return &e
-}
-func (e *Input55Mode) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "smart":
-		fallthrough
-	case "always":
-		*e = Input55Mode(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input55Mode: %v", v)
-	}
-}
-
-// Input55Compression - Codec to use to compress the persisted data
-type Input55Compression string
-
-const (
-	Input55CompressionNone Input55Compression = "none"
-	Input55CompressionGzip Input55Compression = "gzip"
-)
-
-func (e Input55Compression) ToPointer() *Input55Compression {
-	return &e
-}
-func (e *Input55Compression) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "none":
-		fallthrough
-	case "gzip":
-		*e = Input55Compression(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input55Compression: %v", v)
-	}
-}
-
-type Input55Pq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *Input55Mode `default:"always" json:"mode"`
-	// The maximum number of events to hold in memory before writing the events to disk
-	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
-	// The number of events to send downstream before committing that Stream has read them
-	CommitFrequency *float64 `default:"42" json:"commitFrequency"`
-	// The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc.
-	MaxFileSize *string `default:"1 MB" json:"maxFileSize"`
-	// The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc.
-	MaxSize *string `default:"5GB" json:"maxSize"`
-	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
-	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
-	// Codec to use to compress the persisted data
-	Compress *Input55Compression `default:"none" json:"compress"`
-}
-
-func (i Input55Pq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
-}
-
-func (i *Input55Pq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *Input55Pq) GetMode() *Input55Mode {
-	if o == nil {
-		return nil
-	}
-	return o.Mode
-}
-
-func (o *Input55Pq) GetMaxBufferSize() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxBufferSize
-}
-
-func (o *Input55Pq) GetCommitFrequency() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.CommitFrequency
-}
-
-func (o *Input55Pq) GetMaxFileSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxFileSize
-}
-
-func (o *Input55Pq) GetMaxSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxSize
-}
-
-func (o *Input55Pq) GetPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Path
-}
-
-func (o *Input55Pq) GetCompress() *Input55Compression {
-	if o == nil {
-		return nil
-	}
-	return o.Compress
-}
-
-type Input55Metadata struct {
-	Name string `json:"name"`
-	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
-	Value string `json:"value"`
-}
-
-func (o *Input55Metadata) GetName() string {
-	if o == nil {
-		return ""
-	}
-	return o.Name
-}
-
-func (o *Input55Metadata) GetValue() string {
-	if o == nil {
-		return ""
-	}
-	return o.Value
-}
-
-type Input55Metrics struct {
-	Buffered *float64 `json:"buffered,omitempty"`
-	Dropped  *float64 `json:"dropped,omitempty"`
-	Received *float64 `json:"received,omitempty"`
-}
-
-func (o *Input55Metrics) GetBuffered() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Buffered
-}
-
-func (o *Input55Metrics) GetDropped() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Dropped
-}
-
-func (o *Input55Metrics) GetReceived() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Received
-}
-
-type Input55Status struct {
-	Health    *string         `json:"health,omitempty"`
-	Timestamp *float64        `json:"timestamp,omitempty"`
-	Metrics   *Input55Metrics `json:"metrics,omitempty"`
-}
-
-func (o *Input55Status) GetHealth() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Health
-}
-
-func (o *Input55Status) GetTimestamp() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Timestamp
-}
-
-func (o *Input55Status) GetMetrics() *Input55Metrics {
-	if o == nil {
-		return nil
-	}
-	return o.Metrics
-}
-
-type FiftyFive struct {
-	// Unique ID for this input
-	ID       *string      `json:"id,omitempty"`
-	Type     *Input55Type `json:"type,omitempty"`
-	Disabled *bool        `default:"false" json:"disabled"`
-	// Pipeline to process data from this Source before sending it through the Routes
-	Pipeline *string `json:"pipeline,omitempty"`
-	// Select whether to send data to Routes, or directly to Destinations.
-	SendToRoutes *bool `default:"true" json:"sendToRoutes"`
-	// Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-	Environment *string `json:"environment,omitempty"`
-	// Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers).
-	PqEnabled *bool `default:"false" json:"pqEnabled"`
-	// Tags for filtering and grouping in @{product}
-	Streamtags []string `json:"streamtags,omitempty"`
-	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []Input55Connections `json:"connections,omitempty"`
-	Pq          *Input55Pq           `json:"pq,omitempty"`
-	// Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address.
-	Host *string `default:"0.0.0.0" json:"host"`
-	// Port to listen on
-	Port *float64 `default:"2055" json:"port"`
-	// Allow forwarding of events to a NetFlow destination. Enabling this feature will generate an extra event containing __netflowRaw which can be routed to a NetFlow destination. Note that these events will not count against ingest quota.
-	EnablePassThrough *bool `default:"false" json:"enablePassThrough"`
-	// Messages from matched IP addresses will be processed, unless also matched by the denylist.
-	IPAllowlistRegex *string `default:"/.*/" json:"ipAllowlistRegex"`
-	// Messages from matched IP addresses will be ignored. This takes precedence over the allowlist.
-	IPDenylistRegex *string `default:"/^\\$/" json:"ipDenylistRegex"`
-	// Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization.
-	UDPSocketRxBufSize *float64 `json:"udpSocketRxBufSize,omitempty"`
-	// Specifies how many minutes NetFlow v9 templates are cached before being discarded if not refreshed. Adjust based on your network's template update frequency to optimize performance and memory usage.
-	TemplateCacheMinutes *float64 `default:"30" json:"templateCacheMinutes"`
-	// Accept messages in Netflow V5 format.
-	V5Enabled *bool `default:"true" json:"v5Enabled"`
-	// Accept messages in Netflow V9 format.
-	V9Enabled *bool `default:"true" json:"v9Enabled"`
-	// Accept messages in IPFIX format.
-	IpfixEnabled *bool `default:"false" json:"ipfixEnabled"`
-	// Fields to add to events from this input
-	Metadata    []Input55Metadata `json:"metadata,omitempty"`
-	Description *string           `json:"description,omitempty"`
-	Status      *Input55Status    `json:"status,omitempty"`
-}
-
-func (f FiftyFive) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(f, "", false)
-}
-
-func (f *FiftyFive) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &f, "", false, true); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *FiftyFive) GetID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.ID
-}
-
-func (o *FiftyFive) GetType() *Input55Type {
-	if o == nil {
-		return nil
-	}
-	return o.Type
-}
-
-func (o *FiftyFive) GetDisabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Disabled
-}
-
-func (o *FiftyFive) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *FiftyFive) GetSendToRoutes() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.SendToRoutes
-}
-
-func (o *FiftyFive) GetEnvironment() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Environment
-}
-
-func (o *FiftyFive) GetPqEnabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.PqEnabled
-}
-
-func (o *FiftyFive) GetStreamtags() []string {
-	if o == nil {
-		return nil
-	}
-	return o.Streamtags
-}
-
-func (o *FiftyFive) GetConnections() []Input55Connections {
-	if o == nil {
-		return nil
-	}
-	return o.Connections
-}
-
-func (o *FiftyFive) GetPq() *Input55Pq {
-	if o == nil {
-		return nil
-	}
-	return o.Pq
-}
-
-func (o *FiftyFive) GetHost() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Host
-}
-
-func (o *FiftyFive) GetPort() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Port
-}
-
-func (o *FiftyFive) GetEnablePassThrough() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.EnablePassThrough
-}
-
-func (o *FiftyFive) GetIPAllowlistRegex() *string {
-	if o == nil {
-		return nil
-	}
-	return o.IPAllowlistRegex
-}
-
-func (o *FiftyFive) GetIPDenylistRegex() *string {
-	if o == nil {
-		return nil
-	}
-	return o.IPDenylistRegex
-}
-
-func (o *FiftyFive) GetUDPSocketRxBufSize() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.UDPSocketRxBufSize
-}
-
-func (o *FiftyFive) GetTemplateCacheMinutes() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.TemplateCacheMinutes
-}
-
-func (o *FiftyFive) GetV5Enabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.V5Enabled
-}
-
-func (o *FiftyFive) GetV9Enabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.V9Enabled
-}
-
-func (o *FiftyFive) GetIpfixEnabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.IpfixEnabled
-}
-
-func (o *FiftyFive) GetMetadata() []Input55Metadata {
-	if o == nil {
-		return nil
-	}
-	return o.Metadata
-}
-
-func (o *FiftyFive) GetDescription() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Description
-}
-
-func (o *FiftyFive) GetStatus() *Input55Status {
-	if o == nil {
-		return nil
-	}
-	return o.Status
-}
-
-type InputInputType string
-
-const (
-	InputInputTypeSplunk               InputInputType = "splunk"
-	InputInputTypeSplunkHec            InputInputType = "splunk_hec"
-	InputInputTypeSyslog               InputInputType = "syslog"
-	InputInputTypeTcpjson              InputInputType = "tcpjson"
-	InputInputTypeGrafana              InputInputType = "grafana"
-	InputInputTypeLoki                 InputInputType = "loki"
-	InputInputTypeHTTP                 InputInputType = "http"
-	InputInputTypeHTTPRaw              InputInputType = "http_raw"
-	InputInputTypeFirehose             InputInputType = "firehose"
-	InputInputTypeElastic              InputInputType = "elastic"
-	InputInputTypeKafka                InputInputType = "kafka"
-	InputInputTypeConfluentCloud       InputInputType = "confluent_cloud"
-	InputInputTypeMsk                  InputInputType = "msk"
-	InputInputTypeKinesis              InputInputType = "kinesis"
-	InputInputTypeEventhub             InputInputType = "eventhub"
-	InputInputTypeAzureBlob            InputInputType = "azure_blob"
-	InputInputTypeMetrics              InputInputType = "metrics"
-	InputInputTypeSqs                  InputInputType = "sqs"
-	InputInputTypeS3                   InputInputType = "s3"
-	InputInputTypeS3Inventory          InputInputType = "s3_inventory"
-	InputInputTypeSnmp                 InputInputType = "snmp"
-	InputInputTypeCrowdstrike          InputInputType = "crowdstrike"
-	InputInputTypeTCP                  InputInputType = "tcp"
-	InputInputTypeRawUDP               InputInputType = "raw_udp"
-	InputInputTypeNetflow              InputInputType = "netflow"
-	InputInputTypeOffice365Service     InputInputType = "office365_service"
-	InputInputTypeOffice365Mgmt        InputInputType = "office365_mgmt"
-	InputInputTypeOffice365MsgTrace    InputInputType = "office365_msg_trace"
-	InputInputTypePrometheus           InputInputType = "prometheus"
-	InputInputTypeEdgePrometheus       InputInputType = "edge_prometheus"
-	InputInputTypePrometheusRw         InputInputType = "prometheus_rw"
-	InputInputTypeAppscope             InputInputType = "appscope"
-	InputInputTypeGooglePubsub         InputInputType = "google_pubsub"
-	InputInputTypeOpenTelemetry        InputInputType = "open_telemetry"
-	InputInputTypeModelDrivenTelemetry InputInputType = "model_driven_telemetry"
-	InputInputTypeDatadogAgent         InputInputType = "datadog_agent"
-	InputInputTypeWef                  InputInputType = "wef"
-	InputInputTypeWiz                  InputInputType = "wiz"
-	InputInputTypeZscalerHec           InputInputType = "zscaler_hec"
-	InputInputTypeDatagen              InputInputType = "datagen"
-	InputInputTypeCribl                InputInputType = "cribl"
-	InputInputTypeCriblmetrics         InputInputType = "criblmetrics"
-	InputInputTypeCriblHTTP            InputInputType = "cribl_http"
-	InputInputTypeCriblTCP             InputInputType = "cribl_tcp"
-	InputInputTypeWinEventLogs         InputInputType = "win_event_logs"
-	InputInputTypeSystemMetrics        InputInputType = "system_metrics"
-	InputInputTypeWindowsMetrics       InputInputType = "windows_metrics"
-	InputInputTypeSystemState          InputInputType = "system_state"
-	InputInputTypeKubeMetrics          InputInputType = "kube_metrics"
-	InputInputTypeKubeLogs             InputInputType = "kube_logs"
-	InputInputTypeKubeEvents           InputInputType = "kube_events"
-	InputInputTypeExec                 InputInputType = "exec"
-	InputInputTypeSplunkSearch         InputInputType = "splunk_search"
-	InputInputTypeFile                 InputInputType = "file"
-	InputInputTypeJournalFiles         InputInputType = "journal_files"
-	InputInputTypeSecurityLake         InputInputType = "security_lake"
-)
-
-func (e InputInputType) ToPointer() *InputInputType {
-	return &e
-}
-func (e *InputInputType) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "splunk":
-		fallthrough
-	case "splunk_hec":
-		fallthrough
-	case "syslog":
-		fallthrough
-	case "tcpjson":
-		fallthrough
-	case "grafana":
-		fallthrough
-	case "loki":
-		fallthrough
-	case "http":
-		fallthrough
-	case "http_raw":
-		fallthrough
-	case "firehose":
-		fallthrough
-	case "elastic":
-		fallthrough
-	case "kafka":
-		fallthrough
-	case "confluent_cloud":
-		fallthrough
-	case "msk":
-		fallthrough
-	case "kinesis":
-		fallthrough
-	case "eventhub":
-		fallthrough
-	case "azure_blob":
-		fallthrough
-	case "metrics":
-		fallthrough
-	case "sqs":
-		fallthrough
-	case "s3":
-		fallthrough
-	case "s3_inventory":
-		fallthrough
-	case "snmp":
-		fallthrough
-	case "crowdstrike":
-		fallthrough
-	case "tcp":
-		fallthrough
-	case "raw_udp":
-		fallthrough
-	case "netflow":
-		fallthrough
-	case "office365_service":
-		fallthrough
-	case "office365_mgmt":
-		fallthrough
-	case "office365_msg_trace":
-		fallthrough
-	case "prometheus":
-		fallthrough
-	case "edge_prometheus":
-		fallthrough
-	case "prometheus_rw":
-		fallthrough
-	case "appscope":
-		fallthrough
-	case "google_pubsub":
-		fallthrough
-	case "open_telemetry":
-		fallthrough
-	case "model_driven_telemetry":
-		fallthrough
-	case "datadog_agent":
-		fallthrough
-	case "wef":
-		fallthrough
-	case "wiz":
-		fallthrough
-	case "zscaler_hec":
-		fallthrough
-	case "datagen":
-		fallthrough
-	case "cribl":
-		fallthrough
-	case "criblmetrics":
-		fallthrough
-	case "cribl_http":
-		fallthrough
-	case "cribl_tcp":
-		fallthrough
-	case "win_event_logs":
-		fallthrough
-	case "system_metrics":
-		fallthrough
-	case "windows_metrics":
-		fallthrough
-	case "system_state":
-		fallthrough
-	case "kube_metrics":
-		fallthrough
-	case "kube_logs":
-		fallthrough
-	case "kube_events":
-		fallthrough
-	case "exec":
-		fallthrough
-	case "splunk_search":
-		fallthrough
-	case "file":
-		fallthrough
-	case "journal_files":
-		fallthrough
-	case "security_lake":
-		*e = InputInputType(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for InputInputType: %v", v)
-	}
-}
-
-type Input54Connections struct {
-	Pipeline *string `json:"pipeline,omitempty"`
-	Output   string  `json:"output"`
-}
-
-func (o *Input54Connections) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *Input54Connections) GetOutput() string {
-	if o == nil {
-		return ""
-	}
-	return o.Output
-}
-
-// Input54Mode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type Input54Mode string
-
-const (
-	Input54ModeSmart  Input54Mode = "smart"
-	Input54ModeAlways Input54Mode = "always"
-)
-
-func (e Input54Mode) ToPointer() *Input54Mode {
-	return &e
-}
-func (e *Input54Mode) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "smart":
-		fallthrough
-	case "always":
-		*e = Input54Mode(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input54Mode: %v", v)
-	}
-}
-
-// Input54Compression - Codec to use to compress the persisted data
-type Input54Compression string
-
-const (
-	Input54CompressionNone Input54Compression = "none"
-	Input54CompressionGzip Input54Compression = "gzip"
-)
-
-func (e Input54Compression) ToPointer() *Input54Compression {
-	return &e
-}
-func (e *Input54Compression) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "none":
-		fallthrough
-	case "gzip":
-		*e = Input54Compression(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input54Compression: %v", v)
-	}
-}
-
-type Input54Pq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *Input54Mode `default:"always" json:"mode"`
-	// The maximum number of events to hold in memory before writing the events to disk
-	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
-	// The number of events to send downstream before committing that Stream has read them
-	CommitFrequency *float64 `default:"42" json:"commitFrequency"`
-	// The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc.
-	MaxFileSize *string `default:"1 MB" json:"maxFileSize"`
-	// The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc.
-	MaxSize *string `default:"5GB" json:"maxSize"`
-	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
-	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
-	// Codec to use to compress the persisted data
-	Compress *Input54Compression `default:"none" json:"compress"`
-}
-
-func (i Input54Pq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
-}
-
-func (i *Input54Pq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *Input54Pq) GetMode() *Input54Mode {
-	if o == nil {
-		return nil
-	}
-	return o.Mode
-}
-
-func (o *Input54Pq) GetMaxBufferSize() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxBufferSize
-}
-
-func (o *Input54Pq) GetCommitFrequency() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.CommitFrequency
-}
-
-func (o *Input54Pq) GetMaxFileSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxFileSize
-}
-
-func (o *Input54Pq) GetMaxSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxSize
-}
-
-func (o *Input54Pq) GetPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Path
-}
-
-func (o *Input54Pq) GetCompress() *Input54Compression {
-	if o == nil {
-		return nil
-	}
-	return o.Compress
-}
-
-type InputContentConfig struct {
-	// The name of the Wiz query
-	ContentType        string  `json:"contentType"`
-	ContentDescription *string `json:"contentDescription,omitempty"`
-	Enabled            *bool   `default:"false" json:"enabled"`
-}
-
-func (i InputContentConfig) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
-}
-
-func (i *InputContentConfig) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *InputContentConfig) GetContentType() string {
-	if o == nil {
-		return ""
-	}
-	return o.ContentType
-}
-
-func (o *InputContentConfig) GetContentDescription() *string {
-	if o == nil {
-		return nil
-	}
-	return o.ContentDescription
-}
-
-func (o *InputContentConfig) GetEnabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Enabled
-}
-
-type Input54Metadata struct {
-	Name string `json:"name"`
-	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
-	Value string `json:"value"`
-}
-
-func (o *Input54Metadata) GetName() string {
-	if o == nil {
-		return ""
-	}
-	return o.Name
-}
-
-func (o *Input54Metadata) GetValue() string {
-	if o == nil {
-		return ""
-	}
-	return o.Value
-}
-
-// InputRetryType - The algorithm to use when performing HTTP retries
-type InputRetryType string
-
-const (
-	InputRetryTypeNone    InputRetryType = "none"
-	InputRetryTypeBackoff InputRetryType = "backoff"
-	InputRetryTypeStatic  InputRetryType = "static"
-)
-
-func (e InputRetryType) ToPointer() *InputRetryType {
-	return &e
-}
-func (e *InputRetryType) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "none":
-		fallthrough
-	case "backoff":
-		fallthrough
-	case "static":
-		*e = InputRetryType(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for InputRetryType: %v", v)
-	}
-}
-
-type InputRetryRules struct {
-	// The algorithm to use when performing HTTP retries
-	Type *InputRetryType `default:"backoff" json:"type"`
-	// Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute).
-	Interval *float64 `default:"1000" json:"interval"`
-	// The maximum number of times to retry a failed HTTP request
-	Limit *float64 `default:"5" json:"limit"`
-	// Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on
-	Multiplier *float64 `default:"2" json:"multiplier"`
-	// List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503.
-	Codes []float64 `json:"codes,omitempty"`
-	// Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored.
-	EnableHeader *bool `default:"true" json:"enableHeader"`
-	// When toggled to Yes, a single retry attempt will be made when a connection timeout (ETIMEDOUT) error occurs
-	RetryConnectTimeout *bool `default:"false" json:"retryConnectTimeout"`
-	// When toggled to Yes, the request will be retried when a connection reset (ECONNRESET) error occurs
-	RetryConnectReset *bool `default:"false" json:"retryConnectReset"`
-}
-
-func (i InputRetryRules) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
-}
-
-func (i *InputRetryRules) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *InputRetryRules) GetType() *InputRetryType {
-	if o == nil {
-		return nil
-	}
-	return o.Type
-}
-
-func (o *InputRetryRules) GetInterval() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Interval
-}
-
-func (o *InputRetryRules) GetLimit() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Limit
-}
-
-func (o *InputRetryRules) GetMultiplier() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Multiplier
-}
-
-func (o *InputRetryRules) GetCodes() []float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Codes
-}
-
-func (o *InputRetryRules) GetEnableHeader() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.EnableHeader
-}
-
-func (o *InputRetryRules) GetRetryConnectTimeout() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.RetryConnectTimeout
-}
-
-func (o *InputRetryRules) GetRetryConnectReset() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.RetryConnectReset
-}
-
-// Input54AuthenticationMethod - Enter client secret directly, or select a stored secret
-type Input54AuthenticationMethod string
-
-const (
-	Input54AuthenticationMethodManual Input54AuthenticationMethod = "manual"
-	Input54AuthenticationMethodSecret Input54AuthenticationMethod = "secret"
-)
-
-func (e Input54AuthenticationMethod) ToPointer() *Input54AuthenticationMethod {
-	return &e
-}
-func (e *Input54AuthenticationMethod) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "manual":
-		fallthrough
-	case "secret":
-		*e = Input54AuthenticationMethod(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input54AuthenticationMethod: %v", v)
-	}
-}
-
-type Input54Metrics struct {
-	Buffered *float64 `json:"buffered,omitempty"`
-	Dropped  *float64 `json:"dropped,omitempty"`
-	Received *float64 `json:"received,omitempty"`
-}
-
-func (o *Input54Metrics) GetBuffered() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Buffered
-}
-
-func (o *Input54Metrics) GetDropped() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Dropped
-}
-
-func (o *Input54Metrics) GetReceived() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Received
-}
-
-type Input54Status struct {
-	Health    *string         `json:"health,omitempty"`
-	Timestamp *float64        `json:"timestamp,omitempty"`
-	Metrics   *Input54Metrics `json:"metrics,omitempty"`
-}
-
-func (o *Input54Status) GetHealth() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Health
-}
-
-func (o *Input54Status) GetTimestamp() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Timestamp
-}
-
-func (o *Input54Status) GetMetrics() *Input54Metrics {
-	if o == nil {
-		return nil
-	}
-	return o.Metrics
-}
-
-type FiftyFour struct {
-	// Unique ID for this input
-	ID       *string         `json:"id,omitempty"`
-	Type     *InputInputType `json:"type,omitempty"`
-	Disabled *bool           `default:"false" json:"disabled"`
-	// Pipeline to process data from this Source before sending it through the Routes
-	Pipeline *string `json:"pipeline,omitempty"`
-	// Select whether to send data to Routes, or directly to Destinations.
-	SendToRoutes *bool `default:"true" json:"sendToRoutes"`
-	// Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-	Environment *string `json:"environment,omitempty"`
-	// Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers).
-	PqEnabled *bool `default:"false" json:"pqEnabled"`
-	// Tags for filtering and grouping in @{product}
-	Streamtags []string `json:"streamtags,omitempty"`
-	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []Input54Connections `json:"connections,omitempty"`
-	Pq          *Input54Pq           `json:"pq,omitempty"`
-	// The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql
-	Endpoint *string `default:"https://api.<region>.app.wiz.io/graphql" json:"endpoint"`
-	// The authentication URL to generate an OAuth token
-	AuthURL string `json:"authUrl"`
-	// The audience to use when requesting an OAuth token for a custom auth URL. When not specified, `wiz-api` will be used.
-	AuthAudienceOverride *string `json:"authAudienceOverride,omitempty"`
-	// The client ID of the Wiz application
-	ClientID      string               `json:"clientId"`
-	ContentConfig []InputContentConfig `json:"contentConfig,omitempty"`
-	// HTTP request inactivity timeout. Use 0 to disable.
-	RequestTimeout *float64 `default:"300" json:"requestTimeout"`
-	// How often workers should check in with the scheduler to keep job subscription alive
-	KeepAliveTime *float64 `default:"30" json:"keepAliveTime"`
-	// The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked.
-	MaxMissedKeepAlives *float64 `default:"3" json:"maxMissedKeepAlives"`
-	// Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
-	TTL *string `default:"4h" json:"ttl"`
-	// Fields to add to events from this input
-	Metadata   []Input54Metadata `json:"metadata,omitempty"`
-	RetryRules *InputRetryRules  `json:"retryRules,omitempty"`
-	// Enter client secret directly, or select a stored secret
-	AuthType    *Input54AuthenticationMethod `default:"manual" json:"authType"`
-	Description *string                      `json:"description,omitempty"`
-	// The client secret of the Wiz application
-	ClientSecret *string `json:"clientSecret,omitempty"`
-	// Select or create a stored text secret
-	TextSecret *string        `json:"textSecret,omitempty"`
-	Status     *Input54Status `json:"status,omitempty"`
-}
-
-func (f FiftyFour) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(f, "", false)
-}
-
-func (f *FiftyFour) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &f, "", false, true); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *FiftyFour) GetID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.ID
-}
-
-func (o *FiftyFour) GetType() *InputInputType {
-	if o == nil {
-		return nil
-	}
-	return o.Type
-}
-
-func (o *FiftyFour) GetDisabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Disabled
-}
-
-func (o *FiftyFour) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *FiftyFour) GetSendToRoutes() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.SendToRoutes
-}
-
-func (o *FiftyFour) GetEnvironment() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Environment
-}
-
-func (o *FiftyFour) GetPqEnabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.PqEnabled
-}
-
-func (o *FiftyFour) GetStreamtags() []string {
-	if o == nil {
-		return nil
-	}
-	return o.Streamtags
-}
-
-func (o *FiftyFour) GetConnections() []Input54Connections {
-	if o == nil {
-		return nil
-	}
-	return o.Connections
-}
-
-func (o *FiftyFour) GetPq() *Input54Pq {
-	if o == nil {
-		return nil
-	}
-	return o.Pq
-}
-
-func (o *FiftyFour) GetEndpoint() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Endpoint
-}
-
-func (o *FiftyFour) GetAuthURL() string {
-	if o == nil {
-		return ""
-	}
-	return o.AuthURL
-}
-
-func (o *FiftyFour) GetAuthAudienceOverride() *string {
-	if o == nil {
-		return nil
-	}
-	return o.AuthAudienceOverride
-}
-
-func (o *FiftyFour) GetClientID() string {
-	if o == nil {
-		return ""
-	}
-	return o.ClientID
-}
-
-func (o *FiftyFour) GetContentConfig() []InputContentConfig {
-	if o == nil {
-		return nil
-	}
-	return o.ContentConfig
-}
-
-func (o *FiftyFour) GetRequestTimeout() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.RequestTimeout
-}
-
-func (o *FiftyFour) GetKeepAliveTime() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.KeepAliveTime
-}
-
-func (o *FiftyFour) GetMaxMissedKeepAlives() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxMissedKeepAlives
-}
-
-func (o *FiftyFour) GetTTL() *string {
-	if o == nil {
-		return nil
-	}
-	return o.TTL
-}
-
-func (o *FiftyFour) GetMetadata() []Input54Metadata {
-	if o == nil {
-		return nil
-	}
-	return o.Metadata
-}
-
-func (o *FiftyFour) GetRetryRules() *InputRetryRules {
-	if o == nil {
-		return nil
-	}
-	return o.RetryRules
-}
-
-func (o *FiftyFour) GetAuthType() *Input54AuthenticationMethod {
-	if o == nil {
-		return nil
-	}
-	return o.AuthType
-}
-
-func (o *FiftyFour) GetDescription() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Description
-}
-
-func (o *FiftyFour) GetClientSecret() *string {
-	if o == nil {
-		return nil
-	}
-	return o.ClientSecret
-}
-
-func (o *FiftyFour) GetTextSecret() *string {
-	if o == nil {
-		return nil
-	}
-	return o.TextSecret
-}
-
-func (o *FiftyFour) GetStatus() *Input54Status {
-	if o == nil {
-		return nil
-	}
-	return o.Status
-}
-
-type Input53Type string
-
-const (
-	Input53TypeJournalFiles Input53Type = "journal_files"
-)
-
-func (e Input53Type) ToPointer() *Input53Type {
-	return &e
-}
-func (e *Input53Type) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "journal_files":
-		*e = Input53Type(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input53Type: %v", v)
-	}
-}
-
-type Input53Connections struct {
-	Pipeline *string `json:"pipeline,omitempty"`
-	Output   string  `json:"output"`
-}
-
-func (o *Input53Connections) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *Input53Connections) GetOutput() string {
-	if o == nil {
-		return ""
-	}
-	return o.Output
-}
-
-// Input53Mode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type Input53Mode string
-
-const (
-	Input53ModeSmart  Input53Mode = "smart"
-	Input53ModeAlways Input53Mode = "always"
-)
-
-func (e Input53Mode) ToPointer() *Input53Mode {
-	return &e
-}
-func (e *Input53Mode) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "smart":
-		fallthrough
-	case "always":
-		*e = Input53Mode(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input53Mode: %v", v)
-	}
-}
-
-// Input53Compression - Codec to use to compress the persisted data
-type Input53Compression string
-
-const (
-	Input53CompressionNone Input53Compression = "none"
-	Input53CompressionGzip Input53Compression = "gzip"
-)
-
-func (e Input53Compression) ToPointer() *Input53Compression {
-	return &e
-}
-func (e *Input53Compression) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "none":
-		fallthrough
-	case "gzip":
-		*e = Input53Compression(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input53Compression: %v", v)
-	}
-}
-
-type Input53Pq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *Input53Mode `default:"always" json:"mode"`
-	// The maximum number of events to hold in memory before writing the events to disk
-	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
-	// The number of events to send downstream before committing that Stream has read them
-	CommitFrequency *float64 `default:"42" json:"commitFrequency"`
-	// The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc.
-	MaxFileSize *string `default:"1 MB" json:"maxFileSize"`
-	// The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc.
-	MaxSize *string `default:"5GB" json:"maxSize"`
-	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
-	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
-	// Codec to use to compress the persisted data
-	Compress *Input53Compression `default:"none" json:"compress"`
-}
-
-func (i Input53Pq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
-}
-
-func (i *Input53Pq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *Input53Pq) GetMode() *Input53Mode {
-	if o == nil {
-		return nil
-	}
-	return o.Mode
-}
-
-func (o *Input53Pq) GetMaxBufferSize() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxBufferSize
-}
-
-func (o *Input53Pq) GetCommitFrequency() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.CommitFrequency
-}
-
-func (o *Input53Pq) GetMaxFileSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxFileSize
-}
-
-func (o *Input53Pq) GetMaxSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxSize
-}
-
-func (o *Input53Pq) GetPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Path
-}
-
-func (o *Input53Pq) GetCompress() *Input53Compression {
-	if o == nil {
-		return nil
-	}
-	return o.Compress
-}
-
-type InputRules struct {
-	// JavaScript expression applied to Journal objects. Return 'true' to include it.
-	Filter string `json:"filter"`
-	// Optional description of this rule's purpose
-	Description *string `json:"description,omitempty"`
-}
-
-func (o *InputRules) GetFilter() string {
-	if o == nil {
-		return ""
-	}
-	return o.Filter
-}
-
-func (o *InputRules) GetDescription() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Description
-}
-
-type Input53Metadata struct {
-	Name string `json:"name"`
-	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
-	Value string `json:"value"`
-}
-
-func (o *Input53Metadata) GetName() string {
-	if o == nil {
-		return ""
-	}
-	return o.Name
-}
-
-func (o *Input53Metadata) GetValue() string {
-	if o == nil {
-		return ""
-	}
-	return o.Value
-}
-
-type Input53Metrics struct {
-	Buffered *float64 `json:"buffered,omitempty"`
-	Dropped  *float64 `json:"dropped,omitempty"`
-	Received *float64 `json:"received,omitempty"`
-}
-
-func (o *Input53Metrics) GetBuffered() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Buffered
-}
-
-func (o *Input53Metrics) GetDropped() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Dropped
-}
-
-func (o *Input53Metrics) GetReceived() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Received
-}
-
-type Input53Status struct {
-	Health    *string         `json:"health,omitempty"`
-	Timestamp *float64        `json:"timestamp,omitempty"`
-	Metrics   *Input53Metrics `json:"metrics,omitempty"`
-}
-
-func (o *Input53Status) GetHealth() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Health
-}
-
-func (o *Input53Status) GetTimestamp() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Timestamp
-}
-
-func (o *Input53Status) GetMetrics() *Input53Metrics {
-	if o == nil {
-		return nil
-	}
-	return o.Metrics
-}
-
-type FiftyThree struct {
-	// Unique ID for this input
-	ID       *string      `json:"id,omitempty"`
-	Type     *Input53Type `json:"type,omitempty"`
-	Disabled *bool        `default:"false" json:"disabled"`
-	// Pipeline to process data from this Source before sending it through the Routes
-	Pipeline *string `json:"pipeline,omitempty"`
-	// Select whether to send data to Routes, or directly to Destinations.
-	SendToRoutes *bool `default:"true" json:"sendToRoutes"`
-	// Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-	Environment *string `json:"environment,omitempty"`
-	// Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers).
-	PqEnabled *bool `default:"false" json:"pqEnabled"`
-	// Tags for filtering and grouping in @{product}
-	Streamtags []string `json:"streamtags,omitempty"`
-	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []Input53Connections `json:"connections,omitempty"`
-	Pq          *Input53Pq           `json:"pq,omitempty"`
-	// Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID.
-	Path string `json:"path"`
-	// Time, in seconds, between scanning for journals.
-	Interval *float64 `default:"10" json:"interval"`
-	// The full path of discovered journals are matched against this wildcard list.
-	Journals []string `json:"journals,omitempty"`
-	// Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true.
-	Rules []InputRules `json:"rules,omitempty"`
-	// Skip log messages that are not part of the current boot session.
-	CurrentBoot *bool `default:"false" json:"currentBoot"`
-	// The maximum log message age, in duration form (e.g,: 60s, 4h, 3d, 1w).  Default of no value will apply no max age filters.
-	MaxAgeDur *string `json:"maxAgeDur,omitempty"`
-	// Fields to add to events from this input
-	Metadata    []Input53Metadata `json:"metadata,omitempty"`
-	Description *string           `json:"description,omitempty"`
-	Status      *Input53Status    `json:"status,omitempty"`
-}
-
-func (f FiftyThree) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(f, "", false)
-}
-
-func (f *FiftyThree) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &f, "", false, true); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *FiftyThree) GetID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.ID
-}
-
-func (o *FiftyThree) GetType() *Input53Type {
-	if o == nil {
-		return nil
-	}
-	return o.Type
-}
-
-func (o *FiftyThree) GetDisabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Disabled
-}
-
-func (o *FiftyThree) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *FiftyThree) GetSendToRoutes() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.SendToRoutes
-}
-
-func (o *FiftyThree) GetEnvironment() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Environment
-}
-
-func (o *FiftyThree) GetPqEnabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.PqEnabled
-}
-
-func (o *FiftyThree) GetStreamtags() []string {
-	if o == nil {
-		return nil
-	}
-	return o.Streamtags
-}
-
-func (o *FiftyThree) GetConnections() []Input53Connections {
-	if o == nil {
-		return nil
-	}
-	return o.Connections
-}
-
-func (o *FiftyThree) GetPq() *Input53Pq {
-	if o == nil {
-		return nil
-	}
-	return o.Pq
-}
-
-func (o *FiftyThree) GetPath() string {
-	if o == nil {
-		return ""
-	}
-	return o.Path
-}
-
-func (o *FiftyThree) GetInterval() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Interval
-}
-
-func (o *FiftyThree) GetJournals() []string {
-	if o == nil {
-		return nil
-	}
-	return o.Journals
-}
-
-func (o *FiftyThree) GetRules() []InputRules {
-	if o == nil {
-		return nil
-	}
-	return o.Rules
-}
-
-func (o *FiftyThree) GetCurrentBoot() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.CurrentBoot
-}
-
-func (o *FiftyThree) GetMaxAgeDur() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxAgeDur
-}
-
-func (o *FiftyThree) GetMetadata() []Input53Metadata {
-	if o == nil {
-		return nil
-	}
-	return o.Metadata
-}
-
-func (o *FiftyThree) GetDescription() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Description
-}
-
-func (o *FiftyThree) GetStatus() *Input53Status {
-	if o == nil {
-		return nil
-	}
-	return o.Status
-}
-
-type Input52Type string
-
-const (
-	Input52TypeRawUDP Input52Type = "raw_udp"
-)
-
-func (e Input52Type) ToPointer() *Input52Type {
-	return &e
-}
-func (e *Input52Type) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "raw_udp":
-		*e = Input52Type(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input52Type: %v", v)
-	}
-}
-
-type Input52Connections struct {
-	Pipeline *string `json:"pipeline,omitempty"`
-	Output   string  `json:"output"`
-}
-
-func (o *Input52Connections) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *Input52Connections) GetOutput() string {
-	if o == nil {
-		return ""
-	}
-	return o.Output
-}
-
-// Input52Mode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type Input52Mode string
-
-const (
-	Input52ModeSmart  Input52Mode = "smart"
-	Input52ModeAlways Input52Mode = "always"
-)
-
-func (e Input52Mode) ToPointer() *Input52Mode {
-	return &e
-}
-func (e *Input52Mode) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "smart":
-		fallthrough
-	case "always":
-		*e = Input52Mode(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input52Mode: %v", v)
-	}
-}
-
-// Input52Compression - Codec to use to compress the persisted data
-type Input52Compression string
-
-const (
-	Input52CompressionNone Input52Compression = "none"
-	Input52CompressionGzip Input52Compression = "gzip"
-)
-
-func (e Input52Compression) ToPointer() *Input52Compression {
-	return &e
-}
-func (e *Input52Compression) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "none":
-		fallthrough
-	case "gzip":
-		*e = Input52Compression(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input52Compression: %v", v)
-	}
-}
-
-type Input52Pq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *Input52Mode `default:"always" json:"mode"`
-	// The maximum number of events to hold in memory before writing the events to disk
-	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
-	// The number of events to send downstream before committing that Stream has read them
-	CommitFrequency *float64 `default:"42" json:"commitFrequency"`
-	// The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc.
-	MaxFileSize *string `default:"1 MB" json:"maxFileSize"`
-	// The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc.
-	MaxSize *string `default:"5GB" json:"maxSize"`
-	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
-	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
-	// Codec to use to compress the persisted data
-	Compress *Input52Compression `default:"none" json:"compress"`
-}
-
-func (i Input52Pq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
-}
-
-func (i *Input52Pq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *Input52Pq) GetMode() *Input52Mode {
-	if o == nil {
-		return nil
-	}
-	return o.Mode
-}
-
-func (o *Input52Pq) GetMaxBufferSize() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxBufferSize
-}
-
-func (o *Input52Pq) GetCommitFrequency() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.CommitFrequency
-}
-
-func (o *Input52Pq) GetMaxFileSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxFileSize
-}
-
-func (o *Input52Pq) GetMaxSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxSize
-}
-
-func (o *Input52Pq) GetPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Path
-}
-
-func (o *Input52Pq) GetCompress() *Input52Compression {
-	if o == nil {
-		return nil
-	}
-	return o.Compress
-}
-
-type Input52Metadata struct {
-	Name string `json:"name"`
-	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
-	Value string `json:"value"`
-}
-
-func (o *Input52Metadata) GetName() string {
-	if o == nil {
-		return ""
-	}
-	return o.Name
-}
-
-func (o *Input52Metadata) GetValue() string {
-	if o == nil {
-		return ""
-	}
-	return o.Value
-}
-
-type Input52Metrics struct {
-	Buffered *float64 `json:"buffered,omitempty"`
-	Dropped  *float64 `json:"dropped,omitempty"`
-	Received *float64 `json:"received,omitempty"`
-}
-
-func (o *Input52Metrics) GetBuffered() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Buffered
-}
-
-func (o *Input52Metrics) GetDropped() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Dropped
-}
-
-func (o *Input52Metrics) GetReceived() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Received
-}
-
-type Input52Status struct {
-	Health    *string         `json:"health,omitempty"`
-	Timestamp *float64        `json:"timestamp,omitempty"`
-	Metrics   *Input52Metrics `json:"metrics,omitempty"`
-}
-
-func (o *Input52Status) GetHealth() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Health
-}
-
-func (o *Input52Status) GetTimestamp() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Timestamp
-}
-
-func (o *Input52Status) GetMetrics() *Input52Metrics {
-	if o == nil {
-		return nil
-	}
-	return o.Metrics
-}
-
-type FiftyTwo struct {
-	// Unique ID for this input
-	ID       *string      `json:"id,omitempty"`
-	Type     *Input52Type `json:"type,omitempty"`
-	Disabled *bool        `default:"false" json:"disabled"`
-	// Pipeline to process data from this Source before sending it through the Routes
-	Pipeline *string `json:"pipeline,omitempty"`
-	// Select whether to send data to Routes, or directly to Destinations.
-	SendToRoutes *bool `default:"true" json:"sendToRoutes"`
-	// Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-	Environment *string `json:"environment,omitempty"`
-	// Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers).
-	PqEnabled *bool `default:"false" json:"pqEnabled"`
-	// Tags for filtering and grouping in @{product}
-	Streamtags []string `json:"streamtags,omitempty"`
-	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []Input52Connections `json:"connections,omitempty"`
-	Pq          *Input52Pq           `json:"pq,omitempty"`
-	// Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address.
-	Host *string `default:"0.0.0.0" json:"host"`
-	// Port to listen on
-	Port float64 `json:"port"`
-	// Maximum number of events to buffer when downstream is blocking.
-	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
-	// Regex matching IP addresses that are allowed to send data
-	IPWhitelistRegex *string `default:"/.*/" json:"ipWhitelistRegex"`
-	// If true, each UDP packet is assumed to contain a single message. If false, each UDP packet is assumed to contain multiple messages, separated by newlines.
-	SingleMsgUDPPackets *bool `default:"false" json:"singleMsgUdpPackets"`
-	// If true, a __rawBytes field will be added to each event containing the raw bytes of the datagram.
-	IngestRawBytes *bool `default:"false" json:"ingestRawBytes"`
-	// Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization.
-	UDPSocketRxBufSize *float64 `json:"udpSocketRxBufSize,omitempty"`
-	// Fields to add to events from this input
-	Metadata    []Input52Metadata `json:"metadata,omitempty"`
-	Description *string           `json:"description,omitempty"`
-	Status      *Input52Status    `json:"status,omitempty"`
-}
-
-func (f FiftyTwo) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(f, "", false)
-}
-
-func (f *FiftyTwo) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &f, "", false, true); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *FiftyTwo) GetID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.ID
-}
-
-func (o *FiftyTwo) GetType() *Input52Type {
-	if o == nil {
-		return nil
-	}
-	return o.Type
-}
-
-func (o *FiftyTwo) GetDisabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Disabled
-}
-
-func (o *FiftyTwo) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *FiftyTwo) GetSendToRoutes() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.SendToRoutes
-}
-
-func (o *FiftyTwo) GetEnvironment() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Environment
-}
-
-func (o *FiftyTwo) GetPqEnabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.PqEnabled
-}
-
-func (o *FiftyTwo) GetStreamtags() []string {
-	if o == nil {
-		return nil
-	}
-	return o.Streamtags
-}
-
-func (o *FiftyTwo) GetConnections() []Input52Connections {
-	if o == nil {
-		return nil
-	}
-	return o.Connections
-}
-
-func (o *FiftyTwo) GetPq() *Input52Pq {
-	if o == nil {
-		return nil
-	}
-	return o.Pq
-}
-
-func (o *FiftyTwo) GetHost() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Host
-}
-
-func (o *FiftyTwo) GetPort() float64 {
-	if o == nil {
-		return 0.0
-	}
-	return o.Port
-}
-
-func (o *FiftyTwo) GetMaxBufferSize() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxBufferSize
-}
-
-func (o *FiftyTwo) GetIPWhitelistRegex() *string {
-	if o == nil {
-		return nil
-	}
-	return o.IPWhitelistRegex
-}
-
-func (o *FiftyTwo) GetSingleMsgUDPPackets() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.SingleMsgUDPPackets
-}
-
-func (o *FiftyTwo) GetIngestRawBytes() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.IngestRawBytes
-}
-
-func (o *FiftyTwo) GetUDPSocketRxBufSize() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.UDPSocketRxBufSize
-}
-
-func (o *FiftyTwo) GetMetadata() []Input52Metadata {
-	if o == nil {
-		return nil
-	}
-	return o.Metadata
-}
-
-func (o *FiftyTwo) GetDescription() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Description
-}
-
-func (o *FiftyTwo) GetStatus() *Input52Status {
-	if o == nil {
-		return nil
-	}
-	return o.Status
-}
-
-type Input51Type string
-
-const (
-	Input51TypeWinEventLogs Input51Type = "win_event_logs"
-)
-
-func (e Input51Type) ToPointer() *Input51Type {
-	return &e
-}
-func (e *Input51Type) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "win_event_logs":
-		*e = Input51Type(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input51Type: %v", v)
-	}
-}
-
-type Input51Connections struct {
-	Pipeline *string `json:"pipeline,omitempty"`
-	Output   string  `json:"output"`
-}
-
-func (o *Input51Connections) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *Input51Connections) GetOutput() string {
-	if o == nil {
-		return ""
-	}
-	return o.Output
-}
-
-// Input51Mode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type Input51Mode string
-
-const (
-	Input51ModeSmart  Input51Mode = "smart"
-	Input51ModeAlways Input51Mode = "always"
-)
-
-func (e Input51Mode) ToPointer() *Input51Mode {
-	return &e
-}
-func (e *Input51Mode) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "smart":
-		fallthrough
-	case "always":
-		*e = Input51Mode(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input51Mode: %v", v)
-	}
-}
-
-// Input51Compression - Codec to use to compress the persisted data
-type Input51Compression string
-
-const (
-	Input51CompressionNone Input51Compression = "none"
-	Input51CompressionGzip Input51Compression = "gzip"
-)
-
-func (e Input51Compression) ToPointer() *Input51Compression {
-	return &e
-}
-func (e *Input51Compression) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "none":
-		fallthrough
-	case "gzip":
-		*e = Input51Compression(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input51Compression: %v", v)
-	}
-}
-
-type Input51Pq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *Input51Mode `default:"always" json:"mode"`
-	// The maximum number of events to hold in memory before writing the events to disk
-	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
-	// The number of events to send downstream before committing that Stream has read them
-	CommitFrequency *float64 `default:"42" json:"commitFrequency"`
-	// The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc.
-	MaxFileSize *string `default:"1 MB" json:"maxFileSize"`
-	// The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc.
-	MaxSize *string `default:"5GB" json:"maxSize"`
-	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
-	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
-	// Codec to use to compress the persisted data
-	Compress *Input51Compression `default:"none" json:"compress"`
-}
-
-func (i Input51Pq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
-}
-
-func (i *Input51Pq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *Input51Pq) GetMode() *Input51Mode {
-	if o == nil {
-		return nil
-	}
-	return o.Mode
-}
-
-func (o *Input51Pq) GetMaxBufferSize() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxBufferSize
-}
-
-func (o *Input51Pq) GetCommitFrequency() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.CommitFrequency
-}
-
-func (o *Input51Pq) GetMaxFileSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxFileSize
-}
-
-func (o *Input51Pq) GetMaxSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxSize
-}
-
-func (o *Input51Pq) GetPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Path
-}
-
-func (o *Input51Pq) GetCompress() *Input51Compression {
-	if o == nil {
-		return nil
-	}
-	return o.Compress
-}
-
-// ReadMode - Read all stored and future event logs, or only future events
-type ReadMode string
-
-const (
-	ReadModeOldest ReadMode = "oldest"
-	ReadModeNewest ReadMode = "newest"
-)
-
-func (e ReadMode) ToPointer() *ReadMode {
-	return &e
-}
-func (e *ReadMode) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "oldest":
-		fallthrough
-	case "newest":
-		*e = ReadMode(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for ReadMode: %v", v)
-	}
-}
-
-// EventFormat - Format of individual events
-type EventFormat string
-
-const (
-	EventFormatJSON EventFormat = "json"
-	EventFormatXML  EventFormat = "xml"
-)
-
-func (e EventFormat) ToPointer() *EventFormat {
-	return &e
-}
-func (e *EventFormat) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "json":
-		fallthrough
-	case "xml":
-		*e = EventFormat(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for EventFormat: %v", v)
-	}
-}
-
-type Input51Metadata struct {
-	Name string `json:"name"`
-	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
-	Value string `json:"value"`
-}
-
-func (o *Input51Metadata) GetName() string {
-	if o == nil {
-		return ""
-	}
-	return o.Name
-}
-
-func (o *Input51Metadata) GetValue() string {
-	if o == nil {
-		return ""
-	}
-	return o.Value
-}
-
-type Input51Metrics struct {
-	Buffered *float64 `json:"buffered,omitempty"`
-	Dropped  *float64 `json:"dropped,omitempty"`
-	Received *float64 `json:"received,omitempty"`
-}
-
-func (o *Input51Metrics) GetBuffered() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Buffered
-}
-
-func (o *Input51Metrics) GetDropped() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Dropped
-}
-
-func (o *Input51Metrics) GetReceived() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Received
-}
-
-type Input51Status struct {
-	Health    *string         `json:"health,omitempty"`
-	Timestamp *float64        `json:"timestamp,omitempty"`
-	Metrics   *Input51Metrics `json:"metrics,omitempty"`
-}
-
-func (o *Input51Status) GetHealth() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Health
-}
-
-func (o *Input51Status) GetTimestamp() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Timestamp
-}
-
-func (o *Input51Status) GetMetrics() *Input51Metrics {
-	if o == nil {
-		return nil
-	}
-	return o.Metrics
-}
-
-type FiftyOne struct {
-	// Unique ID for this input
-	ID       *string     `json:"id,omitempty"`
-	Type     Input51Type `json:"type"`
-	Disabled *bool       `default:"false" json:"disabled"`
-	// Pipeline to process data from this Source before sending it through the Routes
-	Pipeline *string `json:"pipeline,omitempty"`
-	// Select whether to send data to Routes, or directly to Destinations.
-	SendToRoutes *bool `default:"true" json:"sendToRoutes"`
-	// Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-	Environment *string `json:"environment,omitempty"`
-	// Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers).
-	PqEnabled *bool `default:"false" json:"pqEnabled"`
-	// Tags for filtering and grouping in @{product}
-	Streamtags []string `json:"streamtags,omitempty"`
-	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []Input51Connections `json:"connections,omitempty"`
-	Pq          *Input51Pq           `json:"pq,omitempty"`
-	// Enter the event logs to collect. Run "Get-WinEvent -ListLog *" in PowerShell to see the available logs.
-	LogNames []string `json:"logNames,omitempty"`
-	// Read all stored and future event logs, or only future events
-	ReadMode *ReadMode `default:"oldest" json:"readMode"`
-	// Format of individual events
-	EventFormat *EventFormat `default:"json" json:"eventFormat"`
-	// Enable to use built-in tools (PowerShell for JSON, wevtutil for XML) to collect event logs instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-event-logs/#advanced-settings)
-	DisableNativeModule *bool `default:"false" json:"disableNativeModule"`
-	// Time, in seconds, between checking for new entries (Applicable for pre-4.8.0 nodes that use Windows Tools)
-	Interval *float64 `default:"10" json:"interval"`
-	// The maximum number of events to read in one polling interval. A batch size higher than 500 can cause delays when pulling from multiple event logs. (Applicable for pre-4.8.0 nodes that use Windows Tools)
-	BatchSize *float64 `default:"500" json:"batchSize"`
-	// Fields to add to events from this input
-	Metadata []Input51Metadata `json:"metadata,omitempty"`
-	// The maximum number of bytes in an event before it is flushed to the pipelines
-	MaxEventBytes *float64       `default:"51200" json:"maxEventBytes"`
-	Description   *string        `json:"description,omitempty"`
-	Status        *Input51Status `json:"status,omitempty"`
-}
-
-func (f FiftyOne) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(f, "", false)
-}
-
-func (f *FiftyOne) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &f, "", false, true); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *FiftyOne) GetID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.ID
-}
-
-func (o *FiftyOne) GetType() Input51Type {
-	if o == nil {
-		return Input51Type("")
-	}
-	return o.Type
-}
-
-func (o *FiftyOne) GetDisabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Disabled
-}
-
-func (o *FiftyOne) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *FiftyOne) GetSendToRoutes() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.SendToRoutes
-}
-
-func (o *FiftyOne) GetEnvironment() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Environment
-}
-
-func (o *FiftyOne) GetPqEnabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.PqEnabled
-}
-
-func (o *FiftyOne) GetStreamtags() []string {
-	if o == nil {
-		return nil
-	}
-	return o.Streamtags
-}
-
-func (o *FiftyOne) GetConnections() []Input51Connections {
-	if o == nil {
-		return nil
-	}
-	return o.Connections
-}
-
-func (o *FiftyOne) GetPq() *Input51Pq {
-	if o == nil {
-		return nil
-	}
-	return o.Pq
-}
-
-func (o *FiftyOne) GetLogNames() []string {
-	if o == nil {
-		return nil
-	}
-	return o.LogNames
-}
-
-func (o *FiftyOne) GetReadMode() *ReadMode {
-	if o == nil {
-		return nil
-	}
-	return o.ReadMode
-}
-
-func (o *FiftyOne) GetEventFormat() *EventFormat {
-	if o == nil {
-		return nil
-	}
-	return o.EventFormat
-}
-
-func (o *FiftyOne) GetDisableNativeModule() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.DisableNativeModule
-}
-
-func (o *FiftyOne) GetInterval() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Interval
-}
-
-func (o *FiftyOne) GetBatchSize() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.BatchSize
-}
-
-func (o *FiftyOne) GetMetadata() []Input51Metadata {
-	if o == nil {
-		return nil
-	}
-	return o.Metadata
-}
-
-func (o *FiftyOne) GetMaxEventBytes() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxEventBytes
-}
-
-func (o *FiftyOne) GetDescription() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Description
-}
-
-func (o *FiftyOne) GetStatus() *Input51Status {
-	if o == nil {
-		return nil
-	}
-	return o.Status
-}
-
-type Input50Type string
-
-const (
-	Input50TypeWef Input50Type = "wef"
-)
-
-func (e Input50Type) ToPointer() *Input50Type {
-	return &e
-}
-func (e *Input50Type) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "wef":
-		*e = Input50Type(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input50Type: %v", v)
-	}
-}
-
-type Input50Connections struct {
-	Pipeline *string `json:"pipeline,omitempty"`
-	Output   string  `json:"output"`
-}
-
-func (o *Input50Connections) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *Input50Connections) GetOutput() string {
-	if o == nil {
-		return ""
-	}
-	return o.Output
-}
-
-// Input50Mode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type Input50Mode string
-
-const (
-	Input50ModeSmart  Input50Mode = "smart"
-	Input50ModeAlways Input50Mode = "always"
-)
-
-func (e Input50Mode) ToPointer() *Input50Mode {
-	return &e
-}
-func (e *Input50Mode) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "smart":
-		fallthrough
-	case "always":
-		*e = Input50Mode(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input50Mode: %v", v)
-	}
-}
-
-// Input50Compression - Codec to use to compress the persisted data
-type Input50Compression string
-
-const (
-	Input50CompressionNone Input50Compression = "none"
-	Input50CompressionGzip Input50Compression = "gzip"
-)
-
-func (e Input50Compression) ToPointer() *Input50Compression {
-	return &e
-}
-func (e *Input50Compression) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "none":
-		fallthrough
-	case "gzip":
-		*e = Input50Compression(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input50Compression: %v", v)
-	}
-}
-
-type Input50Pq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *Input50Mode `default:"always" json:"mode"`
-	// The maximum number of events to hold in memory before writing the events to disk
-	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
-	// The number of events to send downstream before committing that Stream has read them
-	CommitFrequency *float64 `default:"42" json:"commitFrequency"`
-	// The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc.
-	MaxFileSize *string `default:"1 MB" json:"maxFileSize"`
-	// The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc.
-	MaxSize *string `default:"5GB" json:"maxSize"`
-	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
-	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
-	// Codec to use to compress the persisted data
-	Compress *Input50Compression `default:"none" json:"compress"`
-}
-
-func (i Input50Pq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
-}
-
-func (i *Input50Pq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *Input50Pq) GetMode() *Input50Mode {
-	if o == nil {
-		return nil
-	}
-	return o.Mode
-}
-
-func (o *Input50Pq) GetMaxBufferSize() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxBufferSize
-}
-
-func (o *Input50Pq) GetCommitFrequency() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.CommitFrequency
-}
-
-func (o *Input50Pq) GetMaxFileSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxFileSize
-}
-
-func (o *Input50Pq) GetMaxSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxSize
-}
-
-func (o *Input50Pq) GetPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Path
-}
-
-func (o *Input50Pq) GetCompress() *Input50Compression {
-	if o == nil {
-		return nil
-	}
-	return o.Compress
-}
-
-// Input50AuthenticationMethod - Method by which to authenticate incoming client connections.
-type Input50AuthenticationMethod string
-
-const (
-	Input50AuthenticationMethodClientCert Input50AuthenticationMethod = "clientCert"
-	Input50AuthenticationMethodKerberos   Input50AuthenticationMethod = "kerberos"
-)
-
-func (e Input50AuthenticationMethod) ToPointer() *Input50AuthenticationMethod {
-	return &e
-}
-func (e *Input50AuthenticationMethod) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "clientCert":
-		fallthrough
-	case "kerberos":
-		*e = Input50AuthenticationMethod(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input50AuthenticationMethod: %v", v)
-	}
-}
-
-// Input50MinimumTLSVersion - Minimum TLS version to accept from connections.
-type Input50MinimumTLSVersion string
-
-const (
-	Input50MinimumTLSVersionTlSv1  Input50MinimumTLSVersion = "TLSv1"
-	Input50MinimumTLSVersionTlSv11 Input50MinimumTLSVersion = "TLSv1.1"
-	Input50MinimumTLSVersionTlSv12 Input50MinimumTLSVersion = "TLSv1.2"
-	Input50MinimumTLSVersionTlSv13 Input50MinimumTLSVersion = "TLSv1.3"
-)
-
-func (e Input50MinimumTLSVersion) ToPointer() *Input50MinimumTLSVersion {
-	return &e
-}
-func (e *Input50MinimumTLSVersion) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "TLSv1":
-		fallthrough
-	case "TLSv1.1":
-		fallthrough
-	case "TLSv1.2":
-		fallthrough
-	case "TLSv1.3":
-		*e = Input50MinimumTLSVersion(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input50MinimumTLSVersion: %v", v)
-	}
-}
-
-// Input50MaximumTLSVersion - Maximum TLS version to accept from connections
-type Input50MaximumTLSVersion string
-
-const (
-	Input50MaximumTLSVersionTlSv1  Input50MaximumTLSVersion = "TLSv1"
-	Input50MaximumTLSVersionTlSv11 Input50MaximumTLSVersion = "TLSv1.1"
-	Input50MaximumTLSVersionTlSv12 Input50MaximumTLSVersion = "TLSv1.2"
-	Input50MaximumTLSVersionTlSv13 Input50MaximumTLSVersion = "TLSv1.3"
-)
-
-func (e Input50MaximumTLSVersion) ToPointer() *Input50MaximumTLSVersion {
-	return &e
-}
-func (e *Input50MaximumTLSVersion) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "TLSv1":
-		fallthrough
-	case "TLSv1.1":
-		fallthrough
-	case "TLSv1.2":
-		fallthrough
-	case "TLSv1.3":
-		*e = Input50MaximumTLSVersion(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input50MaximumTLSVersion: %v", v)
-	}
-}
-
-type MTLSSettings struct {
-	// Enable TLS
-	Disabled *bool `default:"false" json:"disabled"`
-	// Required for WEF certificate authentication.
-	RejectUnauthorized *bool `default:"true" json:"rejectUnauthorized"`
-	// Required for WEF certificate authentication.
-	RequestCert *bool `default:"true" json:"requestCert"`
-	// Name of the predefined certificate.
-	CertificateName *string `json:"certificateName,omitempty"`
-	// Path on server containing the private key to use. PEM format. Can reference $ENV_VARS.
-	PrivKeyPath string `json:"privKeyPath"`
-	// Passphrase to use to decrypt private key.
-	Passphrase *string `json:"passphrase,omitempty"`
-	// Path on server containing certificates to use. PEM format. Can reference $ENV_VARS.
-	CertPath string `json:"certPath"`
-	// Server path containing CA certificates (in PEM format) to use. Can reference $ENV_VARS. If multiple certificates are present in a .pem, each must directly certify the one preceding it.
-	CaPath string `json:"caPath"`
-	// Regex matching allowable common names in peer certificates' subject attribute.
-	CommonNameRegex *string `default:"/.*/" json:"commonNameRegex"`
-	// Minimum TLS version to accept from connections.
-	MinVersion *Input50MinimumTLSVersion `json:"minVersion,omitempty"`
-	// Maximum TLS version to accept from connections
-	MaxVersion *Input50MaximumTLSVersion `json:"maxVersion,omitempty"`
-	// Enable OCSP check of certificate
-	OcspCheck *bool `default:"false" json:"ocspCheck"`
-	Keytab    any   `json:"keytab,omitempty"`
-	Principal any   `json:"principal,omitempty"`
-	// If enabled, checks will fail on any OCSP error. Otherwise, checks will fail only when a certificate is revoked, ignoring other errors.
-	OcspCheckFailClose *bool `default:"false" json:"ocspCheckFailClose"`
-}
-
-func (m MTLSSettings) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(m, "", false)
-}
-
-func (m *MTLSSettings) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &m, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *MTLSSettings) GetDisabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Disabled
-}
-
-func (o *MTLSSettings) GetRejectUnauthorized() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.RejectUnauthorized
-}
-
-func (o *MTLSSettings) GetRequestCert() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.RequestCert
-}
-
-func (o *MTLSSettings) GetCertificateName() *string {
-	if o == nil {
-		return nil
-	}
-	return o.CertificateName
-}
-
-func (o *MTLSSettings) GetPrivKeyPath() string {
-	if o == nil {
-		return ""
-	}
-	return o.PrivKeyPath
-}
-
-func (o *MTLSSettings) GetPassphrase() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Passphrase
-}
-
-func (o *MTLSSettings) GetCertPath() string {
-	if o == nil {
-		return ""
-	}
-	return o.CertPath
-}
-
-func (o *MTLSSettings) GetCaPath() string {
-	if o == nil {
-		return ""
-	}
-	return o.CaPath
-}
-
-func (o *MTLSSettings) GetCommonNameRegex() *string {
-	if o == nil {
-		return nil
-	}
-	return o.CommonNameRegex
-}
-
-func (o *MTLSSettings) GetMinVersion() *Input50MinimumTLSVersion {
-	if o == nil {
-		return nil
-	}
-	return o.MinVersion
-}
-
-func (o *MTLSSettings) GetMaxVersion() *Input50MaximumTLSVersion {
-	if o == nil {
-		return nil
-	}
-	return o.MaxVersion
-}
-
-func (o *MTLSSettings) GetOcspCheck() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.OcspCheck
-}
-
-func (o *MTLSSettings) GetKeytab() any {
-	if o == nil {
-		return nil
-	}
-	return o.Keytab
-}
-
-func (o *MTLSSettings) GetPrincipal() any {
-	if o == nil {
-		return nil
-	}
-	return o.Principal
-}
-
-func (o *MTLSSettings) GetOcspCheckFailClose() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.OcspCheckFailClose
-}
-
-// InputFormat - Content format in which the endpoint should deliver events.
-type InputFormat string
-
-const (
-	InputFormatRaw          InputFormat = "Raw"
-	InputFormatRenderedText InputFormat = "RenderedText"
-)
-
-func (e InputFormat) ToPointer() *InputFormat {
-	return &e
-}
-func (e *InputFormat) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "Raw":
-		fallthrough
-	case "RenderedText":
-		*e = InputFormat(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for InputFormat: %v", v)
-	}
-}
-
-// QueryBuilderMode - Select the query builder mode.
-type QueryBuilderMode string
-
-const (
-	QueryBuilderModeSimple QueryBuilderMode = "simple"
-	QueryBuilderModeXML    QueryBuilderMode = "xml"
-)
-
-func (e QueryBuilderMode) ToPointer() *QueryBuilderMode {
-	return &e
-}
-func (e *QueryBuilderMode) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "simple":
-		fallthrough
-	case "xml":
-		*e = QueryBuilderMode(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for QueryBuilderMode: %v", v)
-	}
-}
-
-type Input50SubscriptionsMetadata struct {
-	Name string `json:"name"`
-	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
-	Value string `json:"value"`
-}
-
-func (o *Input50SubscriptionsMetadata) GetName() string {
-	if o == nil {
-		return ""
-	}
-	return o.Name
-}
-
-func (o *Input50SubscriptionsMetadata) GetValue() string {
-	if o == nil {
-		return ""
-	}
-	return o.Value
-}
-
-type Subscriptions struct {
-	// Friendly name for this subscription.
-	SubscriptionName string `json:"subscriptionName"`
-	// Version UUID for this subscription. If any subscription parameters are modified, this value will change.
-	Version *string `json:"version,omitempty"`
-	// Content format in which the endpoint should deliver events.
-	ContentFormat *InputFormat `default:"Raw" json:"contentFormat"`
-	// Maximum time (in seconds) between endpoint checkins before considering it unavailable.
-	HeartbeatInterval *float64 `default:"60" json:"heartbeatInterval"`
-	// Interval (in seconds) over which the endpoint should collect events before sending them to Stream.
-	BatchTimeout *float64 `default:"60" json:"batchTimeout"`
-	// Set to Yes if a newly-subscribed endpoint should send previously existing events. Set to No to only receive new events
-	ReadExistingEvents *bool `default:"false" json:"readExistingEvents"`
-	// If toggled to Yes, @{product} will keep track of which events have been received, resuming from that point after a re-subscription. This setting takes precedence over 'Read existing events' -- see the documentation for details.
-	SendBookmarks *bool `default:"true" json:"sendBookmarks"`
-	// If toggled to Yes, Stream will receive compressed events from the source.
-	Compress *bool `default:"true" json:"compress"`
-	// Enter the DNS names of the endpoints that should forward these events. You may use wildcards, for example: *.mydomain.com
-	Targets []string `json:"targets,omitempty"`
-	// The RFC-3066 locale the Windows clients should use when sending events. Defaults to "en-US".
-	Locale *string `default:"en-US" json:"locale"`
-	// Select the query builder mode.
-	QuerySelector *QueryBuilderMode `default:"simple" json:"querySelector"`
-	// Fields to add to events ingested under this subscription
-	Metadata []Input50SubscriptionsMetadata `json:"metadata,omitempty"`
-}
-
-func (s Subscriptions) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(s, "", false)
-}
-
-func (s *Subscriptions) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &s, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *Subscriptions) GetSubscriptionName() string {
-	if o == nil {
-		return ""
-	}
-	return o.SubscriptionName
-}
-
-func (o *Subscriptions) GetVersion() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Version
-}
-
-func (o *Subscriptions) GetContentFormat() *InputFormat {
-	if o == nil {
-		return nil
-	}
-	return o.ContentFormat
-}
-
-func (o *Subscriptions) GetHeartbeatInterval() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.HeartbeatInterval
-}
-
-func (o *Subscriptions) GetBatchTimeout() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.BatchTimeout
-}
-
-func (o *Subscriptions) GetReadExistingEvents() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.ReadExistingEvents
-}
-
-func (o *Subscriptions) GetSendBookmarks() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.SendBookmarks
-}
-
-func (o *Subscriptions) GetCompress() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Compress
-}
-
-func (o *Subscriptions) GetTargets() []string {
-	if o == nil {
-		return nil
-	}
-	return o.Targets
-}
-
-func (o *Subscriptions) GetLocale() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Locale
-}
-
-func (o *Subscriptions) GetQuerySelector() *QueryBuilderMode {
-	if o == nil {
-		return nil
-	}
-	return o.QuerySelector
-}
-
-func (o *Subscriptions) GetMetadata() []Input50SubscriptionsMetadata {
-	if o == nil {
-		return nil
-	}
-	return o.Metadata
-}
-
-type Input50Metadata struct {
-	Name string `json:"name"`
-	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
-	Value string `json:"value"`
-}
-
-func (o *Input50Metadata) GetName() string {
-	if o == nil {
-		return ""
-	}
-	return o.Name
-}
-
-func (o *Input50Metadata) GetValue() string {
-	if o == nil {
-		return ""
-	}
-	return o.Value
-}
-
-type Input50Metrics struct {
-	Buffered *float64 `json:"buffered,omitempty"`
-	Dropped  *float64 `json:"dropped,omitempty"`
-	Received *float64 `json:"received,omitempty"`
-}
-
-func (o *Input50Metrics) GetBuffered() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Buffered
-}
-
-func (o *Input50Metrics) GetDropped() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Dropped
-}
-
-func (o *Input50Metrics) GetReceived() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Received
-}
-
-type Input50Status struct {
-	Health    *string         `json:"health,omitempty"`
-	Timestamp *float64        `json:"timestamp,omitempty"`
-	Metrics   *Input50Metrics `json:"metrics,omitempty"`
-}
-
-func (o *Input50Status) GetHealth() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Health
-}
-
-func (o *Input50Status) GetTimestamp() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Timestamp
-}
-
-func (o *Input50Status) GetMetrics() *Input50Metrics {
-	if o == nil {
-		return nil
-	}
-	return o.Metrics
-}
-
-type Fifty struct {
-	// Unique ID for this input
-	ID       *string      `json:"id,omitempty"`
-	Type     *Input50Type `json:"type,omitempty"`
-	Disabled *bool        `default:"false" json:"disabled"`
-	// Pipeline to process data from this Source before sending it through the Routes
-	Pipeline *string `json:"pipeline,omitempty"`
-	// Select whether to send data to Routes, or directly to Destinations.
-	SendToRoutes *bool `default:"true" json:"sendToRoutes"`
-	// Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-	Environment *string `json:"environment,omitempty"`
-	// Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers).
-	PqEnabled *bool `default:"false" json:"pqEnabled"`
-	// Tags for filtering and grouping in @{product}
-	Streamtags []string `json:"streamtags,omitempty"`
-	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []Input50Connections `json:"connections,omitempty"`
-	Pq          *Input50Pq           `json:"pq,omitempty"`
-	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
-	Host *string `default:"0.0.0.0" json:"host"`
-	// Port to listen on
-	Port *float64 `default:"5986" json:"port"`
-	// Method by which to authenticate incoming client connections.
-	AuthMethod *Input50AuthenticationMethod `default:"clientCert" json:"authMethod"`
-	TLS        *MTLSSettings                `json:"tls,omitempty"`
-	// Maximum number of active requests per Worker Process. Use 0 for unlimited.
-	MaxActiveReq *float64 `default:"256" json:"maxActiveReq"`
-	// Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited).
-	MaxRequestsPerSocket *int64 `default:"0" json:"maxRequestsPerSocket"`
-	// Enable when clients are connecting through a proxy that supports the x-forwarded-for header to keep the client's original IP address on the event instead of the proxy's IP address
-	EnableProxyHeader *bool `default:"false" json:"enableProxyHeader"`
-	// Toggle this to Yes to add request headers to events, in the __headers field.
-	CaptureHeaders *bool `default:"false" json:"captureHeaders"`
-	// After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 sec.; maximum 600 sec. (10 min.).
-	KeepAliveTimeout *float64 `default:"90" json:"keepAliveTimeout"`
-	// Enable to expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy
-	EnableHealthCheck *bool `default:"false" json:"enableHealthCheck"`
-	// Messages from matched IP addresses will be processed, unless also matched by the denylist.
-	IPAllowlistRegex *string `default:"/.*/" json:"ipAllowlistRegex"`
-	// Messages from matched IP addresses will be ignored. This takes precedence over the allowlist.
-	IPDenylistRegex *string `default:"/^\\$/" json:"ipDenylistRegex"`
-	// How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0.
-	SocketTimeout *float64 `default:"0" json:"socketTimeout"`
-	// SHA1 fingerprint expected by the client, if it does not match the first certificate in the configured CA chain
-	CaFingerprint *string `json:"caFingerprint,omitempty"`
-	// Path to the keytab file containing the service principal credentials. @{product} will use `/etc/krb5.keytab` if not provided.
-	Keytab *string `json:"keytab,omitempty"`
-	// Kerberos principal used for authentication, typically in the form HTTP/<hostname>@<REALM>.
-	Principal *string `json:"principal,omitempty"`
-	// Allow events to be ingested even if their MachineID does not match the client certificate CN.
-	AllowMachineIDMismatch *bool `default:"false" json:"allowMachineIdMismatch"`
-	// Subscriptions to events on forwarding endpoints.
-	Subscriptions []Subscriptions `json:"subscriptions"`
-	// Fields to add to events from this input
-	Metadata    []Input50Metadata `json:"metadata,omitempty"`
-	Description *string           `json:"description,omitempty"`
-	Status      *Input50Status    `json:"status,omitempty"`
-}
-
-func (f Fifty) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(f, "", false)
-}
-
-func (f *Fifty) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &f, "", false, true); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *Fifty) GetID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.ID
-}
-
-func (o *Fifty) GetType() *Input50Type {
-	if o == nil {
-		return nil
-	}
-	return o.Type
-}
-
-func (o *Fifty) GetDisabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Disabled
-}
-
-func (o *Fifty) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *Fifty) GetSendToRoutes() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.SendToRoutes
-}
-
-func (o *Fifty) GetEnvironment() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Environment
-}
-
-func (o *Fifty) GetPqEnabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.PqEnabled
-}
-
-func (o *Fifty) GetStreamtags() []string {
-	if o == nil {
-		return nil
-	}
-	return o.Streamtags
-}
-
-func (o *Fifty) GetConnections() []Input50Connections {
-	if o == nil {
-		return nil
-	}
-	return o.Connections
-}
-
-func (o *Fifty) GetPq() *Input50Pq {
-	if o == nil {
-		return nil
-	}
-	return o.Pq
-}
-
-func (o *Fifty) GetHost() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Host
-}
-
-func (o *Fifty) GetPort() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Port
-}
-
-func (o *Fifty) GetAuthMethod() *Input50AuthenticationMethod {
-	if o == nil {
-		return nil
-	}
-	return o.AuthMethod
-}
-
-func (o *Fifty) GetTLS() *MTLSSettings {
-	if o == nil {
-		return nil
-	}
-	return o.TLS
-}
-
-func (o *Fifty) GetMaxActiveReq() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxActiveReq
-}
-
-func (o *Fifty) GetMaxRequestsPerSocket() *int64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxRequestsPerSocket
-}
-
-func (o *Fifty) GetEnableProxyHeader() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.EnableProxyHeader
-}
-
-func (o *Fifty) GetCaptureHeaders() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.CaptureHeaders
-}
-
-func (o *Fifty) GetKeepAliveTimeout() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.KeepAliveTimeout
-}
-
-func (o *Fifty) GetEnableHealthCheck() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.EnableHealthCheck
-}
-
-func (o *Fifty) GetIPAllowlistRegex() *string {
-	if o == nil {
-		return nil
-	}
-	return o.IPAllowlistRegex
-}
-
-func (o *Fifty) GetIPDenylistRegex() *string {
-	if o == nil {
-		return nil
-	}
-	return o.IPDenylistRegex
-}
-
-func (o *Fifty) GetSocketTimeout() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.SocketTimeout
-}
-
-func (o *Fifty) GetCaFingerprint() *string {
-	if o == nil {
-		return nil
-	}
-	return o.CaFingerprint
-}
-
-func (o *Fifty) GetKeytab() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Keytab
-}
-
-func (o *Fifty) GetPrincipal() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Principal
-}
-
-func (o *Fifty) GetAllowMachineIDMismatch() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.AllowMachineIDMismatch
-}
-
-func (o *Fifty) GetSubscriptions() []Subscriptions {
-	if o == nil {
-		return []Subscriptions{}
-	}
-	return o.Subscriptions
-}
-
-func (o *Fifty) GetMetadata() []Input50Metadata {
-	if o == nil {
-		return nil
-	}
-	return o.Metadata
-}
-
-func (o *Fifty) GetDescription() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Description
-}
-
-func (o *Fifty) GetStatus() *Input50Status {
-	if o == nil {
-		return nil
-	}
-	return o.Status
-}
-
-type Input49Type string
-
-const (
-	Input49TypeAppscope Input49Type = "appscope"
-)
-
-func (e Input49Type) ToPointer() *Input49Type {
-	return &e
-}
-func (e *Input49Type) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "appscope":
-		*e = Input49Type(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input49Type: %v", v)
-	}
-}
-
-type Input49Connections struct {
-	Pipeline *string `json:"pipeline,omitempty"`
-	Output   string  `json:"output"`
-}
-
-func (o *Input49Connections) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *Input49Connections) GetOutput() string {
-	if o == nil {
-		return ""
-	}
-	return o.Output
-}
-
-// Input49Mode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type Input49Mode string
-
-const (
-	Input49ModeSmart  Input49Mode = "smart"
-	Input49ModeAlways Input49Mode = "always"
-)
-
-func (e Input49Mode) ToPointer() *Input49Mode {
-	return &e
-}
-func (e *Input49Mode) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "smart":
-		fallthrough
-	case "always":
-		*e = Input49Mode(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input49Mode: %v", v)
-	}
-}
-
-// Input49Compression - Codec to use to compress the persisted data
-type Input49Compression string
-
-const (
-	Input49CompressionNone Input49Compression = "none"
-	Input49CompressionGzip Input49Compression = "gzip"
-)
-
-func (e Input49Compression) ToPointer() *Input49Compression {
-	return &e
-}
-func (e *Input49Compression) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "none":
-		fallthrough
-	case "gzip":
-		*e = Input49Compression(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input49Compression: %v", v)
-	}
-}
-
-type Input49Pq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *Input49Mode `default:"always" json:"mode"`
-	// The maximum number of events to hold in memory before writing the events to disk
-	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
-	// The number of events to send downstream before committing that Stream has read them
-	CommitFrequency *float64 `default:"42" json:"commitFrequency"`
-	// The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc.
-	MaxFileSize *string `default:"1 MB" json:"maxFileSize"`
-	// The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc.
-	MaxSize *string `default:"5GB" json:"maxSize"`
-	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
-	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
-	// Codec to use to compress the persisted data
-	Compress *Input49Compression `default:"none" json:"compress"`
-}
-
-func (i Input49Pq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
-}
-
-func (i *Input49Pq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *Input49Pq) GetMode() *Input49Mode {
-	if o == nil {
-		return nil
-	}
-	return o.Mode
-}
-
-func (o *Input49Pq) GetMaxBufferSize() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxBufferSize
-}
-
-func (o *Input49Pq) GetCommitFrequency() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.CommitFrequency
-}
-
-func (o *Input49Pq) GetMaxFileSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxFileSize
-}
-
-func (o *Input49Pq) GetMaxSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxSize
-}
-
-func (o *Input49Pq) GetPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Path
-}
-
-func (o *Input49Pq) GetCompress() *Input49Compression {
-	if o == nil {
-		return nil
-	}
-	return o.Compress
-}
-
-type Input49Metadata struct {
-	Name string `json:"name"`
-	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
-	Value string `json:"value"`
-}
-
-func (o *Input49Metadata) GetName() string {
-	if o == nil {
-		return ""
-	}
-	return o.Name
-}
-
-func (o *Input49Metadata) GetValue() string {
-	if o == nil {
-		return ""
-	}
-	return o.Value
-}
-
-type Allow struct {
-	// Specify the name of a process or family of processes.
-	Procname string `json:"procname"`
-	// Specify a string to substring-match against process command-line.
-	Arg *string `json:"arg,omitempty"`
-	// Choose a config to apply to processes that match the process name and/or argument.
-	Config string `json:"config"`
-}
-
-func (o *Allow) GetProcname() string {
-	if o == nil {
-		return ""
-	}
-	return o.Procname
-}
-
-func (o *Allow) GetArg() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Arg
-}
-
-func (o *Allow) GetConfig() string {
-	if o == nil {
-		return ""
-	}
-	return o.Config
-}
-
-type Filter struct {
-	// Specify processes that AppScope should be loaded into, and the config to use.
-	Allow []Allow `json:"allow,omitempty"`
-	// To override the UNIX domain socket or address/port specified in General Settings (while leaving Authentication settings as is), enter a URL.
-	TransportURL *string `json:"transportURL,omitempty"`
-}
-
-func (o *Filter) GetAllow() []Allow {
-	if o == nil {
-		return nil
-	}
-	return o.Allow
-}
-
-func (o *Filter) GetTransportURL() *string {
-	if o == nil {
-		return nil
-	}
-	return o.TransportURL
-}
-
-type InputDataCompressionFormat string
-
-const (
-	InputDataCompressionFormatNone InputDataCompressionFormat = "none"
-	InputDataCompressionFormatGzip InputDataCompressionFormat = "gzip"
-)
-
-func (e InputDataCompressionFormat) ToPointer() *InputDataCompressionFormat {
-	return &e
-}
-func (e *InputDataCompressionFormat) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "none":
-		fallthrough
-	case "gzip":
-		*e = InputDataCompressionFormat(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for InputDataCompressionFormat: %v", v)
-	}
-}
-
-type InputPersistence struct {
-	// Spool events and metrics on disk for Cribl Edge and Search
-	Enable *bool `default:"false" json:"enable"`
-	// Time span for each file bucket
-	TimeWindow *string `default:"10m" json:"timeWindow"`
-	// Maximum disk space allowed to be consumed (examples: 420MB, 4GB). When limit is reached, older data will be deleted.
-	MaxDataSize *string `default:"1GB" json:"maxDataSize"`
-	// Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted.
-	MaxDataTime *string                     `default:"24h" json:"maxDataTime"`
-	Compress    *InputDataCompressionFormat `default:"gzip" json:"compress"`
-	// Path to use to write metrics. Defaults to $CRIBL_HOME/state/appscope
-	DestPath *string `default:"\\$CRIBL_HOME/state/appscope" json:"destPath"`
-}
-
-func (i InputPersistence) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
-}
-
-func (i *InputPersistence) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *InputPersistence) GetEnable() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Enable
-}
-
-func (o *InputPersistence) GetTimeWindow() *string {
-	if o == nil {
-		return nil
-	}
-	return o.TimeWindow
-}
-
-func (o *InputPersistence) GetMaxDataSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxDataSize
-}
-
-func (o *InputPersistence) GetMaxDataTime() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxDataTime
-}
-
-func (o *InputPersistence) GetCompress() *InputDataCompressionFormat {
-	if o == nil {
-		return nil
-	}
-	return o.Compress
-}
-
-func (o *InputPersistence) GetDestPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.DestPath
-}
-
-// Input49AuthenticationMethod - Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
-type Input49AuthenticationMethod string
-
-const (
-	Input49AuthenticationMethodManual Input49AuthenticationMethod = "manual"
-	Input49AuthenticationMethodSecret Input49AuthenticationMethod = "secret"
-)
-
-func (e Input49AuthenticationMethod) ToPointer() *Input49AuthenticationMethod {
-	return &e
-}
-func (e *Input49AuthenticationMethod) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "manual":
-		fallthrough
-	case "secret":
-		*e = Input49AuthenticationMethod(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input49AuthenticationMethod: %v", v)
-	}
-}
-
-// Input49MinimumTLSVersion - Minimum TLS version to accept from connections
-type Input49MinimumTLSVersion string
-
-const (
-	Input49MinimumTLSVersionTlSv1  Input49MinimumTLSVersion = "TLSv1"
-	Input49MinimumTLSVersionTlSv11 Input49MinimumTLSVersion = "TLSv1.1"
-	Input49MinimumTLSVersionTlSv12 Input49MinimumTLSVersion = "TLSv1.2"
-	Input49MinimumTLSVersionTlSv13 Input49MinimumTLSVersion = "TLSv1.3"
-)
-
-func (e Input49MinimumTLSVersion) ToPointer() *Input49MinimumTLSVersion {
-	return &e
-}
-func (e *Input49MinimumTLSVersion) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "TLSv1":
-		fallthrough
-	case "TLSv1.1":
-		fallthrough
-	case "TLSv1.2":
-		fallthrough
-	case "TLSv1.3":
-		*e = Input49MinimumTLSVersion(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input49MinimumTLSVersion: %v", v)
-	}
-}
-
-// Input49MaximumTLSVersion - Maximum TLS version to accept from connections
-type Input49MaximumTLSVersion string
-
-const (
-	Input49MaximumTLSVersionTlSv1  Input49MaximumTLSVersion = "TLSv1"
-	Input49MaximumTLSVersionTlSv11 Input49MaximumTLSVersion = "TLSv1.1"
-	Input49MaximumTLSVersionTlSv12 Input49MaximumTLSVersion = "TLSv1.2"
-	Input49MaximumTLSVersionTlSv13 Input49MaximumTLSVersion = "TLSv1.3"
-)
-
-func (e Input49MaximumTLSVersion) ToPointer() *Input49MaximumTLSVersion {
-	return &e
-}
-func (e *Input49MaximumTLSVersion) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "TLSv1":
-		fallthrough
-	case "TLSv1.1":
-		fallthrough
-	case "TLSv1.2":
-		fallthrough
-	case "TLSv1.3":
-		*e = Input49MaximumTLSVersion(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input49MaximumTLSVersion: %v", v)
-	}
-}
-
-type Input49TLSSettingsServerSide struct {
-	Disabled *bool `default:"true" json:"disabled"`
-	// The name of the predefined certificate
-	CertificateName *string `json:"certificateName,omitempty"`
-	// Path on server containing the private key to use. PEM format. Can reference $ENV_VARS.
-	PrivKeyPath *string `json:"privKeyPath,omitempty"`
-	// Passphrase to use to decrypt private key
-	Passphrase *string `json:"passphrase,omitempty"`
-	// Path on server containing certificates to use. PEM format. Can reference $ENV_VARS.
-	CertPath *string `json:"certPath,omitempty"`
-	// Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
-	CaPath *string `json:"caPath,omitempty"`
-	// Require clients to present their certificates. Used to perform client authentication using SSL certs.
-	RequestCert        *bool `default:"false" json:"requestCert"`
-	RejectUnauthorized any   `json:"rejectUnauthorized,omitempty"`
-	CommonNameRegex    any   `json:"commonNameRegex,omitempty"`
-	// Minimum TLS version to accept from connections
-	MinVersion *Input49MinimumTLSVersion `json:"minVersion,omitempty"`
-	// Maximum TLS version to accept from connections
-	MaxVersion *Input49MaximumTLSVersion `json:"maxVersion,omitempty"`
-}
-
-func (i Input49TLSSettingsServerSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
-}
-
-func (i *Input49TLSSettingsServerSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *Input49TLSSettingsServerSide) GetDisabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Disabled
-}
-
-func (o *Input49TLSSettingsServerSide) GetCertificateName() *string {
-	if o == nil {
-		return nil
-	}
-	return o.CertificateName
-}
-
-func (o *Input49TLSSettingsServerSide) GetPrivKeyPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.PrivKeyPath
-}
-
-func (o *Input49TLSSettingsServerSide) GetPassphrase() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Passphrase
-}
-
-func (o *Input49TLSSettingsServerSide) GetCertPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.CertPath
-}
-
-func (o *Input49TLSSettingsServerSide) GetCaPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.CaPath
-}
-
-func (o *Input49TLSSettingsServerSide) GetRequestCert() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.RequestCert
-}
-
-func (o *Input49TLSSettingsServerSide) GetRejectUnauthorized() any {
-	if o == nil {
-		return nil
-	}
-	return o.RejectUnauthorized
-}
-
-func (o *Input49TLSSettingsServerSide) GetCommonNameRegex() any {
-	if o == nil {
-		return nil
-	}
-	return o.CommonNameRegex
-}
-
-func (o *Input49TLSSettingsServerSide) GetMinVersion() *Input49MinimumTLSVersion {
-	if o == nil {
-		return nil
-	}
-	return o.MinVersion
-}
-
-func (o *Input49TLSSettingsServerSide) GetMaxVersion() *Input49MaximumTLSVersion {
-	if o == nil {
-		return nil
-	}
-	return o.MaxVersion
-}
-
-type Input49Metrics struct {
-	Buffered *float64 `json:"buffered,omitempty"`
-	Dropped  *float64 `json:"dropped,omitempty"`
-	Received *float64 `json:"received,omitempty"`
-}
-
-func (o *Input49Metrics) GetBuffered() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Buffered
-}
-
-func (o *Input49Metrics) GetDropped() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Dropped
-}
-
-func (o *Input49Metrics) GetReceived() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Received
-}
-
-type Input49Status struct {
-	Health    *string         `json:"health,omitempty"`
-	Timestamp *float64        `json:"timestamp,omitempty"`
-	Metrics   *Input49Metrics `json:"metrics,omitempty"`
-}
-
-func (o *Input49Status) GetHealth() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Health
-}
-
-func (o *Input49Status) GetTimestamp() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Timestamp
-}
-
-func (o *Input49Status) GetMetrics() *Input49Metrics {
-	if o == nil {
-		return nil
-	}
-	return o.Metrics
-}
-
-type FortyNine struct {
-	// Unique ID for this input
-	ID       string      `json:"id"`
-	Type     Input49Type `json:"type"`
-	Disabled *bool       `default:"false" json:"disabled"`
-	// Pipeline to process data from this Source before sending it through the Routes
-	Pipeline *string `json:"pipeline,omitempty"`
-	// Select whether to send data to Routes, or directly to Destinations.
-	SendToRoutes *bool `default:"true" json:"sendToRoutes"`
-	// Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-	Environment *string `json:"environment,omitempty"`
-	// Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers).
-	PqEnabled *bool `default:"false" json:"pqEnabled"`
-	// Tags for filtering and grouping in @{product}
-	Streamtags []string `json:"streamtags,omitempty"`
-	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []Input49Connections `json:"connections,omitempty"`
-	Pq          *Input49Pq           `json:"pq,omitempty"`
-	// Regex matching IP addresses that are allowed to establish a connection
-	IPWhitelistRegex *string `default:"/.*/" json:"ipWhitelistRegex"`
-	// Maximum number of active connections allowed per Worker Process. Use 0 for unlimited.
-	MaxActiveCxn *float64 `default:"1000" json:"maxActiveCxn"`
-	// How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring.
-	SocketIdleTimeout *float64 `default:"0" json:"socketIdleTimeout"`
-	// How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring.
-	SocketEndingMaxWait *float64 `default:"30" json:"socketEndingMaxWait"`
-	// The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable.
-	SocketMaxLifespan *float64 `default:"0" json:"socketMaxLifespan"`
-	// Enable if the connection is proxied by a device that supports proxy protocol v1 or v2
-	EnableProxyHeader *bool `default:"false" json:"enableProxyHeader"`
-	// Fields to add to events from this input
-	Metadata []Input49Metadata `json:"metadata,omitempty"`
-	// A list of event-breaking rulesets that will be applied, in order, to the input data stream
-	BreakerRulesets []string `json:"breakerRulesets,omitempty"`
-	// How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines
-	StaleChannelFlushMs *float64 `default:"10000" json:"staleChannelFlushMs"`
-	// Toggle to Yes to specify a file-backed UNIX domain socket connection, instead of a network host and port.
-	EnableUnixPath *bool             `default:"false" json:"enableUnixPath"`
-	Filter         *Filter           `json:"filter,omitempty"`
-	Persistence    *InputPersistence `json:"persistence,omitempty"`
-	// Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
-	AuthType    *Input49AuthenticationMethod `default:"manual" json:"authType"`
-	Description *string                      `json:"description,omitempty"`
-	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
-	Host *string `json:"host,omitempty"`
-	// Port to listen on
-	Port *float64                      `json:"port,omitempty"`
-	TLS  *Input49TLSSettingsServerSide `json:"tls,omitempty"`
-	// Path to the UNIX domain socket to listen on.
-	UnixSocketPath *string `default:"\\$CRIBL_HOME/state/appscope.sock" json:"unixSocketPath"`
-	// Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions.
-	UnixSocketPerms *string `json:"unixSocketPerms,omitempty"`
-	// Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted.
-	AuthToken *string `default:"" json:"authToken"`
-	// Select or create a stored text secret
-	TextSecret *string        `json:"textSecret,omitempty"`
-	Status     *Input49Status `json:"status,omitempty"`
-}
-
-func (f FortyNine) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(f, "", false)
-}
-
-func (f *FortyNine) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &f, "", false, true); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *FortyNine) GetID() string {
-	if o == nil {
-		return ""
-	}
-	return o.ID
-}
-
-func (o *FortyNine) GetType() Input49Type {
-	if o == nil {
-		return Input49Type("")
-	}
-	return o.Type
-}
-
-func (o *FortyNine) GetDisabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Disabled
-}
-
-func (o *FortyNine) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *FortyNine) GetSendToRoutes() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.SendToRoutes
-}
-
-func (o *FortyNine) GetEnvironment() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Environment
-}
-
-func (o *FortyNine) GetPqEnabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.PqEnabled
-}
-
-func (o *FortyNine) GetStreamtags() []string {
-	if o == nil {
-		return nil
-	}
-	return o.Streamtags
-}
-
-func (o *FortyNine) GetConnections() []Input49Connections {
-	if o == nil {
-		return nil
-	}
-	return o.Connections
-}
-
-func (o *FortyNine) GetPq() *Input49Pq {
-	if o == nil {
-		return nil
-	}
-	return o.Pq
-}
-
-func (o *FortyNine) GetIPWhitelistRegex() *string {
-	if o == nil {
-		return nil
-	}
-	return o.IPWhitelistRegex
-}
-
-func (o *FortyNine) GetMaxActiveCxn() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxActiveCxn
-}
-
-func (o *FortyNine) GetSocketIdleTimeout() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.SocketIdleTimeout
-}
-
-func (o *FortyNine) GetSocketEndingMaxWait() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.SocketEndingMaxWait
-}
-
-func (o *FortyNine) GetSocketMaxLifespan() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.SocketMaxLifespan
-}
-
-func (o *FortyNine) GetEnableProxyHeader() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.EnableProxyHeader
-}
-
-func (o *FortyNine) GetMetadata() []Input49Metadata {
-	if o == nil {
-		return nil
-	}
-	return o.Metadata
-}
-
-func (o *FortyNine) GetBreakerRulesets() []string {
-	if o == nil {
-		return nil
-	}
-	return o.BreakerRulesets
-}
-
-func (o *FortyNine) GetStaleChannelFlushMs() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.StaleChannelFlushMs
-}
-
-func (o *FortyNine) GetEnableUnixPath() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.EnableUnixPath
-}
-
-func (o *FortyNine) GetFilter() *Filter {
-	if o == nil {
-		return nil
-	}
-	return o.Filter
-}
-
-func (o *FortyNine) GetPersistence() *InputPersistence {
-	if o == nil {
-		return nil
-	}
-	return o.Persistence
-}
-
-func (o *FortyNine) GetAuthType() *Input49AuthenticationMethod {
-	if o == nil {
-		return nil
-	}
-	return o.AuthType
-}
-
-func (o *FortyNine) GetDescription() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Description
-}
-
-func (o *FortyNine) GetHost() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Host
-}
-
-func (o *FortyNine) GetPort() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Port
-}
-
-func (o *FortyNine) GetTLS() *Input49TLSSettingsServerSide {
-	if o == nil {
-		return nil
-	}
-	return o.TLS
-}
-
-func (o *FortyNine) GetUnixSocketPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.UnixSocketPath
-}
-
-func (o *FortyNine) GetUnixSocketPerms() *string {
-	if o == nil {
-		return nil
-	}
-	return o.UnixSocketPerms
-}
-
-func (o *FortyNine) GetAuthToken() *string {
-	if o == nil {
-		return nil
-	}
-	return o.AuthToken
-}
-
-func (o *FortyNine) GetTextSecret() *string {
-	if o == nil {
-		return nil
-	}
-	return o.TextSecret
-}
-
-func (o *FortyNine) GetStatus() *Input49Status {
-	if o == nil {
-		return nil
-	}
-	return o.Status
-}
-
-type Input48Type string
-
-const (
-	Input48TypeTCP Input48Type = "tcp"
-)
-
-func (e Input48Type) ToPointer() *Input48Type {
-	return &e
-}
-func (e *Input48Type) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "tcp":
-		*e = Input48Type(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input48Type: %v", v)
-	}
-}
-
-type Input48Connections struct {
-	Pipeline *string `json:"pipeline,omitempty"`
-	Output   string  `json:"output"`
-}
-
-func (o *Input48Connections) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *Input48Connections) GetOutput() string {
-	if o == nil {
-		return ""
-	}
-	return o.Output
-}
-
-// Input48Mode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type Input48Mode string
-
-const (
-	Input48ModeSmart  Input48Mode = "smart"
-	Input48ModeAlways Input48Mode = "always"
-)
-
-func (e Input48Mode) ToPointer() *Input48Mode {
-	return &e
-}
-func (e *Input48Mode) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "smart":
-		fallthrough
-	case "always":
-		*e = Input48Mode(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input48Mode: %v", v)
-	}
-}
-
-// Input48Compression - Codec to use to compress the persisted data
-type Input48Compression string
-
-const (
-	Input48CompressionNone Input48Compression = "none"
-	Input48CompressionGzip Input48Compression = "gzip"
-)
-
-func (e Input48Compression) ToPointer() *Input48Compression {
-	return &e
-}
-func (e *Input48Compression) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "none":
-		fallthrough
-	case "gzip":
-		*e = Input48Compression(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input48Compression: %v", v)
-	}
-}
-
-type Input48Pq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *Input48Mode `default:"always" json:"mode"`
-	// The maximum number of events to hold in memory before writing the events to disk
-	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
-	// The number of events to send downstream before committing that Stream has read them
-	CommitFrequency *float64 `default:"42" json:"commitFrequency"`
-	// The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc.
-	MaxFileSize *string `default:"1 MB" json:"maxFileSize"`
-	// The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc.
-	MaxSize *string `default:"5GB" json:"maxSize"`
-	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
-	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
-	// Codec to use to compress the persisted data
-	Compress *Input48Compression `default:"none" json:"compress"`
-}
-
-func (i Input48Pq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
-}
-
-func (i *Input48Pq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *Input48Pq) GetMode() *Input48Mode {
-	if o == nil {
-		return nil
-	}
-	return o.Mode
-}
-
-func (o *Input48Pq) GetMaxBufferSize() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxBufferSize
-}
-
-func (o *Input48Pq) GetCommitFrequency() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.CommitFrequency
-}
-
-func (o *Input48Pq) GetMaxFileSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxFileSize
-}
-
-func (o *Input48Pq) GetMaxSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxSize
-}
-
-func (o *Input48Pq) GetPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Path
-}
-
-func (o *Input48Pq) GetCompress() *Input48Compression {
-	if o == nil {
-		return nil
-	}
-	return o.Compress
-}
-
-// InputMinimumTLSVersion - Minimum TLS version to accept from connections
-type InputMinimumTLSVersion string
-
-const (
-	InputMinimumTLSVersionTlSv1  InputMinimumTLSVersion = "TLSv1"
-	InputMinimumTLSVersionTlSv11 InputMinimumTLSVersion = "TLSv1.1"
-	InputMinimumTLSVersionTlSv12 InputMinimumTLSVersion = "TLSv1.2"
-	InputMinimumTLSVersionTlSv13 InputMinimumTLSVersion = "TLSv1.3"
-)
-
-func (e InputMinimumTLSVersion) ToPointer() *InputMinimumTLSVersion {
-	return &e
-}
-func (e *InputMinimumTLSVersion) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "TLSv1":
-		fallthrough
-	case "TLSv1.1":
-		fallthrough
-	case "TLSv1.2":
-		fallthrough
-	case "TLSv1.3":
-		*e = InputMinimumTLSVersion(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for InputMinimumTLSVersion: %v", v)
-	}
-}
-
-// InputMaximumTLSVersion - Maximum TLS version to accept from connections
-type InputMaximumTLSVersion string
-
-const (
-	InputMaximumTLSVersionTlSv1  InputMaximumTLSVersion = "TLSv1"
-	InputMaximumTLSVersionTlSv11 InputMaximumTLSVersion = "TLSv1.1"
-	InputMaximumTLSVersionTlSv12 InputMaximumTLSVersion = "TLSv1.2"
-	InputMaximumTLSVersionTlSv13 InputMaximumTLSVersion = "TLSv1.3"
-)
-
-func (e InputMaximumTLSVersion) ToPointer() *InputMaximumTLSVersion {
-	return &e
-}
-func (e *InputMaximumTLSVersion) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "TLSv1":
-		fallthrough
-	case "TLSv1.1":
-		fallthrough
-	case "TLSv1.2":
-		fallthrough
-	case "TLSv1.3":
-		*e = InputMaximumTLSVersion(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for InputMaximumTLSVersion: %v", v)
-	}
-}
-
-type InputTLSSettingsServerSide struct {
-	Disabled *bool `default:"true" json:"disabled"`
-	// The name of the predefined certificate
-	CertificateName *string `json:"certificateName,omitempty"`
-	// Path on server containing the private key to use. PEM format. Can reference $ENV_VARS.
-	PrivKeyPath *string `json:"privKeyPath,omitempty"`
-	// Passphrase to use to decrypt private key
-	Passphrase *string `json:"passphrase,omitempty"`
-	// Path on server containing certificates to use. PEM format. Can reference $ENV_VARS.
-	CertPath *string `json:"certPath,omitempty"`
-	// Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
-	CaPath *string `json:"caPath,omitempty"`
-	// Require clients to present their certificates. Used to perform client authentication using SSL certs.
-	RequestCert        *bool `default:"false" json:"requestCert"`
-	RejectUnauthorized any   `json:"rejectUnauthorized,omitempty"`
-	CommonNameRegex    any   `json:"commonNameRegex,omitempty"`
-	// Minimum TLS version to accept from connections
-	MinVersion *InputMinimumTLSVersion `json:"minVersion,omitempty"`
-	// Maximum TLS version to accept from connections
-	MaxVersion *InputMaximumTLSVersion `json:"maxVersion,omitempty"`
-}
-
-func (i InputTLSSettingsServerSide) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
-}
-
-func (i *InputTLSSettingsServerSide) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *InputTLSSettingsServerSide) GetDisabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Disabled
-}
-
-func (o *InputTLSSettingsServerSide) GetCertificateName() *string {
-	if o == nil {
-		return nil
-	}
-	return o.CertificateName
-}
-
-func (o *InputTLSSettingsServerSide) GetPrivKeyPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.PrivKeyPath
-}
-
-func (o *InputTLSSettingsServerSide) GetPassphrase() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Passphrase
-}
-
-func (o *InputTLSSettingsServerSide) GetCertPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.CertPath
-}
-
-func (o *InputTLSSettingsServerSide) GetCaPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.CaPath
-}
-
-func (o *InputTLSSettingsServerSide) GetRequestCert() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.RequestCert
-}
-
-func (o *InputTLSSettingsServerSide) GetRejectUnauthorized() any {
-	if o == nil {
-		return nil
-	}
-	return o.RejectUnauthorized
-}
-
-func (o *InputTLSSettingsServerSide) GetCommonNameRegex() any {
-	if o == nil {
-		return nil
-	}
-	return o.CommonNameRegex
-}
-
-func (o *InputTLSSettingsServerSide) GetMinVersion() *InputMinimumTLSVersion {
-	if o == nil {
-		return nil
-	}
-	return o.MinVersion
-}
-
-func (o *InputTLSSettingsServerSide) GetMaxVersion() *InputMaximumTLSVersion {
-	if o == nil {
-		return nil
-	}
-	return o.MaxVersion
-}
-
-type Input48Metadata struct {
-	Name string `json:"name"`
-	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
-	Value string `json:"value"`
-}
-
-func (o *Input48Metadata) GetName() string {
-	if o == nil {
-		return ""
-	}
-	return o.Name
-}
-
-func (o *Input48Metadata) GetValue() string {
-	if o == nil {
-		return ""
-	}
-	return o.Value
-}
-
-type InputPreprocess struct {
-	Disabled *bool `default:"true" json:"disabled"`
-	// Command to feed the data through (via stdin) and process its output (stdout)
-	Command *string `json:"command,omitempty"`
-	// Arguments to be added to the custom command
-	Args []string `json:"args,omitempty"`
-}
-
-func (i InputPreprocess) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
-}
-
-func (i *InputPreprocess) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *InputPreprocess) GetDisabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Disabled
-}
-
-func (o *InputPreprocess) GetCommand() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Command
-}
-
-func (o *InputPreprocess) GetArgs() []string {
-	if o == nil {
-		return nil
-	}
-	return o.Args
-}
-
-// InputAuthenticationMethod - Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
-type InputAuthenticationMethod string
-
-const (
-	InputAuthenticationMethodManual InputAuthenticationMethod = "manual"
-	InputAuthenticationMethodSecret InputAuthenticationMethod = "secret"
-)
-
-func (e InputAuthenticationMethod) ToPointer() *InputAuthenticationMethod {
-	return &e
-}
-func (e *InputAuthenticationMethod) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "manual":
-		fallthrough
-	case "secret":
-		*e = InputAuthenticationMethod(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for InputAuthenticationMethod: %v", v)
-	}
-}
-
-type Input48Metrics struct {
-	Buffered *float64 `json:"buffered,omitempty"`
-	Dropped  *float64 `json:"dropped,omitempty"`
-	Received *float64 `json:"received,omitempty"`
-}
-
-func (o *Input48Metrics) GetBuffered() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Buffered
-}
-
-func (o *Input48Metrics) GetDropped() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Dropped
-}
-
-func (o *Input48Metrics) GetReceived() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Received
-}
-
-type Input48Status struct {
-	Health    *string         `json:"health,omitempty"`
-	Timestamp *float64        `json:"timestamp,omitempty"`
-	Metrics   *Input48Metrics `json:"metrics,omitempty"`
-}
-
-func (o *Input48Status) GetHealth() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Health
-}
-
-func (o *Input48Status) GetTimestamp() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Timestamp
-}
-
-func (o *Input48Status) GetMetrics() *Input48Metrics {
-	if o == nil {
-		return nil
-	}
-	return o.Metrics
-}
-
-type FortyEight struct {
-	// Unique ID for this input
-	ID       *string      `json:"id,omitempty"`
-	Type     *Input48Type `json:"type,omitempty"`
-	Disabled *bool        `default:"false" json:"disabled"`
-	// Pipeline to process data from this Source before sending it through the Routes
-	Pipeline *string `json:"pipeline,omitempty"`
-	// Select whether to send data to Routes, or directly to Destinations.
-	SendToRoutes *bool `default:"true" json:"sendToRoutes"`
-	// Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-	Environment *string `json:"environment,omitempty"`
-	// Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers).
-	PqEnabled *bool `default:"false" json:"pqEnabled"`
-	// Tags for filtering and grouping in @{product}
-	Streamtags []string `json:"streamtags,omitempty"`
-	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []Input48Connections `json:"connections,omitempty"`
-	Pq          *Input48Pq           `json:"pq,omitempty"`
-	// Address to bind on. Defaults to 0.0.0.0 (all addresses).
-	Host *string `default:"0.0.0.0" json:"host"`
-	// Port to listen on
-	Port float64                     `json:"port"`
-	TLS  *InputTLSSettingsServerSide `json:"tls,omitempty"`
-	// Regex matching IP addresses that are allowed to establish a connection
-	IPWhitelistRegex *string `default:"/.*/" json:"ipWhitelistRegex"`
-	// Maximum number of active connections allowed per Worker Process. Use 0 for unlimited.
-	MaxActiveCxn *float64 `default:"1000" json:"maxActiveCxn"`
-	// How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring.
-	SocketIdleTimeout *float64 `default:"0" json:"socketIdleTimeout"`
-	// How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring.
-	SocketEndingMaxWait *float64 `default:"30" json:"socketEndingMaxWait"`
-	// The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable.
-	SocketMaxLifespan *float64 `default:"0" json:"socketMaxLifespan"`
-	// Enable if the connection is proxied by a device that supports proxy protocol v1 or v2
-	EnableProxyHeader *bool `default:"false" json:"enableProxyHeader"`
-	// Fields to add to events from this input
-	Metadata []Input48Metadata `json:"metadata,omitempty"`
-	// A list of event-breaking rulesets that will be applied, in order, to the input data stream
-	BreakerRulesets []string `json:"breakerRulesets,omitempty"`
-	// How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines
-	StaleChannelFlushMs *float64 `default:"10000" json:"staleChannelFlushMs"`
-	// Client will pass the header record with every new connection. The header can contain an authToken, and an object with a list of fields and values to add to every event. These fields can be used to simplify Event Breaker selection, routing, etc. Header has this format, and must be followed by a newline: { "authToken" : "myToken", "fields": { "field1": "value1", "field2": "value2" } }
-	EnableHeader *bool            `default:"false" json:"enableHeader"`
-	Preprocess   *InputPreprocess `json:"preprocess,omitempty"`
-	Description  *string          `json:"description,omitempty"`
-	// Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
-	AuthType *InputAuthenticationMethod `default:"manual" json:"authType"`
-	Status   *Input48Status             `json:"status,omitempty"`
-}
-
-func (f FortyEight) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(f, "", false)
-}
-
-func (f *FortyEight) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &f, "", false, true); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *FortyEight) GetID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.ID
-}
-
-func (o *FortyEight) GetType() *Input48Type {
-	if o == nil {
-		return nil
-	}
-	return o.Type
-}
-
-func (o *FortyEight) GetDisabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Disabled
-}
-
-func (o *FortyEight) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *FortyEight) GetSendToRoutes() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.SendToRoutes
-}
-
-func (o *FortyEight) GetEnvironment() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Environment
-}
-
-func (o *FortyEight) GetPqEnabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.PqEnabled
-}
-
-func (o *FortyEight) GetStreamtags() []string {
-	if o == nil {
-		return nil
-	}
-	return o.Streamtags
-}
-
-func (o *FortyEight) GetConnections() []Input48Connections {
-	if o == nil {
-		return nil
-	}
-	return o.Connections
-}
-
-func (o *FortyEight) GetPq() *Input48Pq {
-	if o == nil {
-		return nil
-	}
-	return o.Pq
-}
-
-func (o *FortyEight) GetHost() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Host
-}
-
-func (o *FortyEight) GetPort() float64 {
-	if o == nil {
-		return 0.0
-	}
-	return o.Port
-}
-
-func (o *FortyEight) GetTLS() *InputTLSSettingsServerSide {
-	if o == nil {
-		return nil
-	}
-	return o.TLS
-}
-
-func (o *FortyEight) GetIPWhitelistRegex() *string {
-	if o == nil {
-		return nil
-	}
-	return o.IPWhitelistRegex
-}
-
-func (o *FortyEight) GetMaxActiveCxn() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxActiveCxn
-}
-
-func (o *FortyEight) GetSocketIdleTimeout() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.SocketIdleTimeout
-}
-
-func (o *FortyEight) GetSocketEndingMaxWait() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.SocketEndingMaxWait
-}
-
-func (o *FortyEight) GetSocketMaxLifespan() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.SocketMaxLifespan
-}
-
-func (o *FortyEight) GetEnableProxyHeader() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.EnableProxyHeader
-}
-
-func (o *FortyEight) GetMetadata() []Input48Metadata {
-	if o == nil {
-		return nil
-	}
-	return o.Metadata
-}
-
-func (o *FortyEight) GetBreakerRulesets() []string {
-	if o == nil {
-		return nil
-	}
-	return o.BreakerRulesets
-}
-
-func (o *FortyEight) GetStaleChannelFlushMs() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.StaleChannelFlushMs
-}
-
-func (o *FortyEight) GetEnableHeader() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.EnableHeader
-}
-
-func (o *FortyEight) GetPreprocess() *InputPreprocess {
-	if o == nil {
-		return nil
-	}
-	return o.Preprocess
-}
-
-func (o *FortyEight) GetDescription() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Description
-}
-
-func (o *FortyEight) GetAuthType() *InputAuthenticationMethod {
-	if o == nil {
-		return nil
-	}
-	return o.AuthType
-}
-
-func (o *FortyEight) GetStatus() *Input48Status {
-	if o == nil {
-		return nil
-	}
-	return o.Status
-}
-
-type Input47Type string
-
-const (
-	Input47TypeFile Input47Type = "file"
-)
-
-func (e Input47Type) ToPointer() *Input47Type {
-	return &e
-}
-func (e *Input47Type) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "file":
-		*e = Input47Type(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input47Type: %v", v)
-	}
-}
-
-type InputConnections struct {
-	Pipeline *string `json:"pipeline,omitempty"`
-	Output   string  `json:"output"`
-}
-
-func (o *InputConnections) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *InputConnections) GetOutput() string {
-	if o == nil {
-		return ""
-	}
-	return o.Output
-}
-
-// Input47Mode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-type Input47Mode string
-
-const (
-	Input47ModeSmart  Input47Mode = "smart"
-	Input47ModeAlways Input47Mode = "always"
-)
-
-func (e Input47Mode) ToPointer() *Input47Mode {
-	return &e
-}
-func (e *Input47Mode) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "smart":
-		fallthrough
-	case "always":
-		*e = Input47Mode(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for Input47Mode: %v", v)
-	}
-}
-
-// InputCompression - Codec to use to compress the persisted data
-type InputCompression string
-
-const (
-	InputCompressionNone InputCompression = "none"
-	InputCompressionGzip InputCompression = "gzip"
-)
-
-func (e InputCompression) ToPointer() *InputCompression {
-	return &e
-}
-func (e *InputCompression) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "none":
-		fallthrough
-	case "gzip":
-		*e = InputCompression(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for InputCompression: %v", v)
-	}
-}
-
-type InputPq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
-	Mode *Input47Mode `default:"always" json:"mode"`
-	// The maximum number of events to hold in memory before writing the events to disk
-	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
-	// The number of events to send downstream before committing that Stream has read them
-	CommitFrequency *float64 `default:"42" json:"commitFrequency"`
-	// The maximum size to store in each queue file before closing and optionally compressing. Enter a numeral with units of KB, MB, etc.
-	MaxFileSize *string `default:"1 MB" json:"maxFileSize"`
-	// The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc.
-	MaxSize *string `default:"5GB" json:"maxSize"`
-	// The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/inputs/<input-id>
-	Path *string `default:"\\$CRIBL_HOME/state/queues" json:"path"`
-	// Codec to use to compress the persisted data
-	Compress *InputCompression `default:"none" json:"compress"`
-}
-
-func (i InputPq) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(i, "", false)
-}
-
-func (i *InputPq) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &i, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *InputPq) GetMode() *Input47Mode {
-	if o == nil {
-		return nil
-	}
-	return o.Mode
-}
-
-func (o *InputPq) GetMaxBufferSize() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.MaxBufferSize
-}
-
-func (o *InputPq) GetCommitFrequency() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.CommitFrequency
-}
-
-func (o *InputPq) GetMaxFileSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxFileSize
-}
-
-func (o *InputPq) GetMaxSize() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxSize
-}
-
-func (o *InputPq) GetPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Path
-}
-
-func (o *InputPq) GetCompress() *InputCompression {
-	if o == nil {
-		return nil
-	}
-	return o.Compress
-}
-
-// InputMode - Choose how to discover files to monitor
-type InputMode string
-
-const (
-	InputModeAuto   InputMode = "auto"
-	InputModeManual InputMode = "manual"
-)
-
-func (e InputMode) ToPointer() *InputMode {
-	return &e
-}
-func (e *InputMode) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "auto":
-		fallthrough
-	case "manual":
-		*e = InputMode(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for InputMode: %v", v)
-	}
-}
-
-type InputMetadata struct {
-	Name string `json:"name"`
-	// JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
-	Value string `json:"value"`
-}
-
-func (o *InputMetadata) GetName() string {
-	if o == nil {
-		return ""
-	}
-	return o.Name
-}
-
-func (o *InputMetadata) GetValue() string {
-	if o == nil {
-		return ""
-	}
-	return o.Value
-}
-
-type Metrics struct {
-	Buffered *float64 `json:"buffered,omitempty"`
-	Dropped  *float64 `json:"dropped,omitempty"`
-	Received *float64 `json:"received,omitempty"`
-}
-
-func (o *Metrics) GetBuffered() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Buffered
-}
-
-func (o *Metrics) GetDropped() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Dropped
-}
-
-func (o *Metrics) GetReceived() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Received
-}
-
-type Input47Status struct {
-	Health    *string  `json:"health,omitempty"`
-	Timestamp *float64 `json:"timestamp,omitempty"`
-	Metrics   *Metrics `json:"metrics,omitempty"`
-}
-
-func (o *Input47Status) GetHealth() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Health
-}
-
-func (o *Input47Status) GetTimestamp() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Timestamp
-}
-
-func (o *Input47Status) GetMetrics() *Metrics {
-	if o == nil {
-		return nil
-	}
-	return o.Metrics
-}
-
-type FortySeven struct {
-	// Unique ID for this input
-	ID       string      `json:"id"`
-	Type     Input47Type `json:"type"`
-	Disabled *bool       `default:"false" json:"disabled"`
-	// Pipeline to process data from this Source before sending it through the Routes
-	Pipeline *string `json:"pipeline,omitempty"`
-	// Select whether to send data to Routes, or directly to Destinations.
-	SendToRoutes *bool `default:"true" json:"sendToRoutes"`
-	// Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-	Environment *string `json:"environment,omitempty"`
-	// Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers).
-	PqEnabled *bool `default:"false" json:"pqEnabled"`
-	// Tags for filtering and grouping in @{product}
-	Streamtags []string `json:"streamtags,omitempty"`
-	// Direct connections to Destinations, and optionally via a Pipeline or a Pack
-	Connections []InputConnections `json:"connections,omitempty"`
-	Pq          *InputPq           `json:"pq,omitempty"`
-	// Choose how to discover files to monitor
-	Mode *InputMode `default:"auto" json:"mode"`
-	// Time, in seconds, between scanning for files
-	Interval *float64 `default:"10" json:"interval"`
-	// The full path of discovered files are matched against this wildcard list
-	Filenames []string `json:"filenames,omitempty"`
-	// Read only new entries at the end of all files discovered at next startup. @{product} will then read newly discovered files from the head. Disable this to resume reading all files from head.
-	TailOnly *bool `default:"false" json:"tailOnly"`
-	// Time, in seconds, before an idle file is closed
-	IdleTimeout *float64 `default:"300" json:"idleTimeout"`
-	// The maximum age of files to monitor. Format examples: 60s, 4h, 3d, 1w. Age is relative to file modification time. Leave empty to apply no age filters.
-	MaxAgeDur *string `json:"maxAgeDur,omitempty"`
-	// Skip files with modification times earlier than the maximum age duration
-	CheckFileModTime *bool `default:"false" json:"checkFileModTime"`
-	// Forces files containing binary data to be streamed as text
-	ForceText *bool `default:"false" json:"forceText"`
-	// Length of file header bytes to use in hash for unique file identification
-	HashLen *float64 `default:"256" json:"hashLen"`
-	// Fields to add to events from this input
-	Metadata []InputMetadata `json:"metadata,omitempty"`
-	// A list of event-breaking rulesets that will be applied, in order, to the input data stream
-	BreakerRulesets []string `json:"breakerRulesets,omitempty"`
-	// How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines
-	StaleChannelFlushMs *float64 `default:"10000" json:"staleChannelFlushMs"`
-	Description         *string  `json:"description,omitempty"`
-	// Directory path to search for files. Environment variables will be resolved, e.g. $CRIBL_HOME/log/.
-	Path *string `json:"path,omitempty"`
-	// Set how many subdirectories deep to search. Use 0 to search only files in the given path, 1 to also look in its immediate subdirectories, etc. Leave it empty for unlimited depth.
-	Depth                     *float64 `json:"depth,omitempty"`
-	SuppressMissingPathErrors *bool    `default:"false" json:"suppressMissingPathErrors"`
-	// Delete files after they have been collected
-	DeleteFiles *bool `default:"false" json:"deleteFiles"`
-	// Stream binary files as Base64-encoded chunks.
-	IncludeUnidentifiableBinary *bool          `default:"false" json:"includeUnidentifiableBinary"`
-	Status                      *Input47Status `json:"status,omitempty"`
-}
-
-func (f FortySeven) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(f, "", false)
-}
-
-func (f *FortySeven) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &f, "", false, true); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *FortySeven) GetID() string {
-	if o == nil {
-		return ""
-	}
-	return o.ID
-}
-
-func (o *FortySeven) GetType() Input47Type {
-	if o == nil {
-		return Input47Type("")
-	}
-	return o.Type
-}
-
-func (o *FortySeven) GetDisabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.Disabled
-}
-
-func (o *FortySeven) GetPipeline() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Pipeline
-}
-
-func (o *FortySeven) GetSendToRoutes() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.SendToRoutes
-}
-
-func (o *FortySeven) GetEnvironment() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Environment
-}
-
-func (o *FortySeven) GetPqEnabled() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.PqEnabled
-}
-
-func (o *FortySeven) GetStreamtags() []string {
-	if o == nil {
-		return nil
-	}
-	return o.Streamtags
-}
-
-func (o *FortySeven) GetConnections() []InputConnections {
-	if o == nil {
-		return nil
-	}
-	return o.Connections
-}
-
-func (o *FortySeven) GetPq() *InputPq {
-	if o == nil {
-		return nil
-	}
-	return o.Pq
-}
-
-func (o *FortySeven) GetMode() *InputMode {
-	if o == nil {
-		return nil
-	}
-	return o.Mode
-}
-
-func (o *FortySeven) GetInterval() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Interval
-}
-
-func (o *FortySeven) GetFilenames() []string {
-	if o == nil {
-		return nil
-	}
-	return o.Filenames
-}
-
-func (o *FortySeven) GetTailOnly() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.TailOnly
-}
-
-func (o *FortySeven) GetIdleTimeout() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.IdleTimeout
-}
-
-func (o *FortySeven) GetMaxAgeDur() *string {
-	if o == nil {
-		return nil
-	}
-	return o.MaxAgeDur
-}
-
-func (o *FortySeven) GetCheckFileModTime() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.CheckFileModTime
-}
-
-func (o *FortySeven) GetForceText() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.ForceText
-}
-
-func (o *FortySeven) GetHashLen() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.HashLen
-}
-
-func (o *FortySeven) GetMetadata() []InputMetadata {
-	if o == nil {
-		return nil
-	}
-	return o.Metadata
-}
-
-func (o *FortySeven) GetBreakerRulesets() []string {
-	if o == nil {
-		return nil
-	}
-	return o.BreakerRulesets
-}
-
-func (o *FortySeven) GetStaleChannelFlushMs() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.StaleChannelFlushMs
-}
-
-func (o *FortySeven) GetDescription() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Description
-}
-
-func (o *FortySeven) GetPath() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Path
-}
-
-func (o *FortySeven) GetDepth() *float64 {
-	if o == nil {
-		return nil
-	}
-	return o.Depth
-}
-
-func (o *FortySeven) GetSuppressMissingPathErrors() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.SuppressMissingPathErrors
-}
-
-func (o *FortySeven) GetDeleteFiles() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.DeleteFiles
-}
-
-func (o *FortySeven) GetIncludeUnidentifiableBinary() *bool {
-	if o == nil {
-		return nil
-	}
-	return o.IncludeUnidentifiableBinary
-}
-
-func (o *FortySeven) GetStatus() *Input47Status {
-	if o == nil {
-		return nil
-	}
-	return o.Status
-}
-
-type InputUnionType string
-
-const (
-	InputUnionTypeInputCollection           InputUnionType = "InputCollection"
-	InputUnionTypeInputKafka                InputUnionType = "InputKafka"
-	InputUnionTypeInputMsk                  InputUnionType = "InputMsk"
-	InputUnionTypeInputHTTP                 InputUnionType = "InputHttp"
-	InputUnionTypeInputSplunk               InputUnionType = "InputSplunk"
-	InputUnionTypeInputSplunkSearch         InputUnionType = "InputSplunkSearch"
-	InputUnionTypeInputSplunkHec            InputUnionType = "InputSplunkHec"
-	InputUnionTypeInputAzureBlob            InputUnionType = "InputAzureBlob"
-	InputUnionTypeInputElastic              InputUnionType = "InputElastic"
-	InputUnionTypeInputConfluentCloud       InputUnionType = "InputConfluentCloud"
-	InputUnionTypeInputGrafana              InputUnionType = "InputGrafana"
-	InputUnionTypeInputLoki                 InputUnionType = "InputLoki"
-	InputUnionTypeInputPrometheusRw         InputUnionType = "InputPrometheusRw"
-	InputUnionTypeInputPrometheus           InputUnionType = "InputPrometheus"
-	InputUnionTypeInputEdgePrometheus       InputUnionType = "InputEdgePrometheus"
-	InputUnionTypeInputOffice365Mgmt        InputUnionType = "InputOffice365Mgmt"
-	InputUnionTypeInputOffice365Service     InputUnionType = "InputOffice365Service"
-	InputUnionTypeInputOffice365MsgTrace    InputUnionType = "InputOffice365MsgTrace"
-	InputUnionTypeInputEventhub             InputUnionType = "InputEventhub"
-	InputUnionTypeInputExec                 InputUnionType = "InputExec"
-	InputUnionTypeInputFirehose             InputUnionType = "InputFirehose"
-	InputUnionTypeInputGooglePubsub         InputUnionType = "InputGooglePubsub"
-	InputUnionTypeInputCribl                InputUnionType = "InputCribl"
-	InputUnionTypeInputCriblTCP             InputUnionType = "InputCriblTcp"
-	InputUnionTypeInputCriblHTTP            InputUnionType = "InputCriblHttp"
-	InputUnionTypeInputTcpjson              InputUnionType = "InputTcpjson"
-	InputUnionTypeInputSystemMetrics        InputUnionType = "InputSystemMetrics"
-	InputUnionTypeInputSystemState          InputUnionType = "InputSystemState"
-	InputUnionTypeInputKubeMetrics          InputUnionType = "InputKubeMetrics"
-	InputUnionTypeInputKubeLogs             InputUnionType = "InputKubeLogs"
-	InputUnionTypeInputKubeEvents           InputUnionType = "InputKubeEvents"
-	InputUnionTypeInputWindowsMetrics       InputUnionType = "InputWindowsMetrics"
-	InputUnionTypeInputCrowdstrike          InputUnionType = "InputCrowdstrike"
-	InputUnionTypeInputDatadogAgent         InputUnionType = "InputDatadogAgent"
-	InputUnionTypeInputDatagen              InputUnionType = "InputDatagen"
-	InputUnionTypeInputHTTPRaw              InputUnionType = "InputHttpRaw"
-	InputUnionTypeInputKinesis              InputUnionType = "InputKinesis"
-	InputUnionTypeInputCriblmetrics         InputUnionType = "InputCriblmetrics"
-	InputUnionTypeInputMetrics              InputUnionType = "InputMetrics"
-	InputUnionTypeInputS3                   InputUnionType = "InputS3"
-	InputUnionTypeInputS3Inventory          InputUnionType = "InputS3Inventory"
-	InputUnionTypeInputSnmp                 InputUnionType = "InputSnmp"
-	InputUnionTypeInputOpenTelemetry        InputUnionType = "InputOpenTelemetry"
-	InputUnionTypeInputModelDrivenTelemetry InputUnionType = "InputModelDrivenTelemetry"
-	InputUnionTypeInputSqs                  InputUnionType = "InputSqs"
-	InputUnionTypeInputSyslog               InputUnionType = "InputSyslog"
-	InputUnionTypeFortySeven                InputUnionType = "47"
-	InputUnionTypeFortyEight                InputUnionType = "48"
-	InputUnionTypeFortyNine                 InputUnionType = "49"
-	InputUnionTypeFifty                     InputUnionType = "50"
-	InputUnionTypeFiftyOne                  InputUnionType = "51"
-	InputUnionTypeFiftyTwo                  InputUnionType = "52"
-	InputUnionTypeFiftyThree                InputUnionType = "53"
-	InputUnionTypeFiftyFour                 InputUnionType = "54"
-	InputUnionTypeFiftyFive                 InputUnionType = "55"
-	InputUnionTypeFiftySix                  InputUnionType = "56"
-	InputUnionTypeFiftySeven                InputUnionType = "57"
+	InputTypeInputCollection           InputType = "InputCollection"
+	InputTypeInputKafka                InputType = "InputKafka"
+	InputTypeInputMsk                  InputType = "InputMsk"
+	InputTypeInputHTTP                 InputType = "InputHttp"
+	InputTypeInputSplunk               InputType = "InputSplunk"
+	InputTypeInputSplunkSearch         InputType = "InputSplunkSearch"
+	InputTypeInputSplunkHec            InputType = "InputSplunkHec"
+	InputTypeInputAzureBlob            InputType = "InputAzureBlob"
+	InputTypeInputElastic              InputType = "InputElastic"
+	InputTypeInputConfluentCloud       InputType = "InputConfluentCloud"
+	InputTypeInputGrafana              InputType = "InputGrafana"
+	InputTypeInputLoki                 InputType = "InputLoki"
+	InputTypeInputPrometheusRw         InputType = "InputPrometheusRw"
+	InputTypeInputPrometheus           InputType = "InputPrometheus"
+	InputTypeInputEdgePrometheus       InputType = "InputEdgePrometheus"
+	InputTypeInputOffice365Mgmt        InputType = "InputOffice365Mgmt"
+	InputTypeInputOffice365Service     InputType = "InputOffice365Service"
+	InputTypeInputOffice365MsgTrace    InputType = "InputOffice365MsgTrace"
+	InputTypeInputEventhub             InputType = "InputEventhub"
+	InputTypeInputExec                 InputType = "InputExec"
+	InputTypeInputFirehose             InputType = "InputFirehose"
+	InputTypeInputGooglePubsub         InputType = "InputGooglePubsub"
+	InputTypeInputCribl                InputType = "InputCribl"
+	InputTypeInputCriblTCP             InputType = "InputCriblTcp"
+	InputTypeInputCriblHTTP            InputType = "InputCriblHttp"
+	InputTypeInputTcpjson              InputType = "InputTcpjson"
+	InputTypeInputSystemMetrics        InputType = "InputSystemMetrics"
+	InputTypeInputSystemState          InputType = "InputSystemState"
+	InputTypeInputKubeMetrics          InputType = "InputKubeMetrics"
+	InputTypeInputKubeLogs             InputType = "InputKubeLogs"
+	InputTypeInputKubeEvents           InputType = "InputKubeEvents"
+	InputTypeInputWindowsMetrics       InputType = "InputWindowsMetrics"
+	InputTypeInputCrowdstrike          InputType = "InputCrowdstrike"
+	InputTypeInputDatadogAgent         InputType = "InputDatadogAgent"
+	InputTypeInputDatagen              InputType = "InputDatagen"
+	InputTypeInputHTTPRaw              InputType = "InputHttpRaw"
+	InputTypeInputKinesis              InputType = "InputKinesis"
+	InputTypeInputCriblmetrics         InputType = "InputCriblmetrics"
+	InputTypeInputMetrics              InputType = "InputMetrics"
+	InputTypeInputS3                   InputType = "InputS3"
+	InputTypeInputS3Inventory          InputType = "InputS3Inventory"
+	InputTypeInputSnmp                 InputType = "InputSnmp"
+	InputTypeInputOpenTelemetry        InputType = "InputOpenTelemetry"
+	InputTypeInputModelDrivenTelemetry InputType = "InputModelDrivenTelemetry"
+	InputTypeInputSqs                  InputType = "InputSqs"
+	InputTypeInputSyslog               InputType = "InputSyslog"
+	InputTypeInputFile                 InputType = "InputFile"
+	InputTypeInputTCP                  InputType = "InputTcp"
+	InputTypeInputAppscope             InputType = "InputAppscope"
+	InputTypeInputWef                  InputType = "InputWef"
+	InputTypeInputWinEventLogs         InputType = "InputWinEventLogs"
+	InputTypeInputRawUDP               InputType = "InputRawUdp"
+	InputTypeInputJournalFiles         InputType = "InputJournalFiles"
+	InputTypeInputWiz                  InputType = "InputWiz"
+	InputTypeInputNetflow              InputType = "InputNetflow"
+	InputTypeInputSecurityLake         InputType = "InputSecurityLake"
+	InputTypeInputZscalerHec           InputType = "InputZscalerHec"
 )
 
 type Input struct {
@@ -7557,23 +117,23 @@ type Input struct {
 	InputModelDrivenTelemetry *InputModelDrivenTelemetry `queryParam:"inline"`
 	InputSqs                  *InputSqs                  `queryParam:"inline"`
 	InputSyslog               *InputSyslog               `queryParam:"inline"`
-	FortySeven                *FortySeven                `queryParam:"inline"`
-	FortyEight                *FortyEight                `queryParam:"inline"`
-	FortyNine                 *FortyNine                 `queryParam:"inline"`
-	Fifty                     *Fifty                     `queryParam:"inline"`
-	FiftyOne                  *FiftyOne                  `queryParam:"inline"`
-	FiftyTwo                  *FiftyTwo                  `queryParam:"inline"`
-	FiftyThree                *FiftyThree                `queryParam:"inline"`
-	FiftyFour                 *FiftyFour                 `queryParam:"inline"`
-	FiftyFive                 *FiftyFive                 `queryParam:"inline"`
-	FiftySix                  *FiftySix                  `queryParam:"inline"`
-	FiftySeven                *FiftySeven                `queryParam:"inline"`
+	InputFile                 *InputFile                 `queryParam:"inline"`
+	InputTCP                  *InputTCP                  `queryParam:"inline"`
+	InputAppscope             *InputAppscope             `queryParam:"inline"`
+	InputWef                  *InputWef                  `queryParam:"inline"`
+	InputWinEventLogs         *InputWinEventLogs         `queryParam:"inline"`
+	InputRawUDP               *InputRawUDP               `queryParam:"inline"`
+	InputJournalFiles         *InputJournalFiles         `queryParam:"inline"`
+	InputWiz                  *InputWiz                  `queryParam:"inline"`
+	InputNetflow              *InputNetflow              `queryParam:"inline"`
+	InputSecurityLake         *InputSecurityLake         `queryParam:"inline"`
+	InputZscalerHec           *InputZscalerHec           `queryParam:"inline"`
 
-	Type InputUnionType
+	Type InputType
 }
 
 func CreateInputInputCollection(inputCollection InputCollection) Input {
-	typ := InputUnionTypeInputCollection
+	typ := InputTypeInputCollection
 
 	return Input{
 		InputCollection: &inputCollection,
@@ -7582,7 +142,7 @@ func CreateInputInputCollection(inputCollection InputCollection) Input {
 }
 
 func CreateInputInputKafka(inputKafka InputKafka) Input {
-	typ := InputUnionTypeInputKafka
+	typ := InputTypeInputKafka
 
 	return Input{
 		InputKafka: &inputKafka,
@@ -7591,7 +151,7 @@ func CreateInputInputKafka(inputKafka InputKafka) Input {
 }
 
 func CreateInputInputMsk(inputMsk InputMsk) Input {
-	typ := InputUnionTypeInputMsk
+	typ := InputTypeInputMsk
 
 	return Input{
 		InputMsk: &inputMsk,
@@ -7600,7 +160,7 @@ func CreateInputInputMsk(inputMsk InputMsk) Input {
 }
 
 func CreateInputInputHTTP(inputHTTP InputHTTP) Input {
-	typ := InputUnionTypeInputHTTP
+	typ := InputTypeInputHTTP
 
 	return Input{
 		InputHTTP: &inputHTTP,
@@ -7609,7 +169,7 @@ func CreateInputInputHTTP(inputHTTP InputHTTP) Input {
 }
 
 func CreateInputInputSplunk(inputSplunk InputSplunk) Input {
-	typ := InputUnionTypeInputSplunk
+	typ := InputTypeInputSplunk
 
 	return Input{
 		InputSplunk: &inputSplunk,
@@ -7618,7 +178,7 @@ func CreateInputInputSplunk(inputSplunk InputSplunk) Input {
 }
 
 func CreateInputInputSplunkSearch(inputSplunkSearch InputSplunkSearch) Input {
-	typ := InputUnionTypeInputSplunkSearch
+	typ := InputTypeInputSplunkSearch
 
 	return Input{
 		InputSplunkSearch: &inputSplunkSearch,
@@ -7627,7 +187,7 @@ func CreateInputInputSplunkSearch(inputSplunkSearch InputSplunkSearch) Input {
 }
 
 func CreateInputInputSplunkHec(inputSplunkHec InputSplunkHec) Input {
-	typ := InputUnionTypeInputSplunkHec
+	typ := InputTypeInputSplunkHec
 
 	return Input{
 		InputSplunkHec: &inputSplunkHec,
@@ -7636,7 +196,7 @@ func CreateInputInputSplunkHec(inputSplunkHec InputSplunkHec) Input {
 }
 
 func CreateInputInputAzureBlob(inputAzureBlob InputAzureBlob) Input {
-	typ := InputUnionTypeInputAzureBlob
+	typ := InputTypeInputAzureBlob
 
 	return Input{
 		InputAzureBlob: &inputAzureBlob,
@@ -7645,7 +205,7 @@ func CreateInputInputAzureBlob(inputAzureBlob InputAzureBlob) Input {
 }
 
 func CreateInputInputElastic(inputElastic InputElastic) Input {
-	typ := InputUnionTypeInputElastic
+	typ := InputTypeInputElastic
 
 	return Input{
 		InputElastic: &inputElastic,
@@ -7654,7 +214,7 @@ func CreateInputInputElastic(inputElastic InputElastic) Input {
 }
 
 func CreateInputInputConfluentCloud(inputConfluentCloud InputConfluentCloud) Input {
-	typ := InputUnionTypeInputConfluentCloud
+	typ := InputTypeInputConfluentCloud
 
 	return Input{
 		InputConfluentCloud: &inputConfluentCloud,
@@ -7663,7 +223,7 @@ func CreateInputInputConfluentCloud(inputConfluentCloud InputConfluentCloud) Inp
 }
 
 func CreateInputInputGrafana(inputGrafana InputGrafana) Input {
-	typ := InputUnionTypeInputGrafana
+	typ := InputTypeInputGrafana
 
 	return Input{
 		InputGrafana: &inputGrafana,
@@ -7672,7 +232,7 @@ func CreateInputInputGrafana(inputGrafana InputGrafana) Input {
 }
 
 func CreateInputInputLoki(inputLoki InputLoki) Input {
-	typ := InputUnionTypeInputLoki
+	typ := InputTypeInputLoki
 
 	return Input{
 		InputLoki: &inputLoki,
@@ -7681,7 +241,7 @@ func CreateInputInputLoki(inputLoki InputLoki) Input {
 }
 
 func CreateInputInputPrometheusRw(inputPrometheusRw InputPrometheusRw) Input {
-	typ := InputUnionTypeInputPrometheusRw
+	typ := InputTypeInputPrometheusRw
 
 	return Input{
 		InputPrometheusRw: &inputPrometheusRw,
@@ -7690,7 +250,7 @@ func CreateInputInputPrometheusRw(inputPrometheusRw InputPrometheusRw) Input {
 }
 
 func CreateInputInputPrometheus(inputPrometheus InputPrometheus) Input {
-	typ := InputUnionTypeInputPrometheus
+	typ := InputTypeInputPrometheus
 
 	return Input{
 		InputPrometheus: &inputPrometheus,
@@ -7699,7 +259,7 @@ func CreateInputInputPrometheus(inputPrometheus InputPrometheus) Input {
 }
 
 func CreateInputInputEdgePrometheus(inputEdgePrometheus InputEdgePrometheus) Input {
-	typ := InputUnionTypeInputEdgePrometheus
+	typ := InputTypeInputEdgePrometheus
 
 	return Input{
 		InputEdgePrometheus: &inputEdgePrometheus,
@@ -7708,7 +268,7 @@ func CreateInputInputEdgePrometheus(inputEdgePrometheus InputEdgePrometheus) Inp
 }
 
 func CreateInputInputOffice365Mgmt(inputOffice365Mgmt InputOffice365Mgmt) Input {
-	typ := InputUnionTypeInputOffice365Mgmt
+	typ := InputTypeInputOffice365Mgmt
 
 	return Input{
 		InputOffice365Mgmt: &inputOffice365Mgmt,
@@ -7717,7 +277,7 @@ func CreateInputInputOffice365Mgmt(inputOffice365Mgmt InputOffice365Mgmt) Input 
 }
 
 func CreateInputInputOffice365Service(inputOffice365Service InputOffice365Service) Input {
-	typ := InputUnionTypeInputOffice365Service
+	typ := InputTypeInputOffice365Service
 
 	return Input{
 		InputOffice365Service: &inputOffice365Service,
@@ -7726,7 +286,7 @@ func CreateInputInputOffice365Service(inputOffice365Service InputOffice365Servic
 }
 
 func CreateInputInputOffice365MsgTrace(inputOffice365MsgTrace InputOffice365MsgTrace) Input {
-	typ := InputUnionTypeInputOffice365MsgTrace
+	typ := InputTypeInputOffice365MsgTrace
 
 	return Input{
 		InputOffice365MsgTrace: &inputOffice365MsgTrace,
@@ -7735,7 +295,7 @@ func CreateInputInputOffice365MsgTrace(inputOffice365MsgTrace InputOffice365MsgT
 }
 
 func CreateInputInputEventhub(inputEventhub InputEventhub) Input {
-	typ := InputUnionTypeInputEventhub
+	typ := InputTypeInputEventhub
 
 	return Input{
 		InputEventhub: &inputEventhub,
@@ -7744,7 +304,7 @@ func CreateInputInputEventhub(inputEventhub InputEventhub) Input {
 }
 
 func CreateInputInputExec(inputExec InputExec) Input {
-	typ := InputUnionTypeInputExec
+	typ := InputTypeInputExec
 
 	return Input{
 		InputExec: &inputExec,
@@ -7753,7 +313,7 @@ func CreateInputInputExec(inputExec InputExec) Input {
 }
 
 func CreateInputInputFirehose(inputFirehose InputFirehose) Input {
-	typ := InputUnionTypeInputFirehose
+	typ := InputTypeInputFirehose
 
 	return Input{
 		InputFirehose: &inputFirehose,
@@ -7762,7 +322,7 @@ func CreateInputInputFirehose(inputFirehose InputFirehose) Input {
 }
 
 func CreateInputInputGooglePubsub(inputGooglePubsub InputGooglePubsub) Input {
-	typ := InputUnionTypeInputGooglePubsub
+	typ := InputTypeInputGooglePubsub
 
 	return Input{
 		InputGooglePubsub: &inputGooglePubsub,
@@ -7771,7 +331,7 @@ func CreateInputInputGooglePubsub(inputGooglePubsub InputGooglePubsub) Input {
 }
 
 func CreateInputInputCribl(inputCribl InputCribl) Input {
-	typ := InputUnionTypeInputCribl
+	typ := InputTypeInputCribl
 
 	return Input{
 		InputCribl: &inputCribl,
@@ -7780,7 +340,7 @@ func CreateInputInputCribl(inputCribl InputCribl) Input {
 }
 
 func CreateInputInputCriblTCP(inputCriblTCP InputCriblTCP) Input {
-	typ := InputUnionTypeInputCriblTCP
+	typ := InputTypeInputCriblTCP
 
 	return Input{
 		InputCriblTCP: &inputCriblTCP,
@@ -7789,7 +349,7 @@ func CreateInputInputCriblTCP(inputCriblTCP InputCriblTCP) Input {
 }
 
 func CreateInputInputCriblHTTP(inputCriblHTTP InputCriblHTTP) Input {
-	typ := InputUnionTypeInputCriblHTTP
+	typ := InputTypeInputCriblHTTP
 
 	return Input{
 		InputCriblHTTP: &inputCriblHTTP,
@@ -7798,7 +358,7 @@ func CreateInputInputCriblHTTP(inputCriblHTTP InputCriblHTTP) Input {
 }
 
 func CreateInputInputTcpjson(inputTcpjson InputTcpjson) Input {
-	typ := InputUnionTypeInputTcpjson
+	typ := InputTypeInputTcpjson
 
 	return Input{
 		InputTcpjson: &inputTcpjson,
@@ -7807,7 +367,7 @@ func CreateInputInputTcpjson(inputTcpjson InputTcpjson) Input {
 }
 
 func CreateInputInputSystemMetrics(inputSystemMetrics InputSystemMetrics) Input {
-	typ := InputUnionTypeInputSystemMetrics
+	typ := InputTypeInputSystemMetrics
 
 	return Input{
 		InputSystemMetrics: &inputSystemMetrics,
@@ -7816,7 +376,7 @@ func CreateInputInputSystemMetrics(inputSystemMetrics InputSystemMetrics) Input 
 }
 
 func CreateInputInputSystemState(inputSystemState InputSystemState) Input {
-	typ := InputUnionTypeInputSystemState
+	typ := InputTypeInputSystemState
 
 	return Input{
 		InputSystemState: &inputSystemState,
@@ -7825,7 +385,7 @@ func CreateInputInputSystemState(inputSystemState InputSystemState) Input {
 }
 
 func CreateInputInputKubeMetrics(inputKubeMetrics InputKubeMetrics) Input {
-	typ := InputUnionTypeInputKubeMetrics
+	typ := InputTypeInputKubeMetrics
 
 	return Input{
 		InputKubeMetrics: &inputKubeMetrics,
@@ -7834,7 +394,7 @@ func CreateInputInputKubeMetrics(inputKubeMetrics InputKubeMetrics) Input {
 }
 
 func CreateInputInputKubeLogs(inputKubeLogs InputKubeLogs) Input {
-	typ := InputUnionTypeInputKubeLogs
+	typ := InputTypeInputKubeLogs
 
 	return Input{
 		InputKubeLogs: &inputKubeLogs,
@@ -7843,7 +403,7 @@ func CreateInputInputKubeLogs(inputKubeLogs InputKubeLogs) Input {
 }
 
 func CreateInputInputKubeEvents(inputKubeEvents InputKubeEvents) Input {
-	typ := InputUnionTypeInputKubeEvents
+	typ := InputTypeInputKubeEvents
 
 	return Input{
 		InputKubeEvents: &inputKubeEvents,
@@ -7852,7 +412,7 @@ func CreateInputInputKubeEvents(inputKubeEvents InputKubeEvents) Input {
 }
 
 func CreateInputInputWindowsMetrics(inputWindowsMetrics InputWindowsMetrics) Input {
-	typ := InputUnionTypeInputWindowsMetrics
+	typ := InputTypeInputWindowsMetrics
 
 	return Input{
 		InputWindowsMetrics: &inputWindowsMetrics,
@@ -7861,7 +421,7 @@ func CreateInputInputWindowsMetrics(inputWindowsMetrics InputWindowsMetrics) Inp
 }
 
 func CreateInputInputCrowdstrike(inputCrowdstrike InputCrowdstrike) Input {
-	typ := InputUnionTypeInputCrowdstrike
+	typ := InputTypeInputCrowdstrike
 
 	return Input{
 		InputCrowdstrike: &inputCrowdstrike,
@@ -7870,7 +430,7 @@ func CreateInputInputCrowdstrike(inputCrowdstrike InputCrowdstrike) Input {
 }
 
 func CreateInputInputDatadogAgent(inputDatadogAgent InputDatadogAgent) Input {
-	typ := InputUnionTypeInputDatadogAgent
+	typ := InputTypeInputDatadogAgent
 
 	return Input{
 		InputDatadogAgent: &inputDatadogAgent,
@@ -7879,7 +439,7 @@ func CreateInputInputDatadogAgent(inputDatadogAgent InputDatadogAgent) Input {
 }
 
 func CreateInputInputDatagen(inputDatagen InputDatagen) Input {
-	typ := InputUnionTypeInputDatagen
+	typ := InputTypeInputDatagen
 
 	return Input{
 		InputDatagen: &inputDatagen,
@@ -7888,7 +448,7 @@ func CreateInputInputDatagen(inputDatagen InputDatagen) Input {
 }
 
 func CreateInputInputHTTPRaw(inputHTTPRaw InputHTTPRaw) Input {
-	typ := InputUnionTypeInputHTTPRaw
+	typ := InputTypeInputHTTPRaw
 
 	return Input{
 		InputHTTPRaw: &inputHTTPRaw,
@@ -7897,7 +457,7 @@ func CreateInputInputHTTPRaw(inputHTTPRaw InputHTTPRaw) Input {
 }
 
 func CreateInputInputKinesis(inputKinesis InputKinesis) Input {
-	typ := InputUnionTypeInputKinesis
+	typ := InputTypeInputKinesis
 
 	return Input{
 		InputKinesis: &inputKinesis,
@@ -7906,7 +466,7 @@ func CreateInputInputKinesis(inputKinesis InputKinesis) Input {
 }
 
 func CreateInputInputCriblmetrics(inputCriblmetrics InputCriblmetrics) Input {
-	typ := InputUnionTypeInputCriblmetrics
+	typ := InputTypeInputCriblmetrics
 
 	return Input{
 		InputCriblmetrics: &inputCriblmetrics,
@@ -7915,7 +475,7 @@ func CreateInputInputCriblmetrics(inputCriblmetrics InputCriblmetrics) Input {
 }
 
 func CreateInputInputMetrics(inputMetrics InputMetrics) Input {
-	typ := InputUnionTypeInputMetrics
+	typ := InputTypeInputMetrics
 
 	return Input{
 		InputMetrics: &inputMetrics,
@@ -7924,7 +484,7 @@ func CreateInputInputMetrics(inputMetrics InputMetrics) Input {
 }
 
 func CreateInputInputS3(inputS3 InputS3) Input {
-	typ := InputUnionTypeInputS3
+	typ := InputTypeInputS3
 
 	return Input{
 		InputS3: &inputS3,
@@ -7933,7 +493,7 @@ func CreateInputInputS3(inputS3 InputS3) Input {
 }
 
 func CreateInputInputS3Inventory(inputS3Inventory InputS3Inventory) Input {
-	typ := InputUnionTypeInputS3Inventory
+	typ := InputTypeInputS3Inventory
 
 	return Input{
 		InputS3Inventory: &inputS3Inventory,
@@ -7942,7 +502,7 @@ func CreateInputInputS3Inventory(inputS3Inventory InputS3Inventory) Input {
 }
 
 func CreateInputInputSnmp(inputSnmp InputSnmp) Input {
-	typ := InputUnionTypeInputSnmp
+	typ := InputTypeInputSnmp
 
 	return Input{
 		InputSnmp: &inputSnmp,
@@ -7951,7 +511,7 @@ func CreateInputInputSnmp(inputSnmp InputSnmp) Input {
 }
 
 func CreateInputInputOpenTelemetry(inputOpenTelemetry InputOpenTelemetry) Input {
-	typ := InputUnionTypeInputOpenTelemetry
+	typ := InputTypeInputOpenTelemetry
 
 	return Input{
 		InputOpenTelemetry: &inputOpenTelemetry,
@@ -7960,7 +520,7 @@ func CreateInputInputOpenTelemetry(inputOpenTelemetry InputOpenTelemetry) Input 
 }
 
 func CreateInputInputModelDrivenTelemetry(inputModelDrivenTelemetry InputModelDrivenTelemetry) Input {
-	typ := InputUnionTypeInputModelDrivenTelemetry
+	typ := InputTypeInputModelDrivenTelemetry
 
 	return Input{
 		InputModelDrivenTelemetry: &inputModelDrivenTelemetry,
@@ -7969,7 +529,7 @@ func CreateInputInputModelDrivenTelemetry(inputModelDrivenTelemetry InputModelDr
 }
 
 func CreateInputInputSqs(inputSqs InputSqs) Input {
-	typ := InputUnionTypeInputSqs
+	typ := InputTypeInputSqs
 
 	return Input{
 		InputSqs: &inputSqs,
@@ -7978,7 +538,7 @@ func CreateInputInputSqs(inputSqs InputSqs) Input {
 }
 
 func CreateInputInputSyslog(inputSyslog InputSyslog) Input {
-	typ := InputUnionTypeInputSyslog
+	typ := InputTypeInputSyslog
 
 	return Input{
 		InputSyslog: &inputSyslog,
@@ -7986,102 +546,102 @@ func CreateInputInputSyslog(inputSyslog InputSyslog) Input {
 	}
 }
 
-func CreateInputFortySeven(fortySeven FortySeven) Input {
-	typ := InputUnionTypeFortySeven
+func CreateInputInputFile(inputFile InputFile) Input {
+	typ := InputTypeInputFile
 
 	return Input{
-		FortySeven: &fortySeven,
-		Type:       typ,
-	}
-}
-
-func CreateInputFortyEight(fortyEight FortyEight) Input {
-	typ := InputUnionTypeFortyEight
-
-	return Input{
-		FortyEight: &fortyEight,
-		Type:       typ,
-	}
-}
-
-func CreateInputFortyNine(fortyNine FortyNine) Input {
-	typ := InputUnionTypeFortyNine
-
-	return Input{
-		FortyNine: &fortyNine,
+		InputFile: &inputFile,
 		Type:      typ,
 	}
 }
 
-func CreateInputFifty(fifty Fifty) Input {
-	typ := InputUnionTypeFifty
+func CreateInputInputTCP(inputTCP InputTCP) Input {
+	typ := InputTypeInputTCP
 
 	return Input{
-		Fifty: &fifty,
-		Type:  typ,
-	}
-}
-
-func CreateInputFiftyOne(fiftyOne FiftyOne) Input {
-	typ := InputUnionTypeFiftyOne
-
-	return Input{
-		FiftyOne: &fiftyOne,
+		InputTCP: &inputTCP,
 		Type:     typ,
 	}
 }
 
-func CreateInputFiftyTwo(fiftyTwo FiftyTwo) Input {
-	typ := InputUnionTypeFiftyTwo
+func CreateInputInputAppscope(inputAppscope InputAppscope) Input {
+	typ := InputTypeInputAppscope
 
 	return Input{
-		FiftyTwo: &fiftyTwo,
+		InputAppscope: &inputAppscope,
+		Type:          typ,
+	}
+}
+
+func CreateInputInputWef(inputWef InputWef) Input {
+	typ := InputTypeInputWef
+
+	return Input{
+		InputWef: &inputWef,
 		Type:     typ,
 	}
 }
 
-func CreateInputFiftyThree(fiftyThree FiftyThree) Input {
-	typ := InputUnionTypeFiftyThree
+func CreateInputInputWinEventLogs(inputWinEventLogs InputWinEventLogs) Input {
+	typ := InputTypeInputWinEventLogs
 
 	return Input{
-		FiftyThree: &fiftyThree,
-		Type:       typ,
+		InputWinEventLogs: &inputWinEventLogs,
+		Type:              typ,
 	}
 }
 
-func CreateInputFiftyFour(fiftyFour FiftyFour) Input {
-	typ := InputUnionTypeFiftyFour
+func CreateInputInputRawUDP(inputRawUDP InputRawUDP) Input {
+	typ := InputTypeInputRawUDP
 
 	return Input{
-		FiftyFour: &fiftyFour,
-		Type:      typ,
+		InputRawUDP: &inputRawUDP,
+		Type:        typ,
 	}
 }
 
-func CreateInputFiftyFive(fiftyFive FiftyFive) Input {
-	typ := InputUnionTypeFiftyFive
+func CreateInputInputJournalFiles(inputJournalFiles InputJournalFiles) Input {
+	typ := InputTypeInputJournalFiles
 
 	return Input{
-		FiftyFive: &fiftyFive,
-		Type:      typ,
+		InputJournalFiles: &inputJournalFiles,
+		Type:              typ,
 	}
 }
 
-func CreateInputFiftySix(fiftySix FiftySix) Input {
-	typ := InputUnionTypeFiftySix
+func CreateInputInputWiz(inputWiz InputWiz) Input {
+	typ := InputTypeInputWiz
 
 	return Input{
-		FiftySix: &fiftySix,
+		InputWiz: &inputWiz,
 		Type:     typ,
 	}
 }
 
-func CreateInputFiftySeven(fiftySeven FiftySeven) Input {
-	typ := InputUnionTypeFiftySeven
+func CreateInputInputNetflow(inputNetflow InputNetflow) Input {
+	typ := InputTypeInputNetflow
 
 	return Input{
-		FiftySeven: &fiftySeven,
-		Type:       typ,
+		InputNetflow: &inputNetflow,
+		Type:         typ,
+	}
+}
+
+func CreateInputInputSecurityLake(inputSecurityLake InputSecurityLake) Input {
+	typ := InputTypeInputSecurityLake
+
+	return Input{
+		InputSecurityLake: &inputSecurityLake,
+		Type:              typ,
+	}
+}
+
+func CreateInputInputZscalerHec(inputZscalerHec InputZscalerHec) Input {
+	typ := InputTypeInputZscalerHec
+
+	return Input{
+		InputZscalerHec: &inputZscalerHec,
+		Type:            typ,
 	}
 }
 
@@ -8090,399 +650,399 @@ func (u *Input) UnmarshalJSON(data []byte) error {
 	var inputCribl InputCribl = InputCribl{}
 	if err := utils.UnmarshalJSON(data, &inputCribl, "", true, true); err == nil {
 		u.InputCribl = &inputCribl
-		u.Type = InputUnionTypeInputCribl
+		u.Type = InputTypeInputCribl
 		return nil
 	}
 
 	var inputDatagen InputDatagen = InputDatagen{}
 	if err := utils.UnmarshalJSON(data, &inputDatagen, "", true, true); err == nil {
 		u.InputDatagen = &inputDatagen
-		u.Type = InputUnionTypeInputDatagen
+		u.Type = InputTypeInputDatagen
 		return nil
 	}
 
 	var inputKubeEvents InputKubeEvents = InputKubeEvents{}
 	if err := utils.UnmarshalJSON(data, &inputKubeEvents, "", true, true); err == nil {
 		u.InputKubeEvents = &inputKubeEvents
-		u.Type = InputUnionTypeInputKubeEvents
+		u.Type = InputTypeInputKubeEvents
 		return nil
 	}
 
 	var inputCriblmetrics InputCriblmetrics = InputCriblmetrics{}
 	if err := utils.UnmarshalJSON(data, &inputCriblmetrics, "", true, true); err == nil {
 		u.InputCriblmetrics = &inputCriblmetrics
-		u.Type = InputUnionTypeInputCriblmetrics
+		u.Type = InputTypeInputCriblmetrics
 		return nil
 	}
 
 	var inputKubeMetrics InputKubeMetrics = InputKubeMetrics{}
 	if err := utils.UnmarshalJSON(data, &inputKubeMetrics, "", true, true); err == nil {
 		u.InputKubeMetrics = &inputKubeMetrics
-		u.Type = InputUnionTypeInputKubeMetrics
+		u.Type = InputTypeInputKubeMetrics
 		return nil
 	}
 
 	var inputSystemState InputSystemState = InputSystemState{}
 	if err := utils.UnmarshalJSON(data, &inputSystemState, "", true, true); err == nil {
 		u.InputSystemState = &inputSystemState
-		u.Type = InputUnionTypeInputSystemState
+		u.Type = InputTypeInputSystemState
 		return nil
 	}
 
 	var inputCollection InputCollection = InputCollection{}
 	if err := utils.UnmarshalJSON(data, &inputCollection, "", true, true); err == nil {
 		u.InputCollection = &inputCollection
-		u.Type = InputUnionTypeInputCollection
+		u.Type = InputTypeInputCollection
 		return nil
 	}
 
 	var inputModelDrivenTelemetry InputModelDrivenTelemetry = InputModelDrivenTelemetry{}
 	if err := utils.UnmarshalJSON(data, &inputModelDrivenTelemetry, "", true, true); err == nil {
 		u.InputModelDrivenTelemetry = &inputModelDrivenTelemetry
-		u.Type = InputUnionTypeInputModelDrivenTelemetry
+		u.Type = InputTypeInputModelDrivenTelemetry
 		return nil
 	}
 
 	var inputWindowsMetrics InputWindowsMetrics = InputWindowsMetrics{}
 	if err := utils.UnmarshalJSON(data, &inputWindowsMetrics, "", true, true); err == nil {
 		u.InputWindowsMetrics = &inputWindowsMetrics
-		u.Type = InputUnionTypeInputWindowsMetrics
+		u.Type = InputTypeInputWindowsMetrics
 		return nil
 	}
 
 	var inputSystemMetrics InputSystemMetrics = InputSystemMetrics{}
 	if err := utils.UnmarshalJSON(data, &inputSystemMetrics, "", true, true); err == nil {
 		u.InputSystemMetrics = &inputSystemMetrics
-		u.Type = InputUnionTypeInputSystemMetrics
+		u.Type = InputTypeInputSystemMetrics
+		return nil
+	}
+
+	var inputJournalFiles InputJournalFiles = InputJournalFiles{}
+	if err := utils.UnmarshalJSON(data, &inputJournalFiles, "", true, true); err == nil {
+		u.InputJournalFiles = &inputJournalFiles
+		u.Type = InputTypeInputJournalFiles
 		return nil
 	}
 
 	var inputSnmp InputSnmp = InputSnmp{}
 	if err := utils.UnmarshalJSON(data, &inputSnmp, "", true, true); err == nil {
 		u.InputSnmp = &inputSnmp
-		u.Type = InputUnionTypeInputSnmp
+		u.Type = InputTypeInputSnmp
 		return nil
 	}
 
-	var fiftyThree FiftyThree = FiftyThree{}
-	if err := utils.UnmarshalJSON(data, &fiftyThree, "", true, true); err == nil {
-		u.FiftyThree = &fiftyThree
-		u.Type = InputUnionTypeFiftyThree
+	var inputWinEventLogs InputWinEventLogs = InputWinEventLogs{}
+	if err := utils.UnmarshalJSON(data, &inputWinEventLogs, "", true, true); err == nil {
+		u.InputWinEventLogs = &inputWinEventLogs
+		u.Type = InputTypeInputWinEventLogs
 		return nil
 	}
 
-	var inputKubeLogs InputKubeLogs = InputKubeLogs{}
-	if err := utils.UnmarshalJSON(data, &inputKubeLogs, "", true, true); err == nil {
-		u.InputKubeLogs = &inputKubeLogs
-		u.Type = InputUnionTypeInputKubeLogs
+	var inputRawUDP InputRawUDP = InputRawUDP{}
+	if err := utils.UnmarshalJSON(data, &inputRawUDP, "", true, true); err == nil {
+		u.InputRawUDP = &inputRawUDP
+		u.Type = InputTypeInputRawUDP
 		return nil
 	}
 
 	var inputExec InputExec = InputExec{}
 	if err := utils.UnmarshalJSON(data, &inputExec, "", true, true); err == nil {
 		u.InputExec = &inputExec
-		u.Type = InputUnionTypeInputExec
+		u.Type = InputTypeInputExec
 		return nil
 	}
 
-	var fiftyTwo FiftyTwo = FiftyTwo{}
-	if err := utils.UnmarshalJSON(data, &fiftyTwo, "", true, true); err == nil {
-		u.FiftyTwo = &fiftyTwo
-		u.Type = InputUnionTypeFiftyTwo
+	var inputKubeLogs InputKubeLogs = InputKubeLogs{}
+	if err := utils.UnmarshalJSON(data, &inputKubeLogs, "", true, true); err == nil {
+		u.InputKubeLogs = &inputKubeLogs
+		u.Type = InputTypeInputKubeLogs
 		return nil
 	}
 
 	var inputMetrics InputMetrics = InputMetrics{}
 	if err := utils.UnmarshalJSON(data, &inputMetrics, "", true, true); err == nil {
 		u.InputMetrics = &inputMetrics
-		u.Type = InputUnionTypeInputMetrics
-		return nil
-	}
-
-	var fiftyOne FiftyOne = FiftyOne{}
-	if err := utils.UnmarshalJSON(data, &fiftyOne, "", true, true); err == nil {
-		u.FiftyOne = &fiftyOne
-		u.Type = InputUnionTypeFiftyOne
+		u.Type = InputTypeInputMetrics
 		return nil
 	}
 
 	var inputCriblTCP InputCriblTCP = InputCriblTCP{}
 	if err := utils.UnmarshalJSON(data, &inputCriblTCP, "", true, true); err == nil {
 		u.InputCriblTCP = &inputCriblTCP
-		u.Type = InputUnionTypeInputCriblTCP
+		u.Type = InputTypeInputCriblTCP
 		return nil
 	}
 
-	var fiftyFive FiftyFive = FiftyFive{}
-	if err := utils.UnmarshalJSON(data, &fiftyFive, "", true, true); err == nil {
-		u.FiftyFive = &fiftyFive
-		u.Type = InputUnionTypeFiftyFive
+	var inputNetflow InputNetflow = InputNetflow{}
+	if err := utils.UnmarshalJSON(data, &inputNetflow, "", true, true); err == nil {
+		u.InputNetflow = &inputNetflow
+		u.Type = InputTypeInputNetflow
 		return nil
 	}
 
 	var inputGooglePubsub InputGooglePubsub = InputGooglePubsub{}
 	if err := utils.UnmarshalJSON(data, &inputGooglePubsub, "", true, true); err == nil {
 		u.InputGooglePubsub = &inputGooglePubsub
-		u.Type = InputUnionTypeInputGooglePubsub
-		return nil
-	}
-
-	var inputOffice365Service InputOffice365Service = InputOffice365Service{}
-	if err := utils.UnmarshalJSON(data, &inputOffice365Service, "", true, true); err == nil {
-		u.InputOffice365Service = &inputOffice365Service
-		u.Type = InputUnionTypeInputOffice365Service
+		u.Type = InputTypeInputGooglePubsub
 		return nil
 	}
 
 	var inputTcpjson InputTcpjson = InputTcpjson{}
 	if err := utils.UnmarshalJSON(data, &inputTcpjson, "", true, true); err == nil {
 		u.InputTcpjson = &inputTcpjson
-		u.Type = InputUnionTypeInputTcpjson
+		u.Type = InputTypeInputTcpjson
 		return nil
 	}
 
-	var fiftyFour FiftyFour = FiftyFour{}
-	if err := utils.UnmarshalJSON(data, &fiftyFour, "", true, true); err == nil {
-		u.FiftyFour = &fiftyFour
-		u.Type = InputUnionTypeFiftyFour
+	var inputOffice365Service InputOffice365Service = InputOffice365Service{}
+	if err := utils.UnmarshalJSON(data, &inputOffice365Service, "", true, true); err == nil {
+		u.InputOffice365Service = &inputOffice365Service
+		u.Type = InputTypeInputOffice365Service
 		return nil
 	}
 
-	var inputFirehose InputFirehose = InputFirehose{}
-	if err := utils.UnmarshalJSON(data, &inputFirehose, "", true, true); err == nil {
-		u.InputFirehose = &inputFirehose
-		u.Type = InputUnionTypeInputFirehose
+	var inputWiz InputWiz = InputWiz{}
+	if err := utils.UnmarshalJSON(data, &inputWiz, "", true, true); err == nil {
+		u.InputWiz = &inputWiz
+		u.Type = InputTypeInputWiz
+		return nil
+	}
+
+	var inputTCP InputTCP = InputTCP{}
+	if err := utils.UnmarshalJSON(data, &inputTCP, "", true, true); err == nil {
+		u.InputTCP = &inputTCP
+		u.Type = InputTypeInputTCP
 		return nil
 	}
 
 	var inputCriblHTTP InputCriblHTTP = InputCriblHTTP{}
 	if err := utils.UnmarshalJSON(data, &inputCriblHTTP, "", true, true); err == nil {
 		u.InputCriblHTTP = &inputCriblHTTP
-		u.Type = InputUnionTypeInputCriblHTTP
+		u.Type = InputTypeInputCriblHTTP
 		return nil
 	}
 
-	var fortyEight FortyEight = FortyEight{}
-	if err := utils.UnmarshalJSON(data, &fortyEight, "", true, true); err == nil {
-		u.FortyEight = &fortyEight
-		u.Type = InputUnionTypeFortyEight
+	var inputFirehose InputFirehose = InputFirehose{}
+	if err := utils.UnmarshalJSON(data, &inputFirehose, "", true, true); err == nil {
+		u.InputFirehose = &inputFirehose
+		u.Type = InputTypeInputFirehose
 		return nil
 	}
 
 	var inputOffice365Mgmt InputOffice365Mgmt = InputOffice365Mgmt{}
 	if err := utils.UnmarshalJSON(data, &inputOffice365Mgmt, "", true, true); err == nil {
 		u.InputOffice365Mgmt = &inputOffice365Mgmt
-		u.Type = InputUnionTypeInputOffice365Mgmt
+		u.Type = InputTypeInputOffice365Mgmt
+		return nil
+	}
+
+	var inputFile InputFile = InputFile{}
+	if err := utils.UnmarshalJSON(data, &inputFile, "", true, true); err == nil {
+		u.InputFile = &inputFile
+		u.Type = InputTypeInputFile
 		return nil
 	}
 
 	var inputDatadogAgent InputDatadogAgent = InputDatadogAgent{}
 	if err := utils.UnmarshalJSON(data, &inputDatadogAgent, "", true, true); err == nil {
 		u.InputDatadogAgent = &inputDatadogAgent
-		u.Type = InputUnionTypeInputDatadogAgent
-		return nil
-	}
-
-	var fortySeven FortySeven = FortySeven{}
-	if err := utils.UnmarshalJSON(data, &fortySeven, "", true, true); err == nil {
-		u.FortySeven = &fortySeven
-		u.Type = InputUnionTypeFortySeven
+		u.Type = InputTypeInputDatadogAgent
 		return nil
 	}
 
 	var inputSplunk InputSplunk = InputSplunk{}
 	if err := utils.UnmarshalJSON(data, &inputSplunk, "", true, true); err == nil {
 		u.InputSplunk = &inputSplunk
-		u.Type = InputUnionTypeInputSplunk
+		u.Type = InputTypeInputSplunk
 		return nil
 	}
 
-	var fifty Fifty = Fifty{}
-	if err := utils.UnmarshalJSON(data, &fifty, "", true, true); err == nil {
-		u.Fifty = &fifty
-		u.Type = InputUnionTypeFifty
+	var inputWef InputWef = InputWef{}
+	if err := utils.UnmarshalJSON(data, &inputWef, "", true, true); err == nil {
+		u.InputWef = &inputWef
+		u.Type = InputTypeInputWef
 		return nil
 	}
 
-	var fortyNine FortyNine = FortyNine{}
-	if err := utils.UnmarshalJSON(data, &fortyNine, "", true, true); err == nil {
-		u.FortyNine = &fortyNine
-		u.Type = InputUnionTypeFortyNine
-		return nil
-	}
-
-	var inputAzureBlob InputAzureBlob = InputAzureBlob{}
-	if err := utils.UnmarshalJSON(data, &inputAzureBlob, "", true, true); err == nil {
-		u.InputAzureBlob = &inputAzureBlob
-		u.Type = InputUnionTypeInputAzureBlob
-		return nil
-	}
-
-	var inputHTTPRaw InputHTTPRaw = InputHTTPRaw{}
-	if err := utils.UnmarshalJSON(data, &inputHTTPRaw, "", true, true); err == nil {
-		u.InputHTTPRaw = &inputHTTPRaw
-		u.Type = InputUnionTypeInputHTTPRaw
+	var inputAppscope InputAppscope = InputAppscope{}
+	if err := utils.UnmarshalJSON(data, &inputAppscope, "", true, true); err == nil {
+		u.InputAppscope = &inputAppscope
+		u.Type = InputTypeInputAppscope
 		return nil
 	}
 
 	var inputHTTP InputHTTP = InputHTTP{}
 	if err := utils.UnmarshalJSON(data, &inputHTTP, "", true, true); err == nil {
 		u.InputHTTP = &inputHTTP
-		u.Type = InputUnionTypeInputHTTP
+		u.Type = InputTypeInputHTTP
+		return nil
+	}
+
+	var inputAzureBlob InputAzureBlob = InputAzureBlob{}
+	if err := utils.UnmarshalJSON(data, &inputAzureBlob, "", true, true); err == nil {
+		u.InputAzureBlob = &inputAzureBlob
+		u.Type = InputTypeInputAzureBlob
+		return nil
+	}
+
+	var inputHTTPRaw InputHTTPRaw = InputHTTPRaw{}
+	if err := utils.UnmarshalJSON(data, &inputHTTPRaw, "", true, true); err == nil {
+		u.InputHTTPRaw = &inputHTTPRaw
+		u.Type = InputTypeInputHTTPRaw
+		return nil
+	}
+
+	var inputZscalerHec InputZscalerHec = InputZscalerHec{}
+	if err := utils.UnmarshalJSON(data, &inputZscalerHec, "", true, true); err == nil {
+		u.InputZscalerHec = &inputZscalerHec
+		u.Type = InputTypeInputZscalerHec
 		return nil
 	}
 
 	var inputSqs InputSqs = InputSqs{}
 	if err := utils.UnmarshalJSON(data, &inputSqs, "", true, true); err == nil {
 		u.InputSqs = &inputSqs
-		u.Type = InputUnionTypeInputSqs
-		return nil
-	}
-
-	var fiftySeven FiftySeven = FiftySeven{}
-	if err := utils.UnmarshalJSON(data, &fiftySeven, "", true, true); err == nil {
-		u.FiftySeven = &fiftySeven
-		u.Type = InputUnionTypeFiftySeven
-		return nil
-	}
-
-	var inputKafka InputKafka = InputKafka{}
-	if err := utils.UnmarshalJSON(data, &inputKafka, "", true, true); err == nil {
-		u.InputKafka = &inputKafka
-		u.Type = InputUnionTypeInputKafka
-		return nil
-	}
-
-	var inputEventhub InputEventhub = InputEventhub{}
-	if err := utils.UnmarshalJSON(data, &inputEventhub, "", true, true); err == nil {
-		u.InputEventhub = &inputEventhub
-		u.Type = InputUnionTypeInputEventhub
-		return nil
-	}
-
-	var inputConfluentCloud InputConfluentCloud = InputConfluentCloud{}
-	if err := utils.UnmarshalJSON(data, &inputConfluentCloud, "", true, true); err == nil {
-		u.InputConfluentCloud = &inputConfluentCloud
-		u.Type = InputUnionTypeInputConfluentCloud
+		u.Type = InputTypeInputSqs
 		return nil
 	}
 
 	var inputKinesis InputKinesis = InputKinesis{}
 	if err := utils.UnmarshalJSON(data, &inputKinesis, "", true, true); err == nil {
 		u.InputKinesis = &inputKinesis
-		u.Type = InputUnionTypeInputKinesis
+		u.Type = InputTypeInputKinesis
 		return nil
 	}
 
-	var inputOffice365MsgTrace InputOffice365MsgTrace = InputOffice365MsgTrace{}
-	if err := utils.UnmarshalJSON(data, &inputOffice365MsgTrace, "", true, true); err == nil {
-		u.InputOffice365MsgTrace = &inputOffice365MsgTrace
-		u.Type = InputUnionTypeInputOffice365MsgTrace
+	var inputConfluentCloud InputConfluentCloud = InputConfluentCloud{}
+	if err := utils.UnmarshalJSON(data, &inputConfluentCloud, "", true, true); err == nil {
+		u.InputConfluentCloud = &inputConfluentCloud
+		u.Type = InputTypeInputConfluentCloud
+		return nil
+	}
+
+	var inputEventhub InputEventhub = InputEventhub{}
+	if err := utils.UnmarshalJSON(data, &inputEventhub, "", true, true); err == nil {
+		u.InputEventhub = &inputEventhub
+		u.Type = InputTypeInputEventhub
+		return nil
+	}
+
+	var inputKafka InputKafka = InputKafka{}
+	if err := utils.UnmarshalJSON(data, &inputKafka, "", true, true); err == nil {
+		u.InputKafka = &inputKafka
+		u.Type = InputTypeInputKafka
 		return nil
 	}
 
 	var inputElastic InputElastic = InputElastic{}
 	if err := utils.UnmarshalJSON(data, &inputElastic, "", true, true); err == nil {
 		u.InputElastic = &inputElastic
-		u.Type = InputUnionTypeInputElastic
+		u.Type = InputTypeInputElastic
+		return nil
+	}
+
+	var inputOffice365MsgTrace InputOffice365MsgTrace = InputOffice365MsgTrace{}
+	if err := utils.UnmarshalJSON(data, &inputOffice365MsgTrace, "", true, true); err == nil {
+		u.InputOffice365MsgTrace = &inputOffice365MsgTrace
+		u.Type = InputTypeInputOffice365MsgTrace
 		return nil
 	}
 
 	var inputSplunkHec InputSplunkHec = InputSplunkHec{}
 	if err := utils.UnmarshalJSON(data, &inputSplunkHec, "", true, true); err == nil {
 		u.InputSplunkHec = &inputSplunkHec
-		u.Type = InputUnionTypeInputSplunkHec
+		u.Type = InputTypeInputSplunkHec
 		return nil
 	}
 
 	var inputCrowdstrike InputCrowdstrike = InputCrowdstrike{}
 	if err := utils.UnmarshalJSON(data, &inputCrowdstrike, "", true, true); err == nil {
 		u.InputCrowdstrike = &inputCrowdstrike
-		u.Type = InputUnionTypeInputCrowdstrike
-		return nil
-	}
-
-	var inputPrometheusRw InputPrometheusRw = InputPrometheusRw{}
-	if err := utils.UnmarshalJSON(data, &inputPrometheusRw, "", true, true); err == nil {
-		u.InputPrometheusRw = &inputPrometheusRw
-		u.Type = InputUnionTypeInputPrometheusRw
+		u.Type = InputTypeInputCrowdstrike
 		return nil
 	}
 
 	var inputLoki InputLoki = InputLoki{}
 	if err := utils.UnmarshalJSON(data, &inputLoki, "", true, true); err == nil {
 		u.InputLoki = &inputLoki
-		u.Type = InputUnionTypeInputLoki
+		u.Type = InputTypeInputLoki
+		return nil
+	}
+
+	var inputPrometheusRw InputPrometheusRw = InputPrometheusRw{}
+	if err := utils.UnmarshalJSON(data, &inputPrometheusRw, "", true, true); err == nil {
+		u.InputPrometheusRw = &inputPrometheusRw
+		u.Type = InputTypeInputPrometheusRw
+		return nil
+	}
+
+	var inputSecurityLake InputSecurityLake = InputSecurityLake{}
+	if err := utils.UnmarshalJSON(data, &inputSecurityLake, "", true, true); err == nil {
+		u.InputSecurityLake = &inputSecurityLake
+		u.Type = InputTypeInputSecurityLake
 		return nil
 	}
 
 	var inputS3 InputS3 = InputS3{}
 	if err := utils.UnmarshalJSON(data, &inputS3, "", true, true); err == nil {
 		u.InputS3 = &inputS3
-		u.Type = InputUnionTypeInputS3
+		u.Type = InputTypeInputS3
 		return nil
 	}
 
 	var inputPrometheus InputPrometheus = InputPrometheus{}
 	if err := utils.UnmarshalJSON(data, &inputPrometheus, "", true, true); err == nil {
 		u.InputPrometheus = &inputPrometheus
-		u.Type = InputUnionTypeInputPrometheus
-		return nil
-	}
-
-	var fiftySix FiftySix = FiftySix{}
-	if err := utils.UnmarshalJSON(data, &fiftySix, "", true, true); err == nil {
-		u.FiftySix = &fiftySix
-		u.Type = InputUnionTypeFiftySix
+		u.Type = InputTypeInputPrometheus
 		return nil
 	}
 
 	var inputS3Inventory InputS3Inventory = InputS3Inventory{}
 	if err := utils.UnmarshalJSON(data, &inputS3Inventory, "", true, true); err == nil {
 		u.InputS3Inventory = &inputS3Inventory
-		u.Type = InputUnionTypeInputS3Inventory
+		u.Type = InputTypeInputS3Inventory
 		return nil
 	}
 
 	var inputEdgePrometheus InputEdgePrometheus = InputEdgePrometheus{}
 	if err := utils.UnmarshalJSON(data, &inputEdgePrometheus, "", true, true); err == nil {
 		u.InputEdgePrometheus = &inputEdgePrometheus
-		u.Type = InputUnionTypeInputEdgePrometheus
+		u.Type = InputTypeInputEdgePrometheus
 		return nil
 	}
 
 	var inputOpenTelemetry InputOpenTelemetry = InputOpenTelemetry{}
 	if err := utils.UnmarshalJSON(data, &inputOpenTelemetry, "", true, true); err == nil {
 		u.InputOpenTelemetry = &inputOpenTelemetry
-		u.Type = InputUnionTypeInputOpenTelemetry
+		u.Type = InputTypeInputOpenTelemetry
 		return nil
 	}
 
 	var inputSplunkSearch InputSplunkSearch = InputSplunkSearch{}
 	if err := utils.UnmarshalJSON(data, &inputSplunkSearch, "", true, true); err == nil {
 		u.InputSplunkSearch = &inputSplunkSearch
-		u.Type = InputUnionTypeInputSplunkSearch
+		u.Type = InputTypeInputSplunkSearch
 		return nil
 	}
 
 	var inputMsk InputMsk = InputMsk{}
 	if err := utils.UnmarshalJSON(data, &inputMsk, "", true, true); err == nil {
 		u.InputMsk = &inputMsk
-		u.Type = InputUnionTypeInputMsk
-		return nil
-	}
-
-	var inputGrafana InputGrafana = InputGrafana{}
-	if err := utils.UnmarshalJSON(data, &inputGrafana, "", true, true); err == nil {
-		u.InputGrafana = &inputGrafana
-		u.Type = InputUnionTypeInputGrafana
+		u.Type = InputTypeInputMsk
 		return nil
 	}
 
 	var inputSyslog InputSyslog = InputSyslog{}
 	if err := utils.UnmarshalJSON(data, &inputSyslog, "", true, true); err == nil {
 		u.InputSyslog = &inputSyslog
-		u.Type = InputUnionTypeInputSyslog
+		u.Type = InputTypeInputSyslog
+		return nil
+	}
+
+	var inputGrafana InputGrafana = InputGrafana{}
+	if err := utils.UnmarshalJSON(data, &inputGrafana, "", true, true); err == nil {
+		u.InputGrafana = &inputGrafana
+		u.Type = InputTypeInputGrafana
 		return nil
 	}
 
@@ -8674,48 +1234,48 @@ func (u Input) MarshalJSON() ([]byte, error) {
 		return utils.MarshalJSON(u.InputSyslog, "", true)
 	}
 
-	if u.FortySeven != nil {
-		return utils.MarshalJSON(u.FortySeven, "", true)
+	if u.InputFile != nil {
+		return utils.MarshalJSON(u.InputFile, "", true)
 	}
 
-	if u.FortyEight != nil {
-		return utils.MarshalJSON(u.FortyEight, "", true)
+	if u.InputTCP != nil {
+		return utils.MarshalJSON(u.InputTCP, "", true)
 	}
 
-	if u.FortyNine != nil {
-		return utils.MarshalJSON(u.FortyNine, "", true)
+	if u.InputAppscope != nil {
+		return utils.MarshalJSON(u.InputAppscope, "", true)
 	}
 
-	if u.Fifty != nil {
-		return utils.MarshalJSON(u.Fifty, "", true)
+	if u.InputWef != nil {
+		return utils.MarshalJSON(u.InputWef, "", true)
 	}
 
-	if u.FiftyOne != nil {
-		return utils.MarshalJSON(u.FiftyOne, "", true)
+	if u.InputWinEventLogs != nil {
+		return utils.MarshalJSON(u.InputWinEventLogs, "", true)
 	}
 
-	if u.FiftyTwo != nil {
-		return utils.MarshalJSON(u.FiftyTwo, "", true)
+	if u.InputRawUDP != nil {
+		return utils.MarshalJSON(u.InputRawUDP, "", true)
 	}
 
-	if u.FiftyThree != nil {
-		return utils.MarshalJSON(u.FiftyThree, "", true)
+	if u.InputJournalFiles != nil {
+		return utils.MarshalJSON(u.InputJournalFiles, "", true)
 	}
 
-	if u.FiftyFour != nil {
-		return utils.MarshalJSON(u.FiftyFour, "", true)
+	if u.InputWiz != nil {
+		return utils.MarshalJSON(u.InputWiz, "", true)
 	}
 
-	if u.FiftyFive != nil {
-		return utils.MarshalJSON(u.FiftyFive, "", true)
+	if u.InputNetflow != nil {
+		return utils.MarshalJSON(u.InputNetflow, "", true)
 	}
 
-	if u.FiftySix != nil {
-		return utils.MarshalJSON(u.FiftySix, "", true)
+	if u.InputSecurityLake != nil {
+		return utils.MarshalJSON(u.InputSecurityLake, "", true)
 	}
 
-	if u.FiftySeven != nil {
-		return utils.MarshalJSON(u.FiftySeven, "", true)
+	if u.InputZscalerHec != nil {
+		return utils.MarshalJSON(u.InputZscalerHec, "", true)
 	}
 
 	return nil, errors.New("could not marshal union type Input: all fields are null")

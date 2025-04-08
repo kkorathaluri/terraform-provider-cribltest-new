@@ -7,18 +7,18 @@ import (
 	"fmt"
 )
 
-type Health string
+type InputStatusHealth string
 
 const (
-	HealthGreen  Health = "Green"
-	HealthYellow Health = "Yellow"
-	HealthRed    Health = "Red"
+	InputStatusHealthGreen  InputStatusHealth = "Green"
+	InputStatusHealthYellow InputStatusHealth = "Yellow"
+	InputStatusHealthRed    InputStatusHealth = "Red"
 )
 
-func (e Health) ToPointer() *Health {
+func (e InputStatusHealth) ToPointer() *InputStatusHealth {
 	return &e
 }
-func (e *Health) UnmarshalJSON(data []byte) error {
+func (e *InputStatusHealth) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -29,23 +29,23 @@ func (e *Health) UnmarshalJSON(data []byte) error {
 	case "Yellow":
 		fallthrough
 	case "Red":
-		*e = Health(v)
+		*e = InputStatusHealth(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for Health: %v", v)
+		return fmt.Errorf("invalid value for InputStatusHealth: %v", v)
 	}
 }
 
 type InputStatusStatus struct {
-	Health          Health         `json:"health"`
-	Metrics         map[string]any `json:"metrics"`
-	Timestamp       float64        `json:"timestamp"`
-	UseStatusFromLB *bool          `json:"useStatusFromLB,omitempty"`
+	Health          InputStatusHealth `json:"health"`
+	Metrics         map[string]any    `json:"metrics"`
+	Timestamp       float64           `json:"timestamp"`
+	UseStatusFromLB *bool             `json:"useStatusFromLB,omitempty"`
 }
 
-func (o *InputStatusStatus) GetHealth() Health {
+func (o *InputStatusStatus) GetHealth() InputStatusHealth {
 	if o == nil {
-		return Health("")
+		return InputStatusHealth("")
 	}
 	return o.Health
 }

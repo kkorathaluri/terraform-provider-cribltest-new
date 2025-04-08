@@ -7,24 +7,17 @@ import (
 	"net/http"
 )
 
-type WorkspacesControllerListWorkspacesGlobals struct {
-	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
-}
-
-func (o *WorkspacesControllerListWorkspacesGlobals) GetOrganizationID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.OrganizationID
+var WorkspacesControllerListWorkspacesServerList = []string{
+	"https://api.cribl-staging.cloud",
 }
 
 type WorkspacesControllerListWorkspacesRequest struct {
-	OrganizationID *string `pathParam:"style=simple,explode=false,name=organizationId"`
+	OrganizationID string `pathParam:"style=simple,explode=false,name=organizationId"`
 }
 
-func (o *WorkspacesControllerListWorkspacesRequest) GetOrganizationID() *string {
+func (o *WorkspacesControllerListWorkspacesRequest) GetOrganizationID() string {
 	if o == nil {
-		return nil
+		return ""
 	}
 	return o.OrganizationID
 }

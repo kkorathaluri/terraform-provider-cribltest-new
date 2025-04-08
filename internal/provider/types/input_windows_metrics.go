@@ -12,7 +12,7 @@ type InputWindowsMetrics struct {
 	Environment         types.String                     `tfsdk:"environment"`
 	Host                *InputWindowsMetricsHost         `tfsdk:"host"`
 	ID                  types.String                     `tfsdk:"id"`
-	Interval            types.Number                     `tfsdk:"interval"`
+	Interval            types.Float64                    `tfsdk:"interval"`
 	Metadata            []InputWindowsMetricsMetadata    `tfsdk:"metadata"`
 	Persistence         *InputWindowsMetricsPersistence  `tfsdk:"persistence"`
 	Pipeline            types.String                     `tfsdk:"pipeline"`

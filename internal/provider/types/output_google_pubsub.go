@@ -5,17 +5,17 @@ package types
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type OutputGooglePubsub struct {
-	BatchSize                 types.Number                  `tfsdk:"batch_size"`
-	BatchTimeout              types.Number                  `tfsdk:"batch_timeout"`
+	BatchSize                 types.Float64                 `tfsdk:"batch_size"`
+	BatchTimeout              types.Float64                 `tfsdk:"batch_timeout"`
 	CreateTopic               types.Bool                    `tfsdk:"create_topic"`
 	Description               types.String                  `tfsdk:"description"`
 	Environment               types.String                  `tfsdk:"environment"`
-	FlushPeriodSec            types.Number                  `tfsdk:"flush_period_sec"`
+	FlushPeriodSec            types.Float64                 `tfsdk:"flush_period_sec"`
 	GoogleAuthMethod          types.String                  `tfsdk:"google_auth_method"`
 	ID                        types.String                  `tfsdk:"id"`
-	MaxInProgress             types.Number                  `tfsdk:"max_in_progress"`
-	MaxQueueSize              types.Number                  `tfsdk:"max_queue_size"`
-	MaxRecordSizeKB           types.Number                  `tfsdk:"max_record_size_kb"`
+	MaxInProgress             types.Float64                 `tfsdk:"max_in_progress"`
+	MaxQueueSize              types.Float64                 `tfsdk:"max_queue_size"`
+	MaxRecordSizeKB           types.Float64                 `tfsdk:"max_record_size_kb"`
 	OnBackpressure            types.String                  `tfsdk:"on_backpressure"`
 	OrderedDelivery           types.Bool                    `tfsdk:"ordered_delivery"`
 	Pipeline                  types.String                  `tfsdk:"pipeline"`

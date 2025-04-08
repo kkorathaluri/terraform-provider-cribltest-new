@@ -6,7 +6,7 @@ import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type OutputSnmp struct {
 	Description         types.String      `tfsdk:"description"`
-	DNSResolvePeriodSec types.Number      `tfsdk:"dns_resolve_period_sec"`
+	DNSResolvePeriodSec types.Float64     `tfsdk:"dns_resolve_period_sec"`
 	Environment         types.String      `tfsdk:"environment"`
 	Hosts               []OutputSnmpHosts `tfsdk:"hosts"`
 	ID                  types.String      `tfsdk:"id"`

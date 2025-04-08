@@ -59,16 +59,7 @@ func (o *CreateProductsGroupsByProductRequest) GetConfigGroup() shared.ConfigGro
 
 // CreateProductsGroupsByProductResponseBody - a list of ConfigGroup objects
 type CreateProductsGroupsByProductResponseBody struct {
-	// number of items present in the items array
-	Count *int64               `json:"count,omitempty"`
 	Items []shared.ConfigGroup `json:"items,omitempty"`
-}
-
-func (o *CreateProductsGroupsByProductResponseBody) GetCount() *int64 {
-	if o == nil {
-		return nil
-	}
-	return o.Count
 }
 
 func (o *CreateProductsGroupsByProductResponseBody) GetItems() []shared.ConfigGroup {

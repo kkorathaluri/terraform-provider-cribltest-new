@@ -4,7 +4,7 @@ package sdk
 
 import (
 	"context"
-	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/internal/globals"
+	"fmt"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/internal/hooks"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/internal/utils"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/shared"
@@ -12,6 +12,21 @@ import (
 	"net/http"
 	"time"
 )
+
+const (
+	ServerCloud        string = "cloud"
+	ServerCloudGroup   string = "cloud-group"
+	ServerManaged      string = "managed"
+	ServerManagedGroup string = "managed-group"
+)
+
+// ServerList contains the list of servers available to the SDK
+var ServerList = map[string]string{
+	ServerCloud:        "https://{workspaceName}-{organizationId}.{cloudDomain}/api/v1",
+	ServerCloudGroup:   "https://{workspaceName}-{organizationId}.{cloudDomain}/api/v1/m/{groupName}",
+	ServerManaged:      "https://{hostname}:{port}/api/v1",
+	ServerManagedGroup: "https://{hostname}:{port}/api/v1/m/{groupName}",
+}
 
 // HTTPClient provides an interface for suplying the SDK with a custom HTTP client
 type HTTPClient interface {
@@ -43,27 +58,35 @@ type sdkConfiguration struct {
 	Client            HTTPClient
 	Security          func(context.Context) (interface{}, error)
 	ServerURL         string
+	Server            string
+	ServerDefaults    map[string]map[string]string
 	Language          string
 	OpenAPIDocVersion string
 	SDKVersion        string
 	GenVersion        string
 	UserAgent         string
-	Globals           globals.Globals
 	RetryConfig       *retry.Config
 	Hooks             *hooks.Hooks
 	Timeout           *time.Duration
 }
 
 func (c *sdkConfiguration) GetServerDetails() (string, map[string]string) {
-	return c.ServerURL, map[string]string{}
+	if c.ServerURL != "" {
+		return c.ServerURL, nil
+	}
+
+	if c.Server == "" {
+		c.Server = "cloud"
+	}
+
+	return ServerList[c.Server], c.ServerDefaults[c.Server]
 }
 
-// CriblTerraform - Cribl API Reference: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
 type CriblTerraform struct {
-	Billing    *Billing
 	V5         *V5
-	Sandboxes  *Sandboxes
+	Billing    *Billing
 	Workspaces *Workspaces
+	Sandboxes  *Sandboxes
 	// Actions related to Projects
 	Projects *Projects
 	// Actions related to Subscriptions
@@ -244,6 +267,114 @@ type CriblTerraform struct {
 
 type SDKOption func(*CriblTerraform)
 
+// WithServerURL allows the overriding of the default server URL
+func WithServerURL(serverURL string) SDKOption {
+	return func(sdk *CriblTerraform) {
+		sdk.sdkConfiguration.ServerURL = serverURL
+	}
+}
+
+// WithTemplatedServerURL allows the overriding of the default server URL with a templated URL populated with the provided parameters
+func WithTemplatedServerURL(serverURL string, params map[string]string) SDKOption {
+	return func(sdk *CriblTerraform) {
+		if params != nil {
+			serverURL = utils.ReplaceParameters(serverURL, params)
+		}
+
+		sdk.sdkConfiguration.ServerURL = serverURL
+	}
+}
+
+// WithServer allows the overriding of the default server by name
+func WithServer(server string) SDKOption {
+	return func(sdk *CriblTerraform) {
+		_, ok := ServerList[server]
+		if !ok {
+			panic(fmt.Errorf("server %s not found", server))
+		}
+
+		sdk.sdkConfiguration.Server = server
+	}
+}
+
+// WithWorkspaceName allows setting the workspaceName variable for url substitution
+func WithWorkspaceName(workspaceName string) SDKOption {
+	return func(sdk *CriblTerraform) {
+		for server := range sdk.sdkConfiguration.ServerDefaults {
+			if _, ok := sdk.sdkConfiguration.ServerDefaults[server]["workspaceName"]; !ok {
+				continue
+			}
+
+			sdk.sdkConfiguration.ServerDefaults[server]["workspaceName"] = fmt.Sprintf("%v", workspaceName)
+		}
+	}
+}
+
+// WithOrganizationID allows setting the organizationId variable for url substitution
+func WithOrganizationID(organizationID string) SDKOption {
+	return func(sdk *CriblTerraform) {
+		for server := range sdk.sdkConfiguration.ServerDefaults {
+			if _, ok := sdk.sdkConfiguration.ServerDefaults[server]["organizationId"]; !ok {
+				continue
+			}
+
+			sdk.sdkConfiguration.ServerDefaults[server]["organizationId"] = fmt.Sprintf("%v", organizationID)
+		}
+	}
+}
+
+// WithCloudDomain allows setting the cloudDomain variable for url substitution
+func WithCloudDomain(cloudDomain string) SDKOption {
+	return func(sdk *CriblTerraform) {
+		for server := range sdk.sdkConfiguration.ServerDefaults {
+			if _, ok := sdk.sdkConfiguration.ServerDefaults[server]["cloudDomain"]; !ok {
+				continue
+			}
+
+			sdk.sdkConfiguration.ServerDefaults[server]["cloudDomain"] = fmt.Sprintf("%v", cloudDomain)
+		}
+	}
+}
+
+// WithGroupName allows setting the groupName variable for url substitution
+func WithGroupName(groupName string) SDKOption {
+	return func(sdk *CriblTerraform) {
+		for server := range sdk.sdkConfiguration.ServerDefaults {
+			if _, ok := sdk.sdkConfiguration.ServerDefaults[server]["groupName"]; !ok {
+				continue
+			}
+
+			sdk.sdkConfiguration.ServerDefaults[server]["groupName"] = fmt.Sprintf("%v", groupName)
+		}
+	}
+}
+
+// WithHostname allows setting the hostname variable for url substitution
+func WithHostname(hostname string) SDKOption {
+	return func(sdk *CriblTerraform) {
+		for server := range sdk.sdkConfiguration.ServerDefaults {
+			if _, ok := sdk.sdkConfiguration.ServerDefaults[server]["hostname"]; !ok {
+				continue
+			}
+
+			sdk.sdkConfiguration.ServerDefaults[server]["hostname"] = fmt.Sprintf("%v", hostname)
+		}
+	}
+}
+
+// WithPort allows setting the port variable for url substitution
+func WithPort(port string) SDKOption {
+	return func(sdk *CriblTerraform) {
+		for server := range sdk.sdkConfiguration.ServerDefaults {
+			if _, ok := sdk.sdkConfiguration.ServerDefaults[server]["port"]; !ok {
+				continue
+			}
+
+			sdk.sdkConfiguration.ServerDefaults[server]["port"] = fmt.Sprintf("%v", port)
+		}
+	}
+}
+
 // WithClient allows the overriding of the default HTTP client used by the SDK
 func WithClient(client HTTPClient) SDKOption {
 	return func(sdk *CriblTerraform) {
@@ -267,27 +398,6 @@ func WithSecuritySource(security func(context.Context) (shared.Security, error))
 	}
 }
 
-// WithOrganizationID allows setting the OrganizationID parameter for all supported operations
-func WithOrganizationID(organizationID string) SDKOption {
-	return func(sdk *CriblTerraform) {
-		sdk.sdkConfiguration.Globals.OrganizationID = &organizationID
-	}
-}
-
-// WithWorkspaceID allows setting the WorkspaceID parameter for all supported operations
-func WithWorkspaceID(workspaceID string) SDKOption {
-	return func(sdk *CriblTerraform) {
-		sdk.sdkConfiguration.Globals.WorkspaceID = &workspaceID
-	}
-}
-
-// WithWorkerGroupID allows setting the WorkerGroupID parameter for all supported operations
-func WithWorkerGroupID(workerGroupID string) SDKOption {
-	return func(sdk *CriblTerraform) {
-		sdk.sdkConfiguration.Globals.WorkerGroupID = &workerGroupID
-	}
-}
-
 func WithRetryConfig(retryConfig retry.Config) SDKOption {
 	return func(sdk *CriblTerraform) {
 		sdk.sdkConfiguration.RetryConfig = &retryConfig
@@ -301,18 +411,38 @@ func WithTimeout(timeout time.Duration) SDKOption {
 	}
 }
 
-// New creates a new instance of the SDK with the provided serverURL and options
-func New(serverURL string, opts ...SDKOption) *CriblTerraform {
+// New creates a new instance of the SDK with the provided options
+func New(opts ...SDKOption) *CriblTerraform {
 	sdk := &CriblTerraform{
 		sdkConfiguration: sdkConfiguration{
 			Language:          "go",
-			OpenAPIDocVersion: "4.12.0-alpha.1742471106527-a8a53ddb",
-			SDKVersion:        "0.8.0",
-			GenVersion:        "2.566.5",
-			UserAgent:         "speakeasy-sdk/terraform 0.8.0 2.566.5 4.12.0-alpha.1742471106527-a8a53ddb github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk",
-			Globals:           globals.Globals{},
-			ServerURL:         serverURL,
-			Hooks:             hooks.New(),
+			OpenAPIDocVersion: "1.0.0",
+			SDKVersion:        "0.10.4",
+			GenVersion:        "2.568.2",
+			UserAgent:         "speakeasy-sdk/terraform 0.10.4 2.568.2 1.0.0 github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk",
+			ServerDefaults: map[string]map[string]string{
+				"cloud": {
+					"workspaceName":  "main",
+					"organizationId": "ian",
+					"cloudDomain":    "cribl.cloud",
+				},
+				"cloud-group": {
+					"workspaceName":  "main",
+					"organizationId": "ian",
+					"cloudDomain":    "cribl.cloud",
+					"groupName":      "default",
+				},
+				"managed": {
+					"hostname": "localhost",
+					"port":     "9000",
+				},
+				"managed-group": {
+					"hostname":  "localhost",
+					"port":      "9000",
+					"groupName": "default",
+				},
+			},
+			Hooks: hooks.New(),
 		},
 	}
 	for _, opt := range opts {
@@ -324,19 +454,20 @@ func New(serverURL string, opts ...SDKOption) *CriblTerraform {
 		sdk.sdkConfiguration.Client = &http.Client{Timeout: 60 * time.Second}
 	}
 
-	currentServerURL := serverURL
+	currentServerURL, _ := sdk.sdkConfiguration.GetServerDetails()
+	serverURL := currentServerURL
 	serverURL, sdk.sdkConfiguration.Client = sdk.sdkConfiguration.Hooks.SDKInit(currentServerURL, sdk.sdkConfiguration.Client)
 	if serverURL != currentServerURL {
 		sdk.sdkConfiguration.ServerURL = serverURL
 	}
 
-	sdk.Billing = newBilling(sdk.sdkConfiguration)
-
 	sdk.V5 = newV5(sdk.sdkConfiguration)
 
-	sdk.Sandboxes = newSandboxes(sdk.sdkConfiguration)
+	sdk.Billing = newBilling(sdk.sdkConfiguration)
 
 	sdk.Workspaces = newWorkspaces(sdk.sdkConfiguration)
+
+	sdk.Sandboxes = newSandboxes(sdk.sdkConfiguration)
 
 	sdk.Projects = newProjects(sdk.sdkConfiguration)
 

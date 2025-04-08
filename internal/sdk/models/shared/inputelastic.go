@@ -50,7 +50,7 @@ func (o *InputElasticConnections) GetOutput() string {
 	return o.Output
 }
 
-// InputElasticMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+// InputElasticMode - With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 type InputElasticMode string
 
 const (
@@ -105,7 +105,7 @@ func (e *InputElasticCompression) UnmarshalJSON(data []byte) error {
 }
 
 type InputElasticPq struct {
-	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
+	// With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine.
 	Mode *InputElasticMode `default:"always" json:"mode"`
 	// The maximum number of events to hold in memory before writing the events to disk
 	MaxBufferSize *float64 `default:"1000" json:"maxBufferSize"`
@@ -588,7 +588,7 @@ type InputElastic struct {
 	MaxRequestsPerSocket *int64 `default:"0" json:"maxRequestsPerSocket"`
 	// Enable when clients are connecting through a proxy that supports the x-forwarded-for header to keep the client's original IP address on the event instead of the proxy's IP address
 	EnableProxyHeader *bool `default:"false" json:"enableProxyHeader"`
-	// Toggle this to Yes to add request headers to events, in the __headers field.
+	// Add request headers to events, in the __headers field
 	CaptureHeaders *bool `default:"false" json:"captureHeaders"`
 	// How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc.
 	ActivityLogSampleRate *float64 `default:"100" json:"activityLogSampleRate"`
@@ -600,7 +600,7 @@ type InputElastic struct {
 	KeepAliveTimeout *float64 `default:"5" json:"keepAliveTimeout"`
 	// Enable to expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy
 	EnableHealthCheck *bool `default:"false" json:"enableHealthCheck"`
-	// Messages from matched IP addresses will be processed, unless also matched by the denylist.
+	// Messages from matched IP addresses will be processed, unless also matched by the denylist
 	IPAllowlistRegex *string `default:"/.*/" json:"ipAllowlistRegex"`
 	// Messages from matched IP addresses will be ignored. This takes precedence over the allowlist.
 	IPDenylistRegex *string `default:"/^\\$/" json:"ipDenylistRegex"`

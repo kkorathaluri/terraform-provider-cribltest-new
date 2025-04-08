@@ -21,11 +21,11 @@ type InputSplunkSearch struct {
 	Environment         types.String                   `tfsdk:"environment"`
 	ID                  types.String                   `tfsdk:"id"`
 	JobTimeout          types.String                   `tfsdk:"job_timeout"`
-	KeepAliveTime       types.Number                   `tfsdk:"keep_alive_time"`
+	KeepAliveTime       types.Float64                  `tfsdk:"keep_alive_time"`
 	Latest              types.String                   `tfsdk:"latest"`
 	LoginURL            types.String                   `tfsdk:"login_url"`
 	LogLevel            types.String                   `tfsdk:"log_level"`
-	MaxMissedKeepAlives types.Number                   `tfsdk:"max_missed_keep_alives"`
+	MaxMissedKeepAlives types.Float64                  `tfsdk:"max_missed_keep_alives"`
 	Metadata            []InputSplunkSearchMetadata    `tfsdk:"metadata"`
 	OauthHeaders        []OauthHeaders                 `tfsdk:"oauth_headers"`
 	OauthParams         []OauthParams                  `tfsdk:"oauth_params"`
@@ -35,19 +35,19 @@ type InputSplunkSearch struct {
 	Pq                  *InputSplunkSearchPq           `tfsdk:"pq"`
 	PqEnabled           types.Bool                     `tfsdk:"pq_enabled"`
 	RejectUnauthorized  types.Bool                     `tfsdk:"reject_unauthorized"`
-	RequestTimeout      types.Number                   `tfsdk:"request_timeout"`
+	RequestTimeout      types.Float64                  `tfsdk:"request_timeout"`
 	RetryRules          *RetryRules                    `tfsdk:"retry_rules"`
 	Search              types.String                   `tfsdk:"search"`
 	SearchHead          types.String                   `tfsdk:"search_head"`
 	Secret              types.String                   `tfsdk:"secret"`
 	SecretParamName     types.String                   `tfsdk:"secret_param_name"`
 	SendToRoutes        types.Bool                     `tfsdk:"send_to_routes"`
-	StaleChannelFlushMs types.Number                   `tfsdk:"stale_channel_flush_ms"`
+	StaleChannelFlushMs types.Float64                  `tfsdk:"stale_channel_flush_ms"`
 	Streamtags          []types.String                 `tfsdk:"streamtags"`
 	TextSecret          types.String                   `tfsdk:"text_secret"`
 	Token               types.String                   `tfsdk:"token"`
 	TokenAttributeName  types.String                   `tfsdk:"token_attribute_name"`
-	TokenTimeoutSecs    types.Number                   `tfsdk:"token_timeout_secs"`
+	TokenTimeoutSecs    types.Float64                  `tfsdk:"token_timeout_secs"`
 	TTL                 types.String                   `tfsdk:"ttl"`
 	Type                types.String                   `tfsdk:"type"`
 	Username            types.String                   `tfsdk:"username"`

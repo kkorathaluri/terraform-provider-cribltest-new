@@ -14,10 +14,10 @@ type InputOffice365Mgmt struct {
 	Disabled            types.Bool                      `tfsdk:"disabled"`
 	Environment         types.String                    `tfsdk:"environment"`
 	ID                  types.String                    `tfsdk:"id"`
-	IngestionLag        types.Number                    `tfsdk:"ingestion_lag"`
+	IngestionLag        types.Float64                   `tfsdk:"ingestion_lag"`
 	JobTimeout          types.String                    `tfsdk:"job_timeout"`
-	KeepAliveTime       types.Number                    `tfsdk:"keep_alive_time"`
-	MaxMissedKeepAlives types.Number                    `tfsdk:"max_missed_keep_alives"`
+	KeepAliveTime       types.Float64                   `tfsdk:"keep_alive_time"`
+	MaxMissedKeepAlives types.Float64                   `tfsdk:"max_missed_keep_alives"`
 	Metadata            []InputOffice365MgmtMetadata    `tfsdk:"metadata"`
 	Pipeline            types.String                    `tfsdk:"pipeline"`
 	PlanType            types.String                    `tfsdk:"plan_type"`
@@ -29,7 +29,7 @@ type InputOffice365Mgmt struct {
 	Streamtags          []types.String                  `tfsdk:"streamtags"`
 	TenantID            types.String                    `tfsdk:"tenant_id"`
 	TextSecret          types.String                    `tfsdk:"text_secret"`
-	Timeout             types.Number                    `tfsdk:"timeout"`
+	Timeout             types.Float64                   `tfsdk:"timeout"`
 	TTL                 types.String                    `tfsdk:"ttl"`
 	Type                types.String                    `tfsdk:"type"`
 }

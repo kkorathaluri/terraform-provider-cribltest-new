@@ -12,7 +12,7 @@ type OutputAzureDataExplorer struct {
 	ClientSecret                  types.String                                   `tfsdk:"client_secret"`
 	ClusterURL                    types.String                                   `tfsdk:"cluster_url"`
 	Compress                      types.String                                   `tfsdk:"compress"`
-	Concurrency                   types.Number                                   `tfsdk:"concurrency"`
+	Concurrency                   types.Float64                                  `tfsdk:"concurrency"`
 	Database                      types.String                                   `tfsdk:"database"`
 	DeadletterEnabled             types.Bool                                     `tfsdk:"deadletter_enabled"`
 	Description                   types.String                                   `tfsdk:"description"`
@@ -20,7 +20,7 @@ type OutputAzureDataExplorer struct {
 	ExtentTags                    []ExtentTags                                   `tfsdk:"extent_tags"`
 	FileNameSuffix                types.String                                   `tfsdk:"file_name_suffix"`
 	FlushImmediately              types.Bool                                     `tfsdk:"flush_immediately"`
-	FlushPeriodSec                types.Number                                   `tfsdk:"flush_period_sec"`
+	FlushPeriodSec                types.Float64                                  `tfsdk:"flush_period_sec"`
 	Format                        types.String                                   `tfsdk:"format"`
 	ID                            types.String                                   `tfsdk:"id"`
 	IngestIfNotExists             []IngestIfNotExists                            `tfsdk:"ingest_if_not_exists"`
@@ -29,13 +29,13 @@ type OutputAzureDataExplorer struct {
 	IsMappingObj                  types.Bool                                     `tfsdk:"is_mapping_obj"`
 	KeepAlive                     types.Bool                                     `tfsdk:"keep_alive"`
 	MappingRef                    types.String                                   `tfsdk:"mapping_ref"`
-	MaxConcurrentFileParts        types.Number                                   `tfsdk:"max_concurrent_file_parts"`
-	MaxFileIdleTimeSec            types.Number                                   `tfsdk:"max_file_idle_time_sec"`
-	MaxFileOpenTimeSec            types.Number                                   `tfsdk:"max_file_open_time_sec"`
-	MaxFileSizeMB                 types.Number                                   `tfsdk:"max_file_size_mb"`
-	MaxOpenFiles                  types.Number                                   `tfsdk:"max_open_files"`
-	MaxPayloadEvents              types.Number                                   `tfsdk:"max_payload_events"`
-	MaxPayloadSizeKB              types.Number                                   `tfsdk:"max_payload_size_kb"`
+	MaxConcurrentFileParts        types.Float64                                  `tfsdk:"max_concurrent_file_parts"`
+	MaxFileIdleTimeSec            types.Float64                                  `tfsdk:"max_file_idle_time_sec"`
+	MaxFileOpenTimeSec            types.Float64                                  `tfsdk:"max_file_open_time_sec"`
+	MaxFileSizeMB                 types.Float64                                  `tfsdk:"max_file_size_mb"`
+	MaxOpenFiles                  types.Float64                                  `tfsdk:"max_open_files"`
+	MaxPayloadEvents              types.Float64                                  `tfsdk:"max_payload_events"`
+	MaxPayloadSizeKB              types.Float64                                  `tfsdk:"max_payload_size_kb"`
 	OauthEndpoint                 types.String                                   `tfsdk:"oauth_endpoint"`
 	OauthType                     types.String                                   `tfsdk:"oauth_type"`
 	OnBackpressure                types.String                                   `tfsdk:"on_backpressure"`
@@ -63,7 +63,7 @@ type OutputAzureDataExplorer struct {
 	TenantID                      types.String                                   `tfsdk:"tenant_id"`
 	TextSecret                    types.String                                   `tfsdk:"text_secret"`
 	TimeoutRetrySettings          *OutputAzureDataExplorerTimeoutRetrySettings   `tfsdk:"timeout_retry_settings"`
-	TimeoutSec                    types.Number                                   `tfsdk:"timeout_sec"`
+	TimeoutSec                    types.Float64                                  `tfsdk:"timeout_sec"`
 	Type                          types.String                                   `tfsdk:"type"`
 	UseRoundRobinDNS              types.Bool                                     `tfsdk:"use_round_robin_dns"`
 	ValidateDatabaseSettings      types.Bool                                     `tfsdk:"validate_database_settings"`

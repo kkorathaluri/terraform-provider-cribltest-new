@@ -9,7 +9,7 @@ type IndexerDiscoveryConfigs struct {
 	AuthTokens         []OutputSplunkLbAuthTokens `tfsdk:"auth_tokens"`
 	AuthType           types.String               `tfsdk:"auth_type"`
 	MasterURI          types.String               `tfsdk:"master_uri"`
-	RefreshIntervalSec types.Number               `tfsdk:"refresh_interval_sec"`
+	RefreshIntervalSec types.Float64              `tfsdk:"refresh_interval_sec"`
 	RejectUnauthorized types.Bool                 `tfsdk:"reject_unauthorized"`
 	Site               types.String               `tfsdk:"site"`
 	TextSecret         types.String               `tfsdk:"text_secret"`

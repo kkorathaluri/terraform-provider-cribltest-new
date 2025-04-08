@@ -12,16 +12,16 @@ type InputSnmp struct {
 	Host               types.String           `tfsdk:"host"`
 	ID                 types.String           `tfsdk:"id"`
 	IPWhitelistRegex   types.String           `tfsdk:"ip_whitelist_regex"`
-	MaxBufferSize      types.Number           `tfsdk:"max_buffer_size"`
+	MaxBufferSize      types.Float64          `tfsdk:"max_buffer_size"`
 	Metadata           []InputSnmpMetadata    `tfsdk:"metadata"`
 	Pipeline           types.String           `tfsdk:"pipeline"`
-	Port               types.Number           `tfsdk:"port"`
+	Port               types.Float64          `tfsdk:"port"`
 	Pq                 *InputSnmpPq           `tfsdk:"pq"`
 	PqEnabled          types.Bool             `tfsdk:"pq_enabled"`
 	SendToRoutes       types.Bool             `tfsdk:"send_to_routes"`
 	SnmpV3Auth         *SNMPv3Authentication  `tfsdk:"snmp_v3_auth"`
 	Streamtags         []types.String         `tfsdk:"streamtags"`
 	Type               types.String           `tfsdk:"type"`
-	UDPSocketRxBufSize types.Number           `tfsdk:"udp_socket_rx_buf_size"`
+	UDPSocketRxBufSize types.Float64          `tfsdk:"udp_socket_rx_buf_size"`
 	VarbindsWithTypes  types.Bool             `tfsdk:"varbinds_with_types"`
 }

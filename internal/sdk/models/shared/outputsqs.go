@@ -244,7 +244,7 @@ type OutputSqs struct {
 	Environment *string `json:"environment,omitempty"`
 	// Tags for filtering and grouping in @{product}
 	Streamtags []string `json:"streamtags,omitempty"`
-	// The name, URL, or ARN of the SQS queue to send events to. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. E.g., 'https://host:port/myQueueName'. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. E.g., referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`.
+	// The name, URL, or ARN of the SQS queue to send events to. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`.
 	QueueName string `json:"queueName"`
 	// The queue type used (or created). Defaults to Standard.
 	QueueType *OutputSqsQueueType `default:"standard" json:"queueType"`
@@ -256,11 +256,10 @@ type OutputSqs struct {
 	CreateQueue *bool `default:"true" json:"createQueue"`
 	// AWS authentication method. Choose Auto to use IAM roles.
 	AwsAuthenticationMethod *OutputSqsAuthenticationMethod `default:"auto" json:"awsAuthenticationMethod"`
-	// Secret key
-	AwsSecretKey *string `json:"awsSecretKey,omitempty"`
+	AwsSecretKey            *string                        `json:"awsSecretKey,omitempty"`
 	// AWS Region where the SQS queue is located. Required, unless the Queue entry is a URL or ARN that includes a Region.
 	Region *string `json:"region,omitempty"`
-	// SQS service endpoint. If empty, defaults to AWS' Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint.
+	// SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint.
 	Endpoint *string `json:"endpoint,omitempty"`
 	// Signature version to use for signing SQS requests
 	SignatureVersion *OutputSqsSignatureVersion `default:"v4" json:"signatureVersion"`
@@ -287,9 +286,8 @@ type OutputSqs struct {
 	// Whether to block, drop, or queue events when all receivers are exerting backpressure.
 	OnBackpressure *OutputSqsBackpressureBehavior `default:"block" json:"onBackpressure"`
 	Description    *string                        `json:"description,omitempty"`
-	// Access key
-	AwsAPIKey *string `json:"awsApiKey,omitempty"`
-	// Select or create a stored secret that references your access key and secret key.
+	AwsAPIKey      *string                        `json:"awsApiKey,omitempty"`
+	// Select or create a stored secret that references your access key and secret key
 	AwsSecret *string `json:"awsSecret,omitempty"`
 	// The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.).
 	PqMaxFileSize *string `default:"1 MB" json:"pqMaxFileSize"`

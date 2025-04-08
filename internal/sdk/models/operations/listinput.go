@@ -10,15 +10,15 @@ import (
 // ListInputResponseBody - a list of Input objects
 type ListInputResponseBody struct {
 	// number of items present in the items array
-	CountTotal *int64         `json:"count_total,omitempty"`
-	Items      []shared.Input `json:"items,omitempty"`
+	Count *int64         `json:"count,omitempty"`
+	Items []shared.Input `json:"items,omitempty"`
 }
 
-func (o *ListInputResponseBody) GetCountTotal() *int64 {
+func (o *ListInputResponseBody) GetCount() *int64 {
 	if o == nil {
 		return nil
 	}
-	return o.CountTotal
+	return o.Count
 }
 
 func (o *ListInputResponseBody) GetItems() []shared.Input {
@@ -38,7 +38,7 @@ type ListInputResponse struct {
 	// a list of Input objects
 	Object *ListInputResponseBody
 	// Unexpected error
-	Input *shared.Input
+	Error *shared.Error
 }
 
 func (o *ListInputResponse) GetContentType() string {
@@ -69,9 +69,9 @@ func (o *ListInputResponse) GetObject() *ListInputResponseBody {
 	return o.Object
 }
 
-func (o *ListInputResponse) GetInput() *shared.Input {
+func (o *ListInputResponse) GetError() *shared.Error {
 	if o == nil {
 		return nil
 	}
-	return o.Input
+	return o.Error
 }

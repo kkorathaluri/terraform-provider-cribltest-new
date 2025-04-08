@@ -16,16 +16,16 @@ type InputPrometheus struct {
 	DimensionList           []types.String               `tfsdk:"dimension_list"`
 	Disabled                types.Bool                   `tfsdk:"disabled"`
 	DiscoveryType           types.String                 `tfsdk:"discovery_type"`
-	DurationSeconds         types.Number                 `tfsdk:"duration_seconds"`
+	DurationSeconds         types.Float64                `tfsdk:"duration_seconds"`
 	EnableAssumeRole        types.Bool                   `tfsdk:"enable_assume_role"`
 	Endpoint                types.String                 `tfsdk:"endpoint"`
 	Environment             types.String                 `tfsdk:"environment"`
 	ID                      types.String                 `tfsdk:"id"`
-	Interval                types.Number                 `tfsdk:"interval"`
+	Interval                types.Float64                `tfsdk:"interval"`
 	JobTimeout              types.String                 `tfsdk:"job_timeout"`
-	KeepAliveTime           types.Number                 `tfsdk:"keep_alive_time"`
+	KeepAliveTime           types.Float64                `tfsdk:"keep_alive_time"`
 	LogLevel                types.String                 `tfsdk:"log_level"`
-	MaxMissedKeepAlives     types.Number                 `tfsdk:"max_missed_keep_alives"`
+	MaxMissedKeepAlives     types.Float64                `tfsdk:"max_missed_keep_alives"`
 	Metadata                []InputPrometheusMetadata    `tfsdk:"metadata"`
 	NameList                []types.String               `tfsdk:"name_list"`
 	Password                types.String                 `tfsdk:"password"`
@@ -37,7 +37,7 @@ type InputPrometheus struct {
 	RejectUnauthorized      types.Bool                   `tfsdk:"reject_unauthorized"`
 	ReuseConnections        types.Bool                   `tfsdk:"reuse_connections"`
 	ScrapePath              types.String                 `tfsdk:"scrape_path"`
-	ScrapePort              types.Number                 `tfsdk:"scrape_port"`
+	ScrapePort              types.Float64                `tfsdk:"scrape_port"`
 	ScrapeProtocol          types.String                 `tfsdk:"scrape_protocol"`
 	SearchFilter            []SearchFilter               `tfsdk:"search_filter"`
 	SendToRoutes            types.Bool                   `tfsdk:"send_to_routes"`

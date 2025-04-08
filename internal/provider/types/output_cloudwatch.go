@@ -12,16 +12,16 @@ type OutputCloudwatch struct {
 	AwsSecret               types.String                `tfsdk:"aws_secret"`
 	AwsSecretKey            types.String                `tfsdk:"aws_secret_key"`
 	Description             types.String                `tfsdk:"description"`
-	DurationSeconds         types.Number                `tfsdk:"duration_seconds"`
+	DurationSeconds         types.Float64               `tfsdk:"duration_seconds"`
 	EnableAssumeRole        types.Bool                  `tfsdk:"enable_assume_role"`
 	Endpoint                types.String                `tfsdk:"endpoint"`
 	Environment             types.String                `tfsdk:"environment"`
-	FlushPeriodSec          types.Number                `tfsdk:"flush_period_sec"`
+	FlushPeriodSec          types.Float64               `tfsdk:"flush_period_sec"`
 	ID                      types.String                `tfsdk:"id"`
 	LogGroupName            types.String                `tfsdk:"log_group_name"`
 	LogStreamName           types.String                `tfsdk:"log_stream_name"`
-	MaxQueueSize            types.Number                `tfsdk:"max_queue_size"`
-	MaxRecordSizeKB         types.Number                `tfsdk:"max_record_size_kb"`
+	MaxQueueSize            types.Float64               `tfsdk:"max_queue_size"`
+	MaxRecordSizeKB         types.Float64               `tfsdk:"max_record_size_kb"`
 	OnBackpressure          types.String                `tfsdk:"on_backpressure"`
 	Pipeline                types.String                `tfsdk:"pipeline"`
 	PqCompress              types.String                `tfsdk:"pq_compress"`

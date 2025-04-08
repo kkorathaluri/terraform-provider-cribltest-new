@@ -9,7 +9,6 @@ terraform {
 provider "cribl-terraform" {
   # Configuration options
   server_url ="https://app.cribl-playground.cloud/organizations/beautiful-nguyen-y8y4azd/workspaces/main/app/api/v1/m/default"
-  bearer_auth = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjhIb3ctRnFoOUZ6Y3U4cGotd1V2OCJ9.eyJodHRwczovL2NyaWJsLmNsb3VkL3JvbGUiOlsiYWRtaW4iLCJvcmdfYWRtaW4iXSwiaHR0cHM6Ly9jcmlibC5jbG91ZC9vcmdhbml6YXRpb25JZCI6ImJlYXV0aWZ1bC1uZ3V5ZW4teTh5NGF6ZCIsImh0dHBzOi8vY3JpYmwuY2xvdWQvb3JnYW5pemF0aW9uIjp7Im5hbWUiOiJiZWF1dGlmdWwtbmd1eWVuLXk4eTRhemQifSwiaHR0cHM6Ly9jcmlibC5jbG91ZC9lbWFpbCI6Imtrb3JhdGhhbHVyaUBjcmlibC5pbyIsImh0dHBzOi8vY3JpYmwuY2xvdWQvbmFtZSI6Imtrb3JhdGhhbHVyaUBjcmlibC5pbyIsImh0dHBzOi8vY3JpYmwuY2xvdWQvY2xpZW50UmVxdWVzdCI6dHJ1ZSwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5jcmlibC1wbGF5Z3JvdW5kLmNsb3VkLyIsInN1YiI6IlN2Q0NZaFAzZFdDUmNFR21PY0R2SzN0dHJIaUY4cWFoQGNsaWVudHMiLCJhdWQiOiJodHRwczovL2FwaS5jcmlibC1wbGF5Z3JvdW5kLmNsb3VkIiwiaWF0IjoxNzQzNzMwMzE1LCJleHAiOjE3NDM4MTY3MTUsInNjb3BlIjoidXNlcjpyZWFkOmNsaWVudHMgdXNlcjpjcmVhdGU6Y2xpZW50cyB1c2VyOnVwZGF0ZTpjbGllbnRzIHVzZXI6cmVhZDp3b3JrZXJncm91cHMgdXNlcjp1cGRhdGU6d29ya2VyZ3JvdXBzIHVzZXI6cmVhZDpjb25uZWN0aW9ucyB1c2VyOmNyZWF0ZTpjb25uZWN0aW9ucyB1c2VyOnVwZGF0ZTpjb25uZWN0aW9ucyB1c2VyOmRlbGV0ZTpjb25uZWN0aW9ucyB1c2VyOnVwZGF0ZTp3b3Jrc3BhY2VzIHVzZXI6cmVhZDp3b3Jrc3BhY2VzIHVzZXI6ZGVsZXRlOndvcmtzcGFjZXMgdXNlcjpjcmVhdGU6d29ya3NwYWNlcyIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyIsImF6cCI6IlN2Q0NZaFAzZFdDUmNFR21PY0R2SzN0dHJIaUY4cWFoIiwicGVybWlzc2lvbnMiOlsidXNlcjpyZWFkOmNsaWVudHMiLCJ1c2VyOmNyZWF0ZTpjbGllbnRzIiwidXNlcjp1cGRhdGU6Y2xpZW50cyIsInVzZXI6cmVhZDp3b3JrZXJncm91cHMiLCJ1c2VyOnVwZGF0ZTp3b3JrZXJncm91cHMiLCJ1c2VyOnJlYWQ6Y29ubmVjdGlvbnMiLCJ1c2VyOmNyZWF0ZTpjb25uZWN0aW9ucyIsInVzZXI6dXBkYXRlOmNvbm5lY3Rpb25zIiwidXNlcjpkZWxldGU6Y29ubmVjdGlvbnMiLCJ1c2VyOnVwZGF0ZTp3b3Jrc3BhY2VzIiwidXNlcjpyZWFkOndvcmtzcGFjZXMiLCJ1c2VyOmRlbGV0ZTp3b3Jrc3BhY2VzIiwidXNlcjpjcmVhdGU6d29ya3NwYWNlcyJdfQ.hu6Pr9JhlJpy5BPT1pXXsQRCFqcsYKBWrlPADe0uT3rgkzHbjZA46MtKwnHbB8EJl0fVE6LoPh3dUbzK0-_QW20XGuTcy-3nrIRtFbNkgnYzTJC-njhk1jTxEt76-JGW-tweEcP0qzOxj7PqSMwEQIBlqgHtsFbqRPExWaJIWCSFfQ94VFVODKUOzmlvAhhN5SxziRNLtmxSGHbM77swfKC2AGzkrRSZl0erAtsn7lESw5mEVK3m4F3PMQmibr2-WIA5rckM6I__-VDVH7ZsqbtGCWrXqA2-C0BM7JkRjFJd58tzy2lmIPlXc-9kBwRswvfDOzdqLYvYzSnMQvuT_g"
 }
 # Example of using the cribl-terraform_pack resource
 resource "cribl-terraform_pack" "example_pack" {
@@ -24,3 +23,46 @@ resource "cribl-terraform_pack" "example_pack" {
 output "pack_details" {
   value = cribl-terraform_pack.example_pack
 } 
+
+# Example of using a data source to fetch an existing pack
+data "cribl-terraform_pack" "existing_pack" {
+}
+
+# Output the data source details
+output "existing_pack_details" {
+  value = data.cribl-terraform_pack.existing_pack
+}
+
+/*
+# Example of importing an existing pack
+# First, define a resource block for the pack you want to import
+resource "cribl-terraform_pack" "imported_pack" {
+  # These values will be overwritten by the import
+  id = "HelloPacks"
+  description = "This will be replaced after import"
+  version = "0.0.0"
+  disabled = false
+  display_name = "This will be replaced after import"
+}
+
+# To import the pack, run the following command:
+# terraform import cribl-terraform_pack.imported_pack <pack-id>
+# 
+# For import only, run:
+# terraform import cribl-terraform_pack.imported_pack HelloPacks
+# After importing, you can use 'terraform state show' to see the actual values:
+# terraform state show cribl-terraform_pack.imported_pack
+
+# Output the imported pack details
+output "imported_pack_details" {
+  value = cribl-terraform_pack.imported_pack
+}
+
+import {
+  id = jsonencode({
+    id: "HelloPacks"
+  })
+  to = cribl-terraform_pack.imported_pack
+}
+
+*/

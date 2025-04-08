@@ -487,7 +487,7 @@ type OutputGoogleCloudStorage struct {
 	AwsAPIKey *string `json:"awsApiKey,omitempty"`
 	// HMAC secret. This value can be a constant or a JavaScript expression (e.g., `${C.env.GCS_SECRET}`).
 	AwsSecretKey *string `json:"awsSecretKey,omitempty"`
-	// Select or create a stored secret that references your access key and secret key.
+	// Select or create a stored secret that references your access key and secret key
 	AwsSecret *string `json:"awsSecret,omitempty"`
 }
 

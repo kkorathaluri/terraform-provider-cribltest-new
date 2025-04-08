@@ -1,650 +1,8 @@
 resource "cribl-terraform_source" "my_source" {
-  fifty = {
-    allow_machine_id_mismatch = false
-    auth_method               = "kerberos"
-    ca_fingerprint            = "...my_ca_fingerprint..."
-    capture_headers           = true
-    connections = [
-      {
-        output   = "...my_output..."
-        pipeline = "...my_pipeline..."
-      }
-    ]
-    description             = "...my_description..."
-    disabled                = false
-    enable_health_check     = true
-    enable_proxy_header     = false
-    environment             = "...my_environment..."
-    host                    = "...my_host..."
-    id                      = "...my_id..."
-    ip_allowlist_regex      = "...my_ip_allowlist_regex..."
-    ip_denylist_regex       = "...my_ip_denylist_regex..."
-    keep_alive_timeout      = 81.26
-    keytab                  = "...my_keytab..."
-    max_active_req          = 0.53
-    max_requests_per_socket = 4
-    metadata = [
-      {
-        name  = "...my_name..."
-        value = "...my_value..."
-      }
-    ]
-    pipeline = "...my_pipeline..."
-    port     = 42951.08
-    pq = {
-      commit_frequency = 4.27
-      compress         = "none"
-      max_buffer_size  = 50.82
-      max_file_size    = "...my_max_file_size..."
-      max_size         = "...my_max_size..."
-      mode             = "smart"
-      path             = "...my_path..."
-    }
-    pq_enabled     = false
-    principal      = "...my_principal..."
-    send_to_routes = true
-    socket_timeout = 9.76
-    status = {
-      health = "...my_health..."
-      metrics = {
-        buffered = 8.21
-        dropped  = 1.76
-        received = 0.07
-      }
-      timestamp = 8.92
-    }
-    streamtags = [
-      "..."
-    ]
-    subscriptions = [
-      {
-        batch_timeout      = 6.86
-        compress           = false
-        content_format     = "Raw"
-        heartbeat_interval = 9.16
-        locale             = "...my_locale..."
-        metadata = [
-          {
-            name  = "...my_name..."
-            value = "...my_value..."
-          }
-        ]
-        query_selector       = "xml"
-        read_existing_events = true
-        send_bookmarks       = true
-        subscription_name    = "...my_subscription_name..."
-        targets = [
-          "..."
-        ]
-        version = "...my_version..."
-      }
-    ]
-    tls = {
-      ca_path               = "...my_ca_path..."
-      cert_path             = "...my_cert_path..."
-      certificate_name      = "...my_certificate_name..."
-      common_name_regex     = "...my_common_name_regex..."
-      disabled              = true
-      keytab                = "{ \"see\": \"documentation\" }"
-      max_version           = "TLSv1.3"
-      min_version           = "TLSv1.2"
-      ocsp_check            = false
-      ocsp_check_fail_close = true
-      passphrase            = "...my_passphrase..."
-      principal             = "{ \"see\": \"documentation\" }"
-      priv_key_path         = "...my_priv_key_path..."
-      reject_unauthorized   = true
-      request_cert          = true
-    }
-    type = "wef"
-  }
-  fifty_five = {
-    connections = [
-      {
-        output   = "...my_output..."
-        pipeline = "...my_pipeline..."
-      }
-    ]
-    description         = "...my_description..."
-    disabled            = false
-    enable_pass_through = false
-    environment         = "...my_environment..."
-    host                = "...my_host..."
-    id                  = "...my_id..."
-    ip_allowlist_regex  = "...my_ip_allowlist_regex..."
-    ip_denylist_regex   = "...my_ip_denylist_regex..."
-    ipfix_enabled       = true
-    metadata = [
-      {
-        name  = "...my_name..."
-        value = "...my_value..."
-      }
-    ]
-    pipeline = "...my_pipeline..."
-    port     = 59611.2
-    pq = {
-      commit_frequency = 5.31
-      compress         = "gzip"
-      max_buffer_size  = 47.21
-      max_file_size    = "...my_max_file_size..."
-      max_size         = "...my_max_size..."
-      mode             = "smart"
-      path             = "...my_path..."
-    }
-    pq_enabled     = false
-    send_to_routes = true
-    status = {
-      health = "...my_health..."
-      metrics = {
-        buffered = 3.67
-        dropped  = 6.61
-        received = 9.85
-      }
-      timestamp = 8.96
-    }
-    streamtags = [
-      "..."
-    ]
-    template_cache_minutes = 857.75
-    type                   = "netflow"
-    udp_socket_rx_buf_size = 4037326539.44
-    v5_enabled             = false
-    v9_enabled             = true
-  }
-  fifty_four = {
-    auth_audience_override = "...my_auth_audience_override..."
-    auth_type              = "manual"
-    auth_url               = "...my_auth_url..."
-    client_id              = "...my_client_id..."
-    client_secret          = "...my_client_secret..."
-    connections = [
-      {
-        output   = "...my_output..."
-        pipeline = "...my_pipeline..."
-      }
-    ]
-    content_config = [
-      {
-        content_description = "...my_content_description..."
-        content_type        = "...my_content_type..."
-        enabled             = true
-      }
-    ]
-    description            = "...my_description..."
-    disabled               = true
-    endpoint               = "...my_endpoint..."
-    environment            = "...my_environment..."
-    id                     = "...my_id..."
-    keep_alive_time        = 19.92
-    max_missed_keep_alives = 5.26
-    metadata = [
-      {
-        name  = "...my_name..."
-        value = "...my_value..."
-      }
-    ]
-    pipeline = "...my_pipeline..."
-    pq = {
-      commit_frequency = 10.33
-      compress         = "none"
-      max_buffer_size  = 46.21
-      max_file_size    = "...my_max_file_size..."
-      max_size         = "...my_max_size..."
-      mode             = "smart"
-      path             = "...my_path..."
-    }
-    pq_enabled      = true
-    request_timeout = 1682.23
-    retry_rules = {
-      codes = [
-        1.2
-      ]
-      enable_header         = true
-      interval              = 5886.97
-      limit                 = 6.26
-      multiplier            = 6.11
-      retry_connect_reset   = true
-      retry_connect_timeout = true
-      type                  = "none"
-    }
-    send_to_routes = true
-    status = {
-      health = "...my_health..."
-      metrics = {
-        buffered = 4.96
-        dropped  = 3.85
-        received = 4.24
-      }
-      timestamp = 2.93
-    }
-    streamtags = [
-      "..."
-    ]
-    text_secret = "...my_text_secret..."
-    ttl         = "...my_ttl..."
-    type        = "edge_prometheus"
-  }
-  fifty_one = {
-    batch_size = 1.65
-    connections = [
-      {
-        output   = "...my_output..."
-        pipeline = "...my_pipeline..."
-      }
-    ]
-    description           = "...my_description..."
-    disable_native_module = true
-    disabled              = false
-    environment           = "...my_environment..."
-    event_format          = "xml"
-    id                    = "...my_id..."
-    interval              = 10.99
-    log_names = [
-      "..."
-    ]
-    max_event_bytes = 105067345.41
-    metadata = [
-      {
-        name  = "...my_name..."
-        value = "...my_value..."
-      }
-    ]
-    pipeline = "...my_pipeline..."
-    pq = {
-      commit_frequency = 5.8
-      compress         = "gzip"
-      max_buffer_size  = 49.22
-      max_file_size    = "...my_max_file_size..."
-      max_size         = "...my_max_size..."
-      mode             = "always"
-      path             = "...my_path..."
-    }
-    pq_enabled     = true
-    read_mode      = "oldest"
-    send_to_routes = true
-    status = {
-      health = "...my_health..."
-      metrics = {
-        buffered = 2.59
-        dropped  = 1.18
-        received = 7.48
-      }
-      timestamp = 8.84
-    }
-    streamtags = [
-      "..."
-    ]
-    type = "win_event_logs"
-  }
-  fifty_seven = {
-    access_control_allow_headers = [
-      "..."
-    ]
-    access_control_allow_origin = [
-      "..."
-    ]
-    activity_log_sample_rate = 1.59
-    allowed_indexes = [
-      "..."
-    ]
-    auth_tokens = [
-      {
-        allowed_indexes_at_token = [
-          "..."
-        ]
-        auth_type   = "manual"
-        description = "...my_description..."
-        enabled     = false
-        metadata = [
-          {
-            name  = "...my_name..."
-            value = "...my_value..."
-          }
-        ]
-        token        = "{ \"see\": \"documentation\" }"
-        token_secret = "{ \"see\": \"documentation\" }"
-      }
-    ]
-    capture_headers = false
-    connections = [
-      {
-        output   = "...my_output..."
-        pipeline = "...my_pipeline..."
-      }
-    ]
-    description             = "...my_description..."
-    disabled                = true
-    emit_token_metrics      = false
-    enable_health_check     = "{ \"see\": \"documentation\" }"
-    enable_proxy_header     = false
-    environment             = "...my_environment..."
-    hec_acks                = false
-    hec_api                 = "...my_hec_api..."
-    host                    = "...my_host..."
-    id                      = "...my_id..."
-    ip_allowlist_regex      = "...my_ip_allowlist_regex..."
-    ip_denylist_regex       = "...my_ip_denylist_regex..."
-    keep_alive_timeout      = 91.55
-    max_active_req          = 7.35
-    max_requests_per_socket = 8
-    metadata = [
-      {
-        name  = "...my_name..."
-        value = "...my_value..."
-      }
-    ]
-    pipeline = "...my_pipeline..."
-    port     = 19181.72
-    pq = {
-      commit_frequency = 10.55
-      compress         = "none"
-      max_buffer_size  = 51.14
-      max_file_size    = "...my_max_file_size..."
-      max_size         = "...my_max_size..."
-      mode             = "smart"
-      path             = "...my_path..."
-    }
-    pq_enabled      = true
-    request_timeout = 7.23
-    send_to_routes  = false
-    socket_timeout  = 0.97
-    status = {
-      health = "...my_health..."
-      metrics = {
-        buffered = 5.06
-        dropped  = 6.55
-        received = 9.42
-      }
-      timestamp = 4.47
-    }
-    streamtags = [
-      "..."
-    ]
-    tls = {
-      ca_path             = "...my_ca_path..."
-      cert_path           = "...my_cert_path..."
-      certificate_name    = "...my_certificate_name..."
-      common_name_regex   = "{ \"see\": \"documentation\" }"
-      disabled            = true
-      max_version         = "TLSv1"
-      min_version         = "TLSv1.3"
-      passphrase          = "...my_passphrase..."
-      priv_key_path       = "...my_priv_key_path..."
-      reject_unauthorized = "{ \"see\": \"documentation\" }"
-      request_cert        = true
-    }
-    type = "zscaler_hec"
-  }
-  fifty_six = {
-    assume_role_arn           = "...my_assume_role_arn..."
-    assume_role_external_id   = "...my_assume_role_external_id..."
-    aws_account_id            = "...my_aws_account_id..."
-    aws_api_key               = "...my_aws_api_key..."
-    aws_authentication_method = "auto"
-    aws_secret                = "...my_aws_secret..."
-    aws_secret_key            = "...my_aws_secret_key..."
-    breaker_rulesets = [
-      "..."
-    ]
-    checkpointing = {
-      enabled = true
-      retries = 9.51
-    }
-    connections = [
-      {
-        output   = "...my_output..."
-        pipeline = "...my_pipeline..."
-      }
-    ]
-    description            = "...my_description..."
-    disabled               = false
-    duration_seconds       = 21779.6
-    enable_assume_role     = false
-    enable_sqs_assume_role = false
-    encoding               = "...my_encoding..."
-    endpoint               = "...my_endpoint..."
-    environment            = "...my_environment..."
-    file_filter            = "...my_file_filter..."
-    id                     = "...my_id..."
-    max_messages           = 8.68
-    metadata = [
-      {
-        name  = "...my_name..."
-        value = "...my_value..."
-      }
-    ]
-    num_receivers                  = 86.44
-    parquet_chunk_download_timeout = 651.98
-    parquet_chunk_size_mb          = 69.97
-    pipeline                       = "...my_pipeline..."
-    poll_timeout                   = 3.33
-    pq = {
-      commit_frequency = 8.96
-      compress         = "gzip"
-      max_buffer_size  = 42.72
-      max_file_size    = "...my_max_file_size..."
-      max_size         = "...my_max_size..."
-      mode             = "smart"
-      path             = "...my_path..."
-    }
-    pq_enabled = true
-    preprocess = {
-      args = [
-        "..."
-      ]
-      command  = "...my_command..."
-      disabled = false
-    }
-    queue_name             = "...my_queue_name..."
-    region                 = "...my_region..."
-    reject_unauthorized    = true
-    reuse_connections      = true
-    send_to_routes         = false
-    signature_version      = "v2"
-    skip_on_error          = true
-    socket_timeout         = 11593.42
-    stale_channel_flush_ms = 30414341.11
-    status = {
-      health = "...my_health..."
-      metrics = {
-        buffered = 7.39
-        dropped  = 5.39
-        received = 4.28
-      }
-      timestamp = 5.08
-    }
-    streamtags = [
-      "..."
-    ]
-    type               = "security_lake"
-    visibility_timeout = 8995.86
-  }
-  fifty_three = {
-    connections = [
-      {
-        output   = "...my_output..."
-        pipeline = "...my_pipeline..."
-      }
-    ]
-    current_boot = false
-    description  = "...my_description..."
-    disabled     = false
-    environment  = "...my_environment..."
-    id           = "...my_id..."
-    interval     = 6.45
-    journals = [
-      "..."
-    ]
-    max_age_dur = "...my_max_age_dur..."
-    metadata = [
-      {
-        name  = "...my_name..."
-        value = "...my_value..."
-      }
-    ]
-    path     = "...my_path..."
-    pipeline = "...my_pipeline..."
-    pq = {
-      commit_frequency = 6.06
-      compress         = "none"
-      max_buffer_size  = 49.88
-      max_file_size    = "...my_max_file_size..."
-      max_size         = "...my_max_size..."
-      mode             = "smart"
-      path             = "...my_path..."
-    }
-    pq_enabled = false
-    rules = [
-      {
-        description = "...my_description..."
-        filter      = "...my_filter..."
-      }
-    ]
-    send_to_routes = false
-    status = {
-      health = "...my_health..."
-      metrics = {
-        buffered = 7.64
-        dropped  = 1.53
-        received = 7.67
-      }
-      timestamp = 5.26
-    }
-    streamtags = [
-      "..."
-    ]
-    type = "journal_files"
-  }
-  fifty_two = {
-    connections = [
-      {
-        output   = "...my_output..."
-        pipeline = "...my_pipeline..."
-      }
-    ]
-    description        = "...my_description..."
-    disabled           = true
-    environment        = "...my_environment..."
-    host               = "...my_host..."
-    id                 = "...my_id..."
-    ingest_raw_bytes   = true
-    ip_whitelist_regex = "...my_ip_whitelist_regex..."
-    max_buffer_size    = 9.92
-    metadata = [
-      {
-        name  = "...my_name..."
-        value = "...my_value..."
-      }
-    ]
-    pipeline = "...my_pipeline..."
-    port     = 65091.3
-    pq = {
-      commit_frequency = 5.98
-      compress         = "gzip"
-      max_buffer_size  = 42.4
-      max_file_size    = "...my_max_file_size..."
-      max_size         = "...my_max_size..."
-      mode             = "always"
-      path             = "...my_path..."
-    }
-    pq_enabled             = true
-    send_to_routes         = true
-    single_msg_udp_packets = false
-    status = {
-      health = "...my_health..."
-      metrics = {
-        buffered = 8.99
-        dropped  = 2.55
-        received = 9
-      }
-      timestamp = 2.56
-    }
-    streamtags = [
-      "..."
-    ]
-    type                   = "raw_udp"
-    udp_socket_rx_buf_size = 2079465831.9
-  }
-  forty_eight = {
-    auth_type = "manual"
-    breaker_rulesets = [
-      "..."
-    ]
-    connections = [
-      {
-        output   = "...my_output..."
-        pipeline = "...my_pipeline..."
-      }
-    ]
-    description         = "...my_description..."
-    disabled            = true
-    enable_header       = false
-    enable_proxy_header = false
-    environment         = "...my_environment..."
-    host                = "...my_host..."
-    id                  = "...my_id..."
-    ip_whitelist_regex  = "...my_ip_whitelist_regex..."
-    max_active_cxn      = 9.34
-    metadata = [
-      {
-        name  = "...my_name..."
-        value = "...my_value..."
-      }
-    ]
-    pipeline = "...my_pipeline..."
-    port     = 23219.96
-    pq = {
-      commit_frequency = 9.1
-      compress         = "none"
-      max_buffer_size  = 48.47
-      max_file_size    = "...my_max_file_size..."
-      max_size         = "...my_max_size..."
-      mode             = "always"
-      path             = "...my_path..."
-    }
-    pq_enabled = true
-    preprocess = {
-      args = [
-        "..."
-      ]
-      command  = "...my_command..."
-      disabled = false
-    }
-    send_to_routes         = false
-    socket_ending_max_wait = 9.41
-    socket_idle_timeout    = 5.6
-    socket_max_lifespan    = 3.34
-    stale_channel_flush_ms = 10809242.84
-    status = {
-      health = "...my_health..."
-      metrics = {
-        buffered = 8.67
-        dropped  = 6.17
-        received = 2.03
-      }
-      timestamp = 7.54
-    }
-    streamtags = [
-      "..."
-    ]
-    tls = {
-      ca_path             = "...my_ca_path..."
-      cert_path           = "...my_cert_path..."
-      certificate_name    = "...my_certificate_name..."
-      common_name_regex   = "{ \"see\": \"documentation\" }"
-      disabled            = false
-      max_version         = "TLSv1.1"
-      min_version         = "TLSv1.3"
-      passphrase          = "...my_passphrase..."
-      priv_key_path       = "...my_priv_key_path..."
-      reject_unauthorized = "{ \"see\": \"documentation\" }"
-      request_cert        = true
-    }
-    type = "tcp"
-  }
-  forty_nine = {
+  id = "...my_id..."
+  input_appscope = {
     auth_token = "...my_auth_token..."
-    auth_type  = "secret"
+    auth_type  = "manual"
     breaker_rulesets = [
       "..."
     ]
@@ -656,8 +14,8 @@ resource "cribl-terraform_source" "my_source" {
     ]
     description         = "...my_description..."
     disabled            = false
-    enable_proxy_header = true
-    enable_unix_path    = false
+    enable_proxy_header = false
+    enable_unix_path    = true
     environment         = "...my_environment..."
     filter = {
       allow = [
@@ -672,7 +30,7 @@ resource "cribl-terraform_source" "my_source" {
     host               = "...my_host..."
     id                 = "...my_id..."
     ip_whitelist_regex = "...my_ip_whitelist_regex..."
-    max_active_cxn     = 6.21
+    max_active_cxn     = 9.71
     metadata = [
       {
         name  = "...my_name..."
@@ -680,19 +38,19 @@ resource "cribl-terraform_source" "my_source" {
       }
     ]
     persistence = {
-      compress      = "gzip"
+      compress      = "none"
       dest_path     = "...my_dest_path..."
-      enable        = false
+      enable        = true
       max_data_size = "...my_max_data_size..."
       max_data_time = "...my_max_data_time..."
       time_window   = "...my_time_window..."
     }
     pipeline = "...my_pipeline..."
-    port     = 11741.15
+    port     = 10821.34
     pq = {
-      commit_frequency = 4.15
-      compress         = "gzip"
-      max_buffer_size  = 46.69
+      commit_frequency = 7.46
+      compress         = "none"
+      max_buffer_size  = 49.62
       max_file_size    = "...my_max_file_size..."
       max_size         = "...my_max_size..."
       mode             = "smart"
@@ -700,19 +58,10 @@ resource "cribl-terraform_source" "my_source" {
     }
     pq_enabled             = false
     send_to_routes         = false
-    socket_ending_max_wait = 0.99
-    socket_idle_timeout    = 4.96
-    socket_max_lifespan    = 4.36
-    stale_channel_flush_ms = 40063470.27
-    status = {
-      health = "...my_health..."
-      metrics = {
-        buffered = 2.97
-        dropped  = 8.32
-        received = 5.42
-      }
-      timestamp = 6.75
-    }
+    socket_ending_max_wait = 1.44
+    socket_idle_timeout    = 1.69
+    socket_max_lifespan    = 4.11
+    stale_channel_flush_ms = 34410614.39
     streamtags = [
       "..."
     ]
@@ -722,82 +71,18 @@ resource "cribl-terraform_source" "my_source" {
       cert_path           = "...my_cert_path..."
       certificate_name    = "...my_certificate_name..."
       common_name_regex   = "{ \"see\": \"documentation\" }"
-      disabled            = true
-      max_version         = "TLSv1.3"
-      min_version         = "TLSv1.3"
+      disabled            = false
+      max_version         = "TLSv1"
+      min_version         = "TLSv1.1"
       passphrase          = "...my_passphrase..."
       priv_key_path       = "...my_priv_key_path..."
       reject_unauthorized = "{ \"see\": \"documentation\" }"
-      request_cert        = true
+      request_cert        = false
     }
     type              = "appscope"
     unix_socket_path  = "...my_unix_socket_path..."
     unix_socket_perms = "...my_unix_socket_perms..."
   }
-  forty_seven = {
-    breaker_rulesets = [
-      "..."
-    ]
-    check_file_mod_time = true
-    connections = [
-      {
-        output   = "...my_output..."
-        pipeline = "...my_pipeline..."
-      }
-    ]
-    delete_files = true
-    depth        = 5.63
-    description  = "...my_description..."
-    disabled     = true
-    environment  = "...my_environment..."
-    filenames = [
-      "..."
-    ]
-    force_text                    = true
-    hash_len                      = 8.99
-    id                            = "...my_id..."
-    idle_timeout                  = 9.49
-    include_unidentifiable_binary = false
-    interval                      = 3.22
-    max_age_dur                   = "...my_max_age_dur..."
-    metadata = [
-      {
-        name  = "...my_name..."
-        value = "...my_value..."
-      }
-    ]
-    mode     = "auto"
-    path     = "...my_path..."
-    pipeline = "...my_pipeline..."
-    pq = {
-      commit_frequency = 4.62
-      compress         = "none"
-      max_buffer_size  = 49.94
-      max_file_size    = "...my_max_file_size..."
-      max_size         = "...my_max_size..."
-      mode             = "smart"
-      path             = "...my_path..."
-    }
-    pq_enabled             = true
-    send_to_routes         = false
-    stale_channel_flush_ms = 29785895.32
-    status = {
-      health = "...my_health..."
-      metrics = {
-        buffered = 7.27
-        dropped  = 5.39
-        received = 1.64
-      }
-      timestamp = 2.41
-    }
-    streamtags = [
-      "..."
-    ]
-    suppress_missing_path_errors = false
-    tail_only                    = false
-    type                         = "file"
-  }
-  id = "...my_id..."
   input_azure_blob = {
     auth_type = "manual"
     breaker_rulesets = [
@@ -1364,7 +649,7 @@ resource "cribl-terraform_source" "my_source" {
     streamtags = [
       "..."
     ]
-    type = "criblmetrics"
+    type = "datagen"
   }
   input_edge_prometheus = {
     assume_role_arn           = "...my_assume_role_arn..."
@@ -1658,6 +943,60 @@ resource "cribl-terraform_source" "my_source" {
     ]
     type = "exec"
   }
+  input_file = {
+    breaker_rulesets = [
+      "..."
+    ]
+    check_file_mod_time = false
+    connections = [
+      {
+        output   = "...my_output..."
+        pipeline = "...my_pipeline..."
+      }
+    ]
+    delete_files = true
+    depth        = 3.86
+    description  = "...my_description..."
+    disabled     = true
+    environment  = "...my_environment..."
+    filenames = [
+      "..."
+    ]
+    force_text                    = true
+    hash_len                      = 10.09
+    id                            = "...my_id..."
+    idle_timeout                  = 9.52
+    include_unidentifiable_binary = true
+    interval                      = 9.61
+    max_age_dur                   = "...my_max_age_dur..."
+    metadata = [
+      {
+        name  = "...my_name..."
+        value = "...my_value..."
+      }
+    ]
+    mode     = "auto"
+    path     = "...my_path..."
+    pipeline = "...my_pipeline..."
+    pq = {
+      commit_frequency = 4.04
+      compress         = "none"
+      max_buffer_size  = 43.27
+      max_file_size    = "...my_max_file_size..."
+      max_size         = "...my_max_size..."
+      mode             = "smart"
+      path             = "...my_path..."
+    }
+    pq_enabled             = false
+    send_to_routes         = false
+    stale_channel_flush_ms = 38380929.61
+    streamtags = [
+      "..."
+    ]
+    suppress_missing_path_errors = true
+    tail_only                    = true
+    type                         = "file"
+  }
   input_firehose = {
     activity_log_sample_rate = 3.21
     auth_tokens = [
@@ -1933,6 +1272,53 @@ resource "cribl-terraform_source" "my_source" {
       request_cert        = true
     }
     type = "http_raw"
+  }
+  input_journal_files = {
+    connections = [
+      {
+        output   = "...my_output..."
+        pipeline = "...my_pipeline..."
+      }
+    ]
+    current_boot = true
+    description  = "...my_description..."
+    disabled     = false
+    environment  = "...my_environment..."
+    id           = "...my_id..."
+    interval     = 8.87
+    journals = [
+      "..."
+    ]
+    max_age_dur = "...my_max_age_dur..."
+    metadata = [
+      {
+        name  = "...my_name..."
+        value = "...my_value..."
+      }
+    ]
+    path     = "...my_path..."
+    pipeline = "...my_pipeline..."
+    pq = {
+      commit_frequency = 5.71
+      compress         = "gzip"
+      max_buffer_size  = 44.06
+      max_file_size    = "...my_max_file_size..."
+      max_size         = "...my_max_size..."
+      mode             = "always"
+      path             = "...my_path..."
+    }
+    pq_enabled = false
+    rules = [
+      {
+        description = "...my_description..."
+        filter      = "...my_filter..."
+      }
+    ]
+    send_to_routes = true
+    streamtags = [
+      "..."
+    ]
+    type = "journal_files"
   }
   input_kafka = {
     authentication_timeout = 2612811.22
@@ -2526,6 +1912,50 @@ resource "cribl-terraform_source" "my_source" {
     ]
     type = "msk"
   }
+  input_netflow = {
+    connections = [
+      {
+        output   = "...my_output..."
+        pipeline = "...my_pipeline..."
+      }
+    ]
+    description         = "...my_description..."
+    disabled            = true
+    enable_pass_through = false
+    environment         = "...my_environment..."
+    host                = "...my_host..."
+    id                  = "...my_id..."
+    ip_allowlist_regex  = "...my_ip_allowlist_regex..."
+    ip_denylist_regex   = "...my_ip_denylist_regex..."
+    ipfix_enabled       = false
+    metadata = [
+      {
+        name  = "...my_name..."
+        value = "...my_value..."
+      }
+    ]
+    pipeline = "...my_pipeline..."
+    port     = 55240.21
+    pq = {
+      commit_frequency = 5.86
+      compress         = "gzip"
+      max_buffer_size  = 46.86
+      max_file_size    = "...my_max_file_size..."
+      max_size         = "...my_max_size..."
+      mode             = "always"
+      path             = "...my_path..."
+    }
+    pq_enabled     = true
+    send_to_routes = true
+    streamtags = [
+      "..."
+    ]
+    template_cache_minutes = 405.69
+    type                   = "netflow"
+    udp_socket_rx_buf_size = 2487129551.16
+    v5_enabled             = true
+    v9_enabled             = true
+  }
   input_office365_mgmt = {
     app_id        = "...my_app_id..."
     auth_type     = "manual"
@@ -2988,6 +2418,47 @@ resource "cribl-terraform_source" "my_source" {
     type                 = "prometheus_rw"
     username             = "...my_username..."
   }
+  input_raw_udp = {
+    connections = [
+      {
+        output   = "...my_output..."
+        pipeline = "...my_pipeline..."
+      }
+    ]
+    description        = "...my_description..."
+    disabled           = true
+    environment        = "...my_environment..."
+    host               = "...my_host..."
+    id                 = "...my_id..."
+    ingest_raw_bytes   = false
+    ip_whitelist_regex = "...my_ip_whitelist_regex..."
+    max_buffer_size    = 0.95
+    metadata = [
+      {
+        name  = "...my_name..."
+        value = "...my_value..."
+      }
+    ]
+    pipeline = "...my_pipeline..."
+    port     = 21267.65
+    pq = {
+      commit_frequency = 3.81
+      compress         = "none"
+      max_buffer_size  = 43
+      max_file_size    = "...my_max_file_size..."
+      max_size         = "...my_max_size..."
+      mode             = "always"
+      path             = "...my_path..."
+    }
+    pq_enabled             = false
+    send_to_routes         = false
+    single_msg_udp_packets = false
+    streamtags = [
+      "..."
+    ]
+    type                   = "raw_udp"
+    udp_socket_rx_buf_size = 2133363074.21
+  }
   input_s3 = {
     assume_role_arn           = "...my_assume_role_arn..."
     assume_role_external_id   = "...my_assume_role_external_id..."
@@ -3140,6 +2611,81 @@ resource "cribl-terraform_source" "my_source" {
     validate_inventory_files = false
     visibility_timeout       = 26709.77
   }
+  input_security_lake = {
+    assume_role_arn           = "...my_assume_role_arn..."
+    assume_role_external_id   = "...my_assume_role_external_id..."
+    aws_account_id            = "...my_aws_account_id..."
+    aws_api_key               = "...my_aws_api_key..."
+    aws_authentication_method = "auto"
+    aws_secret                = "...my_aws_secret..."
+    aws_secret_key            = "...my_aws_secret_key..."
+    breaker_rulesets = [
+      "..."
+    ]
+    checkpointing = {
+      enabled = false
+      retries = 86.82
+    }
+    connections = [
+      {
+        output   = "...my_output..."
+        pipeline = "...my_pipeline..."
+      }
+    ]
+    description            = "...my_description..."
+    disabled               = true
+    duration_seconds       = 2917.34
+    enable_assume_role     = true
+    enable_sqs_assume_role = true
+    encoding               = "...my_encoding..."
+    endpoint               = "...my_endpoint..."
+    environment            = "...my_environment..."
+    file_filter            = "...my_file_filter..."
+    id                     = "...my_id..."
+    max_messages           = 8.06
+    metadata = [
+      {
+        name  = "...my_name..."
+        value = "...my_value..."
+      }
+    ]
+    num_receivers                  = 6.73
+    parquet_chunk_download_timeout = 2933.58
+    parquet_chunk_size_mb          = 41.45
+    pipeline                       = "...my_pipeline..."
+    poll_timeout                   = 14.18
+    pq = {
+      commit_frequency = 9.12
+      compress         = "none"
+      max_buffer_size  = 46.18
+      max_file_size    = "...my_max_file_size..."
+      max_size         = "...my_max_size..."
+      mode             = "always"
+      path             = "...my_path..."
+    }
+    pq_enabled = false
+    preprocess = {
+      args = [
+        "..."
+      ]
+      command  = "...my_command..."
+      disabled = false
+    }
+    queue_name             = "...my_queue_name..."
+    region                 = "...my_region..."
+    reject_unauthorized    = false
+    reuse_connections      = true
+    send_to_routes         = false
+    signature_version      = "v2"
+    skip_on_error          = false
+    socket_timeout         = 26799.94
+    stale_channel_flush_ms = 29469341.99
+    streamtags = [
+      "..."
+    ]
+    type               = "security_lake"
+    visibility_timeout = 16801.61
+  }
   input_snmp = {
     connections = [
       {
@@ -3202,7 +2748,7 @@ resource "cribl-terraform_source" "my_source" {
     breaker_rulesets = [
       "..."
     ]
-    compress = "...my_compress..."
+    compress = "always"
     connections = [
       {
         output   = "...my_output..."
@@ -3772,6 +3318,74 @@ resource "cribl-terraform_source" "my_source" {
     ]
     type = "system_state"
   }
+  input_tcp = {
+    auth_type = "manual"
+    breaker_rulesets = [
+      "..."
+    ]
+    connections = [
+      {
+        output   = "...my_output..."
+        pipeline = "...my_pipeline..."
+      }
+    ]
+    description         = "...my_description..."
+    disabled            = false
+    enable_header       = false
+    enable_proxy_header = false
+    environment         = "...my_environment..."
+    host                = "...my_host..."
+    id                  = "...my_id..."
+    ip_whitelist_regex  = "...my_ip_whitelist_regex..."
+    max_active_cxn      = 5.5
+    metadata = [
+      {
+        name  = "...my_name..."
+        value = "...my_value..."
+      }
+    ]
+    pipeline = "...my_pipeline..."
+    port     = 47674.49
+    pq = {
+      commit_frequency = 1.66
+      compress         = "none"
+      max_buffer_size  = 51.41
+      max_file_size    = "...my_max_file_size..."
+      max_size         = "...my_max_size..."
+      mode             = "always"
+      path             = "...my_path..."
+    }
+    pq_enabled = false
+    preprocess = {
+      args = [
+        "..."
+      ]
+      command  = "...my_command..."
+      disabled = false
+    }
+    send_to_routes         = false
+    socket_ending_max_wait = 6.18
+    socket_idle_timeout    = 0.36
+    socket_max_lifespan    = 5.19
+    stale_channel_flush_ms = 8063309.13
+    streamtags = [
+      "..."
+    ]
+    tls = {
+      ca_path             = "...my_ca_path..."
+      cert_path           = "...my_cert_path..."
+      certificate_name    = "...my_certificate_name..."
+      common_name_regex   = "{ \"see\": \"documentation\" }"
+      disabled            = true
+      max_version         = "TLSv1.3"
+      min_version         = "TLSv1.1"
+      passphrase          = "...my_passphrase..."
+      priv_key_path       = "...my_priv_key_path..."
+      reject_unauthorized = "{ \"see\": \"documentation\" }"
+      request_cert        = true
+    }
+    type = "tcp"
+  }
   input_tcpjson = {
     auth_token = "...my_auth_token..."
     auth_type  = "manual"
@@ -3830,6 +3444,96 @@ resource "cribl-terraform_source" "my_source" {
       request_cert        = true
     }
     type = "tcpjson"
+  }
+  input_wef = {
+    allow_machine_id_mismatch = false
+    auth_method               = "kerberos"
+    ca_fingerprint            = "...my_ca_fingerprint..."
+    capture_headers           = true
+    connections = [
+      {
+        output   = "...my_output..."
+        pipeline = "...my_pipeline..."
+      }
+    ]
+    description             = "...my_description..."
+    disabled                = true
+    enable_health_check     = true
+    enable_proxy_header     = false
+    environment             = "...my_environment..."
+    host                    = "...my_host..."
+    id                      = "...my_id..."
+    ip_allowlist_regex      = "...my_ip_allowlist_regex..."
+    ip_denylist_regex       = "...my_ip_denylist_regex..."
+    keep_alive_timeout      = 375.33
+    keytab                  = "...my_keytab..."
+    max_active_req          = 7.34
+    max_requests_per_socket = 3
+    metadata = [
+      {
+        name  = "...my_name..."
+        value = "...my_value..."
+      }
+    ]
+    pipeline = "...my_pipeline..."
+    port     = 55639.99
+    pq = {
+      commit_frequency = 1.25
+      compress         = "gzip"
+      max_buffer_size  = 42.29
+      max_file_size    = "...my_max_file_size..."
+      max_size         = "...my_max_size..."
+      mode             = "always"
+      path             = "...my_path..."
+    }
+    pq_enabled     = true
+    principal      = "...my_principal..."
+    send_to_routes = false
+    socket_timeout = 7.92
+    streamtags = [
+      "..."
+    ]
+    subscriptions = [
+      {
+        batch_timeout      = 5.23
+        compress           = false
+        content_format     = "RenderedText"
+        heartbeat_interval = 5.28
+        locale             = "...my_locale..."
+        metadata = [
+          {
+            name  = "...my_name..."
+            value = "...my_value..."
+          }
+        ]
+        query_selector       = "xml"
+        read_existing_events = false
+        send_bookmarks       = false
+        subscription_name    = "...my_subscription_name..."
+        targets = [
+          "..."
+        ]
+        version = "...my_version..."
+      }
+    ]
+    tls = {
+      ca_path               = "...my_ca_path..."
+      cert_path             = "...my_cert_path..."
+      certificate_name      = "...my_certificate_name..."
+      common_name_regex     = "...my_common_name_regex..."
+      disabled              = false
+      keytab                = "{ \"see\": \"documentation\" }"
+      max_version           = "TLSv1"
+      min_version           = "TLSv1.1"
+      ocsp_check            = false
+      ocsp_check_fail_close = true
+      passphrase            = "...my_passphrase..."
+      principal             = "{ \"see\": \"documentation\" }"
+      priv_key_path         = "...my_priv_key_path..."
+      reject_unauthorized   = false
+      request_cert          = false
+    }
+    type = "wef"
   }
   input_windows_metrics = {
     connections = [
@@ -3917,5 +3621,202 @@ resource "cribl-terraform_source" "my_source" {
       "..."
     ]
     type = "windows_metrics"
+  }
+  input_win_event_logs = {
+    batch_size = 9.54
+    connections = [
+      {
+        output   = "...my_output..."
+        pipeline = "...my_pipeline..."
+      }
+    ]
+    description           = "...my_description..."
+    disable_native_module = true
+    disabled              = true
+    environment           = "...my_environment..."
+    event_format          = "json"
+    id                    = "...my_id..."
+    interval              = 2.52
+    log_names = [
+      "..."
+    ]
+    max_event_bytes = 82427367.56
+    metadata = [
+      {
+        name  = "...my_name..."
+        value = "...my_value..."
+      }
+    ]
+    pipeline = "...my_pipeline..."
+    pq = {
+      commit_frequency = 8.61
+      compress         = "gzip"
+      max_buffer_size  = 49.04
+      max_file_size    = "...my_max_file_size..."
+      max_size         = "...my_max_size..."
+      mode             = "smart"
+      path             = "...my_path..."
+    }
+    pq_enabled     = true
+    read_mode      = "oldest"
+    send_to_routes = false
+    streamtags = [
+      "..."
+    ]
+    type = "win_event_logs"
+  }
+  input_wiz = {
+    auth_audience_override = "...my_auth_audience_override..."
+    auth_type              = "manual"
+    auth_url               = "...my_auth_url..."
+    client_id              = "...my_client_id..."
+    client_secret          = "...my_client_secret..."
+    connections = [
+      {
+        output   = "...my_output..."
+        pipeline = "...my_pipeline..."
+      }
+    ]
+    content_config = [
+      {
+        content_description = "...my_content_description..."
+        content_type        = "...my_content_type..."
+        enabled             = true
+      }
+    ]
+    description            = "...my_description..."
+    disabled               = false
+    endpoint               = "...my_endpoint..."
+    environment            = "...my_environment..."
+    id                     = "...my_id..."
+    keep_alive_time        = 14
+    max_missed_keep_alives = 9.47
+    metadata = [
+      {
+        name  = "...my_name..."
+        value = "...my_value..."
+      }
+    ]
+    pipeline = "...my_pipeline..."
+    pq = {
+      commit_frequency = 6.65
+      compress         = "gzip"
+      max_buffer_size  = 45.65
+      max_file_size    = "...my_max_file_size..."
+      max_size         = "...my_max_size..."
+      mode             = "always"
+      path             = "...my_path..."
+    }
+    pq_enabled      = true
+    request_timeout = 1833.22
+    retry_rules = {
+      codes = [
+        4.2
+      ]
+      enable_header         = false
+      interval              = 4792.78
+      limit                 = 16.43
+      multiplier            = 19.92
+      retry_connect_reset   = true
+      retry_connect_timeout = true
+      type                  = "backoff"
+    }
+    send_to_routes = false
+    streamtags = [
+      "..."
+    ]
+    text_secret = "...my_text_secret..."
+    ttl         = "...my_ttl..."
+    type        = "wiz"
+  }
+  input_zscaler_hec = {
+    access_control_allow_headers = [
+      "..."
+    ]
+    access_control_allow_origin = [
+      "..."
+    ]
+    activity_log_sample_rate = 8.55
+    allowed_indexes = [
+      "..."
+    ]
+    auth_tokens = [
+      {
+        allowed_indexes_at_token = [
+          "..."
+        ]
+        auth_type   = "manual"
+        description = "...my_description..."
+        enabled     = true
+        metadata = [
+          {
+            name  = "...my_name..."
+            value = "...my_value..."
+          }
+        ]
+        token        = "{ \"see\": \"documentation\" }"
+        token_secret = "{ \"see\": \"documentation\" }"
+      }
+    ]
+    capture_headers = false
+    connections = [
+      {
+        output   = "...my_output..."
+        pipeline = "...my_pipeline..."
+      }
+    ]
+    description             = "...my_description..."
+    disabled                = true
+    emit_token_metrics      = true
+    enable_health_check     = "{ \"see\": \"documentation\" }"
+    enable_proxy_header     = true
+    environment             = "...my_environment..."
+    hec_acks                = false
+    hec_api                 = "...my_hec_api..."
+    host                    = "...my_host..."
+    id                      = "...my_id..."
+    ip_allowlist_regex      = "...my_ip_allowlist_regex..."
+    ip_denylist_regex       = "...my_ip_denylist_regex..."
+    keep_alive_timeout      = 162.87
+    max_active_req          = 0.89
+    max_requests_per_socket = 5
+    metadata = [
+      {
+        name  = "...my_name..."
+        value = "...my_value..."
+      }
+    ]
+    pipeline = "...my_pipeline..."
+    port     = 3454.48
+    pq = {
+      commit_frequency = 5.32
+      compress         = "none"
+      max_buffer_size  = 49.79
+      max_file_size    = "...my_max_file_size..."
+      max_size         = "...my_max_size..."
+      mode             = "smart"
+      path             = "...my_path..."
+    }
+    pq_enabled      = true
+    request_timeout = 2.41
+    send_to_routes  = false
+    socket_timeout  = 5.66
+    streamtags = [
+      "..."
+    ]
+    tls = {
+      ca_path             = "...my_ca_path..."
+      cert_path           = "...my_cert_path..."
+      certificate_name    = "...my_certificate_name..."
+      common_name_regex   = "{ \"see\": \"documentation\" }"
+      disabled            = true
+      max_version         = "TLSv1.3"
+      min_version         = "TLSv1.3"
+      passphrase          = "...my_passphrase..."
+      priv_key_path       = "...my_priv_key_path..."
+      reject_unauthorized = "{ \"see\": \"documentation\" }"
+      request_cert        = false
+    }
+    type = "zscaler_hec"
   }
 }
