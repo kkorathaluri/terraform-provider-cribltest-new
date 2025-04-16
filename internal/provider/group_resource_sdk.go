@@ -7,10 +7,13 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	tfTypes "github.com/speakeasy/terraform-provider-cribl-terraform/internal/provider/types"
+	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/operations"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/shared"
 )
 
-func (r *GroupResourceModel) ToSharedConfigGroup() *shared.ConfigGroup {
+func (r *GroupResourceModel) ToSharedConfigGroup(ctx context.Context) (*shared.ConfigGroup, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
 	var cloud *shared.ConfigGroupCloud
 	if r.Cloud != nil {
 		provider := new(shared.CloudProvider)
@@ -197,7 +200,27 @@ func (r *GroupResourceModel) ToSharedConfigGroup() *shared.ConfigGroup {
 		WorkerCount:             workerCount,
 		WorkerRemoteAccess:      workerRemoteAccess,
 	}
-	return &out
+
+	return &out, diags
+}
+
+func (r *GroupResourceModel) ToOperationsCreateProductsGroupsByProductRequest(ctx context.Context) (*operations.CreateProductsGroupsByProductRequest, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	product := operations.CreateProductsGroupsByProductPathParamProduct(r.Product.ValueString())
+	configGroup, configGroupDiags := r.ToSharedConfigGroup(ctx)
+	diags.Append(configGroupDiags...)
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	out := operations.CreateProductsGroupsByProductRequest{
+		Product:     product,
+		ConfigGroup: *configGroup,
+	}
+
+	return &out, diags
 }
 
 func (r *GroupResourceModel) RefreshFromSharedConfigGroup(ctx context.Context, resp *shared.ConfigGroup) diag.Diagnostics {

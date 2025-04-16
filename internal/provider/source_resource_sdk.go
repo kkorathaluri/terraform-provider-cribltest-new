@@ -8,10 +8,13 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	tfTypes "github.com/speakeasy/terraform-provider-cribl-terraform/internal/provider/types"
+	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/operations"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/shared"
 )
 
-func (r *SourceResourceModel) ToSharedInput() *shared.Input {
+func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
 	var out shared.Input
 	var inputCollection *shared.InputCollection
 	if r.InputCollection != nil {
@@ -20470,7 +20473,42 @@ func (r *SourceResourceModel) ToSharedInput() *shared.Input {
 			InputZscalerHec: inputZscalerHec,
 		}
 	}
-	return &out
+
+	return &out, diags
+}
+
+func (r *SourceResourceModel) ToOperationsUpdateInputByIDRequest(ctx context.Context) (*operations.UpdateInputByIDRequest, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	var id string
+	id = r.ID.ValueString()
+
+	input, inputDiags := r.ToSharedInput(ctx)
+	diags.Append(inputDiags...)
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	out := operations.UpdateInputByIDRequest{
+		ID:    id,
+		Input: *input,
+	}
+
+	return &out, diags
+}
+
+func (r *SourceResourceModel) ToOperationsDeleteInputByIDRequest(ctx context.Context) (*operations.DeleteInputByIDRequest, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	var id string
+	id = r.ID.ValueString()
+
+	out := operations.DeleteInputByIDRequest{
+		ID: id,
+	}
+
+	return &out, diags
 }
 
 func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *shared.Input) diag.Diagnostics {

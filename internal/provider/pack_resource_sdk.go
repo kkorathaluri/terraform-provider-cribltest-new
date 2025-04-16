@@ -11,7 +11,9 @@ import (
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/operations"
 )
 
-func (r *PackResourceModel) ToOperationsCreatePacksRequestBody() *operations.CreatePacksRequestBody {
+func (r *PackResourceModel) ToOperationsCreatePacksRequestBody(ctx context.Context) (*operations.CreatePacksRequestBody, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
 	var id string
 	id = r.ID.ValueString()
 
@@ -37,7 +39,34 @@ func (r *PackResourceModel) ToOperationsCreatePacksRequestBody() *operations.Cre
 		Version:     version,
 		Disabled:    disabled,
 	}
-	return &out
+
+	return &out, diags
+}
+
+func (r *PackResourceModel) ToOperationsUpdatePacksByIDRequest(ctx context.Context) (*operations.UpdatePacksByIDRequest, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	var id string
+	id = r.ID.ValueString()
+
+	out := operations.UpdatePacksByIDRequest{
+		ID: id,
+	}
+
+	return &out, diags
+}
+
+func (r *PackResourceModel) ToOperationsDeletePacksByIDRequest(ctx context.Context) (*operations.DeletePacksByIDRequest, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	var id string
+	id = r.ID.ValueString()
+
+	out := operations.DeletePacksByIDRequest{
+		ID: id,
+	}
+
+	return &out, diags
 }
 
 func (r *PackResourceModel) RefreshFromOperationsCreatePacksResponseBody(ctx context.Context, resp *operations.CreatePacksResponseBody) diag.Diagnostics {

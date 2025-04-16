@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/ephemeral"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -14,7 +15,8 @@ import (
 	"net/http"
 )
 
-var _ provider.Provider = &CriblTerraformProvider{}
+var _ provider.Provider = (*CriblTerraformProvider)(nil)
+var _ provider.ProviderWithEphemeralResources = (*CriblTerraformProvider)(nil)
 
 type CriblTerraformProvider struct {
 	// version is set to the provider version on release, "dev" when the
@@ -85,26 +87,8 @@ func (p *CriblTerraformProvider) Configure(ctx context.Context, req provider.Con
 	} else {
 		bearerAuth = nil
 	}
-	var clientOauth *shared.SchemeClientOauth
-	var clientID string
-	clientID = data.ClientID.ValueString()
-
-	var clientSecret string
-	clientSecret = data.ClientSecret.ValueString()
-
-	var tokenURL string
-	tokenURL = data.TokenURL.ValueString()
-
-	if clientID != "" && clientSecret != "" {
-		clientOauth = &shared.SchemeClientOauth{
-			ClientID:     clientID,
-			ClientSecret: clientSecret,
-			TokenURL:     tokenURL,
-		}
-	}
 	security := shared.Security{
-		BearerAuth:  bearerAuth,
-		ClientOauth: clientOauth,
+		BearerAuth: bearerAuth,
 	}
 
 	providerHTTPTransportOpts := ProviderHTTPTransportOpts{
@@ -123,6 +107,7 @@ func (p *CriblTerraformProvider) Configure(ctx context.Context, req provider.Con
 	client := sdk.New(opts...)
 
 	resp.DataSourceData = client
+	resp.EphemeralResourceData = client
 	resp.ResourceData = client
 }
 
@@ -139,6 +124,10 @@ func (p *CriblTerraformProvider) DataSources(ctx context.Context) []func() datas
 	return []func() datasource.DataSource{
 		NewPackDataSource,
 	}
+}
+
+func (p *CriblTerraformProvider) EphemeralResources(ctx context.Context) []func() ephemeral.EphemeralResource {
+	return []func() ephemeral.EphemeralResource{}
 }
 
 func New(version string) func() provider.Provider {

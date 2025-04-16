@@ -24,7 +24,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	tfTypes "github.com/speakeasy/terraform-provider-cribl-terraform/internal/provider/types"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk"
-	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/operations"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/validators"
 	speakeasy_float64validators "github.com/speakeasy/terraform-provider-cribl-terraform/internal/validators/float64validators"
 	speakeasy_listvalidators "github.com/speakeasy/terraform-provider-cribl-terraform/internal/validators/listvalidators"
@@ -27248,8 +27247,13 @@ func (r *SourceResource) Create(ctx context.Context, req resource.CreateRequest,
 		return
 	}
 
-	request := *data.ToSharedInput()
-	res, err := r.client.Inputs.CreateInput(ctx, request)
+	request, requestDiags := data.ToSharedInput(ctx)
+	resp.Diagnostics.Append(requestDiags...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	res, err := r.client.Inputs.CreateInput(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -27323,15 +27327,13 @@ func (r *SourceResource) Update(ctx context.Context, req resource.UpdateRequest,
 		return
 	}
 
-	var id string
-	id = data.ID.ValueString()
+	request, requestDiags := data.ToOperationsUpdateInputByIDRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
 
-	input := *data.ToSharedInput()
-	request := operations.UpdateInputByIDRequest{
-		ID:    id,
-		Input: input,
+	if resp.Diagnostics.HasError() {
+		return
 	}
-	res, err := r.client.Inputs.UpdateInputByID(ctx, request)
+	res, err := r.client.Inputs.UpdateInputByID(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -27385,13 +27387,13 @@ func (r *SourceResource) Delete(ctx context.Context, req resource.DeleteRequest,
 		return
 	}
 
-	var id string
-	id = data.ID.ValueString()
+	request, requestDiags := data.ToOperationsDeleteInputByIDRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
 
-	request := operations.DeleteInputByIDRequest{
-		ID: id,
+	if resp.Diagnostics.HasError() {
+		return
 	}
-	res, err := r.client.Inputs.DeleteInputByID(ctx, request)
+	res, err := r.client.Inputs.DeleteInputByID(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {

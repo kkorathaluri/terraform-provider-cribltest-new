@@ -24,7 +24,6 @@ import (
 	speakeasy_stringplanmodifier "github.com/speakeasy/terraform-provider-cribl-terraform/internal/planmodifiers/stringplanmodifier"
 	tfTypes "github.com/speakeasy/terraform-provider-cribl-terraform/internal/provider/types"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk"
-	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/operations"
 	speakeasy_objectvalidators "github.com/speakeasy/terraform-provider-cribl-terraform/internal/validators/objectvalidators"
 	speakeasy_stringvalidators "github.com/speakeasy/terraform-provider-cribl-terraform/internal/validators/stringvalidators"
 )
@@ -434,13 +433,13 @@ func (r *GroupResource) Create(ctx context.Context, req resource.CreateRequest, 
 		return
 	}
 
-	product := operations.CreateProductsGroupsByProductPathParamProduct(data.Product.ValueString())
-	configGroup := *data.ToSharedConfigGroup()
-	request := operations.CreateProductsGroupsByProductRequest{
-		Product:     product,
-		ConfigGroup: configGroup,
+	request, requestDiags := data.ToOperationsCreateProductsGroupsByProductRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
+
+	if resp.Diagnostics.HasError() {
+		return
 	}
-	res, err := r.client.Groups.CreateProductsGroupsByProduct(ctx, request)
+	res, err := r.client.Groups.CreateProductsGroupsByProduct(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {

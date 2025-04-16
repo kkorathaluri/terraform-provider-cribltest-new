@@ -1,8 +1,8 @@
-speakeasyVersion: 1.531.0
+speakeasyVersion: 1.533.0
 sources:
     Cribl API Reference:
         sourceNamespace: cribl-api-reference
-        sourceRevisionDigest: sha256:5df569ba9174051af5d407b6da9cabb0435469bbefbf335d4dac065fde823180
+        sourceRevisionDigest: sha256:bd286ec9f69fee6041dcc7b13b6fa48a736fed3d4decbf8a2737092dde0600bf
         sourceBlobDigest: sha256:897d32a7b40b7901f9d3c07409f946a65feb88cb0b983af9ff42c9091270fc46
         tags:
             - latest
@@ -11,7 +11,7 @@ targets:
     cribl-terraform:
         source: Cribl API Reference
         sourceNamespace: cribl-api-reference
-        sourceRevisionDigest: sha256:5df569ba9174051af5d407b6da9cabb0435469bbefbf335d4dac065fde823180
+        sourceRevisionDigest: sha256:bd286ec9f69fee6041dcc7b13b6fa48a736fed3d4decbf8a2737092dde0600bf
         sourceBlobDigest: sha256:897d32a7b40b7901f9d3c07409f946a65feb88cb0b983af9ff42c9091270fc46
 workflow:
     workflowVersion: 1.0.0

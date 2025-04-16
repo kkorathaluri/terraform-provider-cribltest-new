@@ -16,7 +16,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	tfTypes "github.com/speakeasy/terraform-provider-cribl-terraform/internal/provider/types"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk"
-	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/operations"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/validators"
 )
 
@@ -198,8 +197,13 @@ func (r *PackResource) Create(ctx context.Context, req resource.CreateRequest, r
 		return
 	}
 
-	request := *data.ToOperationsCreatePacksRequestBody()
-	res, err := r.client.Packs.CreatePacks(ctx, request)
+	request, requestDiags := data.ToOperationsCreatePacksRequestBody(ctx)
+	resp.Diagnostics.Append(requestDiags...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	res, err := r.client.Packs.CreatePacks(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -326,13 +330,13 @@ func (r *PackResource) Update(ctx context.Context, req resource.UpdateRequest, r
 		return
 	}
 
-	var id string
-	id = data.ID.ValueString()
+	request, requestDiags := data.ToOperationsUpdatePacksByIDRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
 
-	request := operations.UpdatePacksByIDRequest{
-		ID: id,
+	if resp.Diagnostics.HasError() {
+		return
 	}
-	res, err := r.client.Packs.UpdatePacksByID(ctx, request)
+	res, err := r.client.Packs.UpdatePacksByID(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -411,13 +415,13 @@ func (r *PackResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 		return
 	}
 
-	var id string
-	id = data.ID.ValueString()
+	request, requestDiags := data.ToOperationsDeletePacksByIDRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
 
-	request := operations.DeletePacksByIDRequest{
-		ID: id,
+	if resp.Diagnostics.HasError() {
+		return
 	}
-	res, err := r.client.Packs.DeletePacksByID(ctx, request)
+	res, err := r.client.Packs.DeletePacksByID(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {

@@ -8,10 +8,13 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	tfTypes "github.com/speakeasy/terraform-provider-cribl-terraform/internal/provider/types"
+	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/operations"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/shared"
 )
 
-func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
+func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.Output, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
 	var out shared.Output
 	var outputDefault *shared.OutputDefault
 	if r.OutputDefault != nil {
@@ -20445,7 +20448,42 @@ func (r *DestinationResourceModel) ToSharedOutput() *shared.Output {
 			OutputDynatraceOtlp: outputDynatraceOtlp,
 		}
 	}
-	return &out
+
+	return &out, diags
+}
+
+func (r *DestinationResourceModel) ToOperationsUpdateOutputByIDRequest(ctx context.Context) (*operations.UpdateOutputByIDRequest, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	var id string
+	id = r.ID.ValueString()
+
+	output, outputDiags := r.ToSharedOutput(ctx)
+	diags.Append(outputDiags...)
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	out := operations.UpdateOutputByIDRequest{
+		ID:     id,
+		Output: *output,
+	}
+
+	return &out, diags
+}
+
+func (r *DestinationResourceModel) ToOperationsDeleteOutputByIDRequest(ctx context.Context) (*operations.DeleteOutputByIDRequest, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	var id string
+	id = r.ID.ValueString()
+
+	out := operations.DeleteOutputByIDRequest{
+		ID: id,
+	}
+
+	return &out, diags
 }
 
 func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, resp *shared.Output) diag.Diagnostics {

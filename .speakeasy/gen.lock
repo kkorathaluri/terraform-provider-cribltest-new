@@ -3,17 +3,17 @@ id: b2744b7e-1ce3-478a-8c1f-0348b936141a
 management:
   docChecksum: 58f56b291fb9930b3b79d18b7179274a
   docVersion: 1.0.0
-  speakeasyVersion: 1.531.0
-  generationVersion: 2.568.2
-  releaseVersion: 0.10.4
-  configChecksum: d8b0e702a6d9bf721ffb58df5d92a4cd
+  speakeasyVersion: 1.533.0
+  generationVersion: 2.578.0
+  releaseVersion: 0.11.0
+  configChecksum: e5538b4253e0cc9d29b1cc177f8a5bdc
   published: true
 features:
   terraform:
     additionalDependencies: 0.1.0
     additionalProperties: 0.1.2
     constsAndDefaults: 0.2.1
-    core: 3.39.2
+    core: 3.41.1
     deprecations: 2.82.0
     envVarSecurityUsage: 0.1.0
     globalSecurity: 2.81.10
@@ -1523,8 +1523,8 @@ generatedFiles:
   - internal/sdk/models/shared/loggerconfig.go
   - internal/sdk/models/shared/loggerentry.go
   - internal/sdk/models/shared/logininfo.go
+  - internal/sdk/models/shared/lookupfile.go
   - internal/sdk/models/shared/lookupfileinforesponse.go
-  - internal/sdk/models/shared/lookupfileinput.go
   - internal/sdk/models/shared/lookupversions.go
   - internal/sdk/models/shared/mappingtype.go
   - internal/sdk/models/shared/marketplacetype.go
