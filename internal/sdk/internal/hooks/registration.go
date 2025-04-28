@@ -9,10 +9,8 @@ package hooks
  */
 
 func initHooks(h *Hooks) {
-	// exampleHook := &ExampleHook{}
-
-	// h.registerSDKInitHook(exampleHook)
-	// h.registerBeforeRequestHook(exampleHook)
-	// h.registerAfterErrorHook(exampleHook)
-	// h.registerAfterSuccessHook(exampleHook)
+	// Register Cribl Terraform authentication hook
+	authHook := NewCriblTerraformAuthHook()
+	h.registerSDKInitHook(authHook)
+	h.registerBeforeRequestHook(authHook)
 }

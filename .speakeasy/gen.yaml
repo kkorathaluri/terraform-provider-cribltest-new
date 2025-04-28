@@ -15,16 +15,23 @@ generation:
     oAuth2ClientCredentialsEnabled: true
     oAuth2PasswordEnabled: true
 terraform:
-  version: 0.11.2
+  version: 0.11.7
   additionalDataSources: []
   additionalDependencies: {}
   additionalEphemeralResources: []
   additionalProviderAttributes:
+    audience: ""
     httpHeaders: ""
   additionalResources: []
   allowUnknownFieldsInWeakUnions: false
   author: speakeasy
   defaultErrorName: APIError
   enableTypeDeduplication: false
-  environmentVariables: []
+  environmentVariables:
+    - env: CRIBL_CLIENT_ID
+      providerAttribute: client_id
+    - env: CRIBL_CLIENT_SECRET
+      providerAttribute: client_secret
+    - env: CRIBL_TOKEN_URL
+      providerAttribute: token_url
   packageName: cribl-terraform
