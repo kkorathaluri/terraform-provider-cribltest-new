@@ -39,6 +39,7 @@ type PackResourceModel struct {
 	DisplayName types.String       `tfsdk:"display_name"`
 	ID          types.String       `tfsdk:"id"`
 	Items       []tfTypes.PackInfo `tfsdk:"items"`
+	Source      types.String       `tfsdk:"source"`
 	Version     types.String       `tfsdk:"version"`
 }
 
@@ -147,6 +148,10 @@ func (r *PackResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 						},
 					},
 				},
+			},
+			"source": schema.StringAttribute{
+				Required:    true,
+				Description: `body string required Pack source`,
 			},
 			"version": schema.StringAttribute{
 				Required: true,

@@ -29,6 +29,9 @@ func (r *PackResourceModel) ToOperationsCreatePacksRequestBody(ctx context.Conte
 	var version string
 	version = r.Version.ValueString()
 
+	var source string
+	source = r.Source.ValueString()
+
 	var disabled bool
 	disabled = r.Disabled.ValueBool()
 
@@ -37,6 +40,7 @@ func (r *PackResourceModel) ToOperationsCreatePacksRequestBody(ctx context.Conte
 		DisplayName: displayName,
 		Description: description,
 		Version:     version,
+		Source:      source,
 		Disabled:    disabled,
 	}
 
@@ -49,8 +53,15 @@ func (r *PackResourceModel) ToOperationsUpdatePacksByIDRequest(ctx context.Conte
 	var id string
 	id = r.ID.ValueString()
 
+	source := new(string)
+	if !r.Source.IsUnknown() && !r.Source.IsNull() {
+		*source = r.Source.ValueString()
+	} else {
+		source = nil
+	}
 	out := operations.UpdatePacksByIDRequest{
-		ID: id,
+		ID:     id,
+		Source: source,
 	}
 
 	return &out, diags

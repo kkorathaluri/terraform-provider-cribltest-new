@@ -13,6 +13,7 @@ type CreatePacksRequestBody struct {
 	DisplayName *string `json:"displayName,omitempty"`
 	Description string  `json:"description"`
 	Version     string  `json:"version"`
+	Source      string  `json:"source"`
 	Disabled    bool    `json:"disabled"`
 }
 
@@ -42,6 +43,13 @@ func (o *CreatePacksRequestBody) GetVersion() string {
 		return ""
 	}
 	return o.Version
+}
+
+func (o *CreatePacksRequestBody) GetSource() string {
+	if o == nil {
+		return ""
+	}
+	return o.Source
 }
 
 func (o *CreatePacksRequestBody) GetDisabled() bool {

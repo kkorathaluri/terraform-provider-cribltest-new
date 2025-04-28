@@ -10,20 +10,22 @@ provider "cribl-terraform" {
   # Configuration options
   server_url ="https://app.cribl-playground.cloud/organizations/beautiful-nguyen-y8y4azd/workspaces/main/app/api/v1/m/default"
 }
-# Example of using the cribl-terraform_pack resource
-resource "cribl-terraform_pack" "example_pack" {
-  id = "example-pack-id"
-  description = "example-pack-description-test"
-  version = "example-pack-version"
-  disabled = false
+
+resource "cribl-terraform_pack" "my_pack" {
+  description  = "example-pack-description-test"
+  disabled     = false
   display_name = "example-pack-display-name-test"
+  id           = "example-pack-id-1"
+  source       = "file:/opt/cribl_data/failover/groups/default/default/HelloPacks"
+  version      = "example-pack-version"
 }
 
 # Output the pack details to see the read-only attributes
 output "pack_details" {
-  value = cribl-terraform_pack.example_pack
+  value = cribl-terraform_pack.my_pack
 } 
 
+/*
 # Example of using a data source to fetch an existing pack
 data "cribl-terraform_pack" "existing_pack" {
 }
@@ -32,6 +34,7 @@ data "cribl-terraform_pack" "existing_pack" {
 output "existing_pack_details" {
   value = data.cribl-terraform_pack.existing_pack
 }
+*/
 
 /*
 # Example of importing an existing pack

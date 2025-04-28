@@ -31,7 +31,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline = nil
 		}
-		var systemFields []string = []string{}
+		systemFields := make([]string, 0, len(r.OutputDefault.SystemFields))
 		for _, systemFieldsItem := range r.OutputDefault.SystemFields {
 			systemFields = append(systemFields, systemFieldsItem.ValueString())
 		}
@@ -41,7 +41,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment = nil
 		}
-		var streamtags []string = []string{}
+		streamtags := make([]string, 0, len(r.OutputDefault.Streamtags))
 		for _, streamtagsItem := range r.OutputDefault.Streamtags {
 			streamtags = append(streamtags, streamtagsItem.ValueString())
 		}
@@ -75,7 +75,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline1 = nil
 		}
-		var systemFields1 []string = []string{}
+		systemFields1 := make([]string, 0, len(r.OutputWebhook.SystemFields))
 		for _, systemFieldsItem1 := range r.OutputWebhook.SystemFields {
 			systemFields1 = append(systemFields1, systemFieldsItem1.ValueString())
 		}
@@ -85,7 +85,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment1 = nil
 		}
-		var streamtags1 []string = []string{}
+		streamtags1 := make([]string, 0, len(r.OutputWebhook.Streamtags))
 		for _, streamtagsItem1 := range r.OutputWebhook.Streamtags {
 			streamtags1 = append(streamtags1, streamtagsItem1.ValueString())
 		}
@@ -149,7 +149,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec = nil
 		}
-		var extraHTTPHeaders []shared.OutputWebhookExtraHTTPHeaders = []shared.OutputWebhookExtraHTTPHeaders{}
+		extraHTTPHeaders := make([]shared.OutputWebhookExtraHTTPHeaders, 0, len(r.OutputWebhook.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem := range r.OutputWebhook.ExtraHTTPHeaders {
 			name := new(string)
 			if !extraHTTPHeadersItem.Name.IsUnknown() && !extraHTTPHeadersItem.Name.IsNull() {
@@ -177,11 +177,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode = nil
 		}
-		var safeHeaders []string = []string{}
+		safeHeaders := make([]string, 0, len(r.OutputWebhook.SafeHeaders))
 		for _, safeHeadersItem := range r.OutputWebhook.SafeHeaders {
 			safeHeaders = append(safeHeaders, safeHeadersItem.ValueString())
 		}
-		var responseRetrySettings []shared.ResponseRetrySettings = []shared.ResponseRetrySettings{}
+		responseRetrySettings := make([]shared.ResponseRetrySettings, 0, len(r.OutputWebhook.ResponseRetrySettings))
 		for _, responseRetrySettingsItem := range r.OutputWebhook.ResponseRetrySettings {
 			var httpStatus float64
 			httpStatus = responseRetrySettingsItem.HTTPStatus.ValueFloat64()
@@ -502,7 +502,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			tokenTimeoutSecs = nil
 		}
-		var oauthParams []shared.OutputWebhookOauthParams = []shared.OutputWebhookOauthParams{}
+		oauthParams := make([]shared.OutputWebhookOauthParams, 0, len(r.OutputWebhook.OauthParams))
 		for _, oauthParamsItem := range r.OutputWebhook.OauthParams {
 			var name1 string
 			name1 = oauthParamsItem.Name.ValueString()
@@ -515,7 +515,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				Value: value1,
 			})
 		}
-		var oauthHeaders []shared.OutputWebhookOauthHeaders = []shared.OutputWebhookOauthHeaders{}
+		oauthHeaders := make([]shared.OutputWebhookOauthHeaders, 0, len(r.OutputWebhook.OauthHeaders))
 		for _, oauthHeadersItem := range r.OutputWebhook.OauthHeaders {
 			var name2 string
 			name2 = oauthHeadersItem.Name.ValueString()
@@ -540,7 +540,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			excludeSelf = nil
 		}
-		var urls []shared.Urls = []shared.Urls{}
+		urls := make([]shared.Urls, 0, len(r.OutputWebhook.Urls))
 		for _, urlsItem := range r.OutputWebhook.Urls {
 			var url1 string
 			url1 = urlsItem.URL.ValueString()
@@ -658,7 +658,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline2 = nil
 		}
-		var systemFields2 []string = []string{}
+		systemFields2 := make([]string, 0, len(r.OutputSentinel.SystemFields))
 		for _, systemFieldsItem2 := range r.OutputSentinel.SystemFields {
 			systemFields2 = append(systemFields2, systemFieldsItem2.ValueString())
 		}
@@ -668,7 +668,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment2 = nil
 		}
-		var streamtags2 []string = []string{}
+		streamtags2 := make([]string, 0, len(r.OutputSentinel.Streamtags))
 		for _, streamtagsItem2 := range r.OutputSentinel.Streamtags {
 			streamtags2 = append(streamtags2, streamtagsItem2.ValueString())
 		}
@@ -720,7 +720,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec1 = nil
 		}
-		var extraHTTPHeaders1 []shared.OutputSentinelExtraHTTPHeaders = []shared.OutputSentinelExtraHTTPHeaders{}
+		extraHTTPHeaders1 := make([]shared.OutputSentinelExtraHTTPHeaders, 0, len(r.OutputSentinel.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem1 := range r.OutputSentinel.ExtraHTTPHeaders {
 			name3 := new(string)
 			if !extraHTTPHeadersItem1.Name.IsUnknown() && !extraHTTPHeadersItem1.Name.IsNull() {
@@ -748,11 +748,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode1 = nil
 		}
-		var safeHeaders1 []string = []string{}
+		safeHeaders1 := make([]string, 0, len(r.OutputSentinel.SafeHeaders))
 		for _, safeHeadersItem1 := range r.OutputSentinel.SafeHeaders {
 			safeHeaders1 = append(safeHeaders1, safeHeadersItem1.ValueString())
 		}
-		var responseRetrySettings1 []shared.OutputSentinelResponseRetrySettings = []shared.OutputSentinelResponseRetrySettings{}
+		responseRetrySettings1 := make([]shared.OutputSentinelResponseRetrySettings, 0, len(r.OutputSentinel.ResponseRetrySettings))
 		for _, responseRetrySettingsItem1 := range r.OutputSentinel.ResponseRetrySettings {
 			var httpStatus1 float64
 			httpStatus1 = responseRetrySettingsItem1.HTTPStatus.ValueFloat64()
@@ -1054,7 +1054,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline3 = nil
 		}
-		var systemFields3 []string = []string{}
+		systemFields3 := make([]string, 0, len(r.OutputDevnull.SystemFields))
 		for _, systemFieldsItem3 := range r.OutputDevnull.SystemFields {
 			systemFields3 = append(systemFields3, systemFieldsItem3.ValueString())
 		}
@@ -1064,7 +1064,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment3 = nil
 		}
-		var streamtags3 []string = []string{}
+		streamtags3 := make([]string, 0, len(r.OutputDevnull.Streamtags))
 		for _, streamtagsItem3 := range r.OutputDevnull.Streamtags {
 			streamtags3 = append(streamtags3, streamtagsItem3.ValueString())
 		}
@@ -1094,7 +1094,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline4 = nil
 		}
-		var systemFields4 []string = []string{}
+		systemFields4 := make([]string, 0, len(r.OutputSyslog.SystemFields))
 		for _, systemFieldsItem4 := range r.OutputSyslog.SystemFields {
 			systemFields4 = append(systemFields4, systemFieldsItem4.ValueString())
 		}
@@ -1104,7 +1104,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment4 = nil
 		}
-		var streamtags4 []string = []string{}
+		streamtags4 := make([]string, 0, len(r.OutputSyslog.Streamtags))
 		for _, streamtagsItem4 := range r.OutputSyslog.Streamtags {
 			streamtags4 = append(streamtags4, streamtagsItem4.ValueString())
 		}
@@ -1391,7 +1391,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline5 = nil
 		}
-		var systemFields5 []string = []string{}
+		systemFields5 := make([]string, 0, len(r.OutputSplunk.SystemFields))
 		for _, systemFieldsItem5 := range r.OutputSplunk.SystemFields {
 			systemFields5 = append(systemFields5, systemFieldsItem5.ValueString())
 		}
@@ -1401,7 +1401,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment5 = nil
 		}
-		var streamtags5 []string = []string{}
+		streamtags5 := make([]string, 0, len(r.OutputSplunk.Streamtags))
 		for _, streamtagsItem5 := range r.OutputSplunk.Streamtags {
 			streamtags5 = append(streamtags5, streamtagsItem5.ValueString())
 		}
@@ -1673,7 +1673,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline6 = nil
 		}
-		var systemFields6 []string = []string{}
+		systemFields6 := make([]string, 0, len(r.OutputSplunkLb.SystemFields))
 		for _, systemFieldsItem6 := range r.OutputSplunkLb.SystemFields {
 			systemFields6 = append(systemFields6, systemFieldsItem6.ValueString())
 		}
@@ -1683,7 +1683,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment6 = nil
 		}
-		var streamtags6 []string = []string{}
+		streamtags6 := make([]string, 0, len(r.OutputSplunkLb.Streamtags))
 		for _, streamtagsItem6 := range r.OutputSplunkLb.Streamtags {
 			streamtags6 = append(streamtags6, streamtagsItem6.ValueString())
 		}
@@ -1893,7 +1893,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			} else {
 				rejectUnauthorized5 = nil
 			}
-			var authTokens []shared.OutputSplunkLbAuthTokens = []shared.OutputSplunkLbAuthTokens{}
+			authTokens := make([]shared.OutputSplunkLbAuthTokens, 0, len(r.OutputSplunkLb.IndexerDiscoveryConfigs.AuthTokens))
 			for _, authTokensItem := range r.OutputSplunkLb.IndexerDiscoveryConfigs.AuthTokens {
 				authType4 := new(shared.OutputSplunkLbIndexerDiscoveryConfigsAuthTokensAuthenticationMethod)
 				if !authTokensItem.AuthType.IsUnknown() && !authTokensItem.AuthType.IsNull() {
@@ -1940,7 +1940,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			excludeSelf1 = nil
 		}
-		var hosts []shared.Hosts = []shared.Hosts{}
+		hosts := make([]shared.Hosts, 0, len(r.OutputSplunkLb.Hosts))
 		for _, hostsItem := range r.OutputSplunkLb.Hosts {
 			var host2 string
 			host2 = hostsItem.Host.ValueString()
@@ -2086,7 +2086,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline7 = nil
 		}
-		var systemFields7 []string = []string{}
+		systemFields7 := make([]string, 0, len(r.OutputSplunkHec.SystemFields))
 		for _, systemFieldsItem7 := range r.OutputSplunkHec.SystemFields {
 			systemFields7 = append(systemFields7, systemFieldsItem7.ValueString())
 		}
@@ -2096,7 +2096,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment7 = nil
 		}
-		var streamtags7 []string = []string{}
+		streamtags7 := make([]string, 0, len(r.OutputSplunkHec.Streamtags))
 		for _, streamtagsItem7 := range r.OutputSplunkHec.Streamtags {
 			streamtags7 = append(streamtags7, streamtagsItem7.ValueString())
 		}
@@ -2160,7 +2160,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec2 = nil
 		}
-		var extraHTTPHeaders2 []shared.OutputSplunkHecExtraHTTPHeaders = []shared.OutputSplunkHecExtraHTTPHeaders{}
+		extraHTTPHeaders2 := make([]shared.OutputSplunkHecExtraHTTPHeaders, 0, len(r.OutputSplunkHec.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem2 := range r.OutputSplunkHec.ExtraHTTPHeaders {
 			name4 := new(string)
 			if !extraHTTPHeadersItem2.Name.IsUnknown() && !extraHTTPHeadersItem2.Name.IsNull() {
@@ -2182,7 +2182,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode2 = nil
 		}
-		var safeHeaders2 []string = []string{}
+		safeHeaders2 := make([]string, 0, len(r.OutputSplunkHec.SafeHeaders))
 		for _, safeHeadersItem2 := range r.OutputSplunkHec.SafeHeaders {
 			safeHeaders2 = append(safeHeaders2, safeHeadersItem2.ValueString())
 		}
@@ -2198,7 +2198,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			authType6 = nil
 		}
-		var responseRetrySettings2 []shared.OutputSplunkHecResponseRetrySettings = []shared.OutputSplunkHecResponseRetrySettings{}
+		responseRetrySettings2 := make([]shared.OutputSplunkHecResponseRetrySettings, 0, len(r.OutputSplunkHec.ResponseRetrySettings))
 		for _, responseRetrySettingsItem2 := range r.OutputSplunkHec.ResponseRetrySettings {
 			var httpStatus2 float64
 			httpStatus2 = responseRetrySettingsItem2.HTTPStatus.ValueFloat64()
@@ -2297,7 +2297,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			excludeSelf2 = nil
 		}
-		var urls1 []shared.OutputSplunkHecUrls = []shared.OutputSplunkHecUrls{}
+		urls1 := make([]shared.OutputSplunkHecUrls, 0, len(r.OutputSplunkHec.Urls))
 		for _, urlsItem1 := range r.OutputSplunkHec.Urls {
 			url4 := new(string)
 			if !urlsItem1.URL.IsUnknown() && !urlsItem1.URL.IsNull() {
@@ -2441,7 +2441,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline8 = nil
 		}
-		var systemFields8 []string = []string{}
+		systemFields8 := make([]string, 0, len(r.OutputTcpjson.SystemFields))
 		for _, systemFieldsItem8 := range r.OutputTcpjson.SystemFields {
 			systemFields8 = append(systemFields8, systemFieldsItem8.ValueString())
 		}
@@ -2451,7 +2451,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment8 = nil
 		}
-		var streamtags8 []string = []string{}
+		streamtags8 := make([]string, 0, len(r.OutputTcpjson.Streamtags))
 		for _, streamtagsItem8 := range r.OutputTcpjson.Streamtags {
 			streamtags8 = append(streamtags8, streamtagsItem8.ValueString())
 		}
@@ -2614,7 +2614,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			excludeSelf3 = nil
 		}
-		var hosts1 []shared.OutputTcpjsonHosts = []shared.OutputTcpjsonHosts{}
+		hosts1 := make([]shared.OutputTcpjsonHosts, 0, len(r.OutputTcpjson.Hosts))
 		for _, hostsItem1 := range r.OutputTcpjson.Hosts {
 			var host4 string
 			host4 = hostsItem1.Host.ValueString()
@@ -2775,7 +2775,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline9 = nil
 		}
-		var systemFields9 []string = []string{}
+		systemFields9 := make([]string, 0, len(r.OutputWavefront.SystemFields))
 		for _, systemFieldsItem9 := range r.OutputWavefront.SystemFields {
 			systemFields9 = append(systemFields9, systemFieldsItem9.ValueString())
 		}
@@ -2785,7 +2785,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment9 = nil
 		}
-		var streamtags9 []string = []string{}
+		streamtags9 := make([]string, 0, len(r.OutputWavefront.Streamtags))
 		for _, streamtagsItem9 := range r.OutputWavefront.Streamtags {
 			streamtags9 = append(streamtags9, streamtagsItem9.ValueString())
 		}
@@ -2843,7 +2843,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec3 = nil
 		}
-		var extraHTTPHeaders3 []shared.OutputWavefrontExtraHTTPHeaders = []shared.OutputWavefrontExtraHTTPHeaders{}
+		extraHTTPHeaders3 := make([]shared.OutputWavefrontExtraHTTPHeaders, 0, len(r.OutputWavefront.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem3 := range r.OutputWavefront.ExtraHTTPHeaders {
 			name5 := new(string)
 			if !extraHTTPHeadersItem3.Name.IsUnknown() && !extraHTTPHeadersItem3.Name.IsNull() {
@@ -2871,11 +2871,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode3 = nil
 		}
-		var safeHeaders3 []string = []string{}
+		safeHeaders3 := make([]string, 0, len(r.OutputWavefront.SafeHeaders))
 		for _, safeHeadersItem3 := range r.OutputWavefront.SafeHeaders {
 			safeHeaders3 = append(safeHeaders3, safeHeadersItem3.ValueString())
 		}
-		var responseRetrySettings3 []shared.OutputWavefrontResponseRetrySettings = []shared.OutputWavefrontResponseRetrySettings{}
+		responseRetrySettings3 := make([]shared.OutputWavefrontResponseRetrySettings, 0, len(r.OutputWavefront.ResponseRetrySettings))
 		for _, responseRetrySettingsItem3 := range r.OutputWavefront.ResponseRetrySettings {
 			var httpStatus3 float64
 			httpStatus3 = responseRetrySettingsItem3.HTTPStatus.ValueFloat64()
@@ -3064,7 +3064,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline10 = nil
 		}
-		var systemFields10 []string = []string{}
+		systemFields10 := make([]string, 0, len(r.OutputSignalfx.SystemFields))
 		for _, systemFieldsItem10 := range r.OutputSignalfx.SystemFields {
 			systemFields10 = append(systemFields10, systemFieldsItem10.ValueString())
 		}
@@ -3074,7 +3074,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment10 = nil
 		}
-		var streamtags10 []string = []string{}
+		streamtags10 := make([]string, 0, len(r.OutputSignalfx.Streamtags))
 		for _, streamtagsItem10 := range r.OutputSignalfx.Streamtags {
 			streamtags10 = append(streamtags10, streamtagsItem10.ValueString())
 		}
@@ -3132,7 +3132,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec4 = nil
 		}
-		var extraHTTPHeaders4 []shared.OutputSignalfxExtraHTTPHeaders = []shared.OutputSignalfxExtraHTTPHeaders{}
+		extraHTTPHeaders4 := make([]shared.OutputSignalfxExtraHTTPHeaders, 0, len(r.OutputSignalfx.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem4 := range r.OutputSignalfx.ExtraHTTPHeaders {
 			name6 := new(string)
 			if !extraHTTPHeadersItem4.Name.IsUnknown() && !extraHTTPHeadersItem4.Name.IsNull() {
@@ -3160,11 +3160,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode4 = nil
 		}
-		var safeHeaders4 []string = []string{}
+		safeHeaders4 := make([]string, 0, len(r.OutputSignalfx.SafeHeaders))
 		for _, safeHeadersItem4 := range r.OutputSignalfx.SafeHeaders {
 			safeHeaders4 = append(safeHeaders4, safeHeadersItem4.ValueString())
 		}
-		var responseRetrySettings4 []shared.OutputSignalfxResponseRetrySettings = []shared.OutputSignalfxResponseRetrySettings{}
+		responseRetrySettings4 := make([]shared.OutputSignalfxResponseRetrySettings, 0, len(r.OutputSignalfx.ResponseRetrySettings))
 		for _, responseRetrySettingsItem4 := range r.OutputSignalfx.ResponseRetrySettings {
 			var httpStatus4 float64
 			httpStatus4 = responseRetrySettingsItem4.HTTPStatus.ValueFloat64()
@@ -3353,7 +3353,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline11 = nil
 		}
-		var systemFields11 []string = []string{}
+		systemFields11 := make([]string, 0, len(r.OutputFilesystem.SystemFields))
 		for _, systemFieldsItem11 := range r.OutputFilesystem.SystemFields {
 			systemFields11 = append(systemFields11, systemFieldsItem11.ValueString())
 		}
@@ -3363,7 +3363,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment11 = nil
 		}
-		var streamtags11 []string = []string{}
+		streamtags11 := make([]string, 0, len(r.OutputFilesystem.Streamtags))
 		for _, streamtagsItem11 := range r.OutputFilesystem.Streamtags {
 			streamtags11 = append(streamtags11, streamtagsItem11.ValueString())
 		}
@@ -3520,7 +3520,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			shouldLogInvalidRows = nil
 		}
-		var keyValueMetadata []shared.KeyValueMetadata = []shared.KeyValueMetadata{}
+		keyValueMetadata := make([]shared.KeyValueMetadata, 0, len(r.OutputFilesystem.KeyValueMetadata))
 		for _, keyValueMetadataItem := range r.OutputFilesystem.KeyValueMetadata {
 			key := new(string)
 			if !keyValueMetadataItem.Key.IsUnknown() && !keyValueMetadataItem.Key.IsNull() {
@@ -3639,7 +3639,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline12 = nil
 		}
-		var systemFields12 []string = []string{}
+		systemFields12 := make([]string, 0, len(r.OutputS3.SystemFields))
 		for _, systemFieldsItem12 := range r.OutputS3.SystemFields {
 			systemFields12 = append(systemFields12, systemFieldsItem12.ValueString())
 		}
@@ -3649,7 +3649,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment12 = nil
 		}
-		var streamtags12 []string = []string{}
+		streamtags12 := make([]string, 0, len(r.OutputS3.Streamtags))
 		for _, streamtagsItem12 := range r.OutputS3.Streamtags {
 			streamtags12 = append(streamtags12, streamtagsItem12.ValueString())
 		}
@@ -3932,7 +3932,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			shouldLogInvalidRows1 = nil
 		}
-		var keyValueMetadata1 []shared.OutputS3KeyValueMetadata = []shared.OutputS3KeyValueMetadata{}
+		keyValueMetadata1 := make([]shared.OutputS3KeyValueMetadata, 0, len(r.OutputS3.KeyValueMetadata))
 		for _, keyValueMetadataItem1 := range r.OutputS3.KeyValueMetadata {
 			key1 := new(string)
 			if !keyValueMetadataItem1.Key.IsUnknown() && !keyValueMetadataItem1.Key.IsNull() {
@@ -4072,7 +4072,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline13 = nil
 		}
-		var systemFields13 []string = []string{}
+		systemFields13 := make([]string, 0, len(r.OutputAzureBlob.SystemFields))
 		for _, systemFieldsItem13 := range r.OutputAzureBlob.SystemFields {
 			systemFields13 = append(systemFields13, systemFieldsItem13.ValueString())
 		}
@@ -4082,7 +4082,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment13 = nil
 		}
-		var streamtags13 []string = []string{}
+		streamtags13 := make([]string, 0, len(r.OutputAzureBlob.Streamtags))
 		for _, streamtagsItem13 := range r.OutputAzureBlob.Streamtags {
 			streamtags13 = append(streamtags13, streamtagsItem13.ValueString())
 		}
@@ -4269,7 +4269,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			shouldLogInvalidRows2 = nil
 		}
-		var keyValueMetadata2 []shared.OutputAzureBlobKeyValueMetadata = []shared.OutputAzureBlobKeyValueMetadata{}
+		keyValueMetadata2 := make([]shared.OutputAzureBlobKeyValueMetadata, 0, len(r.OutputAzureBlob.KeyValueMetadata))
 		for _, keyValueMetadataItem2 := range r.OutputAzureBlob.KeyValueMetadata {
 			key2 := new(string)
 			if !keyValueMetadataItem2.Key.IsUnknown() && !keyValueMetadataItem2.Key.IsNull() {
@@ -4452,7 +4452,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline14 = nil
 		}
-		var systemFields14 []string = []string{}
+		systemFields14 := make([]string, 0, len(r.OutputAzureDataExplorer.SystemFields))
 		for _, systemFieldsItem14 := range r.OutputAzureDataExplorer.SystemFields {
 			systemFields14 = append(systemFields14, systemFieldsItem14.ValueString())
 		}
@@ -4462,7 +4462,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment14 = nil
 		}
-		var streamtags14 []string = []string{}
+		streamtags14 := make([]string, 0, len(r.OutputAzureDataExplorer.Streamtags))
 		for _, streamtagsItem14 := range r.OutputAzureDataExplorer.Streamtags {
 			streamtags14 = append(streamtags14, streamtagsItem14.ValueString())
 		}
@@ -4646,7 +4646,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			retainBlobOnSuccess = nil
 		}
-		var extentTags []shared.ExtentTags = []shared.ExtentTags{}
+		extentTags := make([]shared.ExtentTags, 0, len(r.OutputAzureDataExplorer.ExtentTags))
 		for _, extentTagsItem := range r.OutputAzureDataExplorer.ExtentTags {
 			prefix := new(shared.PrefixOptional)
 			if !extentTagsItem.Prefix.IsUnknown() && !extentTagsItem.Prefix.IsNull() {
@@ -4662,7 +4662,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				Value:  value10,
 			})
 		}
-		var ingestIfNotExists []shared.IngestIfNotExists = []shared.IngestIfNotExists{}
+		ingestIfNotExists := make([]shared.IngestIfNotExists, 0, len(r.OutputAzureDataExplorer.IngestIfNotExists))
 		for _, ingestIfNotExistsItem := range r.OutputAzureDataExplorer.IngestIfNotExists {
 			var value11 string
 			value11 = ingestIfNotExistsItem.Value.ValueString()
@@ -4683,7 +4683,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			reportMethod = nil
 		}
-		var additionalProperties []shared.AdditionalProperties = []shared.AdditionalProperties{}
+		additionalProperties := make([]shared.AdditionalProperties, 0, len(r.OutputAzureDataExplorer.AdditionalProperties))
 		for _, additionalPropertiesItem := range r.OutputAzureDataExplorer.AdditionalProperties {
 			var key3 string
 			key3 = additionalPropertiesItem.Key.ValueString()
@@ -4696,7 +4696,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				Value: value12,
 			})
 		}
-		var responseRetrySettings5 []shared.OutputAzureDataExplorerResponseRetrySettings = []shared.OutputAzureDataExplorerResponseRetrySettings{}
+		responseRetrySettings5 := make([]shared.OutputAzureDataExplorerResponseRetrySettings, 0, len(r.OutputAzureDataExplorer.ResponseRetrySettings))
 		for _, responseRetrySettingsItem5 := range r.OutputAzureDataExplorer.ResponseRetrySettings {
 			var httpStatus5 float64
 			httpStatus5 = responseRetrySettingsItem5.HTTPStatus.ValueFloat64()
@@ -4944,7 +4944,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline15 = nil
 		}
-		var systemFields15 []string = []string{}
+		systemFields15 := make([]string, 0, len(r.OutputAzureLogs.SystemFields))
 		for _, systemFieldsItem15 := range r.OutputAzureLogs.SystemFields {
 			systemFields15 = append(systemFields15, systemFieldsItem15.ValueString())
 		}
@@ -4954,7 +4954,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment15 = nil
 		}
-		var streamtags15 []string = []string{}
+		streamtags15 := make([]string, 0, len(r.OutputAzureLogs.Streamtags))
 		for _, streamtagsItem15 := range r.OutputAzureLogs.Streamtags {
 			streamtags15 = append(streamtags15, streamtagsItem15.ValueString())
 		}
@@ -5012,7 +5012,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec6 = nil
 		}
-		var extraHTTPHeaders5 []shared.OutputAzureLogsExtraHTTPHeaders = []shared.OutputAzureLogsExtraHTTPHeaders{}
+		extraHTTPHeaders5 := make([]shared.OutputAzureLogsExtraHTTPHeaders, 0, len(r.OutputAzureLogs.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem5 := range r.OutputAzureLogs.ExtraHTTPHeaders {
 			name7 := new(string)
 			if !extraHTTPHeadersItem5.Name.IsUnknown() && !extraHTTPHeadersItem5.Name.IsNull() {
@@ -5040,7 +5040,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode5 = nil
 		}
-		var safeHeaders5 []string = []string{}
+		safeHeaders5 := make([]string, 0, len(r.OutputAzureLogs.SafeHeaders))
 		for _, safeHeadersItem5 := range r.OutputAzureLogs.SafeHeaders {
 			safeHeaders5 = append(safeHeaders5, safeHeadersItem5.ValueString())
 		}
@@ -5050,7 +5050,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			apiURL = nil
 		}
-		var responseRetrySettings6 []shared.OutputAzureLogsResponseRetrySettings = []shared.OutputAzureLogsResponseRetrySettings{}
+		responseRetrySettings6 := make([]shared.OutputAzureLogsResponseRetrySettings, 0, len(r.OutputAzureLogs.ResponseRetrySettings))
 		for _, responseRetrySettingsItem6 := range r.OutputAzureLogs.ResponseRetrySettings {
 			var httpStatus6 float64
 			httpStatus6 = responseRetrySettingsItem6.HTTPStatus.ValueFloat64()
@@ -5259,7 +5259,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline16 = nil
 		}
-		var systemFields16 []string = []string{}
+		systemFields16 := make([]string, 0, len(r.OutputKinesis.SystemFields))
 		for _, systemFieldsItem16 := range r.OutputKinesis.SystemFields {
 			systemFields16 = append(systemFields16, systemFieldsItem16.ValueString())
 		}
@@ -5269,7 +5269,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment16 = nil
 		}
-		var streamtags16 []string = []string{}
+		streamtags16 := make([]string, 0, len(r.OutputKinesis.Streamtags))
 		for _, streamtagsItem16 := range r.OutputKinesis.Streamtags {
 			streamtags16 = append(streamtags16, streamtagsItem16.ValueString())
 		}
@@ -5497,7 +5497,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline17 = nil
 		}
-		var systemFields17 []string = []string{}
+		systemFields17 := make([]string, 0, len(r.OutputHoneycomb.SystemFields))
 		for _, systemFieldsItem17 := range r.OutputHoneycomb.SystemFields {
 			systemFields17 = append(systemFields17, systemFieldsItem17.ValueString())
 		}
@@ -5507,7 +5507,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment17 = nil
 		}
-		var streamtags17 []string = []string{}
+		streamtags17 := make([]string, 0, len(r.OutputHoneycomb.Streamtags))
 		for _, streamtagsItem17 := range r.OutputHoneycomb.Streamtags {
 			streamtags17 = append(streamtags17, streamtagsItem17.ValueString())
 		}
@@ -5556,7 +5556,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec8 = nil
 		}
-		var extraHTTPHeaders6 []shared.OutputHoneycombExtraHTTPHeaders = []shared.OutputHoneycombExtraHTTPHeaders{}
+		extraHTTPHeaders6 := make([]shared.OutputHoneycombExtraHTTPHeaders, 0, len(r.OutputHoneycomb.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem6 := range r.OutputHoneycomb.ExtraHTTPHeaders {
 			name8 := new(string)
 			if !extraHTTPHeadersItem6.Name.IsUnknown() && !extraHTTPHeadersItem6.Name.IsNull() {
@@ -5584,11 +5584,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode6 = nil
 		}
-		var safeHeaders6 []string = []string{}
+		safeHeaders6 := make([]string, 0, len(r.OutputHoneycomb.SafeHeaders))
 		for _, safeHeadersItem6 := range r.OutputHoneycomb.SafeHeaders {
 			safeHeaders6 = append(safeHeaders6, safeHeadersItem6.ValueString())
 		}
-		var responseRetrySettings7 []shared.OutputHoneycombResponseRetrySettings = []shared.OutputHoneycombResponseRetrySettings{}
+		responseRetrySettings7 := make([]shared.OutputHoneycombResponseRetrySettings, 0, len(r.OutputHoneycomb.ResponseRetrySettings))
 		for _, responseRetrySettingsItem7 := range r.OutputHoneycomb.ResponseRetrySettings {
 			var httpStatus7 float64
 			httpStatus7 = responseRetrySettingsItem7.HTTPStatus.ValueFloat64()
@@ -5788,7 +5788,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline18 = nil
 		}
-		var systemFields18 []string = []string{}
+		systemFields18 := make([]string, 0, len(r.OutputAzureEventhub.SystemFields))
 		for _, systemFieldsItem18 := range r.OutputAzureEventhub.SystemFields {
 			systemFields18 = append(systemFields18, systemFieldsItem18.ValueString())
 		}
@@ -5798,11 +5798,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment18 = nil
 		}
-		var streamtags18 []string = []string{}
+		streamtags18 := make([]string, 0, len(r.OutputAzureEventhub.Streamtags))
 		for _, streamtagsItem18 := range r.OutputAzureEventhub.Streamtags {
 			streamtags18 = append(streamtags18, streamtagsItem18.ValueString())
 		}
-		var brokers []string = []string{}
+		brokers := make([]string, 0, len(r.OutputAzureEventhub.Brokers))
 		for _, brokersItem := range r.OutputAzureEventhub.Brokers {
 			brokers = append(brokers, brokersItem.ValueString())
 		}
@@ -6032,7 +6032,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline19 = nil
 		}
-		var systemFields19 []string = []string{}
+		systemFields19 := make([]string, 0, len(r.OutputGoogleChronicle.SystemFields))
 		for _, systemFieldsItem19 := range r.OutputGoogleChronicle.SystemFields {
 			systemFields19 = append(systemFields19, systemFieldsItem19.ValueString())
 		}
@@ -6042,7 +6042,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment19 = nil
 		}
-		var streamtags19 []string = []string{}
+		streamtags19 := make([]string, 0, len(r.OutputGoogleChronicle.Streamtags))
 		for _, streamtagsItem19 := range r.OutputGoogleChronicle.Streamtags {
 			streamtags19 = append(streamtags19, streamtagsItem19.ValueString())
 		}
@@ -6058,7 +6058,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			authenticationMethod = nil
 		}
-		var responseRetrySettings8 []shared.OutputGoogleChronicleResponseRetrySettings = []shared.OutputGoogleChronicleResponseRetrySettings{}
+		responseRetrySettings8 := make([]shared.OutputGoogleChronicleResponseRetrySettings, 0, len(r.OutputGoogleChronicle.ResponseRetrySettings))
 		for _, responseRetrySettingsItem8 := range r.OutputGoogleChronicle.ResponseRetrySettings {
 			var httpStatus8 float64
 			httpStatus8 = responseRetrySettingsItem8.HTTPStatus.ValueFloat64()
@@ -6181,7 +6181,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec10 = nil
 		}
-		var extraHTTPHeaders7 []shared.OutputGoogleChronicleExtraHTTPHeaders = []shared.OutputGoogleChronicleExtraHTTPHeaders{}
+		extraHTTPHeaders7 := make([]shared.OutputGoogleChronicleExtraHTTPHeaders, 0, len(r.OutputGoogleChronicle.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem7 := range r.OutputGoogleChronicle.ExtraHTTPHeaders {
 			name9 := new(string)
 			if !extraHTTPHeadersItem7.Name.IsUnknown() && !extraHTTPHeadersItem7.Name.IsNull() {
@@ -6203,7 +6203,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode7 = nil
 		}
-		var safeHeaders7 []string = []string{}
+		safeHeaders7 := make([]string, 0, len(r.OutputGoogleChronicle.SafeHeaders))
 		for _, safeHeadersItem7 := range r.OutputGoogleChronicle.SafeHeaders {
 			safeHeaders7 = append(safeHeaders7, safeHeadersItem7.ValueString())
 		}
@@ -6231,7 +6231,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			description17 = nil
 		}
-		var extraLogTypes []shared.ExtraLogTypes = []shared.ExtraLogTypes{}
+		extraLogTypes := make([]shared.ExtraLogTypes, 0, len(r.OutputGoogleChronicle.ExtraLogTypes))
 		for _, extraLogTypesItem := range r.OutputGoogleChronicle.ExtraLogTypes {
 			var logType1 string
 			logType1 = extraLogTypesItem.LogType.ValueString()
@@ -6271,7 +6271,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			namespace = nil
 		}
-		var customLabels []shared.CustomLabels = []shared.CustomLabels{}
+		customLabels := make([]shared.CustomLabels, 0, len(r.OutputGoogleChronicle.CustomLabels))
 		for _, customLabelsItem := range r.OutputGoogleChronicle.CustomLabels {
 			var key4 string
 			key4 = customLabelsItem.Key.ValueString()
@@ -6420,7 +6420,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline20 = nil
 		}
-		var systemFields20 []string = []string{}
+		systemFields20 := make([]string, 0, len(r.OutputGoogleCloudStorage.SystemFields))
 		for _, systemFieldsItem20 := range r.OutputGoogleCloudStorage.SystemFields {
 			systemFields20 = append(systemFields20, systemFieldsItem20.ValueString())
 		}
@@ -6430,7 +6430,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment20 = nil
 		}
-		var streamtags20 []string = []string{}
+		streamtags20 := make([]string, 0, len(r.OutputGoogleCloudStorage.Streamtags))
 		for _, streamtagsItem20 := range r.OutputGoogleCloudStorage.Streamtags {
 			streamtags20 = append(streamtags20, streamtagsItem20.ValueString())
 		}
@@ -6644,7 +6644,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			shouldLogInvalidRows3 = nil
 		}
-		var keyValueMetadata3 []shared.OutputGoogleCloudStorageKeyValueMetadata = []shared.OutputGoogleCloudStorageKeyValueMetadata{}
+		keyValueMetadata3 := make([]shared.OutputGoogleCloudStorageKeyValueMetadata, 0, len(r.OutputGoogleCloudStorage.KeyValueMetadata))
 		for _, keyValueMetadataItem3 := range r.OutputGoogleCloudStorage.KeyValueMetadata {
 			key5 := new(string)
 			if !keyValueMetadataItem3.Key.IsUnknown() && !keyValueMetadataItem3.Key.IsNull() {
@@ -6794,7 +6794,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline21 = nil
 		}
-		var systemFields21 []string = []string{}
+		systemFields21 := make([]string, 0, len(r.OutputGoogleCloudLogging.SystemFields))
 		for _, systemFieldsItem21 := range r.OutputGoogleCloudLogging.SystemFields {
 			systemFields21 = append(systemFields21, systemFieldsItem21.ValueString())
 		}
@@ -6804,7 +6804,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment21 = nil
 		}
-		var streamtags21 []string = []string{}
+		streamtags21 := make([]string, 0, len(r.OutputGoogleCloudLogging.Streamtags))
 		for _, streamtagsItem21 := range r.OutputGoogleCloudLogging.Streamtags {
 			streamtags21 = append(streamtags21, streamtagsItem21.ValueString())
 		}
@@ -6818,7 +6818,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			payloadFormat = nil
 		}
-		var logLabels []shared.LogLabels = []shared.LogLabels{}
+		logLabels := make([]shared.LogLabels, 0, len(r.OutputGoogleCloudLogging.LogLabels))
 		for _, logLabelsItem := range r.OutputGoogleCloudLogging.LogLabels {
 			var label string
 			label = logLabelsItem.Label.ValueString()
@@ -6837,7 +6837,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			resourceTypeExpression = nil
 		}
-		var resourceTypeLabels []shared.ResourceTypeLabels = []shared.ResourceTypeLabels{}
+		resourceTypeLabels := make([]shared.ResourceTypeLabels, 0, len(r.OutputGoogleCloudLogging.ResourceTypeLabels))
 		for _, resourceTypeLabelsItem := range r.OutputGoogleCloudLogging.ResourceTypeLabels {
 			var label1 string
 			label1 = resourceTypeLabelsItem.Label.ValueString()
@@ -7244,7 +7244,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline22 = nil
 		}
-		var systemFields22 []string = []string{}
+		systemFields22 := make([]string, 0, len(r.OutputGooglePubsub.SystemFields))
 		for _, systemFieldsItem22 := range r.OutputGooglePubsub.SystemFields {
 			systemFields22 = append(systemFields22, systemFieldsItem22.ValueString())
 		}
@@ -7254,7 +7254,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment22 = nil
 		}
-		var streamtags22 []string = []string{}
+		streamtags22 := make([]string, 0, len(r.OutputGooglePubsub.Streamtags))
 		for _, streamtagsItem22 := range r.OutputGooglePubsub.Streamtags {
 			streamtags22 = append(streamtags22, streamtagsItem22.ValueString())
 		}
@@ -7441,7 +7441,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline23 = nil
 		}
-		var systemFields23 []string = []string{}
+		systemFields23 := make([]string, 0, len(r.OutputExabeam.SystemFields))
 		for _, systemFieldsItem23 := range r.OutputExabeam.SystemFields {
 			systemFields23 = append(systemFields23, systemFieldsItem23.ValueString())
 		}
@@ -7451,7 +7451,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment23 = nil
 		}
-		var streamtags23 []string = []string{}
+		streamtags23 := make([]string, 0, len(r.OutputExabeam.Streamtags))
 		for _, streamtagsItem23 := range r.OutputExabeam.Streamtags {
 			streamtags23 = append(streamtags23, streamtagsItem23.ValueString())
 		}
@@ -7683,7 +7683,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline24 = nil
 		}
-		var systemFields24 []string = []string{}
+		systemFields24 := make([]string, 0, len(r.OutputKafka.SystemFields))
 		for _, systemFieldsItem24 := range r.OutputKafka.SystemFields {
 			systemFields24 = append(systemFields24, systemFieldsItem24.ValueString())
 		}
@@ -7693,11 +7693,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment24 = nil
 		}
-		var streamtags24 []string = []string{}
+		streamtags24 := make([]string, 0, len(r.OutputKafka.Streamtags))
 		for _, streamtagsItem24 := range r.OutputKafka.Streamtags {
 			streamtags24 = append(streamtags24, streamtagsItem24.ValueString())
 		}
-		var brokers1 []string = []string{}
+		brokers1 := make([]string, 0, len(r.OutputKafka.Brokers))
 		for _, brokersItem1 := range r.OutputKafka.Brokers {
 			brokers1 = append(brokers1, brokersItem1.ValueString())
 		}
@@ -8153,7 +8153,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline25 = nil
 		}
-		var systemFields25 []string = []string{}
+		systemFields25 := make([]string, 0, len(r.OutputConfluentCloud.SystemFields))
 		for _, systemFieldsItem25 := range r.OutputConfluentCloud.SystemFields {
 			systemFields25 = append(systemFields25, systemFieldsItem25.ValueString())
 		}
@@ -8163,11 +8163,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment25 = nil
 		}
-		var streamtags25 []string = []string{}
+		streamtags25 := make([]string, 0, len(r.OutputConfluentCloud.Streamtags))
 		for _, streamtagsItem25 := range r.OutputConfluentCloud.Streamtags {
 			streamtags25 = append(streamtags25, streamtagsItem25.ValueString())
 		}
-		var brokers2 []string = []string{}
+		brokers2 := make([]string, 0, len(r.OutputConfluentCloud.Brokers))
 		for _, brokersItem2 := range r.OutputConfluentCloud.Brokers {
 			brokers2 = append(brokers2, brokersItem2.ValueString())
 		}
@@ -8623,7 +8623,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline26 = nil
 		}
-		var systemFields26 []string = []string{}
+		systemFields26 := make([]string, 0, len(r.OutputMsk.SystemFields))
 		for _, systemFieldsItem26 := range r.OutputMsk.SystemFields {
 			systemFields26 = append(systemFields26, systemFieldsItem26.ValueString())
 		}
@@ -8633,11 +8633,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment26 = nil
 		}
-		var streamtags26 []string = []string{}
+		streamtags26 := make([]string, 0, len(r.OutputMsk.Streamtags))
 		for _, streamtagsItem26 := range r.OutputMsk.Streamtags {
 			streamtags26 = append(streamtags26, streamtagsItem26.ValueString())
 		}
-		var brokers3 []string = []string{}
+		brokers3 := make([]string, 0, len(r.OutputMsk.Brokers))
 		for _, brokersItem3 := range r.OutputMsk.Brokers {
 			brokers3 = append(brokers3, brokersItem3.ValueString())
 		}
@@ -9156,7 +9156,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline27 = nil
 		}
-		var systemFields27 []string = []string{}
+		systemFields27 := make([]string, 0, len(r.OutputElastic.SystemFields))
 		for _, systemFieldsItem27 := range r.OutputElastic.SystemFields {
 			systemFields27 = append(systemFields27, systemFieldsItem27.ValueString())
 		}
@@ -9166,7 +9166,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment27 = nil
 		}
-		var streamtags27 []string = []string{}
+		streamtags27 := make([]string, 0, len(r.OutputElastic.Streamtags))
 		for _, streamtagsItem27 := range r.OutputElastic.Streamtags {
 			streamtags27 = append(streamtags27, streamtagsItem27.ValueString())
 		}
@@ -9227,7 +9227,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec16 = nil
 		}
-		var extraHTTPHeaders8 []shared.OutputElasticExtraHTTPHeaders = []shared.OutputElasticExtraHTTPHeaders{}
+		extraHTTPHeaders8 := make([]shared.OutputElasticExtraHTTPHeaders, 0, len(r.OutputElastic.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem8 := range r.OutputElastic.ExtraHTTPHeaders {
 			name10 := new(string)
 			if !extraHTTPHeadersItem8.Name.IsUnknown() && !extraHTTPHeadersItem8.Name.IsNull() {
@@ -9249,11 +9249,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode8 = nil
 		}
-		var safeHeaders8 []string = []string{}
+		safeHeaders8 := make([]string, 0, len(r.OutputElastic.SafeHeaders))
 		for _, safeHeadersItem8 := range r.OutputElastic.SafeHeaders {
 			safeHeaders8 = append(safeHeaders8, safeHeadersItem8.ValueString())
 		}
-		var responseRetrySettings9 []shared.OutputElasticResponseRetrySettings = []shared.OutputElasticResponseRetrySettings{}
+		responseRetrySettings9 := make([]shared.OutputElasticResponseRetrySettings, 0, len(r.OutputElastic.ResponseRetrySettings))
 		for _, responseRetrySettingsItem9 := range r.OutputElastic.ResponseRetrySettings {
 			var httpStatus9 float64
 			httpStatus9 = responseRetrySettingsItem9.HTTPStatus.ValueFloat64()
@@ -9322,7 +9322,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			responseHonorRetryAfterHeader9 = nil
 		}
-		var extraParams []shared.ExtraParams = []shared.ExtraParams{}
+		extraParams := make([]shared.ExtraParams, 0, len(r.OutputElastic.ExtraParams))
 		for _, extraParamsItem := range r.OutputElastic.ExtraParams {
 			var name11 string
 			name11 = extraParamsItem.Name.ValueString()
@@ -9414,7 +9414,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			excludeSelf4 = nil
 		}
-		var urls2 []shared.OutputElasticUrls = []shared.OutputElasticUrls{}
+		urls2 := make([]shared.OutputElasticUrls, 0, len(r.OutputElastic.Urls))
 		for _, urlsItem2 := range r.OutputElastic.Urls {
 			var url6 string
 			url6 = urlsItem2.URL.ValueString()
@@ -9554,7 +9554,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline28 = nil
 		}
-		var systemFields28 []string = []string{}
+		systemFields28 := make([]string, 0, len(r.OutputElasticCloud.SystemFields))
 		for _, systemFieldsItem28 := range r.OutputElasticCloud.SystemFields {
 			systemFields28 = append(systemFields28, systemFieldsItem28.ValueString())
 		}
@@ -9564,7 +9564,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment28 = nil
 		}
-		var streamtags28 []string = []string{}
+		streamtags28 := make([]string, 0, len(r.OutputElasticCloud.Streamtags))
 		for _, streamtagsItem28 := range r.OutputElasticCloud.Streamtags {
 			streamtags28 = append(streamtags28, streamtagsItem28.ValueString())
 		}
@@ -9616,7 +9616,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec17 = nil
 		}
-		var extraHTTPHeaders9 []shared.OutputElasticCloudExtraHTTPHeaders = []shared.OutputElasticCloudExtraHTTPHeaders{}
+		extraHTTPHeaders9 := make([]shared.OutputElasticCloudExtraHTTPHeaders, 0, len(r.OutputElasticCloud.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem9 := range r.OutputElasticCloud.ExtraHTTPHeaders {
 			name12 := new(string)
 			if !extraHTTPHeadersItem9.Name.IsUnknown() && !extraHTTPHeadersItem9.Name.IsNull() {
@@ -9638,11 +9638,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode9 = nil
 		}
-		var safeHeaders9 []string = []string{}
+		safeHeaders9 := make([]string, 0, len(r.OutputElasticCloud.SafeHeaders))
 		for _, safeHeadersItem9 := range r.OutputElasticCloud.SafeHeaders {
 			safeHeaders9 = append(safeHeaders9, safeHeadersItem9.ValueString())
 		}
-		var extraParams1 []shared.OutputElasticCloudExtraParams = []shared.OutputElasticCloudExtraParams{}
+		extraParams1 := make([]shared.OutputElasticCloudExtraParams, 0, len(r.OutputElasticCloud.ExtraParams))
 		for _, extraParamsItem1 := range r.OutputElasticCloud.ExtraParams {
 			var name13 string
 			name13 = extraParamsItem1.Name.ValueString()
@@ -9686,7 +9686,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			includeDocId1 = nil
 		}
-		var responseRetrySettings10 []shared.OutputElasticCloudResponseRetrySettings = []shared.OutputElasticCloudResponseRetrySettings{}
+		responseRetrySettings10 := make([]shared.OutputElasticCloudResponseRetrySettings, 0, len(r.OutputElasticCloud.ResponseRetrySettings))
 		for _, responseRetrySettingsItem10 := range r.OutputElasticCloud.ResponseRetrySettings {
 			var httpStatus10 float64
 			httpStatus10 = responseRetrySettingsItem10.HTTPStatus.ValueFloat64()
@@ -9861,7 +9861,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline29 = nil
 		}
-		var systemFields29 []string = []string{}
+		systemFields29 := make([]string, 0, len(r.OutputNewrelic.SystemFields))
 		for _, systemFieldsItem29 := range r.OutputNewrelic.SystemFields {
 			systemFields29 = append(systemFields29, systemFieldsItem29.ValueString())
 		}
@@ -9871,7 +9871,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment29 = nil
 		}
-		var streamtags29 []string = []string{}
+		streamtags29 := make([]string, 0, len(r.OutputNewrelic.Streamtags))
 		for _, streamtagsItem29 := range r.OutputNewrelic.Streamtags {
 			streamtags29 = append(streamtags29, streamtagsItem29.ValueString())
 		}
@@ -9893,7 +9893,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			messageField = nil
 		}
-		var metadata []shared.OutputNewrelicMetadata = []shared.OutputNewrelicMetadata{}
+		metadata := make([]shared.OutputNewrelicMetadata, 0, len(r.OutputNewrelic.Metadata))
 		for _, metadataItem := range r.OutputNewrelic.Metadata {
 			name14 := shared.FieldName(metadataItem.Name.ValueString())
 			var value22 string
@@ -9946,7 +9946,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec18 = nil
 		}
-		var extraHTTPHeaders10 []shared.OutputNewrelicExtraHTTPHeaders = []shared.OutputNewrelicExtraHTTPHeaders{}
+		extraHTTPHeaders10 := make([]shared.OutputNewrelicExtraHTTPHeaders, 0, len(r.OutputNewrelic.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem10 := range r.OutputNewrelic.ExtraHTTPHeaders {
 			name15 := new(string)
 			if !extraHTTPHeadersItem10.Name.IsUnknown() && !extraHTTPHeadersItem10.Name.IsNull() {
@@ -9974,11 +9974,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode10 = nil
 		}
-		var safeHeaders10 []string = []string{}
+		safeHeaders10 := make([]string, 0, len(r.OutputNewrelic.SafeHeaders))
 		for _, safeHeadersItem10 := range r.OutputNewrelic.SafeHeaders {
 			safeHeaders10 = append(safeHeaders10, safeHeadersItem10.ValueString())
 		}
-		var responseRetrySettings11 []shared.OutputNewrelicResponseRetrySettings = []shared.OutputNewrelicResponseRetrySettings{}
+		responseRetrySettings11 := make([]shared.OutputNewrelicResponseRetrySettings, 0, len(r.OutputNewrelic.ResponseRetrySettings))
 		for _, responseRetrySettingsItem11 := range r.OutputNewrelic.ResponseRetrySettings {
 			var httpStatus11 float64
 			httpStatus11 = responseRetrySettingsItem11.HTTPStatus.ValueFloat64()
@@ -10195,7 +10195,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline30 = nil
 		}
-		var systemFields30 []string = []string{}
+		systemFields30 := make([]string, 0, len(r.OutputNewrelicEvents.SystemFields))
 		for _, systemFieldsItem30 := range r.OutputNewrelicEvents.SystemFields {
 			systemFields30 = append(systemFields30, systemFieldsItem30.ValueString())
 		}
@@ -10205,7 +10205,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment30 = nil
 		}
-		var streamtags30 []string = []string{}
+		streamtags30 := make([]string, 0, len(r.OutputNewrelicEvents.Streamtags))
 		for _, streamtagsItem30 := range r.OutputNewrelicEvents.Streamtags {
 			streamtags30 = append(streamtags30, streamtagsItem30.ValueString())
 		}
@@ -10263,7 +10263,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec19 = nil
 		}
-		var extraHTTPHeaders11 []shared.OutputNewrelicEventsExtraHTTPHeaders = []shared.OutputNewrelicEventsExtraHTTPHeaders{}
+		extraHTTPHeaders11 := make([]shared.OutputNewrelicEventsExtraHTTPHeaders, 0, len(r.OutputNewrelicEvents.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem11 := range r.OutputNewrelicEvents.ExtraHTTPHeaders {
 			name16 := new(string)
 			if !extraHTTPHeadersItem11.Name.IsUnknown() && !extraHTTPHeadersItem11.Name.IsNull() {
@@ -10291,11 +10291,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode11 = nil
 		}
-		var safeHeaders11 []string = []string{}
+		safeHeaders11 := make([]string, 0, len(r.OutputNewrelicEvents.SafeHeaders))
 		for _, safeHeadersItem11 := range r.OutputNewrelicEvents.SafeHeaders {
 			safeHeaders11 = append(safeHeaders11, safeHeadersItem11.ValueString())
 		}
-		var responseRetrySettings12 []shared.OutputNewrelicEventsResponseRetrySettings = []shared.OutputNewrelicEventsResponseRetrySettings{}
+		responseRetrySettings12 := make([]shared.OutputNewrelicEventsResponseRetrySettings, 0, len(r.OutputNewrelicEvents.ResponseRetrySettings))
 		for _, responseRetrySettingsItem12 := range r.OutputNewrelicEvents.ResponseRetrySettings {
 			var httpStatus12 float64
 			httpStatus12 = responseRetrySettingsItem12.HTTPStatus.ValueFloat64()
@@ -10499,7 +10499,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline31 = nil
 		}
-		var systemFields31 []string = []string{}
+		systemFields31 := make([]string, 0, len(r.OutputInfluxdb.SystemFields))
 		for _, systemFieldsItem31 := range r.OutputInfluxdb.SystemFields {
 			systemFields31 = append(systemFields31, systemFieldsItem31.ValueString())
 		}
@@ -10509,7 +10509,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment31 = nil
 		}
-		var streamtags31 []string = []string{}
+		streamtags31 := make([]string, 0, len(r.OutputInfluxdb.Streamtags))
 		for _, streamtagsItem31 := range r.OutputInfluxdb.Streamtags {
 			streamtags31 = append(streamtags31, streamtagsItem31.ValueString())
 		}
@@ -10582,7 +10582,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec20 = nil
 		}
-		var extraHTTPHeaders12 []shared.OutputInfluxdbExtraHTTPHeaders = []shared.OutputInfluxdbExtraHTTPHeaders{}
+		extraHTTPHeaders12 := make([]shared.OutputInfluxdbExtraHTTPHeaders, 0, len(r.OutputInfluxdb.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem12 := range r.OutputInfluxdb.ExtraHTTPHeaders {
 			name17 := new(string)
 			if !extraHTTPHeadersItem12.Name.IsUnknown() && !extraHTTPHeadersItem12.Name.IsNull() {
@@ -10610,11 +10610,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode12 = nil
 		}
-		var safeHeaders12 []string = []string{}
+		safeHeaders12 := make([]string, 0, len(r.OutputInfluxdb.SafeHeaders))
 		for _, safeHeadersItem12 := range r.OutputInfluxdb.SafeHeaders {
 			safeHeaders12 = append(safeHeaders12, safeHeadersItem12.ValueString())
 		}
-		var responseRetrySettings13 []shared.OutputInfluxdbResponseRetrySettings = []shared.OutputInfluxdbResponseRetrySettings{}
+		responseRetrySettings13 := make([]shared.OutputInfluxdbResponseRetrySettings, 0, len(r.OutputInfluxdb.ResponseRetrySettings))
 		for _, responseRetrySettingsItem13 := range r.OutputInfluxdb.ResponseRetrySettings {
 			var httpStatus13 float64
 			httpStatus13 = responseRetrySettingsItem13.HTTPStatus.ValueFloat64()
@@ -10825,7 +10825,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			tokenTimeoutSecs1 = nil
 		}
-		var oauthParams1 []shared.OutputInfluxdbOauthParams = []shared.OutputInfluxdbOauthParams{}
+		oauthParams1 := make([]shared.OutputInfluxdbOauthParams, 0, len(r.OutputInfluxdb.OauthParams))
 		for _, oauthParamsItem1 := range r.OutputInfluxdb.OauthParams {
 			var name18 string
 			name18 = oauthParamsItem1.Name.ValueString()
@@ -10838,7 +10838,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				Value: value26,
 			})
 		}
-		var oauthHeaders1 []shared.OutputInfluxdbOauthHeaders = []shared.OutputInfluxdbOauthHeaders{}
+		oauthHeaders1 := make([]shared.OutputInfluxdbOauthHeaders, 0, len(r.OutputInfluxdb.OauthHeaders))
 		for _, oauthHeadersItem1 := range r.OutputInfluxdb.OauthHeaders {
 			var name19 string
 			name19 = oauthHeadersItem1.Name.ValueString()
@@ -10930,7 +10930,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline32 = nil
 		}
-		var systemFields32 []string = []string{}
+		systemFields32 := make([]string, 0, len(r.OutputCloudwatch.SystemFields))
 		for _, systemFieldsItem32 := range r.OutputCloudwatch.SystemFields {
 			systemFields32 = append(systemFields32, systemFieldsItem32.ValueString())
 		}
@@ -10940,7 +10940,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment32 = nil
 		}
-		var streamtags32 []string = []string{}
+		streamtags32 := make([]string, 0, len(r.OutputCloudwatch.Streamtags))
 		for _, streamtagsItem32 := range r.OutputCloudwatch.Streamtags {
 			streamtags32 = append(streamtags32, streamtagsItem32.ValueString())
 		}
@@ -11149,7 +11149,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline33 = nil
 		}
-		var systemFields33 []string = []string{}
+		systemFields33 := make([]string, 0, len(r.OutputMinio.SystemFields))
 		for _, systemFieldsItem33 := range r.OutputMinio.SystemFields {
 			systemFields33 = append(systemFields33, systemFieldsItem33.ValueString())
 		}
@@ -11159,7 +11159,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment33 = nil
 		}
-		var streamtags33 []string = []string{}
+		streamtags33 := make([]string, 0, len(r.OutputMinio.Streamtags))
 		for _, streamtagsItem33 := range r.OutputMinio.Streamtags {
 			streamtags33 = append(streamtags33, streamtagsItem33.ValueString())
 		}
@@ -11403,7 +11403,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			shouldLogInvalidRows4 = nil
 		}
-		var keyValueMetadata4 []shared.OutputMinioKeyValueMetadata = []shared.OutputMinioKeyValueMetadata{}
+		keyValueMetadata4 := make([]shared.OutputMinioKeyValueMetadata, 0, len(r.OutputMinio.KeyValueMetadata))
 		for _, keyValueMetadataItem4 := range r.OutputMinio.KeyValueMetadata {
 			key6 := new(string)
 			if !keyValueMetadataItem4.Key.IsUnknown() && !keyValueMetadataItem4.Key.IsNull() {
@@ -11537,7 +11537,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline34 = nil
 		}
-		var systemFields34 []string = []string{}
+		systemFields34 := make([]string, 0, len(r.OutputStatsd.SystemFields))
 		for _, systemFieldsItem34 := range r.OutputStatsd.SystemFields {
 			systemFields34 = append(systemFields34, systemFieldsItem34.ValueString())
 		}
@@ -11547,7 +11547,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment34 = nil
 		}
-		var streamtags34 []string = []string{}
+		streamtags34 := make([]string, 0, len(r.OutputStatsd.Streamtags))
 		for _, streamtagsItem34 := range r.OutputStatsd.Streamtags {
 			streamtags34 = append(streamtags34, streamtagsItem34.ValueString())
 		}
@@ -11706,7 +11706,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline35 = nil
 		}
-		var systemFields35 []string = []string{}
+		systemFields35 := make([]string, 0, len(r.OutputStatsdExt.SystemFields))
 		for _, systemFieldsItem35 := range r.OutputStatsdExt.SystemFields {
 			systemFields35 = append(systemFields35, systemFieldsItem35.ValueString())
 		}
@@ -11716,7 +11716,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment35 = nil
 		}
-		var streamtags35 []string = []string{}
+		streamtags35 := make([]string, 0, len(r.OutputStatsdExt.Streamtags))
 		for _, streamtagsItem35 := range r.OutputStatsdExt.Streamtags {
 			streamtags35 = append(streamtags35, streamtagsItem35.ValueString())
 		}
@@ -11875,7 +11875,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline36 = nil
 		}
-		var systemFields36 []string = []string{}
+		systemFields36 := make([]string, 0, len(r.OutputGraphite.SystemFields))
 		for _, systemFieldsItem36 := range r.OutputGraphite.SystemFields {
 			systemFields36 = append(systemFields36, systemFieldsItem36.ValueString())
 		}
@@ -11885,7 +11885,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment36 = nil
 		}
-		var streamtags36 []string = []string{}
+		streamtags36 := make([]string, 0, len(r.OutputGraphite.Streamtags))
 		for _, streamtagsItem36 := range r.OutputGraphite.Streamtags {
 			streamtags36 = append(streamtags36, streamtagsItem36.ValueString())
 		}
@@ -12039,7 +12039,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline37 = nil
 		}
-		var systemFields37 []string = []string{}
+		systemFields37 := make([]string, 0, len(r.OutputRouter.SystemFields))
 		for _, systemFieldsItem37 := range r.OutputRouter.SystemFields {
 			systemFields37 = append(systemFields37, systemFieldsItem37.ValueString())
 		}
@@ -12049,11 +12049,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment37 = nil
 		}
-		var streamtags37 []string = []string{}
+		streamtags37 := make([]string, 0, len(r.OutputRouter.Streamtags))
 		for _, streamtagsItem37 := range r.OutputRouter.Streamtags {
 			streamtags37 = append(streamtags37, streamtagsItem37.ValueString())
 		}
-		var rules []shared.OutputRouterRules = []shared.OutputRouterRules{}
+		rules := make([]shared.OutputRouterRules, 0, len(r.OutputRouter.Rules))
 		for _, rulesItem := range r.OutputRouter.Rules {
 			var filter string
 			filter = rulesItem.Filter.ValueString()
@@ -12122,7 +12122,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline38 = nil
 		}
-		var systemFields38 []string = []string{}
+		systemFields38 := make([]string, 0, len(r.OutputSns.SystemFields))
 		for _, systemFieldsItem38 := range r.OutputSns.SystemFields {
 			systemFields38 = append(systemFields38, systemFieldsItem38.ValueString())
 		}
@@ -12132,7 +12132,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment38 = nil
 		}
-		var streamtags38 []string = []string{}
+		streamtags38 := make([]string, 0, len(r.OutputSns.Streamtags))
 		for _, streamtagsItem38 := range r.OutputSns.Streamtags {
 			streamtags38 = append(streamtags38, streamtagsItem38.ValueString())
 		}
@@ -12337,7 +12337,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline39 = nil
 		}
-		var systemFields39 []string = []string{}
+		systemFields39 := make([]string, 0, len(r.OutputSqs.SystemFields))
 		for _, systemFieldsItem39 := range r.OutputSqs.SystemFields {
 			systemFields39 = append(systemFields39, systemFieldsItem39.ValueString())
 		}
@@ -12347,7 +12347,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment39 = nil
 		}
-		var streamtags39 []string = []string{}
+		streamtags39 := make([]string, 0, len(r.OutputSqs.Streamtags))
 		for _, streamtagsItem39 := range r.OutputSqs.Streamtags {
 			streamtags39 = append(streamtags39, streamtagsItem39.ValueString())
 		}
@@ -12592,7 +12592,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline40 = nil
 		}
-		var systemFields40 []string = []string{}
+		systemFields40 := make([]string, 0, len(r.OutputSnmp.SystemFields))
 		for _, systemFieldsItem40 := range r.OutputSnmp.SystemFields {
 			systemFields40 = append(systemFields40, systemFieldsItem40.ValueString())
 		}
@@ -12602,11 +12602,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment40 = nil
 		}
-		var streamtags40 []string = []string{}
+		streamtags40 := make([]string, 0, len(r.OutputSnmp.Streamtags))
 		for _, streamtagsItem40 := range r.OutputSnmp.Streamtags {
 			streamtags40 = append(streamtags40, streamtagsItem40.ValueString())
 		}
-		var hosts2 []shared.OutputSnmpHosts = []shared.OutputSnmpHosts{}
+		hosts2 := make([]shared.OutputSnmpHosts, 0, len(r.OutputSnmp.Hosts))
 		for _, hostsItem2 := range r.OutputSnmp.Hosts {
 			var host8 string
 			host8 = hostsItem2.Host.ValueString()
@@ -12666,7 +12666,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline41 = nil
 		}
-		var systemFields41 []string = []string{}
+		systemFields41 := make([]string, 0, len(r.OutputSumoLogic.SystemFields))
 		for _, systemFieldsItem41 := range r.OutputSumoLogic.SystemFields {
 			systemFields41 = append(systemFields41, systemFieldsItem41.ValueString())
 		}
@@ -12676,7 +12676,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment41 = nil
 		}
-		var streamtags41 []string = []string{}
+		streamtags41 := make([]string, 0, len(r.OutputSumoLogic.Streamtags))
 		for _, streamtagsItem41 := range r.OutputSumoLogic.Streamtags {
 			streamtags41 = append(streamtags41, streamtagsItem41.ValueString())
 		}
@@ -12743,7 +12743,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec26 = nil
 		}
-		var extraHTTPHeaders13 []shared.OutputSumoLogicExtraHTTPHeaders = []shared.OutputSumoLogicExtraHTTPHeaders{}
+		extraHTTPHeaders13 := make([]shared.OutputSumoLogicExtraHTTPHeaders, 0, len(r.OutputSumoLogic.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem13 := range r.OutputSumoLogic.ExtraHTTPHeaders {
 			name20 := new(string)
 			if !extraHTTPHeadersItem13.Name.IsUnknown() && !extraHTTPHeadersItem13.Name.IsNull() {
@@ -12771,11 +12771,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode13 = nil
 		}
-		var safeHeaders13 []string = []string{}
+		safeHeaders13 := make([]string, 0, len(r.OutputSumoLogic.SafeHeaders))
 		for _, safeHeadersItem13 := range r.OutputSumoLogic.SafeHeaders {
 			safeHeaders13 = append(safeHeaders13, safeHeadersItem13.ValueString())
 		}
-		var responseRetrySettings14 []shared.OutputSumoLogicResponseRetrySettings = []shared.OutputSumoLogicResponseRetrySettings{}
+		responseRetrySettings14 := make([]shared.OutputSumoLogicResponseRetrySettings, 0, len(r.OutputSumoLogic.ResponseRetrySettings))
 		for _, responseRetrySettingsItem14 := range r.OutputSumoLogic.ResponseRetrySettings {
 			var httpStatus14 float64
 			httpStatus14 = responseRetrySettingsItem14.HTTPStatus.ValueFloat64()
@@ -12956,7 +12956,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline42 = nil
 		}
-		var systemFields42 []string = []string{}
+		systemFields42 := make([]string, 0, len(r.OutputDatadog.SystemFields))
 		for _, systemFieldsItem42 := range r.OutputDatadog.SystemFields {
 			systemFields42 = append(systemFields42, systemFieldsItem42.ValueString())
 		}
@@ -12966,7 +12966,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment42 = nil
 		}
-		var streamtags42 []string = []string{}
+		streamtags42 := make([]string, 0, len(r.OutputDatadog.Streamtags))
 		for _, streamtagsItem42 := range r.OutputDatadog.Streamtags {
 			streamtags42 = append(streamtags42, streamtagsItem42.ValueString())
 		}
@@ -13000,7 +13000,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			service = nil
 		}
-		var tags []string = []string{}
+		tags := make([]string, 0, len(r.OutputDatadog.Tags))
 		for _, tagsItem := range r.OutputDatadog.Tags {
 			tags = append(tags, tagsItem.ValueString())
 		}
@@ -13076,7 +13076,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec27 = nil
 		}
-		var extraHTTPHeaders14 []shared.OutputDatadogExtraHTTPHeaders = []shared.OutputDatadogExtraHTTPHeaders{}
+		extraHTTPHeaders14 := make([]shared.OutputDatadogExtraHTTPHeaders, 0, len(r.OutputDatadog.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem14 := range r.OutputDatadog.ExtraHTTPHeaders {
 			name21 := new(string)
 			if !extraHTTPHeadersItem14.Name.IsUnknown() && !extraHTTPHeadersItem14.Name.IsNull() {
@@ -13104,11 +13104,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode14 = nil
 		}
-		var safeHeaders14 []string = []string{}
+		safeHeaders14 := make([]string, 0, len(r.OutputDatadog.SafeHeaders))
 		for _, safeHeadersItem14 := range r.OutputDatadog.SafeHeaders {
 			safeHeaders14 = append(safeHeaders14, safeHeadersItem14.ValueString())
 		}
-		var responseRetrySettings15 []shared.OutputDatadogResponseRetrySettings = []shared.OutputDatadogResponseRetrySettings{}
+		responseRetrySettings15 := make([]shared.OutputDatadogResponseRetrySettings, 0, len(r.OutputDatadog.ResponseRetrySettings))
 		for _, responseRetrySettingsItem15 := range r.OutputDatadog.ResponseRetrySettings {
 			var httpStatus15 float64
 			httpStatus15 = responseRetrySettingsItem15.HTTPStatus.ValueFloat64()
@@ -13326,7 +13326,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			} else {
 				pipeline43 = nil
 			}
-			var systemFields43 []string = []string{}
+			systemFields43 := make([]string, 0, len(r.OutputGrafanaCloud.One.SystemFields))
 			for _, systemFieldsItem43 := range r.OutputGrafanaCloud.One.SystemFields {
 				systemFields43 = append(systemFields43, systemFieldsItem43.ValueString())
 			}
@@ -13336,7 +13336,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			} else {
 				environment43 = nil
 			}
-			var streamtags43 []string = []string{}
+			streamtags43 := make([]string, 0, len(r.OutputGrafanaCloud.One.Streamtags))
 			for _, streamtagsItem43 := range r.OutputGrafanaCloud.One.Streamtags {
 				streamtags43 = append(streamtags43, streamtagsItem43.ValueString())
 			}
@@ -13361,7 +13361,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			} else {
 				messageFormat1 = nil
 			}
-			var labels []shared.OutputGrafanaCloud1Labels = []shared.OutputGrafanaCloud1Labels{}
+			labels := make([]shared.OutputGrafanaCloud1Labels, 0, len(r.OutputGrafanaCloud.One.Labels))
 			for _, labelsItem := range r.OutputGrafanaCloud.One.Labels {
 				name22 := new(string)
 				if !labelsItem.Name.IsUnknown() && !labelsItem.Name.IsNull() {
@@ -13513,7 +13513,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			} else {
 				flushPeriodSec28 = nil
 			}
-			var extraHTTPHeaders15 []shared.OutputGrafanaCloudExtraHTTPHeaders = []shared.OutputGrafanaCloudExtraHTTPHeaders{}
+			extraHTTPHeaders15 := make([]shared.OutputGrafanaCloudExtraHTTPHeaders, 0, len(r.OutputGrafanaCloud.One.ExtraHTTPHeaders))
 			for _, extraHTTPHeadersItem15 := range r.OutputGrafanaCloud.One.ExtraHTTPHeaders {
 				name23 := new(string)
 				if !extraHTTPHeadersItem15.Name.IsUnknown() && !extraHTTPHeadersItem15.Name.IsNull() {
@@ -13541,11 +13541,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			} else {
 				failedRequestLoggingMode15 = nil
 			}
-			var safeHeaders15 []string = []string{}
+			safeHeaders15 := make([]string, 0, len(r.OutputGrafanaCloud.One.SafeHeaders))
 			for _, safeHeadersItem15 := range r.OutputGrafanaCloud.One.SafeHeaders {
 				safeHeaders15 = append(safeHeaders15, safeHeadersItem15.ValueString())
 			}
-			var responseRetrySettings16 []shared.OutputGrafanaCloudResponseRetrySettings = []shared.OutputGrafanaCloudResponseRetrySettings{}
+			responseRetrySettings16 := make([]shared.OutputGrafanaCloudResponseRetrySettings, 0, len(r.OutputGrafanaCloud.One.ResponseRetrySettings))
 			for _, responseRetrySettingsItem16 := range r.OutputGrafanaCloud.One.ResponseRetrySettings {
 				var httpStatus16 float64
 				httpStatus16 = responseRetrySettingsItem16.HTTPStatus.ValueFloat64()
@@ -13729,7 +13729,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			} else {
 				pipeline44 = nil
 			}
-			var systemFields44 []string = []string{}
+			systemFields44 := make([]string, 0, len(r.OutputGrafanaCloud.Two.SystemFields))
 			for _, systemFieldsItem44 := range r.OutputGrafanaCloud.Two.SystemFields {
 				systemFields44 = append(systemFields44, systemFieldsItem44.ValueString())
 			}
@@ -13739,7 +13739,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			} else {
 				environment44 = nil
 			}
-			var streamtags44 []string = []string{}
+			streamtags44 := make([]string, 0, len(r.OutputGrafanaCloud.Two.Streamtags))
 			for _, streamtagsItem44 := range r.OutputGrafanaCloud.Two.Streamtags {
 				streamtags44 = append(streamtags44, streamtagsItem44.ValueString())
 			}
@@ -13764,7 +13764,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			} else {
 				messageFormat2 = nil
 			}
-			var labels1 []shared.OutputGrafanaCloudLabels = []shared.OutputGrafanaCloudLabels{}
+			labels1 := make([]shared.OutputGrafanaCloudLabels, 0, len(r.OutputGrafanaCloud.Two.Labels))
 			for _, labelsItem1 := range r.OutputGrafanaCloud.Two.Labels {
 				name24 := new(string)
 				if !labelsItem1.Name.IsUnknown() && !labelsItem1.Name.IsNull() {
@@ -13916,7 +13916,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			} else {
 				flushPeriodSec29 = nil
 			}
-			var extraHTTPHeaders16 []shared.OutputGrafanaCloud2ExtraHTTPHeaders = []shared.OutputGrafanaCloud2ExtraHTTPHeaders{}
+			extraHTTPHeaders16 := make([]shared.OutputGrafanaCloud2ExtraHTTPHeaders, 0, len(r.OutputGrafanaCloud.Two.ExtraHTTPHeaders))
 			for _, extraHTTPHeadersItem16 := range r.OutputGrafanaCloud.Two.ExtraHTTPHeaders {
 				name25 := new(string)
 				if !extraHTTPHeadersItem16.Name.IsUnknown() && !extraHTTPHeadersItem16.Name.IsNull() {
@@ -13944,11 +13944,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			} else {
 				failedRequestLoggingMode16 = nil
 			}
-			var safeHeaders16 []string = []string{}
+			safeHeaders16 := make([]string, 0, len(r.OutputGrafanaCloud.Two.SafeHeaders))
 			for _, safeHeadersItem16 := range r.OutputGrafanaCloud.Two.SafeHeaders {
 				safeHeaders16 = append(safeHeaders16, safeHeadersItem16.ValueString())
 			}
-			var responseRetrySettings17 []shared.OutputGrafanaCloud2ResponseRetrySettings = []shared.OutputGrafanaCloud2ResponseRetrySettings{}
+			responseRetrySettings17 := make([]shared.OutputGrafanaCloud2ResponseRetrySettings, 0, len(r.OutputGrafanaCloud.Two.ResponseRetrySettings))
 			for _, responseRetrySettingsItem17 := range r.OutputGrafanaCloud.Two.ResponseRetrySettings {
 				var httpStatus17 float64
 				httpStatus17 = responseRetrySettingsItem17.HTTPStatus.ValueFloat64()
@@ -14141,7 +14141,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline45 = nil
 		}
-		var systemFields45 []string = []string{}
+		systemFields45 := make([]string, 0, len(r.OutputLoki.SystemFields))
 		for _, systemFieldsItem45 := range r.OutputLoki.SystemFields {
 			systemFields45 = append(systemFields45, systemFieldsItem45.ValueString())
 		}
@@ -14151,7 +14151,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment45 = nil
 		}
-		var streamtags45 []string = []string{}
+		streamtags45 := make([]string, 0, len(r.OutputLoki.Streamtags))
 		for _, streamtagsItem45 := range r.OutputLoki.Streamtags {
 			streamtags45 = append(streamtags45, streamtagsItem45.ValueString())
 		}
@@ -14170,7 +14170,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			messageFormat3 = nil
 		}
-		var labels2 []shared.Labels = []shared.Labels{}
+		labels2 := make([]shared.Labels, 0, len(r.OutputLoki.Labels))
 		for _, labelsItem2 := range r.OutputLoki.Labels {
 			name26 := new(string)
 			if !labelsItem2.Name.IsUnknown() && !labelsItem2.Name.IsNull() {
@@ -14228,7 +14228,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec30 = nil
 		}
-		var extraHTTPHeaders17 []shared.OutputLokiExtraHTTPHeaders = []shared.OutputLokiExtraHTTPHeaders{}
+		extraHTTPHeaders17 := make([]shared.OutputLokiExtraHTTPHeaders, 0, len(r.OutputLoki.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem17 := range r.OutputLoki.ExtraHTTPHeaders {
 			name27 := new(string)
 			if !extraHTTPHeadersItem17.Name.IsUnknown() && !extraHTTPHeadersItem17.Name.IsNull() {
@@ -14256,11 +14256,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode17 = nil
 		}
-		var safeHeaders17 []string = []string{}
+		safeHeaders17 := make([]string, 0, len(r.OutputLoki.SafeHeaders))
 		for _, safeHeadersItem17 := range r.OutputLoki.SafeHeaders {
 			safeHeaders17 = append(safeHeaders17, safeHeadersItem17.ValueString())
 		}
-		var responseRetrySettings18 []shared.OutputLokiResponseRetrySettings = []shared.OutputLokiResponseRetrySettings{}
+		responseRetrySettings18 := make([]shared.OutputLokiResponseRetrySettings, 0, len(r.OutputLoki.ResponseRetrySettings))
 		for _, responseRetrySettingsItem18 := range r.OutputLoki.ResponseRetrySettings {
 			var httpStatus18 float64
 			httpStatus18 = responseRetrySettingsItem18.HTTPStatus.ValueFloat64()
@@ -14486,7 +14486,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline46 = nil
 		}
-		var systemFields46 []string = []string{}
+		systemFields46 := make([]string, 0, len(r.OutputPrometheus.SystemFields))
 		for _, systemFieldsItem46 := range r.OutputPrometheus.SystemFields {
 			systemFields46 = append(systemFields46, systemFieldsItem46.ValueString())
 		}
@@ -14496,7 +14496,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment46 = nil
 		}
-		var streamtags46 []string = []string{}
+		streamtags46 := make([]string, 0, len(r.OutputPrometheus.Streamtags))
 		for _, streamtagsItem46 := range r.OutputPrometheus.Streamtags {
 			streamtags46 = append(streamtags46, streamtagsItem46.ValueString())
 		}
@@ -14551,7 +14551,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec31 = nil
 		}
-		var extraHTTPHeaders18 []shared.OutputPrometheusExtraHTTPHeaders = []shared.OutputPrometheusExtraHTTPHeaders{}
+		extraHTTPHeaders18 := make([]shared.OutputPrometheusExtraHTTPHeaders, 0, len(r.OutputPrometheus.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem18 := range r.OutputPrometheus.ExtraHTTPHeaders {
 			name28 := new(string)
 			if !extraHTTPHeadersItem18.Name.IsUnknown() && !extraHTTPHeadersItem18.Name.IsNull() {
@@ -14579,11 +14579,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode18 = nil
 		}
-		var safeHeaders18 []string = []string{}
+		safeHeaders18 := make([]string, 0, len(r.OutputPrometheus.SafeHeaders))
 		for _, safeHeadersItem18 := range r.OutputPrometheus.SafeHeaders {
 			safeHeaders18 = append(safeHeaders18, safeHeadersItem18.ValueString())
 		}
-		var responseRetrySettings19 []shared.OutputPrometheusResponseRetrySettings = []shared.OutputPrometheusResponseRetrySettings{}
+		responseRetrySettings19 := make([]shared.OutputPrometheusResponseRetrySettings, 0, len(r.OutputPrometheus.ResponseRetrySettings))
 		for _, responseRetrySettingsItem19 := range r.OutputPrometheus.ResponseRetrySettings {
 			var httpStatus19 float64
 			httpStatus19 = responseRetrySettingsItem19.HTTPStatus.ValueFloat64()
@@ -14782,7 +14782,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			tokenTimeoutSecs2 = nil
 		}
-		var oauthParams2 []shared.OutputPrometheusOauthParams = []shared.OutputPrometheusOauthParams{}
+		oauthParams2 := make([]shared.OutputPrometheusOauthParams, 0, len(r.OutputPrometheus.OauthParams))
 		for _, oauthParamsItem2 := range r.OutputPrometheus.OauthParams {
 			var name29 string
 			name29 = oauthParamsItem2.Name.ValueString()
@@ -14795,7 +14795,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				Value: value38,
 			})
 		}
-		var oauthHeaders2 []shared.OutputPrometheusOauthHeaders = []shared.OutputPrometheusOauthHeaders{}
+		oauthHeaders2 := make([]shared.OutputPrometheusOauthHeaders, 0, len(r.OutputPrometheus.OauthHeaders))
 		for _, oauthHeadersItem2 := range r.OutputPrometheus.OauthHeaders {
 			var name30 string
 			name30 = oauthHeadersItem2.Name.ValueString()
@@ -14874,7 +14874,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline47 = nil
 		}
-		var systemFields47 []string = []string{}
+		systemFields47 := make([]string, 0, len(r.OutputRing.SystemFields))
 		for _, systemFieldsItem47 := range r.OutputRing.SystemFields {
 			systemFields47 = append(systemFields47, systemFieldsItem47.ValueString())
 		}
@@ -14884,7 +14884,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment47 = nil
 		}
-		var streamtags47 []string = []string{}
+		streamtags47 := make([]string, 0, len(r.OutputRing.Streamtags))
 		for _, streamtagsItem47 := range r.OutputRing.Streamtags {
 			streamtags47 = append(streamtags47, streamtagsItem47.ValueString())
 		}
@@ -14973,7 +14973,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline48 = nil
 		}
-		var systemFields48 []string = []string{}
+		systemFields48 := make([]string, 0, len(r.OutputOpenTelemetry.SystemFields))
 		for _, systemFieldsItem48 := range r.OutputOpenTelemetry.SystemFields {
 			systemFields48 = append(systemFields48, systemFieldsItem48.ValueString())
 		}
@@ -14983,7 +14983,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment48 = nil
 		}
-		var streamtags48 []string = []string{}
+		streamtags48 := make([]string, 0, len(r.OutputOpenTelemetry.Streamtags))
 		for _, streamtagsItem48 := range r.OutputOpenTelemetry.Streamtags {
 			streamtags48 = append(streamtags48, streamtagsItem48.ValueString())
 		}
@@ -15038,7 +15038,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			httpLogsEndpointOverride = nil
 		}
-		var metadata1 []shared.OutputOpenTelemetryMetadata = []shared.OutputOpenTelemetryMetadata{}
+		metadata1 := make([]shared.OutputOpenTelemetryMetadata, 0, len(r.OutputOpenTelemetry.Metadata))
 		for _, metadataItem1 := range r.OutputOpenTelemetry.Metadata {
 			key7 := new(string)
 			if !metadataItem1.Key.IsUnknown() && !metadataItem1.Key.IsNull() {
@@ -15180,7 +15180,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			tokenTimeoutSecs3 = nil
 		}
-		var oauthParams3 []shared.OutputOpenTelemetryOauthParams = []shared.OutputOpenTelemetryOauthParams{}
+		oauthParams3 := make([]shared.OutputOpenTelemetryOauthParams, 0, len(r.OutputOpenTelemetry.OauthParams))
 		for _, oauthParamsItem3 := range r.OutputOpenTelemetry.OauthParams {
 			var name31 string
 			name31 = oauthParamsItem3.Name.ValueString()
@@ -15193,7 +15193,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				Value: value41,
 			})
 		}
-		var oauthHeaders3 []shared.OutputOpenTelemetryOauthHeaders = []shared.OutputOpenTelemetryOauthHeaders{}
+		oauthHeaders3 := make([]shared.OutputOpenTelemetryOauthHeaders, 0, len(r.OutputOpenTelemetry.OauthHeaders))
 		for _, oauthHeadersItem3 := range r.OutputOpenTelemetry.OauthHeaders {
 			var name32 string
 			name32 = oauthHeadersItem3.Name.ValueString()
@@ -15218,7 +15218,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			useRoundRobinDns19 = nil
 		}
-		var extraHTTPHeaders19 []shared.OutputOpenTelemetryExtraHTTPHeaders = []shared.OutputOpenTelemetryExtraHTTPHeaders{}
+		extraHTTPHeaders19 := make([]shared.OutputOpenTelemetryExtraHTTPHeaders, 0, len(r.OutputOpenTelemetry.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem19 := range r.OutputOpenTelemetry.ExtraHTTPHeaders {
 			name33 := new(string)
 			if !extraHTTPHeadersItem19.Name.IsUnknown() && !extraHTTPHeadersItem19.Name.IsNull() {
@@ -15234,11 +15234,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				Value: value43,
 			})
 		}
-		var safeHeaders19 []string = []string{}
+		safeHeaders19 := make([]string, 0, len(r.OutputOpenTelemetry.SafeHeaders))
 		for _, safeHeadersItem19 := range r.OutputOpenTelemetry.SafeHeaders {
 			safeHeaders19 = append(safeHeaders19, safeHeadersItem19.ValueString())
 		}
-		var responseRetrySettings20 []shared.OutputOpenTelemetryResponseRetrySettings = []shared.OutputOpenTelemetryResponseRetrySettings{}
+		responseRetrySettings20 := make([]shared.OutputOpenTelemetryResponseRetrySettings, 0, len(r.OutputOpenTelemetry.ResponseRetrySettings))
 		for _, responseRetrySettingsItem20 := range r.OutputOpenTelemetry.ResponseRetrySettings {
 			var httpStatus20 float64
 			httpStatus20 = responseRetrySettingsItem20.HTTPStatus.ValueFloat64()
@@ -15497,7 +15497,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline49 = nil
 		}
-		var systemFields49 []string = []string{}
+		systemFields49 := make([]string, 0, len(r.OutputServiceNow.SystemFields))
 		for _, systemFieldsItem49 := range r.OutputServiceNow.SystemFields {
 			systemFields49 = append(systemFields49, systemFieldsItem49.ValueString())
 		}
@@ -15507,7 +15507,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment49 = nil
 		}
-		var streamtags49 []string = []string{}
+		streamtags49 := make([]string, 0, len(r.OutputServiceNow.Streamtags))
 		for _, streamtagsItem49 := range r.OutputServiceNow.Streamtags {
 			streamtags49 = append(streamtags49, streamtagsItem49.ValueString())
 		}
@@ -15574,7 +15574,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			httpLogsEndpointOverride1 = nil
 		}
-		var metadata2 []shared.OutputServiceNowMetadata = []shared.OutputServiceNowMetadata{}
+		metadata2 := make([]shared.OutputServiceNowMetadata, 0, len(r.OutputServiceNow.Metadata))
 		for _, metadataItem2 := range r.OutputServiceNow.Metadata {
 			key8 := new(string)
 			if !metadataItem2.Key.IsUnknown() && !metadataItem2.Key.IsNull() {
@@ -15656,7 +15656,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			useRoundRobinDns20 = nil
 		}
-		var extraHTTPHeaders20 []shared.OutputServiceNowExtraHTTPHeaders = []shared.OutputServiceNowExtraHTTPHeaders{}
+		extraHTTPHeaders20 := make([]shared.OutputServiceNowExtraHTTPHeaders, 0, len(r.OutputServiceNow.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem20 := range r.OutputServiceNow.ExtraHTTPHeaders {
 			name34 := new(string)
 			if !extraHTTPHeadersItem20.Name.IsUnknown() && !extraHTTPHeadersItem20.Name.IsNull() {
@@ -15672,11 +15672,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				Value: value45,
 			})
 		}
-		var safeHeaders20 []string = []string{}
+		safeHeaders20 := make([]string, 0, len(r.OutputServiceNow.SafeHeaders))
 		for _, safeHeadersItem20 := range r.OutputServiceNow.SafeHeaders {
 			safeHeaders20 = append(safeHeaders20, safeHeadersItem20.ValueString())
 		}
-		var responseRetrySettings21 []shared.OutputServiceNowResponseRetrySettings = []shared.OutputServiceNowResponseRetrySettings{}
+		responseRetrySettings21 := make([]shared.OutputServiceNowResponseRetrySettings, 0, len(r.OutputServiceNow.ResponseRetrySettings))
 		for _, responseRetrySettingsItem21 := range r.OutputServiceNow.ResponseRetrySettings {
 			var httpStatus21 float64
 			httpStatus21 = responseRetrySettingsItem21.HTTPStatus.ValueFloat64()
@@ -15915,7 +15915,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline50 = nil
 		}
-		var systemFields50 []string = []string{}
+		systemFields50 := make([]string, 0, len(r.OutputDataset.SystemFields))
 		for _, systemFieldsItem50 := range r.OutputDataset.SystemFields {
 			systemFields50 = append(systemFields50, systemFieldsItem50.ValueString())
 		}
@@ -15925,7 +15925,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment50 = nil
 		}
-		var streamtags50 []string = []string{}
+		streamtags50 := make([]string, 0, len(r.OutputDataset.Streamtags))
 		for _, streamtagsItem50 := range r.OutputDataset.Streamtags {
 			streamtags50 = append(streamtags50, streamtagsItem50.ValueString())
 		}
@@ -15935,7 +15935,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			messageField1 = nil
 		}
-		var excludeFields []string = []string{}
+		excludeFields := make([]string, 0, len(r.OutputDataset.ExcludeFields))
 		for _, excludeFieldsItem := range r.OutputDataset.ExcludeFields {
 			excludeFields = append(excludeFields, excludeFieldsItem.ValueString())
 		}
@@ -15957,7 +15957,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			defaultSeverity = nil
 		}
-		var responseRetrySettings22 []shared.OutputDatasetResponseRetrySettings = []shared.OutputDatasetResponseRetrySettings{}
+		responseRetrySettings22 := make([]shared.OutputDatasetResponseRetrySettings, 0, len(r.OutputDataset.ResponseRetrySettings))
 		for _, responseRetrySettingsItem22 := range r.OutputDataset.ResponseRetrySettings {
 			var httpStatus22 float64
 			httpStatus22 = responseRetrySettingsItem22.HTTPStatus.ValueFloat64()
@@ -16074,7 +16074,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec34 = nil
 		}
-		var extraHTTPHeaders21 []shared.OutputDatasetExtraHTTPHeaders = []shared.OutputDatasetExtraHTTPHeaders{}
+		extraHTTPHeaders21 := make([]shared.OutputDatasetExtraHTTPHeaders, 0, len(r.OutputDataset.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem21 := range r.OutputDataset.ExtraHTTPHeaders {
 			name35 := new(string)
 			if !extraHTTPHeadersItem21.Name.IsUnknown() && !extraHTTPHeadersItem21.Name.IsNull() {
@@ -16102,7 +16102,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode21 = nil
 		}
-		var safeHeaders21 []string = []string{}
+		safeHeaders21 := make([]string, 0, len(r.OutputDataset.SafeHeaders))
 		for _, safeHeadersItem21 := range r.OutputDataset.SafeHeaders {
 			safeHeaders21 = append(safeHeaders21, safeHeadersItem21.ValueString())
 		}
@@ -16248,7 +16248,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline51 = nil
 		}
-		var systemFields51 []string = []string{}
+		systemFields51 := make([]string, 0, len(r.OutputCriblTCP.SystemFields))
 		for _, systemFieldsItem51 := range r.OutputCriblTCP.SystemFields {
 			systemFields51 = append(systemFields51, systemFieldsItem51.ValueString())
 		}
@@ -16258,7 +16258,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment51 = nil
 		}
-		var streamtags51 []string = []string{}
+		streamtags51 := make([]string, 0, len(r.OutputCriblTCP.Streamtags))
 		for _, streamtagsItem51 := range r.OutputCriblTCP.Streamtags {
 			streamtags51 = append(streamtags51, streamtagsItem51.ValueString())
 		}
@@ -16379,7 +16379,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			tokenTTLMinutes1 = nil
 		}
-		var excludeFields1 []string = []string{}
+		excludeFields1 := make([]string, 0, len(r.OutputCriblTCP.ExcludeFields))
 		for _, excludeFieldsItem1 := range r.OutputCriblTCP.ExcludeFields {
 			excludeFields1 = append(excludeFields1, excludeFieldsItem1.ValueString())
 		}
@@ -16413,7 +16413,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			excludeSelf5 = nil
 		}
-		var hosts3 []shared.OutputCriblTCPHosts = []shared.OutputCriblTCPHosts{}
+		hosts3 := make([]shared.OutputCriblTCPHosts, 0, len(r.OutputCriblTCP.Hosts))
 		for _, hostsItem3 := range r.OutputCriblTCP.Hosts {
 			var host11 string
 			host11 = hostsItem3.Host.ValueString()
@@ -16584,7 +16584,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline52 = nil
 		}
-		var systemFields52 []string = []string{}
+		systemFields52 := make([]string, 0, len(r.OutputCriblHTTP.SystemFields))
 		for _, systemFieldsItem52 := range r.OutputCriblHTTP.SystemFields {
 			systemFields52 = append(systemFields52, systemFieldsItem52.ValueString())
 		}
@@ -16594,7 +16594,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment52 = nil
 		}
-		var streamtags52 []string = []string{}
+		streamtags52 := make([]string, 0, len(r.OutputCriblHTTP.Streamtags))
 		for _, streamtagsItem52 := range r.OutputCriblHTTP.Streamtags {
 			streamtags52 = append(streamtags52, streamtagsItem52.ValueString())
 		}
@@ -16685,7 +16685,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			tokenTTLMinutes2 = nil
 		}
-		var excludeFields2 []string = []string{}
+		excludeFields2 := make([]string, 0, len(r.OutputCriblHTTP.ExcludeFields))
 		for _, excludeFieldsItem2 := range r.OutputCriblHTTP.ExcludeFields {
 			excludeFields2 = append(excludeFields2, excludeFieldsItem2.ValueString())
 		}
@@ -16731,7 +16731,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec35 = nil
 		}
-		var extraHTTPHeaders22 []shared.OutputCriblHTTPExtraHTTPHeaders = []shared.OutputCriblHTTPExtraHTTPHeaders{}
+		extraHTTPHeaders22 := make([]shared.OutputCriblHTTPExtraHTTPHeaders, 0, len(r.OutputCriblHTTP.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem22 := range r.OutputCriblHTTP.ExtraHTTPHeaders {
 			name36 := new(string)
 			if !extraHTTPHeadersItem22.Name.IsUnknown() && !extraHTTPHeadersItem22.Name.IsNull() {
@@ -16753,11 +16753,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode22 = nil
 		}
-		var safeHeaders22 []string = []string{}
+		safeHeaders22 := make([]string, 0, len(r.OutputCriblHTTP.SafeHeaders))
 		for _, safeHeadersItem22 := range r.OutputCriblHTTP.SafeHeaders {
 			safeHeaders22 = append(safeHeaders22, safeHeadersItem22.ValueString())
 		}
-		var responseRetrySettings23 []shared.OutputCriblHTTPResponseRetrySettings = []shared.OutputCriblHTTPResponseRetrySettings{}
+		responseRetrySettings23 := make([]shared.OutputCriblHTTPResponseRetrySettings, 0, len(r.OutputCriblHTTP.ResponseRetrySettings))
 		for _, responseRetrySettingsItem23 := range r.OutputCriblHTTP.ResponseRetrySettings {
 			var httpStatus23 float64
 			httpStatus23 = responseRetrySettingsItem23.HTTPStatus.ValueFloat64()
@@ -16856,7 +16856,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			excludeSelf6 = nil
 		}
-		var urls3 []shared.OutputCriblHTTPUrls = []shared.OutputCriblHTTPUrls{}
+		urls3 := make([]shared.OutputCriblHTTPUrls, 0, len(r.OutputCriblHTTP.Urls))
 		for _, urlsItem3 := range r.OutputCriblHTTP.Urls {
 			var url13 string
 			url13 = urlsItem3.URL.ValueString()
@@ -16991,7 +16991,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline53 = nil
 		}
-		var systemFields53 []string = []string{}
+		systemFields53 := make([]string, 0, len(r.OutputHumioHec.SystemFields))
 		for _, systemFieldsItem53 := range r.OutputHumioHec.SystemFields {
 			systemFields53 = append(systemFields53, systemFieldsItem53.ValueString())
 		}
@@ -17001,7 +17001,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment53 = nil
 		}
-		var streamtags53 []string = []string{}
+		streamtags53 := make([]string, 0, len(r.OutputHumioHec.Streamtags))
 		for _, streamtagsItem53 := range r.OutputHumioHec.Streamtags {
 			streamtags53 = append(streamtags53, streamtagsItem53.ValueString())
 		}
@@ -17053,7 +17053,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec36 = nil
 		}
-		var extraHTTPHeaders23 []shared.OutputHumioHecExtraHTTPHeaders = []shared.OutputHumioHecExtraHTTPHeaders{}
+		extraHTTPHeaders23 := make([]shared.OutputHumioHecExtraHTTPHeaders, 0, len(r.OutputHumioHec.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem23 := range r.OutputHumioHec.ExtraHTTPHeaders {
 			name37 := new(string)
 			if !extraHTTPHeadersItem23.Name.IsUnknown() && !extraHTTPHeadersItem23.Name.IsNull() {
@@ -17081,7 +17081,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode23 = nil
 		}
-		var safeHeaders23 []string = []string{}
+		safeHeaders23 := make([]string, 0, len(r.OutputHumioHec.SafeHeaders))
 		for _, safeHeadersItem23 := range r.OutputHumioHec.SafeHeaders {
 			safeHeaders23 = append(safeHeaders23, safeHeadersItem23.ValueString())
 		}
@@ -17097,7 +17097,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			authType27 = nil
 		}
-		var responseRetrySettings24 []shared.OutputHumioHecResponseRetrySettings = []shared.OutputHumioHecResponseRetrySettings{}
+		responseRetrySettings24 := make([]shared.OutputHumioHecResponseRetrySettings, 0, len(r.OutputHumioHec.ResponseRetrySettings))
 		for _, responseRetrySettingsItem24 := range r.OutputHumioHec.ResponseRetrySettings {
 			var httpStatus24 float64
 			httpStatus24 = responseRetrySettingsItem24.HTTPStatus.ValueFloat64()
@@ -17292,7 +17292,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline54 = nil
 		}
-		var systemFields54 []string = []string{}
+		systemFields54 := make([]string, 0, len(r.OutputCrowdstrikeNextGenSiem.SystemFields))
 		for _, systemFieldsItem54 := range r.OutputCrowdstrikeNextGenSiem.SystemFields {
 			systemFields54 = append(systemFields54, systemFieldsItem54.ValueString())
 		}
@@ -17302,7 +17302,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment54 = nil
 		}
-		var streamtags54 []string = []string{}
+		streamtags54 := make([]string, 0, len(r.OutputCrowdstrikeNextGenSiem.Streamtags))
 		for _, streamtagsItem54 := range r.OutputCrowdstrikeNextGenSiem.Streamtags {
 			streamtags54 = append(streamtags54, streamtagsItem54.ValueString())
 		}
@@ -17351,7 +17351,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec37 = nil
 		}
-		var extraHTTPHeaders24 []shared.OutputCrowdstrikeNextGenSiemExtraHTTPHeaders = []shared.OutputCrowdstrikeNextGenSiemExtraHTTPHeaders{}
+		extraHTTPHeaders24 := make([]shared.OutputCrowdstrikeNextGenSiemExtraHTTPHeaders, 0, len(r.OutputCrowdstrikeNextGenSiem.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem24 := range r.OutputCrowdstrikeNextGenSiem.ExtraHTTPHeaders {
 			name38 := new(string)
 			if !extraHTTPHeadersItem24.Name.IsUnknown() && !extraHTTPHeadersItem24.Name.IsNull() {
@@ -17379,7 +17379,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode24 = nil
 		}
-		var safeHeaders24 []string = []string{}
+		safeHeaders24 := make([]string, 0, len(r.OutputCrowdstrikeNextGenSiem.SafeHeaders))
 		for _, safeHeadersItem24 := range r.OutputCrowdstrikeNextGenSiem.SafeHeaders {
 			safeHeaders24 = append(safeHeaders24, safeHeadersItem24.ValueString())
 		}
@@ -17395,7 +17395,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			authType28 = nil
 		}
-		var responseRetrySettings25 []shared.OutputCrowdstrikeNextGenSiemResponseRetrySettings = []shared.OutputCrowdstrikeNextGenSiemResponseRetrySettings{}
+		responseRetrySettings25 := make([]shared.OutputCrowdstrikeNextGenSiemResponseRetrySettings, 0, len(r.OutputCrowdstrikeNextGenSiem.ResponseRetrySettings))
 		for _, responseRetrySettingsItem25 := range r.OutputCrowdstrikeNextGenSiem.ResponseRetrySettings {
 			var httpStatus25 float64
 			httpStatus25 = responseRetrySettingsItem25.HTTPStatus.ValueFloat64()
@@ -17590,7 +17590,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline55 = nil
 		}
-		var systemFields55 []string = []string{}
+		systemFields55 := make([]string, 0, len(r.OutputDlS3.SystemFields))
 		for _, systemFieldsItem55 := range r.OutputDlS3.SystemFields {
 			systemFields55 = append(systemFields55, systemFieldsItem55.ValueString())
 		}
@@ -17600,7 +17600,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment55 = nil
 		}
-		var streamtags55 []string = []string{}
+		streamtags55 := make([]string, 0, len(r.OutputDlS3.Streamtags))
 		for _, streamtagsItem55 := range r.OutputDlS3.Streamtags {
 			streamtags55 = append(streamtags55, streamtagsItem55.ValueString())
 		}
@@ -17811,7 +17811,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			maxClosingFilesToBackpressure1 = nil
 		}
-		var partitioningFields []string = []string{}
+		partitioningFields := make([]string, 0, len(r.OutputDlS3.PartitioningFields))
 		for _, partitioningFieldsItem := range r.OutputDlS3.PartitioningFields {
 			partitioningFields = append(partitioningFields, partitioningFieldsItem.ValueString())
 		}
@@ -17881,7 +17881,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			shouldLogInvalidRows5 = nil
 		}
-		var keyValueMetadata5 []shared.OutputDlS3KeyValueMetadata = []shared.OutputDlS3KeyValueMetadata{}
+		keyValueMetadata5 := make([]shared.OutputDlS3KeyValueMetadata, 0, len(r.OutputDlS3.KeyValueMetadata))
 		for _, keyValueMetadataItem5 := range r.OutputDlS3.KeyValueMetadata {
 			key9 := new(string)
 			if !keyValueMetadataItem5.Key.IsUnknown() && !keyValueMetadataItem5.Key.IsNull() {
@@ -18021,7 +18021,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline56 = nil
 		}
-		var systemFields56 []string = []string{}
+		systemFields56 := make([]string, 0, len(r.OutputSecurityLake.SystemFields))
 		for _, systemFieldsItem56 := range r.OutputSecurityLake.SystemFields {
 			systemFields56 = append(systemFields56, systemFieldsItem56.ValueString())
 		}
@@ -18031,7 +18031,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment56 = nil
 		}
-		var streamtags56 []string = []string{}
+		streamtags56 := make([]string, 0, len(r.OutputSecurityLake.Streamtags))
 		for _, streamtagsItem56 := range r.OutputSecurityLake.Streamtags {
 			streamtags56 = append(streamtags56, streamtagsItem56.ValueString())
 		}
@@ -18260,7 +18260,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			shouldLogInvalidRows6 = nil
 		}
-		var keyValueMetadata6 []shared.OutputSecurityLakeKeyValueMetadata = []shared.OutputSecurityLakeKeyValueMetadata{}
+		keyValueMetadata6 := make([]shared.OutputSecurityLakeKeyValueMetadata, 0, len(r.OutputSecurityLake.KeyValueMetadata))
 		for _, keyValueMetadataItem6 := range r.OutputSecurityLake.KeyValueMetadata {
 			key10 := new(string)
 			if !keyValueMetadataItem6.Key.IsUnknown() && !keyValueMetadataItem6.Key.IsNull() {
@@ -18416,7 +18416,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline57 = nil
 		}
-		var systemFields57 []string = []string{}
+		systemFields57 := make([]string, 0, len(r.OutputCriblLake.SystemFields))
 		for _, systemFieldsItem57 := range r.OutputCriblLake.SystemFields {
 			systemFields57 = append(systemFields57, systemFieldsItem57.ValueString())
 		}
@@ -18426,7 +18426,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment57 = nil
 		}
-		var streamtags57 []string = []string{}
+		streamtags57 := make([]string, 0, len(r.OutputCriblLake.Streamtags))
 		for _, streamtagsItem57 := range r.OutputCriblLake.Streamtags {
 			streamtags57 = append(streamtags57, streamtagsItem57.ValueString())
 		}
@@ -18726,7 +18726,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline58 = nil
 		}
-		var systemFields58 []string = []string{}
+		systemFields58 := make([]string, 0, len(r.OutputDiskSpool.SystemFields))
 		for _, systemFieldsItem58 := range r.OutputDiskSpool.SystemFields {
 			systemFields58 = append(systemFields58, systemFieldsItem58.ValueString())
 		}
@@ -18736,7 +18736,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment58 = nil
 		}
-		var streamtags58 []string = []string{}
+		streamtags58 := make([]string, 0, len(r.OutputDiskSpool.Streamtags))
 		for _, streamtagsItem58 := range r.OutputDiskSpool.Streamtags {
 			streamtags58 = append(streamtags58, streamtagsItem58.ValueString())
 		}
@@ -18816,7 +18816,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline59 = nil
 		}
-		var systemFields59 []string = []string{}
+		systemFields59 := make([]string, 0, len(r.OutputClickHouse.SystemFields))
 		for _, systemFieldsItem59 := range r.OutputClickHouse.SystemFields {
 			systemFields59 = append(systemFields59, systemFieldsItem59.ValueString())
 		}
@@ -18826,7 +18826,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment59 = nil
 		}
-		var streamtags59 []string = []string{}
+		streamtags59 := make([]string, 0, len(r.OutputClickHouse.Streamtags))
 		for _, streamtagsItem59 := range r.OutputClickHouse.Streamtags {
 			streamtags59 = append(streamtags59, streamtagsItem59.ValueString())
 		}
@@ -18973,7 +18973,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec38 = nil
 		}
-		var extraHTTPHeaders25 []shared.OutputClickHouseExtraHTTPHeaders = []shared.OutputClickHouseExtraHTTPHeaders{}
+		extraHTTPHeaders25 := make([]shared.OutputClickHouseExtraHTTPHeaders, 0, len(r.OutputClickHouse.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem25 := range r.OutputClickHouse.ExtraHTTPHeaders {
 			name39 := new(string)
 			if !extraHTTPHeadersItem25.Name.IsUnknown() && !extraHTTPHeadersItem25.Name.IsNull() {
@@ -19001,11 +19001,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode25 = nil
 		}
-		var safeHeaders25 []string = []string{}
+		safeHeaders25 := make([]string, 0, len(r.OutputClickHouse.SafeHeaders))
 		for _, safeHeadersItem25 := range r.OutputClickHouse.SafeHeaders {
 			safeHeaders25 = append(safeHeaders25, safeHeadersItem25.ValueString())
 		}
-		var responseRetrySettings26 []shared.OutputClickHouseResponseRetrySettings = []shared.OutputClickHouseResponseRetrySettings{}
+		responseRetrySettings26 := make([]shared.OutputClickHouseResponseRetrySettings, 0, len(r.OutputClickHouse.ResponseRetrySettings))
 		for _, responseRetrySettingsItem26 := range r.OutputClickHouse.ResponseRetrySettings {
 			var httpStatus26 float64
 			httpStatus26 = responseRetrySettingsItem26.HTTPStatus.ValueFloat64()
@@ -19158,7 +19158,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			tokenTimeoutSecs4 = nil
 		}
-		var oauthParams4 []shared.OutputClickHouseOauthParams = []shared.OutputClickHouseOauthParams{}
+		oauthParams4 := make([]shared.OutputClickHouseOauthParams, 0, len(r.OutputClickHouse.OauthParams))
 		for _, oauthParamsItem4 := range r.OutputClickHouse.OauthParams {
 			var name40 string
 			name40 = oauthParamsItem4.Name.ValueString()
@@ -19171,7 +19171,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				Value: value53,
 			})
 		}
-		var oauthHeaders4 []shared.OutputClickHouseOauthHeaders = []shared.OutputClickHouseOauthHeaders{}
+		oauthHeaders4 := make([]shared.OutputClickHouseOauthHeaders, 0, len(r.OutputClickHouse.OauthHeaders))
 		for _, oauthHeadersItem4 := range r.OutputClickHouse.OauthHeaders {
 			var name41 string
 			name41 = oauthHeadersItem4.Name.ValueString()
@@ -19196,7 +19196,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			waitForAsyncInserts = nil
 		}
-		var excludeMappingFields []string = []string{}
+		excludeMappingFields := make([]string, 0, len(r.OutputClickHouse.ExcludeMappingFields))
 		for _, excludeMappingFieldsItem := range r.OutputClickHouse.ExcludeMappingFields {
 			excludeMappingFields = append(excludeMappingFields, excludeMappingFieldsItem.ValueString())
 		}
@@ -19206,7 +19206,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			describeTable = nil
 		}
-		var columnMappings []shared.ColumnMappings = []shared.ColumnMappings{}
+		columnMappings := make([]shared.ColumnMappings, 0, len(r.OutputClickHouse.ColumnMappings))
 		for _, columnMappingsItem := range r.OutputClickHouse.ColumnMappings {
 			var columnName string
 			columnName = columnMappingsItem.ColumnName.ValueString()
@@ -19342,7 +19342,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline60 = nil
 		}
-		var systemFields60 []string = []string{}
+		systemFields60 := make([]string, 0, len(r.OutputXsiam.SystemFields))
 		for _, systemFieldsItem60 := range r.OutputXsiam.SystemFields {
 			systemFields60 = append(systemFields60, systemFieldsItem60.ValueString())
 		}
@@ -19352,7 +19352,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment60 = nil
 		}
-		var streamtags60 []string = []string{}
+		streamtags60 := make([]string, 0, len(r.OutputXsiam.Streamtags))
 		for _, streamtagsItem60 := range r.OutputXsiam.Streamtags {
 			streamtags60 = append(streamtags60, streamtagsItem60.ValueString())
 		}
@@ -19398,7 +19398,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec39 = nil
 		}
-		var extraHTTPHeaders26 []shared.OutputXsiamExtraHTTPHeaders = []shared.OutputXsiamExtraHTTPHeaders{}
+		extraHTTPHeaders26 := make([]shared.OutputXsiamExtraHTTPHeaders, 0, len(r.OutputXsiam.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem26 := range r.OutputXsiam.ExtraHTTPHeaders {
 			name42 := new(string)
 			if !extraHTTPHeadersItem26.Name.IsUnknown() && !extraHTTPHeadersItem26.Name.IsNull() {
@@ -19420,7 +19420,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode26 = nil
 		}
-		var safeHeaders26 []string = []string{}
+		safeHeaders26 := make([]string, 0, len(r.OutputXsiam.SafeHeaders))
 		for _, safeHeadersItem26 := range r.OutputXsiam.SafeHeaders {
 			safeHeaders26 = append(safeHeaders26, safeHeadersItem26.ValueString())
 		}
@@ -19430,7 +19430,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			authType30 = nil
 		}
-		var responseRetrySettings27 []shared.OutputXsiamResponseRetrySettings = []shared.OutputXsiamResponseRetrySettings{}
+		responseRetrySettings27 := make([]shared.OutputXsiamResponseRetrySettings, 0, len(r.OutputXsiam.ResponseRetrySettings))
 		for _, responseRetrySettingsItem27 := range r.OutputXsiam.ResponseRetrySettings {
 			var httpStatus27 float64
 			httpStatus27 = responseRetrySettingsItem27.HTTPStatus.ValueFloat64()
@@ -19535,7 +19535,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			excludeSelf7 = nil
 		}
-		var urls4 []shared.OutputXsiamUrls = []shared.OutputXsiamUrls{}
+		urls4 := make([]shared.OutputXsiamUrls, 0, len(r.OutputXsiam.Urls))
 		for _, urlsItem4 := range r.OutputXsiam.Urls {
 			var url18 interface{}
 			_ = json.Unmarshal([]byte(urlsItem4.URL.ValueString()), &url18)
@@ -19675,7 +19675,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline61 = nil
 		}
-		var systemFields61 []string = []string{}
+		systemFields61 := make([]string, 0, len(r.OutputNetflow.SystemFields))
 		for _, systemFieldsItem61 := range r.OutputNetflow.SystemFields {
 			systemFields61 = append(systemFields61, systemFieldsItem61.ValueString())
 		}
@@ -19685,11 +19685,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment61 = nil
 		}
-		var streamtags61 []string = []string{}
+		streamtags61 := make([]string, 0, len(r.OutputNetflow.Streamtags))
 		for _, streamtagsItem61 := range r.OutputNetflow.Streamtags {
 			streamtags61 = append(streamtags61, streamtagsItem61.ValueString())
 		}
-		var hosts4 []shared.OutputNetflowHosts = []shared.OutputNetflowHosts{}
+		hosts4 := make([]shared.OutputNetflowHosts, 0, len(r.OutputNetflow.Hosts))
 		for _, hostsItem4 := range r.OutputNetflow.Hosts {
 			var host12 string
 			host12 = hostsItem4.Host.ValueString()
@@ -19754,7 +19754,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline62 = nil
 		}
-		var systemFields62 []string = []string{}
+		systemFields62 := make([]string, 0, len(r.OutputDynatraceHTTP.SystemFields))
 		for _, systemFieldsItem62 := range r.OutputDynatraceHTTP.SystemFields {
 			systemFields62 = append(systemFields62, systemFieldsItem62.ValueString())
 		}
@@ -19764,7 +19764,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment62 = nil
 		}
-		var streamtags62 []string = []string{}
+		streamtags62 := make([]string, 0, len(r.OutputDynatraceHTTP.Streamtags))
 		for _, streamtagsItem62 := range r.OutputDynatraceHTTP.Streamtags {
 			streamtags62 = append(streamtags62, streamtagsItem62.ValueString())
 		}
@@ -19822,7 +19822,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			flushPeriodSec40 = nil
 		}
-		var extraHTTPHeaders27 []shared.OutputDynatraceHTTPExtraHTTPHeaders = []shared.OutputDynatraceHTTPExtraHTTPHeaders{}
+		extraHTTPHeaders27 := make([]shared.OutputDynatraceHTTPExtraHTTPHeaders, 0, len(r.OutputDynatraceHTTP.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem27 := range r.OutputDynatraceHTTP.ExtraHTTPHeaders {
 			name43 := new(string)
 			if !extraHTTPHeadersItem27.Name.IsUnknown() && !extraHTTPHeadersItem27.Name.IsNull() {
@@ -19850,11 +19850,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			failedRequestLoggingMode27 = nil
 		}
-		var safeHeaders27 []string = []string{}
+		safeHeaders27 := make([]string, 0, len(r.OutputDynatraceHTTP.SafeHeaders))
 		for _, safeHeadersItem27 := range r.OutputDynatraceHTTP.SafeHeaders {
 			safeHeaders27 = append(safeHeaders27, safeHeadersItem27.ValueString())
 		}
-		var responseRetrySettings28 []shared.OutputDynatraceHTTPResponseRetrySettings = []shared.OutputDynatraceHTTPResponseRetrySettings{}
+		responseRetrySettings28 := make([]shared.OutputDynatraceHTTPResponseRetrySettings, 0, len(r.OutputDynatraceHTTP.ResponseRetrySettings))
 		for _, responseRetrySettingsItem28 := range r.OutputDynatraceHTTP.ResponseRetrySettings {
 			var httpStatus28 float64
 			httpStatus28 = responseRetrySettingsItem28.HTTPStatus.ValueFloat64()
@@ -20104,7 +20104,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pipeline63 = nil
 		}
-		var systemFields63 []string = []string{}
+		systemFields63 := make([]string, 0, len(r.OutputDynatraceOtlp.SystemFields))
 		for _, systemFieldsItem63 := range r.OutputDynatraceOtlp.SystemFields {
 			systemFields63 = append(systemFields63, systemFieldsItem63.ValueString())
 		}
@@ -20114,7 +20114,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			environment63 = nil
 		}
-		var streamtags63 []string = []string{}
+		streamtags63 := make([]string, 0, len(r.OutputDynatraceOtlp.Streamtags))
 		for _, streamtagsItem63 := range r.OutputDynatraceOtlp.Streamtags {
 			streamtags63 = append(streamtags63, streamtagsItem63.ValueString())
 		}
@@ -20166,7 +20166,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			httpLogsEndpointOverride2 = nil
 		}
-		var metadata3 []shared.OutputDynatraceOtlpMetadata = []shared.OutputDynatraceOtlpMetadata{}
+		metadata3 := make([]shared.OutputDynatraceOtlpMetadata, 0, len(r.OutputDynatraceOtlp.Metadata))
 		for _, metadataItem3 := range r.OutputDynatraceOtlp.Metadata {
 			key11 := new(string)
 			if !metadataItem3.Key.IsUnknown() && !metadataItem3.Key.IsNull() {
@@ -20269,7 +20269,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			useRoundRobinDns28 = nil
 		}
-		var extraHTTPHeaders28 []shared.OutputDynatraceOtlpExtraHTTPHeaders = []shared.OutputDynatraceOtlpExtraHTTPHeaders{}
+		extraHTTPHeaders28 := make([]shared.OutputDynatraceOtlpExtraHTTPHeaders, 0, len(r.OutputDynatraceOtlp.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem28 := range r.OutputDynatraceOtlp.ExtraHTTPHeaders {
 			name44 := new(string)
 			if !extraHTTPHeadersItem28.Name.IsUnknown() && !extraHTTPHeadersItem28.Name.IsNull() {
@@ -20285,11 +20285,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				Value: value58,
 			})
 		}
-		var safeHeaders28 []string = []string{}
+		safeHeaders28 := make([]string, 0, len(r.OutputDynatraceOtlp.SafeHeaders))
 		for _, safeHeadersItem28 := range r.OutputDynatraceOtlp.SafeHeaders {
 			safeHeaders28 = append(safeHeaders28, safeHeadersItem28.ValueString())
 		}
-		var responseRetrySettings29 []shared.OutputDynatraceOtlpResponseRetrySettings = []shared.OutputDynatraceOtlpResponseRetrySettings{}
+		responseRetrySettings29 := make([]shared.OutputDynatraceOtlpResponseRetrySettings, 0, len(r.OutputDynatraceOtlp.ResponseRetrySettings))
 		for _, responseRetrySettingsItem29 := range r.OutputDynatraceOtlp.ResponseRetrySettings {
 			var httpStatus29 float64
 			httpStatus29 = responseRetrySettingsItem29.HTTPStatus.ValueFloat64()

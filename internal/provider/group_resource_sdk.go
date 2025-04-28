@@ -65,7 +65,7 @@ func (r *GroupResourceModel) ToSharedConfigGroup(ctx context.Context) (*shared.C
 		} else {
 			localChanges = nil
 		}
-		var log []shared.Commit = []shared.Commit{}
+		log := make([]shared.Commit, 0, len(r.Git.Log))
 		for _, logItem := range r.Git.Log {
 			authorEmail := new(string)
 			if !logItem.AuthorEmail.IsUnknown() && !logItem.AuthorEmail.IsNull() {
@@ -151,7 +151,7 @@ func (r *GroupResourceModel) ToSharedConfigGroup(ctx context.Context) (*shared.C
 	} else {
 		provisioned = nil
 	}
-	var streamtags []string = []string{}
+	streamtags := make([]string, 0, len(r.Streamtags))
 	for _, streamtagsItem := range r.Streamtags {
 		streamtags = append(streamtags, streamtagsItem.ValueString())
 	}

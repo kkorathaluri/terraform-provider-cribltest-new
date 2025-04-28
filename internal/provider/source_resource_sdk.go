@@ -57,11 +57,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled = nil
 		}
-		var streamtags []string = []string{}
+		streamtags := make([]string, 0, len(r.InputCollection.Streamtags))
 		for _, streamtagsItem := range r.InputCollection.Streamtags {
 			streamtags = append(streamtags, streamtagsItem.ValueString())
 		}
-		var connections []shared.Connections = []shared.Connections{}
+		connections := make([]shared.Connections, 0, len(r.InputCollection.Connections))
 		for _, connectionsItem := range r.InputCollection.Connections {
 			pipeline1 := new(string)
 			if !connectionsItem.Pipeline.IsUnknown() && !connectionsItem.Pipeline.IsNull() {
@@ -131,7 +131,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Compress:        compress,
 			}
 		}
-		var breakerRulesets []string = []string{}
+		breakerRulesets := make([]string, 0, len(r.InputCollection.BreakerRulesets))
 		for _, breakerRulesetsItem := range r.InputCollection.BreakerRulesets {
 			breakerRulesets = append(breakerRulesets, breakerRulesetsItem.ValueString())
 		}
@@ -155,7 +155,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				command = nil
 			}
-			var args []string = []string{}
+			args := make([]string, 0, len(r.InputCollection.Preprocess.Args))
 			for _, argsItem := range r.InputCollection.Preprocess.Args {
 				args = append(args, argsItem.ValueString())
 			}
@@ -171,7 +171,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			throttleRatePerSec = nil
 		}
-		var metadata []shared.InputCollectionMetadata = []shared.InputCollectionMetadata{}
+		metadata := make([]shared.InputCollectionMetadata, 0, len(r.InputCollection.Metadata))
 		for _, metadataItem := range r.InputCollection.Metadata {
 			var name string
 			name = metadataItem.Name.ValueString()
@@ -258,11 +258,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled1 = nil
 		}
-		var streamtags1 []string = []string{}
+		streamtags1 := make([]string, 0, len(r.InputKafka.Streamtags))
 		for _, streamtagsItem1 := range r.InputKafka.Streamtags {
 			streamtags1 = append(streamtags1, streamtagsItem1.ValueString())
 		}
-		var connections1 []shared.InputKafkaConnections = []shared.InputKafkaConnections{}
+		connections1 := make([]shared.InputKafkaConnections, 0, len(r.InputKafka.Connections))
 		for _, connectionsItem1 := range r.InputKafka.Connections {
 			pipeline3 := new(string)
 			if !connectionsItem1.Pipeline.IsUnknown() && !connectionsItem1.Pipeline.IsNull() {
@@ -332,11 +332,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Compress:        compress1,
 			}
 		}
-		var brokers []string = []string{}
+		brokers := make([]string, 0, len(r.InputKafka.Brokers))
 		for _, brokersItem := range r.InputKafka.Brokers {
 			brokers = append(brokers, brokersItem.ValueString())
 		}
-		var topics []string = []string{}
+		topics := make([]string, 0, len(r.InputKafka.Topics))
 		for _, topicsItem := range r.InputKafka.Topics {
 			topics = append(topics, topicsItem.ValueString())
 		}
@@ -678,7 +678,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			maxSocketErrors = nil
 		}
-		var metadata1 []shared.InputKafkaMetadata = []shared.InputKafkaMetadata{}
+		metadata1 := make([]shared.InputKafkaMetadata, 0, len(r.InputKafka.Metadata))
 		for _, metadataItem1 := range r.InputKafka.Metadata {
 			var name1 string
 			name1 = metadataItem1.Name.ValueString()
@@ -784,11 +784,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled2 = nil
 		}
-		var streamtags2 []string = []string{}
+		streamtags2 := make([]string, 0, len(r.InputMsk.Streamtags))
 		for _, streamtagsItem2 := range r.InputMsk.Streamtags {
 			streamtags2 = append(streamtags2, streamtagsItem2.ValueString())
 		}
-		var connections2 []shared.InputMskConnections = []shared.InputMskConnections{}
+		connections2 := make([]shared.InputMskConnections, 0, len(r.InputMsk.Connections))
 		for _, connectionsItem2 := range r.InputMsk.Connections {
 			pipeline5 := new(string)
 			if !connectionsItem2.Pipeline.IsUnknown() && !connectionsItem2.Pipeline.IsNull() {
@@ -858,11 +858,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Compress:        compress2,
 			}
 		}
-		var brokers1 []string = []string{}
+		brokers1 := make([]string, 0, len(r.InputMsk.Brokers))
 		for _, brokersItem1 := range r.InputMsk.Brokers {
 			brokers1 = append(brokers1, brokersItem1.ValueString())
 		}
-		var topics1 []string = []string{}
+		topics1 := make([]string, 0, len(r.InputMsk.Topics))
 		for _, topicsItem1 := range r.InputMsk.Topics {
 			topics1 = append(topics1, topicsItem1.ValueString())
 		}
@@ -896,7 +896,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			heartbeatInterval1 = nil
 		}
-		var metadata2 []shared.InputMskMetadata = []shared.InputMskMetadata{}
+		metadata2 := make([]shared.InputMskMetadata, 0, len(r.InputMsk.Metadata))
 		for _, metadataItem2 := range r.InputMsk.Metadata {
 			var name2 string
 			name2 = metadataItem2.Name.ValueString()
@@ -1378,11 +1378,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled3 = nil
 		}
-		var streamtags3 []string = []string{}
+		streamtags3 := make([]string, 0, len(r.InputHTTP.Streamtags))
 		for _, streamtagsItem3 := range r.InputHTTP.Streamtags {
 			streamtags3 = append(streamtags3, streamtagsItem3.ValueString())
 		}
-		var connections3 []shared.InputHTTPConnections = []shared.InputHTTPConnections{}
+		connections3 := make([]shared.InputHTTPConnections, 0, len(r.InputHTTP.Connections))
 		for _, connectionsItem3 := range r.InputHTTP.Connections {
 			pipeline7 := new(string)
 			if !connectionsItem3.Pipeline.IsUnknown() && !connectionsItem3.Pipeline.IsNull() {
@@ -1461,7 +1461,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		var port float64
 		port = r.InputHTTP.Port.ValueFloat64()
 
-		var authTokens []string = []string{}
+		authTokens := make([]string, 0, len(r.InputHTTP.AuthTokens))
 		for _, authTokensItem := range r.InputHTTP.AuthTokens {
 			authTokens = append(authTokens, authTokensItem.ValueString())
 		}
@@ -1633,7 +1633,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			splunkHecAcks = nil
 		}
-		var metadata3 []shared.InputHTTPMetadata = []shared.InputHTTPMetadata{}
+		metadata3 := make([]shared.InputHTTPMetadata, 0, len(r.InputHTTP.Metadata))
 		for _, metadataItem3 := range r.InputHTTP.Metadata {
 			var name3 string
 			name3 = metadataItem3.Name.ValueString()
@@ -1646,7 +1646,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Value: value3,
 			})
 		}
-		var authTokensExt []shared.AuthTokensExt = []shared.AuthTokensExt{}
+		authTokensExt := make([]shared.AuthTokensExt, 0, len(r.InputHTTP.AuthTokensExt))
 		for _, authTokensExtItem := range r.InputHTTP.AuthTokensExt {
 			var token string
 			token = authTokensExtItem.Token.ValueString()
@@ -1657,7 +1657,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				description2 = nil
 			}
-			var metadata4 []shared.InputHTTPAuthTokensExtMetadata = []shared.InputHTTPAuthTokensExtMetadata{}
+			metadata4 := make([]shared.InputHTTPAuthTokensExtMetadata, 0, len(authTokensExtItem.Metadata))
 			for _, metadataItem4 := range authTokensExtItem.Metadata {
 				var name4 string
 				name4 = metadataItem4.Name.ValueString()
@@ -1766,11 +1766,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled4 = nil
 		}
-		var streamtags4 []string = []string{}
+		streamtags4 := make([]string, 0, len(r.InputSplunk.Streamtags))
 		for _, streamtagsItem4 := range r.InputSplunk.Streamtags {
 			streamtags4 = append(streamtags4, streamtagsItem4.ValueString())
 		}
-		var connections4 []shared.InputSplunkConnections = []shared.InputSplunkConnections{}
+		connections4 := make([]shared.InputSplunkConnections, 0, len(r.InputSplunk.Connections))
 		for _, connectionsItem4 := range r.InputSplunk.Connections {
 			pipeline9 := new(string)
 			if !connectionsItem4.Pipeline.IsUnknown() && !connectionsItem4.Pipeline.IsNull() {
@@ -1963,7 +1963,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			enableProxyHeader1 = nil
 		}
-		var metadata5 []shared.InputSplunkMetadata = []shared.InputSplunkMetadata{}
+		metadata5 := make([]shared.InputSplunkMetadata, 0, len(r.InputSplunk.Metadata))
 		for _, metadataItem5 := range r.InputSplunk.Metadata {
 			var name5 string
 			name5 = metadataItem5.Name.ValueString()
@@ -1976,7 +1976,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Value: value5,
 			})
 		}
-		var breakerRulesets1 []string = []string{}
+		breakerRulesets1 := make([]string, 0, len(r.InputSplunk.BreakerRulesets))
 		for _, breakerRulesetsItem1 := range r.InputSplunk.BreakerRulesets {
 			breakerRulesets1 = append(breakerRulesets1, breakerRulesetsItem1.ValueString())
 		}
@@ -1986,7 +1986,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			staleChannelFlushMs1 = nil
 		}
-		var authTokens1 []shared.AuthTokens = []shared.AuthTokens{}
+		authTokens1 := make([]shared.AuthTokens, 0, len(r.InputSplunk.AuthTokens))
 		for _, authTokensItem1 := range r.InputSplunk.AuthTokens {
 			var token1 string
 			token1 = authTokensItem1.Token.ValueString()
@@ -2119,11 +2119,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled5 = nil
 		}
-		var streamtags5 []string = []string{}
+		streamtags5 := make([]string, 0, len(r.InputSplunkSearch.Streamtags))
 		for _, streamtagsItem5 := range r.InputSplunkSearch.Streamtags {
 			streamtags5 = append(streamtags5, streamtagsItem5.ValueString())
 		}
-		var connections5 []shared.InputSplunkSearchConnections = []shared.InputSplunkSearchConnections{}
+		connections5 := make([]shared.InputSplunkSearchConnections, 0, len(r.InputSplunkSearch.Connections))
 		for _, connectionsItem5 := range r.InputSplunkSearch.Connections {
 			pipeline11 := new(string)
 			if !connectionsItem5.Pipeline.IsUnknown() && !connectionsItem5.Pipeline.IsNull() {
@@ -2232,7 +2232,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			outputMode = nil
 		}
-		var endpointParams []shared.EndpointParams = []shared.EndpointParams{}
+		endpointParams := make([]shared.EndpointParams, 0, len(r.InputSplunkSearch.EndpointParams))
 		for _, endpointParamsItem := range r.InputSplunkSearch.EndpointParams {
 			var name6 string
 			name6 = endpointParamsItem.Name.ValueString()
@@ -2245,7 +2245,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Value: value6,
 			})
 		}
-		var endpointHeaders []shared.EndpointHeaders = []shared.EndpointHeaders{}
+		endpointHeaders := make([]shared.EndpointHeaders, 0, len(r.InputSplunkSearch.EndpointHeaders))
 		for _, endpointHeadersItem := range r.InputSplunkSearch.EndpointHeaders {
 			var name7 string
 			name7 = endpointHeadersItem.Name.ValueString()
@@ -2312,7 +2312,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			ttl = nil
 		}
-		var metadata6 []shared.InputSplunkSearchMetadata = []shared.InputSplunkSearchMetadata{}
+		metadata6 := make([]shared.InputSplunkSearchMetadata, 0, len(r.InputSplunkSearch.Metadata))
 		for _, metadataItem6 := range r.InputSplunkSearch.Metadata {
 			var name8 string
 			name8 = metadataItem6.Name.ValueString()
@@ -2351,7 +2351,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				multiplier = nil
 			}
-			var codes []float64 = []float64{}
+			codes := make([]float64, 0, len(r.InputSplunkSearch.RetryRules.Codes))
 			for _, codesItem := range r.InputSplunkSearch.RetryRules.Codes {
 				codes = append(codes, codesItem.ValueFloat64())
 			}
@@ -2384,7 +2384,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				RetryConnectReset:   retryConnectReset,
 			}
 		}
-		var breakerRulesets2 []string = []string{}
+		breakerRulesets2 := make([]string, 0, len(r.InputSplunkSearch.BreakerRulesets))
 		for _, breakerRulesetsItem2 := range r.InputSplunkSearch.BreakerRulesets {
 			breakerRulesets2 = append(breakerRulesets2, breakerRulesetsItem2.ValueString())
 		}
@@ -2472,7 +2472,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			tokenTimeoutSecs = nil
 		}
-		var oauthParams []shared.OauthParams = []shared.OauthParams{}
+		oauthParams := make([]shared.OauthParams, 0, len(r.InputSplunkSearch.OauthParams))
 		for _, oauthParamsItem := range r.InputSplunkSearch.OauthParams {
 			var name9 string
 			name9 = oauthParamsItem.Name.ValueString()
@@ -2485,7 +2485,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Value: value9,
 			})
 		}
-		var oauthHeaders []shared.OauthHeaders = []shared.OauthHeaders{}
+		oauthHeaders := make([]shared.OauthHeaders, 0, len(r.InputSplunkSearch.OauthHeaders))
 		for _, oauthHeadersItem := range r.InputSplunkSearch.OauthHeaders {
 			var name10 string
 			name10 = oauthHeadersItem.Name.ValueString()
@@ -2597,11 +2597,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled6 = nil
 		}
-		var streamtags6 []string = []string{}
+		streamtags6 := make([]string, 0, len(r.InputSplunkHec.Streamtags))
 		for _, streamtagsItem6 := range r.InputSplunkHec.Streamtags {
 			streamtags6 = append(streamtags6, streamtagsItem6.ValueString())
 		}
-		var connections6 []shared.InputSplunkHecConnections = []shared.InputSplunkHecConnections{}
+		connections6 := make([]shared.InputSplunkHecConnections, 0, len(r.InputSplunkHec.Connections))
 		for _, connectionsItem6 := range r.InputSplunkHec.Connections {
 			pipeline13 := new(string)
 			if !connectionsItem6.Pipeline.IsUnknown() && !connectionsItem6.Pipeline.IsNull() {
@@ -2680,7 +2680,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		var port2 float64
 		port2 = r.InputSplunkHec.Port.ValueFloat64()
 
-		var authTokens2 []shared.InputSplunkHecAuthTokens = []shared.InputSplunkHecAuthTokens{}
+		authTokens2 := make([]shared.InputSplunkHecAuthTokens, 0, len(r.InputSplunkHec.AuthTokens))
 		for _, authTokensItem2 := range r.InputSplunkHec.AuthTokens {
 			authType1 := new(shared.InputSplunkHecAuthenticationMethod)
 			if !authTokensItem2.AuthType.IsUnknown() && !authTokensItem2.AuthType.IsNull() {
@@ -2706,11 +2706,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				description7 = nil
 			}
-			var allowedIndexesAtToken []string = []string{}
+			allowedIndexesAtToken := make([]string, 0, len(authTokensItem2.AllowedIndexesAtToken))
 			for _, allowedIndexesAtTokenItem := range authTokensItem2.AllowedIndexesAtToken {
 				allowedIndexesAtToken = append(allowedIndexesAtToken, allowedIndexesAtTokenItem.ValueString())
 			}
-			var metadata7 []shared.InputSplunkHecAuthTokensMetadata = []shared.InputSplunkHecAuthTokensMetadata{}
+			metadata7 := make([]shared.InputSplunkHecAuthTokensMetadata, 0, len(authTokensItem2.Metadata))
 			for _, metadataItem7 := range authTokensItem2.Metadata {
 				var name11 string
 				name11 = metadataItem7.Name.ValueString()
@@ -2881,7 +2881,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			splunkHecApi1 = nil
 		}
-		var metadata8 []shared.InputSplunkHecMetadata = []shared.InputSplunkHecMetadata{}
+		metadata8 := make([]shared.InputSplunkHecMetadata, 0, len(r.InputSplunkHec.Metadata))
 		for _, metadataItem8 := range r.InputSplunkHec.Metadata {
 			var name12 string
 			name12 = metadataItem8.Name.ValueString()
@@ -2894,7 +2894,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Value: value12,
 			})
 		}
-		var allowedIndexes []string = []string{}
+		allowedIndexes := make([]string, 0, len(r.InputSplunkHec.AllowedIndexes))
 		for _, allowedIndexesItem := range r.InputSplunkHec.AllowedIndexes {
 			allowedIndexes = append(allowedIndexes, allowedIndexesItem.ValueString())
 		}
@@ -2904,7 +2904,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			splunkHecAcks1 = nil
 		}
-		var breakerRulesets3 []string = []string{}
+		breakerRulesets3 := make([]string, 0, len(r.InputSplunkHec.BreakerRulesets))
 		for _, breakerRulesetsItem3 := range r.InputSplunkHec.BreakerRulesets {
 			breakerRulesets3 = append(breakerRulesets3, breakerRulesetsItem3.ValueString())
 		}
@@ -2932,11 +2932,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			extractMetrics1 = nil
 		}
-		var accessControlAllowOrigin []string = []string{}
+		accessControlAllowOrigin := make([]string, 0, len(r.InputSplunkHec.AccessControlAllowOrigin))
 		for _, accessControlAllowOriginItem := range r.InputSplunkHec.AccessControlAllowOrigin {
 			accessControlAllowOrigin = append(accessControlAllowOrigin, accessControlAllowOriginItem.ValueString())
 		}
-		var accessControlAllowHeaders []string = []string{}
+		accessControlAllowHeaders := make([]string, 0, len(r.InputSplunkHec.AccessControlAllowHeaders))
 		for _, accessControlAllowHeadersItem := range r.InputSplunkHec.AccessControlAllowHeaders {
 			accessControlAllowHeaders = append(accessControlAllowHeaders, accessControlAllowHeadersItem.ValueString())
 		}
@@ -3037,11 +3037,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled7 = nil
 		}
-		var streamtags7 []string = []string{}
+		streamtags7 := make([]string, 0, len(r.InputAzureBlob.Streamtags))
 		for _, streamtagsItem7 := range r.InputAzureBlob.Streamtags {
 			streamtags7 = append(streamtags7, streamtagsItem7.ValueString())
 		}
-		var connections7 []shared.InputAzureBlobConnections = []shared.InputAzureBlobConnections{}
+		connections7 := make([]shared.InputAzureBlobConnections, 0, len(r.InputAzureBlob.Connections))
 		for _, connectionsItem7 := range r.InputAzureBlob.Connections {
 			pipeline15 := new(string)
 			if !connectionsItem7.Pipeline.IsUnknown() && !connectionsItem7.Pipeline.IsNull() {
@@ -3150,7 +3150,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			skipOnError = nil
 		}
-		var metadata9 []shared.InputAzureBlobMetadata = []shared.InputAzureBlobMetadata{}
+		metadata9 := make([]shared.InputAzureBlobMetadata, 0, len(r.InputAzureBlob.Metadata))
 		for _, metadataItem9 := range r.InputAzureBlob.Metadata {
 			var name13 string
 			name13 = metadataItem9.Name.ValueString()
@@ -3163,7 +3163,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Value: value13,
 			})
 		}
-		var breakerRulesets4 []string = []string{}
+		breakerRulesets4 := make([]string, 0, len(r.InputAzureBlob.BreakerRulesets))
 		for _, breakerRulesetsItem4 := range r.InputAzureBlob.BreakerRulesets {
 			breakerRulesets4 = append(breakerRulesets4, breakerRulesetsItem4.ValueString())
 		}
@@ -3332,11 +3332,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled8 = nil
 		}
-		var streamtags8 []string = []string{}
+		streamtags8 := make([]string, 0, len(r.InputElastic.Streamtags))
 		for _, streamtagsItem8 := range r.InputElastic.Streamtags {
 			streamtags8 = append(streamtags8, streamtagsItem8.ValueString())
 		}
-		var connections8 []shared.InputElasticConnections = []shared.InputElasticConnections{}
+		connections8 := make([]shared.InputElasticConnections, 0, len(r.InputElastic.Connections))
 		for _, connectionsItem8 := range r.InputElastic.Connections {
 			pipeline17 := new(string)
 			if !connectionsItem8.Pipeline.IsUnknown() && !connectionsItem8.Pipeline.IsNull() {
@@ -3577,7 +3577,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			apiVersion = nil
 		}
-		var extraHTTPHeaders []shared.ExtraHTTPHeaders = []shared.ExtraHTTPHeaders{}
+		extraHTTPHeaders := make([]shared.ExtraHTTPHeaders, 0, len(r.InputElastic.ExtraHTTPHeaders))
 		for _, extraHTTPHeadersItem := range r.InputElastic.ExtraHTTPHeaders {
 			name14 := new(string)
 			if !extraHTTPHeadersItem.Name.IsUnknown() && !extraHTTPHeadersItem.Name.IsNull() {
@@ -3593,7 +3593,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Value: value14,
 			})
 		}
-		var metadata10 []shared.InputElasticMetadata = []shared.InputElasticMetadata{}
+		metadata10 := make([]shared.InputElasticMetadata, 0, len(r.InputElastic.Metadata))
 		for _, metadataItem10 := range r.InputElastic.Metadata {
 			var name15 string
 			name15 = metadataItem10.Name.ValueString()
@@ -3632,7 +3632,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				rejectUnauthorized10 = nil
 			}
-			var removeHeaders []string = []string{}
+			removeHeaders := make([]string, 0, len(r.InputElastic.ProxyMode.RemoveHeaders))
 			for _, removeHeadersItem := range r.InputElastic.ProxyMode.RemoveHeaders {
 				removeHeaders = append(removeHeaders, removeHeadersItem.ValueString())
 			}
@@ -3681,7 +3681,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			credentialsSecret3 = nil
 		}
-		var authTokens3 []string = []string{}
+		authTokens3 := make([]string, 0, len(r.InputElastic.AuthTokens))
 		for _, authTokensItem3 := range r.InputElastic.AuthTokens {
 			authTokens3 = append(authTokens3, authTokensItem3.ValueString())
 		}
@@ -3780,11 +3780,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled9 = nil
 		}
-		var streamtags9 []string = []string{}
+		streamtags9 := make([]string, 0, len(r.InputConfluentCloud.Streamtags))
 		for _, streamtagsItem9 := range r.InputConfluentCloud.Streamtags {
 			streamtags9 = append(streamtags9, streamtagsItem9.ValueString())
 		}
-		var connections9 []shared.InputConfluentCloudConnections = []shared.InputConfluentCloudConnections{}
+		connections9 := make([]shared.InputConfluentCloudConnections, 0, len(r.InputConfluentCloud.Connections))
 		for _, connectionsItem9 := range r.InputConfluentCloud.Connections {
 			pipeline19 := new(string)
 			if !connectionsItem9.Pipeline.IsUnknown() && !connectionsItem9.Pipeline.IsNull() {
@@ -3854,7 +3854,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Compress:        compress10,
 			}
 		}
-		var brokers2 []string = []string{}
+		brokers2 := make([]string, 0, len(r.InputConfluentCloud.Brokers))
 		for _, brokersItem2 := range r.InputConfluentCloud.Brokers {
 			brokers2 = append(brokers2, brokersItem2.ValueString())
 		}
@@ -3933,7 +3933,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				MaxVersion:         maxVersion8,
 			}
 		}
-		var topics2 []string = []string{}
+		topics2 := make([]string, 0, len(r.InputConfluentCloud.Topics))
 		for _, topicsItem2 := range r.InputConfluentCloud.Topics {
 			topics2 = append(topics2, topicsItem2.ValueString())
 		}
@@ -4200,7 +4200,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			maxSocketErrors2 = nil
 		}
-		var metadata11 []shared.InputConfluentCloudMetadata = []shared.InputConfluentCloudMetadata{}
+		metadata11 := make([]shared.InputConfluentCloudMetadata, 0, len(r.InputConfluentCloud.Metadata))
 		for _, metadataItem11 := range r.InputConfluentCloud.Metadata {
 			var name16 string
 			name16 = metadataItem11.Name.ValueString()
@@ -4308,11 +4308,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				pqEnabled10 = nil
 			}
-			var streamtags10 []string = []string{}
+			streamtags10 := make([]string, 0, len(r.InputGrafana.One.Streamtags))
 			for _, streamtagsItem10 := range r.InputGrafana.One.Streamtags {
 				streamtags10 = append(streamtags10, streamtagsItem10.ValueString())
 			}
-			var connections10 []shared.InputGrafanaConnections = []shared.InputGrafanaConnections{}
+			connections10 := make([]shared.InputGrafanaConnections, 0, len(r.InputGrafana.One.Connections))
 			for _, connectionsItem10 := range r.InputGrafana.One.Connections {
 				pipeline21 := new(string)
 				if !connectionsItem10.Pipeline.IsUnknown() && !connectionsItem10.Pipeline.IsNull() {
@@ -4621,7 +4621,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				} else {
 					tokenTimeoutSecs1 = nil
 				}
-				var oauthParams1 []shared.InputGrafanaOauthParams = []shared.InputGrafanaOauthParams{}
+				oauthParams1 := make([]shared.InputGrafanaOauthParams, 0, len(r.InputGrafana.One.PrometheusAuth.OauthParams))
 				for _, oauthParamsItem1 := range r.InputGrafana.One.PrometheusAuth.OauthParams {
 					var name17 string
 					name17 = oauthParamsItem1.Name.ValueString()
@@ -4634,7 +4634,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 						Value: value17,
 					})
 				}
-				var oauthHeaders1 []shared.InputGrafanaOauthHeaders = []shared.InputGrafanaOauthHeaders{}
+				oauthHeaders1 := make([]shared.InputGrafanaOauthHeaders, 0, len(r.InputGrafana.One.PrometheusAuth.OauthHeaders))
 				for _, oauthHeadersItem1 := range r.InputGrafana.One.PrometheusAuth.OauthHeaders {
 					var name18 string
 					name18 = oauthHeadersItem1.Name.ValueString()
@@ -4738,7 +4738,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				} else {
 					tokenTimeoutSecs2 = nil
 				}
-				var oauthParams2 []shared.InputGrafana1OauthParams = []shared.InputGrafana1OauthParams{}
+				oauthParams2 := make([]shared.InputGrafana1OauthParams, 0, len(r.InputGrafana.One.LokiAuth.OauthParams))
 				for _, oauthParamsItem2 := range r.InputGrafana.One.LokiAuth.OauthParams {
 					var name19 string
 					name19 = oauthParamsItem2.Name.ValueString()
@@ -4751,7 +4751,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 						Value: value19,
 					})
 				}
-				var oauthHeaders2 []shared.InputGrafana1OauthHeaders = []shared.InputGrafana1OauthHeaders{}
+				oauthHeaders2 := make([]shared.InputGrafana1OauthHeaders, 0, len(r.InputGrafana.One.LokiAuth.OauthHeaders))
 				for _, oauthHeadersItem2 := range r.InputGrafana.One.LokiAuth.OauthHeaders {
 					var name20 string
 					name20 = oauthHeadersItem2.Name.ValueString()
@@ -4781,7 +4781,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 					OauthHeaders:       oauthHeaders2,
 				}
 			}
-			var metadata12 []shared.InputGrafanaMetadata = []shared.InputGrafanaMetadata{}
+			metadata12 := make([]shared.InputGrafanaMetadata, 0, len(r.InputGrafana.One.Metadata))
 			for _, metadataItem12 := range r.InputGrafana.One.Metadata {
 				var name21 string
 				name21 = metadataItem12.Name.ValueString()
@@ -4882,11 +4882,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				pqEnabled11 = nil
 			}
-			var streamtags11 []string = []string{}
+			streamtags11 := make([]string, 0, len(r.InputGrafana.Two.Streamtags))
 			for _, streamtagsItem11 := range r.InputGrafana.Two.Streamtags {
 				streamtags11 = append(streamtags11, streamtagsItem11.ValueString())
 			}
-			var connections11 []shared.InputGrafana2Connections = []shared.InputGrafana2Connections{}
+			connections11 := make([]shared.InputGrafana2Connections, 0, len(r.InputGrafana.Two.Connections))
 			for _, connectionsItem11 := range r.InputGrafana.Two.Connections {
 				pipeline23 := new(string)
 				if !connectionsItem11.Pipeline.IsUnknown() && !connectionsItem11.Pipeline.IsNull() {
@@ -5195,7 +5195,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				} else {
 					tokenTimeoutSecs3 = nil
 				}
-				var oauthParams3 []shared.InputGrafana2OauthParams = []shared.InputGrafana2OauthParams{}
+				oauthParams3 := make([]shared.InputGrafana2OauthParams, 0, len(r.InputGrafana.Two.PrometheusAuth.OauthParams))
 				for _, oauthParamsItem3 := range r.InputGrafana.Two.PrometheusAuth.OauthParams {
 					var name22 string
 					name22 = oauthParamsItem3.Name.ValueString()
@@ -5208,7 +5208,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 						Value: value22,
 					})
 				}
-				var oauthHeaders3 []shared.InputGrafana2OauthHeaders = []shared.InputGrafana2OauthHeaders{}
+				oauthHeaders3 := make([]shared.InputGrafana2OauthHeaders, 0, len(r.InputGrafana.Two.PrometheusAuth.OauthHeaders))
 				for _, oauthHeadersItem3 := range r.InputGrafana.Two.PrometheusAuth.OauthHeaders {
 					var name23 string
 					name23 = oauthHeadersItem3.Name.ValueString()
@@ -5312,7 +5312,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				} else {
 					tokenTimeoutSecs4 = nil
 				}
-				var oauthParams4 []shared.InputGrafana2LokiAuthOauthParams = []shared.InputGrafana2LokiAuthOauthParams{}
+				oauthParams4 := make([]shared.InputGrafana2LokiAuthOauthParams, 0, len(r.InputGrafana.Two.LokiAuth.OauthParams))
 				for _, oauthParamsItem4 := range r.InputGrafana.Two.LokiAuth.OauthParams {
 					var name24 string
 					name24 = oauthParamsItem4.Name.ValueString()
@@ -5325,7 +5325,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 						Value: value24,
 					})
 				}
-				var oauthHeaders4 []shared.InputGrafana2LokiAuthOauthHeaders = []shared.InputGrafana2LokiAuthOauthHeaders{}
+				oauthHeaders4 := make([]shared.InputGrafana2LokiAuthOauthHeaders, 0, len(r.InputGrafana.Two.LokiAuth.OauthHeaders))
 				for _, oauthHeadersItem4 := range r.InputGrafana.Two.LokiAuth.OauthHeaders {
 					var name25 string
 					name25 = oauthHeadersItem4.Name.ValueString()
@@ -5355,7 +5355,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 					OauthHeaders:       oauthHeaders4,
 				}
 			}
-			var metadata13 []shared.InputGrafana2Metadata = []shared.InputGrafana2Metadata{}
+			metadata13 := make([]shared.InputGrafana2Metadata, 0, len(r.InputGrafana.Two.Metadata))
 			for _, metadataItem13 := range r.InputGrafana.Two.Metadata {
 				var name26 string
 				name26 = metadataItem13.Name.ValueString()
@@ -5462,11 +5462,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled12 = nil
 		}
-		var streamtags12 []string = []string{}
+		streamtags12 := make([]string, 0, len(r.InputLoki.Streamtags))
 		for _, streamtagsItem12 := range r.InputLoki.Streamtags {
 			streamtags12 = append(streamtags12, streamtagsItem12.ValueString())
 		}
-		var connections12 []shared.InputLokiConnections = []shared.InputLokiConnections{}
+		connections12 := make([]shared.InputLokiConnections, 0, len(r.InputLoki.Connections))
 		for _, connectionsItem12 := range r.InputLoki.Connections {
 			pipeline25 := new(string)
 			if !connectionsItem12.Pipeline.IsUnknown() && !connectionsItem12.Pipeline.IsNull() {
@@ -5701,7 +5701,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			authType9 = nil
 		}
-		var metadata14 []shared.InputLokiMetadata = []shared.InputLokiMetadata{}
+		metadata14 := make([]shared.InputLokiMetadata, 0, len(r.InputLoki.Metadata))
 		for _, metadataItem14 := range r.InputLoki.Metadata {
 			var name27 string
 			name27 = metadataItem14.Name.ValueString()
@@ -5786,7 +5786,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			tokenTimeoutSecs5 = nil
 		}
-		var oauthParams5 []shared.InputLokiOauthParams = []shared.InputLokiOauthParams{}
+		oauthParams5 := make([]shared.InputLokiOauthParams, 0, len(r.InputLoki.OauthParams))
 		for _, oauthParamsItem5 := range r.InputLoki.OauthParams {
 			var name28 string
 			name28 = oauthParamsItem5.Name.ValueString()
@@ -5799,7 +5799,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Value: value28,
 			})
 		}
-		var oauthHeaders5 []shared.InputLokiOauthHeaders = []shared.InputLokiOauthHeaders{}
+		oauthHeaders5 := make([]shared.InputLokiOauthHeaders, 0, len(r.InputLoki.OauthHeaders))
 		for _, oauthHeadersItem5 := range r.InputLoki.OauthHeaders {
 			var name29 string
 			name29 = oauthHeadersItem5.Name.ValueString()
@@ -5905,11 +5905,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled13 = nil
 		}
-		var streamtags13 []string = []string{}
+		streamtags13 := make([]string, 0, len(r.InputPrometheusRw.Streamtags))
 		for _, streamtagsItem13 := range r.InputPrometheusRw.Streamtags {
 			streamtags13 = append(streamtags13, streamtagsItem13.ValueString())
 		}
-		var connections13 []shared.InputPrometheusRwConnections = []shared.InputPrometheusRwConnections{}
+		connections13 := make([]shared.InputPrometheusRwConnections, 0, len(r.InputPrometheusRw.Connections))
 		for _, connectionsItem13 := range r.InputPrometheusRw.Connections {
 			pipeline27 := new(string)
 			if !connectionsItem13.Pipeline.IsUnknown() && !connectionsItem13.Pipeline.IsNull() {
@@ -6144,7 +6144,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			authType10 = nil
 		}
-		var metadata15 []shared.InputPrometheusRwMetadata = []shared.InputPrometheusRwMetadata{}
+		metadata15 := make([]shared.InputPrometheusRwMetadata, 0, len(r.InputPrometheusRw.Metadata))
 		for _, metadataItem15 := range r.InputPrometheusRw.Metadata {
 			var name30 string
 			name30 = metadataItem15.Name.ValueString()
@@ -6229,7 +6229,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			tokenTimeoutSecs6 = nil
 		}
-		var oauthParams6 []shared.InputPrometheusRwOauthParams = []shared.InputPrometheusRwOauthParams{}
+		oauthParams6 := make([]shared.InputPrometheusRwOauthParams, 0, len(r.InputPrometheusRw.OauthParams))
 		for _, oauthParamsItem6 := range r.InputPrometheusRw.OauthParams {
 			var name31 string
 			name31 = oauthParamsItem6.Name.ValueString()
@@ -6242,7 +6242,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Value: value31,
 			})
 		}
-		var oauthHeaders6 []shared.InputPrometheusRwOauthHeaders = []shared.InputPrometheusRwOauthHeaders{}
+		oauthHeaders6 := make([]shared.InputPrometheusRwOauthHeaders, 0, len(r.InputPrometheusRw.OauthHeaders))
 		for _, oauthHeadersItem6 := range r.InputPrometheusRw.OauthHeaders {
 			var name32 string
 			name32 = oauthHeadersItem6.Name.ValueString()
@@ -6348,11 +6348,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled14 = nil
 		}
-		var streamtags14 []string = []string{}
+		streamtags14 := make([]string, 0, len(r.InputPrometheus.Streamtags))
 		for _, streamtagsItem14 := range r.InputPrometheus.Streamtags {
 			streamtags14 = append(streamtags14, streamtagsItem14.ValueString())
 		}
-		var connections14 []shared.InputPrometheusConnections = []shared.InputPrometheusConnections{}
+		connections14 := make([]shared.InputPrometheusConnections, 0, len(r.InputPrometheus.Connections))
 		for _, connectionsItem14 := range r.InputPrometheus.Connections {
 			pipeline29 := new(string)
 			if !connectionsItem14.Pipeline.IsUnknown() && !connectionsItem14.Pipeline.IsNull() {
@@ -6422,7 +6422,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Compress:        compress15,
 			}
 		}
-		var dimensionList []string = []string{}
+		dimensionList := make([]string, 0, len(r.InputPrometheus.DimensionList))
 		for _, dimensionListItem := range r.InputPrometheus.DimensionList {
 			dimensionList = append(dimensionList, dimensionListItem.ValueString())
 		}
@@ -6474,7 +6474,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			ttl1 = nil
 		}
-		var metadata16 []shared.InputPrometheusMetadata = []shared.InputPrometheusMetadata{}
+		metadata16 := make([]shared.InputPrometheusMetadata, 0, len(r.InputPrometheus.Metadata))
 		for _, metadataItem16 := range r.InputPrometheus.Metadata {
 			var name33 string
 			name33 = metadataItem16.Name.ValueString()
@@ -6499,11 +6499,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description16 = nil
 		}
-		var targetList []string = []string{}
+		targetList := make([]string, 0, len(r.InputPrometheus.TargetList))
 		for _, targetListItem := range r.InputPrometheus.TargetList {
 			targetList = append(targetList, targetListItem.ValueString())
 		}
-		var nameList []string = []string{}
+		nameList := make([]string, 0, len(r.InputPrometheus.NameList))
 		for _, nameListItem := range r.InputPrometheus.NameList {
 			nameList = append(nameList, nameListItem.ValueString())
 		}
@@ -6537,12 +6537,12 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			scrapePort = nil
 		}
-		var searchFilter []shared.SearchFilter = []shared.SearchFilter{}
+		searchFilter := make([]shared.SearchFilter, 0, len(r.InputPrometheus.SearchFilter))
 		for _, searchFilterItem := range r.InputPrometheus.SearchFilter {
 			var name34 string
 			name34 = searchFilterItem.Name.ValueString()
 
-			var values []string = []string{}
+			values := make([]string, 0, len(searchFilterItem.Values))
 			for _, valuesItem := range searchFilterItem.Values {
 				values = append(values, valuesItem.ValueString())
 			}
@@ -6724,11 +6724,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled15 = nil
 		}
-		var streamtags15 []string = []string{}
+		streamtags15 := make([]string, 0, len(r.InputEdgePrometheus.Streamtags))
 		for _, streamtagsItem15 := range r.InputEdgePrometheus.Streamtags {
 			streamtags15 = append(streamtags15, streamtagsItem15.ValueString())
 		}
-		var connections15 []shared.InputEdgePrometheusConnections = []shared.InputEdgePrometheusConnections{}
+		connections15 := make([]shared.InputEdgePrometheusConnections, 0, len(r.InputEdgePrometheus.Connections))
 		for _, connectionsItem15 := range r.InputEdgePrometheus.Connections {
 			pipeline31 := new(string)
 			if !connectionsItem15.Pipeline.IsUnknown() && !connectionsItem15.Pipeline.IsNull() {
@@ -6798,7 +6798,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Compress:        compress16,
 			}
 		}
-		var dimensionList1 []string = []string{}
+		dimensionList1 := make([]string, 0, len(r.InputEdgePrometheus.DimensionList))
 		for _, dimensionListItem1 := range r.InputEdgePrometheus.DimensionList {
 			dimensionList1 = append(dimensionList1, dimensionListItem1.ValueString())
 		}
@@ -6860,7 +6860,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Compress:    compress17,
 			}
 		}
-		var metadata17 []shared.InputEdgePrometheusMetadata = []shared.InputEdgePrometheusMetadata{}
+		metadata17 := make([]shared.InputEdgePrometheusMetadata, 0, len(r.InputEdgePrometheus.Metadata))
 		for _, metadataItem17 := range r.InputEdgePrometheus.Metadata {
 			var name35 string
 			name35 = metadataItem17.Name.ValueString()
@@ -6885,7 +6885,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description17 = nil
 		}
-		var targets []shared.Targets = []shared.Targets{}
+		targets := make([]shared.Targets, 0, len(r.InputEdgePrometheus.Targets))
 		for _, targetsItem := range r.InputEdgePrometheus.Targets {
 			protocol := new(shared.InputEdgePrometheusTargetsProtocol)
 			if !targetsItem.Protocol.IsUnknown() && !targetsItem.Protocol.IsNull() {
@@ -6915,7 +6915,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Path:     path16,
 			})
 		}
-		var nameList1 []string = []string{}
+		nameList1 := make([]string, 0, len(r.InputEdgePrometheus.NameList))
 		for _, nameListItem1 := range r.InputEdgePrometheus.NameList {
 			nameList1 = append(nameList1, nameListItem1.ValueString())
 		}
@@ -6949,12 +6949,12 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			scrapePort1 = nil
 		}
-		var searchFilter1 []shared.InputEdgePrometheusSearchFilter = []shared.InputEdgePrometheusSearchFilter{}
+		searchFilter1 := make([]shared.InputEdgePrometheusSearchFilter, 0, len(r.InputEdgePrometheus.SearchFilter))
 		for _, searchFilterItem1 := range r.InputEdgePrometheus.SearchFilter {
 			var name36 string
 			name36 = searchFilterItem1.Name.ValueString()
 
-			var values1 []string = []string{}
+			values1 := make([]string, 0, len(searchFilterItem1.Values))
 			for _, valuesItem1 := range searchFilterItem1.Values {
 				values1 = append(values1, valuesItem1.ValueString())
 			}
@@ -7047,7 +7047,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			scrapePathExpr = nil
 		}
-		var podFilter []shared.PodFilter = []shared.PodFilter{}
+		podFilter := make([]shared.PodFilter, 0, len(r.InputEdgePrometheus.PodFilter))
 		for _, podFilterItem := range r.InputEdgePrometheus.PodFilter {
 			var filter string
 			filter = podFilterItem.Filter.ValueString()
@@ -7177,11 +7177,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled16 = nil
 		}
-		var streamtags16 []string = []string{}
+		streamtags16 := make([]string, 0, len(r.InputOffice365Mgmt.Streamtags))
 		for _, streamtagsItem16 := range r.InputOffice365Mgmt.Streamtags {
 			streamtags16 = append(streamtags16, streamtagsItem16.ValueString())
 		}
-		var connections16 []shared.InputOffice365MgmtConnections = []shared.InputOffice365MgmtConnections{}
+		connections16 := make([]shared.InputOffice365MgmtConnections, 0, len(r.InputOffice365Mgmt.Connections))
 		for _, connectionsItem16 := range r.InputOffice365Mgmt.Connections {
 			pipeline33 := new(string)
 			if !connectionsItem16.Pipeline.IsUnknown() && !connectionsItem16.Pipeline.IsNull() {
@@ -7293,7 +7293,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			ttl2 = nil
 		}
-		var metadata18 []shared.InputOffice365MgmtMetadata = []shared.InputOffice365MgmtMetadata{}
+		metadata18 := make([]shared.InputOffice365MgmtMetadata, 0, len(r.InputOffice365Mgmt.Metadata))
 		for _, metadataItem18 := range r.InputOffice365Mgmt.Metadata {
 			var name37 string
 			name37 = metadataItem18.Name.ValueString()
@@ -7312,7 +7312,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			publisherIdentifier = nil
 		}
-		var contentConfig []shared.ContentConfig = []shared.ContentConfig{}
+		contentConfig := make([]shared.ContentConfig, 0, len(r.InputOffice365Mgmt.ContentConfig))
 		for _, contentConfigItem := range r.InputOffice365Mgmt.ContentConfig {
 			contentType := new(string)
 			if !contentConfigItem.ContentType.IsUnknown() && !contentConfigItem.ContentType.IsNull() {
@@ -7384,7 +7384,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				multiplier1 = nil
 			}
-			var codes1 []float64 = []float64{}
+			codes1 := make([]float64, 0, len(r.InputOffice365Mgmt.RetryRules.Codes))
 			for _, codesItem1 := range r.InputOffice365Mgmt.RetryRules.Codes {
 				codes1 = append(codes1, codesItem1.ValueFloat64())
 			}
@@ -7520,11 +7520,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled17 = nil
 		}
-		var streamtags17 []string = []string{}
+		streamtags17 := make([]string, 0, len(r.InputOffice365Service.Streamtags))
 		for _, streamtagsItem17 := range r.InputOffice365Service.Streamtags {
 			streamtags17 = append(streamtags17, streamtagsItem17.ValueString())
 		}
-		var connections17 []shared.InputOffice365ServiceConnections = []shared.InputOffice365ServiceConnections{}
+		connections17 := make([]shared.InputOffice365ServiceConnections, 0, len(r.InputOffice365Service.Connections))
 		for _, connectionsItem17 := range r.InputOffice365Service.Connections {
 			pipeline35 := new(string)
 			if !connectionsItem17.Pipeline.IsUnknown() && !connectionsItem17.Pipeline.IsNull() {
@@ -7636,7 +7636,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			ttl3 = nil
 		}
-		var metadata19 []shared.InputOffice365ServiceMetadata = []shared.InputOffice365ServiceMetadata{}
+		metadata19 := make([]shared.InputOffice365ServiceMetadata, 0, len(r.InputOffice365Service.Metadata))
 		for _, metadataItem19 := range r.InputOffice365Service.Metadata {
 			var name38 string
 			name38 = metadataItem19.Name.ValueString()
@@ -7649,7 +7649,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Value: value36,
 			})
 		}
-		var contentConfig1 []shared.InputOffice365ServiceContentConfig = []shared.InputOffice365ServiceContentConfig{}
+		contentConfig1 := make([]shared.InputOffice365ServiceContentConfig, 0, len(r.InputOffice365Service.ContentConfig))
 		for _, contentConfigItem1 := range r.InputOffice365Service.ContentConfig {
 			contentType1 := new(string)
 			if !contentConfigItem1.ContentType.IsUnknown() && !contentConfigItem1.ContentType.IsNull() {
@@ -7715,7 +7715,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				multiplier2 = nil
 			}
-			var codes2 []float64 = []float64{}
+			codes2 := make([]float64, 0, len(r.InputOffice365Service.RetryRules.Codes))
 			for _, codesItem2 := range r.InputOffice365Service.RetryRules.Codes {
 				codes2 = append(codes2, codesItem2.ValueFloat64())
 			}
@@ -7849,11 +7849,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled18 = nil
 		}
-		var streamtags18 []string = []string{}
+		streamtags18 := make([]string, 0, len(r.InputOffice365MsgTrace.Streamtags))
 		for _, streamtagsItem18 := range r.InputOffice365MsgTrace.Streamtags {
 			streamtags18 = append(streamtags18, streamtagsItem18.ValueString())
 		}
-		var connections18 []shared.InputOffice365MsgTraceConnections = []shared.InputOffice365MsgTraceConnections{}
+		connections18 := make([]shared.InputOffice365MsgTraceConnections, 0, len(r.InputOffice365MsgTrace.Connections))
 		for _, connectionsItem18 := range r.InputOffice365MsgTrace.Connections {
 			pipeline37 := new(string)
 			if !connectionsItem18.Pipeline.IsUnknown() && !connectionsItem18.Pipeline.IsNull() {
@@ -8007,7 +8007,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			ttl4 = nil
 		}
-		var metadata20 []shared.InputOffice365MsgTraceMetadata = []shared.InputOffice365MsgTraceMetadata{}
+		metadata20 := make([]shared.InputOffice365MsgTraceMetadata, 0, len(r.InputOffice365MsgTrace.Metadata))
 		for _, metadataItem20 := range r.InputOffice365MsgTrace.Metadata {
 			var name39 string
 			name39 = metadataItem20.Name.ValueString()
@@ -8046,7 +8046,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				multiplier3 = nil
 			}
-			var codes3 []float64 = []float64{}
+			codes3 := make([]float64, 0, len(r.InputOffice365MsgTrace.RetryRules.Codes))
 			for _, codesItem3 := range r.InputOffice365MsgTrace.RetryRules.Codes {
 				codes3 = append(codes3, codesItem3.ValueFloat64())
 			}
@@ -8255,11 +8255,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled19 = nil
 		}
-		var streamtags19 []string = []string{}
+		streamtags19 := make([]string, 0, len(r.InputEventhub.Streamtags))
 		for _, streamtagsItem19 := range r.InputEventhub.Streamtags {
 			streamtags19 = append(streamtags19, streamtagsItem19.ValueString())
 		}
-		var connections19 []shared.InputEventhubConnections = []shared.InputEventhubConnections{}
+		connections19 := make([]shared.InputEventhubConnections, 0, len(r.InputEventhub.Connections))
 		for _, connectionsItem19 := range r.InputEventhub.Connections {
 			pipeline39 := new(string)
 			if !connectionsItem19.Pipeline.IsUnknown() && !connectionsItem19.Pipeline.IsNull() {
@@ -8329,11 +8329,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Compress:        compress21,
 			}
 		}
-		var brokers3 []string = []string{}
+		brokers3 := make([]string, 0, len(r.InputEventhub.Brokers))
 		for _, brokersItem3 := range r.InputEventhub.Brokers {
 			brokers3 = append(brokers3, brokersItem3.ValueString())
 		}
-		var topics3 []string = []string{}
+		topics3 := make([]string, 0, len(r.InputEventhub.Topics))
 		for _, topicsItem3 := range r.InputEventhub.Topics {
 			topics3 = append(topics3, topicsItem3.ValueString())
 		}
@@ -8489,7 +8489,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			minimizeDuplicates = nil
 		}
-		var metadata21 []shared.InputEventhubMetadata = []shared.InputEventhubMetadata{}
+		metadata21 := make([]shared.InputEventhubMetadata, 0, len(r.InputEventhub.Metadata))
 		for _, metadataItem21 := range r.InputEventhub.Metadata {
 			var name40 string
 			name40 = metadataItem21.Name.ValueString()
@@ -8590,11 +8590,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled20 = nil
 		}
-		var streamtags20 []string = []string{}
+		streamtags20 := make([]string, 0, len(r.InputExec.Streamtags))
 		for _, streamtagsItem20 := range r.InputExec.Streamtags {
 			streamtags20 = append(streamtags20, streamtagsItem20.ValueString())
 		}
-		var connections20 []shared.InputExecConnections = []shared.InputExecConnections{}
+		connections20 := make([]shared.InputExecConnections, 0, len(r.InputExec.Connections))
 		for _, connectionsItem20 := range r.InputExec.Connections {
 			pipeline41 := new(string)
 			if !connectionsItem20.Pipeline.IsUnknown() && !connectionsItem20.Pipeline.IsNull() {
@@ -8679,7 +8679,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			scheduleType = nil
 		}
-		var breakerRulesets5 []string = []string{}
+		breakerRulesets5 := make([]string, 0, len(r.InputExec.BreakerRulesets))
 		for _, breakerRulesetsItem5 := range r.InputExec.BreakerRulesets {
 			breakerRulesets5 = append(breakerRulesets5, breakerRulesetsItem5.ValueString())
 		}
@@ -8689,7 +8689,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			staleChannelFlushMs5 = nil
 		}
-		var metadata22 []shared.InputExecMetadata = []shared.InputExecMetadata{}
+		metadata22 := make([]shared.InputExecMetadata, 0, len(r.InputExec.Metadata))
 		for _, metadataItem22 := range r.InputExec.Metadata {
 			var name41 string
 			name41 = metadataItem22.Name.ValueString()
@@ -8791,11 +8791,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled21 = nil
 		}
-		var streamtags21 []string = []string{}
+		streamtags21 := make([]string, 0, len(r.InputFirehose.Streamtags))
 		for _, streamtagsItem21 := range r.InputFirehose.Streamtags {
 			streamtags21 = append(streamtags21, streamtagsItem21.ValueString())
 		}
-		var connections21 []shared.InputFirehoseConnections = []shared.InputFirehoseConnections{}
+		connections21 := make([]shared.InputFirehoseConnections, 0, len(r.InputFirehose.Connections))
 		for _, connectionsItem21 := range r.InputFirehose.Connections {
 			pipeline43 := new(string)
 			if !connectionsItem21.Pipeline.IsUnknown() && !connectionsItem21.Pipeline.IsNull() {
@@ -8874,7 +8874,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		var port9 float64
 		port9 = r.InputFirehose.Port.ValueFloat64()
 
-		var authTokens4 []string = []string{}
+		authTokens4 := make([]string, 0, len(r.InputFirehose.AuthTokens))
 		for _, authTokensItem4 := range r.InputFirehose.AuthTokens {
 			authTokens4 = append(authTokens4, authTokensItem4.ValueString())
 		}
@@ -9022,7 +9022,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			ipDenylistRegex7 = nil
 		}
-		var metadata23 []shared.InputFirehoseMetadata = []shared.InputFirehoseMetadata{}
+		metadata23 := make([]shared.InputFirehoseMetadata, 0, len(r.InputFirehose.Metadata))
 		for _, metadataItem23 := range r.InputFirehose.Metadata {
 			var name42 string
 			name42 = metadataItem23.Name.ValueString()
@@ -9120,11 +9120,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled22 = nil
 		}
-		var streamtags22 []string = []string{}
+		streamtags22 := make([]string, 0, len(r.InputGooglePubsub.Streamtags))
 		for _, streamtagsItem22 := range r.InputGooglePubsub.Streamtags {
 			streamtags22 = append(streamtags22, streamtagsItem22.ValueString())
 		}
-		var connections22 []shared.InputGooglePubsubConnections = []shared.InputGooglePubsubConnections{}
+		connections22 := make([]shared.InputGooglePubsubConnections, 0, len(r.InputGooglePubsub.Connections))
 		for _, connectionsItem22 := range r.InputGooglePubsub.Connections {
 			pipeline45 := new(string)
 			if !connectionsItem22.Pipeline.IsUnknown() && !connectionsItem22.Pipeline.IsNull() {
@@ -9254,7 +9254,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			requestTimeout16 = nil
 		}
-		var metadata24 []shared.InputGooglePubsubMetadata = []shared.InputGooglePubsubMetadata{}
+		metadata24 := make([]shared.InputGooglePubsubMetadata, 0, len(r.InputGooglePubsub.Metadata))
 		for _, metadataItem24 := range r.InputGooglePubsub.Metadata {
 			var name43 string
 			name43 = metadataItem24.Name.ValueString()
@@ -9347,11 +9347,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled23 = nil
 		}
-		var streamtags23 []string = []string{}
+		streamtags23 := make([]string, 0, len(r.InputCribl.Streamtags))
 		for _, streamtagsItem23 := range r.InputCribl.Streamtags {
 			streamtags23 = append(streamtags23, streamtagsItem23.ValueString())
 		}
-		var connections23 []shared.InputCriblConnections = []shared.InputCriblConnections{}
+		connections23 := make([]shared.InputCriblConnections, 0, len(r.InputCribl.Connections))
 		for _, connectionsItem23 := range r.InputCribl.Connections {
 			pipeline47 := new(string)
 			if !connectionsItem23.Pipeline.IsUnknown() && !connectionsItem23.Pipeline.IsNull() {
@@ -9427,7 +9427,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			filter1 = nil
 		}
-		var metadata25 []shared.InputCriblMetadata = []shared.InputCriblMetadata{}
+		metadata25 := make([]shared.InputCriblMetadata, 0, len(r.InputCribl.Metadata))
 		for _, metadataItem25 := range r.InputCribl.Metadata {
 			var name44 string
 			name44 = metadataItem25.Name.ValueString()
@@ -9511,11 +9511,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled24 = nil
 		}
-		var streamtags24 []string = []string{}
+		streamtags24 := make([]string, 0, len(r.InputCriblTCP.Streamtags))
 		for _, streamtagsItem24 := range r.InputCriblTCP.Streamtags {
 			streamtags24 = append(streamtags24, streamtagsItem24.ValueString())
 		}
-		var connections24 []shared.InputCriblTCPConnections = []shared.InputCriblTCPConnections{}
+		connections24 := make([]shared.InputCriblTCPConnections, 0, len(r.InputCriblTCP.Connections))
 		for _, connectionsItem24 := range r.InputCriblTCP.Connections {
 			pipeline49 := new(string)
 			if !connectionsItem24.Pipeline.IsUnknown() && !connectionsItem24.Pipeline.IsNull() {
@@ -9702,7 +9702,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			enableProxyHeader9 = nil
 		}
-		var metadata26 []shared.InputCriblTCPMetadata = []shared.InputCriblTCPMetadata{}
+		metadata26 := make([]shared.InputCriblTCPMetadata, 0, len(r.InputCriblTCP.Metadata))
 		for _, metadataItem26 := range r.InputCriblTCP.Metadata {
 			var name45 string
 			name45 = metadataItem26.Name.ValueString()
@@ -9800,11 +9800,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled25 = nil
 		}
-		var streamtags25 []string = []string{}
+		streamtags25 := make([]string, 0, len(r.InputCriblHTTP.Streamtags))
 		for _, streamtagsItem25 := range r.InputCriblHTTP.Streamtags {
 			streamtags25 = append(streamtags25, streamtagsItem25.ValueString())
 		}
-		var connections25 []shared.InputCriblHTTPConnections = []shared.InputCriblHTTPConnections{}
+		connections25 := make([]shared.InputCriblHTTPConnections, 0, len(r.InputCriblHTTP.Connections))
 		for _, connectionsItem25 := range r.InputCriblHTTP.Connections {
 			pipeline51 := new(string)
 			if !connectionsItem25.Pipeline.IsUnknown() && !connectionsItem25.Pipeline.IsNull() {
@@ -9883,7 +9883,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		var port11 float64
 		port11 = r.InputCriblHTTP.Port.ValueFloat64()
 
-		var authTokens5 []string = []string{}
+		authTokens5 := make([]string, 0, len(r.InputCriblHTTP.AuthTokens))
 		for _, authTokensItem5 := range r.InputCriblHTTP.AuthTokens {
 			authTokens5 = append(authTokens5, authTokensItem5.ValueString())
 		}
@@ -10031,7 +10031,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			ipDenylistRegex8 = nil
 		}
-		var metadata27 []shared.InputCriblHTTPMetadata = []shared.InputCriblHTTPMetadata{}
+		metadata27 := make([]shared.InputCriblHTTPMetadata, 0, len(r.InputCriblHTTP.Metadata))
 		for _, metadataItem27 := range r.InputCriblHTTP.Metadata {
 			var name46 string
 			name46 = metadataItem27.Name.ValueString()
@@ -10129,11 +10129,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled26 = nil
 		}
-		var streamtags26 []string = []string{}
+		streamtags26 := make([]string, 0, len(r.InputTcpjson.Streamtags))
 		for _, streamtagsItem26 := range r.InputTcpjson.Streamtags {
 			streamtags26 = append(streamtags26, streamtagsItem26.ValueString())
 		}
-		var connections26 []shared.InputTcpjsonConnections = []shared.InputTcpjsonConnections{}
+		connections26 := make([]shared.InputTcpjsonConnections, 0, len(r.InputTcpjson.Connections))
 		for _, connectionsItem26 := range r.InputTcpjson.Connections {
 			pipeline53 := new(string)
 			if !connectionsItem26.Pipeline.IsUnknown() && !connectionsItem26.Pipeline.IsNull() {
@@ -10326,7 +10326,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			enableProxyHeader11 = nil
 		}
-		var metadata28 []shared.InputTcpjsonMetadata = []shared.InputTcpjsonMetadata{}
+		metadata28 := make([]shared.InputTcpjsonMetadata, 0, len(r.InputTcpjson.Metadata))
 		for _, metadataItem28 := range r.InputTcpjson.Metadata {
 			var name47 string
 			name47 = metadataItem28.Name.ValueString()
@@ -10438,11 +10438,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled27 = nil
 		}
-		var streamtags27 []string = []string{}
+		streamtags27 := make([]string, 0, len(r.InputSystemMetrics.Streamtags))
 		for _, streamtagsItem27 := range r.InputSystemMetrics.Streamtags {
 			streamtags27 = append(streamtags27, streamtagsItem27.ValueString())
 		}
-		var connections27 []shared.InputSystemMetricsConnections = []shared.InputSystemMetricsConnections{}
+		connections27 := make([]shared.InputSystemMetricsConnections, 0, len(r.InputSystemMetrics.Connections))
 		for _, connectionsItem27 := range r.InputSystemMetrics.Connections {
 			pipeline55 := new(string)
 			if !connectionsItem27.Pipeline.IsUnknown() && !connectionsItem27.Pipeline.IsNull() {
@@ -10607,7 +10607,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 					} else {
 						mode32 = nil
 					}
-					var devices []string = []string{}
+					devices := make([]string, 0, len(r.InputSystemMetrics.Host.Custom.Network.Devices))
 					for _, devicesItem := range r.InputSystemMetrics.Host.Custom.Network.Devices {
 						devices = append(devices, devicesItem.ValueString())
 					}
@@ -10638,15 +10638,15 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 					} else {
 						mode33 = nil
 					}
-					var devices1 []string = []string{}
+					devices1 := make([]string, 0, len(r.InputSystemMetrics.Host.Custom.Disk.Devices))
 					for _, devicesItem1 := range r.InputSystemMetrics.Host.Custom.Disk.Devices {
 						devices1 = append(devices1, devicesItem1.ValueString())
 					}
-					var mountpoints []string = []string{}
+					mountpoints := make([]string, 0, len(r.InputSystemMetrics.Host.Custom.Disk.Mountpoints))
 					for _, mountpointsItem := range r.InputSystemMetrics.Host.Custom.Disk.Mountpoints {
 						mountpoints = append(mountpoints, mountpointsItem.ValueString())
 					}
-					var fstypes []string = []string{}
+					fstypes := make([]string, 0, len(r.InputSystemMetrics.Host.Custom.Disk.Fstypes))
 					for _, fstypesItem := range r.InputSystemMetrics.Host.Custom.Disk.Fstypes {
 						fstypes = append(fstypes, fstypesItem.ValueString())
 					}
@@ -10686,7 +10686,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		}
 		var process *shared.InputSystemMetricsProcess
 		if r.InputSystemMetrics.Process != nil {
-			var sets []shared.Sets = []shared.Sets{}
+			sets := make([]shared.Sets, 0, len(r.InputSystemMetrics.Process.Sets))
 			for _, setsItem := range r.InputSystemMetrics.Process.Sets {
 				var name48 string
 				name48 = setsItem.Name.ValueString()
@@ -10718,7 +10718,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				mode34 = nil
 			}
-			var dockerSocket []string = []string{}
+			dockerSocket := make([]string, 0, len(r.InputSystemMetrics.Container.DockerSocket))
 			for _, dockerSocketItem := range r.InputSystemMetrics.Container.DockerSocket {
 				dockerSocket = append(dockerSocket, dockerSocketItem.ValueString())
 			}
@@ -10728,7 +10728,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				dockerTimeout = nil
 			}
-			var filters []shared.Filters = []shared.Filters{}
+			filters := make([]shared.Filters, 0, len(r.InputSystemMetrics.Container.Filters))
 			for _, filtersItem := range r.InputSystemMetrics.Container.Filters {
 				var expr string
 				expr = filtersItem.Expr.ValueString()
@@ -10765,7 +10765,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Detail:        detail4,
 			}
 		}
-		var metadata29 []shared.InputSystemMetricsMetadata = []shared.InputSystemMetricsMetadata{}
+		metadata29 := make([]shared.InputSystemMetricsMetadata, 0, len(r.InputSystemMetrics.Metadata))
 		for _, metadataItem29 := range r.InputSystemMetrics.Metadata {
 			var name49 string
 			name49 = metadataItem29.Name.ValueString()
@@ -10892,11 +10892,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled28 = nil
 		}
-		var streamtags28 []string = []string{}
+		streamtags28 := make([]string, 0, len(r.InputSystemState.Streamtags))
 		for _, streamtagsItem28 := range r.InputSystemState.Streamtags {
 			streamtags28 = append(streamtags28, streamtagsItem28.ValueString())
 		}
-		var connections28 []shared.InputSystemStateConnections = []shared.InputSystemStateConnections{}
+		connections28 := make([]shared.InputSystemStateConnections, 0, len(r.InputSystemState.Connections))
 		for _, connectionsItem28 := range r.InputSystemState.Connections {
 			pipeline57 := new(string)
 			if !connectionsItem28.Pipeline.IsUnknown() && !connectionsItem28.Pipeline.IsNull() {
@@ -10972,7 +10972,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			interval11 = nil
 		}
-		var metadata30 []shared.InputSystemStateMetadata = []shared.InputSystemStateMetadata{}
+		metadata30 := make([]shared.InputSystemStateMetadata, 0, len(r.InputSystemState.Metadata))
 		for _, metadataItem30 := range r.InputSystemState.Metadata {
 			var name50 string
 			name50 = metadataItem30.Name.ValueString()
@@ -11245,11 +11245,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled29 = nil
 		}
-		var streamtags29 []string = []string{}
+		streamtags29 := make([]string, 0, len(r.InputKubeMetrics.Streamtags))
 		for _, streamtagsItem29 := range r.InputKubeMetrics.Streamtags {
 			streamtags29 = append(streamtags29, streamtagsItem29.ValueString())
 		}
-		var connections29 []shared.InputKubeMetricsConnections = []shared.InputKubeMetricsConnections{}
+		connections29 := make([]shared.InputKubeMetricsConnections, 0, len(r.InputKubeMetrics.Connections))
 		for _, connectionsItem29 := range r.InputKubeMetrics.Connections {
 			pipeline59 := new(string)
 			if !connectionsItem29.Pipeline.IsUnknown() && !connectionsItem29.Pipeline.IsNull() {
@@ -11325,7 +11325,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			interval12 = nil
 		}
-		var rules []shared.InputKubeMetricsRules = []shared.InputKubeMetricsRules{}
+		rules := make([]shared.InputKubeMetricsRules, 0, len(r.InputKubeMetrics.Rules))
 		for _, rulesItem := range r.InputKubeMetrics.Rules {
 			var filter3 string
 			filter3 = rulesItem.Filter.ValueString()
@@ -11341,7 +11341,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Description: description34,
 			})
 		}
-		var metadata32 []shared.InputKubeMetricsMetadata = []shared.InputKubeMetricsMetadata{}
+		metadata32 := make([]shared.InputKubeMetricsMetadata, 0, len(r.InputKubeMetrics.Metadata))
 		for _, metadataItem31 := range r.InputKubeMetrics.Metadata {
 			var name51 string
 			name51 = metadataItem31.Name.ValueString()
@@ -11466,11 +11466,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled30 = nil
 		}
-		var streamtags30 []string = []string{}
+		streamtags30 := make([]string, 0, len(r.InputKubeLogs.Streamtags))
 		for _, streamtagsItem30 := range r.InputKubeLogs.Streamtags {
 			streamtags30 = append(streamtags30, streamtagsItem30.ValueString())
 		}
-		var connections30 []shared.InputKubeLogsConnections = []shared.InputKubeLogsConnections{}
+		connections30 := make([]shared.InputKubeLogsConnections, 0, len(r.InputKubeLogs.Connections))
 		for _, connectionsItem30 := range r.InputKubeLogs.Connections {
 			pipeline61 := new(string)
 			if !connectionsItem30.Pipeline.IsUnknown() && !connectionsItem30.Pipeline.IsNull() {
@@ -11546,7 +11546,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			interval13 = nil
 		}
-		var rules1 []shared.InputKubeLogsRules = []shared.InputKubeLogsRules{}
+		rules1 := make([]shared.InputKubeLogsRules, 0, len(r.InputKubeLogs.Rules))
 		for _, rulesItem1 := range r.InputKubeLogs.Rules {
 			var filter4 string
 			filter4 = rulesItem1.Filter.ValueString()
@@ -11568,7 +11568,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			timestamps = nil
 		}
-		var metadata33 []shared.InputKubeLogsMetadata = []shared.InputKubeLogsMetadata{}
+		metadata33 := make([]shared.InputKubeLogsMetadata, 0, len(r.InputKubeLogs.Metadata))
 		for _, metadataItem32 := range r.InputKubeLogs.Metadata {
 			var name52 string
 			name52 = metadataItem32.Name.ValueString()
@@ -11621,7 +11621,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Compress:    compress36,
 			}
 		}
-		var breakerRulesets6 []string = []string{}
+		breakerRulesets6 := make([]string, 0, len(r.InputKubeLogs.BreakerRulesets))
 		for _, breakerRulesetsItem6 := range r.InputKubeLogs.BreakerRulesets {
 			breakerRulesets6 = append(breakerRulesets6, breakerRulesetsItem6.ValueString())
 		}
@@ -11706,11 +11706,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled31 = nil
 		}
-		var streamtags31 []string = []string{}
+		streamtags31 := make([]string, 0, len(r.InputKubeEvents.Streamtags))
 		for _, streamtagsItem31 := range r.InputKubeEvents.Streamtags {
 			streamtags31 = append(streamtags31, streamtagsItem31.ValueString())
 		}
-		var connections31 []shared.InputKubeEventsConnections = []shared.InputKubeEventsConnections{}
+		connections31 := make([]shared.InputKubeEventsConnections, 0, len(r.InputKubeEvents.Connections))
 		for _, connectionsItem31 := range r.InputKubeEvents.Connections {
 			pipeline63 := new(string)
 			if !connectionsItem31.Pipeline.IsUnknown() && !connectionsItem31.Pipeline.IsNull() {
@@ -11780,7 +11780,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Compress:        compress37,
 			}
 		}
-		var rules2 []shared.InputKubeEventsRules = []shared.InputKubeEventsRules{}
+		rules2 := make([]shared.InputKubeEventsRules, 0, len(r.InputKubeEvents.Rules))
 		for _, rulesItem2 := range r.InputKubeEvents.Rules {
 			var filter5 string
 			filter5 = rulesItem2.Filter.ValueString()
@@ -11796,7 +11796,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Description: description38,
 			})
 		}
-		var metadata34 []shared.InputKubeEventsMetadata = []shared.InputKubeEventsMetadata{}
+		metadata34 := make([]shared.InputKubeEventsMetadata, 0, len(r.InputKubeEvents.Metadata))
 		for _, metadataItem33 := range r.InputKubeEvents.Metadata {
 			var name53 string
 			name53 = metadataItem33.Name.ValueString()
@@ -11872,11 +11872,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled32 = nil
 		}
-		var streamtags32 []string = []string{}
+		streamtags32 := make([]string, 0, len(r.InputWindowsMetrics.Streamtags))
 		for _, streamtagsItem32 := range r.InputWindowsMetrics.Streamtags {
 			streamtags32 = append(streamtags32, streamtagsItem32.ValueString())
 		}
-		var connections32 []shared.InputWindowsMetricsConnections = []shared.InputWindowsMetricsConnections{}
+		connections32 := make([]shared.InputWindowsMetricsConnections, 0, len(r.InputWindowsMetrics.Connections))
 		for _, connectionsItem32 := range r.InputWindowsMetrics.Connections {
 			pipeline65 := new(string)
 			if !connectionsItem32.Pipeline.IsUnknown() && !connectionsItem32.Pipeline.IsNull() {
@@ -12041,7 +12041,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 					} else {
 						mode44 = nil
 					}
-					var devices2 []string = []string{}
+					devices2 := make([]string, 0, len(r.InputWindowsMetrics.Host.Custom.Network.Devices))
 					for _, devicesItem2 := range r.InputWindowsMetrics.Host.Custom.Network.Devices {
 						devices2 = append(devices2, devicesItem2.ValueString())
 					}
@@ -12072,7 +12072,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 					} else {
 						mode45 = nil
 					}
-					var volumes []string = []string{}
+					volumes := make([]string, 0, len(r.InputWindowsMetrics.Host.Custom.Disk.Volumes))
 					for _, volumesItem := range r.InputWindowsMetrics.Host.Custom.Disk.Volumes {
 						volumes = append(volumes, volumesItem.ValueString())
 					}
@@ -12103,7 +12103,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		}
 		var process1 *shared.InputWindowsMetricsProcess
 		if r.InputWindowsMetrics.Process != nil {
-			var sets1 []shared.InputWindowsMetricsSets = []shared.InputWindowsMetricsSets{}
+			sets1 := make([]shared.InputWindowsMetricsSets, 0, len(r.InputWindowsMetrics.Process.Sets))
 			for _, setsItem1 := range r.InputWindowsMetrics.Process.Sets {
 				var name54 string
 				name54 = setsItem1.Name.ValueString()
@@ -12127,7 +12127,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Sets: sets1,
 			}
 		}
-		var metadata35 []shared.InputWindowsMetricsMetadata = []shared.InputWindowsMetricsMetadata{}
+		metadata35 := make([]shared.InputWindowsMetricsMetadata, 0, len(r.InputWindowsMetrics.Metadata))
 		for _, metadataItem34 := range r.InputWindowsMetrics.Metadata {
 			var name55 string
 			name55 = metadataItem34.Name.ValueString()
@@ -12263,11 +12263,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled33 = nil
 		}
-		var streamtags33 []string = []string{}
+		streamtags33 := make([]string, 0, len(r.InputCrowdstrike.Streamtags))
 		for _, streamtagsItem33 := range r.InputCrowdstrike.Streamtags {
 			streamtags33 = append(streamtags33, streamtagsItem33.ValueString())
 		}
-		var connections33 []shared.InputCrowdstrikeConnections = []shared.InputCrowdstrikeConnections{}
+		connections33 := make([]shared.InputCrowdstrikeConnections, 0, len(r.InputCrowdstrike.Connections))
 		for _, connectionsItem33 := range r.InputCrowdstrike.Connections {
 			pipeline67 := new(string)
 			if !connectionsItem33.Pipeline.IsUnknown() && !connectionsItem33.Pipeline.IsNull() {
@@ -12394,7 +12394,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			rejectUnauthorized24 = nil
 		}
-		var breakerRulesets7 []string = []string{}
+		breakerRulesets7 := make([]string, 0, len(r.InputCrowdstrike.BreakerRulesets))
 		for _, breakerRulesetsItem7 := range r.InputCrowdstrike.BreakerRulesets {
 			breakerRulesets7 = append(breakerRulesets7, breakerRulesetsItem7.ValueString())
 		}
@@ -12478,7 +12478,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				command2 = nil
 			}
-			var args1 []string = []string{}
+			args1 := make([]string, 0, len(r.InputCrowdstrike.Preprocess.Args))
 			for _, argsItem1 := range r.InputCrowdstrike.Preprocess.Args {
 				args1 = append(args1, argsItem1.ValueString())
 			}
@@ -12488,7 +12488,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Args:     args1,
 			}
 		}
-		var metadata36 []shared.InputCrowdstrikeMetadata = []shared.InputCrowdstrikeMetadata{}
+		metadata36 := make([]shared.InputCrowdstrikeMetadata, 0, len(r.InputCrowdstrike.Metadata))
 		for _, metadataItem35 := range r.InputCrowdstrike.Metadata {
 			var name56 string
 			name56 = metadataItem35.Name.ValueString()
@@ -12642,11 +12642,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled34 = nil
 		}
-		var streamtags34 []string = []string{}
+		streamtags34 := make([]string, 0, len(r.InputDatadogAgent.Streamtags))
 		for _, streamtagsItem34 := range r.InputDatadogAgent.Streamtags {
 			streamtags34 = append(streamtags34, streamtagsItem34.ValueString())
 		}
-		var connections34 []shared.InputDatadogAgentConnections = []shared.InputDatadogAgentConnections{}
+		connections34 := make([]shared.InputDatadogAgentConnections, 0, len(r.InputDatadogAgent.Connections))
 		for _, connectionsItem34 := range r.InputDatadogAgent.Connections {
 			pipeline69 := new(string)
 			if !connectionsItem34.Pipeline.IsUnknown() && !connectionsItem34.Pipeline.IsNull() {
@@ -12875,7 +12875,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			extractMetrics2 = nil
 		}
-		var metadata37 []shared.InputDatadogAgentMetadata = []shared.InputDatadogAgentMetadata{}
+		metadata37 := make([]shared.InputDatadogAgentMetadata, 0, len(r.InputDatadogAgent.Metadata))
 		for _, metadataItem36 := range r.InputDatadogAgent.Metadata {
 			var name57 string
 			name57 = metadataItem36.Name.ValueString()
@@ -12988,11 +12988,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled35 = nil
 		}
-		var streamtags35 []string = []string{}
+		streamtags35 := make([]string, 0, len(r.InputDatagen.Streamtags))
 		for _, streamtagsItem35 := range r.InputDatagen.Streamtags {
 			streamtags35 = append(streamtags35, streamtagsItem35.ValueString())
 		}
-		var connections35 []shared.InputDatagenConnections = []shared.InputDatagenConnections{}
+		connections35 := make([]shared.InputDatagenConnections, 0, len(r.InputDatagen.Connections))
 		for _, connectionsItem35 := range r.InputDatagen.Connections {
 			pipeline71 := new(string)
 			if !connectionsItem35.Pipeline.IsUnknown() && !connectionsItem35.Pipeline.IsNull() {
@@ -13062,7 +13062,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Compress:        compress42,
 			}
 		}
-		var samples []shared.Samples = []shared.Samples{}
+		samples := make([]shared.Samples, 0, len(r.InputDatagen.Samples))
 		for _, samplesItem := range r.InputDatagen.Samples {
 			var sample string
 			sample = samplesItem.Sample.ValueString()
@@ -13078,7 +13078,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				EventsPerSec: eventsPerSec,
 			})
 		}
-		var metadata38 []shared.InputDatagenMetadata = []shared.InputDatagenMetadata{}
+		metadata38 := make([]shared.InputDatagenMetadata, 0, len(r.InputDatagen.Metadata))
 		for _, metadataItem37 := range r.InputDatagen.Metadata {
 			var name58 string
 			name58 = metadataItem37.Name.ValueString()
@@ -13162,11 +13162,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled36 = nil
 		}
-		var streamtags36 []string = []string{}
+		streamtags36 := make([]string, 0, len(r.InputHTTPRaw.Streamtags))
 		for _, streamtagsItem36 := range r.InputHTTPRaw.Streamtags {
 			streamtags36 = append(streamtags36, streamtagsItem36.ValueString())
 		}
-		var connections36 []shared.InputHTTPRawConnections = []shared.InputHTTPRawConnections{}
+		connections36 := make([]shared.InputHTTPRawConnections, 0, len(r.InputHTTPRaw.Connections))
 		for _, connectionsItem36 := range r.InputHTTPRaw.Connections {
 			pipeline73 := new(string)
 			if !connectionsItem36.Pipeline.IsUnknown() && !connectionsItem36.Pipeline.IsNull() {
@@ -13245,7 +13245,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		var port14 float64
 		port14 = r.InputHTTPRaw.Port.ValueFloat64()
 
-		var authTokens6 []string = []string{}
+		authTokens6 := make([]string, 0, len(r.InputHTTPRaw.AuthTokens))
 		for _, authTokensItem6 := range r.InputHTTPRaw.AuthTokens {
 			authTokens6 = append(authTokens6, authTokensItem6.ValueString())
 		}
@@ -13393,7 +13393,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			ipDenylistRegex10 = nil
 		}
-		var breakerRulesets8 []string = []string{}
+		breakerRulesets8 := make([]string, 0, len(r.InputHTTPRaw.BreakerRulesets))
 		for _, breakerRulesetsItem8 := range r.InputHTTPRaw.BreakerRulesets {
 			breakerRulesets8 = append(breakerRulesets8, breakerRulesetsItem8.ValueString())
 		}
@@ -13403,7 +13403,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			staleChannelFlushMs8 = nil
 		}
-		var metadata39 []shared.InputHTTPRawMetadata = []shared.InputHTTPRawMetadata{}
+		metadata39 := make([]shared.InputHTTPRawMetadata, 0, len(r.InputHTTPRaw.Metadata))
 		for _, metadataItem38 := range r.InputHTTPRaw.Metadata {
 			var name59 string
 			name59 = metadataItem38.Name.ValueString()
@@ -13416,15 +13416,15 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Value: value55,
 			})
 		}
-		var allowedPaths []string = []string{}
+		allowedPaths := make([]string, 0, len(r.InputHTTPRaw.AllowedPaths))
 		for _, allowedPathsItem := range r.InputHTTPRaw.AllowedPaths {
 			allowedPaths = append(allowedPaths, allowedPathsItem.ValueString())
 		}
-		var allowedMethods []string = []string{}
+		allowedMethods := make([]string, 0, len(r.InputHTTPRaw.AllowedMethods))
 		for _, allowedMethodsItem := range r.InputHTTPRaw.AllowedMethods {
 			allowedMethods = append(allowedMethods, allowedMethodsItem.ValueString())
 		}
-		var authTokensExt1 []shared.InputHTTPRawAuthTokensExt = []shared.InputHTTPRawAuthTokensExt{}
+		authTokensExt1 := make([]shared.InputHTTPRawAuthTokensExt, 0, len(r.InputHTTPRaw.AuthTokensExt))
 		for _, authTokensExtItem1 := range r.InputHTTPRaw.AuthTokensExt {
 			var token10 string
 			token10 = authTokensExtItem1.Token.ValueString()
@@ -13435,7 +13435,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				description44 = nil
 			}
-			var metadata40 []shared.InputHTTPRawAuthTokensExtMetadata = []shared.InputHTTPRawAuthTokensExtMetadata{}
+			metadata40 := make([]shared.InputHTTPRawAuthTokensExtMetadata, 0, len(authTokensExtItem1.Metadata))
 			for _, metadataItem39 := range authTokensExtItem1.Metadata {
 				var name60 string
 				name60 = metadataItem39.Name.ValueString()
@@ -13544,11 +13544,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled37 = nil
 		}
-		var streamtags37 []string = []string{}
+		streamtags37 := make([]string, 0, len(r.InputKinesis.Streamtags))
 		for _, streamtagsItem37 := range r.InputKinesis.Streamtags {
 			streamtags37 = append(streamtags37, streamtagsItem37.ValueString())
 		}
-		var connections37 []shared.InputKinesisConnections = []shared.InputKinesisConnections{}
+		connections37 := make([]shared.InputKinesisConnections, 0, len(r.InputKinesis.Connections))
 		for _, connectionsItem37 := range r.InputKinesis.Connections {
 			pipeline75 := new(string)
 			if !connectionsItem37.Pipeline.IsUnknown() && !connectionsItem37.Pipeline.IsNull() {
@@ -13738,7 +13738,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			avoidDuplicates = nil
 		}
-		var metadata41 []shared.InputKinesisMetadata = []shared.InputKinesisMetadata{}
+		metadata41 := make([]shared.InputKinesisMetadata, 0, len(r.InputKinesis.Metadata))
 		for _, metadataItem40 := range r.InputKinesis.Metadata {
 			var name61 string
 			name61 = metadataItem40.Name.ValueString()
@@ -13848,11 +13848,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled38 = nil
 		}
-		var streamtags38 []string = []string{}
+		streamtags38 := make([]string, 0, len(r.InputCriblmetrics.Streamtags))
 		for _, streamtagsItem38 := range r.InputCriblmetrics.Streamtags {
 			streamtags38 = append(streamtags38, streamtagsItem38.ValueString())
 		}
-		var connections38 []shared.InputCriblmetricsConnections = []shared.InputCriblmetricsConnections{}
+		connections38 := make([]shared.InputCriblmetricsConnections, 0, len(r.InputCriblmetrics.Connections))
 		for _, connectionsItem38 := range r.InputCriblmetrics.Connections {
 			pipeline77 := new(string)
 			if !connectionsItem38.Pipeline.IsUnknown() && !connectionsItem38.Pipeline.IsNull() {
@@ -13934,7 +13934,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			fullFidelity = nil
 		}
-		var metadata42 []shared.InputCriblmetricsMetadata = []shared.InputCriblmetricsMetadata{}
+		metadata42 := make([]shared.InputCriblmetricsMetadata, 0, len(r.InputCriblmetrics.Metadata))
 		for _, metadataItem41 := range r.InputCriblmetrics.Metadata {
 			var name62 string
 			name62 = metadataItem41.Name.ValueString()
@@ -14014,11 +14014,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled39 = nil
 		}
-		var streamtags39 []string = []string{}
+		streamtags39 := make([]string, 0, len(r.InputMetrics.Streamtags))
 		for _, streamtagsItem39 := range r.InputMetrics.Streamtags {
 			streamtags39 = append(streamtags39, streamtagsItem39.ValueString())
 		}
-		var connections39 []shared.InputMetricsConnections = []shared.InputMetricsConnections{}
+		connections39 := make([]shared.InputMetricsConnections, 0, len(r.InputMetrics.Connections))
 		for _, connectionsItem39 := range r.InputMetrics.Connections {
 			pipeline79 := new(string)
 			if !connectionsItem39.Pipeline.IsUnknown() && !connectionsItem39.Pipeline.IsNull() {
@@ -14202,7 +14202,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				MaxVersion:         maxVersion20,
 			}
 		}
-		var metadata43 []shared.InputMetricsMetadata = []shared.InputMetricsMetadata{}
+		metadata43 := make([]shared.InputMetricsMetadata, 0, len(r.InputMetrics.Metadata))
 		for _, metadataItem42 := range r.InputMetrics.Metadata {
 			var name63 string
 			name63 = metadataItem42.Name.ValueString()
@@ -14294,11 +14294,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled40 = nil
 		}
-		var streamtags40 []string = []string{}
+		streamtags40 := make([]string, 0, len(r.InputS3.Streamtags))
 		for _, streamtagsItem40 := range r.InputS3.Streamtags {
 			streamtags40 = append(streamtags40, streamtagsItem40.ValueString())
 		}
-		var connections40 []shared.InputS3Connections = []shared.InputS3Connections{}
+		connections40 := make([]shared.InputS3Connections, 0, len(r.InputS3.Connections))
 		for _, connectionsItem40 := range r.InputS3.Connections {
 			pipeline81 := new(string)
 			if !connectionsItem40.Pipeline.IsUnknown() && !connectionsItem40.Pipeline.IsNull() {
@@ -14425,7 +14425,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			rejectUnauthorized30 = nil
 		}
-		var breakerRulesets9 []string = []string{}
+		breakerRulesets9 := make([]string, 0, len(r.InputS3.BreakerRulesets))
 		for _, breakerRulesetsItem9 := range r.InputS3.BreakerRulesets {
 			breakerRulesets9 = append(breakerRulesets9, breakerRulesetsItem9.ValueString())
 		}
@@ -14509,7 +14509,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				command3 = nil
 			}
-			var args2 []string = []string{}
+			args2 := make([]string, 0, len(r.InputS3.Preprocess.Args))
 			for _, argsItem2 := range r.InputS3.Preprocess.Args {
 				args2 = append(args2, argsItem2.ValueString())
 			}
@@ -14519,7 +14519,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Args:     args2,
 			}
 		}
-		var metadata44 []shared.InputS3Metadata = []shared.InputS3Metadata{}
+		metadata44 := make([]shared.InputS3Metadata, 0, len(r.InputS3.Metadata))
 		for _, metadataItem43 := range r.InputS3.Metadata {
 			var name64 string
 			name64 = metadataItem43.Name.ValueString()
@@ -14682,11 +14682,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled41 = nil
 		}
-		var streamtags41 []string = []string{}
+		streamtags41 := make([]string, 0, len(r.InputS3Inventory.Streamtags))
 		for _, streamtagsItem41 := range r.InputS3Inventory.Streamtags {
 			streamtags41 = append(streamtags41, streamtagsItem41.ValueString())
 		}
-		var connections41 []shared.InputS3InventoryConnections = []shared.InputS3InventoryConnections{}
+		connections41 := make([]shared.InputS3InventoryConnections, 0, len(r.InputS3Inventory.Connections))
 		for _, connectionsItem41 := range r.InputS3Inventory.Connections {
 			pipeline83 := new(string)
 			if !connectionsItem41.Pipeline.IsUnknown() && !connectionsItem41.Pipeline.IsNull() {
@@ -14813,7 +14813,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			rejectUnauthorized31 = nil
 		}
-		var breakerRulesets10 []string = []string{}
+		breakerRulesets10 := make([]string, 0, len(r.InputS3Inventory.BreakerRulesets))
 		for _, breakerRulesetsItem10 := range r.InputS3Inventory.BreakerRulesets {
 			breakerRulesets10 = append(breakerRulesets10, breakerRulesetsItem10.ValueString())
 		}
@@ -14897,7 +14897,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				command4 = nil
 			}
-			var args3 []string = []string{}
+			args3 := make([]string, 0, len(r.InputS3Inventory.Preprocess.Args))
 			for _, argsItem3 := range r.InputS3Inventory.Preprocess.Args {
 				args3 = append(args3, argsItem3.ValueString())
 			}
@@ -14907,7 +14907,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Args:     args3,
 			}
 		}
-		var metadata45 []shared.InputS3InventoryMetadata = []shared.InputS3InventoryMetadata{}
+		metadata45 := make([]shared.InputS3InventoryMetadata, 0, len(r.InputS3Inventory.Metadata))
 		for _, metadataItem44 := range r.InputS3Inventory.Metadata {
 			var name65 string
 			name65 = metadataItem44.Name.ValueString()
@@ -15089,11 +15089,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled42 = nil
 		}
-		var streamtags42 []string = []string{}
+		streamtags42 := make([]string, 0, len(r.InputSnmp.Streamtags))
 		for _, streamtagsItem42 := range r.InputSnmp.Streamtags {
 			streamtags42 = append(streamtags42, streamtagsItem42.ValueString())
 		}
-		var connections42 []shared.InputSnmpConnections = []shared.InputSnmpConnections{}
+		connections42 := make([]shared.InputSnmpConnections, 0, len(r.InputSnmp.Connections))
 		for _, connectionsItem42 := range r.InputSnmp.Connections {
 			pipeline85 := new(string)
 			if !connectionsItem42.Pipeline.IsUnknown() && !connectionsItem42.Pipeline.IsNull() {
@@ -15189,7 +15189,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				allowUnmatchedTrap = nil
 			}
-			var v3Users []shared.V3Users = []shared.V3Users{}
+			v3Users := make([]shared.V3Users, 0, len(r.InputSnmp.SnmpV3Auth.V3Users))
 			for _, v3UsersItem := range r.InputSnmp.SnmpV3Auth.V3Users {
 				var name66 string
 				name66 = v3UsersItem.Name.ValueString()
@@ -15235,7 +15235,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			ipWhitelistRegex3 = nil
 		}
-		var metadata46 []shared.InputSnmpMetadata = []shared.InputSnmpMetadata{}
+		metadata46 := make([]shared.InputSnmpMetadata, 0, len(r.InputSnmp.Metadata))
 		for _, metadataItem45 := range r.InputSnmp.Metadata {
 			var name67 string
 			name67 = metadataItem45.Name.ValueString()
@@ -15337,11 +15337,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled43 = nil
 		}
-		var streamtags43 []string = []string{}
+		streamtags43 := make([]string, 0, len(r.InputOpenTelemetry.Streamtags))
 		for _, streamtagsItem43 := range r.InputOpenTelemetry.Streamtags {
 			streamtags43 = append(streamtags43, streamtagsItem43.ValueString())
 		}
-		var connections43 []shared.InputOpenTelemetryConnections = []shared.InputOpenTelemetryConnections{}
+		connections43 := make([]shared.InputOpenTelemetryConnections, 0, len(r.InputOpenTelemetry.Connections))
 		for _, connectionsItem43 := range r.InputOpenTelemetry.Connections {
 			pipeline87 := new(string)
 			if !connectionsItem43.Pipeline.IsUnknown() && !connectionsItem43.Pipeline.IsNull() {
@@ -15591,7 +15591,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			authType17 = nil
 		}
-		var metadata47 []shared.InputOpenTelemetryMetadata = []shared.InputOpenTelemetryMetadata{}
+		metadata47 := make([]shared.InputOpenTelemetryMetadata, 0, len(r.InputOpenTelemetry.Metadata))
 		for _, metadataItem46 := range r.InputOpenTelemetry.Metadata {
 			var name68 string
 			name68 = metadataItem46.Name.ValueString()
@@ -15682,7 +15682,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			tokenTimeoutSecs7 = nil
 		}
-		var oauthParams7 []shared.InputOpenTelemetryOauthParams = []shared.InputOpenTelemetryOauthParams{}
+		oauthParams7 := make([]shared.InputOpenTelemetryOauthParams, 0, len(r.InputOpenTelemetry.OauthParams))
 		for _, oauthParamsItem7 := range r.InputOpenTelemetry.OauthParams {
 			var name69 string
 			name69 = oauthParamsItem7.Name.ValueString()
@@ -15695,7 +15695,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Value: value64,
 			})
 		}
-		var oauthHeaders7 []shared.InputOpenTelemetryOauthHeaders = []shared.InputOpenTelemetryOauthHeaders{}
+		oauthHeaders7 := make([]shared.InputOpenTelemetryOauthHeaders, 0, len(r.InputOpenTelemetry.OauthHeaders))
 		for _, oauthHeadersItem7 := range r.InputOpenTelemetry.OauthHeaders {
 			var name70 string
 			name70 = oauthHeadersItem7.Name.ValueString()
@@ -15812,11 +15812,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled44 = nil
 		}
-		var streamtags44 []string = []string{}
+		streamtags44 := make([]string, 0, len(r.InputModelDrivenTelemetry.Streamtags))
 		for _, streamtagsItem44 := range r.InputModelDrivenTelemetry.Streamtags {
 			streamtags44 = append(streamtags44, streamtagsItem44.ValueString())
 		}
-		var connections44 []shared.InputModelDrivenTelemetryConnections = []shared.InputModelDrivenTelemetryConnections{}
+		connections44 := make([]shared.InputModelDrivenTelemetryConnections, 0, len(r.InputModelDrivenTelemetry.Connections))
 		for _, connectionsItem44 := range r.InputModelDrivenTelemetry.Connections {
 			pipeline89 := new(string)
 			if !connectionsItem44.Pipeline.IsUnknown() && !connectionsItem44.Pipeline.IsNull() {
@@ -15969,7 +15969,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				MaxVersion:         maxVersion22,
 			}
 		}
-		var metadata48 []shared.InputModelDrivenTelemetryMetadata = []shared.InputModelDrivenTelemetryMetadata{}
+		metadata48 := make([]shared.InputModelDrivenTelemetryMetadata, 0, len(r.InputModelDrivenTelemetry.Metadata))
 		for _, metadataItem47 := range r.InputModelDrivenTelemetry.Metadata {
 			var name71 string
 			name71 = metadataItem47.Name.ValueString()
@@ -16069,11 +16069,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled45 = nil
 		}
-		var streamtags45 []string = []string{}
+		streamtags45 := make([]string, 0, len(r.InputSqs.Streamtags))
 		for _, streamtagsItem45 := range r.InputSqs.Streamtags {
 			streamtags45 = append(streamtags45, streamtagsItem45.ValueString())
 		}
-		var connections45 []shared.InputSqsConnections = []shared.InputSqsConnections{}
+		connections45 := make([]shared.InputSqsConnections, 0, len(r.InputSqs.Connections))
 		for _, connectionsItem45 := range r.InputSqs.Connections {
 			pipeline91 := new(string)
 			if !connectionsItem45.Pipeline.IsUnknown() && !connectionsItem45.Pipeline.IsNull() {
@@ -16242,7 +16242,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			visibilityTimeout4 = nil
 		}
-		var metadata49 []shared.InputSqsMetadata = []shared.InputSqsMetadata{}
+		metadata49 := make([]shared.InputSqsMetadata, 0, len(r.InputSqs.Metadata))
 		for _, metadataItem48 := range r.InputSqs.Metadata {
 			var name72 string
 			name72 = metadataItem48.Name.ValueString()
@@ -16367,11 +16367,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				pqEnabled46 = nil
 			}
-			var streamtags46 []string = []string{}
+			streamtags46 := make([]string, 0, len(r.InputSyslog.One.Streamtags))
 			for _, streamtagsItem46 := range r.InputSyslog.One.Streamtags {
 				streamtags46 = append(streamtags46, streamtagsItem46.ValueString())
 			}
-			var connections46 []shared.InputSyslogConnections = []shared.InputSyslogConnections{}
+			connections46 := make([]shared.InputSyslogConnections, 0, len(r.InputSyslog.One.Connections))
 			for _, connectionsItem46 := range r.InputSyslog.One.Connections {
 				pipeline93 := new(string)
 				if !connectionsItem46.Pipeline.IsUnknown() && !connectionsItem46.Pipeline.IsNull() {
@@ -16486,7 +16486,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				enableProxyHeader16 = nil
 			}
-			var keepFieldsList []string = []string{}
+			keepFieldsList := make([]string, 0, len(r.InputSyslog.One.KeepFieldsList))
 			for _, keepFieldsListItem := range r.InputSyslog.One.KeepFieldsList {
 				keepFieldsList = append(keepFieldsList, keepFieldsListItem.ValueString())
 			}
@@ -16616,7 +16616,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 					MaxVersion:         maxVersion23,
 				}
 			}
-			var metadata50 []shared.InputSyslogMetadata = []shared.InputSyslogMetadata{}
+			metadata50 := make([]shared.InputSyslogMetadata, 0, len(r.InputSyslog.One.Metadata))
 			for _, metadataItem49 := range r.InputSyslog.One.Metadata {
 				var name73 string
 				name73 = metadataItem49.Name.ValueString()
@@ -16726,11 +16726,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				pqEnabled47 = nil
 			}
-			var streamtags47 []string = []string{}
+			streamtags47 := make([]string, 0, len(r.InputSyslog.Two.Streamtags))
 			for _, streamtagsItem47 := range r.InputSyslog.Two.Streamtags {
 				streamtags47 = append(streamtags47, streamtagsItem47.ValueString())
 			}
-			var connections47 []shared.InputSyslog2Connections = []shared.InputSyslog2Connections{}
+			connections47 := make([]shared.InputSyslog2Connections, 0, len(r.InputSyslog.Two.Connections))
 			for _, connectionsItem47 := range r.InputSyslog.Two.Connections {
 				pipeline95 := new(string)
 				if !connectionsItem47.Pipeline.IsUnknown() && !connectionsItem47.Pipeline.IsNull() {
@@ -16845,7 +16845,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				enableProxyHeader17 = nil
 			}
-			var keepFieldsList1 []string = []string{}
+			keepFieldsList1 := make([]string, 0, len(r.InputSyslog.Two.KeepFieldsList))
 			for _, keepFieldsListItem1 := range r.InputSyslog.Two.KeepFieldsList {
 				keepFieldsList1 = append(keepFieldsList1, keepFieldsListItem1.ValueString())
 			}
@@ -16975,7 +16975,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 					MaxVersion:         maxVersion24,
 				}
 			}
-			var metadata51 []shared.InputSyslog2Metadata = []shared.InputSyslog2Metadata{}
+			metadata51 := make([]shared.InputSyslog2Metadata, 0, len(r.InputSyslog.Two.Metadata))
 			for _, metadataItem50 := range r.InputSyslog.Two.Metadata {
 				var name74 string
 				name74 = metadataItem50.Name.ValueString()
@@ -17088,11 +17088,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled48 = nil
 		}
-		var streamtags48 []string = []string{}
+		streamtags48 := make([]string, 0, len(r.InputFile.Streamtags))
 		for _, streamtagsItem48 := range r.InputFile.Streamtags {
 			streamtags48 = append(streamtags48, streamtagsItem48.ValueString())
 		}
-		var connections48 []shared.InputFileConnections = []shared.InputFileConnections{}
+		connections48 := make([]shared.InputFileConnections, 0, len(r.InputFile.Connections))
 		for _, connectionsItem48 := range r.InputFile.Connections {
 			pipeline97 := new(string)
 			if !connectionsItem48.Pipeline.IsUnknown() && !connectionsItem48.Pipeline.IsNull() {
@@ -17174,7 +17174,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			interval15 = nil
 		}
-		var filenames []string = []string{}
+		filenames := make([]string, 0, len(r.InputFile.Filenames))
 		for _, filenamesItem := range r.InputFile.Filenames {
 			filenames = append(filenames, filenamesItem.ValueString())
 		}
@@ -17214,7 +17214,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			hashLen = nil
 		}
-		var metadata52 []shared.InputFileMetadata = []shared.InputFileMetadata{}
+		metadata52 := make([]shared.InputFileMetadata, 0, len(r.InputFile.Metadata))
 		for _, metadataItem51 := range r.InputFile.Metadata {
 			var name75 string
 			name75 = metadataItem51.Name.ValueString()
@@ -17227,7 +17227,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Value: value70,
 			})
 		}
-		var breakerRulesets11 []string = []string{}
+		breakerRulesets11 := make([]string, 0, len(r.InputFile.BreakerRulesets))
 		for _, breakerRulesetsItem11 := range r.InputFile.BreakerRulesets {
 			breakerRulesets11 = append(breakerRulesets11, breakerRulesetsItem11.ValueString())
 		}
@@ -17353,11 +17353,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled49 = nil
 		}
-		var streamtags49 []string = []string{}
+		streamtags49 := make([]string, 0, len(r.InputTCP.Streamtags))
 		for _, streamtagsItem49 := range r.InputTCP.Streamtags {
 			streamtags49 = append(streamtags49, streamtagsItem49.ValueString())
 		}
-		var connections49 []shared.InputTCPConnections = []shared.InputTCPConnections{}
+		connections49 := make([]shared.InputTCPConnections, 0, len(r.InputTCP.Connections))
 		for _, connectionsItem49 := range r.InputTCP.Connections {
 			pipeline99 := new(string)
 			if !connectionsItem49.Pipeline.IsUnknown() && !connectionsItem49.Pipeline.IsNull() {
@@ -17550,7 +17550,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			enableProxyHeader18 = nil
 		}
-		var metadata53 []shared.InputTCPMetadata = []shared.InputTCPMetadata{}
+		metadata53 := make([]shared.InputTCPMetadata, 0, len(r.InputTCP.Metadata))
 		for _, metadataItem52 := range r.InputTCP.Metadata {
 			var name76 string
 			name76 = metadataItem52.Name.ValueString()
@@ -17563,7 +17563,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Value: value71,
 			})
 		}
-		var breakerRulesets12 []string = []string{}
+		breakerRulesets12 := make([]string, 0, len(r.InputTCP.BreakerRulesets))
 		for _, breakerRulesetsItem12 := range r.InputTCP.BreakerRulesets {
 			breakerRulesets12 = append(breakerRulesets12, breakerRulesetsItem12.ValueString())
 		}
@@ -17593,7 +17593,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				command5 = nil
 			}
-			var args4 []string = []string{}
+			args4 := make([]string, 0, len(r.InputTCP.Preprocess.Args))
 			for _, argsItem4 := range r.InputTCP.Preprocess.Args {
 				args4 = append(args4, argsItem4.ValueString())
 			}
@@ -17685,11 +17685,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled50 = nil
 		}
-		var streamtags50 []string = []string{}
+		streamtags50 := make([]string, 0, len(r.InputAppscope.Streamtags))
 		for _, streamtagsItem50 := range r.InputAppscope.Streamtags {
 			streamtags50 = append(streamtags50, streamtagsItem50.ValueString())
 		}
-		var connections50 []shared.InputAppscopeConnections = []shared.InputAppscopeConnections{}
+		connections50 := make([]shared.InputAppscopeConnections, 0, len(r.InputAppscope.Connections))
 		for _, connectionsItem50 := range r.InputAppscope.Connections {
 			pipeline101 := new(string)
 			if !connectionsItem50.Pipeline.IsUnknown() && !connectionsItem50.Pipeline.IsNull() {
@@ -17795,7 +17795,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			enableProxyHeader19 = nil
 		}
-		var metadata54 []shared.InputAppscopeMetadata = []shared.InputAppscopeMetadata{}
+		metadata54 := make([]shared.InputAppscopeMetadata, 0, len(r.InputAppscope.Metadata))
 		for _, metadataItem53 := range r.InputAppscope.Metadata {
 			var name77 string
 			name77 = metadataItem53.Name.ValueString()
@@ -17808,7 +17808,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Value: value72,
 			})
 		}
-		var breakerRulesets13 []string = []string{}
+		breakerRulesets13 := make([]string, 0, len(r.InputAppscope.BreakerRulesets))
 		for _, breakerRulesetsItem13 := range r.InputAppscope.BreakerRulesets {
 			breakerRulesets13 = append(breakerRulesets13, breakerRulesetsItem13.ValueString())
 		}
@@ -17826,7 +17826,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		}
 		var filter7 *shared.Filter
 		if r.InputAppscope.Filter != nil {
-			var allow []shared.Allow = []shared.Allow{}
+			allow := make([]shared.Allow, 0, len(r.InputAppscope.Filter.Allow))
 			for _, allowItem := range r.InputAppscope.Filter.Allow {
 				var procname string
 				procname = allowItem.Procname.ValueString()
@@ -18113,11 +18113,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled51 = nil
 		}
-		var streamtags51 []string = []string{}
+		streamtags51 := make([]string, 0, len(r.InputWef.Streamtags))
 		for _, streamtagsItem51 := range r.InputWef.Streamtags {
 			streamtags51 = append(streamtags51, streamtagsItem51.ValueString())
 		}
-		var connections51 []shared.InputWefConnections = []shared.InputWefConnections{}
+		connections51 := make([]shared.InputWefConnections, 0, len(r.InputWef.Connections))
 		for _, connectionsItem51 := range r.InputWef.Connections {
 			pipeline103 := new(string)
 			if !connectionsItem51.Pipeline.IsUnknown() && !connectionsItem51.Pipeline.IsNull() {
@@ -18380,7 +18380,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			allowMachineIDMismatch = nil
 		}
-		var subscriptions []shared.Subscriptions = []shared.Subscriptions{}
+		subscriptions := make([]shared.Subscriptions, 0, len(r.InputWef.Subscriptions))
 		for _, subscriptionsItem := range r.InputWef.Subscriptions {
 			var subscriptionName1 string
 			subscriptionName1 = subscriptionsItem.SubscriptionName.ValueString()
@@ -18427,7 +18427,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				compress60 = nil
 			}
-			var targets1 []string = []string{}
+			targets1 := make([]string, 0, len(subscriptionsItem.Targets))
 			for _, targetsItem1 := range subscriptionsItem.Targets {
 				targets1 = append(targets1, targetsItem1.ValueString())
 			}
@@ -18443,7 +18443,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				querySelector = nil
 			}
-			var metadata55 []shared.InputWefSubscriptionsMetadata = []shared.InputWefSubscriptionsMetadata{}
+			metadata55 := make([]shared.InputWefSubscriptionsMetadata, 0, len(subscriptionsItem.Metadata))
 			for _, metadataItem54 := range subscriptionsItem.Metadata {
 				var name78 string
 				name78 = metadataItem54.Name.ValueString()
@@ -18471,7 +18471,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Metadata:           metadata55,
 			})
 		}
-		var metadata56 []shared.InputWefMetadata = []shared.InputWefMetadata{}
+		metadata56 := make([]shared.InputWefMetadata, 0, len(r.InputWef.Metadata))
 		for _, metadataItem55 := range r.InputWef.Metadata {
 			var name79 string
 			name79 = metadataItem55.Name.ValueString()
@@ -18567,11 +18567,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled52 = nil
 		}
-		var streamtags52 []string = []string{}
+		streamtags52 := make([]string, 0, len(r.InputWinEventLogs.Streamtags))
 		for _, streamtagsItem52 := range r.InputWinEventLogs.Streamtags {
 			streamtags52 = append(streamtags52, streamtagsItem52.ValueString())
 		}
-		var connections52 []shared.InputWinEventLogsConnections = []shared.InputWinEventLogsConnections{}
+		connections52 := make([]shared.InputWinEventLogsConnections, 0, len(r.InputWinEventLogs.Connections))
 		for _, connectionsItem52 := range r.InputWinEventLogs.Connections {
 			pipeline105 := new(string)
 			if !connectionsItem52.Pipeline.IsUnknown() && !connectionsItem52.Pipeline.IsNull() {
@@ -18641,7 +18641,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Compress:        compress61,
 			}
 		}
-		var logNames []string = []string{}
+		logNames := make([]string, 0, len(r.InputWinEventLogs.LogNames))
 		for _, logNamesItem := range r.InputWinEventLogs.LogNames {
 			logNames = append(logNames, logNamesItem.ValueString())
 		}
@@ -18675,7 +18675,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			batchSize = nil
 		}
-		var metadata57 []shared.InputWinEventLogsMetadata = []shared.InputWinEventLogsMetadata{}
+		metadata57 := make([]shared.InputWinEventLogsMetadata, 0, len(r.InputWinEventLogs.Metadata))
 		for _, metadataItem56 := range r.InputWinEventLogs.Metadata {
 			var name80 string
 			name80 = metadataItem56.Name.ValueString()
@@ -18771,11 +18771,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled53 = nil
 		}
-		var streamtags53 []string = []string{}
+		streamtags53 := make([]string, 0, len(r.InputRawUDP.Streamtags))
 		for _, streamtagsItem53 := range r.InputRawUDP.Streamtags {
 			streamtags53 = append(streamtags53, streamtagsItem53.ValueString())
 		}
-		var connections53 []shared.InputRawUDPConnections = []shared.InputRawUDPConnections{}
+		connections53 := make([]shared.InputRawUDPConnections, 0, len(r.InputRawUDP.Connections))
 		for _, connectionsItem53 := range r.InputRawUDP.Connections {
 			pipeline107 := new(string)
 			if !connectionsItem53.Pipeline.IsUnknown() && !connectionsItem53.Pipeline.IsNull() {
@@ -18884,7 +18884,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			udpSocketRxBufSize4 = nil
 		}
-		var metadata58 []shared.InputRawUDPMetadata = []shared.InputRawUDPMetadata{}
+		metadata58 := make([]shared.InputRawUDPMetadata, 0, len(r.InputRawUDP.Metadata))
 		for _, metadataItem57 := range r.InputRawUDP.Metadata {
 			var name81 string
 			name81 = metadataItem57.Name.ValueString()
@@ -18974,11 +18974,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled54 = nil
 		}
-		var streamtags54 []string = []string{}
+		streamtags54 := make([]string, 0, len(r.InputJournalFiles.Streamtags))
 		for _, streamtagsItem54 := range r.InputJournalFiles.Streamtags {
 			streamtags54 = append(streamtags54, streamtagsItem54.ValueString())
 		}
-		var connections54 []shared.InputJournalFilesConnections = []shared.InputJournalFilesConnections{}
+		connections54 := make([]shared.InputJournalFilesConnections, 0, len(r.InputJournalFiles.Connections))
 		for _, connectionsItem54 := range r.InputJournalFiles.Connections {
 			pipeline109 := new(string)
 			if !connectionsItem54.Pipeline.IsUnknown() && !connectionsItem54.Pipeline.IsNull() {
@@ -19057,11 +19057,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			interval17 = nil
 		}
-		var journals []string = []string{}
+		journals := make([]string, 0, len(r.InputJournalFiles.Journals))
 		for _, journalsItem := range r.InputJournalFiles.Journals {
 			journals = append(journals, journalsItem.ValueString())
 		}
-		var rules3 []shared.InputJournalFilesRules = []shared.InputJournalFilesRules{}
+		rules3 := make([]shared.InputJournalFilesRules, 0, len(r.InputJournalFiles.Rules))
 		for _, rulesItem3 := range r.InputJournalFiles.Rules {
 			var filter8 string
 			filter8 = rulesItem3.Filter.ValueString()
@@ -19089,7 +19089,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			maxAgeDur1 = nil
 		}
-		var metadata59 []shared.InputJournalFilesMetadata = []shared.InputJournalFilesMetadata{}
+		metadata59 := make([]shared.InputJournalFilesMetadata, 0, len(r.InputJournalFiles.Metadata))
 		for _, metadataItem58 := range r.InputJournalFiles.Metadata {
 			var name82 string
 			name82 = metadataItem58.Name.ValueString()
@@ -19178,11 +19178,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled55 = nil
 		}
-		var streamtags55 []string = []string{}
+		streamtags55 := make([]string, 0, len(r.InputWiz.Streamtags))
 		for _, streamtagsItem55 := range r.InputWiz.Streamtags {
 			streamtags55 = append(streamtags55, streamtagsItem55.ValueString())
 		}
-		var connections55 []shared.InputWizConnections = []shared.InputWizConnections{}
+		connections55 := make([]shared.InputWizConnections, 0, len(r.InputWiz.Connections))
 		for _, connectionsItem55 := range r.InputWiz.Connections {
 			pipeline111 := new(string)
 			if !connectionsItem55.Pipeline.IsUnknown() && !connectionsItem55.Pipeline.IsNull() {
@@ -19270,7 +19270,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		var clientId2 string
 		clientId2 = r.InputWiz.ClientID.ValueString()
 
-		var contentConfig2 []shared.InputWizContentConfig = []shared.InputWizContentConfig{}
+		contentConfig2 := make([]shared.InputWizContentConfig, 0, len(r.InputWiz.ContentConfig))
 		for _, contentConfigItem2 := range r.InputWiz.ContentConfig {
 			var contentType2 string
 			contentType2 = contentConfigItem2.ContentType.ValueString()
@@ -19317,7 +19317,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			ttl5 = nil
 		}
-		var metadata60 []shared.InputWizMetadata = []shared.InputWizMetadata{}
+		metadata60 := make([]shared.InputWizMetadata, 0, len(r.InputWiz.Metadata))
 		for _, metadataItem59 := range r.InputWiz.Metadata {
 			var name83 string
 			name83 = metadataItem59.Name.ValueString()
@@ -19356,7 +19356,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				multiplier4 = nil
 			}
-			var codes4 []float64 = []float64{}
+			codes4 := make([]float64, 0, len(r.InputWiz.RetryRules.Codes))
 			for _, codesItem4 := range r.InputWiz.RetryRules.Codes {
 				codes4 = append(codes4, codesItem4.ValueFloat64())
 			}
@@ -19490,11 +19490,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled56 = nil
 		}
-		var streamtags56 []string = []string{}
+		streamtags56 := make([]string, 0, len(r.InputNetflow.Streamtags))
 		for _, streamtagsItem56 := range r.InputNetflow.Streamtags {
 			streamtags56 = append(streamtags56, streamtagsItem56.ValueString())
 		}
-		var connections56 []shared.InputNetflowConnections = []shared.InputNetflowConnections{}
+		connections56 := make([]shared.InputNetflowConnections, 0, len(r.InputNetflow.Connections))
 		for _, connectionsItem56 := range r.InputNetflow.Connections {
 			pipeline113 := new(string)
 			if !connectionsItem56.Pipeline.IsUnknown() && !connectionsItem56.Pipeline.IsNull() {
@@ -19624,7 +19624,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			ipfixEnabled = nil
 		}
-		var metadata61 []shared.InputNetflowMetadata = []shared.InputNetflowMetadata{}
+		metadata61 := make([]shared.InputNetflowMetadata, 0, len(r.InputNetflow.Metadata))
 		for _, metadataItem60 := range r.InputNetflow.Metadata {
 			var name84 string
 			name84 = metadataItem60.Name.ValueString()
@@ -19712,11 +19712,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled57 = nil
 		}
-		var streamtags57 []string = []string{}
+		streamtags57 := make([]string, 0, len(r.InputSecurityLake.Streamtags))
 		for _, streamtagsItem57 := range r.InputSecurityLake.Streamtags {
 			streamtags57 = append(streamtags57, streamtagsItem57.ValueString())
 		}
-		var connections57 []shared.InputSecurityLakeConnections = []shared.InputSecurityLakeConnections{}
+		connections57 := make([]shared.InputSecurityLakeConnections, 0, len(r.InputSecurityLake.Connections))
 		for _, connectionsItem57 := range r.InputSecurityLake.Connections {
 			pipeline115 := new(string)
 			if !connectionsItem57.Pipeline.IsUnknown() && !connectionsItem57.Pipeline.IsNull() {
@@ -19843,7 +19843,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			rejectUnauthorized40 = nil
 		}
-		var breakerRulesets14 []string = []string{}
+		breakerRulesets14 := make([]string, 0, len(r.InputSecurityLake.BreakerRulesets))
 		for _, breakerRulesetsItem14 := range r.InputSecurityLake.BreakerRulesets {
 			breakerRulesets14 = append(breakerRulesets14, breakerRulesetsItem14.ValueString())
 		}
@@ -19927,7 +19927,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				command6 = nil
 			}
-			var args5 []string = []string{}
+			args5 := make([]string, 0, len(r.InputSecurityLake.Preprocess.Args))
 			for _, argsItem5 := range r.InputSecurityLake.Preprocess.Args {
 				args5 = append(args5, argsItem5.ValueString())
 			}
@@ -19937,7 +19937,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Args:     args5,
 			}
 		}
-		var metadata62 []shared.InputSecurityLakeMetadata = []shared.InputSecurityLakeMetadata{}
+		metadata62 := make([]shared.InputSecurityLakeMetadata, 0, len(r.InputSecurityLake.Metadata))
 		for _, metadataItem61 := range r.InputSecurityLake.Metadata {
 			var name85 string
 			name85 = metadataItem61.Name.ValueString()
@@ -20105,11 +20105,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			pqEnabled58 = nil
 		}
-		var streamtags58 []string = []string{}
+		streamtags58 := make([]string, 0, len(r.InputZscalerHec.Streamtags))
 		for _, streamtagsItem58 := range r.InputZscalerHec.Streamtags {
 			streamtags58 = append(streamtags58, streamtagsItem58.ValueString())
 		}
-		var connections58 []shared.InputZscalerHecConnections = []shared.InputZscalerHecConnections{}
+		connections58 := make([]shared.InputZscalerHecConnections, 0, len(r.InputZscalerHec.Connections))
 		for _, connectionsItem58 := range r.InputZscalerHec.Connections {
 			pipeline117 := new(string)
 			if !connectionsItem58.Pipeline.IsUnknown() && !connectionsItem58.Pipeline.IsNull() {
@@ -20188,7 +20188,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		var port23 float64
 		port23 = r.InputZscalerHec.Port.ValueFloat64()
 
-		var authTokens7 []shared.InputZscalerHecAuthTokens = []shared.InputZscalerHecAuthTokens{}
+		authTokens7 := make([]shared.InputZscalerHecAuthTokens, 0, len(r.InputZscalerHec.AuthTokens))
 		for _, authTokensItem7 := range r.InputZscalerHec.AuthTokens {
 			authType21 := new(shared.InputZscalerHecAuthenticationMethod)
 			if !authTokensItem7.AuthType.IsUnknown() && !authTokensItem7.AuthType.IsNull() {
@@ -20214,11 +20214,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				description68 = nil
 			}
-			var allowedIndexesAtToken1 []string = []string{}
+			allowedIndexesAtToken1 := make([]string, 0, len(authTokensItem7.AllowedIndexesAtToken))
 			for _, allowedIndexesAtTokenItem1 := range authTokensItem7.AllowedIndexesAtToken {
 				allowedIndexesAtToken1 = append(allowedIndexesAtToken1, allowedIndexesAtTokenItem1.ValueString())
 			}
-			var metadata63 []shared.InputZscalerHecAuthTokensMetadata = []shared.InputZscalerHecAuthTokensMetadata{}
+			metadata63 := make([]shared.InputZscalerHecAuthTokensMetadata, 0, len(authTokensItem7.Metadata))
 			for _, metadataItem62 := range authTokensItem7.Metadata {
 				var name86 string
 				name86 = metadataItem62.Name.ValueString()
@@ -20389,7 +20389,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			hecAPI = nil
 		}
-		var metadata64 []shared.InputZscalerHecMetadata = []shared.InputZscalerHecMetadata{}
+		metadata64 := make([]shared.InputZscalerHecMetadata, 0, len(r.InputZscalerHec.Metadata))
 		for _, metadataItem63 := range r.InputZscalerHec.Metadata {
 			var name87 string
 			name87 = metadataItem63.Name.ValueString()
@@ -20402,7 +20402,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Value: value82,
 			})
 		}
-		var allowedIndexes1 []string = []string{}
+		allowedIndexes1 := make([]string, 0, len(r.InputZscalerHec.AllowedIndexes))
 		for _, allowedIndexesItem1 := range r.InputZscalerHec.AllowedIndexes {
 			allowedIndexes1 = append(allowedIndexes1, allowedIndexesItem1.ValueString())
 		}
@@ -20412,11 +20412,11 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			hecAcks = nil
 		}
-		var accessControlAllowOrigin1 []string = []string{}
+		accessControlAllowOrigin1 := make([]string, 0, len(r.InputZscalerHec.AccessControlAllowOrigin))
 		for _, accessControlAllowOriginItem1 := range r.InputZscalerHec.AccessControlAllowOrigin {
 			accessControlAllowOrigin1 = append(accessControlAllowOrigin1, accessControlAllowOriginItem1.ValueString())
 		}
-		var accessControlAllowHeaders1 []string = []string{}
+		accessControlAllowHeaders1 := make([]string, 0, len(r.InputZscalerHec.AccessControlAllowHeaders))
 		for _, accessControlAllowHeadersItem1 := range r.InputZscalerHec.AccessControlAllowHeaders {
 			accessControlAllowHeaders1 = append(accessControlAllowHeaders1, accessControlAllowHeadersItem1.ValueString())
 		}

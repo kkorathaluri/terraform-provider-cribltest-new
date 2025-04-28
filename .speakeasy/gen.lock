@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: b2744b7e-1ce3-478a-8c1f-0348b936141a
 management:
-  docChecksum: 58f56b291fb9930b3b79d18b7179274a
+  docChecksum: 3bd5759622b767560b30a6d95d2ed425
   docVersion: 1.0.0
-  speakeasyVersion: 1.533.0
-  generationVersion: 2.578.0
-  releaseVersion: 0.11.0
-  configChecksum: e5538b4253e0cc9d29b1cc177f8a5bdc
+  speakeasyVersion: 1.540.0
+  generationVersion: 2.593.3
+  releaseVersion: 0.11.2
+  configChecksum: dd750c09b0afe18022ad9e097c80512b
   published: true
 features:
   terraform:
     additionalDependencies: 0.1.0
     additionalProperties: 0.1.2
     constsAndDefaults: 0.2.1
-    core: 3.41.1
+    core: 3.41.6
     deprecations: 2.82.0
     envVarSecurityUsage: 0.1.0
     globalSecurity: 2.81.10
@@ -5891,7 +5891,7 @@ examples:
   createPacks:
     speakeasy-default-create-packs:
       requestBody:
-        application/json: {"id": "<id>", "description": "whoever inasmuch weird up", "version": "<value>", "disabled": true}
+        application/json: {"id": "<id>", "description": "whoever inasmuch weird up", "version": "<value>", "source": "<value>", "disabled": true}
       responses:
         "200":
           application/json: {}

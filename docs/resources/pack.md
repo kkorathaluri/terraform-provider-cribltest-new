@@ -18,6 +18,7 @@ resource "cribl-terraform_pack" "my_pack" {
   disabled     = true
   display_name = "...my_display_name..."
   id           = "...my_id..."
+  source       = "...my_source..."
   version      = "...my_version..."
 }
 ```
@@ -30,6 +31,7 @@ resource "cribl-terraform_pack" "my_pack" {
 - `description` (String) Requires replacement if changed.
 - `disabled` (Boolean) Requires replacement if changed.
 - `id` (String) Pack name
+- `source` (String) body string required Pack source
 - `version` (String) Requires replacement if changed.
 
 ### Optional

@@ -28,6 +28,8 @@ components:
                 type: string
             version:
                 type: string
+            source:
+                type: string
             disabled:
                 type: boolean
         required:
@@ -35,6 +37,7 @@ components:
             - description
             - version
             - disabled
+            - source
     Error:
       type: object
       properties:
