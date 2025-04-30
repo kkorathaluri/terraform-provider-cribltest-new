@@ -1,6 +1,7 @@
 package hooks
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -11,7 +12,13 @@ import (
 	"path/filepath"
 	"strings"
 	"sync"
+	"time"
 )
+
+type TokenInfo struct {
+	Token     string
+	ExpiresAt time.Time
+}
 
 type CriblTerraformAuthHook struct {
 	client   HTTPClient
@@ -70,23 +77,32 @@ func (o *CriblTerraformAuthHook) BeforeRequest(ctx BeforeRequestContext, req *ht
 
 		// Get or create session
 		sessionKey := fmt.Sprintf("%s:%s", config.ClientID, config.ClientSecret)
-		var token string
-		if cachedToken, ok := o.sessions.Load(sessionKey); ok {
-			token = cachedToken.(string)
-			log.Printf("[DEBUG] Using cached token")
-		} else {
+		var tokenInfo *TokenInfo
+		
+		if cachedTokenInfo, ok := o.sessions.Load(sessionKey); ok {
+			tokenInfo = cachedTokenInfo.(*TokenInfo)
+			// Check if token is expired or about to expire (within 60 minutes)
+			if time.Until(tokenInfo.ExpiresAt) < 60*time.Minute {
+				log.Printf("[DEBUG] Token expired or about to expire, fetching new token")
+				tokenInfo = nil
+			} else {
+				log.Printf("[DEBUG] Using cached token, expires at: %v", tokenInfo.ExpiresAt)
+			}
+		}
+
+		if tokenInfo == nil {
 			// Get new token
-			newToken, err := o.getBearerToken(config.ClientID, config.ClientSecret, audience)
+			newTokenInfo, err := o.getBearerToken(ctx.Context, config.ClientID, config.ClientSecret, audience)
 			if err != nil {
 				log.Printf("[ERROR] Failed to get bearer token: %v", err)
 				return req, err
 			}
-			token = newToken
-			o.sessions.Store(sessionKey, token)
-			log.Printf("[DEBUG] Got new token and cached it")
+			tokenInfo = newTokenInfo
+			o.sessions.Store(sessionKey, tokenInfo)
+			log.Printf("[DEBUG] Got new token and cached it, expires at: %v", tokenInfo.ExpiresAt)
 		}
 
-		req.Header.Set("Authorization", "Bearer "+token)
+		req.Header.Set("Authorization", "Bearer "+tokenInfo.Token)
 	} else {
 		log.Printf("[DEBUG] No OAuth credentials found")
 	}
@@ -100,35 +116,44 @@ func (o *CriblTerraformAuthHook) getCredentialsFromConfig() (*CriblConfig, error
 	clientSecret := os.Getenv("CRIBL_CLIENT_SECRET")
 
 	if clientID != "" && clientSecret != "" {
-		log.Printf("[DEBUG] Found credentials in environment variables")
 		return &CriblConfig{
 			ClientID:     clientID,
 			ClientSecret: clientSecret,
 		}, nil
 	}
 
-	// Then try ~/.cribl file
+	// Then try ~/.cribl/credentials file
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
+		log.Printf("[ERROR] Failed to get home directory: %v", err)
 		return nil, fmt.Errorf("failed to get home directory: %v", err)
 	}
 
-	configPath := filepath.Join(homeDir, ".cribl")
+	// Check for credentials in ~/.cribl/credentials
+	configDir := filepath.Join(homeDir, ".cribl")
+	configPath := filepath.Join(configDir, "credentials")
+	
 	file, err := os.ReadFile(configPath)
 	if err != nil {
-		return nil, fmt.Errorf("failed to read config file: %v", err)
+		// Fallback to legacy ~/.cribl file if credentials file doesn't exist
+		legacyPath := filepath.Join(homeDir, ".cribl")
+		file, err = os.ReadFile(legacyPath)
+		if err != nil {
+			log.Printf("[ERROR] Failed to read both credentials files: %v", err)
+			return nil, fmt.Errorf("failed to read credentials file: %v", err)
+		}
 	}
 
 	var config CriblConfig
 	if err := json.Unmarshal(file, &config); err != nil {
+		log.Printf("[ERROR] Failed to parse config file: %v", err)
 		return nil, fmt.Errorf("failed to parse config file: %v", err)
 	}
 
-	log.Printf("[DEBUG] Found credentials in config file")
 	return &config, nil
 }
 
-func (o *CriblTerraformAuthHook) getBearerToken(clientID, clientSecret, audience string) (string, error) {
+func (o *CriblTerraformAuthHook) getBearerToken(ctx context.Context, clientID, clientSecret, audience string) (*TokenInfo, error) {
 	authURL := "https://login.cribl-playground.cloud/oauth/token"
 	
 	// Create form data
@@ -138,33 +163,40 @@ func (o *CriblTerraformAuthHook) getBearerToken(clientID, clientSecret, audience
 	formData.Set("client_secret", clientSecret)
 	formData.Set("audience", audience)
 
-	req, err := http.NewRequest("POST", authURL, strings.NewReader(formData.Encode()))
+	req, err := http.NewRequestWithContext(ctx, "POST", authURL, strings.NewReader(formData.Encode()))
 	if err != nil {
-		return "", fmt.Errorf("failed to create request: %v", err)
+		return nil, fmt.Errorf("failed to create request: %v", err)
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 	resp, err := o.client.Do(req)
 	if err != nil {
-		return "", fmt.Errorf("failed to make request: %v", err)
+		return nil, fmt.Errorf("failed to make request: %v", err)
 	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return "", fmt.Errorf("failed to read response: %v", err)
+		return nil, fmt.Errorf("failed to read response: %v", err)
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return "", fmt.Errorf("failed to get token: %s", string(body))
+		return nil, fmt.Errorf("failed to get token: %s", string(body))
 	}
 
 	var result struct {
 		AccessToken string `json:"access_token"`
+		ExpiresIn   int    `json:"expires_in"`
 	}
 	if err := json.Unmarshal(body, &result); err != nil {
-		return "", fmt.Errorf("failed to parse response: %v", err)
+		return nil, fmt.Errorf("failed to parse response: %v", err)
 	}
 
-	return result.AccessToken, nil
+	// Calculate expiration time
+	expiresAt := time.Now().Add(time.Duration(result.ExpiresIn) * time.Second)
+
+	return &TokenInfo{
+		Token:     result.AccessToken,
+		ExpiresAt: expiresAt,
+	}, nil
 } 
