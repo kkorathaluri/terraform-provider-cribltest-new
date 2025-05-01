@@ -417,9 +417,9 @@ func New(opts ...SDKOption) *CriblTerraform {
 		sdkConfiguration: sdkConfiguration{
 			Language:          "go",
 			OpenAPIDocVersion: "1.0.0",
-			SDKVersion:        "0.11.10",
-			GenVersion:        "2.593.4",
-			UserAgent:         "speakeasy-sdk/terraform 0.11.10 2.593.4 1.0.0 github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk",
+			SDKVersion:        "0.11.11",
+			GenVersion:        "2.595.4",
+			UserAgent:         "speakeasy-sdk/terraform 0.11.11 2.595.4 1.0.0 github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk",
 			ServerDefaults: map[string]map[string]string{
 				"cloud": {
 					"workspaceName":  "main",

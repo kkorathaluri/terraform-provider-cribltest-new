@@ -8,11 +8,11 @@ terraform {
 
 provider "cribl-terraform" {
   # Configuration options
-  server_url ="https://app.cribl-playground.cloud/organizations/beautiful-nguyen-y8y4azd/workspaces/main/app/api/v1/m/default"
+  #server_url ="https://app.cribl-playground.cloud/organizations/beautiful-nguyen-y8y4azd/workspaces/main/app/api/v1/m/default"
 }
 
 resource "cribl-terraform_pack" "my_pack" {
-  description  = "example-pack-description-test"
+  description  = "example-pack-description-test-1"
   disabled     = false
   display_name = "example-pack-display-name-test"
   id           = "example-pack-id-1"
