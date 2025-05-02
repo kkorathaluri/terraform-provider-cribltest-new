@@ -13,4 +13,9 @@ func initHooks(h *Hooks) {
 	authHook := NewCriblTerraformAuthHook()
 	h.registerSDKInitHook(authHook)
 	h.registerBeforeRequestHook(authHook)
+
+	// Register Cribl Terraform URL hook
+	urlHook := NewCriblTerraformURLHook()
+	h.registerSDKInitHook(urlHook)
+	h.registerBeforeRequestHook(urlHook)
 }
