@@ -5,7 +5,7 @@ package types
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type AuthTokensExt struct {
-	Description types.String                     `tfsdk:"description"`
-	Metadata    []InputHTTPAuthTokensExtMetadata `tfsdk:"metadata"`
-	Token       types.String                     `tfsdk:"token"`
+	Description types.String             `tfsdk:"description"`
+	Metadata    []InputHTTPInputMetadata `tfsdk:"metadata"`
+	Token       types.String             `tfsdk:"token"`
 }

@@ -39,6 +39,7 @@ type OutputPrometheus struct {
 	Secret                        types.String                            `tfsdk:"secret"`
 	SecretParamName               types.String                            `tfsdk:"secret_param_name"`
 	SendMetadata                  types.Bool                              `tfsdk:"send_metadata"`
+	Status                        *TFStatus                               `tfsdk:"status"`
 	Streamtags                    []types.String                          `tfsdk:"streamtags"`
 	SystemFields                  []types.String                          `tfsdk:"system_fields"`
 	TextSecret                    types.String                            `tfsdk:"text_secret"`

@@ -34,6 +34,7 @@ type OutputLoki struct {
 	ResponseHonorRetryAfterHeader types.Bool                        `tfsdk:"response_honor_retry_after_header"`
 	ResponseRetrySettings         []OutputLokiResponseRetrySettings `tfsdk:"response_retry_settings"`
 	SafeHeaders                   []types.String                    `tfsdk:"safe_headers"`
+	Status                        *TFStatus                         `tfsdk:"status"`
 	Streamtags                    []types.String                    `tfsdk:"streamtags"`
 	SystemFields                  []types.String                    `tfsdk:"system_fields"`
 	TextSecret                    types.String                      `tfsdk:"text_secret"`

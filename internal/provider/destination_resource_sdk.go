@@ -48,6 +48,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		var defaultID string
 		defaultID = r.OutputDefault.DefaultID.ValueString()
 
+		var status *shared.TFStatus
+		if r.OutputDefault.Status != nil {
+			health := shared.Health(r.OutputDefault.Status.Health.ValueString())
+			metrics := make(map[string]interface{})
+			for metricsKey, metricsValue := range r.OutputDefault.Status.Metrics {
+				var metricsInst interface{}
+				_ = json.Unmarshal([]byte(metricsValue.ValueString()), &metricsInst)
+				metrics[metricsKey] = metricsInst
+			}
+			var timestamp float64
+			timestamp = r.OutputDefault.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLB := new(bool)
+			if !r.OutputDefault.Status.UseStatusFromLB.IsUnknown() && !r.OutputDefault.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLB = r.OutputDefault.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLB = nil
+			}
+			status = &shared.TFStatus{
+				Health:          health,
+				Metrics:         metrics,
+				Timestamp:       timestamp,
+				UseStatusFromLB: useStatusFromLB,
+			}
+		}
 		outputDefault = &shared.OutputDefault{
 			ID:           id,
 			Type:         typeVar,
@@ -56,6 +81,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			Environment:  environment,
 			Streamtags:   streamtags,
 			DefaultID:    defaultID,
+			Status:       status,
 		}
 	}
 	if outputDefault != nil {
@@ -540,7 +566,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			excludeSelf = nil
 		}
-		urls := make([]shared.Urls, 0, len(r.OutputWebhook.Urls))
+		urls := make([]shared.OutputWebhookUrls, 0, len(r.OutputWebhook.Urls))
 		for _, urlsItem := range r.OutputWebhook.Urls {
 			var url1 string
 			url1 = urlsItem.URL.ValueString()
@@ -551,7 +577,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			} else {
 				weight = nil
 			}
-			urls = append(urls, shared.Urls{
+			urls = append(urls, shared.OutputWebhookUrls{
 				URL:    url1,
 				Weight: weight,
 			})
@@ -567,6 +593,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			*loadBalanceStatsPeriodSec = r.OutputWebhook.LoadBalanceStatsPeriodSec.ValueFloat64()
 		} else {
 			loadBalanceStatsPeriodSec = nil
+		}
+		var status1 *shared.TFStatus
+		if r.OutputWebhook.Status != nil {
+			health1 := shared.Health(r.OutputWebhook.Status.Health.ValueString())
+			metrics1 := make(map[string]interface{})
+			for metricsKey1, metricsValue1 := range r.OutputWebhook.Status.Metrics {
+				var metricsInst1 interface{}
+				_ = json.Unmarshal([]byte(metricsValue1.ValueString()), &metricsInst1)
+				metrics1[metricsKey1] = metricsInst1
+			}
+			var timestamp1 float64
+			timestamp1 = r.OutputWebhook.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb1 := new(bool)
+			if !r.OutputWebhook.Status.UseStatusFromLB.IsUnknown() && !r.OutputWebhook.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb1 = r.OutputWebhook.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb1 = nil
+			}
+			status1 = &shared.TFStatus{
+				Health:          health1,
+				Metrics:         metrics1,
+				Timestamp:       timestamp1,
+				UseStatusFromLB: useStatusFromLb1,
+			}
 		}
 		outputWebhook = &shared.OutputWebhook{
 			ID:                            id1,
@@ -631,6 +682,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			Urls:                          urls,
 			DNSResolvePeriodSec:           dnsResolvePeriodSec,
 			LoadBalanceStatsPeriodSec:     loadBalanceStatsPeriodSec,
+			Status:                        status1,
 		}
 	}
 	if outputWebhook != nil {
@@ -827,9 +879,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			onBackpressure1 = nil
 		}
-		authType1 := new(shared.AuthType)
+		authType1 := new(shared.OutputSentinelAuthType)
 		if !r.OutputSentinel.AuthType.IsUnknown() && !r.OutputSentinel.AuthType.IsNull() {
-			*authType1 = shared.AuthType(r.OutputSentinel.AuthType.ValueString())
+			*authType1 = shared.OutputSentinelAuthType(r.OutputSentinel.AuthType.ValueString())
 		} else {
 			authType1 = nil
 		}
@@ -984,6 +1036,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			streamName = nil
 		}
+		var status2 *shared.TFStatus
+		if r.OutputSentinel.Status != nil {
+			health2 := shared.Health(r.OutputSentinel.Status.Health.ValueString())
+			metrics2 := make(map[string]interface{})
+			for metricsKey2, metricsValue2 := range r.OutputSentinel.Status.Metrics {
+				var metricsInst2 interface{}
+				_ = json.Unmarshal([]byte(metricsValue2.ValueString()), &metricsInst2)
+				metrics2[metricsKey2] = metricsInst2
+			}
+			var timestamp2 float64
+			timestamp2 = r.OutputSentinel.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb2 := new(bool)
+			if !r.OutputSentinel.Status.UseStatusFromLB.IsUnknown() && !r.OutputSentinel.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb2 = r.OutputSentinel.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb2 = nil
+			}
+			status2 = &shared.TFStatus{
+				Health:          health2,
+				Metrics:         metrics2,
+				Timestamp:       timestamp2,
+				UseStatusFromLB: useStatusFromLb2,
+			}
+		}
 		outputSentinel = &shared.OutputSentinel{
 			ID:                            id2,
 			Type:                          typeVar2,
@@ -1035,6 +1112,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			DcrID:                         dcrID,
 			DceEndpoint:                   dceEndpoint,
 			StreamName:                    streamName,
+			Status:                        status2,
 		}
 	}
 	if outputSentinel != nil {
@@ -1068,6 +1146,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		for _, streamtagsItem3 := range r.OutputDevnull.Streamtags {
 			streamtags3 = append(streamtags3, streamtagsItem3.ValueString())
 		}
+		var status3 *shared.TFStatus
+		if r.OutputDevnull.Status != nil {
+			health3 := shared.Health(r.OutputDevnull.Status.Health.ValueString())
+			metrics3 := make(map[string]interface{})
+			for metricsKey3, metricsValue3 := range r.OutputDevnull.Status.Metrics {
+				var metricsInst3 interface{}
+				_ = json.Unmarshal([]byte(metricsValue3.ValueString()), &metricsInst3)
+				metrics3[metricsKey3] = metricsInst3
+			}
+			var timestamp3 float64
+			timestamp3 = r.OutputDevnull.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb3 := new(bool)
+			if !r.OutputDevnull.Status.UseStatusFromLB.IsUnknown() && !r.OutputDevnull.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb3 = r.OutputDevnull.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb3 = nil
+			}
+			status3 = &shared.TFStatus{
+				Health:          health3,
+				Metrics:         metrics3,
+				Timestamp:       timestamp3,
+				UseStatusFromLB: useStatusFromLb3,
+			}
+		}
 		outputDevnull = &shared.OutputDevnull{
 			ID:           id3,
 			Type:         typeVar3,
@@ -1075,6 +1178,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			SystemFields: systemFields3,
 			Environment:  environment3,
 			Streamtags:   streamtags3,
+			Status:       status3,
 		}
 	}
 	if outputDevnull != nil {
@@ -1138,9 +1242,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			messageFormat = nil
 		}
-		timestampFormat := new(shared.TimestampFormat)
+		timestampFormat := new(shared.OutputSyslogTimestampFormat)
 		if !r.OutputSyslog.TimestampFormat.IsUnknown() && !r.OutputSyslog.TimestampFormat.IsNull() {
-			*timestampFormat = shared.TimestampFormat(r.OutputSyslog.TimestampFormat.ValueString())
+			*timestampFormat = shared.OutputSyslogTimestampFormat(r.OutputSyslog.TimestampFormat.ValueString())
 		} else {
 			timestampFormat = nil
 		}
@@ -1331,6 +1435,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputSyslog.PqControls != nil {
 			pqControls2 = &shared.OutputSyslogPqControls{}
 		}
+		var status4 *shared.TFStatus
+		if r.OutputSyslog.Status != nil {
+			health4 := shared.Health(r.OutputSyslog.Status.Health.ValueString())
+			metrics4 := make(map[string]interface{})
+			for metricsKey4, metricsValue4 := range r.OutputSyslog.Status.Metrics {
+				var metricsInst4 interface{}
+				_ = json.Unmarshal([]byte(metricsValue4.ValueString()), &metricsInst4)
+				metrics4[metricsKey4] = metricsInst4
+			}
+			var timestamp4 float64
+			timestamp4 = r.OutputSyslog.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb4 := new(bool)
+			if !r.OutputSyslog.Status.UseStatusFromLB.IsUnknown() && !r.OutputSyslog.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb4 = r.OutputSyslog.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb4 = nil
+			}
+			status4 = &shared.TFStatus{
+				Health:          health4,
+				Metrics:         metrics4,
+				Timestamp:       timestamp4,
+				UseStatusFromLB: useStatusFromLb4,
+			}
+		}
 		outputSyslog = &shared.OutputSyslog{
 			ID:                     id4,
 			Type:                   typeVar4,
@@ -1364,6 +1493,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:       pqOnBackpressure2,
 			PqMode:                 pqMode2,
 			PqControls:             pqControls2,
+			Status:                 status4,
 		}
 	}
 	if outputSyslog != nil {
@@ -1585,9 +1715,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pqPath3 = nil
 		}
-		pqCompress3 := new(shared.OutputSplunkPqCompressCompression)
+		pqCompress3 := new(shared.OutputSplunkOutputCompression)
 		if !r.OutputSplunk.PqCompress.IsUnknown() && !r.OutputSplunk.PqCompress.IsNull() {
-			*pqCompress3 = shared.OutputSplunkPqCompressCompression(r.OutputSplunk.PqCompress.ValueString())
+			*pqCompress3 = shared.OutputSplunkOutputCompression(r.OutputSplunk.PqCompress.ValueString())
 		} else {
 			pqCompress3 = nil
 		}
@@ -1618,6 +1748,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			*textSecret1 = r.OutputSplunk.TextSecret.ValueString()
 		} else {
 			textSecret1 = nil
+		}
+		var status5 *shared.TFStatus
+		if r.OutputSplunk.Status != nil {
+			health5 := shared.Health(r.OutputSplunk.Status.Health.ValueString())
+			metrics5 := make(map[string]interface{})
+			for metricsKey5, metricsValue5 := range r.OutputSplunk.Status.Metrics {
+				var metricsInst5 interface{}
+				_ = json.Unmarshal([]byte(metricsValue5.ValueString()), &metricsInst5)
+				metrics5[metricsKey5] = metricsInst5
+			}
+			var timestamp5 float64
+			timestamp5 = r.OutputSplunk.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb5 := new(bool)
+			if !r.OutputSplunk.Status.UseStatusFromLB.IsUnknown() && !r.OutputSplunk.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb5 = r.OutputSplunk.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb5 = nil
+			}
+			status5 = &shared.TFStatus{
+				Health:          health5,
+				Metrics:         metrics5,
+				Timestamp:       timestamp5,
+				UseStatusFromLB: useStatusFromLb5,
+			}
 		}
 		outputSplunk = &shared.OutputSplunk{
 			ID:                    id5,
@@ -1651,6 +1806,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqControls:            pqControls3,
 			AuthToken:             authToken,
 			TextSecret:            textSecret1,
+			Status:                status5,
 		}
 	}
 	if outputSplunk != nil {
@@ -1895,9 +2051,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			}
 			authTokens := make([]shared.OutputSplunkLbAuthTokens, 0, len(r.OutputSplunkLb.IndexerDiscoveryConfigs.AuthTokens))
 			for _, authTokensItem := range r.OutputSplunkLb.IndexerDiscoveryConfigs.AuthTokens {
-				authType4 := new(shared.OutputSplunkLbIndexerDiscoveryConfigsAuthTokensAuthenticationMethod)
+				authType4 := new(shared.OutputSplunkLbOutputIndexerDiscoveryConfigsAuthenticationMethod)
 				if !authTokensItem.AuthType.IsUnknown() && !authTokensItem.AuthType.IsNull() {
-					*authType4 = shared.OutputSplunkLbIndexerDiscoveryConfigsAuthTokensAuthenticationMethod(authTokensItem.AuthType.ValueString())
+					*authType4 = shared.OutputSplunkLbOutputIndexerDiscoveryConfigsAuthenticationMethod(authTokensItem.AuthType.ValueString())
 				} else {
 					authType4 = nil
 				}
@@ -1905,9 +2061,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 					AuthType: authType4,
 				})
 			}
-			authType5 := new(shared.OutputSplunkLbIndexerDiscoveryConfigsAuthenticationMethod)
+			authType5 := new(shared.OutputSplunkLbOutputAuthenticationMethod)
 			if !r.OutputSplunkLb.IndexerDiscoveryConfigs.AuthType.IsUnknown() && !r.OutputSplunkLb.IndexerDiscoveryConfigs.AuthType.IsNull() {
-				*authType5 = shared.OutputSplunkLbIndexerDiscoveryConfigsAuthenticationMethod(r.OutputSplunkLb.IndexerDiscoveryConfigs.AuthType.ValueString())
+				*authType5 = shared.OutputSplunkLbOutputAuthenticationMethod(r.OutputSplunkLb.IndexerDiscoveryConfigs.AuthType.ValueString())
 			} else {
 				authType5 = nil
 			}
@@ -1995,9 +2151,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pqPath4 = nil
 		}
-		pqCompress4 := new(shared.OutputSplunkLbPqCompressCompression)
+		pqCompress4 := new(shared.OutputSplunkLbOutputCompression)
 		if !r.OutputSplunkLb.PqCompress.IsUnknown() && !r.OutputSplunkLb.PqCompress.IsNull() {
-			*pqCompress4 = shared.OutputSplunkLbPqCompressCompression(r.OutputSplunkLb.PqCompress.ValueString())
+			*pqCompress4 = shared.OutputSplunkLbOutputCompression(r.OutputSplunkLb.PqCompress.ValueString())
 		} else {
 			pqCompress4 = nil
 		}
@@ -2028,6 +2184,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			*textSecret3 = r.OutputSplunkLb.TextSecret.ValueString()
 		} else {
 			textSecret3 = nil
+		}
+		var status6 *shared.TFStatus
+		if r.OutputSplunkLb.Status != nil {
+			health6 := shared.Health(r.OutputSplunkLb.Status.Health.ValueString())
+			metrics6 := make(map[string]interface{})
+			for metricsKey6, metricsValue6 := range r.OutputSplunkLb.Status.Metrics {
+				var metricsInst6 interface{}
+				_ = json.Unmarshal([]byte(metricsValue6.ValueString()), &metricsInst6)
+				metrics6[metricsKey6] = metricsInst6
+			}
+			var timestamp6 float64
+			timestamp6 = r.OutputSplunkLb.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb6 := new(bool)
+			if !r.OutputSplunkLb.Status.UseStatusFromLB.IsUnknown() && !r.OutputSplunkLb.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb6 = r.OutputSplunkLb.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb6 = nil
+			}
+			status6 = &shared.TFStatus{
+				Health:          health6,
+				Metrics:         metrics6,
+				Timestamp:       timestamp6,
+				UseStatusFromLB: useStatusFromLb6,
+			}
 		}
 		outputSplunkLb = &shared.OutputSplunkLb{
 			ID:                           id6,
@@ -2067,6 +2248,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqControls:                   pqControls4,
 			AuthToken:                    authToken2,
 			TextSecret:                   textSecret3,
+			Status:                       status6,
 		}
 	}
 	if outputSplunkLb != nil {
@@ -2380,6 +2562,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputSplunkHec.PqControls != nil {
 			pqControls5 = &shared.OutputSplunkHecPqControls{}
 		}
+		var status7 *shared.TFStatus
+		if r.OutputSplunkHec.Status != nil {
+			health7 := shared.Health(r.OutputSplunkHec.Status.Health.ValueString())
+			metrics7 := make(map[string]interface{})
+			for metricsKey7, metricsValue7 := range r.OutputSplunkHec.Status.Metrics {
+				var metricsInst7 interface{}
+				_ = json.Unmarshal([]byte(metricsValue7.ValueString()), &metricsInst7)
+				metrics7[metricsKey7] = metricsInst7
+			}
+			var timestamp7 float64
+			timestamp7 = r.OutputSplunkHec.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb7 := new(bool)
+			if !r.OutputSplunkHec.Status.UseStatusFromLB.IsUnknown() && !r.OutputSplunkHec.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb7 = r.OutputSplunkHec.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb7 = nil
+			}
+			status7 = &shared.TFStatus{
+				Health:          health7,
+				Metrics:         metrics7,
+				Timestamp:       timestamp7,
+				UseStatusFromLB: useStatusFromLb7,
+			}
+		}
 		outputSplunkHec = &shared.OutputSplunkHec{
 			ID:                            id7,
 			Type:                          typeVar7,
@@ -2422,6 +2629,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:              pqOnBackpressure5,
 			PqMode:                        pqMode5,
 			PqControls:                    pqControls5,
+			Status:                        status7,
 		}
 	}
 	if outputSplunkHec != nil {
@@ -2684,9 +2892,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pqPath6 = nil
 		}
-		pqCompress6 := new(shared.OutputTcpjsonPqCompressCompression)
+		pqCompress6 := new(shared.OutputTcpjsonOutputCompression)
 		if !r.OutputTcpjson.PqCompress.IsUnknown() && !r.OutputTcpjson.PqCompress.IsNull() {
-			*pqCompress6 = shared.OutputTcpjsonPqCompressCompression(r.OutputTcpjson.PqCompress.ValueString())
+			*pqCompress6 = shared.OutputTcpjsonOutputCompression(r.OutputTcpjson.PqCompress.ValueString())
 		} else {
 			pqCompress6 = nil
 		}
@@ -2717,6 +2925,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			*textSecret5 = r.OutputTcpjson.TextSecret.ValueString()
 		} else {
 			textSecret5 = nil
+		}
+		var status8 *shared.TFStatus
+		if r.OutputTcpjson.Status != nil {
+			health8 := shared.Health(r.OutputTcpjson.Status.Health.ValueString())
+			metrics8 := make(map[string]interface{})
+			for metricsKey8, metricsValue8 := range r.OutputTcpjson.Status.Metrics {
+				var metricsInst8 interface{}
+				_ = json.Unmarshal([]byte(metricsValue8.ValueString()), &metricsInst8)
+				metrics8[metricsKey8] = metricsInst8
+			}
+			var timestamp8 float64
+			timestamp8 = r.OutputTcpjson.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb8 := new(bool)
+			if !r.OutputTcpjson.Status.UseStatusFromLB.IsUnknown() && !r.OutputTcpjson.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb8 = r.OutputTcpjson.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb8 = nil
+			}
+			status8 = &shared.TFStatus{
+				Health:          health8,
+				Metrics:         metrics8,
+				Timestamp:       timestamp8,
+				UseStatusFromLB: useStatusFromLb8,
+			}
 		}
 		outputTcpjson = &shared.OutputTcpjson{
 			ID:                        id8,
@@ -2753,6 +2986,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqControls:                pqControls6,
 			AuthToken:                 authToken3,
 			TextSecret:                textSecret5,
+			Status:                    status8,
 		}
 	}
 	if outputTcpjson != nil {
@@ -3008,6 +3242,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputWavefront.PqControls != nil {
 			pqControls7 = &shared.OutputWavefrontPqControls{}
 		}
+		var status9 *shared.TFStatus
+		if r.OutputWavefront.Status != nil {
+			health9 := shared.Health(r.OutputWavefront.Status.Health.ValueString())
+			metrics9 := make(map[string]interface{})
+			for metricsKey9, metricsValue9 := range r.OutputWavefront.Status.Metrics {
+				var metricsInst9 interface{}
+				_ = json.Unmarshal([]byte(metricsValue9.ValueString()), &metricsInst9)
+				metrics9[metricsKey9] = metricsInst9
+			}
+			var timestamp9 float64
+			timestamp9 = r.OutputWavefront.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb9 := new(bool)
+			if !r.OutputWavefront.Status.UseStatusFromLB.IsUnknown() && !r.OutputWavefront.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb9 = r.OutputWavefront.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb9 = nil
+			}
+			status9 = &shared.TFStatus{
+				Health:          health9,
+				Metrics:         metrics9,
+				Timestamp:       timestamp9,
+				UseStatusFromLB: useStatusFromLb9,
+			}
+		}
 		outputWavefront = &shared.OutputWavefront{
 			ID:                            id9,
 			Type:                          typeVar9,
@@ -3042,6 +3301,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:              pqOnBackpressure7,
 			PqMode:                        pqMode7,
 			PqControls:                    pqControls7,
+			Status:                        status9,
 		}
 	}
 	if outputWavefront != nil {
@@ -3297,6 +3557,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputSignalfx.PqControls != nil {
 			pqControls8 = &shared.OutputSignalfxPqControls{}
 		}
+		var status10 *shared.TFStatus
+		if r.OutputSignalfx.Status != nil {
+			health10 := shared.Health(r.OutputSignalfx.Status.Health.ValueString())
+			metrics10 := make(map[string]interface{})
+			for metricsKey10, metricsValue10 := range r.OutputSignalfx.Status.Metrics {
+				var metricsInst10 interface{}
+				_ = json.Unmarshal([]byte(metricsValue10.ValueString()), &metricsInst10)
+				metrics10[metricsKey10] = metricsInst10
+			}
+			var timestamp10 float64
+			timestamp10 = r.OutputSignalfx.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb10 := new(bool)
+			if !r.OutputSignalfx.Status.UseStatusFromLB.IsUnknown() && !r.OutputSignalfx.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb10 = r.OutputSignalfx.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb10 = nil
+			}
+			status10 = &shared.TFStatus{
+				Health:          health10,
+				Metrics:         metrics10,
+				Timestamp:       timestamp10,
+				UseStatusFromLB: useStatusFromLb10,
+			}
+		}
 		outputSignalfx = &shared.OutputSignalfx{
 			ID:                            id10,
 			Type:                          typeVar10,
@@ -3331,6 +3616,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:              pqOnBackpressure8,
 			PqMode:                        pqMode8,
 			PqControls:                    pqControls8,
+			Status:                        status10,
 		}
 	}
 	if outputSignalfx != nil {
@@ -3572,6 +3858,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			maxRetryNum = nil
 		}
+		var status11 *shared.TFStatus
+		if r.OutputFilesystem.Status != nil {
+			health11 := shared.Health(r.OutputFilesystem.Status.Health.ValueString())
+			metrics11 := make(map[string]interface{})
+			for metricsKey11, metricsValue11 := range r.OutputFilesystem.Status.Metrics {
+				var metricsInst11 interface{}
+				_ = json.Unmarshal([]byte(metricsValue11.ValueString()), &metricsInst11)
+				metrics11[metricsKey11] = metricsInst11
+			}
+			var timestamp11 float64
+			timestamp11 = r.OutputFilesystem.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb11 := new(bool)
+			if !r.OutputFilesystem.Status.UseStatusFromLB.IsUnknown() && !r.OutputFilesystem.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb11 = r.OutputFilesystem.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb11 = nil
+			}
+			status11 = &shared.TFStatus{
+				Health:          health11,
+				Metrics:         metrics11,
+				Timestamp:       timestamp11,
+				UseStatusFromLB: useStatusFromLb11,
+			}
+		}
 		outputFilesystem = &shared.OutputFilesystem{
 			ID:                     id11,
 			Type:                   typeVar11,
@@ -3612,6 +3923,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			EmptyDirCleanupSec:     emptyDirCleanupSec,
 			DeadletterPath:         deadletterPath,
 			MaxRetryNum:            maxRetryNum,
+			Status:                 status11,
 		}
 	}
 	if outputFilesystem != nil {
@@ -3984,6 +4296,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			maxRetryNum1 = nil
 		}
+		var status12 *shared.TFStatus
+		if r.OutputS3.Status != nil {
+			health12 := shared.Health(r.OutputS3.Status.Health.ValueString())
+			metrics12 := make(map[string]interface{})
+			for metricsKey12, metricsValue12 := range r.OutputS3.Status.Metrics {
+				var metricsInst12 interface{}
+				_ = json.Unmarshal([]byte(metricsValue12.ValueString()), &metricsInst12)
+				metrics12[metricsKey12] = metricsInst12
+			}
+			var timestamp12 float64
+			timestamp12 = r.OutputS3.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb12 := new(bool)
+			if !r.OutputS3.Status.UseStatusFromLB.IsUnknown() && !r.OutputS3.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb12 = r.OutputS3.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb12 = nil
+			}
+			status12 = &shared.TFStatus{
+				Health:          health12,
+				Metrics:         metrics12,
+				Timestamp:       timestamp12,
+				UseStatusFromLB: useStatusFromLb12,
+			}
+		}
 		outputS3 = &shared.OutputS3{
 			ID:                            id12,
 			Type:                          typeVar12,
@@ -4045,6 +4382,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			EmptyDirCleanupSec:            emptyDirCleanupSec1,
 			DeadletterPath:                deadletterPath1,
 			MaxRetryNum:                   maxRetryNum1,
+			Status:                        status12,
 		}
 	}
 	if outputS3 != nil {
@@ -4372,6 +4710,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				CertificateName: certificateName5,
 			}
 		}
+		var status13 *shared.TFStatus
+		if r.OutputAzureBlob.Status != nil {
+			health13 := shared.Health(r.OutputAzureBlob.Status.Health.ValueString())
+			metrics13 := make(map[string]interface{})
+			for metricsKey13, metricsValue13 := range r.OutputAzureBlob.Status.Metrics {
+				var metricsInst13 interface{}
+				_ = json.Unmarshal([]byte(metricsValue13.ValueString()), &metricsInst13)
+				metrics13[metricsKey13] = metricsInst13
+			}
+			var timestamp13 float64
+			timestamp13 = r.OutputAzureBlob.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb13 := new(bool)
+			if !r.OutputAzureBlob.Status.UseStatusFromLB.IsUnknown() && !r.OutputAzureBlob.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb13 = r.OutputAzureBlob.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb13 = nil
+			}
+			status13 = &shared.TFStatus{
+				Health:          health13,
+				Metrics:         metrics13,
+				Timestamp:       timestamp13,
+				UseStatusFromLB: useStatusFromLb13,
+			}
+		}
 		outputAzureBlob = &shared.OutputAzureBlob{
 			ID:                     id13,
 			Type:                   typeVar13,
@@ -4425,6 +4788,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			EndpointSuffix:         endpointSuffix,
 			ClientTextSecret:       clientTextSecret,
 			Certificate:            certificate,
+			Status:                 status13,
 		}
 	}
 	if outputAzureBlob != nil {
@@ -4859,6 +5223,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputAzureDataExplorer.PqControls != nil {
 			pqControls9 = &shared.OutputAzureDataExplorerPqControls{}
 		}
+		var status14 *shared.TFStatus
+		if r.OutputAzureDataExplorer.Status != nil {
+			health14 := shared.Health(r.OutputAzureDataExplorer.Status.Health.ValueString())
+			metrics14 := make(map[string]interface{})
+			for metricsKey14, metricsValue14 := range r.OutputAzureDataExplorer.Status.Metrics {
+				var metricsInst14 interface{}
+				_ = json.Unmarshal([]byte(metricsValue14.ValueString()), &metricsInst14)
+				metrics14[metricsKey14] = metricsInst14
+			}
+			var timestamp14 float64
+			timestamp14 = r.OutputAzureDataExplorer.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb14 := new(bool)
+			if !r.OutputAzureDataExplorer.Status.UseStatusFromLB.IsUnknown() && !r.OutputAzureDataExplorer.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb14 = r.OutputAzureDataExplorer.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb14 = nil
+			}
+			status14 = &shared.TFStatus{
+				Health:          health14,
+				Metrics:         metrics14,
+				Timestamp:       timestamp14,
+				UseStatusFromLB: useStatusFromLb14,
+			}
+		}
 		outputAzureDataExplorer = &shared.OutputAzureDataExplorer{
 			ID:                            id14,
 			Type:                          typeVar14,
@@ -4922,6 +5311,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:              pqOnBackpressure9,
 			PqMode:                        pqMode9,
 			PqControls:                    pqControls9,
+			Status:                        status14,
 		}
 	}
 	if outputAzureDataExplorer != nil {
@@ -5195,6 +5585,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			keypairSecret = nil
 		}
+		var status15 *shared.TFStatus
+		if r.OutputAzureLogs.Status != nil {
+			health15 := shared.Health(r.OutputAzureLogs.Status.Health.ValueString())
+			metrics15 := make(map[string]interface{})
+			for metricsKey15, metricsValue15 := range r.OutputAzureLogs.Status.Metrics {
+				var metricsInst15 interface{}
+				_ = json.Unmarshal([]byte(metricsValue15.ValueString()), &metricsInst15)
+				metrics15[metricsKey15] = metricsInst15
+			}
+			var timestamp15 float64
+			timestamp15 = r.OutputAzureLogs.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb15 := new(bool)
+			if !r.OutputAzureLogs.Status.UseStatusFromLB.IsUnknown() && !r.OutputAzureLogs.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb15 = r.OutputAzureLogs.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb15 = nil
+			}
+			status15 = &shared.TFStatus{
+				Health:          health15,
+				Metrics:         metrics15,
+				Timestamp:       timestamp15,
+				UseStatusFromLB: useStatusFromLb15,
+			}
+		}
 		outputAzureLogs = &shared.OutputAzureLogs{
 			ID:                            id15,
 			Type:                          typeVar15,
@@ -5232,6 +5647,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			WorkspaceID:                   workspaceID,
 			WorkspaceKey:                  workspaceKey,
 			KeypairSecret:                 keypairSecret,
+			Status:                        status15,
 		}
 	}
 	if outputAzureLogs != nil {
@@ -5417,9 +5833,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pqPath11 = nil
 		}
-		pqCompress11 := new(shared.OutputKinesisPqCompressCompression)
+		pqCompress11 := new(shared.OutputKinesisOutputCompression)
 		if !r.OutputKinesis.PqCompress.IsUnknown() && !r.OutputKinesis.PqCompress.IsNull() {
-			*pqCompress11 = shared.OutputKinesisPqCompressCompression(r.OutputKinesis.PqCompress.ValueString())
+			*pqCompress11 = shared.OutputKinesisOutputCompression(r.OutputKinesis.PqCompress.ValueString())
 		} else {
 			pqCompress11 = nil
 		}
@@ -5438,6 +5854,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		var pqControls11 *shared.OutputKinesisPqControls
 		if r.OutputKinesis.PqControls != nil {
 			pqControls11 = &shared.OutputKinesisPqControls{}
+		}
+		var status16 *shared.TFStatus
+		if r.OutputKinesis.Status != nil {
+			health16 := shared.Health(r.OutputKinesis.Status.Health.ValueString())
+			metrics16 := make(map[string]interface{})
+			for metricsKey16, metricsValue16 := range r.OutputKinesis.Status.Metrics {
+				var metricsInst16 interface{}
+				_ = json.Unmarshal([]byte(metricsValue16.ValueString()), &metricsInst16)
+				metrics16[metricsKey16] = metricsInst16
+			}
+			var timestamp16 float64
+			timestamp16 = r.OutputKinesis.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb16 := new(bool)
+			if !r.OutputKinesis.Status.UseStatusFromLB.IsUnknown() && !r.OutputKinesis.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb16 = r.OutputKinesis.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb16 = nil
+			}
+			status16 = &shared.TFStatus{
+				Health:          health16,
+				Metrics:         metrics16,
+				Timestamp:       timestamp16,
+				UseStatusFromLB: useStatusFromLb16,
+			}
 		}
 		outputKinesis = &shared.OutputKinesis{
 			ID:                      id16,
@@ -5475,6 +5916,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:        pqOnBackpressure11,
 			PqMode:                  pqMode11,
 			PqControls:              pqControls11,
+			Status:                  status16,
 		}
 	}
 	if outputKinesis != nil {
@@ -5727,6 +6169,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			textSecret10 = nil
 		}
+		var status17 *shared.TFStatus
+		if r.OutputHoneycomb.Status != nil {
+			health17 := shared.Health(r.OutputHoneycomb.Status.Health.ValueString())
+			metrics17 := make(map[string]interface{})
+			for metricsKey17, metricsValue17 := range r.OutputHoneycomb.Status.Metrics {
+				var metricsInst17 interface{}
+				_ = json.Unmarshal([]byte(metricsValue17.ValueString()), &metricsInst17)
+				metrics17[metricsKey17] = metricsInst17
+			}
+			var timestamp17 float64
+			timestamp17 = r.OutputHoneycomb.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb17 := new(bool)
+			if !r.OutputHoneycomb.Status.UseStatusFromLB.IsUnknown() && !r.OutputHoneycomb.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb17 = r.OutputHoneycomb.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb17 = nil
+			}
+			status17 = &shared.TFStatus{
+				Health:          health17,
+				Metrics:         metrics17,
+				Timestamp:       timestamp17,
+				UseStatusFromLB: useStatusFromLb17,
+			}
+		}
 		outputHoneycomb = &shared.OutputHoneycomb{
 			ID:                            id17,
 			Type:                          typeVar17,
@@ -5761,6 +6228,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqControls:                    pqControls12,
 			Team:                          team,
 			TextSecret:                    textSecret10,
+			Status:                        status17,
 		}
 	}
 	if outputHoneycomb != nil {
@@ -5977,6 +6445,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputAzureEventhub.PqControls != nil {
 			pqControls13 = &shared.OutputAzureEventhubPqControls{}
 		}
+		var status18 *shared.TFStatus
+		if r.OutputAzureEventhub.Status != nil {
+			health18 := shared.Health(r.OutputAzureEventhub.Status.Health.ValueString())
+			metrics18 := make(map[string]interface{})
+			for metricsKey18, metricsValue18 := range r.OutputAzureEventhub.Status.Metrics {
+				var metricsInst18 interface{}
+				_ = json.Unmarshal([]byte(metricsValue18.ValueString()), &metricsInst18)
+				metrics18[metricsKey18] = metricsInst18
+			}
+			var timestamp18 float64
+			timestamp18 = r.OutputAzureEventhub.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb18 := new(bool)
+			if !r.OutputAzureEventhub.Status.UseStatusFromLB.IsUnknown() && !r.OutputAzureEventhub.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb18 = r.OutputAzureEventhub.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb18 = nil
+			}
+			status18 = &shared.TFStatus{
+				Health:          health18,
+				Metrics:         metrics18,
+				Timestamp:       timestamp18,
+				UseStatusFromLB: useStatusFromLb18,
+			}
+		}
 		outputAzureEventhub = &shared.OutputAzureEventhub{
 			ID:                        id18,
 			Type:                      typeVar18,
@@ -6010,6 +6503,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:          pqOnBackpressure13,
 			PqMode:                    pqMode13,
 			PqControls:                pqControls13,
+			Status:                    status18,
 		}
 	}
 	if outputAzureEventhub != nil {
@@ -6348,6 +6842,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputGoogleChronicle.PqControls != nil {
 			pqControls14 = &shared.OutputGoogleChroniclePqControls{}
 		}
+		var status19 *shared.TFStatus
+		if r.OutputGoogleChronicle.Status != nil {
+			health19 := shared.Health(r.OutputGoogleChronicle.Status.Health.ValueString())
+			metrics19 := make(map[string]interface{})
+			for metricsKey19, metricsValue19 := range r.OutputGoogleChronicle.Status.Metrics {
+				var metricsInst19 interface{}
+				_ = json.Unmarshal([]byte(metricsValue19.ValueString()), &metricsInst19)
+				metrics19[metricsKey19] = metricsInst19
+			}
+			var timestamp19 float64
+			timestamp19 = r.OutputGoogleChronicle.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb19 := new(bool)
+			if !r.OutputGoogleChronicle.Status.UseStatusFromLB.IsUnknown() && !r.OutputGoogleChronicle.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb19 = r.OutputGoogleChronicle.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb19 = nil
+			}
+			status19 = &shared.TFStatus{
+				Health:          health19,
+				Metrics:         metrics19,
+				Timestamp:       timestamp19,
+				UseStatusFromLB: useStatusFromLb19,
+			}
+		}
 		outputGoogleChronicle = &shared.OutputGoogleChronicle{
 			ID:                              id19,
 			Type:                            typeVar19,
@@ -6393,6 +6912,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:                pqOnBackpressure14,
 			PqMode:                          pqMode14,
 			PqControls:                      pqControls14,
+			Status:                          status19,
 		}
 	}
 	if outputGoogleChronicle != nil {
@@ -6714,6 +7234,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			awsSecret2 = nil
 		}
+		var status20 *shared.TFStatus
+		if r.OutputGoogleCloudStorage.Status != nil {
+			health20 := shared.Health(r.OutputGoogleCloudStorage.Status.Health.ValueString())
+			metrics20 := make(map[string]interface{})
+			for metricsKey20, metricsValue20 := range r.OutputGoogleCloudStorage.Status.Metrics {
+				var metricsInst20 interface{}
+				_ = json.Unmarshal([]byte(metricsValue20.ValueString()), &metricsInst20)
+				metrics20[metricsKey20] = metricsInst20
+			}
+			var timestamp20 float64
+			timestamp20 = r.OutputGoogleCloudStorage.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb20 := new(bool)
+			if !r.OutputGoogleCloudStorage.Status.UseStatusFromLB.IsUnknown() && !r.OutputGoogleCloudStorage.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb20 = r.OutputGoogleCloudStorage.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb20 = nil
+			}
+			status20 = &shared.TFStatus{
+				Health:          health20,
+				Metrics:         metrics20,
+				Timestamp:       timestamp20,
+				UseStatusFromLB: useStatusFromLb20,
+			}
+		}
 		outputGoogleCloudStorage = &shared.OutputGoogleCloudStorage{
 			ID:                      id20,
 			Type:                    typeVar20,
@@ -6767,6 +7312,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			AwsAPIKey:               awsAPIKey2,
 			AwsSecretKey:            awsSecretKey2,
 			AwsSecret:               awsSecret2,
+			Status:                  status20,
 		}
 	}
 	if outputGoogleCloudStorage != nil {
@@ -7157,6 +7703,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputGoogleCloudLogging.PqControls != nil {
 			pqControls15 = &shared.OutputGoogleCloudLoggingPqControls{}
 		}
+		var status21 *shared.TFStatus
+		if r.OutputGoogleCloudLogging.Status != nil {
+			health21 := shared.Health(r.OutputGoogleCloudLogging.Status.Health.ValueString())
+			metrics21 := make(map[string]interface{})
+			for metricsKey21, metricsValue21 := range r.OutputGoogleCloudLogging.Status.Metrics {
+				var metricsInst21 interface{}
+				_ = json.Unmarshal([]byte(metricsValue21.ValueString()), &metricsInst21)
+				metrics21[metricsKey21] = metricsInst21
+			}
+			var timestamp21 float64
+			timestamp21 = r.OutputGoogleCloudLogging.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb21 := new(bool)
+			if !r.OutputGoogleCloudLogging.Status.UseStatusFromLB.IsUnknown() && !r.OutputGoogleCloudLogging.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb21 = r.OutputGoogleCloudLogging.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb21 = nil
+			}
+			status21 = &shared.TFStatus{
+				Health:          health21,
+				Metrics:         metrics21,
+				Timestamp:       timestamp21,
+				UseStatusFromLB: useStatusFromLb21,
+			}
+		}
 		outputGoogleCloudLogging = &shared.OutputGoogleCloudLogging{
 			ID:                        id21,
 			Type:                      typeVar21,
@@ -7222,6 +7793,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:          pqOnBackpressure15,
 			PqMode:                    pqMode15,
 			PqControls:                pqControls15,
+			Status:                    status21,
 		}
 	}
 	if outputGoogleCloudLogging != nil {
@@ -7385,6 +7957,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputGooglePubsub.PqControls != nil {
 			pqControls16 = &shared.OutputGooglePubsubPqControls{}
 		}
+		var status22 *shared.TFStatus
+		if r.OutputGooglePubsub.Status != nil {
+			health22 := shared.Health(r.OutputGooglePubsub.Status.Health.ValueString())
+			metrics22 := make(map[string]interface{})
+			for metricsKey22, metricsValue22 := range r.OutputGooglePubsub.Status.Metrics {
+				var metricsInst22 interface{}
+				_ = json.Unmarshal([]byte(metricsValue22.ValueString()), &metricsInst22)
+				metrics22[metricsKey22] = metricsInst22
+			}
+			var timestamp22 float64
+			timestamp22 = r.OutputGooglePubsub.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb22 := new(bool)
+			if !r.OutputGooglePubsub.Status.UseStatusFromLB.IsUnknown() && !r.OutputGooglePubsub.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb22 = r.OutputGooglePubsub.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb22 = nil
+			}
+			status22 = &shared.TFStatus{
+				Health:          health22,
+				Metrics:         metrics22,
+				Timestamp:       timestamp22,
+				UseStatusFromLB: useStatusFromLb22,
+			}
+		}
 		outputGooglePubsub = &shared.OutputGooglePubsub{
 			ID:                        id22,
 			Type:                      typeVar22,
@@ -7414,6 +8011,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:          pqOnBackpressure16,
 			PqMode:                    pqMode16,
 			PqControls:                pqControls16,
+			Status:                    status22,
 		}
 	}
 	if outputGooglePubsub != nil {
@@ -7620,6 +8218,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			maxRetryNum4 = nil
 		}
+		var status23 *shared.TFStatus
+		if r.OutputExabeam.Status != nil {
+			health23 := shared.Health(r.OutputExabeam.Status.Health.ValueString())
+			metrics23 := make(map[string]interface{})
+			for metricsKey23, metricsValue23 := range r.OutputExabeam.Status.Metrics {
+				var metricsInst23 interface{}
+				_ = json.Unmarshal([]byte(metricsValue23.ValueString()), &metricsInst23)
+				metrics23[metricsKey23] = metricsInst23
+			}
+			var timestamp23 float64
+			timestamp23 = r.OutputExabeam.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb23 := new(bool)
+			if !r.OutputExabeam.Status.UseStatusFromLB.IsUnknown() && !r.OutputExabeam.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb23 = r.OutputExabeam.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb23 = nil
+			}
+			status23 = &shared.TFStatus{
+				Health:          health23,
+				Metrics:         metrics23,
+				Timestamp:       timestamp23,
+				UseStatusFromLB: useStatusFromLb23,
+			}
+		}
 		outputExabeam = &shared.OutputExabeam{
 			ID:                     id23,
 			Type:                   typeVar23,
@@ -7656,6 +8279,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			EmptyDirCleanupSec:     emptyDirCleanupSec4,
 			DeadletterPath:         deadletterPath4,
 			MaxRetryNum:            maxRetryNum4,
+			Status:                 status23,
 		}
 	}
 	if outputExabeam != nil {
@@ -7791,7 +8415,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 					CredentialsSecret: credentialsSecret1,
 				}
 			}
-			var tls8 *shared.OutputKafkaKafkaSchemaRegistryTLSSettingsClientSide
+			var tls8 *shared.OutputKafkaOutputTLSSettingsClientSide
 			if r.OutputKafka.KafkaSchemaRegistry.TLS != nil {
 				disabled9 := new(bool)
 				if !r.OutputKafka.KafkaSchemaRegistry.TLS.Disabled.IsUnknown() && !r.OutputKafka.KafkaSchemaRegistry.TLS.Disabled.IsNull() {
@@ -7841,19 +8465,19 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				} else {
 					passphrase5 = nil
 				}
-				minVersion5 := new(shared.OutputKafkaKafkaSchemaRegistryMinimumTLSVersion)
+				minVersion5 := new(shared.OutputKafkaOutputMinimumTLSVersion)
 				if !r.OutputKafka.KafkaSchemaRegistry.TLS.MinVersion.IsUnknown() && !r.OutputKafka.KafkaSchemaRegistry.TLS.MinVersion.IsNull() {
-					*minVersion5 = shared.OutputKafkaKafkaSchemaRegistryMinimumTLSVersion(r.OutputKafka.KafkaSchemaRegistry.TLS.MinVersion.ValueString())
+					*minVersion5 = shared.OutputKafkaOutputMinimumTLSVersion(r.OutputKafka.KafkaSchemaRegistry.TLS.MinVersion.ValueString())
 				} else {
 					minVersion5 = nil
 				}
-				maxVersion5 := new(shared.OutputKafkaKafkaSchemaRegistryMaximumTLSVersion)
+				maxVersion5 := new(shared.OutputKafkaOutputMaximumTLSVersion)
 				if !r.OutputKafka.KafkaSchemaRegistry.TLS.MaxVersion.IsUnknown() && !r.OutputKafka.KafkaSchemaRegistry.TLS.MaxVersion.IsNull() {
-					*maxVersion5 = shared.OutputKafkaKafkaSchemaRegistryMaximumTLSVersion(r.OutputKafka.KafkaSchemaRegistry.TLS.MaxVersion.ValueString())
+					*maxVersion5 = shared.OutputKafkaOutputMaximumTLSVersion(r.OutputKafka.KafkaSchemaRegistry.TLS.MaxVersion.ValueString())
 				} else {
 					maxVersion5 = nil
 				}
-				tls8 = &shared.OutputKafkaKafkaSchemaRegistryTLSSettingsClientSide{
+				tls8 = &shared.OutputKafkaOutputTLSSettingsClientSide{
 					Disabled:           disabled9,
 					RejectUnauthorized: rejectUnauthorized19,
 					Servername:         servername7,
@@ -8068,9 +8692,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pqPath17 = nil
 		}
-		pqCompress17 := new(shared.OutputKafkaPqCompressCompression)
+		pqCompress17 := new(shared.OutputKafkaOutputCompression)
 		if !r.OutputKafka.PqCompress.IsUnknown() && !r.OutputKafka.PqCompress.IsNull() {
-			*pqCompress17 = shared.OutputKafkaPqCompressCompression(r.OutputKafka.PqCompress.ValueString())
+			*pqCompress17 = shared.OutputKafkaOutputCompression(r.OutputKafka.PqCompress.ValueString())
 		} else {
 			pqCompress17 = nil
 		}
@@ -8089,6 +8713,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		var pqControls17 *shared.OutputKafkaPqControls
 		if r.OutputKafka.PqControls != nil {
 			pqControls17 = &shared.OutputKafkaPqControls{}
+		}
+		var status24 *shared.TFStatus
+		if r.OutputKafka.Status != nil {
+			health24 := shared.Health(r.OutputKafka.Status.Health.ValueString())
+			metrics24 := make(map[string]interface{})
+			for metricsKey24, metricsValue24 := range r.OutputKafka.Status.Metrics {
+				var metricsInst24 interface{}
+				_ = json.Unmarshal([]byte(metricsValue24.ValueString()), &metricsInst24)
+				metrics24[metricsKey24] = metricsInst24
+			}
+			var timestamp24 float64
+			timestamp24 = r.OutputKafka.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb24 := new(bool)
+			if !r.OutputKafka.Status.UseStatusFromLB.IsUnknown() && !r.OutputKafka.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb24 = r.OutputKafka.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb24 = nil
+			}
+			status24 = &shared.TFStatus{
+				Health:          health24,
+				Metrics:         metrics24,
+				Timestamp:       timestamp24,
+				UseStatusFromLB: useStatusFromLb24,
+			}
 		}
 		outputKafka = &shared.OutputKafka{
 			ID:                        id24,
@@ -8126,6 +8775,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:          pqOnBackpressure17,
 			PqMode:                    pqMode17,
 			PqControls:                pqControls17,
+			Status:                    status24,
 		}
 	}
 	if outputKafka != nil {
@@ -8336,7 +8986,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 					CredentialsSecret: credentialsSecret2,
 				}
 			}
-			var tls11 *shared.OutputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide
+			var tls11 *shared.OutputConfluentCloudOutputTLSSettingsClientSide
 			if r.OutputConfluentCloud.KafkaSchemaRegistry.TLS != nil {
 				disabled15 := new(bool)
 				if !r.OutputConfluentCloud.KafkaSchemaRegistry.TLS.Disabled.IsUnknown() && !r.OutputConfluentCloud.KafkaSchemaRegistry.TLS.Disabled.IsNull() {
@@ -8386,19 +9036,19 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				} else {
 					passphrase8 = nil
 				}
-				minVersion8 := new(shared.OutputConfluentCloudKafkaSchemaRegistryMinimumTLSVersion)
+				minVersion8 := new(shared.OutputConfluentCloudOutputMinimumTLSVersion)
 				if !r.OutputConfluentCloud.KafkaSchemaRegistry.TLS.MinVersion.IsUnknown() && !r.OutputConfluentCloud.KafkaSchemaRegistry.TLS.MinVersion.IsNull() {
-					*minVersion8 = shared.OutputConfluentCloudKafkaSchemaRegistryMinimumTLSVersion(r.OutputConfluentCloud.KafkaSchemaRegistry.TLS.MinVersion.ValueString())
+					*minVersion8 = shared.OutputConfluentCloudOutputMinimumTLSVersion(r.OutputConfluentCloud.KafkaSchemaRegistry.TLS.MinVersion.ValueString())
 				} else {
 					minVersion8 = nil
 				}
-				maxVersion8 := new(shared.OutputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion)
+				maxVersion8 := new(shared.OutputConfluentCloudOutputMaximumTLSVersion)
 				if !r.OutputConfluentCloud.KafkaSchemaRegistry.TLS.MaxVersion.IsUnknown() && !r.OutputConfluentCloud.KafkaSchemaRegistry.TLS.MaxVersion.IsNull() {
-					*maxVersion8 = shared.OutputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion(r.OutputConfluentCloud.KafkaSchemaRegistry.TLS.MaxVersion.ValueString())
+					*maxVersion8 = shared.OutputConfluentCloudOutputMaximumTLSVersion(r.OutputConfluentCloud.KafkaSchemaRegistry.TLS.MaxVersion.ValueString())
 				} else {
 					maxVersion8 = nil
 				}
-				tls11 = &shared.OutputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide{
+				tls11 = &shared.OutputConfluentCloudOutputTLSSettingsClientSide{
 					Disabled:           disabled15,
 					RejectUnauthorized: rejectUnauthorized22,
 					Servername:         servername10,
@@ -8538,9 +9188,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pqPath18 = nil
 		}
-		pqCompress18 := new(shared.OutputConfluentCloudPqCompressCompression)
+		pqCompress18 := new(shared.OutputConfluentCloudOutputCompression)
 		if !r.OutputConfluentCloud.PqCompress.IsUnknown() && !r.OutputConfluentCloud.PqCompress.IsNull() {
-			*pqCompress18 = shared.OutputConfluentCloudPqCompressCompression(r.OutputConfluentCloud.PqCompress.ValueString())
+			*pqCompress18 = shared.OutputConfluentCloudOutputCompression(r.OutputConfluentCloud.PqCompress.ValueString())
 		} else {
 			pqCompress18 = nil
 		}
@@ -8559,6 +9209,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		var pqControls18 *shared.OutputConfluentCloudPqControls
 		if r.OutputConfluentCloud.PqControls != nil {
 			pqControls18 = &shared.OutputConfluentCloudPqControls{}
+		}
+		var status25 *shared.TFStatus
+		if r.OutputConfluentCloud.Status != nil {
+			health25 := shared.Health(r.OutputConfluentCloud.Status.Health.ValueString())
+			metrics25 := make(map[string]interface{})
+			for metricsKey25, metricsValue25 := range r.OutputConfluentCloud.Status.Metrics {
+				var metricsInst25 interface{}
+				_ = json.Unmarshal([]byte(metricsValue25.ValueString()), &metricsInst25)
+				metrics25[metricsKey25] = metricsInst25
+			}
+			var timestamp25 float64
+			timestamp25 = r.OutputConfluentCloud.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb25 := new(bool)
+			if !r.OutputConfluentCloud.Status.UseStatusFromLB.IsUnknown() && !r.OutputConfluentCloud.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb25 = r.OutputConfluentCloud.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb25 = nil
+			}
+			status25 = &shared.TFStatus{
+				Health:          health25,
+				Metrics:         metrics25,
+				Timestamp:       timestamp25,
+				UseStatusFromLB: useStatusFromLb25,
+			}
 		}
 		outputConfluentCloud = &shared.OutputConfluentCloud{
 			ID:                        id25,
@@ -8596,6 +9271,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:          pqOnBackpressure18,
 			PqMode:                    pqMode18,
 			PqControls:                pqControls18,
+			Status:                    status25,
 		}
 	}
 	if outputConfluentCloud != nil {
@@ -8731,7 +9407,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 					CredentialsSecret: credentialsSecret3,
 				}
 			}
-			var tls12 *shared.OutputMskKafkaSchemaRegistryTLSSettingsClientSide
+			var tls12 *shared.OutputMskOutputTLSSettingsClientSide
 			if r.OutputMsk.KafkaSchemaRegistry.TLS != nil {
 				disabled19 := new(bool)
 				if !r.OutputMsk.KafkaSchemaRegistry.TLS.Disabled.IsUnknown() && !r.OutputMsk.KafkaSchemaRegistry.TLS.Disabled.IsNull() {
@@ -8781,19 +9457,19 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				} else {
 					passphrase9 = nil
 				}
-				minVersion9 := new(shared.OutputMskKafkaSchemaRegistryMinimumTLSVersion)
+				minVersion9 := new(shared.OutputMskOutputMinimumTLSVersion)
 				if !r.OutputMsk.KafkaSchemaRegistry.TLS.MinVersion.IsUnknown() && !r.OutputMsk.KafkaSchemaRegistry.TLS.MinVersion.IsNull() {
-					*minVersion9 = shared.OutputMskKafkaSchemaRegistryMinimumTLSVersion(r.OutputMsk.KafkaSchemaRegistry.TLS.MinVersion.ValueString())
+					*minVersion9 = shared.OutputMskOutputMinimumTLSVersion(r.OutputMsk.KafkaSchemaRegistry.TLS.MinVersion.ValueString())
 				} else {
 					minVersion9 = nil
 				}
-				maxVersion9 := new(shared.OutputMskKafkaSchemaRegistryMaximumTLSVersion)
+				maxVersion9 := new(shared.OutputMskOutputMaximumTLSVersion)
 				if !r.OutputMsk.KafkaSchemaRegistry.TLS.MaxVersion.IsUnknown() && !r.OutputMsk.KafkaSchemaRegistry.TLS.MaxVersion.IsNull() {
-					*maxVersion9 = shared.OutputMskKafkaSchemaRegistryMaximumTLSVersion(r.OutputMsk.KafkaSchemaRegistry.TLS.MaxVersion.ValueString())
+					*maxVersion9 = shared.OutputMskOutputMaximumTLSVersion(r.OutputMsk.KafkaSchemaRegistry.TLS.MaxVersion.ValueString())
 				} else {
 					maxVersion9 = nil
 				}
-				tls12 = &shared.OutputMskKafkaSchemaRegistryTLSSettingsClientSide{
+				tls12 = &shared.OutputMskOutputTLSSettingsClientSide{
 					Disabled:           disabled19,
 					RejectUnauthorized: rejectUnauthorized23,
 					Servername:         servername11,
@@ -9064,9 +9740,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pqPath19 = nil
 		}
-		pqCompress19 := new(shared.OutputMskPqCompressCompression)
+		pqCompress19 := new(shared.OutputMskOutputCompression)
 		if !r.OutputMsk.PqCompress.IsUnknown() && !r.OutputMsk.PqCompress.IsNull() {
-			*pqCompress19 = shared.OutputMskPqCompressCompression(r.OutputMsk.PqCompress.ValueString())
+			*pqCompress19 = shared.OutputMskOutputCompression(r.OutputMsk.PqCompress.ValueString())
 		} else {
 			pqCompress19 = nil
 		}
@@ -9085,6 +9761,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		var pqControls19 *shared.OutputMskPqControls
 		if r.OutputMsk.PqControls != nil {
 			pqControls19 = &shared.OutputMskPqControls{}
+		}
+		var status26 *shared.TFStatus
+		if r.OutputMsk.Status != nil {
+			health26 := shared.Health(r.OutputMsk.Status.Health.ValueString())
+			metrics26 := make(map[string]interface{})
+			for metricsKey26, metricsValue26 := range r.OutputMsk.Status.Metrics {
+				var metricsInst26 interface{}
+				_ = json.Unmarshal([]byte(metricsValue26.ValueString()), &metricsInst26)
+				metrics26[metricsKey26] = metricsInst26
+			}
+			var timestamp26 float64
+			timestamp26 = r.OutputMsk.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb26 := new(bool)
+			if !r.OutputMsk.Status.UseStatusFromLB.IsUnknown() && !r.OutputMsk.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb26 = r.OutputMsk.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb26 = nil
+			}
+			status26 = &shared.TFStatus{
+				Health:          health26,
+				Metrics:         metrics26,
+				Timestamp:       timestamp26,
+				UseStatusFromLB: useStatusFromLb26,
+			}
 		}
 		outputMsk = &shared.OutputMsk{
 			ID:                        id26,
@@ -9134,6 +9835,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:          pqOnBackpressure19,
 			PqMode:                    pqMode19,
 			PqControls:                pqControls19,
+			Status:                    status26,
 		}
 	}
 	if outputMsk != nil {
@@ -9335,7 +10037,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				Value: value19,
 			})
 		}
-		var auth3 *shared.Auth
+		var auth3 *shared.OutputElasticAuth
 		if r.OutputElastic.Auth != nil {
 			disabled21 := new(bool)
 			if !r.OutputElastic.Auth.Disabled.IsUnknown() && !r.OutputElastic.Auth.Disabled.IsNull() {
@@ -9349,7 +10051,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			} else {
 				authType13 = nil
 			}
-			auth3 = &shared.Auth{
+			auth3 = &shared.OutputElasticAuth{
 				Disabled: disabled21,
 				AuthType: authType13,
 			}
@@ -9482,6 +10184,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputElastic.PqControls != nil {
 			pqControls20 = &shared.OutputElasticPqControls{}
 		}
+		var status27 *shared.TFStatus
+		if r.OutputElastic.Status != nil {
+			health27 := shared.Health(r.OutputElastic.Status.Health.ValueString())
+			metrics27 := make(map[string]interface{})
+			for metricsKey27, metricsValue27 := range r.OutputElastic.Status.Metrics {
+				var metricsInst27 interface{}
+				_ = json.Unmarshal([]byte(metricsValue27.ValueString()), &metricsInst27)
+				metrics27[metricsKey27] = metricsInst27
+			}
+			var timestamp27 float64
+			timestamp27 = r.OutputElastic.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb27 := new(bool)
+			if !r.OutputElastic.Status.UseStatusFromLB.IsUnknown() && !r.OutputElastic.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb27 = r.OutputElastic.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb27 = nil
+			}
+			status27 = &shared.TFStatus{
+				Health:          health27,
+				Metrics:         metrics27,
+				Timestamp:       timestamp27,
+				UseStatusFromLB: useStatusFromLb27,
+			}
+		}
 		outputElastic = &shared.OutputElastic{
 			ID:                            id27,
 			Type:                          typeVar27,
@@ -9527,6 +10254,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:              pqOnBackpressure20,
 			PqMode:                        pqMode20,
 			PqControls:                    pqControls20,
+			Status:                        status27,
 		}
 	}
 	if outputElastic != nil {
@@ -9807,6 +10535,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputElasticCloud.PqControls != nil {
 			pqControls21 = &shared.OutputElasticCloudPqControls{}
 		}
+		var status28 *shared.TFStatus
+		if r.OutputElasticCloud.Status != nil {
+			health28 := shared.Health(r.OutputElasticCloud.Status.Health.ValueString())
+			metrics28 := make(map[string]interface{})
+			for metricsKey28, metricsValue28 := range r.OutputElasticCloud.Status.Metrics {
+				var metricsInst28 interface{}
+				_ = json.Unmarshal([]byte(metricsValue28.ValueString()), &metricsInst28)
+				metrics28[metricsKey28] = metricsInst28
+			}
+			var timestamp28 float64
+			timestamp28 = r.OutputElasticCloud.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb28 := new(bool)
+			if !r.OutputElasticCloud.Status.UseStatusFromLB.IsUnknown() && !r.OutputElasticCloud.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb28 = r.OutputElasticCloud.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb28 = nil
+			}
+			status28 = &shared.TFStatus{
+				Health:          health28,
+				Metrics:         metrics28,
+				Timestamp:       timestamp28,
+				UseStatusFromLB: useStatusFromLb28,
+			}
+		}
 		outputElasticCloud = &shared.OutputElasticCloud{
 			ID:                            id28,
 			Type:                          typeVar28,
@@ -9842,6 +10595,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:              pqOnBackpressure21,
 			PqMode:                        pqMode21,
 			PqControls:                    pqControls21,
+			Status:                        status28,
 		}
 	}
 	if outputElasticCloud != nil {
@@ -10129,6 +10883,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			textSecret11 = nil
 		}
+		var status29 *shared.TFStatus
+		if r.OutputNewrelic.Status != nil {
+			health29 := shared.Health(r.OutputNewrelic.Status.Health.ValueString())
+			metrics29 := make(map[string]interface{})
+			for metricsKey29, metricsValue29 := range r.OutputNewrelic.Status.Metrics {
+				var metricsInst29 interface{}
+				_ = json.Unmarshal([]byte(metricsValue29.ValueString()), &metricsInst29)
+				metrics29[metricsKey29] = metricsInst29
+			}
+			var timestamp29 float64
+			timestamp29 = r.OutputNewrelic.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb29 := new(bool)
+			if !r.OutputNewrelic.Status.UseStatusFromLB.IsUnknown() && !r.OutputNewrelic.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb29 = r.OutputNewrelic.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb29 = nil
+			}
+			status29 = &shared.TFStatus{
+				Health:          health29,
+				Metrics:         metrics29,
+				Timestamp:       timestamp29,
+				UseStatusFromLB: useStatusFromLb29,
+			}
+		}
 		outputNewrelic = &shared.OutputNewrelic{
 			ID:                            id29,
 			Type:                          typeVar29,
@@ -10168,6 +10947,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqControls:                    pqControls22,
 			APIKey:                        apiKey1,
 			TextSecret:                    textSecret11,
+			Status:                        status29,
 		}
 	}
 	if outputNewrelic != nil {
@@ -10440,6 +11220,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			textSecret12 = nil
 		}
+		var status30 *shared.TFStatus
+		if r.OutputNewrelicEvents.Status != nil {
+			health30 := shared.Health(r.OutputNewrelicEvents.Status.Health.ValueString())
+			metrics30 := make(map[string]interface{})
+			for metricsKey30, metricsValue30 := range r.OutputNewrelicEvents.Status.Metrics {
+				var metricsInst30 interface{}
+				_ = json.Unmarshal([]byte(metricsValue30.ValueString()), &metricsInst30)
+				metrics30[metricsKey30] = metricsInst30
+			}
+			var timestamp30 float64
+			timestamp30 = r.OutputNewrelicEvents.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb30 := new(bool)
+			if !r.OutputNewrelicEvents.Status.UseStatusFromLB.IsUnknown() && !r.OutputNewrelicEvents.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb30 = r.OutputNewrelicEvents.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb30 = nil
+			}
+			status30 = &shared.TFStatus{
+				Health:          health30,
+				Metrics:         metrics30,
+				Timestamp:       timestamp30,
+				UseStatusFromLB: useStatusFromLb30,
+			}
+		}
 		outputNewrelicEvents = &shared.OutputNewrelicEvents{
 			ID:                            id30,
 			Type:                          typeVar30,
@@ -10477,6 +11282,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqControls:                    pqControls23,
 			APIKey:                        apiKey2,
 			TextSecret:                    textSecret12,
+			Status:                        status30,
 		}
 	}
 	if outputNewrelicEvents != nil {
@@ -10851,6 +11657,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				Value: value27,
 			})
 		}
+		var status31 *shared.TFStatus
+		if r.OutputInfluxdb.Status != nil {
+			health31 := shared.Health(r.OutputInfluxdb.Status.Health.ValueString())
+			metrics31 := make(map[string]interface{})
+			for metricsKey31, metricsValue31 := range r.OutputInfluxdb.Status.Metrics {
+				var metricsInst31 interface{}
+				_ = json.Unmarshal([]byte(metricsValue31.ValueString()), &metricsInst31)
+				metrics31[metricsKey31] = metricsInst31
+			}
+			var timestamp31 float64
+			timestamp31 = r.OutputInfluxdb.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb31 := new(bool)
+			if !r.OutputInfluxdb.Status.UseStatusFromLB.IsUnknown() && !r.OutputInfluxdb.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb31 = r.OutputInfluxdb.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb31 = nil
+			}
+			status31 = &shared.TFStatus{
+				Health:          health31,
+				Metrics:         metrics31,
+				Timestamp:       timestamp31,
+				UseStatusFromLB: useStatusFromLb31,
+			}
+		}
 		outputInfluxdb = &shared.OutputInfluxdb{
 			ID:                            id31,
 			Type:                          typeVar31,
@@ -10903,6 +11734,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			TokenTimeoutSecs:              tokenTimeoutSecs1,
 			OauthParams:                   oauthParams1,
 			OauthHeaders:                  oauthHeaders1,
+			Status:                        status31,
 		}
 	}
 	if outputInfluxdb != nil {
@@ -11089,6 +11921,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputCloudwatch.PqControls != nil {
 			pqControls25 = &shared.OutputCloudwatchPqControls{}
 		}
+		var status32 *shared.TFStatus
+		if r.OutputCloudwatch.Status != nil {
+			health32 := shared.Health(r.OutputCloudwatch.Status.Health.ValueString())
+			metrics32 := make(map[string]interface{})
+			for metricsKey32, metricsValue32 := range r.OutputCloudwatch.Status.Metrics {
+				var metricsInst32 interface{}
+				_ = json.Unmarshal([]byte(metricsValue32.ValueString()), &metricsInst32)
+				metrics32[metricsKey32] = metricsInst32
+			}
+			var timestamp32 float64
+			timestamp32 = r.OutputCloudwatch.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb32 := new(bool)
+			if !r.OutputCloudwatch.Status.UseStatusFromLB.IsUnknown() && !r.OutputCloudwatch.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb32 = r.OutputCloudwatch.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb32 = nil
+			}
+			status32 = &shared.TFStatus{
+				Health:          health32,
+				Metrics:         metrics32,
+				Timestamp:       timestamp32,
+				UseStatusFromLB: useStatusFromLb32,
+			}
+		}
 		outputCloudwatch = &shared.OutputCloudwatch{
 			ID:                      id32,
 			Type:                    typeVar32,
@@ -11122,6 +11979,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:        pqOnBackpressure25,
 			PqMode:                  pqMode25,
 			PqControls:              pqControls25,
+			Status:                  status32,
 		}
 	}
 	if outputCloudwatch != nil {
@@ -11455,6 +12313,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			maxRetryNum5 = nil
 		}
+		var status33 *shared.TFStatus
+		if r.OutputMinio.Status != nil {
+			health33 := shared.Health(r.OutputMinio.Status.Health.ValueString())
+			metrics33 := make(map[string]interface{})
+			for metricsKey33, metricsValue33 := range r.OutputMinio.Status.Metrics {
+				var metricsInst33 interface{}
+				_ = json.Unmarshal([]byte(metricsValue33.ValueString()), &metricsInst33)
+				metrics33[metricsKey33] = metricsInst33
+			}
+			var timestamp33 float64
+			timestamp33 = r.OutputMinio.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb33 := new(bool)
+			if !r.OutputMinio.Status.UseStatusFromLB.IsUnknown() && !r.OutputMinio.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb33 = r.OutputMinio.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb33 = nil
+			}
+			status33 = &shared.TFStatus{
+				Health:          health33,
+				Metrics:         metrics33,
+				Timestamp:       timestamp33,
+				UseStatusFromLB: useStatusFromLb33,
+			}
+		}
 		outputMinio = &shared.OutputMinio{
 			ID:                      id33,
 			Type:                    typeVar33,
@@ -11510,6 +12393,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			EmptyDirCleanupSec:      emptyDirCleanupSec5,
 			DeadletterPath:          deadletterPath5,
 			MaxRetryNum:             maxRetryNum5,
+			Status:                  status33,
 		}
 	}
 	if outputMinio != nil {
@@ -11654,6 +12538,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputStatsd.PqControls != nil {
 			pqControls26 = &shared.OutputStatsdPqControls{}
 		}
+		var status34 *shared.TFStatus
+		if r.OutputStatsd.Status != nil {
+			health34 := shared.Health(r.OutputStatsd.Status.Health.ValueString())
+			metrics34 := make(map[string]interface{})
+			for metricsKey34, metricsValue34 := range r.OutputStatsd.Status.Metrics {
+				var metricsInst34 interface{}
+				_ = json.Unmarshal([]byte(metricsValue34.ValueString()), &metricsInst34)
+				metrics34[metricsKey34] = metricsInst34
+			}
+			var timestamp34 float64
+			timestamp34 = r.OutputStatsd.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb34 := new(bool)
+			if !r.OutputStatsd.Status.UseStatusFromLB.IsUnknown() && !r.OutputStatsd.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb34 = r.OutputStatsd.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb34 = nil
+			}
+			status34 = &shared.TFStatus{
+				Health:          health34,
+				Metrics:         metrics34,
+				Timestamp:       timestamp34,
+				UseStatusFromLB: useStatusFromLb34,
+			}
+		}
 		outputStatsd = &shared.OutputStatsd{
 			ID:                  id34,
 			Type:                typeVar34,
@@ -11679,6 +12588,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:    pqOnBackpressure26,
 			PqMode:              pqMode26,
 			PqControls:          pqControls26,
+			Status:              status34,
 		}
 	}
 	if outputStatsd != nil {
@@ -11823,6 +12733,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputStatsdExt.PqControls != nil {
 			pqControls27 = &shared.OutputStatsdExtPqControls{}
 		}
+		var status35 *shared.TFStatus
+		if r.OutputStatsdExt.Status != nil {
+			health35 := shared.Health(r.OutputStatsdExt.Status.Health.ValueString())
+			metrics35 := make(map[string]interface{})
+			for metricsKey35, metricsValue35 := range r.OutputStatsdExt.Status.Metrics {
+				var metricsInst35 interface{}
+				_ = json.Unmarshal([]byte(metricsValue35.ValueString()), &metricsInst35)
+				metrics35[metricsKey35] = metricsInst35
+			}
+			var timestamp35 float64
+			timestamp35 = r.OutputStatsdExt.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb35 := new(bool)
+			if !r.OutputStatsdExt.Status.UseStatusFromLB.IsUnknown() && !r.OutputStatsdExt.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb35 = r.OutputStatsdExt.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb35 = nil
+			}
+			status35 = &shared.TFStatus{
+				Health:          health35,
+				Metrics:         metrics35,
+				Timestamp:       timestamp35,
+				UseStatusFromLB: useStatusFromLb35,
+			}
+		}
 		outputStatsdExt = &shared.OutputStatsdExt{
 			ID:                  id35,
 			Type:                typeVar35,
@@ -11848,6 +12783,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:    pqOnBackpressure27,
 			PqMode:              pqMode27,
 			PqControls:          pqControls27,
+			Status:              status35,
 		}
 	}
 	if outputStatsdExt != nil {
@@ -11992,6 +12928,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputGraphite.PqControls != nil {
 			pqControls28 = &shared.OutputGraphitePqControls{}
 		}
+		var status36 *shared.TFStatus
+		if r.OutputGraphite.Status != nil {
+			health36 := shared.Health(r.OutputGraphite.Status.Health.ValueString())
+			metrics36 := make(map[string]interface{})
+			for metricsKey36, metricsValue36 := range r.OutputGraphite.Status.Metrics {
+				var metricsInst36 interface{}
+				_ = json.Unmarshal([]byte(metricsValue36.ValueString()), &metricsInst36)
+				metrics36[metricsKey36] = metricsInst36
+			}
+			var timestamp36 float64
+			timestamp36 = r.OutputGraphite.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb36 := new(bool)
+			if !r.OutputGraphite.Status.UseStatusFromLB.IsUnknown() && !r.OutputGraphite.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb36 = r.OutputGraphite.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb36 = nil
+			}
+			status36 = &shared.TFStatus{
+				Health:          health36,
+				Metrics:         metrics36,
+				Timestamp:       timestamp36,
+				UseStatusFromLB: useStatusFromLb36,
+			}
+		}
 		outputGraphite = &shared.OutputGraphite{
 			ID:                  id36,
 			Type:                typeVar36,
@@ -12017,6 +12978,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:    pqOnBackpressure28,
 			PqMode:              pqMode28,
 			PqControls:          pqControls28,
+			Status:              status36,
 		}
 	}
 	if outputGraphite != nil {
@@ -12086,6 +13048,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			description37 = nil
 		}
+		var status37 *shared.TFStatus
+		if r.OutputRouter.Status != nil {
+			health37 := shared.Health(r.OutputRouter.Status.Health.ValueString())
+			metrics37 := make(map[string]interface{})
+			for metricsKey37, metricsValue37 := range r.OutputRouter.Status.Metrics {
+				var metricsInst37 interface{}
+				_ = json.Unmarshal([]byte(metricsValue37.ValueString()), &metricsInst37)
+				metrics37[metricsKey37] = metricsInst37
+			}
+			var timestamp37 float64
+			timestamp37 = r.OutputRouter.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb37 := new(bool)
+			if !r.OutputRouter.Status.UseStatusFromLB.IsUnknown() && !r.OutputRouter.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb37 = r.OutputRouter.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb37 = nil
+			}
+			status37 = &shared.TFStatus{
+				Health:          health37,
+				Metrics:         metrics37,
+				Timestamp:       timestamp37,
+				UseStatusFromLB: useStatusFromLb37,
+			}
+		}
 		outputRouter = &shared.OutputRouter{
 			ID:           id37,
 			Type:         typeVar37,
@@ -12095,6 +13082,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			Streamtags:   streamtags37,
 			Rules:        rules,
 			Description:  description37,
+			Status:       status37,
 		}
 	}
 	if outputRouter != nil {
@@ -12278,6 +13266,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputSns.PqControls != nil {
 			pqControls29 = &shared.OutputSnsPqControls{}
 		}
+		var status38 *shared.TFStatus
+		if r.OutputSns.Status != nil {
+			health38 := shared.Health(r.OutputSns.Status.Health.ValueString())
+			metrics38 := make(map[string]interface{})
+			for metricsKey38, metricsValue38 := range r.OutputSns.Status.Metrics {
+				var metricsInst38 interface{}
+				_ = json.Unmarshal([]byte(metricsValue38.ValueString()), &metricsInst38)
+				metrics38[metricsKey38] = metricsInst38
+			}
+			var timestamp38 float64
+			timestamp38 = r.OutputSns.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb38 := new(bool)
+			if !r.OutputSns.Status.UseStatusFromLB.IsUnknown() && !r.OutputSns.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb38 = r.OutputSns.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb38 = nil
+			}
+			status38 = &shared.TFStatus{
+				Health:          health38,
+				Metrics:         metrics38,
+				Timestamp:       timestamp38,
+				UseStatusFromLB: useStatusFromLb38,
+			}
+		}
 		outputSns = &shared.OutputSns{
 			ID:                      id38,
 			Type:                    typeVar38,
@@ -12310,6 +13323,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:        pqOnBackpressure29,
 			PqMode:                  pqMode29,
 			PqControls:              pqControls29,
+			Status:                  status38,
 		}
 	}
 	if outputSns != nil {
@@ -12532,6 +13546,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputSqs.PqControls != nil {
 			pqControls30 = &shared.OutputSqsPqControls{}
 		}
+		var status39 *shared.TFStatus
+		if r.OutputSqs.Status != nil {
+			health39 := shared.Health(r.OutputSqs.Status.Health.ValueString())
+			metrics39 := make(map[string]interface{})
+			for metricsKey39, metricsValue39 := range r.OutputSqs.Status.Metrics {
+				var metricsInst39 interface{}
+				_ = json.Unmarshal([]byte(metricsValue39.ValueString()), &metricsInst39)
+				metrics39[metricsKey39] = metricsInst39
+			}
+			var timestamp39 float64
+			timestamp39 = r.OutputSqs.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb39 := new(bool)
+			if !r.OutputSqs.Status.UseStatusFromLB.IsUnknown() && !r.OutputSqs.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb39 = r.OutputSqs.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb39 = nil
+			}
+			status39 = &shared.TFStatus{
+				Health:          health39,
+				Metrics:         metrics39,
+				Timestamp:       timestamp39,
+				UseStatusFromLB: useStatusFromLb39,
+			}
+		}
 		outputSqs = &shared.OutputSqs{
 			ID:                      id39,
 			Type:                    typeVar39,
@@ -12570,6 +13609,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:        pqOnBackpressure30,
 			PqMode:                  pqMode30,
 			PqControls:              pqControls30,
+			Status:                  status39,
 		}
 	}
 	if outputSqs != nil {
@@ -12634,6 +13674,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			description40 = nil
 		}
+		var status40 *shared.TFStatus
+		if r.OutputSnmp.Status != nil {
+			health40 := shared.Health(r.OutputSnmp.Status.Health.ValueString())
+			metrics40 := make(map[string]interface{})
+			for metricsKey40, metricsValue40 := range r.OutputSnmp.Status.Metrics {
+				var metricsInst40 interface{}
+				_ = json.Unmarshal([]byte(metricsValue40.ValueString()), &metricsInst40)
+				metrics40[metricsKey40] = metricsInst40
+			}
+			var timestamp40 float64
+			timestamp40 = r.OutputSnmp.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb40 := new(bool)
+			if !r.OutputSnmp.Status.UseStatusFromLB.IsUnknown() && !r.OutputSnmp.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb40 = r.OutputSnmp.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb40 = nil
+			}
+			status40 = &shared.TFStatus{
+				Health:          health40,
+				Metrics:         metrics40,
+				Timestamp:       timestamp40,
+				UseStatusFromLB: useStatusFromLb40,
+			}
+		}
 		outputSnmp = &shared.OutputSnmp{
 			ID:                  id40,
 			Type:                typeVar40,
@@ -12644,6 +13709,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			Hosts:               hosts2,
 			DNSResolvePeriodSec: dnsResolvePeriodSec8,
 			Description:         description40,
+			Status:              status40,
 		}
 	}
 	if outputSnmp != nil {
@@ -12902,6 +13968,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputSumoLogic.PqControls != nil {
 			pqControls31 = &shared.OutputSumoLogicPqControls{}
 		}
+		var status41 *shared.TFStatus
+		if r.OutputSumoLogic.Status != nil {
+			health41 := shared.Health(r.OutputSumoLogic.Status.Health.ValueString())
+			metrics41 := make(map[string]interface{})
+			for metricsKey41, metricsValue41 := range r.OutputSumoLogic.Status.Metrics {
+				var metricsInst41 interface{}
+				_ = json.Unmarshal([]byte(metricsValue41.ValueString()), &metricsInst41)
+				metrics41[metricsKey41] = metricsInst41
+			}
+			var timestamp41 float64
+			timestamp41 = r.OutputSumoLogic.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb41 := new(bool)
+			if !r.OutputSumoLogic.Status.UseStatusFromLB.IsUnknown() && !r.OutputSumoLogic.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb41 = r.OutputSumoLogic.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb41 = nil
+			}
+			status41 = &shared.TFStatus{
+				Health:          health41,
+				Metrics:         metrics41,
+				Timestamp:       timestamp41,
+				UseStatusFromLB: useStatusFromLb41,
+			}
+		}
 		outputSumoLogic = &shared.OutputSumoLogic{
 			ID:                            id41,
 			Type:                          typeVar41,
@@ -12937,6 +14028,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:              pqOnBackpressure31,
 			PqMode:                        pqMode31,
 			PqControls:                    pqControls31,
+			Status:                        status41,
 		}
 	}
 	if outputSumoLogic != nil {
@@ -13259,6 +14351,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			textSecret14 = nil
 		}
+		var status42 *shared.TFStatus
+		if r.OutputDatadog.Status != nil {
+			health42 := shared.Health(r.OutputDatadog.Status.Health.ValueString())
+			metrics42 := make(map[string]interface{})
+			for metricsKey42, metricsValue42 := range r.OutputDatadog.Status.Metrics {
+				var metricsInst42 interface{}
+				_ = json.Unmarshal([]byte(metricsValue42.ValueString()), &metricsInst42)
+				metrics42[metricsKey42] = metricsInst42
+			}
+			var timestamp42 float64
+			timestamp42 = r.OutputDatadog.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb42 := new(bool)
+			if !r.OutputDatadog.Status.UseStatusFromLB.IsUnknown() && !r.OutputDatadog.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb42 = r.OutputDatadog.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb42 = nil
+			}
+			status42 = &shared.TFStatus{
+				Health:          health42,
+				Metrics:         metrics42,
+				Timestamp:       timestamp42,
+				UseStatusFromLB: useStatusFromLb42,
+			}
+		}
 		outputDatadog = &shared.OutputDatadog{
 			ID:                            id42,
 			Type:                          typeVar42,
@@ -13305,6 +14422,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqControls:                    pqControls32,
 			APIKey:                        apiKey3,
 			TextSecret:                    textSecret14,
+			Status:                        status42,
 		}
 	}
 	if outputDatadog != nil {
@@ -13361,7 +14479,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			} else {
 				messageFormat1 = nil
 			}
-			labels := make([]shared.OutputGrafanaCloud1Labels, 0, len(r.OutputGrafanaCloud.One.Labels))
+			labels := make([]shared.OutputOutputGrafanaCloudLabels, 0, len(r.OutputGrafanaCloud.One.Labels))
 			for _, labelsItem := range r.OutputGrafanaCloud.One.Labels {
 				name22 := new(string)
 				if !labelsItem.Name.IsUnknown() && !labelsItem.Name.IsNull() {
@@ -13372,7 +14490,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				var value31 string
 				value31 = labelsItem.Value.ValueString()
 
-				labels = append(labels, shared.OutputGrafanaCloud1Labels{
+				labels = append(labels, shared.OutputOutputGrafanaCloudLabels{
 					Name:  name22,
 					Value: value31,
 				})
@@ -13432,9 +14550,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			}
 			var lokiAuth *shared.OutputGrafanaCloudLokiAuth
 			if r.OutputGrafanaCloud.One.LokiAuth != nil {
-				authType20 := new(shared.OutputGrafanaCloud1AuthenticationType)
+				authType20 := new(shared.OutputOutputGrafanaCloudAuthenticationType)
 				if !r.OutputGrafanaCloud.One.LokiAuth.AuthType.IsUnknown() && !r.OutputGrafanaCloud.One.LokiAuth.AuthType.IsNull() {
-					*authType20 = shared.OutputGrafanaCloud1AuthenticationType(r.OutputGrafanaCloud.One.LokiAuth.AuthType.ValueString())
+					*authType20 = shared.OutputOutputGrafanaCloudAuthenticationType(r.OutputGrafanaCloud.One.LokiAuth.AuthType.ValueString())
 				} else {
 					authType20 = nil
 				}
@@ -13672,6 +14790,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			if r.OutputGrafanaCloud.One.PqControls != nil {
 				pqControls33 = &shared.OutputGrafanaCloudPqControls{}
 			}
+			var status43 *shared.TFStatus
+			if r.OutputGrafanaCloud.One.Status != nil {
+				health43 := shared.Health(r.OutputGrafanaCloud.One.Status.Health.ValueString())
+				metrics43 := make(map[string]interface{})
+				for metricsKey43, metricsValue43 := range r.OutputGrafanaCloud.One.Status.Metrics {
+					var metricsInst43 interface{}
+					_ = json.Unmarshal([]byte(metricsValue43.ValueString()), &metricsInst43)
+					metrics43[metricsKey43] = metricsInst43
+				}
+				var timestamp43 float64
+				timestamp43 = r.OutputGrafanaCloud.One.Status.Timestamp.ValueFloat64()
+
+				useStatusFromLb43 := new(bool)
+				if !r.OutputGrafanaCloud.One.Status.UseStatusFromLB.IsUnknown() && !r.OutputGrafanaCloud.One.Status.UseStatusFromLB.IsNull() {
+					*useStatusFromLb43 = r.OutputGrafanaCloud.One.Status.UseStatusFromLB.ValueBool()
+				} else {
+					useStatusFromLb43 = nil
+				}
+				status43 = &shared.TFStatus{
+					Health:          health43,
+					Metrics:         metrics43,
+					Timestamp:       timestamp43,
+					UseStatusFromLB: useStatusFromLb43,
+				}
+			}
 			outputGrafanaCloud1 = &shared.OutputGrafanaCloud1{
 				ID:                            id43,
 				Type:                          typeVar43,
@@ -13710,6 +14853,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				PqOnBackpressure:              pqOnBackpressure33,
 				PqMode:                        pqMode33,
 				PqControls:                    pqControls33,
+				Status:                        status43,
 			}
 		}
 		if outputGrafanaCloud1 != nil {
@@ -13722,7 +14866,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			var id44 string
 			id44 = r.OutputGrafanaCloud.Two.ID.ValueString()
 
-			typeVar44 := shared.OutputGrafanaCloud2Type(r.OutputGrafanaCloud.Two.Type.ValueString())
+			typeVar44 := shared.OutputOutputGrafanaCloudType(r.OutputGrafanaCloud.Two.Type.ValueString())
 			pipeline44 := new(string)
 			if !r.OutputGrafanaCloud.Two.Pipeline.IsUnknown() && !r.OutputGrafanaCloud.Two.Pipeline.IsNull() {
 				*pipeline44 = r.OutputGrafanaCloud.Two.Pipeline.ValueString()
@@ -13758,9 +14902,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			} else {
 				message2 = nil
 			}
-			messageFormat2 := new(shared.OutputGrafanaCloud2MessageFormat)
+			messageFormat2 := new(shared.OutputOutputGrafanaCloudMessageFormat)
 			if !r.OutputGrafanaCloud.Two.MessageFormat.IsUnknown() && !r.OutputGrafanaCloud.Two.MessageFormat.IsNull() {
-				*messageFormat2 = shared.OutputGrafanaCloud2MessageFormat(r.OutputGrafanaCloud.Two.MessageFormat.ValueString())
+				*messageFormat2 = shared.OutputOutputGrafanaCloudMessageFormat(r.OutputGrafanaCloud.Two.MessageFormat.ValueString())
 			} else {
 				messageFormat2 = nil
 			}
@@ -13786,11 +14930,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			} else {
 				metricRenameExpr1 = nil
 			}
-			var prometheusAuth1 *shared.OutputGrafanaCloud2PrometheusAuth
+			var prometheusAuth1 *shared.OutputOutputGrafanaCloudPrometheusAuth
 			if r.OutputGrafanaCloud.Two.PrometheusAuth != nil {
-				authType21 := new(shared.OutputGrafanaCloud2AuthenticationType)
+				authType21 := new(shared.OutputOutputGrafanaCloud2AuthenticationType)
 				if !r.OutputGrafanaCloud.Two.PrometheusAuth.AuthType.IsUnknown() && !r.OutputGrafanaCloud.Two.PrometheusAuth.AuthType.IsNull() {
-					*authType21 = shared.OutputGrafanaCloud2AuthenticationType(r.OutputGrafanaCloud.Two.PrometheusAuth.AuthType.ValueString())
+					*authType21 = shared.OutputOutputGrafanaCloud2AuthenticationType(r.OutputGrafanaCloud.Two.PrometheusAuth.AuthType.ValueString())
 				} else {
 					authType21 = nil
 				}
@@ -13824,7 +14968,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				} else {
 					credentialsSecret7 = nil
 				}
-				prometheusAuth1 = &shared.OutputGrafanaCloud2PrometheusAuth{
+				prometheusAuth1 = &shared.OutputOutputGrafanaCloudPrometheusAuth{
 					AuthType:          authType21,
 					Token:             token7,
 					TextSecret:        textSecret17,
@@ -13833,11 +14977,11 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 					CredentialsSecret: credentialsSecret7,
 				}
 			}
-			var lokiAuth1 *shared.OutputGrafanaCloud2LokiAuth
+			var lokiAuth1 *shared.OutputOutputGrafanaCloudLokiAuth
 			if r.OutputGrafanaCloud.Two.LokiAuth != nil {
-				authType22 := new(shared.OutputGrafanaCloud2LokiAuthAuthenticationType)
+				authType22 := new(shared.OutputOutputGrafanaCloud2LokiAuthAuthenticationType)
 				if !r.OutputGrafanaCloud.Two.LokiAuth.AuthType.IsUnknown() && !r.OutputGrafanaCloud.Two.LokiAuth.AuthType.IsNull() {
-					*authType22 = shared.OutputGrafanaCloud2LokiAuthAuthenticationType(r.OutputGrafanaCloud.Two.LokiAuth.AuthType.ValueString())
+					*authType22 = shared.OutputOutputGrafanaCloud2LokiAuthAuthenticationType(r.OutputGrafanaCloud.Two.LokiAuth.AuthType.ValueString())
 				} else {
 					authType22 = nil
 				}
@@ -13871,7 +15015,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				} else {
 					credentialsSecret8 = nil
 				}
-				lokiAuth1 = &shared.OutputGrafanaCloud2LokiAuth{
+				lokiAuth1 = &shared.OutputOutputGrafanaCloudLokiAuth{
 					AuthType:          authType22,
 					Token:             token8,
 					TextSecret:        textSecret18,
@@ -13916,7 +15060,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			} else {
 				flushPeriodSec29 = nil
 			}
-			extraHTTPHeaders16 := make([]shared.OutputGrafanaCloud2ExtraHTTPHeaders, 0, len(r.OutputGrafanaCloud.Two.ExtraHTTPHeaders))
+			extraHTTPHeaders16 := make([]shared.OutputOutputGrafanaCloudExtraHTTPHeaders, 0, len(r.OutputGrafanaCloud.Two.ExtraHTTPHeaders))
 			for _, extraHTTPHeadersItem16 := range r.OutputGrafanaCloud.Two.ExtraHTTPHeaders {
 				name25 := new(string)
 				if !extraHTTPHeadersItem16.Name.IsUnknown() && !extraHTTPHeadersItem16.Name.IsNull() {
@@ -13927,7 +15071,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				var value34 string
 				value34 = extraHTTPHeadersItem16.Value.ValueString()
 
-				extraHTTPHeaders16 = append(extraHTTPHeaders16, shared.OutputGrafanaCloud2ExtraHTTPHeaders{
+				extraHTTPHeaders16 = append(extraHTTPHeaders16, shared.OutputOutputGrafanaCloudExtraHTTPHeaders{
 					Name:  name25,
 					Value: value34,
 				})
@@ -13938,9 +15082,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			} else {
 				useRoundRobinDns16 = nil
 			}
-			failedRequestLoggingMode16 := new(shared.OutputGrafanaCloud2FailedRequestLoggingMode)
+			failedRequestLoggingMode16 := new(shared.OutputOutputGrafanaCloudFailedRequestLoggingMode)
 			if !r.OutputGrafanaCloud.Two.FailedRequestLoggingMode.IsUnknown() && !r.OutputGrafanaCloud.Two.FailedRequestLoggingMode.IsNull() {
-				*failedRequestLoggingMode16 = shared.OutputGrafanaCloud2FailedRequestLoggingMode(r.OutputGrafanaCloud.Two.FailedRequestLoggingMode.ValueString())
+				*failedRequestLoggingMode16 = shared.OutputOutputGrafanaCloudFailedRequestLoggingMode(r.OutputGrafanaCloud.Two.FailedRequestLoggingMode.ValueString())
 			} else {
 				failedRequestLoggingMode16 = nil
 			}
@@ -13948,7 +15092,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			for _, safeHeadersItem16 := range r.OutputGrafanaCloud.Two.SafeHeaders {
 				safeHeaders16 = append(safeHeaders16, safeHeadersItem16.ValueString())
 			}
-			responseRetrySettings17 := make([]shared.OutputGrafanaCloud2ResponseRetrySettings, 0, len(r.OutputGrafanaCloud.Two.ResponseRetrySettings))
+			responseRetrySettings17 := make([]shared.OutputOutputGrafanaCloudResponseRetrySettings, 0, len(r.OutputGrafanaCloud.Two.ResponseRetrySettings))
 			for _, responseRetrySettingsItem17 := range r.OutputGrafanaCloud.Two.ResponseRetrySettings {
 				var httpStatus17 float64
 				httpStatus17 = responseRetrySettingsItem17.HTTPStatus.ValueFloat64()
@@ -13971,14 +15115,14 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				} else {
 					maxBackoff34 = nil
 				}
-				responseRetrySettings17 = append(responseRetrySettings17, shared.OutputGrafanaCloud2ResponseRetrySettings{
+				responseRetrySettings17 = append(responseRetrySettings17, shared.OutputOutputGrafanaCloudResponseRetrySettings{
 					HTTPStatus:     httpStatus17,
 					InitialBackoff: initialBackoff38,
 					BackoffRate:    backoffRate38,
 					MaxBackoff:     maxBackoff34,
 				})
 			}
-			var timeoutRetrySettings17 *shared.OutputGrafanaCloud2TimeoutRetrySettings
+			var timeoutRetrySettings17 *shared.OutputOutputGrafanaCloudTimeoutRetrySettings
 			if r.OutputGrafanaCloud.Two.TimeoutRetrySettings != nil {
 				timeoutRetry17 := new(bool)
 				if !r.OutputGrafanaCloud.Two.TimeoutRetrySettings.TimeoutRetry.IsUnknown() && !r.OutputGrafanaCloud.Two.TimeoutRetrySettings.TimeoutRetry.IsNull() {
@@ -14004,7 +15148,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				} else {
 					maxBackoff35 = nil
 				}
-				timeoutRetrySettings17 = &shared.OutputGrafanaCloud2TimeoutRetrySettings{
+				timeoutRetrySettings17 = &shared.OutputOutputGrafanaCloudTimeoutRetrySettings{
 					TimeoutRetry:   timeoutRetry17,
 					InitialBackoff: initialBackoff39,
 					BackoffRate:    backoffRate39,
@@ -14017,9 +15161,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			} else {
 				responseHonorRetryAfterHeader17 = nil
 			}
-			onBackpressure40 := new(shared.OutputGrafanaCloud2BackpressureBehavior)
+			onBackpressure40 := new(shared.OutputOutputGrafanaCloudBackpressureBehavior)
 			if !r.OutputGrafanaCloud.Two.OnBackpressure.IsUnknown() && !r.OutputGrafanaCloud.Two.OnBackpressure.IsNull() {
-				*onBackpressure40 = shared.OutputGrafanaCloud2BackpressureBehavior(r.OutputGrafanaCloud.Two.OnBackpressure.ValueString())
+				*onBackpressure40 = shared.OutputOutputGrafanaCloudBackpressureBehavior(r.OutputGrafanaCloud.Two.OnBackpressure.ValueString())
 			} else {
 				onBackpressure40 = nil
 			}
@@ -14053,27 +15197,52 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			} else {
 				pqPath34 = nil
 			}
-			pqCompress34 := new(shared.OutputGrafanaCloud2Compression)
+			pqCompress34 := new(shared.OutputOutputGrafanaCloudCompression)
 			if !r.OutputGrafanaCloud.Two.PqCompress.IsUnknown() && !r.OutputGrafanaCloud.Two.PqCompress.IsNull() {
-				*pqCompress34 = shared.OutputGrafanaCloud2Compression(r.OutputGrafanaCloud.Two.PqCompress.ValueString())
+				*pqCompress34 = shared.OutputOutputGrafanaCloudCompression(r.OutputGrafanaCloud.Two.PqCompress.ValueString())
 			} else {
 				pqCompress34 = nil
 			}
-			pqOnBackpressure34 := new(shared.OutputGrafanaCloud2QueueFullBehavior)
+			pqOnBackpressure34 := new(shared.OutputOutputGrafanaCloudQueueFullBehavior)
 			if !r.OutputGrafanaCloud.Two.PqOnBackpressure.IsUnknown() && !r.OutputGrafanaCloud.Two.PqOnBackpressure.IsNull() {
-				*pqOnBackpressure34 = shared.OutputGrafanaCloud2QueueFullBehavior(r.OutputGrafanaCloud.Two.PqOnBackpressure.ValueString())
+				*pqOnBackpressure34 = shared.OutputOutputGrafanaCloudQueueFullBehavior(r.OutputGrafanaCloud.Two.PqOnBackpressure.ValueString())
 			} else {
 				pqOnBackpressure34 = nil
 			}
-			pqMode34 := new(shared.OutputGrafanaCloud2Mode)
+			pqMode34 := new(shared.OutputOutputGrafanaCloudMode)
 			if !r.OutputGrafanaCloud.Two.PqMode.IsUnknown() && !r.OutputGrafanaCloud.Two.PqMode.IsNull() {
-				*pqMode34 = shared.OutputGrafanaCloud2Mode(r.OutputGrafanaCloud.Two.PqMode.ValueString())
+				*pqMode34 = shared.OutputOutputGrafanaCloudMode(r.OutputGrafanaCloud.Two.PqMode.ValueString())
 			} else {
 				pqMode34 = nil
 			}
-			var pqControls34 *shared.OutputGrafanaCloud2PqControls
+			var pqControls34 *shared.OutputOutputGrafanaCloudPqControls
 			if r.OutputGrafanaCloud.Two.PqControls != nil {
-				pqControls34 = &shared.OutputGrafanaCloud2PqControls{}
+				pqControls34 = &shared.OutputOutputGrafanaCloudPqControls{}
+			}
+			var status44 *shared.TFStatus
+			if r.OutputGrafanaCloud.Two.Status != nil {
+				health44 := shared.Health(r.OutputGrafanaCloud.Two.Status.Health.ValueString())
+				metrics44 := make(map[string]interface{})
+				for metricsKey44, metricsValue44 := range r.OutputGrafanaCloud.Two.Status.Metrics {
+					var metricsInst44 interface{}
+					_ = json.Unmarshal([]byte(metricsValue44.ValueString()), &metricsInst44)
+					metrics44[metricsKey44] = metricsInst44
+				}
+				var timestamp44 float64
+				timestamp44 = r.OutputGrafanaCloud.Two.Status.Timestamp.ValueFloat64()
+
+				useStatusFromLb44 := new(bool)
+				if !r.OutputGrafanaCloud.Two.Status.UseStatusFromLB.IsUnknown() && !r.OutputGrafanaCloud.Two.Status.UseStatusFromLB.IsNull() {
+					*useStatusFromLb44 = r.OutputGrafanaCloud.Two.Status.UseStatusFromLB.ValueBool()
+				} else {
+					useStatusFromLb44 = nil
+				}
+				status44 = &shared.TFStatus{
+					Health:          health44,
+					Metrics:         metrics44,
+					Timestamp:       timestamp44,
+					UseStatusFromLB: useStatusFromLb44,
+				}
 			}
 			outputGrafanaCloud2 = &shared.OutputGrafanaCloud2{
 				ID:                            id44,
@@ -14113,6 +15282,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				PqOnBackpressure:              pqOnBackpressure34,
 				PqMode:                        pqMode34,
 				PqControls:                    pqControls34,
+				Status:                        status44,
 			}
 		}
 		if outputGrafanaCloud2 != nil {
@@ -14423,6 +15593,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputLoki.PqControls != nil {
 			pqControls35 = &shared.OutputLokiPqControls{}
 		}
+		var status45 *shared.TFStatus
+		if r.OutputLoki.Status != nil {
+			health45 := shared.Health(r.OutputLoki.Status.Health.ValueString())
+			metrics45 := make(map[string]interface{})
+			for metricsKey45, metricsValue45 := range r.OutputLoki.Status.Metrics {
+				var metricsInst45 interface{}
+				_ = json.Unmarshal([]byte(metricsValue45.ValueString()), &metricsInst45)
+				metrics45[metricsKey45] = metricsInst45
+			}
+			var timestamp45 float64
+			timestamp45 = r.OutputLoki.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb45 := new(bool)
+			if !r.OutputLoki.Status.UseStatusFromLB.IsUnknown() && !r.OutputLoki.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb45 = r.OutputLoki.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb45 = nil
+			}
+			status45 = &shared.TFStatus{
+				Health:          health45,
+				Metrics:         metrics45,
+				Timestamp:       timestamp45,
+				UseStatusFromLB: useStatusFromLb45,
+			}
+		}
 		outputLoki = &shared.OutputLoki{
 			ID:                            id45,
 			Type:                          typeVar45,
@@ -14464,6 +15659,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:              pqOnBackpressure35,
 			PqMode:                        pqMode35,
 			PqControls:                    pqControls35,
+			Status:                        status45,
 		}
 	}
 	if outputLoki != nil {
@@ -14808,6 +16004,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				Value: value39,
 			})
 		}
+		var status46 *shared.TFStatus
+		if r.OutputPrometheus.Status != nil {
+			health46 := shared.Health(r.OutputPrometheus.Status.Health.ValueString())
+			metrics46 := make(map[string]interface{})
+			for metricsKey46, metricsValue46 := range r.OutputPrometheus.Status.Metrics {
+				var metricsInst46 interface{}
+				_ = json.Unmarshal([]byte(metricsValue46.ValueString()), &metricsInst46)
+				metrics46[metricsKey46] = metricsInst46
+			}
+			var timestamp46 float64
+			timestamp46 = r.OutputPrometheus.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb46 := new(bool)
+			if !r.OutputPrometheus.Status.UseStatusFromLB.IsUnknown() && !r.OutputPrometheus.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb46 = r.OutputPrometheus.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb46 = nil
+			}
+			status46 = &shared.TFStatus{
+				Health:          health46,
+				Metrics:         metrics46,
+				Timestamp:       timestamp46,
+				UseStatusFromLB: useStatusFromLb46,
+			}
+		}
 		outputPrometheus = &shared.OutputPrometheus{
 			ID:                            id46,
 			Type:                          typeVar46,
@@ -14855,6 +16076,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			TokenTimeoutSecs:              tokenTimeoutSecs2,
 			OauthParams:                   oauthParams2,
 			OauthHeaders:                  oauthHeaders2,
+			Status:                        status46,
 		}
 	}
 	if outputPrometheus != nil {
@@ -14936,6 +16158,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			description47 = nil
 		}
+		var status47 *shared.TFStatus
+		if r.OutputRing.Status != nil {
+			health47 := shared.Health(r.OutputRing.Status.Health.ValueString())
+			metrics47 := make(map[string]interface{})
+			for metricsKey47, metricsValue47 := range r.OutputRing.Status.Metrics {
+				var metricsInst47 interface{}
+				_ = json.Unmarshal([]byte(metricsValue47.ValueString()), &metricsInst47)
+				metrics47[metricsKey47] = metricsInst47
+			}
+			var timestamp47 float64
+			timestamp47 = r.OutputRing.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb47 := new(bool)
+			if !r.OutputRing.Status.UseStatusFromLB.IsUnknown() && !r.OutputRing.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb47 = r.OutputRing.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb47 = nil
+			}
+			status47 = &shared.TFStatus{
+				Health:          health47,
+				Metrics:         metrics47,
+				Timestamp:       timestamp47,
+				UseStatusFromLB: useStatusFromLb47,
+			}
+		}
 		outputRing = &shared.OutputRing{
 			ID:             id47,
 			Type:           typeVar47,
@@ -14951,6 +16198,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			DestPath:       destPath5,
 			OnBackpressure: onBackpressure43,
 			Description:    description47,
+			Status:         status47,
 		}
 	}
 	if outputRing != nil {
@@ -15008,9 +16256,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			compress27 = nil
 		}
-		httpCompress := new(shared.OutputOpenTelemetryHTTPCompressCompression)
+		httpCompress := new(shared.OutputOpenTelemetryOutputCompression)
 		if !r.OutputOpenTelemetry.HTTPCompress.IsUnknown() && !r.OutputOpenTelemetry.HTTPCompress.IsNull() {
-			*httpCompress = shared.OutputOpenTelemetryHTTPCompressCompression(r.OutputOpenTelemetry.HTTPCompress.ValueString())
+			*httpCompress = shared.OutputOpenTelemetryOutputCompression(r.OutputOpenTelemetry.HTTPCompress.ValueString())
 		} else {
 			httpCompress = nil
 		}
@@ -15393,9 +16641,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pqPath37 = nil
 		}
-		pqCompress37 := new(shared.OutputOpenTelemetryPqCompressCompression)
+		pqCompress37 := new(shared.OutputOpenTelemetryOutputPqCompressCompression)
 		if !r.OutputOpenTelemetry.PqCompress.IsUnknown() && !r.OutputOpenTelemetry.PqCompress.IsNull() {
-			*pqCompress37 = shared.OutputOpenTelemetryPqCompressCompression(r.OutputOpenTelemetry.PqCompress.ValueString())
+			*pqCompress37 = shared.OutputOpenTelemetryOutputPqCompressCompression(r.OutputOpenTelemetry.PqCompress.ValueString())
 		} else {
 			pqCompress37 = nil
 		}
@@ -15414,6 +16662,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		var pqControls37 *shared.OutputOpenTelemetryPqControls
 		if r.OutputOpenTelemetry.PqControls != nil {
 			pqControls37 = &shared.OutputOpenTelemetryPqControls{}
+		}
+		var status48 *shared.TFStatus
+		if r.OutputOpenTelemetry.Status != nil {
+			health48 := shared.Health(r.OutputOpenTelemetry.Status.Health.ValueString())
+			metrics48 := make(map[string]interface{})
+			for metricsKey48, metricsValue48 := range r.OutputOpenTelemetry.Status.Metrics {
+				var metricsInst48 interface{}
+				_ = json.Unmarshal([]byte(metricsValue48.ValueString()), &metricsInst48)
+				metrics48[metricsKey48] = metricsInst48
+			}
+			var timestamp48 float64
+			timestamp48 = r.OutputOpenTelemetry.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb48 := new(bool)
+			if !r.OutputOpenTelemetry.Status.UseStatusFromLB.IsUnknown() && !r.OutputOpenTelemetry.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb48 = r.OutputOpenTelemetry.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb48 = nil
+			}
+			status48 = &shared.TFStatus{
+				Health:          health48,
+				Metrics:         metrics48,
+				Timestamp:       timestamp48,
+				UseStatusFromLB: useStatusFromLb48,
+			}
 		}
 		outputOpenTelemetry = &shared.OutputOpenTelemetry{
 			ID:                            id48,
@@ -15470,6 +16743,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:              pqOnBackpressure37,
 			PqMode:                        pqMode37,
 			PqControls:                    pqControls37,
+			Status:                        status48,
 		}
 	}
 	if outputOpenTelemetry != nil {
@@ -15550,9 +16824,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			compress28 = nil
 		}
-		httpCompress1 := new(shared.OutputServiceNowHTTPCompressCompression)
+		httpCompress1 := new(shared.OutputServiceNowOutputCompression)
 		if !r.OutputServiceNow.HTTPCompress.IsUnknown() && !r.OutputServiceNow.HTTPCompress.IsNull() {
-			*httpCompress1 = shared.OutputServiceNowHTTPCompressCompression(r.OutputServiceNow.HTTPCompress.ValueString())
+			*httpCompress1 = shared.OutputServiceNowOutputCompression(r.OutputServiceNow.HTTPCompress.ValueString())
 		} else {
 			httpCompress1 = nil
 		}
@@ -15831,9 +17105,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pqPath38 = nil
 		}
-		pqCompress38 := new(shared.OutputServiceNowPqCompressCompression)
+		pqCompress38 := new(shared.OutputServiceNowOutputPqCompressCompression)
 		if !r.OutputServiceNow.PqCompress.IsUnknown() && !r.OutputServiceNow.PqCompress.IsNull() {
-			*pqCompress38 = shared.OutputServiceNowPqCompressCompression(r.OutputServiceNow.PqCompress.ValueString())
+			*pqCompress38 = shared.OutputServiceNowOutputPqCompressCompression(r.OutputServiceNow.PqCompress.ValueString())
 		} else {
 			pqCompress38 = nil
 		}
@@ -15852,6 +17126,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		var pqControls38 *shared.OutputServiceNowPqControls
 		if r.OutputServiceNow.PqControls != nil {
 			pqControls38 = &shared.OutputServiceNowPqControls{}
+		}
+		var status49 *shared.TFStatus
+		if r.OutputServiceNow.Status != nil {
+			health49 := shared.Health(r.OutputServiceNow.Status.Health.ValueString())
+			metrics49 := make(map[string]interface{})
+			for metricsKey49, metricsValue49 := range r.OutputServiceNow.Status.Metrics {
+				var metricsInst49 interface{}
+				_ = json.Unmarshal([]byte(metricsValue49.ValueString()), &metricsInst49)
+				metrics49[metricsKey49] = metricsInst49
+			}
+			var timestamp49 float64
+			timestamp49 = r.OutputServiceNow.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb49 := new(bool)
+			if !r.OutputServiceNow.Status.UseStatusFromLB.IsUnknown() && !r.OutputServiceNow.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb49 = r.OutputServiceNow.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb49 = nil
+			}
+			status49 = &shared.TFStatus{
+				Health:          health49,
+				Metrics:         metrics49,
+				Timestamp:       timestamp49,
+				UseStatusFromLB: useStatusFromLb49,
+			}
 		}
 		outputServiceNow = &shared.OutputServiceNow{
 			ID:                            id49,
@@ -15896,6 +17195,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:              pqOnBackpressure38,
 			PqMode:                        pqMode38,
 			PqControls:                    pqControls38,
+			Status:                        status49,
 		}
 	}
 	if outputServiceNow != nil {
@@ -16188,6 +17488,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			textSecret22 = nil
 		}
+		var status50 *shared.TFStatus
+		if r.OutputDataset.Status != nil {
+			health50 := shared.Health(r.OutputDataset.Status.Health.ValueString())
+			metrics50 := make(map[string]interface{})
+			for metricsKey50, metricsValue50 := range r.OutputDataset.Status.Metrics {
+				var metricsInst50 interface{}
+				_ = json.Unmarshal([]byte(metricsValue50.ValueString()), &metricsInst50)
+				metrics50[metricsKey50] = metricsInst50
+			}
+			var timestamp50 float64
+			timestamp50 = r.OutputDataset.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb50 := new(bool)
+			if !r.OutputDataset.Status.UseStatusFromLB.IsUnknown() && !r.OutputDataset.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb50 = r.OutputDataset.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb50 = nil
+			}
+			status50 = &shared.TFStatus{
+				Health:          health50,
+				Metrics:         metrics50,
+				Timestamp:       timestamp50,
+				UseStatusFromLB: useStatusFromLb50,
+			}
+		}
 		outputDataset = &shared.OutputDataset{
 			ID:                            id50,
 			Type:                          typeVar50,
@@ -16229,6 +17554,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqControls:                    pqControls39,
 			APIKey:                        apiKey4,
 			TextSecret:                    textSecret22,
+			Status:                        status50,
 		}
 	}
 	if outputDataset != nil {
@@ -16486,9 +17812,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pqPath40 = nil
 		}
-		pqCompress40 := new(shared.OutputCriblTCPPqCompressCompression)
+		pqCompress40 := new(shared.OutputCriblTCPOutputCompression)
 		if !r.OutputCriblTCP.PqCompress.IsUnknown() && !r.OutputCriblTCP.PqCompress.IsNull() {
-			*pqCompress40 = shared.OutputCriblTCPPqCompressCompression(r.OutputCriblTCP.PqCompress.ValueString())
+			*pqCompress40 = shared.OutputCriblTCPOutputCompression(r.OutputCriblTCP.PqCompress.ValueString())
 		} else {
 			pqCompress40 = nil
 		}
@@ -16507,6 +17833,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		var pqControls40 *shared.OutputCriblTCPPqControls
 		if r.OutputCriblTCP.PqControls != nil {
 			pqControls40 = &shared.OutputCriblTCPPqControls{}
+		}
+		var status51 *shared.TFStatus
+		if r.OutputCriblTCP.Status != nil {
+			health51 := shared.Health(r.OutputCriblTCP.Status.Health.ValueString())
+			metrics51 := make(map[string]interface{})
+			for metricsKey51, metricsValue51 := range r.OutputCriblTCP.Status.Metrics {
+				var metricsInst51 interface{}
+				_ = json.Unmarshal([]byte(metricsValue51.ValueString()), &metricsInst51)
+				metrics51[metricsKey51] = metricsInst51
+			}
+			var timestamp51 float64
+			timestamp51 = r.OutputCriblTCP.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb51 := new(bool)
+			if !r.OutputCriblTCP.Status.UseStatusFromLB.IsUnknown() && !r.OutputCriblTCP.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb51 = r.OutputCriblTCP.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb51 = nil
+			}
+			status51 = &shared.TFStatus{
+				Health:          health51,
+				Metrics:         metrics51,
+				Timestamp:       timestamp51,
+				UseStatusFromLB: useStatusFromLb51,
+			}
 		}
 		outputCriblTCP = &shared.OutputCriblTCP{
 			ID:                        id51,
@@ -16540,6 +17891,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:          pqOnBackpressure40,
 			PqMode:                    pqMode40,
 			PqControls:                pqControls40,
+			Status:                    status51,
 		}
 	}
 	if outputCriblTCP != nil {
@@ -16549,29 +17901,29 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 	}
 	var outputCriblHTTP *shared.OutputCriblHTTP
 	if r.OutputCriblHTTP != nil {
-		var status *shared.OutputCriblHTTPStatus
+		var status52 *shared.TFStatus
 		if r.OutputCriblHTTP.Status != nil {
-			health := shared.Health(r.OutputCriblHTTP.Status.Health.ValueString())
-			metrics := make(map[string]interface{})
-			for metricsKey, metricsValue := range r.OutputCriblHTTP.Status.Metrics {
-				var metricsInst interface{}
-				_ = json.Unmarshal([]byte(metricsValue.ValueString()), &metricsInst)
-				metrics[metricsKey] = metricsInst
+			health52 := shared.Health(r.OutputCriblHTTP.Status.Health.ValueString())
+			metrics52 := make(map[string]interface{})
+			for metricsKey52, metricsValue52 := range r.OutputCriblHTTP.Status.Metrics {
+				var metricsInst52 interface{}
+				_ = json.Unmarshal([]byte(metricsValue52.ValueString()), &metricsInst52)
+				metrics52[metricsKey52] = metricsInst52
 			}
-			var timestamp float64
-			timestamp = r.OutputCriblHTTP.Status.Timestamp.ValueFloat64()
+			var timestamp52 float64
+			timestamp52 = r.OutputCriblHTTP.Status.Timestamp.ValueFloat64()
 
-			useStatusFromLB := new(bool)
+			useStatusFromLb52 := new(bool)
 			if !r.OutputCriblHTTP.Status.UseStatusFromLB.IsUnknown() && !r.OutputCriblHTTP.Status.UseStatusFromLB.IsNull() {
-				*useStatusFromLB = r.OutputCriblHTTP.Status.UseStatusFromLB.ValueBool()
+				*useStatusFromLb52 = r.OutputCriblHTTP.Status.UseStatusFromLB.ValueBool()
 			} else {
-				useStatusFromLB = nil
+				useStatusFromLb52 = nil
 			}
-			status = &shared.OutputCriblHTTPStatus{
-				Health:          health,
-				Metrics:         metrics,
-				Timestamp:       timestamp,
-				UseStatusFromLB: useStatusFromLB,
+			status52 = &shared.TFStatus{
+				Health:          health52,
+				Metrics:         metrics52,
+				Timestamp:       timestamp52,
+				UseStatusFromLB: useStatusFromLb52,
 			}
 		}
 		var id52 string
@@ -16902,9 +18254,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pqPath41 = nil
 		}
-		pqCompress41 := new(shared.OutputCriblHTTPPqCompressCompression)
+		pqCompress41 := new(shared.OutputCriblHTTPOutputCompression)
 		if !r.OutputCriblHTTP.PqCompress.IsUnknown() && !r.OutputCriblHTTP.PqCompress.IsNull() {
-			*pqCompress41 = shared.OutputCriblHTTPPqCompressCompression(r.OutputCriblHTTP.PqCompress.ValueString())
+			*pqCompress41 = shared.OutputCriblHTTPOutputCompression(r.OutputCriblHTTP.PqCompress.ValueString())
 		} else {
 			pqCompress41 = nil
 		}
@@ -16925,7 +18277,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			pqControls41 = &shared.OutputCriblHTTPPqControls{}
 		}
 		outputCriblHTTP = &shared.OutputCriblHTTP{
-			Status:                        status,
+			Status:                        status52,
 			ID:                            id52,
 			Type:                          typeVar52,
 			Pipeline:                      pipeline52,
@@ -17230,6 +18582,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputHumioHec.PqControls != nil {
 			pqControls42 = &shared.OutputHumioHecPqControls{}
 		}
+		var status53 *shared.TFStatus
+		if r.OutputHumioHec.Status != nil {
+			health53 := shared.Health(r.OutputHumioHec.Status.Health.ValueString())
+			metrics53 := make(map[string]interface{})
+			for metricsKey53, metricsValue53 := range r.OutputHumioHec.Status.Metrics {
+				var metricsInst53 interface{}
+				_ = json.Unmarshal([]byte(metricsValue53.ValueString()), &metricsInst53)
+				metrics53[metricsKey53] = metricsInst53
+			}
+			var timestamp53 float64
+			timestamp53 = r.OutputHumioHec.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb53 := new(bool)
+			if !r.OutputHumioHec.Status.UseStatusFromLB.IsUnknown() && !r.OutputHumioHec.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb53 = r.OutputHumioHec.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb53 = nil
+			}
+			status53 = &shared.TFStatus{
+				Health:          health53,
+				Metrics:         metrics53,
+				Timestamp:       timestamp53,
+				UseStatusFromLB: useStatusFromLb53,
+			}
+		}
 		outputHumioHec = &shared.OutputHumioHec{
 			ID:                            id53,
 			Type:                          typeVar53,
@@ -17265,6 +18642,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:              pqOnBackpressure42,
 			PqMode:                        pqMode42,
 			PqControls:                    pqControls42,
+			Status:                        status53,
 		}
 	}
 	if outputHumioHec != nil {
@@ -17528,6 +18906,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputCrowdstrikeNextGenSiem.PqControls != nil {
 			pqControls43 = &shared.OutputCrowdstrikeNextGenSiemPqControls{}
 		}
+		var status54 *shared.TFStatus
+		if r.OutputCrowdstrikeNextGenSiem.Status != nil {
+			health54 := shared.Health(r.OutputCrowdstrikeNextGenSiem.Status.Health.ValueString())
+			metrics54 := make(map[string]interface{})
+			for metricsKey54, metricsValue54 := range r.OutputCrowdstrikeNextGenSiem.Status.Metrics {
+				var metricsInst54 interface{}
+				_ = json.Unmarshal([]byte(metricsValue54.ValueString()), &metricsInst54)
+				metrics54[metricsKey54] = metricsInst54
+			}
+			var timestamp54 float64
+			timestamp54 = r.OutputCrowdstrikeNextGenSiem.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb54 := new(bool)
+			if !r.OutputCrowdstrikeNextGenSiem.Status.UseStatusFromLB.IsUnknown() && !r.OutputCrowdstrikeNextGenSiem.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb54 = r.OutputCrowdstrikeNextGenSiem.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb54 = nil
+			}
+			status54 = &shared.TFStatus{
+				Health:          health54,
+				Metrics:         metrics54,
+				Timestamp:       timestamp54,
+				UseStatusFromLB: useStatusFromLb54,
+			}
+		}
 		outputCrowdstrikeNextGenSiem = &shared.OutputCrowdstrikeNextGenSiem{
 			ID:                            id54,
 			Type:                          typeVar54,
@@ -17563,6 +18966,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:              pqOnBackpressure43,
 			PqMode:                        pqMode43,
 			PqControls:                    pqControls43,
+			Status:                        status54,
 		}
 	}
 	if outputCrowdstrikeNextGenSiem != nil {
@@ -17933,6 +19337,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			maxRetryNum6 = nil
 		}
+		var status55 *shared.TFStatus
+		if r.OutputDlS3.Status != nil {
+			health55 := shared.Health(r.OutputDlS3.Status.Health.ValueString())
+			metrics55 := make(map[string]interface{})
+			for metricsKey55, metricsValue55 := range r.OutputDlS3.Status.Metrics {
+				var metricsInst55 interface{}
+				_ = json.Unmarshal([]byte(metricsValue55.ValueString()), &metricsInst55)
+				metrics55[metricsKey55] = metricsInst55
+			}
+			var timestamp55 float64
+			timestamp55 = r.OutputDlS3.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb55 := new(bool)
+			if !r.OutputDlS3.Status.UseStatusFromLB.IsUnknown() && !r.OutputDlS3.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb55 = r.OutputDlS3.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb55 = nil
+			}
+			status55 = &shared.TFStatus{
+				Health:          health55,
+				Metrics:         metrics55,
+				Timestamp:       timestamp55,
+				UseStatusFromLB: useStatusFromLb55,
+			}
+		}
 		outputDlS3 = &shared.OutputDlS3{
 			ID:                            id55,
 			Type:                          typeVar55,
@@ -17994,6 +19423,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			EmptyDirCleanupSec:            emptyDirCleanupSec6,
 			DeadletterPath:                deadletterPath6,
 			MaxRetryNum:                   maxRetryNum6,
+			Status:                        status55,
 		}
 	}
 	if outputDlS3 != nil {
@@ -18336,6 +19766,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			maxRetryNum7 = nil
 		}
+		var status56 *shared.TFStatus
+		if r.OutputSecurityLake.Status != nil {
+			health56 := shared.Health(r.OutputSecurityLake.Status.Health.ValueString())
+			metrics56 := make(map[string]interface{})
+			for metricsKey56, metricsValue56 := range r.OutputSecurityLake.Status.Metrics {
+				var metricsInst56 interface{}
+				_ = json.Unmarshal([]byte(metricsValue56.ValueString()), &metricsInst56)
+				metrics56[metricsKey56] = metricsInst56
+			}
+			var timestamp56 float64
+			timestamp56 = r.OutputSecurityLake.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb56 := new(bool)
+			if !r.OutputSecurityLake.Status.UseStatusFromLB.IsUnknown() && !r.OutputSecurityLake.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb56 = r.OutputSecurityLake.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb56 = nil
+			}
+			status56 = &shared.TFStatus{
+				Health:          health56,
+				Metrics:         metrics56,
+				Timestamp:       timestamp56,
+				UseStatusFromLB: useStatusFromLb56,
+			}
+		}
 		outputSecurityLake = &shared.OutputSecurityLake{
 			ID:                            id56,
 			Type:                          typeVar56,
@@ -18394,6 +19849,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			ParquetSchema:                 parquetSchema,
 			DeadletterPath:                deadletterPath7,
 			MaxRetryNum:                   maxRetryNum7,
+			Status:                        status56,
 		}
 	}
 	if outputSecurityLake != nil {
@@ -18661,6 +20117,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			maxRetryNum8 = nil
 		}
+		var status57 *shared.TFStatus
+		if r.OutputCriblLake.Status != nil {
+			health57 := shared.Health(r.OutputCriblLake.Status.Health.ValueString())
+			metrics57 := make(map[string]interface{})
+			for metricsKey57, metricsValue57 := range r.OutputCriblLake.Status.Metrics {
+				var metricsInst57 interface{}
+				_ = json.Unmarshal([]byte(metricsValue57.ValueString()), &metricsInst57)
+				metrics57[metricsKey57] = metricsInst57
+			}
+			var timestamp57 float64
+			timestamp57 = r.OutputCriblLake.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb57 := new(bool)
+			if !r.OutputCriblLake.Status.UseStatusFromLB.IsUnknown() && !r.OutputCriblLake.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb57 = r.OutputCriblLake.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb57 = nil
+			}
+			status57 = &shared.TFStatus{
+				Health:          health57,
+				Metrics:         metrics57,
+				Timestamp:       timestamp57,
+				UseStatusFromLB: useStatusFromLb57,
+			}
+		}
 		outputCriblLake = &shared.OutputCriblLake{
 			ID:                            id57,
 			Type:                          typeVar57,
@@ -18707,6 +20188,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			EmptyDirCleanupSec:            emptyDirCleanupSec8,
 			DeadletterPath:                deadletterPath8,
 			MaxRetryNum:                   maxRetryNum8,
+			Status:                        status57,
 		}
 	}
 	if outputCriblLake != nil {
@@ -18776,6 +20258,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			description58 = nil
 		}
+		var status58 *shared.TFStatus
+		if r.OutputDiskSpool.Status != nil {
+			health58 := shared.Health(r.OutputDiskSpool.Status.Health.ValueString())
+			metrics58 := make(map[string]interface{})
+			for metricsKey58, metricsValue58 := range r.OutputDiskSpool.Status.Metrics {
+				var metricsInst58 interface{}
+				_ = json.Unmarshal([]byte(metricsValue58.ValueString()), &metricsInst58)
+				metrics58[metricsKey58] = metricsInst58
+			}
+			var timestamp58 float64
+			timestamp58 = r.OutputDiskSpool.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb58 := new(bool)
+			if !r.OutputDiskSpool.Status.UseStatusFromLB.IsUnknown() && !r.OutputDiskSpool.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb58 = r.OutputDiskSpool.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb58 = nil
+			}
+			status58 = &shared.TFStatus{
+				Health:          health58,
+				Metrics:         metrics58,
+				Timestamp:       timestamp58,
+				UseStatusFromLB: useStatusFromLb58,
+			}
+		}
 		outputDiskSpool = &shared.OutputDiskSpool{
 			ID:            id58,
 			Type:          typeVar58,
@@ -18789,6 +20296,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			Compress:      compress33,
 			PartitionExpr: partitionExpr6,
 			Description:   description58,
+			Status:        status58,
 		}
 	}
 	if outputDiskSpool != nil {
@@ -19206,7 +20714,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			describeTable = nil
 		}
-		columnMappings := make([]shared.ColumnMappings, 0, len(r.OutputClickHouse.ColumnMappings))
+		columnMappings := make([]shared.OutputClickHouseColumnMappings, 0, len(r.OutputClickHouse.ColumnMappings))
 		for _, columnMappingsItem := range r.OutputClickHouse.ColumnMappings {
 			var columnName string
 			columnName = columnMappingsItem.ColumnName.ValueString()
@@ -19220,7 +20728,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			var columnValueExpression string
 			columnValueExpression = columnMappingsItem.ColumnValueExpression.ValueString()
 
-			columnMappings = append(columnMappings, shared.ColumnMappings{
+			columnMappings = append(columnMappings, shared.OutputClickHouseColumnMappings{
 				ColumnName:            columnName,
 				ColumnType:            columnType,
 				ColumnValueExpression: columnValueExpression,
@@ -19265,6 +20773,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		var pqControls44 *shared.OutputClickHousePqControls
 		if r.OutputClickHouse.PqControls != nil {
 			pqControls44 = &shared.OutputClickHousePqControls{}
+		}
+		var status59 *shared.TFStatus
+		if r.OutputClickHouse.Status != nil {
+			health59 := shared.Health(r.OutputClickHouse.Status.Health.ValueString())
+			metrics59 := make(map[string]interface{})
+			for metricsKey59, metricsValue59 := range r.OutputClickHouse.Status.Metrics {
+				var metricsInst59 interface{}
+				_ = json.Unmarshal([]byte(metricsValue59.ValueString()), &metricsInst59)
+				metrics59[metricsKey59] = metricsInst59
+			}
+			var timestamp59 float64
+			timestamp59 = r.OutputClickHouse.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb59 := new(bool)
+			if !r.OutputClickHouse.Status.UseStatusFromLB.IsUnknown() && !r.OutputClickHouse.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb59 = r.OutputClickHouse.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb59 = nil
+			}
+			status59 = &shared.TFStatus{
+				Health:          health59,
+				Metrics:         metrics59,
+				Timestamp:       timestamp59,
+				UseStatusFromLB: useStatusFromLb59,
+			}
 		}
 		outputClickHouse = &shared.OutputClickHouse{
 			ID:                            id59,
@@ -19323,6 +20856,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:              pqOnBackpressure44,
 			PqMode:                        pqMode44,
 			PqControls:                    pqControls44,
+			Status:                        status59,
 		}
 	}
 	if outputClickHouse != nil {
@@ -19614,6 +21148,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		if r.OutputXsiam.PqControls != nil {
 			pqControls45 = &shared.OutputXsiamPqControls{}
 		}
+		var status60 *shared.TFStatus
+		if r.OutputXsiam.Status != nil {
+			health60 := shared.Health(r.OutputXsiam.Status.Health.ValueString())
+			metrics60 := make(map[string]interface{})
+			for metricsKey60, metricsValue60 := range r.OutputXsiam.Status.Metrics {
+				var metricsInst60 interface{}
+				_ = json.Unmarshal([]byte(metricsValue60.ValueString()), &metricsInst60)
+				metrics60[metricsKey60] = metricsInst60
+			}
+			var timestamp60 float64
+			timestamp60 = r.OutputXsiam.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb60 := new(bool)
+			if !r.OutputXsiam.Status.UseStatusFromLB.IsUnknown() && !r.OutputXsiam.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb60 = r.OutputXsiam.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb60 = nil
+			}
+			status60 = &shared.TFStatus{
+				Health:          health60,
+				Metrics:         metrics60,
+				Timestamp:       timestamp60,
+				UseStatusFromLB: useStatusFromLb60,
+			}
+		}
 		outputXsiam = &shared.OutputXsiam{
 			ID:                            id60,
 			Type:                          typeVar60,
@@ -19653,6 +21212,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:              pqOnBackpressure45,
 			PqMode:                        pqMode45,
 			PqControls:                    pqControls45,
+			Status:                        status60,
 		}
 	}
 	if outputXsiam != nil {
@@ -19717,6 +21277,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			description61 = nil
 		}
+		var status61 *shared.TFStatus
+		if r.OutputNetflow.Status != nil {
+			health61 := shared.Health(r.OutputNetflow.Status.Health.ValueString())
+			metrics61 := make(map[string]interface{})
+			for metricsKey61, metricsValue61 := range r.OutputNetflow.Status.Metrics {
+				var metricsInst61 interface{}
+				_ = json.Unmarshal([]byte(metricsValue61.ValueString()), &metricsInst61)
+				metrics61[metricsKey61] = metricsInst61
+			}
+			var timestamp61 float64
+			timestamp61 = r.OutputNetflow.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb61 := new(bool)
+			if !r.OutputNetflow.Status.UseStatusFromLB.IsUnknown() && !r.OutputNetflow.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb61 = r.OutputNetflow.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb61 = nil
+			}
+			status61 = &shared.TFStatus{
+				Health:          health61,
+				Metrics:         metrics61,
+				Timestamp:       timestamp61,
+				UseStatusFromLB: useStatusFromLb61,
+			}
+		}
 		outputNetflow = &shared.OutputNetflow{
 			ID:                  id61,
 			Type:                typeVar61,
@@ -19727,6 +21312,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			Hosts:               hosts4,
 			DNSResolvePeriodSec: dnsResolvePeriodSec12,
 			Description:         description61,
+			Status:              status61,
 		}
 	}
 	if outputNetflow != nil {
@@ -20035,6 +21621,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			url19 = nil
 		}
+		var status62 *shared.TFStatus
+		if r.OutputDynatraceHTTP.Status != nil {
+			health62 := shared.Health(r.OutputDynatraceHTTP.Status.Health.ValueString())
+			metrics62 := make(map[string]interface{})
+			for metricsKey62, metricsValue62 := range r.OutputDynatraceHTTP.Status.Metrics {
+				var metricsInst62 interface{}
+				_ = json.Unmarshal([]byte(metricsValue62.ValueString()), &metricsInst62)
+				metrics62[metricsKey62] = metricsInst62
+			}
+			var timestamp62 float64
+			timestamp62 = r.OutputDynatraceHTTP.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb62 := new(bool)
+			if !r.OutputDynatraceHTTP.Status.UseStatusFromLB.IsUnknown() && !r.OutputDynatraceHTTP.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb62 = r.OutputDynatraceHTTP.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb62 = nil
+			}
+			status62 = &shared.TFStatus{
+				Health:          health62,
+				Metrics:         metrics62,
+				Timestamp:       timestamp62,
+				UseStatusFromLB: useStatusFromLb62,
+			}
+		}
 		outputDynatraceHTTP = &shared.OutputDynatraceHTTP{
 			ID:                            id62,
 			Type:                          typeVar62,
@@ -20077,6 +21688,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			EnvironmentID:                 environmentID,
 			ActiveGateDomain:              activeGateDomain,
 			URL:                           url19,
+			Status:                        status62,
 		}
 	}
 	if outputDynatraceHTTP != nil {
@@ -20142,9 +21754,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			compress37 = nil
 		}
-		httpCompress2 := new(shared.OutputDynatraceOtlpHTTPCompressCompression)
+		httpCompress2 := new(shared.OutputDynatraceOtlpOutputCompression)
 		if !r.OutputDynatraceOtlp.HTTPCompress.IsUnknown() && !r.OutputDynatraceOtlp.HTTPCompress.IsNull() {
-			*httpCompress2 = shared.OutputDynatraceOtlpHTTPCompressCompression(r.OutputDynatraceOtlp.HTTPCompress.ValueString())
+			*httpCompress2 = shared.OutputDynatraceOtlpOutputCompression(r.OutputDynatraceOtlp.HTTPCompress.ValueString())
 		} else {
 			httpCompress2 = nil
 		}
@@ -20376,9 +21988,9 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		} else {
 			pqPath47 = nil
 		}
-		pqCompress47 := new(shared.OutputDynatraceOtlpPqCompressCompression)
+		pqCompress47 := new(shared.OutputDynatraceOtlpOutputPqCompressCompression)
 		if !r.OutputDynatraceOtlp.PqCompress.IsUnknown() && !r.OutputDynatraceOtlp.PqCompress.IsNull() {
-			*pqCompress47 = shared.OutputDynatraceOtlpPqCompressCompression(r.OutputDynatraceOtlp.PqCompress.ValueString())
+			*pqCompress47 = shared.OutputDynatraceOtlpOutputPqCompressCompression(r.OutputDynatraceOtlp.PqCompress.ValueString())
 		} else {
 			pqCompress47 = nil
 		}
@@ -20397,6 +22009,31 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 		var pqControls47 *shared.OutputDynatraceOtlpPqControls
 		if r.OutputDynatraceOtlp.PqControls != nil {
 			pqControls47 = &shared.OutputDynatraceOtlpPqControls{}
+		}
+		var status63 *shared.TFStatus
+		if r.OutputDynatraceOtlp.Status != nil {
+			health63 := shared.Health(r.OutputDynatraceOtlp.Status.Health.ValueString())
+			metrics63 := make(map[string]interface{})
+			for metricsKey63, metricsValue63 := range r.OutputDynatraceOtlp.Status.Metrics {
+				var metricsInst63 interface{}
+				_ = json.Unmarshal([]byte(metricsValue63.ValueString()), &metricsInst63)
+				metrics63[metricsKey63] = metricsInst63
+			}
+			var timestamp63 float64
+			timestamp63 = r.OutputDynatraceOtlp.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb63 := new(bool)
+			if !r.OutputDynatraceOtlp.Status.UseStatusFromLB.IsUnknown() && !r.OutputDynatraceOtlp.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb63 = r.OutputDynatraceOtlp.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb63 = nil
+			}
+			status63 = &shared.TFStatus{
+				Health:          health63,
+				Metrics:         metrics63,
+				Timestamp:       timestamp63,
+				UseStatusFromLB: useStatusFromLb63,
+			}
 		}
 		outputDynatraceOtlp = &shared.OutputDynatraceOtlp{
 			ID:                            id63,
@@ -20441,6 +22078,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			PqOnBackpressure:              pqOnBackpressure47,
 			PqMode:                        pqMode47,
 			PqControls:                    pqControls47,
+			Status:                        status63,
 		}
 	}
 	if outputDynatraceOtlp != nil {
@@ -20586,6 +22224,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputAzureBlob.RemoveEmptyDirs = types.BoolPointerValue(resp.OutputAzureBlob.RemoveEmptyDirs)
 		r.OutputAzureBlob.ShouldLogInvalidRows = types.BoolPointerValue(resp.OutputAzureBlob.ShouldLogInvalidRows)
 		r.OutputAzureBlob.StagePath = types.StringPointerValue(resp.OutputAzureBlob.StagePath)
+		if resp.OutputAzureBlob.Status == nil {
+			r.OutputAzureBlob.Status = nil
+		} else {
+			r.OutputAzureBlob.Status = &tfTypes.TFStatus{}
+			r.OutputAzureBlob.Status.Health = types.StringValue(string(resp.OutputAzureBlob.Status.Health))
+			if len(resp.OutputAzureBlob.Status.Metrics) > 0 {
+				r.OutputAzureBlob.Status.Metrics = make(map[string]types.String, len(resp.OutputAzureBlob.Status.Metrics))
+				for key, value := range resp.OutputAzureBlob.Status.Metrics {
+					result, _ := json.Marshal(value)
+					r.OutputAzureBlob.Status.Metrics[key] = types.StringValue(string(result))
+				}
+			}
+			r.OutputAzureBlob.Status.Timestamp = types.Float64Value(resp.OutputAzureBlob.Status.Timestamp)
+			r.OutputAzureBlob.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputAzureBlob.Status.UseStatusFromLB)
+		}
 		r.OutputAzureBlob.StorageAccountName = types.StringPointerValue(resp.OutputAzureBlob.StorageAccountName)
 		if resp.OutputAzureBlob.StorageClass != nil {
 			r.OutputAzureBlob.StorageClass = types.StringValue(string(*resp.OutputAzureBlob.StorageClass))
@@ -20782,6 +22435,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputAzureDataExplorer.RetainBlobOnSuccess = types.BoolPointerValue(resp.OutputAzureDataExplorer.RetainBlobOnSuccess)
 		r.OutputAzureDataExplorer.Scope = types.StringValue(resp.OutputAzureDataExplorer.Scope)
 		r.OutputAzureDataExplorer.StagePath = types.StringPointerValue(resp.OutputAzureDataExplorer.StagePath)
+		if resp.OutputAzureDataExplorer.Status == nil {
+			r.OutputAzureDataExplorer.Status = nil
+		} else {
+			r.OutputAzureDataExplorer.Status = &tfTypes.TFStatus{}
+			r.OutputAzureDataExplorer.Status.Health = types.StringValue(string(resp.OutputAzureDataExplorer.Status.Health))
+			if len(resp.OutputAzureDataExplorer.Status.Metrics) > 0 {
+				r.OutputAzureDataExplorer.Status.Metrics = make(map[string]types.String, len(resp.OutputAzureDataExplorer.Status.Metrics))
+				for key1, value1 := range resp.OutputAzureDataExplorer.Status.Metrics {
+					result1, _ := json.Marshal(value1)
+					r.OutputAzureDataExplorer.Status.Metrics[key1] = types.StringValue(string(result1))
+				}
+			}
+			r.OutputAzureDataExplorer.Status.Timestamp = types.Float64Value(resp.OutputAzureDataExplorer.Status.Timestamp)
+			r.OutputAzureDataExplorer.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputAzureDataExplorer.Status.UseStatusFromLB)
+		}
 		r.OutputAzureDataExplorer.Streamtags = make([]types.String, 0, len(resp.OutputAzureDataExplorer.Streamtags))
 		for _, v := range resp.OutputAzureDataExplorer.Streamtags {
 			r.OutputAzureDataExplorer.Streamtags = append(r.OutputAzureDataExplorer.Streamtags, types.StringValue(v))
@@ -20880,6 +22548,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			} else {
 				r.OutputAzureEventhub.Sasl.Mechanism = types.StringNull()
 			}
+		}
+		if resp.OutputAzureEventhub.Status == nil {
+			r.OutputAzureEventhub.Status = nil
+		} else {
+			r.OutputAzureEventhub.Status = &tfTypes.TFStatus{}
+			r.OutputAzureEventhub.Status.Health = types.StringValue(string(resp.OutputAzureEventhub.Status.Health))
+			if len(resp.OutputAzureEventhub.Status.Metrics) > 0 {
+				r.OutputAzureEventhub.Status.Metrics = make(map[string]types.String, len(resp.OutputAzureEventhub.Status.Metrics))
+				for key2, value2 := range resp.OutputAzureEventhub.Status.Metrics {
+					result2, _ := json.Marshal(value2)
+					r.OutputAzureEventhub.Status.Metrics[key2] = types.StringValue(string(result2))
+				}
+			}
+			r.OutputAzureEventhub.Status.Timestamp = types.Float64Value(resp.OutputAzureEventhub.Status.Timestamp)
+			r.OutputAzureEventhub.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputAzureEventhub.Status.UseStatusFromLB)
 		}
 		r.OutputAzureEventhub.Streamtags = make([]types.String, 0, len(resp.OutputAzureEventhub.Streamtags))
 		for _, v := range resp.OutputAzureEventhub.Streamtags {
@@ -20996,6 +22679,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		for _, v := range resp.OutputAzureLogs.SafeHeaders {
 			r.OutputAzureLogs.SafeHeaders = append(r.OutputAzureLogs.SafeHeaders, types.StringValue(v))
 		}
+		if resp.OutputAzureLogs.Status == nil {
+			r.OutputAzureLogs.Status = nil
+		} else {
+			r.OutputAzureLogs.Status = &tfTypes.TFStatus{}
+			r.OutputAzureLogs.Status.Health = types.StringValue(string(resp.OutputAzureLogs.Status.Health))
+			if len(resp.OutputAzureLogs.Status.Metrics) > 0 {
+				r.OutputAzureLogs.Status.Metrics = make(map[string]types.String, len(resp.OutputAzureLogs.Status.Metrics))
+				for key3, value3 := range resp.OutputAzureLogs.Status.Metrics {
+					result3, _ := json.Marshal(value3)
+					r.OutputAzureLogs.Status.Metrics[key3] = types.StringValue(string(result3))
+				}
+			}
+			r.OutputAzureLogs.Status.Timestamp = types.Float64Value(resp.OutputAzureLogs.Status.Timestamp)
+			r.OutputAzureLogs.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputAzureLogs.Status.UseStatusFromLB)
+		}
 		r.OutputAzureLogs.Streamtags = make([]types.String, 0, len(resp.OutputAzureLogs.Streamtags))
 		for _, v := range resp.OutputAzureLogs.Streamtags {
 			r.OutputAzureLogs.Streamtags = append(r.OutputAzureLogs.Streamtags, types.StringValue(v))
@@ -21028,12 +22726,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		} else {
 			r.OutputClickHouse.AuthType = types.StringNull()
 		}
-		r.OutputClickHouse.ColumnMappings = []tfTypes.ColumnMappings{}
+		r.OutputClickHouse.ColumnMappings = []tfTypes.OutputClickHouseColumnMappings{}
 		if len(r.OutputClickHouse.ColumnMappings) > len(resp.OutputClickHouse.ColumnMappings) {
 			r.OutputClickHouse.ColumnMappings = r.OutputClickHouse.ColumnMappings[:len(resp.OutputClickHouse.ColumnMappings)]
 		}
 		for columnMappingsCount, columnMappingsItem := range resp.OutputClickHouse.ColumnMappings {
-			var columnMappings tfTypes.ColumnMappings
+			var columnMappings tfTypes.OutputClickHouseColumnMappings
 			columnMappings.ColumnName = types.StringValue(columnMappingsItem.ColumnName)
 			columnMappings.ColumnType = types.StringPointerValue(columnMappingsItem.ColumnType)
 			columnMappings.ColumnValueExpression = types.StringValue(columnMappingsItem.ColumnValueExpression)
@@ -21180,6 +22878,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputClickHouse.Secret = types.StringPointerValue(resp.OutputClickHouse.Secret)
 		r.OutputClickHouse.SecretParamName = types.StringPointerValue(resp.OutputClickHouse.SecretParamName)
 		r.OutputClickHouse.SQLUsername = types.StringPointerValue(resp.OutputClickHouse.SQLUsername)
+		if resp.OutputClickHouse.Status == nil {
+			r.OutputClickHouse.Status = nil
+		} else {
+			r.OutputClickHouse.Status = &tfTypes.TFStatus{}
+			r.OutputClickHouse.Status.Health = types.StringValue(string(resp.OutputClickHouse.Status.Health))
+			if len(resp.OutputClickHouse.Status.Metrics) > 0 {
+				r.OutputClickHouse.Status.Metrics = make(map[string]types.String, len(resp.OutputClickHouse.Status.Metrics))
+				for key4, value4 := range resp.OutputClickHouse.Status.Metrics {
+					result4, _ := json.Marshal(value4)
+					r.OutputClickHouse.Status.Metrics[key4] = types.StringValue(string(result4))
+				}
+			}
+			r.OutputClickHouse.Status.Timestamp = types.Float64Value(resp.OutputClickHouse.Status.Timestamp)
+			r.OutputClickHouse.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputClickHouse.Status.UseStatusFromLB)
+		}
 		r.OutputClickHouse.Streamtags = make([]types.String, 0, len(resp.OutputClickHouse.Streamtags))
 		for _, v := range resp.OutputClickHouse.Streamtags {
 			r.OutputClickHouse.Streamtags = append(r.OutputClickHouse.Streamtags, types.StringValue(v))
@@ -21290,6 +23003,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputCloudwatch.Region = types.StringValue(resp.OutputCloudwatch.Region)
 		r.OutputCloudwatch.RejectUnauthorized = types.BoolPointerValue(resp.OutputCloudwatch.RejectUnauthorized)
 		r.OutputCloudwatch.ReuseConnections = types.BoolPointerValue(resp.OutputCloudwatch.ReuseConnections)
+		if resp.OutputCloudwatch.Status == nil {
+			r.OutputCloudwatch.Status = nil
+		} else {
+			r.OutputCloudwatch.Status = &tfTypes.TFStatus{}
+			r.OutputCloudwatch.Status.Health = types.StringValue(string(resp.OutputCloudwatch.Status.Health))
+			if len(resp.OutputCloudwatch.Status.Metrics) > 0 {
+				r.OutputCloudwatch.Status.Metrics = make(map[string]types.String, len(resp.OutputCloudwatch.Status.Metrics))
+				for key5, value5 := range resp.OutputCloudwatch.Status.Metrics {
+					result5, _ := json.Marshal(value5)
+					r.OutputCloudwatch.Status.Metrics[key5] = types.StringValue(string(result5))
+				}
+			}
+			r.OutputCloudwatch.Status.Timestamp = types.Float64Value(resp.OutputCloudwatch.Status.Timestamp)
+			r.OutputCloudwatch.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputCloudwatch.Status.UseStatusFromLB)
+		}
 		r.OutputCloudwatch.Streamtags = make([]types.String, 0, len(resp.OutputCloudwatch.Streamtags))
 		for _, v := range resp.OutputCloudwatch.Streamtags {
 			r.OutputCloudwatch.Streamtags = append(r.OutputCloudwatch.Streamtags, types.StringValue(v))
@@ -21355,7 +23083,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			if resp.OutputConfluentCloud.KafkaSchemaRegistry.TLS == nil {
 				r.OutputConfluentCloud.KafkaSchemaRegistry.TLS = nil
 			} else {
-				r.OutputConfluentCloud.KafkaSchemaRegistry.TLS = &tfTypes.OutputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide{}
+				r.OutputConfluentCloud.KafkaSchemaRegistry.TLS = &tfTypes.OutputConfluentCloudOutputTLSSettingsClientSide{}
 				r.OutputConfluentCloud.KafkaSchemaRegistry.TLS.CaPath = types.StringPointerValue(resp.OutputConfluentCloud.KafkaSchemaRegistry.TLS.CaPath)
 				r.OutputConfluentCloud.KafkaSchemaRegistry.TLS.CertificateName = types.StringPointerValue(resp.OutputConfluentCloud.KafkaSchemaRegistry.TLS.CertificateName)
 				r.OutputConfluentCloud.KafkaSchemaRegistry.TLS.CertPath = types.StringPointerValue(resp.OutputConfluentCloud.KafkaSchemaRegistry.TLS.CertPath)
@@ -21421,6 +23149,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			} else {
 				r.OutputConfluentCloud.Sasl.Mechanism = types.StringNull()
 			}
+		}
+		if resp.OutputConfluentCloud.Status == nil {
+			r.OutputConfluentCloud.Status = nil
+		} else {
+			r.OutputConfluentCloud.Status = &tfTypes.TFStatus{}
+			r.OutputConfluentCloud.Status.Health = types.StringValue(string(resp.OutputConfluentCloud.Status.Health))
+			if len(resp.OutputConfluentCloud.Status.Metrics) > 0 {
+				r.OutputConfluentCloud.Status.Metrics = make(map[string]types.String, len(resp.OutputConfluentCloud.Status.Metrics))
+				for key6, value6 := range resp.OutputConfluentCloud.Status.Metrics {
+					result6, _ := json.Marshal(value6)
+					r.OutputConfluentCloud.Status.Metrics[key6] = types.StringValue(string(result6))
+				}
+			}
+			r.OutputConfluentCloud.Status.Timestamp = types.Float64Value(resp.OutputConfluentCloud.Status.Timestamp)
+			r.OutputConfluentCloud.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputConfluentCloud.Status.UseStatusFromLB)
 		}
 		r.OutputConfluentCloud.Streamtags = make([]types.String, 0, len(resp.OutputConfluentCloud.Streamtags))
 		for _, v := range resp.OutputConfluentCloud.Streamtags {
@@ -21559,13 +23302,13 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		if resp.OutputCriblHTTP.Status == nil {
 			r.OutputCriblHTTP.Status = nil
 		} else {
-			r.OutputCriblHTTP.Status = &tfTypes.OutputCriblHTTPStatus{}
+			r.OutputCriblHTTP.Status = &tfTypes.TFStatus{}
 			r.OutputCriblHTTP.Status.Health = types.StringValue(string(resp.OutputCriblHTTP.Status.Health))
 			if len(resp.OutputCriblHTTP.Status.Metrics) > 0 {
 				r.OutputCriblHTTP.Status.Metrics = make(map[string]types.String, len(resp.OutputCriblHTTP.Status.Metrics))
-				for key, value := range resp.OutputCriblHTTP.Status.Metrics {
-					result, _ := json.Marshal(value)
-					r.OutputCriblHTTP.Status.Metrics[key] = types.StringValue(string(result))
+				for key7, value7 := range resp.OutputCriblHTTP.Status.Metrics {
+					result7, _ := json.Marshal(value7)
+					r.OutputCriblHTTP.Status.Metrics[key7] = types.StringValue(string(result7))
 				}
 			}
 			r.OutputCriblHTTP.Status.Timestamp = types.Float64Value(resp.OutputCriblHTTP.Status.Timestamp)
@@ -21701,6 +23444,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			r.OutputCriblLake.SignatureVersion = types.StringNull()
 		}
 		r.OutputCriblLake.StagePath = types.StringPointerValue(resp.OutputCriblLake.StagePath)
+		if resp.OutputCriblLake.Status == nil {
+			r.OutputCriblLake.Status = nil
+		} else {
+			r.OutputCriblLake.Status = &tfTypes.TFStatus{}
+			r.OutputCriblLake.Status.Health = types.StringValue(string(resp.OutputCriblLake.Status.Health))
+			if len(resp.OutputCriblLake.Status.Metrics) > 0 {
+				r.OutputCriblLake.Status.Metrics = make(map[string]types.String, len(resp.OutputCriblLake.Status.Metrics))
+				for key8, value8 := range resp.OutputCriblLake.Status.Metrics {
+					result8, _ := json.Marshal(value8)
+					r.OutputCriblLake.Status.Metrics[key8] = types.StringValue(string(result8))
+				}
+			}
+			r.OutputCriblLake.Status.Timestamp = types.Float64Value(resp.OutputCriblLake.Status.Timestamp)
+			r.OutputCriblLake.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputCriblLake.Status.UseStatusFromLB)
+		}
 		if resp.OutputCriblLake.StorageClass != nil {
 			r.OutputCriblLake.StorageClass = types.StringValue(string(*resp.OutputCriblLake.StorageClass))
 		} else {
@@ -21795,6 +23553,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			r.OutputCriblTCP.PqOnBackpressure = types.StringNull()
 		}
 		r.OutputCriblTCP.PqPath = types.StringPointerValue(resp.OutputCriblTCP.PqPath)
+		if resp.OutputCriblTCP.Status == nil {
+			r.OutputCriblTCP.Status = nil
+		} else {
+			r.OutputCriblTCP.Status = &tfTypes.TFStatus{}
+			r.OutputCriblTCP.Status.Health = types.StringValue(string(resp.OutputCriblTCP.Status.Health))
+			if len(resp.OutputCriblTCP.Status.Metrics) > 0 {
+				r.OutputCriblTCP.Status.Metrics = make(map[string]types.String, len(resp.OutputCriblTCP.Status.Metrics))
+				for key9, value9 := range resp.OutputCriblTCP.Status.Metrics {
+					result9, _ := json.Marshal(value9)
+					r.OutputCriblTCP.Status.Metrics[key9] = types.StringValue(string(result9))
+				}
+			}
+			r.OutputCriblTCP.Status.Timestamp = types.Float64Value(resp.OutputCriblTCP.Status.Timestamp)
+			r.OutputCriblTCP.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputCriblTCP.Status.UseStatusFromLB)
+		}
 		r.OutputCriblTCP.Streamtags = make([]types.String, 0, len(resp.OutputCriblTCP.Streamtags))
 		for _, v := range resp.OutputCriblTCP.Streamtags {
 			r.OutputCriblTCP.Streamtags = append(r.OutputCriblTCP.Streamtags, types.StringValue(v))
@@ -21924,6 +23697,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputCrowdstrikeNextGenSiem.SafeHeaders = make([]types.String, 0, len(resp.OutputCrowdstrikeNextGenSiem.SafeHeaders))
 		for _, v := range resp.OutputCrowdstrikeNextGenSiem.SafeHeaders {
 			r.OutputCrowdstrikeNextGenSiem.SafeHeaders = append(r.OutputCrowdstrikeNextGenSiem.SafeHeaders, types.StringValue(v))
+		}
+		if resp.OutputCrowdstrikeNextGenSiem.Status == nil {
+			r.OutputCrowdstrikeNextGenSiem.Status = nil
+		} else {
+			r.OutputCrowdstrikeNextGenSiem.Status = &tfTypes.TFStatus{}
+			r.OutputCrowdstrikeNextGenSiem.Status.Health = types.StringValue(string(resp.OutputCrowdstrikeNextGenSiem.Status.Health))
+			if len(resp.OutputCrowdstrikeNextGenSiem.Status.Metrics) > 0 {
+				r.OutputCrowdstrikeNextGenSiem.Status.Metrics = make(map[string]types.String, len(resp.OutputCrowdstrikeNextGenSiem.Status.Metrics))
+				for key10, value10 := range resp.OutputCrowdstrikeNextGenSiem.Status.Metrics {
+					result10, _ := json.Marshal(value10)
+					r.OutputCrowdstrikeNextGenSiem.Status.Metrics[key10] = types.StringValue(string(result10))
+				}
+			}
+			r.OutputCrowdstrikeNextGenSiem.Status.Timestamp = types.Float64Value(resp.OutputCrowdstrikeNextGenSiem.Status.Timestamp)
+			r.OutputCrowdstrikeNextGenSiem.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputCrowdstrikeNextGenSiem.Status.UseStatusFromLB)
 		}
 		r.OutputCrowdstrikeNextGenSiem.Streamtags = make([]types.String, 0, len(resp.OutputCrowdstrikeNextGenSiem.Streamtags))
 		for _, v := range resp.OutputCrowdstrikeNextGenSiem.Streamtags {
@@ -22066,6 +23854,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			r.OutputDatadog.Site = types.StringNull()
 		}
 		r.OutputDatadog.Source = types.StringPointerValue(resp.OutputDatadog.Source)
+		if resp.OutputDatadog.Status == nil {
+			r.OutputDatadog.Status = nil
+		} else {
+			r.OutputDatadog.Status = &tfTypes.TFStatus{}
+			r.OutputDatadog.Status.Health = types.StringValue(string(resp.OutputDatadog.Status.Health))
+			if len(resp.OutputDatadog.Status.Metrics) > 0 {
+				r.OutputDatadog.Status.Metrics = make(map[string]types.String, len(resp.OutputDatadog.Status.Metrics))
+				for key11, value11 := range resp.OutputDatadog.Status.Metrics {
+					result11, _ := json.Marshal(value11)
+					r.OutputDatadog.Status.Metrics[key11] = types.StringValue(string(result11))
+				}
+			}
+			r.OutputDatadog.Status.Timestamp = types.Float64Value(resp.OutputDatadog.Status.Timestamp)
+			r.OutputDatadog.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputDatadog.Status.UseStatusFromLB)
+		}
 		r.OutputDatadog.Streamtags = make([]types.String, 0, len(resp.OutputDatadog.Streamtags))
 		for _, v := range resp.OutputDatadog.Streamtags {
 			r.OutputDatadog.Streamtags = append(r.OutputDatadog.Streamtags, types.StringValue(v))
@@ -22200,6 +24003,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		} else {
 			r.OutputDataset.Site = types.StringNull()
 		}
+		if resp.OutputDataset.Status == nil {
+			r.OutputDataset.Status = nil
+		} else {
+			r.OutputDataset.Status = &tfTypes.TFStatus{}
+			r.OutputDataset.Status.Health = types.StringValue(string(resp.OutputDataset.Status.Health))
+			if len(resp.OutputDataset.Status.Metrics) > 0 {
+				r.OutputDataset.Status.Metrics = make(map[string]types.String, len(resp.OutputDataset.Status.Metrics))
+				for key12, value12 := range resp.OutputDataset.Status.Metrics {
+					result12, _ := json.Marshal(value12)
+					r.OutputDataset.Status.Metrics[key12] = types.StringValue(string(result12))
+				}
+			}
+			r.OutputDataset.Status.Timestamp = types.Float64Value(resp.OutputDataset.Status.Timestamp)
+			r.OutputDataset.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputDataset.Status.UseStatusFromLB)
+		}
 		r.OutputDataset.Streamtags = make([]types.String, 0, len(resp.OutputDataset.Streamtags))
 		for _, v := range resp.OutputDataset.Streamtags {
 			r.OutputDataset.Streamtags = append(r.OutputDataset.Streamtags, types.StringValue(v))
@@ -22230,6 +24048,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputDefault.Environment = types.StringPointerValue(resp.OutputDefault.Environment)
 		r.OutputDefault.ID = types.StringPointerValue(resp.OutputDefault.ID)
 		r.OutputDefault.Pipeline = types.StringPointerValue(resp.OutputDefault.Pipeline)
+		if resp.OutputDefault.Status == nil {
+			r.OutputDefault.Status = nil
+		} else {
+			r.OutputDefault.Status = &tfTypes.TFStatus{}
+			r.OutputDefault.Status.Health = types.StringValue(string(resp.OutputDefault.Status.Health))
+			if len(resp.OutputDefault.Status.Metrics) > 0 {
+				r.OutputDefault.Status.Metrics = make(map[string]types.String, len(resp.OutputDefault.Status.Metrics))
+				for key13, value13 := range resp.OutputDefault.Status.Metrics {
+					result13, _ := json.Marshal(value13)
+					r.OutputDefault.Status.Metrics[key13] = types.StringValue(string(result13))
+				}
+			}
+			r.OutputDefault.Status.Timestamp = types.Float64Value(resp.OutputDefault.Status.Timestamp)
+			r.OutputDefault.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputDefault.Status.UseStatusFromLB)
+		}
 		r.OutputDefault.Streamtags = make([]types.String, 0, len(resp.OutputDefault.Streamtags))
 		for _, v := range resp.OutputDefault.Streamtags {
 			r.OutputDefault.Streamtags = append(r.OutputDefault.Streamtags, types.StringValue(v))
@@ -22245,6 +24078,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputDevnull.Environment = types.StringPointerValue(resp.OutputDevnull.Environment)
 		r.OutputDevnull.ID = types.StringValue(resp.OutputDevnull.ID)
 		r.OutputDevnull.Pipeline = types.StringPointerValue(resp.OutputDevnull.Pipeline)
+		if resp.OutputDevnull.Status == nil {
+			r.OutputDevnull.Status = nil
+		} else {
+			r.OutputDevnull.Status = &tfTypes.TFStatus{}
+			r.OutputDevnull.Status.Health = types.StringValue(string(resp.OutputDevnull.Status.Health))
+			if len(resp.OutputDevnull.Status.Metrics) > 0 {
+				r.OutputDevnull.Status.Metrics = make(map[string]types.String, len(resp.OutputDevnull.Status.Metrics))
+				for key14, value14 := range resp.OutputDevnull.Status.Metrics {
+					result14, _ := json.Marshal(value14)
+					r.OutputDevnull.Status.Metrics[key14] = types.StringValue(string(result14))
+				}
+			}
+			r.OutputDevnull.Status.Timestamp = types.Float64Value(resp.OutputDevnull.Status.Timestamp)
+			r.OutputDevnull.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputDevnull.Status.UseStatusFromLB)
+		}
 		r.OutputDevnull.Streamtags = make([]types.String, 0, len(resp.OutputDevnull.Streamtags))
 		for _, v := range resp.OutputDevnull.Streamtags {
 			r.OutputDevnull.Streamtags = append(r.OutputDevnull.Streamtags, types.StringValue(v))
@@ -22269,6 +24117,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputDiskSpool.MaxDataTime = types.StringPointerValue(resp.OutputDiskSpool.MaxDataTime)
 		r.OutputDiskSpool.PartitionExpr = types.StringPointerValue(resp.OutputDiskSpool.PartitionExpr)
 		r.OutputDiskSpool.Pipeline = types.StringPointerValue(resp.OutputDiskSpool.Pipeline)
+		if resp.OutputDiskSpool.Status == nil {
+			r.OutputDiskSpool.Status = nil
+		} else {
+			r.OutputDiskSpool.Status = &tfTypes.TFStatus{}
+			r.OutputDiskSpool.Status.Health = types.StringValue(string(resp.OutputDiskSpool.Status.Health))
+			if len(resp.OutputDiskSpool.Status.Metrics) > 0 {
+				r.OutputDiskSpool.Status.Metrics = make(map[string]types.String, len(resp.OutputDiskSpool.Status.Metrics))
+				for key15, value15 := range resp.OutputDiskSpool.Status.Metrics {
+					result15, _ := json.Marshal(value15)
+					r.OutputDiskSpool.Status.Metrics[key15] = types.StringValue(string(result15))
+				}
+			}
+			r.OutputDiskSpool.Status.Timestamp = types.Float64Value(resp.OutputDiskSpool.Status.Timestamp)
+			r.OutputDiskSpool.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputDiskSpool.Status.UseStatusFromLB)
+		}
 		r.OutputDiskSpool.Streamtags = make([]types.String, 0, len(resp.OutputDiskSpool.Streamtags))
 		for _, v := range resp.OutputDiskSpool.Streamtags {
 			r.OutputDiskSpool.Streamtags = append(r.OutputDiskSpool.Streamtags, types.StringValue(v))
@@ -22397,6 +24260,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			r.OutputDlS3.SignatureVersion = types.StringNull()
 		}
 		r.OutputDlS3.StagePath = types.StringPointerValue(resp.OutputDlS3.StagePath)
+		if resp.OutputDlS3.Status == nil {
+			r.OutputDlS3.Status = nil
+		} else {
+			r.OutputDlS3.Status = &tfTypes.TFStatus{}
+			r.OutputDlS3.Status.Health = types.StringValue(string(resp.OutputDlS3.Status.Health))
+			if len(resp.OutputDlS3.Status.Metrics) > 0 {
+				r.OutputDlS3.Status.Metrics = make(map[string]types.String, len(resp.OutputDlS3.Status.Metrics))
+				for key16, value16 := range resp.OutputDlS3.Status.Metrics {
+					result16, _ := json.Marshal(value16)
+					r.OutputDlS3.Status.Metrics[key16] = types.StringValue(string(result16))
+				}
+			}
+			r.OutputDlS3.Status.Timestamp = types.Float64Value(resp.OutputDlS3.Status.Timestamp)
+			r.OutputDlS3.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputDlS3.Status.UseStatusFromLB)
+		}
 		if resp.OutputDlS3.StorageClass != nil {
 			r.OutputDlS3.StorageClass = types.StringValue(string(*resp.OutputDlS3.StorageClass))
 		} else {
@@ -22524,6 +24402,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputDynatraceHTTP.SafeHeaders = make([]types.String, 0, len(resp.OutputDynatraceHTTP.SafeHeaders))
 		for _, v := range resp.OutputDynatraceHTTP.SafeHeaders {
 			r.OutputDynatraceHTTP.SafeHeaders = append(r.OutputDynatraceHTTP.SafeHeaders, types.StringValue(v))
+		}
+		if resp.OutputDynatraceHTTP.Status == nil {
+			r.OutputDynatraceHTTP.Status = nil
+		} else {
+			r.OutputDynatraceHTTP.Status = &tfTypes.TFStatus{}
+			r.OutputDynatraceHTTP.Status.Health = types.StringValue(string(resp.OutputDynatraceHTTP.Status.Health))
+			if len(resp.OutputDynatraceHTTP.Status.Metrics) > 0 {
+				r.OutputDynatraceHTTP.Status.Metrics = make(map[string]types.String, len(resp.OutputDynatraceHTTP.Status.Metrics))
+				for key17, value17 := range resp.OutputDynatraceHTTP.Status.Metrics {
+					result17, _ := json.Marshal(value17)
+					r.OutputDynatraceHTTP.Status.Metrics[key17] = types.StringValue(string(result17))
+				}
+			}
+			r.OutputDynatraceHTTP.Status.Timestamp = types.Float64Value(resp.OutputDynatraceHTTP.Status.Timestamp)
+			r.OutputDynatraceHTTP.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputDynatraceHTTP.Status.UseStatusFromLB)
 		}
 		r.OutputDynatraceHTTP.Streamtags = make([]types.String, 0, len(resp.OutputDynatraceHTTP.Streamtags))
 		for _, v := range resp.OutputDynatraceHTTP.Streamtags {
@@ -22689,6 +24582,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		for _, v := range resp.OutputDynatraceOtlp.SafeHeaders {
 			r.OutputDynatraceOtlp.SafeHeaders = append(r.OutputDynatraceOtlp.SafeHeaders, types.StringValue(v))
 		}
+		if resp.OutputDynatraceOtlp.Status == nil {
+			r.OutputDynatraceOtlp.Status = nil
+		} else {
+			r.OutputDynatraceOtlp.Status = &tfTypes.TFStatus{}
+			r.OutputDynatraceOtlp.Status.Health = types.StringValue(string(resp.OutputDynatraceOtlp.Status.Health))
+			if len(resp.OutputDynatraceOtlp.Status.Metrics) > 0 {
+				r.OutputDynatraceOtlp.Status.Metrics = make(map[string]types.String, len(resp.OutputDynatraceOtlp.Status.Metrics))
+				for key18, value18 := range resp.OutputDynatraceOtlp.Status.Metrics {
+					result18, _ := json.Marshal(value18)
+					r.OutputDynatraceOtlp.Status.Metrics[key18] = types.StringValue(string(result18))
+				}
+			}
+			r.OutputDynatraceOtlp.Status.Timestamp = types.Float64Value(resp.OutputDynatraceOtlp.Status.Timestamp)
+			r.OutputDynatraceOtlp.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputDynatraceOtlp.Status.UseStatusFromLB)
+		}
 		r.OutputDynatraceOtlp.Streamtags = make([]types.String, 0, len(resp.OutputDynatraceOtlp.Streamtags))
 		for _, v := range resp.OutputDynatraceOtlp.Streamtags {
 			r.OutputDynatraceOtlp.Streamtags = append(r.OutputDynatraceOtlp.Streamtags, types.StringValue(v))
@@ -22720,7 +24628,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		if resp.OutputElastic.Auth == nil {
 			r.OutputElastic.Auth = nil
 		} else {
-			r.OutputElastic.Auth = &tfTypes.Auth{}
+			r.OutputElastic.Auth = &tfTypes.OutputElasticAuth{}
 			if resp.OutputElastic.Auth.AuthType != nil {
 				r.OutputElastic.Auth.AuthType = types.StringValue(string(*resp.OutputElastic.Auth.AuthType))
 			} else {
@@ -22838,6 +24746,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputElastic.SafeHeaders = make([]types.String, 0, len(resp.OutputElastic.SafeHeaders))
 		for _, v := range resp.OutputElastic.SafeHeaders {
 			r.OutputElastic.SafeHeaders = append(r.OutputElastic.SafeHeaders, types.StringValue(v))
+		}
+		if resp.OutputElastic.Status == nil {
+			r.OutputElastic.Status = nil
+		} else {
+			r.OutputElastic.Status = &tfTypes.TFStatus{}
+			r.OutputElastic.Status.Health = types.StringValue(string(resp.OutputElastic.Status.Health))
+			if len(resp.OutputElastic.Status.Metrics) > 0 {
+				r.OutputElastic.Status.Metrics = make(map[string]types.String, len(resp.OutputElastic.Status.Metrics))
+				for key19, value19 := range resp.OutputElastic.Status.Metrics {
+					result19, _ := json.Marshal(value19)
+					r.OutputElastic.Status.Metrics[key19] = types.StringValue(string(result19))
+				}
+			}
+			r.OutputElastic.Status.Timestamp = types.Float64Value(resp.OutputElastic.Status.Timestamp)
+			r.OutputElastic.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputElastic.Status.UseStatusFromLB)
 		}
 		r.OutputElastic.Streamtags = make([]types.String, 0, len(resp.OutputElastic.Streamtags))
 		for _, v := range resp.OutputElastic.Streamtags {
@@ -22994,6 +24917,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		for _, v := range resp.OutputElasticCloud.SafeHeaders {
 			r.OutputElasticCloud.SafeHeaders = append(r.OutputElasticCloud.SafeHeaders, types.StringValue(v))
 		}
+		if resp.OutputElasticCloud.Status == nil {
+			r.OutputElasticCloud.Status = nil
+		} else {
+			r.OutputElasticCloud.Status = &tfTypes.TFStatus{}
+			r.OutputElasticCloud.Status.Health = types.StringValue(string(resp.OutputElasticCloud.Status.Health))
+			if len(resp.OutputElasticCloud.Status.Metrics) > 0 {
+				r.OutputElasticCloud.Status.Metrics = make(map[string]types.String, len(resp.OutputElasticCloud.Status.Metrics))
+				for key20, value20 := range resp.OutputElasticCloud.Status.Metrics {
+					result20, _ := json.Marshal(value20)
+					r.OutputElasticCloud.Status.Metrics[key20] = types.StringValue(string(result20))
+				}
+			}
+			r.OutputElasticCloud.Status.Timestamp = types.Float64Value(resp.OutputElasticCloud.Status.Timestamp)
+			r.OutputElasticCloud.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputElasticCloud.Status.UseStatusFromLB)
+		}
 		r.OutputElasticCloud.Streamtags = make([]types.String, 0, len(resp.OutputElasticCloud.Streamtags))
 		for _, v := range resp.OutputElasticCloud.Streamtags {
 			r.OutputElasticCloud.Streamtags = append(r.OutputElasticCloud.Streamtags, types.StringValue(v))
@@ -23067,6 +25005,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputExabeam.SiteID = types.StringPointerValue(resp.OutputExabeam.SiteID)
 		r.OutputExabeam.SiteName = types.StringPointerValue(resp.OutputExabeam.SiteName)
 		r.OutputExabeam.StagePath = types.StringPointerValue(resp.OutputExabeam.StagePath)
+		if resp.OutputExabeam.Status == nil {
+			r.OutputExabeam.Status = nil
+		} else {
+			r.OutputExabeam.Status = &tfTypes.TFStatus{}
+			r.OutputExabeam.Status.Health = types.StringValue(string(resp.OutputExabeam.Status.Health))
+			if len(resp.OutputExabeam.Status.Metrics) > 0 {
+				r.OutputExabeam.Status.Metrics = make(map[string]types.String, len(resp.OutputExabeam.Status.Metrics))
+				for key21, value21 := range resp.OutputExabeam.Status.Metrics {
+					result21, _ := json.Marshal(value21)
+					r.OutputExabeam.Status.Metrics[key21] = types.StringValue(string(result21))
+				}
+			}
+			r.OutputExabeam.Status.Timestamp = types.Float64Value(resp.OutputExabeam.Status.Timestamp)
+			r.OutputExabeam.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputExabeam.Status.UseStatusFromLB)
+		}
 		if resp.OutputExabeam.StorageClass != nil {
 			r.OutputExabeam.StorageClass = types.StringValue(string(*resp.OutputExabeam.StorageClass))
 		} else {
@@ -23166,6 +25119,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputFilesystem.RemoveEmptyDirs = types.BoolPointerValue(resp.OutputFilesystem.RemoveEmptyDirs)
 		r.OutputFilesystem.ShouldLogInvalidRows = types.BoolPointerValue(resp.OutputFilesystem.ShouldLogInvalidRows)
 		r.OutputFilesystem.StagePath = types.StringPointerValue(resp.OutputFilesystem.StagePath)
+		if resp.OutputFilesystem.Status == nil {
+			r.OutputFilesystem.Status = nil
+		} else {
+			r.OutputFilesystem.Status = &tfTypes.TFStatus{}
+			r.OutputFilesystem.Status.Health = types.StringValue(string(resp.OutputFilesystem.Status.Health))
+			if len(resp.OutputFilesystem.Status.Metrics) > 0 {
+				r.OutputFilesystem.Status.Metrics = make(map[string]types.String, len(resp.OutputFilesystem.Status.Metrics))
+				for key22, value22 := range resp.OutputFilesystem.Status.Metrics {
+					result22, _ := json.Marshal(value22)
+					r.OutputFilesystem.Status.Metrics[key22] = types.StringValue(string(result22))
+				}
+			}
+			r.OutputFilesystem.Status.Timestamp = types.Float64Value(resp.OutputFilesystem.Status.Timestamp)
+			r.OutputFilesystem.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputFilesystem.Status.UseStatusFromLB)
+		}
 		r.OutputFilesystem.Streamtags = make([]types.String, 0, len(resp.OutputFilesystem.Streamtags))
 		for _, v := range resp.OutputFilesystem.Streamtags {
 			r.OutputFilesystem.Streamtags = append(r.OutputFilesystem.Streamtags, types.StringValue(v))
@@ -23315,6 +25283,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		}
 		r.OutputGoogleChronicle.ServiceAccountCredentials = types.StringPointerValue(resp.OutputGoogleChronicle.ServiceAccountCredentials)
 		r.OutputGoogleChronicle.ServiceAccountCredentialsSecret = types.StringPointerValue(resp.OutputGoogleChronicle.ServiceAccountCredentialsSecret)
+		if resp.OutputGoogleChronicle.Status == nil {
+			r.OutputGoogleChronicle.Status = nil
+		} else {
+			r.OutputGoogleChronicle.Status = &tfTypes.TFStatus{}
+			r.OutputGoogleChronicle.Status.Health = types.StringValue(string(resp.OutputGoogleChronicle.Status.Health))
+			if len(resp.OutputGoogleChronicle.Status.Metrics) > 0 {
+				r.OutputGoogleChronicle.Status.Metrics = make(map[string]types.String, len(resp.OutputGoogleChronicle.Status.Metrics))
+				for key23, value23 := range resp.OutputGoogleChronicle.Status.Metrics {
+					result23, _ := json.Marshal(value23)
+					r.OutputGoogleChronicle.Status.Metrics[key23] = types.StringValue(string(result23))
+				}
+			}
+			r.OutputGoogleChronicle.Status.Timestamp = types.Float64Value(resp.OutputGoogleChronicle.Status.Timestamp)
+			r.OutputGoogleChronicle.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputGoogleChronicle.Status.UseStatusFromLB)
+		}
 		r.OutputGoogleChronicle.Streamtags = make([]types.String, 0, len(resp.OutputGoogleChronicle.Streamtags))
 		for _, v := range resp.OutputGoogleChronicle.Streamtags {
 			r.OutputGoogleChronicle.Streamtags = append(r.OutputGoogleChronicle.Streamtags, types.StringValue(v))
@@ -23447,6 +25430,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputGoogleCloudLogging.ServiceAccountCredentials = types.StringPointerValue(resp.OutputGoogleCloudLogging.ServiceAccountCredentials)
 		r.OutputGoogleCloudLogging.SeverityExpression = types.StringPointerValue(resp.OutputGoogleCloudLogging.SeverityExpression)
 		r.OutputGoogleCloudLogging.SpanIDExpression = types.StringPointerValue(resp.OutputGoogleCloudLogging.SpanIDExpression)
+		if resp.OutputGoogleCloudLogging.Status == nil {
+			r.OutputGoogleCloudLogging.Status = nil
+		} else {
+			r.OutputGoogleCloudLogging.Status = &tfTypes.TFStatus{}
+			r.OutputGoogleCloudLogging.Status.Health = types.StringValue(string(resp.OutputGoogleCloudLogging.Status.Health))
+			if len(resp.OutputGoogleCloudLogging.Status.Metrics) > 0 {
+				r.OutputGoogleCloudLogging.Status.Metrics = make(map[string]types.String, len(resp.OutputGoogleCloudLogging.Status.Metrics))
+				for key24, value24 := range resp.OutputGoogleCloudLogging.Status.Metrics {
+					result24, _ := json.Marshal(value24)
+					r.OutputGoogleCloudLogging.Status.Metrics[key24] = types.StringValue(string(result24))
+				}
+			}
+			r.OutputGoogleCloudLogging.Status.Timestamp = types.Float64Value(resp.OutputGoogleCloudLogging.Status.Timestamp)
+			r.OutputGoogleCloudLogging.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputGoogleCloudLogging.Status.UseStatusFromLB)
+		}
 		r.OutputGoogleCloudLogging.StatusExpression = types.StringPointerValue(resp.OutputGoogleCloudLogging.StatusExpression)
 		r.OutputGoogleCloudLogging.Streamtags = make([]types.String, 0, len(resp.OutputGoogleCloudLogging.Streamtags))
 		for _, v := range resp.OutputGoogleCloudLogging.Streamtags {
@@ -23572,6 +25570,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			r.OutputGoogleCloudStorage.SignatureVersion = types.StringNull()
 		}
 		r.OutputGoogleCloudStorage.StagePath = types.StringPointerValue(resp.OutputGoogleCloudStorage.StagePath)
+		if resp.OutputGoogleCloudStorage.Status == nil {
+			r.OutputGoogleCloudStorage.Status = nil
+		} else {
+			r.OutputGoogleCloudStorage.Status = &tfTypes.TFStatus{}
+			r.OutputGoogleCloudStorage.Status.Health = types.StringValue(string(resp.OutputGoogleCloudStorage.Status.Health))
+			if len(resp.OutputGoogleCloudStorage.Status.Metrics) > 0 {
+				r.OutputGoogleCloudStorage.Status.Metrics = make(map[string]types.String, len(resp.OutputGoogleCloudStorage.Status.Metrics))
+				for key25, value25 := range resp.OutputGoogleCloudStorage.Status.Metrics {
+					result25, _ := json.Marshal(value25)
+					r.OutputGoogleCloudStorage.Status.Metrics[key25] = types.StringValue(string(result25))
+				}
+			}
+			r.OutputGoogleCloudStorage.Status.Timestamp = types.Float64Value(resp.OutputGoogleCloudStorage.Status.Timestamp)
+			r.OutputGoogleCloudStorage.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputGoogleCloudStorage.Status.UseStatusFromLB)
+		}
 		if resp.OutputGoogleCloudStorage.StorageClass != nil {
 			r.OutputGoogleCloudStorage.StorageClass = types.StringValue(string(*resp.OutputGoogleCloudStorage.StorageClass))
 		} else {
@@ -23643,6 +25656,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputGooglePubsub.Region = types.StringPointerValue(resp.OutputGooglePubsub.Region)
 		r.OutputGooglePubsub.Secret = types.StringPointerValue(resp.OutputGooglePubsub.Secret)
 		r.OutputGooglePubsub.ServiceAccountCredentials = types.StringPointerValue(resp.OutputGooglePubsub.ServiceAccountCredentials)
+		if resp.OutputGooglePubsub.Status == nil {
+			r.OutputGooglePubsub.Status = nil
+		} else {
+			r.OutputGooglePubsub.Status = &tfTypes.TFStatus{}
+			r.OutputGooglePubsub.Status.Health = types.StringValue(string(resp.OutputGooglePubsub.Status.Health))
+			if len(resp.OutputGooglePubsub.Status.Metrics) > 0 {
+				r.OutputGooglePubsub.Status.Metrics = make(map[string]types.String, len(resp.OutputGooglePubsub.Status.Metrics))
+				for key26, value26 := range resp.OutputGooglePubsub.Status.Metrics {
+					result26, _ := json.Marshal(value26)
+					r.OutputGooglePubsub.Status.Metrics[key26] = types.StringValue(string(result26))
+				}
+			}
+			r.OutputGooglePubsub.Status.Timestamp = types.Float64Value(resp.OutputGooglePubsub.Status.Timestamp)
+			r.OutputGooglePubsub.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputGooglePubsub.Status.UseStatusFromLB)
+		}
 		r.OutputGooglePubsub.Streamtags = make([]types.String, 0, len(resp.OutputGooglePubsub.Streamtags))
 		for _, v := range resp.OutputGooglePubsub.Streamtags {
 			r.OutputGooglePubsub.Streamtags = append(r.OutputGooglePubsub.Streamtags, types.StringValue(v))
@@ -23684,12 +25712,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			}
 			r.OutputGrafanaCloud.One.FlushPeriodSec = types.Float64PointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud1.FlushPeriodSec)
 			r.OutputGrafanaCloud.One.ID = types.StringValue(resp.OutputGrafanaCloud.OutputGrafanaCloud1.ID)
-			r.OutputGrafanaCloud.One.Labels = []tfTypes.OutputGrafanaCloud1Labels{}
+			r.OutputGrafanaCloud.One.Labels = []tfTypes.OutputOutputGrafanaCloudLabels{}
 			if len(r.OutputGrafanaCloud.One.Labels) > len(resp.OutputGrafanaCloud.OutputGrafanaCloud1.Labels) {
 				r.OutputGrafanaCloud.One.Labels = r.OutputGrafanaCloud.One.Labels[:len(resp.OutputGrafanaCloud.OutputGrafanaCloud1.Labels)]
 			}
 			for labelsCount, labelsItem := range resp.OutputGrafanaCloud.OutputGrafanaCloud1.Labels {
-				var labels tfTypes.OutputGrafanaCloud1Labels
+				var labels tfTypes.OutputOutputGrafanaCloudLabels
 				labels.Name = types.StringPointerValue(labelsItem.Name)
 				labels.Value = types.StringValue(labelsItem.Value)
 				if labelsCount+1 > len(r.OutputGrafanaCloud.One.Labels) {
@@ -23794,6 +25822,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			for _, v := range resp.OutputGrafanaCloud.OutputGrafanaCloud1.SafeHeaders {
 				r.OutputGrafanaCloud.One.SafeHeaders = append(r.OutputGrafanaCloud.One.SafeHeaders, types.StringValue(v))
 			}
+			if resp.OutputGrafanaCloud.OutputGrafanaCloud1.Status == nil {
+				r.OutputGrafanaCloud.One.Status = nil
+			} else {
+				r.OutputGrafanaCloud.One.Status = &tfTypes.TFStatus{}
+				r.OutputGrafanaCloud.One.Status.Health = types.StringValue(string(resp.OutputGrafanaCloud.OutputGrafanaCloud1.Status.Health))
+				if len(resp.OutputGrafanaCloud.OutputGrafanaCloud1.Status.Metrics) > 0 {
+					r.OutputGrafanaCloud.One.Status.Metrics = make(map[string]types.String, len(resp.OutputGrafanaCloud.OutputGrafanaCloud1.Status.Metrics))
+					for key27, value27 := range resp.OutputGrafanaCloud.OutputGrafanaCloud1.Status.Metrics {
+						result27, _ := json.Marshal(value27)
+						r.OutputGrafanaCloud.One.Status.Metrics[key27] = types.StringValue(string(result27))
+					}
+				}
+				r.OutputGrafanaCloud.One.Status.Timestamp = types.Float64Value(resp.OutputGrafanaCloud.OutputGrafanaCloud1.Status.Timestamp)
+				r.OutputGrafanaCloud.One.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud1.Status.UseStatusFromLB)
+			}
 			r.OutputGrafanaCloud.One.Streamtags = make([]types.String, 0, len(resp.OutputGrafanaCloud.OutputGrafanaCloud1.Streamtags))
 			for _, v := range resp.OutputGrafanaCloud.OutputGrafanaCloud1.Streamtags {
 				r.OutputGrafanaCloud.One.Streamtags = append(r.OutputGrafanaCloud.One.Streamtags, types.StringValue(v))
@@ -23821,12 +25864,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			r.OutputGrafanaCloud.Two.Concurrency = types.Float64PointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.Concurrency)
 			r.OutputGrafanaCloud.Two.Description = types.StringPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.Description)
 			r.OutputGrafanaCloud.Two.Environment = types.StringPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.Environment)
-			r.OutputGrafanaCloud.Two.ExtraHTTPHeaders = []tfTypes.OutputGrafanaCloud2ExtraHTTPHeaders{}
+			r.OutputGrafanaCloud.Two.ExtraHTTPHeaders = []tfTypes.OutputOutputGrafanaCloudExtraHTTPHeaders{}
 			if len(r.OutputGrafanaCloud.Two.ExtraHTTPHeaders) > len(resp.OutputGrafanaCloud.OutputGrafanaCloud2.ExtraHTTPHeaders) {
 				r.OutputGrafanaCloud.Two.ExtraHTTPHeaders = r.OutputGrafanaCloud.Two.ExtraHTTPHeaders[:len(resp.OutputGrafanaCloud.OutputGrafanaCloud2.ExtraHTTPHeaders)]
 			}
 			for extraHTTPHeadersCount12, extraHTTPHeadersItem12 := range resp.OutputGrafanaCloud.OutputGrafanaCloud2.ExtraHTTPHeaders {
-				var extraHTTPHeaders12 tfTypes.OutputGrafanaCloud2ExtraHTTPHeaders
+				var extraHTTPHeaders12 tfTypes.OutputOutputGrafanaCloudExtraHTTPHeaders
 				extraHTTPHeaders12.Name = types.StringPointerValue(extraHTTPHeadersItem12.Name)
 				extraHTTPHeaders12.Value = types.StringValue(extraHTTPHeadersItem12.Value)
 				if extraHTTPHeadersCount12+1 > len(r.OutputGrafanaCloud.Two.ExtraHTTPHeaders) {
@@ -23861,7 +25904,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			if resp.OutputGrafanaCloud.OutputGrafanaCloud2.LokiAuth == nil {
 				r.OutputGrafanaCloud.Two.LokiAuth = nil
 			} else {
-				r.OutputGrafanaCloud.Two.LokiAuth = &tfTypes.OutputGrafanaCloud2LokiAuth{}
+				r.OutputGrafanaCloud.Two.LokiAuth = &tfTypes.OutputOutputGrafanaCloudLokiAuth{}
 				if resp.OutputGrafanaCloud.OutputGrafanaCloud2.LokiAuth.AuthType != nil {
 					r.OutputGrafanaCloud.Two.LokiAuth.AuthType = types.StringValue(string(*resp.OutputGrafanaCloud.OutputGrafanaCloud2.LokiAuth.AuthType))
 				} else {
@@ -23897,7 +25940,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			if resp.OutputGrafanaCloud.OutputGrafanaCloud2.PqControls == nil {
 				r.OutputGrafanaCloud.Two.PqControls = nil
 			} else {
-				r.OutputGrafanaCloud.Two.PqControls = &tfTypes.OutputGrafanaCloud2PqControls{}
+				r.OutputGrafanaCloud.Two.PqControls = &tfTypes.OutputOutputGrafanaCloudPqControls{}
 			}
 			r.OutputGrafanaCloud.Two.PqMaxFileSize = types.StringPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.PqMaxFileSize)
 			r.OutputGrafanaCloud.Two.PqMaxSize = types.StringPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.PqMaxSize)
@@ -23915,7 +25958,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			if resp.OutputGrafanaCloud.OutputGrafanaCloud2.PrometheusAuth == nil {
 				r.OutputGrafanaCloud.Two.PrometheusAuth = nil
 			} else {
-				r.OutputGrafanaCloud.Two.PrometheusAuth = &tfTypes.OutputGrafanaCloud2PrometheusAuth{}
+				r.OutputGrafanaCloud.Two.PrometheusAuth = &tfTypes.OutputOutputGrafanaCloudPrometheusAuth{}
 				if resp.OutputGrafanaCloud.OutputGrafanaCloud2.PrometheusAuth.AuthType != nil {
 					r.OutputGrafanaCloud.Two.PrometheusAuth.AuthType = types.StringValue(string(*resp.OutputGrafanaCloud.OutputGrafanaCloud2.PrometheusAuth.AuthType))
 				} else {
@@ -23930,12 +25973,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			r.OutputGrafanaCloud.Two.PrometheusURL = types.StringValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.PrometheusURL)
 			r.OutputGrafanaCloud.Two.RejectUnauthorized = types.BoolPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.RejectUnauthorized)
 			r.OutputGrafanaCloud.Two.ResponseHonorRetryAfterHeader = types.BoolPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.ResponseHonorRetryAfterHeader)
-			r.OutputGrafanaCloud.Two.ResponseRetrySettings = []tfTypes.OutputGrafanaCloud2ResponseRetrySettings{}
+			r.OutputGrafanaCloud.Two.ResponseRetrySettings = []tfTypes.OutputOutputGrafanaCloudResponseRetrySettings{}
 			if len(r.OutputGrafanaCloud.Two.ResponseRetrySettings) > len(resp.OutputGrafanaCloud.OutputGrafanaCloud2.ResponseRetrySettings) {
 				r.OutputGrafanaCloud.Two.ResponseRetrySettings = r.OutputGrafanaCloud.Two.ResponseRetrySettings[:len(resp.OutputGrafanaCloud.OutputGrafanaCloud2.ResponseRetrySettings)]
 			}
 			for responseRetrySettingsCount13, responseRetrySettingsItem13 := range resp.OutputGrafanaCloud.OutputGrafanaCloud2.ResponseRetrySettings {
-				var responseRetrySettings13 tfTypes.OutputGrafanaCloud2ResponseRetrySettings
+				var responseRetrySettings13 tfTypes.OutputOutputGrafanaCloudResponseRetrySettings
 				responseRetrySettings13.BackoffRate = types.Float64PointerValue(responseRetrySettingsItem13.BackoffRate)
 				responseRetrySettings13.HTTPStatus = types.Float64Value(responseRetrySettingsItem13.HTTPStatus)
 				responseRetrySettings13.InitialBackoff = types.Float64PointerValue(responseRetrySettingsItem13.InitialBackoff)
@@ -23953,6 +25996,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			for _, v := range resp.OutputGrafanaCloud.OutputGrafanaCloud2.SafeHeaders {
 				r.OutputGrafanaCloud.Two.SafeHeaders = append(r.OutputGrafanaCloud.Two.SafeHeaders, types.StringValue(v))
 			}
+			if resp.OutputGrafanaCloud.OutputGrafanaCloud2.Status == nil {
+				r.OutputGrafanaCloud.Two.Status = nil
+			} else {
+				r.OutputGrafanaCloud.Two.Status = &tfTypes.TFStatus{}
+				r.OutputGrafanaCloud.Two.Status.Health = types.StringValue(string(resp.OutputGrafanaCloud.OutputGrafanaCloud2.Status.Health))
+				if len(resp.OutputGrafanaCloud.OutputGrafanaCloud2.Status.Metrics) > 0 {
+					r.OutputGrafanaCloud.Two.Status.Metrics = make(map[string]types.String, len(resp.OutputGrafanaCloud.OutputGrafanaCloud2.Status.Metrics))
+					for key28, value28 := range resp.OutputGrafanaCloud.OutputGrafanaCloud2.Status.Metrics {
+						result28, _ := json.Marshal(value28)
+						r.OutputGrafanaCloud.Two.Status.Metrics[key28] = types.StringValue(string(result28))
+					}
+				}
+				r.OutputGrafanaCloud.Two.Status.Timestamp = types.Float64Value(resp.OutputGrafanaCloud.OutputGrafanaCloud2.Status.Timestamp)
+				r.OutputGrafanaCloud.Two.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.Status.UseStatusFromLB)
+			}
 			r.OutputGrafanaCloud.Two.Streamtags = make([]types.String, 0, len(resp.OutputGrafanaCloud.OutputGrafanaCloud2.Streamtags))
 			for _, v := range resp.OutputGrafanaCloud.OutputGrafanaCloud2.Streamtags {
 				r.OutputGrafanaCloud.Two.Streamtags = append(r.OutputGrafanaCloud.Two.Streamtags, types.StringValue(v))
@@ -23964,7 +26022,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			if resp.OutputGrafanaCloud.OutputGrafanaCloud2.TimeoutRetrySettings == nil {
 				r.OutputGrafanaCloud.Two.TimeoutRetrySettings = nil
 			} else {
-				r.OutputGrafanaCloud.Two.TimeoutRetrySettings = &tfTypes.OutputGrafanaCloud2TimeoutRetrySettings{}
+				r.OutputGrafanaCloud.Two.TimeoutRetrySettings = &tfTypes.OutputOutputGrafanaCloudTimeoutRetrySettings{}
 				r.OutputGrafanaCloud.Two.TimeoutRetrySettings.BackoffRate = types.Float64PointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.TimeoutRetrySettings.BackoffRate)
 				r.OutputGrafanaCloud.Two.TimeoutRetrySettings.InitialBackoff = types.Float64PointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.TimeoutRetrySettings.InitialBackoff)
 				r.OutputGrafanaCloud.Two.TimeoutRetrySettings.MaxBackoff = types.Float64PointerValue(resp.OutputGrafanaCloud.OutputGrafanaCloud2.TimeoutRetrySettings.MaxBackoff)
@@ -24019,6 +26077,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			r.OutputGraphite.Protocol = types.StringValue(string(*resp.OutputGraphite.Protocol))
 		} else {
 			r.OutputGraphite.Protocol = types.StringNull()
+		}
+		if resp.OutputGraphite.Status == nil {
+			r.OutputGraphite.Status = nil
+		} else {
+			r.OutputGraphite.Status = &tfTypes.TFStatus{}
+			r.OutputGraphite.Status.Health = types.StringValue(string(resp.OutputGraphite.Status.Health))
+			if len(resp.OutputGraphite.Status.Metrics) > 0 {
+				r.OutputGraphite.Status.Metrics = make(map[string]types.String, len(resp.OutputGraphite.Status.Metrics))
+				for key29, value29 := range resp.OutputGraphite.Status.Metrics {
+					result29, _ := json.Marshal(value29)
+					r.OutputGraphite.Status.Metrics[key29] = types.StringValue(string(result29))
+				}
+			}
+			r.OutputGraphite.Status.Timestamp = types.Float64Value(resp.OutputGraphite.Status.Timestamp)
+			r.OutputGraphite.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputGraphite.Status.UseStatusFromLB)
 		}
 		r.OutputGraphite.Streamtags = make([]types.String, 0, len(resp.OutputGraphite.Streamtags))
 		for _, v := range resp.OutputGraphite.Streamtags {
@@ -24125,6 +26198,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputHoneycomb.SafeHeaders = make([]types.String, 0, len(resp.OutputHoneycomb.SafeHeaders))
 		for _, v := range resp.OutputHoneycomb.SafeHeaders {
 			r.OutputHoneycomb.SafeHeaders = append(r.OutputHoneycomb.SafeHeaders, types.StringValue(v))
+		}
+		if resp.OutputHoneycomb.Status == nil {
+			r.OutputHoneycomb.Status = nil
+		} else {
+			r.OutputHoneycomb.Status = &tfTypes.TFStatus{}
+			r.OutputHoneycomb.Status.Health = types.StringValue(string(resp.OutputHoneycomb.Status.Health))
+			if len(resp.OutputHoneycomb.Status.Metrics) > 0 {
+				r.OutputHoneycomb.Status.Metrics = make(map[string]types.String, len(resp.OutputHoneycomb.Status.Metrics))
+				for key30, value30 := range resp.OutputHoneycomb.Status.Metrics {
+					result30, _ := json.Marshal(value30)
+					r.OutputHoneycomb.Status.Metrics[key30] = types.StringValue(string(result30))
+				}
+			}
+			r.OutputHoneycomb.Status.Timestamp = types.Float64Value(resp.OutputHoneycomb.Status.Timestamp)
+			r.OutputHoneycomb.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputHoneycomb.Status.UseStatusFromLB)
 		}
 		r.OutputHoneycomb.Streamtags = make([]types.String, 0, len(resp.OutputHoneycomb.Streamtags))
 		for _, v := range resp.OutputHoneycomb.Streamtags {
@@ -24242,6 +26330,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputHumioHec.SafeHeaders = make([]types.String, 0, len(resp.OutputHumioHec.SafeHeaders))
 		for _, v := range resp.OutputHumioHec.SafeHeaders {
 			r.OutputHumioHec.SafeHeaders = append(r.OutputHumioHec.SafeHeaders, types.StringValue(v))
+		}
+		if resp.OutputHumioHec.Status == nil {
+			r.OutputHumioHec.Status = nil
+		} else {
+			r.OutputHumioHec.Status = &tfTypes.TFStatus{}
+			r.OutputHumioHec.Status.Health = types.StringValue(string(resp.OutputHumioHec.Status.Health))
+			if len(resp.OutputHumioHec.Status.Metrics) > 0 {
+				r.OutputHumioHec.Status.Metrics = make(map[string]types.String, len(resp.OutputHumioHec.Status.Metrics))
+				for key31, value31 := range resp.OutputHumioHec.Status.Metrics {
+					result31, _ := json.Marshal(value31)
+					r.OutputHumioHec.Status.Metrics[key31] = types.StringValue(string(result31))
+				}
+			}
+			r.OutputHumioHec.Status.Timestamp = types.Float64Value(resp.OutputHumioHec.Status.Timestamp)
+			r.OutputHumioHec.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputHumioHec.Status.UseStatusFromLB)
 		}
 		r.OutputHumioHec.Streamtags = make([]types.String, 0, len(resp.OutputHumioHec.Streamtags))
 		for _, v := range resp.OutputHumioHec.Streamtags {
@@ -24400,6 +26503,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		}
 		r.OutputInfluxdb.Secret = types.StringPointerValue(resp.OutputInfluxdb.Secret)
 		r.OutputInfluxdb.SecretParamName = types.StringPointerValue(resp.OutputInfluxdb.SecretParamName)
+		if resp.OutputInfluxdb.Status == nil {
+			r.OutputInfluxdb.Status = nil
+		} else {
+			r.OutputInfluxdb.Status = &tfTypes.TFStatus{}
+			r.OutputInfluxdb.Status.Health = types.StringValue(string(resp.OutputInfluxdb.Status.Health))
+			if len(resp.OutputInfluxdb.Status.Metrics) > 0 {
+				r.OutputInfluxdb.Status.Metrics = make(map[string]types.String, len(resp.OutputInfluxdb.Status.Metrics))
+				for key32, value32 := range resp.OutputInfluxdb.Status.Metrics {
+					result32, _ := json.Marshal(value32)
+					r.OutputInfluxdb.Status.Metrics[key32] = types.StringValue(string(result32))
+				}
+			}
+			r.OutputInfluxdb.Status.Timestamp = types.Float64Value(resp.OutputInfluxdb.Status.Timestamp)
+			r.OutputInfluxdb.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputInfluxdb.Status.UseStatusFromLB)
+		}
 		r.OutputInfluxdb.Streamtags = make([]types.String, 0, len(resp.OutputInfluxdb.Streamtags))
 		for _, v := range resp.OutputInfluxdb.Streamtags {
 			r.OutputInfluxdb.Streamtags = append(r.OutputInfluxdb.Streamtags, types.StringValue(v))
@@ -24485,7 +26603,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			if resp.OutputKafka.KafkaSchemaRegistry.TLS == nil {
 				r.OutputKafka.KafkaSchemaRegistry.TLS = nil
 			} else {
-				r.OutputKafka.KafkaSchemaRegistry.TLS = &tfTypes.OutputKafkaKafkaSchemaRegistryTLSSettingsClientSide{}
+				r.OutputKafka.KafkaSchemaRegistry.TLS = &tfTypes.OutputKafkaOutputTLSSettingsClientSide{}
 				r.OutputKafka.KafkaSchemaRegistry.TLS.CaPath = types.StringPointerValue(resp.OutputKafka.KafkaSchemaRegistry.TLS.CaPath)
 				r.OutputKafka.KafkaSchemaRegistry.TLS.CertificateName = types.StringPointerValue(resp.OutputKafka.KafkaSchemaRegistry.TLS.CertificateName)
 				r.OutputKafka.KafkaSchemaRegistry.TLS.CertPath = types.StringPointerValue(resp.OutputKafka.KafkaSchemaRegistry.TLS.CertPath)
@@ -24551,6 +26669,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			} else {
 				r.OutputKafka.Sasl.Mechanism = types.StringNull()
 			}
+		}
+		if resp.OutputKafka.Status == nil {
+			r.OutputKafka.Status = nil
+		} else {
+			r.OutputKafka.Status = &tfTypes.TFStatus{}
+			r.OutputKafka.Status.Health = types.StringValue(string(resp.OutputKafka.Status.Health))
+			if len(resp.OutputKafka.Status.Metrics) > 0 {
+				r.OutputKafka.Status.Metrics = make(map[string]types.String, len(resp.OutputKafka.Status.Metrics))
+				for key33, value33 := range resp.OutputKafka.Status.Metrics {
+					result33, _ := json.Marshal(value33)
+					r.OutputKafka.Status.Metrics[key33] = types.StringValue(string(result33))
+				}
+			}
+			r.OutputKafka.Status.Timestamp = types.Float64Value(resp.OutputKafka.Status.Timestamp)
+			r.OutputKafka.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputKafka.Status.UseStatusFromLB)
 		}
 		r.OutputKafka.Streamtags = make([]types.String, 0, len(resp.OutputKafka.Streamtags))
 		for _, v := range resp.OutputKafka.Streamtags {
@@ -24653,6 +26786,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			r.OutputKinesis.SignatureVersion = types.StringValue(string(*resp.OutputKinesis.SignatureVersion))
 		} else {
 			r.OutputKinesis.SignatureVersion = types.StringNull()
+		}
+		if resp.OutputKinesis.Status == nil {
+			r.OutputKinesis.Status = nil
+		} else {
+			r.OutputKinesis.Status = &tfTypes.TFStatus{}
+			r.OutputKinesis.Status.Health = types.StringValue(string(resp.OutputKinesis.Status.Health))
+			if len(resp.OutputKinesis.Status.Metrics) > 0 {
+				r.OutputKinesis.Status.Metrics = make(map[string]types.String, len(resp.OutputKinesis.Status.Metrics))
+				for key34, value34 := range resp.OutputKinesis.Status.Metrics {
+					result34, _ := json.Marshal(value34)
+					r.OutputKinesis.Status.Metrics[key34] = types.StringValue(string(result34))
+				}
+			}
+			r.OutputKinesis.Status.Timestamp = types.Float64Value(resp.OutputKinesis.Status.Timestamp)
+			r.OutputKinesis.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputKinesis.Status.UseStatusFromLB)
 		}
 		r.OutputKinesis.StreamName = types.StringValue(resp.OutputKinesis.StreamName)
 		r.OutputKinesis.Streamtags = make([]types.String, 0, len(resp.OutputKinesis.Streamtags))
@@ -24781,6 +26929,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputLoki.SafeHeaders = make([]types.String, 0, len(resp.OutputLoki.SafeHeaders))
 		for _, v := range resp.OutputLoki.SafeHeaders {
 			r.OutputLoki.SafeHeaders = append(r.OutputLoki.SafeHeaders, types.StringValue(v))
+		}
+		if resp.OutputLoki.Status == nil {
+			r.OutputLoki.Status = nil
+		} else {
+			r.OutputLoki.Status = &tfTypes.TFStatus{}
+			r.OutputLoki.Status.Health = types.StringValue(string(resp.OutputLoki.Status.Health))
+			if len(resp.OutputLoki.Status.Metrics) > 0 {
+				r.OutputLoki.Status.Metrics = make(map[string]types.String, len(resp.OutputLoki.Status.Metrics))
+				for key35, value35 := range resp.OutputLoki.Status.Metrics {
+					result35, _ := json.Marshal(value35)
+					r.OutputLoki.Status.Metrics[key35] = types.StringValue(string(result35))
+				}
+			}
+			r.OutputLoki.Status.Timestamp = types.Float64Value(resp.OutputLoki.Status.Timestamp)
+			r.OutputLoki.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputLoki.Status.UseStatusFromLB)
 		}
 		r.OutputLoki.Streamtags = make([]types.String, 0, len(resp.OutputLoki.Streamtags))
 		for _, v := range resp.OutputLoki.Streamtags {
@@ -24916,6 +27079,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			r.OutputMinio.SignatureVersion = types.StringNull()
 		}
 		r.OutputMinio.StagePath = types.StringPointerValue(resp.OutputMinio.StagePath)
+		if resp.OutputMinio.Status == nil {
+			r.OutputMinio.Status = nil
+		} else {
+			r.OutputMinio.Status = &tfTypes.TFStatus{}
+			r.OutputMinio.Status.Health = types.StringValue(string(resp.OutputMinio.Status.Health))
+			if len(resp.OutputMinio.Status.Metrics) > 0 {
+				r.OutputMinio.Status.Metrics = make(map[string]types.String, len(resp.OutputMinio.Status.Metrics))
+				for key36, value36 := range resp.OutputMinio.Status.Metrics {
+					result36, _ := json.Marshal(value36)
+					r.OutputMinio.Status.Metrics[key36] = types.StringValue(string(result36))
+				}
+			}
+			r.OutputMinio.Status.Timestamp = types.Float64Value(resp.OutputMinio.Status.Timestamp)
+			r.OutputMinio.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputMinio.Status.UseStatusFromLB)
+		}
 		if resp.OutputMinio.StorageClass != nil {
 			r.OutputMinio.StorageClass = types.StringValue(string(*resp.OutputMinio.StorageClass))
 		} else {
@@ -25001,7 +27179,7 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			if resp.OutputMsk.KafkaSchemaRegistry.TLS == nil {
 				r.OutputMsk.KafkaSchemaRegistry.TLS = nil
 			} else {
-				r.OutputMsk.KafkaSchemaRegistry.TLS = &tfTypes.OutputMskKafkaSchemaRegistryTLSSettingsClientSide{}
+				r.OutputMsk.KafkaSchemaRegistry.TLS = &tfTypes.OutputMskOutputTLSSettingsClientSide{}
 				r.OutputMsk.KafkaSchemaRegistry.TLS.CaPath = types.StringPointerValue(resp.OutputMsk.KafkaSchemaRegistry.TLS.CaPath)
 				r.OutputMsk.KafkaSchemaRegistry.TLS.CertificateName = types.StringPointerValue(resp.OutputMsk.KafkaSchemaRegistry.TLS.CertificateName)
 				r.OutputMsk.KafkaSchemaRegistry.TLS.CertPath = types.StringPointerValue(resp.OutputMsk.KafkaSchemaRegistry.TLS.CertPath)
@@ -25065,6 +27243,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		} else {
 			r.OutputMsk.SignatureVersion = types.StringNull()
 		}
+		if resp.OutputMsk.Status == nil {
+			r.OutputMsk.Status = nil
+		} else {
+			r.OutputMsk.Status = &tfTypes.TFStatus{}
+			r.OutputMsk.Status.Health = types.StringValue(string(resp.OutputMsk.Status.Health))
+			if len(resp.OutputMsk.Status.Metrics) > 0 {
+				r.OutputMsk.Status.Metrics = make(map[string]types.String, len(resp.OutputMsk.Status.Metrics))
+				for key37, value37 := range resp.OutputMsk.Status.Metrics {
+					result37, _ := json.Marshal(value37)
+					r.OutputMsk.Status.Metrics[key37] = types.StringValue(string(result37))
+				}
+			}
+			r.OutputMsk.Status.Timestamp = types.Float64Value(resp.OutputMsk.Status.Timestamp)
+			r.OutputMsk.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputMsk.Status.UseStatusFromLB)
+		}
 		r.OutputMsk.Streamtags = make([]types.String, 0, len(resp.OutputMsk.Streamtags))
 		for _, v := range resp.OutputMsk.Streamtags {
 			r.OutputMsk.Streamtags = append(r.OutputMsk.Streamtags, types.StringValue(v))
@@ -25125,6 +27318,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		}
 		r.OutputNetflow.ID = types.StringPointerValue(resp.OutputNetflow.ID)
 		r.OutputNetflow.Pipeline = types.StringPointerValue(resp.OutputNetflow.Pipeline)
+		if resp.OutputNetflow.Status == nil {
+			r.OutputNetflow.Status = nil
+		} else {
+			r.OutputNetflow.Status = &tfTypes.TFStatus{}
+			r.OutputNetflow.Status.Health = types.StringValue(string(resp.OutputNetflow.Status.Health))
+			if len(resp.OutputNetflow.Status.Metrics) > 0 {
+				r.OutputNetflow.Status.Metrics = make(map[string]types.String, len(resp.OutputNetflow.Status.Metrics))
+				for key38, value38 := range resp.OutputNetflow.Status.Metrics {
+					result38, _ := json.Marshal(value38)
+					r.OutputNetflow.Status.Metrics[key38] = types.StringValue(string(result38))
+				}
+			}
+			r.OutputNetflow.Status.Timestamp = types.Float64Value(resp.OutputNetflow.Status.Timestamp)
+			r.OutputNetflow.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputNetflow.Status.UseStatusFromLB)
+		}
 		r.OutputNetflow.Streamtags = make([]types.String, 0, len(resp.OutputNetflow.Streamtags))
 		for _, v := range resp.OutputNetflow.Streamtags {
 			r.OutputNetflow.Streamtags = append(r.OutputNetflow.Streamtags, types.StringValue(v))
@@ -25248,6 +27456,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		for _, v := range resp.OutputNewrelic.SafeHeaders {
 			r.OutputNewrelic.SafeHeaders = append(r.OutputNewrelic.SafeHeaders, types.StringValue(v))
 		}
+		if resp.OutputNewrelic.Status == nil {
+			r.OutputNewrelic.Status = nil
+		} else {
+			r.OutputNewrelic.Status = &tfTypes.TFStatus{}
+			r.OutputNewrelic.Status.Health = types.StringValue(string(resp.OutputNewrelic.Status.Health))
+			if len(resp.OutputNewrelic.Status.Metrics) > 0 {
+				r.OutputNewrelic.Status.Metrics = make(map[string]types.String, len(resp.OutputNewrelic.Status.Metrics))
+				for key39, value39 := range resp.OutputNewrelic.Status.Metrics {
+					result39, _ := json.Marshal(value39)
+					r.OutputNewrelic.Status.Metrics[key39] = types.StringValue(string(result39))
+				}
+			}
+			r.OutputNewrelic.Status.Timestamp = types.Float64Value(resp.OutputNewrelic.Status.Timestamp)
+			r.OutputNewrelic.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputNewrelic.Status.UseStatusFromLB)
+		}
 		r.OutputNewrelic.Streamtags = make([]types.String, 0, len(resp.OutputNewrelic.Streamtags))
 		for _, v := range resp.OutputNewrelic.Streamtags {
 			r.OutputNewrelic.Streamtags = append(r.OutputNewrelic.Streamtags, types.StringValue(v))
@@ -25368,6 +27591,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputNewrelicEvents.SafeHeaders = make([]types.String, 0, len(resp.OutputNewrelicEvents.SafeHeaders))
 		for _, v := range resp.OutputNewrelicEvents.SafeHeaders {
 			r.OutputNewrelicEvents.SafeHeaders = append(r.OutputNewrelicEvents.SafeHeaders, types.StringValue(v))
+		}
+		if resp.OutputNewrelicEvents.Status == nil {
+			r.OutputNewrelicEvents.Status = nil
+		} else {
+			r.OutputNewrelicEvents.Status = &tfTypes.TFStatus{}
+			r.OutputNewrelicEvents.Status.Health = types.StringValue(string(resp.OutputNewrelicEvents.Status.Health))
+			if len(resp.OutputNewrelicEvents.Status.Metrics) > 0 {
+				r.OutputNewrelicEvents.Status.Metrics = make(map[string]types.String, len(resp.OutputNewrelicEvents.Status.Metrics))
+				for key40, value40 := range resp.OutputNewrelicEvents.Status.Metrics {
+					result40, _ := json.Marshal(value40)
+					r.OutputNewrelicEvents.Status.Metrics[key40] = types.StringValue(string(result40))
+				}
+			}
+			r.OutputNewrelicEvents.Status.Timestamp = types.Float64Value(resp.OutputNewrelicEvents.Status.Timestamp)
+			r.OutputNewrelicEvents.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputNewrelicEvents.Status.UseStatusFromLB)
 		}
 		r.OutputNewrelicEvents.Streamtags = make([]types.String, 0, len(resp.OutputNewrelicEvents.Streamtags))
 		for _, v := range resp.OutputNewrelicEvents.Streamtags {
@@ -25560,6 +27798,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		}
 		r.OutputOpenTelemetry.Secret = types.StringPointerValue(resp.OutputOpenTelemetry.Secret)
 		r.OutputOpenTelemetry.SecretParamName = types.StringPointerValue(resp.OutputOpenTelemetry.SecretParamName)
+		if resp.OutputOpenTelemetry.Status == nil {
+			r.OutputOpenTelemetry.Status = nil
+		} else {
+			r.OutputOpenTelemetry.Status = &tfTypes.TFStatus{}
+			r.OutputOpenTelemetry.Status.Health = types.StringValue(string(resp.OutputOpenTelemetry.Status.Health))
+			if len(resp.OutputOpenTelemetry.Status.Metrics) > 0 {
+				r.OutputOpenTelemetry.Status.Metrics = make(map[string]types.String, len(resp.OutputOpenTelemetry.Status.Metrics))
+				for key41, value41 := range resp.OutputOpenTelemetry.Status.Metrics {
+					result41, _ := json.Marshal(value41)
+					r.OutputOpenTelemetry.Status.Metrics[key41] = types.StringValue(string(result41))
+				}
+			}
+			r.OutputOpenTelemetry.Status.Timestamp = types.Float64Value(resp.OutputOpenTelemetry.Status.Timestamp)
+			r.OutputOpenTelemetry.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputOpenTelemetry.Status.UseStatusFromLB)
+		}
 		r.OutputOpenTelemetry.Streamtags = make([]types.String, 0, len(resp.OutputOpenTelemetry.Streamtags))
 		for _, v := range resp.OutputOpenTelemetry.Streamtags {
 			r.OutputOpenTelemetry.Streamtags = append(r.OutputOpenTelemetry.Streamtags, types.StringValue(v))
@@ -25735,6 +27988,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputPrometheus.Secret = types.StringPointerValue(resp.OutputPrometheus.Secret)
 		r.OutputPrometheus.SecretParamName = types.StringPointerValue(resp.OutputPrometheus.SecretParamName)
 		r.OutputPrometheus.SendMetadata = types.BoolPointerValue(resp.OutputPrometheus.SendMetadata)
+		if resp.OutputPrometheus.Status == nil {
+			r.OutputPrometheus.Status = nil
+		} else {
+			r.OutputPrometheus.Status = &tfTypes.TFStatus{}
+			r.OutputPrometheus.Status.Health = types.StringValue(string(resp.OutputPrometheus.Status.Health))
+			if len(resp.OutputPrometheus.Status.Metrics) > 0 {
+				r.OutputPrometheus.Status.Metrics = make(map[string]types.String, len(resp.OutputPrometheus.Status.Metrics))
+				for key42, value42 := range resp.OutputPrometheus.Status.Metrics {
+					result42, _ := json.Marshal(value42)
+					r.OutputPrometheus.Status.Metrics[key42] = types.StringValue(string(result42))
+				}
+			}
+			r.OutputPrometheus.Status.Timestamp = types.Float64Value(resp.OutputPrometheus.Status.Timestamp)
+			r.OutputPrometheus.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputPrometheus.Status.UseStatusFromLB)
+		}
 		r.OutputPrometheus.Streamtags = make([]types.String, 0, len(resp.OutputPrometheus.Streamtags))
 		for _, v := range resp.OutputPrometheus.Streamtags {
 			r.OutputPrometheus.Streamtags = append(r.OutputPrometheus.Streamtags, types.StringValue(v))
@@ -25787,6 +28055,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		}
 		r.OutputRing.PartitionExpr = types.StringPointerValue(resp.OutputRing.PartitionExpr)
 		r.OutputRing.Pipeline = types.StringPointerValue(resp.OutputRing.Pipeline)
+		if resp.OutputRing.Status == nil {
+			r.OutputRing.Status = nil
+		} else {
+			r.OutputRing.Status = &tfTypes.TFStatus{}
+			r.OutputRing.Status.Health = types.StringValue(string(resp.OutputRing.Status.Health))
+			if len(resp.OutputRing.Status.Metrics) > 0 {
+				r.OutputRing.Status.Metrics = make(map[string]types.String, len(resp.OutputRing.Status.Metrics))
+				for key43, value43 := range resp.OutputRing.Status.Metrics {
+					result43, _ := json.Marshal(value43)
+					r.OutputRing.Status.Metrics[key43] = types.StringValue(string(result43))
+				}
+			}
+			r.OutputRing.Status.Timestamp = types.Float64Value(resp.OutputRing.Status.Timestamp)
+			r.OutputRing.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputRing.Status.UseStatusFromLB)
+		}
 		r.OutputRing.Streamtags = make([]types.String, 0, len(resp.OutputRing.Streamtags))
 		for _, v := range resp.OutputRing.Streamtags {
 			r.OutputRing.Streamtags = append(r.OutputRing.Streamtags, types.StringValue(v))
@@ -25821,6 +28104,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 				r.OutputRouter.Rules[rulesCount].Final = rules.Final
 				r.OutputRouter.Rules[rulesCount].Output = rules.Output
 			}
+		}
+		if resp.OutputRouter.Status == nil {
+			r.OutputRouter.Status = nil
+		} else {
+			r.OutputRouter.Status = &tfTypes.TFStatus{}
+			r.OutputRouter.Status.Health = types.StringValue(string(resp.OutputRouter.Status.Health))
+			if len(resp.OutputRouter.Status.Metrics) > 0 {
+				r.OutputRouter.Status.Metrics = make(map[string]types.String, len(resp.OutputRouter.Status.Metrics))
+				for key44, value44 := range resp.OutputRouter.Status.Metrics {
+					result44, _ := json.Marshal(value44)
+					r.OutputRouter.Status.Metrics[key44] = types.StringValue(string(result44))
+				}
+			}
+			r.OutputRouter.Status.Timestamp = types.Float64Value(resp.OutputRouter.Status.Timestamp)
+			r.OutputRouter.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputRouter.Status.UseStatusFromLB)
 		}
 		r.OutputRouter.Streamtags = make([]types.String, 0, len(resp.OutputRouter.Streamtags))
 		for _, v := range resp.OutputRouter.Streamtags {
@@ -25946,6 +28244,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			r.OutputS3.SignatureVersion = types.StringNull()
 		}
 		r.OutputS3.StagePath = types.StringPointerValue(resp.OutputS3.StagePath)
+		if resp.OutputS3.Status == nil {
+			r.OutputS3.Status = nil
+		} else {
+			r.OutputS3.Status = &tfTypes.TFStatus{}
+			r.OutputS3.Status.Health = types.StringValue(string(resp.OutputS3.Status.Health))
+			if len(resp.OutputS3.Status.Metrics) > 0 {
+				r.OutputS3.Status.Metrics = make(map[string]types.String, len(resp.OutputS3.Status.Metrics))
+				for key45, value45 := range resp.OutputS3.Status.Metrics {
+					result45, _ := json.Marshal(value45)
+					r.OutputS3.Status.Metrics[key45] = types.StringValue(string(result45))
+				}
+			}
+			r.OutputS3.Status.Timestamp = types.Float64Value(resp.OutputS3.Status.Timestamp)
+			r.OutputS3.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputS3.Status.UseStatusFromLB)
+		}
 		if resp.OutputS3.StorageClass != nil {
 			r.OutputS3.StorageClass = types.StringValue(string(*resp.OutputS3.StorageClass))
 		} else {
@@ -26066,6 +28379,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			r.OutputSecurityLake.SignatureVersion = types.StringNull()
 		}
 		r.OutputSecurityLake.StagePath = types.StringPointerValue(resp.OutputSecurityLake.StagePath)
+		if resp.OutputSecurityLake.Status == nil {
+			r.OutputSecurityLake.Status = nil
+		} else {
+			r.OutputSecurityLake.Status = &tfTypes.TFStatus{}
+			r.OutputSecurityLake.Status.Health = types.StringValue(string(resp.OutputSecurityLake.Status.Health))
+			if len(resp.OutputSecurityLake.Status.Metrics) > 0 {
+				r.OutputSecurityLake.Status.Metrics = make(map[string]types.String, len(resp.OutputSecurityLake.Status.Metrics))
+				for key46, value46 := range resp.OutputSecurityLake.Status.Metrics {
+					result46, _ := json.Marshal(value46)
+					r.OutputSecurityLake.Status.Metrics[key46] = types.StringValue(string(result46))
+				}
+			}
+			r.OutputSecurityLake.Status.Timestamp = types.Float64Value(resp.OutputSecurityLake.Status.Timestamp)
+			r.OutputSecurityLake.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputSecurityLake.Status.UseStatusFromLB)
+		}
 		if resp.OutputSecurityLake.StorageClass != nil {
 			r.OutputSecurityLake.StorageClass = types.StringValue(string(*resp.OutputSecurityLake.StorageClass))
 		} else {
@@ -26201,6 +28529,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		}
 		r.OutputSentinel.Scope = types.StringPointerValue(resp.OutputSentinel.Scope)
 		r.OutputSentinel.Secret = types.StringValue(resp.OutputSentinel.Secret)
+		if resp.OutputSentinel.Status == nil {
+			r.OutputSentinel.Status = nil
+		} else {
+			r.OutputSentinel.Status = &tfTypes.TFStatus{}
+			r.OutputSentinel.Status.Health = types.StringValue(string(resp.OutputSentinel.Status.Health))
+			if len(resp.OutputSentinel.Status.Metrics) > 0 {
+				r.OutputSentinel.Status.Metrics = make(map[string]types.String, len(resp.OutputSentinel.Status.Metrics))
+				for key47, value47 := range resp.OutputSentinel.Status.Metrics {
+					result47, _ := json.Marshal(value47)
+					r.OutputSentinel.Status.Metrics[key47] = types.StringValue(string(result47))
+				}
+			}
+			r.OutputSentinel.Status.Timestamp = types.Float64Value(resp.OutputSentinel.Status.Timestamp)
+			r.OutputSentinel.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputSentinel.Status.UseStatusFromLB)
+		}
 		r.OutputSentinel.StreamName = types.StringPointerValue(resp.OutputSentinel.StreamName)
 		r.OutputSentinel.Streamtags = make([]types.String, 0, len(resp.OutputSentinel.Streamtags))
 		for _, v := range resp.OutputSentinel.Streamtags {
@@ -26354,6 +28697,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		for _, v := range resp.OutputServiceNow.SafeHeaders {
 			r.OutputServiceNow.SafeHeaders = append(r.OutputServiceNow.SafeHeaders, types.StringValue(v))
 		}
+		if resp.OutputServiceNow.Status == nil {
+			r.OutputServiceNow.Status = nil
+		} else {
+			r.OutputServiceNow.Status = &tfTypes.TFStatus{}
+			r.OutputServiceNow.Status.Health = types.StringValue(string(resp.OutputServiceNow.Status.Health))
+			if len(resp.OutputServiceNow.Status.Metrics) > 0 {
+				r.OutputServiceNow.Status.Metrics = make(map[string]types.String, len(resp.OutputServiceNow.Status.Metrics))
+				for key48, value48 := range resp.OutputServiceNow.Status.Metrics {
+					result48, _ := json.Marshal(value48)
+					r.OutputServiceNow.Status.Metrics[key48] = types.StringValue(string(result48))
+				}
+			}
+			r.OutputServiceNow.Status.Timestamp = types.Float64Value(resp.OutputServiceNow.Status.Timestamp)
+			r.OutputServiceNow.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputServiceNow.Status.UseStatusFromLB)
+		}
 		r.OutputServiceNow.Streamtags = make([]types.String, 0, len(resp.OutputServiceNow.Streamtags))
 		for _, v := range resp.OutputServiceNow.Streamtags {
 			r.OutputServiceNow.Streamtags = append(r.OutputServiceNow.Streamtags, types.StringValue(v))
@@ -26492,6 +28850,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		for _, v := range resp.OutputSignalfx.SafeHeaders {
 			r.OutputSignalfx.SafeHeaders = append(r.OutputSignalfx.SafeHeaders, types.StringValue(v))
 		}
+		if resp.OutputSignalfx.Status == nil {
+			r.OutputSignalfx.Status = nil
+		} else {
+			r.OutputSignalfx.Status = &tfTypes.TFStatus{}
+			r.OutputSignalfx.Status.Health = types.StringValue(string(resp.OutputSignalfx.Status.Health))
+			if len(resp.OutputSignalfx.Status.Metrics) > 0 {
+				r.OutputSignalfx.Status.Metrics = make(map[string]types.String, len(resp.OutputSignalfx.Status.Metrics))
+				for key49, value49 := range resp.OutputSignalfx.Status.Metrics {
+					result49, _ := json.Marshal(value49)
+					r.OutputSignalfx.Status.Metrics[key49] = types.StringValue(string(result49))
+				}
+			}
+			r.OutputSignalfx.Status.Timestamp = types.Float64Value(resp.OutputSignalfx.Status.Timestamp)
+			r.OutputSignalfx.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputSignalfx.Status.UseStatusFromLB)
+		}
 		r.OutputSignalfx.Streamtags = make([]types.String, 0, len(resp.OutputSignalfx.Streamtags))
 		for _, v := range resp.OutputSignalfx.Streamtags {
 			r.OutputSignalfx.Streamtags = append(r.OutputSignalfx.Streamtags, types.StringValue(v))
@@ -26537,6 +28910,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		}
 		r.OutputSnmp.ID = types.StringPointerValue(resp.OutputSnmp.ID)
 		r.OutputSnmp.Pipeline = types.StringPointerValue(resp.OutputSnmp.Pipeline)
+		if resp.OutputSnmp.Status == nil {
+			r.OutputSnmp.Status = nil
+		} else {
+			r.OutputSnmp.Status = &tfTypes.TFStatus{}
+			r.OutputSnmp.Status.Health = types.StringValue(string(resp.OutputSnmp.Status.Health))
+			if len(resp.OutputSnmp.Status.Metrics) > 0 {
+				r.OutputSnmp.Status.Metrics = make(map[string]types.String, len(resp.OutputSnmp.Status.Metrics))
+				for key50, value50 := range resp.OutputSnmp.Status.Metrics {
+					result50, _ := json.Marshal(value50)
+					r.OutputSnmp.Status.Metrics[key50] = types.StringValue(string(result50))
+				}
+			}
+			r.OutputSnmp.Status.Timestamp = types.Float64Value(resp.OutputSnmp.Status.Timestamp)
+			r.OutputSnmp.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputSnmp.Status.UseStatusFromLB)
+		}
 		r.OutputSnmp.Streamtags = make([]types.String, 0, len(resp.OutputSnmp.Streamtags))
 		for _, v := range resp.OutputSnmp.Streamtags {
 			r.OutputSnmp.Streamtags = append(r.OutputSnmp.Streamtags, types.StringValue(v))
@@ -26603,6 +28991,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			r.OutputSns.SignatureVersion = types.StringValue(string(*resp.OutputSns.SignatureVersion))
 		} else {
 			r.OutputSns.SignatureVersion = types.StringNull()
+		}
+		if resp.OutputSns.Status == nil {
+			r.OutputSns.Status = nil
+		} else {
+			r.OutputSns.Status = &tfTypes.TFStatus{}
+			r.OutputSns.Status.Health = types.StringValue(string(resp.OutputSns.Status.Health))
+			if len(resp.OutputSns.Status.Metrics) > 0 {
+				r.OutputSns.Status.Metrics = make(map[string]types.String, len(resp.OutputSns.Status.Metrics))
+				for key51, value51 := range resp.OutputSns.Status.Metrics {
+					result51, _ := json.Marshal(value51)
+					r.OutputSns.Status.Metrics[key51] = types.StringValue(string(result51))
+				}
+			}
+			r.OutputSns.Status.Timestamp = types.Float64Value(resp.OutputSns.Status.Timestamp)
+			r.OutputSns.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputSns.Status.UseStatusFromLB)
 		}
 		r.OutputSns.Streamtags = make([]types.String, 0, len(resp.OutputSns.Streamtags))
 		for _, v := range resp.OutputSns.Streamtags {
@@ -26681,6 +29084,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			r.OutputSplunk.PqOnBackpressure = types.StringNull()
 		}
 		r.OutputSplunk.PqPath = types.StringPointerValue(resp.OutputSplunk.PqPath)
+		if resp.OutputSplunk.Status == nil {
+			r.OutputSplunk.Status = nil
+		} else {
+			r.OutputSplunk.Status = &tfTypes.TFStatus{}
+			r.OutputSplunk.Status.Health = types.StringValue(string(resp.OutputSplunk.Status.Health))
+			if len(resp.OutputSplunk.Status.Metrics) > 0 {
+				r.OutputSplunk.Status.Metrics = make(map[string]types.String, len(resp.OutputSplunk.Status.Metrics))
+				for key52, value52 := range resp.OutputSplunk.Status.Metrics {
+					result52, _ := json.Marshal(value52)
+					r.OutputSplunk.Status.Metrics[key52] = types.StringValue(string(result52))
+				}
+			}
+			r.OutputSplunk.Status.Timestamp = types.Float64Value(resp.OutputSplunk.Status.Timestamp)
+			r.OutputSplunk.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputSplunk.Status.UseStatusFromLB)
+		}
 		r.OutputSplunk.Streamtags = make([]types.String, 0, len(resp.OutputSplunk.Streamtags))
 		for _, v := range resp.OutputSplunk.Streamtags {
 			r.OutputSplunk.Streamtags = append(r.OutputSplunk.Streamtags, types.StringValue(v))
@@ -26815,6 +29233,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputSplunkHec.SafeHeaders = make([]types.String, 0, len(resp.OutputSplunkHec.SafeHeaders))
 		for _, v := range resp.OutputSplunkHec.SafeHeaders {
 			r.OutputSplunkHec.SafeHeaders = append(r.OutputSplunkHec.SafeHeaders, types.StringValue(v))
+		}
+		if resp.OutputSplunkHec.Status == nil {
+			r.OutputSplunkHec.Status = nil
+		} else {
+			r.OutputSplunkHec.Status = &tfTypes.TFStatus{}
+			r.OutputSplunkHec.Status.Health = types.StringValue(string(resp.OutputSplunkHec.Status.Health))
+			if len(resp.OutputSplunkHec.Status.Metrics) > 0 {
+				r.OutputSplunkHec.Status.Metrics = make(map[string]types.String, len(resp.OutputSplunkHec.Status.Metrics))
+				for key53, value53 := range resp.OutputSplunkHec.Status.Metrics {
+					result53, _ := json.Marshal(value53)
+					r.OutputSplunkHec.Status.Metrics[key53] = types.StringValue(string(result53))
+				}
+			}
+			r.OutputSplunkHec.Status.Timestamp = types.Float64Value(resp.OutputSplunkHec.Status.Timestamp)
+			r.OutputSplunkHec.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputSplunkHec.Status.UseStatusFromLB)
 		}
 		r.OutputSplunkHec.Streamtags = make([]types.String, 0, len(resp.OutputSplunkHec.Streamtags))
 		for _, v := range resp.OutputSplunkHec.Streamtags {
@@ -26980,6 +29413,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		}
 		r.OutputSplunkLb.PqPath = types.StringPointerValue(resp.OutputSplunkLb.PqPath)
 		r.OutputSplunkLb.SenderUnhealthyTimeAllowance = types.Float64PointerValue(resp.OutputSplunkLb.SenderUnhealthyTimeAllowance)
+		if resp.OutputSplunkLb.Status == nil {
+			r.OutputSplunkLb.Status = nil
+		} else {
+			r.OutputSplunkLb.Status = &tfTypes.TFStatus{}
+			r.OutputSplunkLb.Status.Health = types.StringValue(string(resp.OutputSplunkLb.Status.Health))
+			if len(resp.OutputSplunkLb.Status.Metrics) > 0 {
+				r.OutputSplunkLb.Status.Metrics = make(map[string]types.String, len(resp.OutputSplunkLb.Status.Metrics))
+				for key54, value54 := range resp.OutputSplunkLb.Status.Metrics {
+					result54, _ := json.Marshal(value54)
+					r.OutputSplunkLb.Status.Metrics[key54] = types.StringValue(string(result54))
+				}
+			}
+			r.OutputSplunkLb.Status.Timestamp = types.Float64Value(resp.OutputSplunkLb.Status.Timestamp)
+			r.OutputSplunkLb.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputSplunkLb.Status.UseStatusFromLB)
+		}
 		r.OutputSplunkLb.Streamtags = make([]types.String, 0, len(resp.OutputSplunkLb.Streamtags))
 		for _, v := range resp.OutputSplunkLb.Streamtags {
 			r.OutputSplunkLb.Streamtags = append(r.OutputSplunkLb.Streamtags, types.StringValue(v))
@@ -27084,6 +29532,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		} else {
 			r.OutputSqs.SignatureVersion = types.StringNull()
 		}
+		if resp.OutputSqs.Status == nil {
+			r.OutputSqs.Status = nil
+		} else {
+			r.OutputSqs.Status = &tfTypes.TFStatus{}
+			r.OutputSqs.Status.Health = types.StringValue(string(resp.OutputSqs.Status.Health))
+			if len(resp.OutputSqs.Status.Metrics) > 0 {
+				r.OutputSqs.Status.Metrics = make(map[string]types.String, len(resp.OutputSqs.Status.Metrics))
+				for key55, value55 := range resp.OutputSqs.Status.Metrics {
+					result55, _ := json.Marshal(value55)
+					r.OutputSqs.Status.Metrics[key55] = types.StringValue(string(result55))
+				}
+			}
+			r.OutputSqs.Status.Timestamp = types.Float64Value(resp.OutputSqs.Status.Timestamp)
+			r.OutputSqs.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputSqs.Status.UseStatusFromLB)
+		}
 		r.OutputSqs.Streamtags = make([]types.String, 0, len(resp.OutputSqs.Streamtags))
 		for _, v := range resp.OutputSqs.Streamtags {
 			r.OutputSqs.Streamtags = append(r.OutputSqs.Streamtags, types.StringValue(v))
@@ -27142,6 +29605,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			r.OutputStatsd.Protocol = types.StringValue(string(*resp.OutputStatsd.Protocol))
 		} else {
 			r.OutputStatsd.Protocol = types.StringNull()
+		}
+		if resp.OutputStatsd.Status == nil {
+			r.OutputStatsd.Status = nil
+		} else {
+			r.OutputStatsd.Status = &tfTypes.TFStatus{}
+			r.OutputStatsd.Status.Health = types.StringValue(string(resp.OutputStatsd.Status.Health))
+			if len(resp.OutputStatsd.Status.Metrics) > 0 {
+				r.OutputStatsd.Status.Metrics = make(map[string]types.String, len(resp.OutputStatsd.Status.Metrics))
+				for key56, value56 := range resp.OutputStatsd.Status.Metrics {
+					result56, _ := json.Marshal(value56)
+					r.OutputStatsd.Status.Metrics[key56] = types.StringValue(string(result56))
+				}
+			}
+			r.OutputStatsd.Status.Timestamp = types.Float64Value(resp.OutputStatsd.Status.Timestamp)
+			r.OutputStatsd.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputStatsd.Status.UseStatusFromLB)
 		}
 		r.OutputStatsd.Streamtags = make([]types.String, 0, len(resp.OutputStatsd.Streamtags))
 		for _, v := range resp.OutputStatsd.Streamtags {
@@ -27203,6 +29681,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			r.OutputStatsdExt.Protocol = types.StringValue(string(*resp.OutputStatsdExt.Protocol))
 		} else {
 			r.OutputStatsdExt.Protocol = types.StringNull()
+		}
+		if resp.OutputStatsdExt.Status == nil {
+			r.OutputStatsdExt.Status = nil
+		} else {
+			r.OutputStatsdExt.Status = &tfTypes.TFStatus{}
+			r.OutputStatsdExt.Status.Health = types.StringValue(string(resp.OutputStatsdExt.Status.Health))
+			if len(resp.OutputStatsdExt.Status.Metrics) > 0 {
+				r.OutputStatsdExt.Status.Metrics = make(map[string]types.String, len(resp.OutputStatsdExt.Status.Metrics))
+				for key57, value57 := range resp.OutputStatsdExt.Status.Metrics {
+					result57, _ := json.Marshal(value57)
+					r.OutputStatsdExt.Status.Metrics[key57] = types.StringValue(string(result57))
+				}
+			}
+			r.OutputStatsdExt.Status.Timestamp = types.Float64Value(resp.OutputStatsdExt.Status.Timestamp)
+			r.OutputStatsdExt.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputStatsdExt.Status.UseStatusFromLB)
 		}
 		r.OutputStatsdExt.Streamtags = make([]types.String, 0, len(resp.OutputStatsdExt.Streamtags))
 		for _, v := range resp.OutputStatsdExt.Streamtags {
@@ -27311,6 +29804,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		for _, v := range resp.OutputSumoLogic.SafeHeaders {
 			r.OutputSumoLogic.SafeHeaders = append(r.OutputSumoLogic.SafeHeaders, types.StringValue(v))
 		}
+		if resp.OutputSumoLogic.Status == nil {
+			r.OutputSumoLogic.Status = nil
+		} else {
+			r.OutputSumoLogic.Status = &tfTypes.TFStatus{}
+			r.OutputSumoLogic.Status.Health = types.StringValue(string(resp.OutputSumoLogic.Status.Health))
+			if len(resp.OutputSumoLogic.Status.Metrics) > 0 {
+				r.OutputSumoLogic.Status.Metrics = make(map[string]types.String, len(resp.OutputSumoLogic.Status.Metrics))
+				for key58, value58 := range resp.OutputSumoLogic.Status.Metrics {
+					result58, _ := json.Marshal(value58)
+					r.OutputSumoLogic.Status.Metrics[key58] = types.StringValue(string(result58))
+				}
+			}
+			r.OutputSumoLogic.Status.Timestamp = types.Float64Value(resp.OutputSumoLogic.Status.Timestamp)
+			r.OutputSumoLogic.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputSumoLogic.Status.UseStatusFromLB)
+		}
 		r.OutputSumoLogic.Streamtags = make([]types.String, 0, len(resp.OutputSumoLogic.Streamtags))
 		for _, v := range resp.OutputSumoLogic.Streamtags {
 			r.OutputSumoLogic.Streamtags = append(r.OutputSumoLogic.Streamtags, types.StringValue(v))
@@ -27395,6 +29903,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 			r.OutputSyslog.Severity = types.Int64Value(int64(*resp.OutputSyslog.Severity))
 		} else {
 			r.OutputSyslog.Severity = types.Int64Null()
+		}
+		if resp.OutputSyslog.Status == nil {
+			r.OutputSyslog.Status = nil
+		} else {
+			r.OutputSyslog.Status = &tfTypes.TFStatus{}
+			r.OutputSyslog.Status.Health = types.StringValue(string(resp.OutputSyslog.Status.Health))
+			if len(resp.OutputSyslog.Status.Metrics) > 0 {
+				r.OutputSyslog.Status.Metrics = make(map[string]types.String, len(resp.OutputSyslog.Status.Metrics))
+				for key59, value59 := range resp.OutputSyslog.Status.Metrics {
+					result59, _ := json.Marshal(value59)
+					r.OutputSyslog.Status.Metrics[key59] = types.StringValue(string(result59))
+				}
+			}
+			r.OutputSyslog.Status.Timestamp = types.Float64Value(resp.OutputSyslog.Status.Timestamp)
+			r.OutputSyslog.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputSyslog.Status.UseStatusFromLB)
 		}
 		r.OutputSyslog.Streamtags = make([]types.String, 0, len(resp.OutputSyslog.Streamtags))
 		for _, v := range resp.OutputSyslog.Streamtags {
@@ -27517,6 +30040,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		}
 		r.OutputTcpjson.PqPath = types.StringPointerValue(resp.OutputTcpjson.PqPath)
 		r.OutputTcpjson.SendHeader = types.BoolPointerValue(resp.OutputTcpjson.SendHeader)
+		if resp.OutputTcpjson.Status == nil {
+			r.OutputTcpjson.Status = nil
+		} else {
+			r.OutputTcpjson.Status = &tfTypes.TFStatus{}
+			r.OutputTcpjson.Status.Health = types.StringValue(string(resp.OutputTcpjson.Status.Health))
+			if len(resp.OutputTcpjson.Status.Metrics) > 0 {
+				r.OutputTcpjson.Status.Metrics = make(map[string]types.String, len(resp.OutputTcpjson.Status.Metrics))
+				for key60, value60 := range resp.OutputTcpjson.Status.Metrics {
+					result60, _ := json.Marshal(value60)
+					r.OutputTcpjson.Status.Metrics[key60] = types.StringValue(string(result60))
+				}
+			}
+			r.OutputTcpjson.Status.Timestamp = types.Float64Value(resp.OutputTcpjson.Status.Timestamp)
+			r.OutputTcpjson.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputTcpjson.Status.UseStatusFromLB)
+		}
 		r.OutputTcpjson.Streamtags = make([]types.String, 0, len(resp.OutputTcpjson.Streamtags))
 		for _, v := range resp.OutputTcpjson.Streamtags {
 			r.OutputTcpjson.Streamtags = append(r.OutputTcpjson.Streamtags, types.StringValue(v))
@@ -27643,6 +30181,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputWavefront.SafeHeaders = make([]types.String, 0, len(resp.OutputWavefront.SafeHeaders))
 		for _, v := range resp.OutputWavefront.SafeHeaders {
 			r.OutputWavefront.SafeHeaders = append(r.OutputWavefront.SafeHeaders, types.StringValue(v))
+		}
+		if resp.OutputWavefront.Status == nil {
+			r.OutputWavefront.Status = nil
+		} else {
+			r.OutputWavefront.Status = &tfTypes.TFStatus{}
+			r.OutputWavefront.Status.Health = types.StringValue(string(resp.OutputWavefront.Status.Health))
+			if len(resp.OutputWavefront.Status.Metrics) > 0 {
+				r.OutputWavefront.Status.Metrics = make(map[string]types.String, len(resp.OutputWavefront.Status.Metrics))
+				for key61, value61 := range resp.OutputWavefront.Status.Metrics {
+					result61, _ := json.Marshal(value61)
+					r.OutputWavefront.Status.Metrics[key61] = types.StringValue(string(result61))
+				}
+			}
+			r.OutputWavefront.Status.Timestamp = types.Float64Value(resp.OutputWavefront.Status.Timestamp)
+			r.OutputWavefront.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputWavefront.Status.UseStatusFromLB)
 		}
 		r.OutputWavefront.Streamtags = make([]types.String, 0, len(resp.OutputWavefront.Streamtags))
 		for _, v := range resp.OutputWavefront.Streamtags {
@@ -27815,6 +30368,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		}
 		r.OutputWebhook.Secret = types.StringPointerValue(resp.OutputWebhook.Secret)
 		r.OutputWebhook.SecretParamName = types.StringPointerValue(resp.OutputWebhook.SecretParamName)
+		if resp.OutputWebhook.Status == nil {
+			r.OutputWebhook.Status = nil
+		} else {
+			r.OutputWebhook.Status = &tfTypes.TFStatus{}
+			r.OutputWebhook.Status.Health = types.StringValue(string(resp.OutputWebhook.Status.Health))
+			if len(resp.OutputWebhook.Status.Metrics) > 0 {
+				r.OutputWebhook.Status.Metrics = make(map[string]types.String, len(resp.OutputWebhook.Status.Metrics))
+				for key62, value62 := range resp.OutputWebhook.Status.Metrics {
+					result62, _ := json.Marshal(value62)
+					r.OutputWebhook.Status.Metrics[key62] = types.StringValue(string(result62))
+				}
+			}
+			r.OutputWebhook.Status.Timestamp = types.Float64Value(resp.OutputWebhook.Status.Timestamp)
+			r.OutputWebhook.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputWebhook.Status.UseStatusFromLB)
+		}
 		r.OutputWebhook.Streamtags = make([]types.String, 0, len(resp.OutputWebhook.Streamtags))
 		for _, v := range resp.OutputWebhook.Streamtags {
 			r.OutputWebhook.Streamtags = append(r.OutputWebhook.Streamtags, types.StringValue(v))
@@ -27862,12 +30430,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputWebhook.TotalMemoryLimitKB = types.Float64PointerValue(resp.OutputWebhook.TotalMemoryLimitKB)
 		r.OutputWebhook.Type = types.StringValue(string(resp.OutputWebhook.Type))
 		r.OutputWebhook.URL = types.StringPointerValue(resp.OutputWebhook.URL)
-		r.OutputWebhook.Urls = []tfTypes.Urls{}
+		r.OutputWebhook.Urls = []tfTypes.OutputWebhookUrls{}
 		if len(r.OutputWebhook.Urls) > len(resp.OutputWebhook.Urls) {
 			r.OutputWebhook.Urls = r.OutputWebhook.Urls[:len(resp.OutputWebhook.Urls)]
 		}
 		for urlsCount3, urlsItem3 := range resp.OutputWebhook.Urls {
-			var urls3 tfTypes.Urls
+			var urls3 tfTypes.OutputWebhookUrls
 			urls3.URL = types.StringValue(urlsItem3.URL)
 			urls3.Weight = types.Float64PointerValue(urlsItem3.Weight)
 			if urlsCount3+1 > len(r.OutputWebhook.Urls) {
@@ -27971,6 +30539,21 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 		r.OutputXsiam.SafeHeaders = make([]types.String, 0, len(resp.OutputXsiam.SafeHeaders))
 		for _, v := range resp.OutputXsiam.SafeHeaders {
 			r.OutputXsiam.SafeHeaders = append(r.OutputXsiam.SafeHeaders, types.StringValue(v))
+		}
+		if resp.OutputXsiam.Status == nil {
+			r.OutputXsiam.Status = nil
+		} else {
+			r.OutputXsiam.Status = &tfTypes.TFStatus{}
+			r.OutputXsiam.Status.Health = types.StringValue(string(resp.OutputXsiam.Status.Health))
+			if len(resp.OutputXsiam.Status.Metrics) > 0 {
+				r.OutputXsiam.Status.Metrics = make(map[string]types.String, len(resp.OutputXsiam.Status.Metrics))
+				for key63, value63 := range resp.OutputXsiam.Status.Metrics {
+					result63, _ := json.Marshal(value63)
+					r.OutputXsiam.Status.Metrics[key63] = types.StringValue(string(result63))
+				}
+			}
+			r.OutputXsiam.Status.Timestamp = types.Float64Value(resp.OutputXsiam.Status.Timestamp)
+			r.OutputXsiam.Status.UseStatusFromLB = types.BoolPointerValue(resp.OutputXsiam.Status.UseStatusFromLB)
 		}
 		r.OutputXsiam.Streamtags = make([]types.String, 0, len(resp.OutputXsiam.Streamtags))
 		for _, v := range resp.OutputXsiam.Streamtags {

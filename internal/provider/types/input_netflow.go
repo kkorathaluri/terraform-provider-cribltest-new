@@ -21,6 +21,7 @@ type InputNetflow struct {
 	Pq                   *InputNetflowPq           `tfsdk:"pq"`
 	PqEnabled            types.Bool                `tfsdk:"pq_enabled"`
 	SendToRoutes         types.Bool                `tfsdk:"send_to_routes"`
+	Status               *TFStatus                 `tfsdk:"status"`
 	Streamtags           []types.String            `tfsdk:"streamtags"`
 	TemplateCacheMinutes types.Float64             `tfsdk:"template_cache_minutes"`
 	Type                 types.String              `tfsdk:"type"`

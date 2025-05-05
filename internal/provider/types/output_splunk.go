@@ -29,6 +29,7 @@ type OutputSplunk struct {
 	PqMode                types.String                       `tfsdk:"pq_mode"`
 	PqOnBackpressure      types.String                       `tfsdk:"pq_on_backpressure"`
 	PqPath                types.String                       `tfsdk:"pq_path"`
+	Status                *TFStatus                          `tfsdk:"status"`
 	Streamtags            []types.String                     `tfsdk:"streamtags"`
 	SystemFields          []types.String                     `tfsdk:"system_fields"`
 	TextSecret            types.String                       `tfsdk:"text_secret"`

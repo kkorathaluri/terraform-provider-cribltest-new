@@ -8,7 +8,7 @@ type OutputClickHouse struct {
 	AsyncInserts                  types.Bool                              `tfsdk:"async_inserts"`
 	AuthHeaderExpr                types.String                            `tfsdk:"auth_header_expr"`
 	AuthType                      types.String                            `tfsdk:"auth_type"`
-	ColumnMappings                []ColumnMappings                        `tfsdk:"column_mappings"`
+	ColumnMappings                []OutputClickHouseColumnMappings        `tfsdk:"column_mappings"`
 	Compress                      types.Bool                              `tfsdk:"compress"`
 	Concurrency                   types.Float64                           `tfsdk:"concurrency"`
 	CredentialsSecret             types.String                            `tfsdk:"credentials_secret"`
@@ -46,6 +46,7 @@ type OutputClickHouse struct {
 	Secret                        types.String                            `tfsdk:"secret"`
 	SecretParamName               types.String                            `tfsdk:"secret_param_name"`
 	SQLUsername                   types.String                            `tfsdk:"sql_username"`
+	Status                        *TFStatus                               `tfsdk:"status"`
 	Streamtags                    []types.String                          `tfsdk:"streamtags"`
 	SystemFields                  []types.String                          `tfsdk:"system_fields"`
 	TableName                     types.String                            `tfsdk:"table_name"`

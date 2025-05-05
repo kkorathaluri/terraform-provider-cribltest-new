@@ -60,21 +60,21 @@ func (e *RunnableJobCollectionScheduleType) UnmarshalJSON(data []byte) error {
 	}
 }
 
-// RunnableJobCollectionScheduleLogLevel - Level at which to set task logging
-type RunnableJobCollectionScheduleLogLevel string
+// RunnableJobCollectionLogLevel - Level at which to set task logging
+type RunnableJobCollectionLogLevel string
 
 const (
-	RunnableJobCollectionScheduleLogLevelError RunnableJobCollectionScheduleLogLevel = "error"
-	RunnableJobCollectionScheduleLogLevelWarn  RunnableJobCollectionScheduleLogLevel = "warn"
-	RunnableJobCollectionScheduleLogLevelInfo  RunnableJobCollectionScheduleLogLevel = "info"
-	RunnableJobCollectionScheduleLogLevelDebug RunnableJobCollectionScheduleLogLevel = "debug"
-	RunnableJobCollectionScheduleLogLevelSilly RunnableJobCollectionScheduleLogLevel = "silly"
+	RunnableJobCollectionLogLevelError RunnableJobCollectionLogLevel = "error"
+	RunnableJobCollectionLogLevelWarn  RunnableJobCollectionLogLevel = "warn"
+	RunnableJobCollectionLogLevelInfo  RunnableJobCollectionLogLevel = "info"
+	RunnableJobCollectionLogLevelDebug RunnableJobCollectionLogLevel = "debug"
+	RunnableJobCollectionLogLevelSilly RunnableJobCollectionLogLevel = "silly"
 )
 
-func (e RunnableJobCollectionScheduleLogLevel) ToPointer() *RunnableJobCollectionScheduleLogLevel {
+func (e RunnableJobCollectionLogLevel) ToPointer() *RunnableJobCollectionLogLevel {
 	return &e
 }
-func (e *RunnableJobCollectionScheduleLogLevel) UnmarshalJSON(data []byte) error {
+func (e *RunnableJobCollectionLogLevel) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -89,10 +89,10 @@ func (e *RunnableJobCollectionScheduleLogLevel) UnmarshalJSON(data []byte) error
 	case "debug":
 		fallthrough
 	case "silly":
-		*e = RunnableJobCollectionScheduleLogLevel(v)
+		*e = RunnableJobCollectionLogLevel(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for RunnableJobCollectionScheduleLogLevel: %v", v)
+		return fmt.Errorf("invalid value for RunnableJobCollectionLogLevel: %v", v)
 	}
 }
 
@@ -106,7 +106,7 @@ type RunnableJobCollectionRunSettings struct {
 	// Maximum number of times a task can be rescheduled
 	MaxTaskReschedule *float64 `default:"1" json:"maxTaskReschedule"`
 	// Level at which to set task logging
-	LogLevel *RunnableJobCollectionScheduleLogLevel `default:"info" json:"logLevel"`
+	LogLevel *RunnableJobCollectionLogLevel `default:"info" json:"logLevel"`
 	// Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time.
 	JobTimeout *string `default:"0" json:"jobTimeout"`
 	// Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job.
@@ -170,7 +170,7 @@ func (o *RunnableJobCollectionRunSettings) GetMaxTaskReschedule() *float64 {
 	return o.MaxTaskReschedule
 }
 
-func (o *RunnableJobCollectionRunSettings) GetLogLevel() *RunnableJobCollectionScheduleLogLevel {
+func (o *RunnableJobCollectionRunSettings) GetLogLevel() *RunnableJobCollectionLogLevel {
 	if o == nil {
 		return nil
 	}
@@ -542,21 +542,21 @@ func (o *RunnableJobCollectionInput) GetOutput() *string {
 	return o.Output
 }
 
-// RunnableJobCollectionLogLevel - Level at which to set task logging
-type RunnableJobCollectionLogLevel string
+// LogLevel - Level at which to set task logging
+type LogLevel string
 
 const (
-	RunnableJobCollectionLogLevelError RunnableJobCollectionLogLevel = "error"
-	RunnableJobCollectionLogLevelWarn  RunnableJobCollectionLogLevel = "warn"
-	RunnableJobCollectionLogLevelInfo  RunnableJobCollectionLogLevel = "info"
-	RunnableJobCollectionLogLevelDebug RunnableJobCollectionLogLevel = "debug"
-	RunnableJobCollectionLogLevelSilly RunnableJobCollectionLogLevel = "silly"
+	LogLevelError LogLevel = "error"
+	LogLevelWarn  LogLevel = "warn"
+	LogLevelInfo  LogLevel = "info"
+	LogLevelDebug LogLevel = "debug"
+	LogLevelSilly LogLevel = "silly"
 )
 
-func (e RunnableJobCollectionLogLevel) ToPointer() *RunnableJobCollectionLogLevel {
+func (e LogLevel) ToPointer() *LogLevel {
 	return &e
 }
-func (e *RunnableJobCollectionLogLevel) UnmarshalJSON(data []byte) error {
+func (e *LogLevel) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -571,10 +571,10 @@ func (e *RunnableJobCollectionLogLevel) UnmarshalJSON(data []byte) error {
 	case "debug":
 		fallthrough
 	case "silly":
-		*e = RunnableJobCollectionLogLevel(v)
+		*e = LogLevel(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for RunnableJobCollectionLogLevel: %v", v)
+		return fmt.Errorf("invalid value for LogLevel: %v", v)
 	}
 }
 
@@ -715,7 +715,7 @@ type Run struct {
 	// Maximum number of times a task can be rescheduled
 	MaxTaskReschedule *float64 `default:"1" json:"maxTaskReschedule"`
 	// Level at which to set task logging
-	LogLevel *RunnableJobCollectionLogLevel `default:"info" json:"logLevel"`
+	LogLevel *LogLevel `default:"info" json:"logLevel"`
 	// Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time.
 	JobTimeout *string `default:"0" json:"jobTimeout"`
 	// Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job.
@@ -774,7 +774,7 @@ func (o *Run) GetMaxTaskReschedule() *float64 {
 	return o.MaxTaskReschedule
 }
 
-func (o *Run) GetLogLevel() *RunnableJobCollectionLogLevel {
+func (o *Run) GetLogLevel() *LogLevel {
 	if o == nil {
 		return nil
 	}

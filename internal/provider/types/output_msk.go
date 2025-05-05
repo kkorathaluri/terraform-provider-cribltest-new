@@ -47,6 +47,7 @@ type OutputMsk struct {
 	RequestTimeout            types.Float64                               `tfsdk:"request_timeout"`
 	ReuseConnections          types.Bool                                  `tfsdk:"reuse_connections"`
 	SignatureVersion          types.String                                `tfsdk:"signature_version"`
+	Status                    *TFStatus                                   `tfsdk:"status"`
 	Streamtags                []types.String                              `tfsdk:"streamtags"`
 	SystemFields              []types.String                              `tfsdk:"system_fields"`
 	TLS                       *OutputMskTLSSettingsClientSide             `tfsdk:"tls"`

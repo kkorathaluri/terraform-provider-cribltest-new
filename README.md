@@ -47,7 +47,7 @@ terraform {
   required_providers {
     cribl-terraform = {
       source  = "speakeasy/cribl-terraform"
-      version = "0.11.11"
+      version = "0.11.22"
     }
   }
 }
@@ -124,3 +124,68 @@ While we value open-source contributions to this terraform provider, this librar
 We look forward to hearing your feedback. Feel free to open a PR or an issue with a proof of concept and we'll do our best to include it in a future release. 
 
 ### SDK Created by [Speakeasy](https://www.speakeasy.com/?utm_source=cribl-terraform&utm_campaign=terraform)
+
+# OpenAPI Schema Status Update Scripts
+
+This repository contains scripts to update OpenAPI schemas by adding a `status` property to Input and Output schemas.
+
+## Prerequisites
+
+- Python 3.x
+- pip (Python package manager)
+
+## Installation
+
+1. Create a virtual environment (recommended):
+```bash
+python3 -m venv venv
+source venv/bin/activate  # On Unix/macOS
+# or
+.\venv\Scripts\activate  # On Windows
+```
+
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+## Scripts
+
+### update_schemas.py
+
+This script updates the OpenAPI specification by adding a `status` property to Input and Output schemas. It uses the `overlay.yml` file to determine which schemas to update.
+
+Usage:
+```bash
+python update_schemas.py
+```
+
+The script will:
+1. Read the schema names from `overlay.yml`
+2. Update the corresponding schemas in `openapi.yml`
+3. Add a `status` property with a reference to the `TFStatus` schema
+
+### patch_status.py
+
+This script generates the `overlay.yml` file by scanning the OpenAPI spec and creating patches for all Input and Output schemas.
+
+Usage:
+```bash
+python patch_status.py
+```
+
+## File Structure
+
+- `openapi.yml`: The OpenAPI specification file
+- `overlay.yml`: Contains the list of schemas to be updated
+- `update_schemas.py`: Script to apply the updates
+- `patch_status.py`: Script to generate the overlay file
+- `requirements.txt`: Python dependencies
+
+## Example
+
+For each Input and Output schema, the script adds:
+```yaml
+status:
+  $ref: "#/components/schemas/TFStatus"
+```

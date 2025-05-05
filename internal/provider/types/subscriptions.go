@@ -5,16 +5,16 @@ package types
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type Subscriptions struct {
-	BatchTimeout       types.Float64                   `tfsdk:"batch_timeout"`
-	Compress           types.Bool                      `tfsdk:"compress"`
-	ContentFormat      types.String                    `tfsdk:"content_format"`
-	HeartbeatInterval  types.Float64                   `tfsdk:"heartbeat_interval"`
-	Locale             types.String                    `tfsdk:"locale"`
-	Metadata           []InputWefSubscriptionsMetadata `tfsdk:"metadata"`
-	QuerySelector      types.String                    `tfsdk:"query_selector"`
-	ReadExistingEvents types.Bool                      `tfsdk:"read_existing_events"`
-	SendBookmarks      types.Bool                      `tfsdk:"send_bookmarks"`
-	SubscriptionName   types.String                    `tfsdk:"subscription_name"`
-	Targets            []types.String                  `tfsdk:"targets"`
-	Version            types.String                    `tfsdk:"version"`
+	BatchTimeout       types.Float64           `tfsdk:"batch_timeout"`
+	Compress           types.Bool              `tfsdk:"compress"`
+	ContentFormat      types.String            `tfsdk:"content_format"`
+	HeartbeatInterval  types.Float64           `tfsdk:"heartbeat_interval"`
+	Locale             types.String            `tfsdk:"locale"`
+	Metadata           []InputWefInputMetadata `tfsdk:"metadata"`
+	QuerySelector      types.String            `tfsdk:"query_selector"`
+	ReadExistingEvents types.Bool              `tfsdk:"read_existing_events"`
+	SendBookmarks      types.Bool              `tfsdk:"send_bookmarks"`
+	SubscriptionName   types.String            `tfsdk:"subscription_name"`
+	Targets            []types.String          `tfsdk:"targets"`
+	Version            types.String            `tfsdk:"version"`
 }

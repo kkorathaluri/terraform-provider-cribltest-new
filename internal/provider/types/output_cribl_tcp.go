@@ -29,6 +29,7 @@ type OutputCriblTCP struct {
 	PqMode                    types.String                         `tfsdk:"pq_mode"`
 	PqOnBackpressure          types.String                         `tfsdk:"pq_on_backpressure"`
 	PqPath                    types.String                         `tfsdk:"pq_path"`
+	Status                    *TFStatus                            `tfsdk:"status"`
 	Streamtags                []types.String                       `tfsdk:"streamtags"`
 	SystemFields              []types.String                       `tfsdk:"system_fields"`
 	ThrottleRatePerSec        types.String                         `tfsdk:"throttle_rate_per_sec"`

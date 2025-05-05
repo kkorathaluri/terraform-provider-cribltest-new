@@ -11,6 +11,7 @@ type OutputSnmp struct {
 	Hosts               []OutputSnmpHosts `tfsdk:"hosts"`
 	ID                  types.String      `tfsdk:"id"`
 	Pipeline            types.String      `tfsdk:"pipeline"`
+	Status              *TFStatus         `tfsdk:"status"`
 	Streamtags          []types.String    `tfsdk:"streamtags"`
 	SystemFields        []types.String    `tfsdk:"system_fields"`
 	Type                types.String      `tfsdk:"type"`

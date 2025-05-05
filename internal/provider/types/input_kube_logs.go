@@ -21,6 +21,7 @@ type InputKubeLogs struct {
 	Rules               []InputKubeLogsRules       `tfsdk:"rules"`
 	SendToRoutes        types.Bool                 `tfsdk:"send_to_routes"`
 	StaleChannelFlushMs types.Float64              `tfsdk:"stale_channel_flush_ms"`
+	Status              *TFStatus                  `tfsdk:"status"`
 	Streamtags          []types.String             `tfsdk:"streamtags"`
 	Timestamps          types.Bool                 `tfsdk:"timestamps"`
 	Type                types.String               `tfsdk:"type"`

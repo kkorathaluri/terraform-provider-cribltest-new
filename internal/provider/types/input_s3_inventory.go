@@ -45,6 +45,7 @@ type InputS3Inventory struct {
 	SkipOnError                 types.Bool                     `tfsdk:"skip_on_error"`
 	SocketTimeout               types.Float64                  `tfsdk:"socket_timeout"`
 	StaleChannelFlushMs         types.Float64                  `tfsdk:"stale_channel_flush_ms"`
+	Status                      *TFStatus                      `tfsdk:"status"`
 	Streamtags                  []types.String                 `tfsdk:"streamtags"`
 	Type                        types.String                   `tfsdk:"type"`
 	ValidateInventoryFiles      types.Bool                     `tfsdk:"validate_inventory_files"`

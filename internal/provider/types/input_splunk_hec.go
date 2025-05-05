@@ -39,6 +39,7 @@ type InputSplunkHec struct {
 	SplunkHecAcks             types.Bool                           `tfsdk:"splunk_hec_acks"`
 	SplunkHecAPI              types.String                         `tfsdk:"splunk_hec_api"`
 	StaleChannelFlushMs       types.Float64                        `tfsdk:"stale_channel_flush_ms"`
+	Status                    *TFStatus                            `tfsdk:"status"`
 	Streamtags                []types.String                       `tfsdk:"streamtags"`
 	TLS                       *InputSplunkHecTLSSettingsServerSide `tfsdk:"tls"`
 	Type                      types.String                         `tfsdk:"type"`

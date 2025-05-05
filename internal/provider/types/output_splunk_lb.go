@@ -35,6 +35,7 @@ type OutputSplunkLb struct {
 	PqOnBackpressure             types.String                         `tfsdk:"pq_on_backpressure"`
 	PqPath                       types.String                         `tfsdk:"pq_path"`
 	SenderUnhealthyTimeAllowance types.Float64                        `tfsdk:"sender_unhealthy_time_allowance"`
+	Status                       *TFStatus                            `tfsdk:"status"`
 	Streamtags                   []types.String                       `tfsdk:"streamtags"`
 	SystemFields                 []types.String                       `tfsdk:"system_fields"`
 	TextSecret                   types.String                         `tfsdk:"text_secret"`

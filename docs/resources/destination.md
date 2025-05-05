@@ -67,8 +67,16 @@ resource "cribl-terraform_destination" "my_destination" {
     remove_empty_dirs         = true
     should_log_invalid_rows   = true
     stage_path                = "...my_stage_path..."
-    storage_account_name      = "...my_storage_account_name..."
-    storage_class             = "Archive"
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.85
+      use_status_from_lb = false
+    }
+    storage_account_name = "...my_storage_account_name..."
+    storage_class        = "Archive"
     streamtags = [
       "..."
     ]
@@ -158,6 +166,14 @@ resource "cribl-terraform_destination" "my_destination" {
     retain_blob_on_success = false
     scope                  = "...my_scope..."
     stage_path             = "...my_stage_path..."
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.55
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -212,6 +228,14 @@ resource "cribl-terraform_destination" "my_destination" {
     sasl = {
       disabled  = true
       mechanism = "plain"
+    }
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.03
+      use_status_from_lb = true
     }
     streamtags = [
       "..."
@@ -271,6 +295,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.95
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -365,6 +397,14 @@ resource "cribl-terraform_destination" "my_destination" {
     secret            = "...my_secret..."
     secret_param_name = "...my_secret_param_name..."
     sql_username      = "...my_sql_username..."
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 1.23
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -432,6 +472,14 @@ resource "cribl-terraform_destination" "my_destination" {
     region              = "...my_region..."
     reject_unauthorized = false
     reuse_connections   = false
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 3.65
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -501,6 +549,14 @@ resource "cribl-terraform_destination" "my_destination" {
     sasl = {
       disabled  = false
       mechanism = "scram-sha-256"
+    }
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 1.57
+      use_status_from_lb = true
     }
     streamtags = [
       "..."
@@ -654,7 +710,15 @@ resource "cribl-terraform_destination" "my_destination" {
     server_side_encryption            = "aws:kms"
     signature_version                 = "v4"
     stage_path                        = "...my_stage_path..."
-    storage_class                     = "STANDARD"
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 7.01
+      use_status_from_lb = true
+    }
+    storage_class = "STANDARD"
     streamtags = [
       "..."
     ]
@@ -681,7 +745,7 @@ resource "cribl-terraform_destination" "my_destination" {
         host       = "...my_host..."
         port       = 48249.06
         servername = "...my_servername..."
-        tls        = "off"
+        tls        = "false"
         weight     = 3.03
       }
     ]
@@ -702,6 +766,14 @@ resource "cribl-terraform_destination" "my_destination" {
     pq_mode            = "always"
     pq_on_backpressure = "drop"
     pq_path            = "...my_pq_path..."
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 0.64
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -767,6 +839,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 7.7
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -839,6 +919,14 @@ resource "cribl-terraform_destination" "my_destination" {
     severity               = "error"
     site                   = "us"
     source                 = "...my_source..."
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 2.45
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -910,6 +998,14 @@ resource "cribl-terraform_destination" "my_destination" {
     ]
     server_host_field = "...my_server_host_field..."
     site              = "custom"
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 5.72
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -934,6 +1030,14 @@ resource "cribl-terraform_destination" "my_destination" {
     environment = "...my_environment..."
     id          = "...my_id..."
     pipeline    = "...my_pipeline..."
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.05
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -946,6 +1050,14 @@ resource "cribl-terraform_destination" "my_destination" {
     environment = "...my_environment..."
     id          = "...my_id..."
     pipeline    = "...my_pipeline..."
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 4.24
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -963,6 +1075,14 @@ resource "cribl-terraform_destination" "my_destination" {
     max_data_time  = "...my_max_data_time..."
     partition_expr = "...my_partition_expr..."
     pipeline       = "...my_pipeline..."
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 7.84
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -1034,7 +1154,15 @@ resource "cribl-terraform_destination" "my_destination" {
     should_log_invalid_rows = true
     signature_version       = "v4"
     stage_path              = "...my_stage_path..."
-    storage_class           = "GLACIER_IR"
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 1.23
+      use_status_from_lb = true
+    }
+    storage_class = "GLACIER_IR"
     streamtags = [
       "..."
     ]
@@ -1092,6 +1220,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 7.74
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -1170,6 +1306,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 0.18
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -1247,6 +1391,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 1.57
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -1324,6 +1476,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 3.94
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -1371,7 +1531,15 @@ resource "cribl-terraform_destination" "my_destination" {
     site_id                   = "...my_site_id..."
     site_name                 = "...my_site_name..."
     stage_path                = "...my_stage_path..."
-    storage_class             = "NEARLINE"
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 0.15
+      use_status_from_lb = true
+    }
+    storage_class = "NEARLINE"
     streamtags = [
       "..."
     ]
@@ -1422,6 +1590,14 @@ resource "cribl-terraform_destination" "my_destination" {
     remove_empty_dirs         = true
     should_log_invalid_rows   = false
     stage_path                = "...my_stage_path..."
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 5.17
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -1495,6 +1671,14 @@ resource "cribl-terraform_destination" "my_destination" {
     ]
     service_account_credentials        = "...my_service_account_credentials..."
     service_account_credentials_secret = "...my_service_account_credentials_secret..."
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 2.75
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -1577,7 +1761,15 @@ resource "cribl-terraform_destination" "my_destination" {
     service_account_credentials = "...my_service_account_credentials..."
     severity_expression         = "...my_severity_expression..."
     span_id_expression          = "...my_span_id_expression..."
-    status_expression           = "...my_status_expression..."
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 6.44
+      use_status_from_lb = true
+    }
+    status_expression = "...my_status_expression..."
     streamtags = [
       "..."
     ]
@@ -1646,7 +1838,15 @@ resource "cribl-terraform_destination" "my_destination" {
     should_log_invalid_rows   = true
     signature_version         = "v2"
     stage_path                = "...my_stage_path..."
-    storage_class             = "NEARLINE"
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 4.94
+      use_status_from_lb = false
+    }
+    storage_class = "NEARLINE"
     streamtags = [
       "..."
     ]
@@ -1684,6 +1884,14 @@ resource "cribl-terraform_destination" "my_destination" {
     region                      = "...my_region..."
     secret                      = "...my_secret..."
     service_account_credentials = "...my_service_account_credentials..."
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 4.44
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -1761,6 +1969,14 @@ resource "cribl-terraform_destination" "my_destination" {
       safe_headers = [
         "..."
       ]
+      status = {
+        health = "Green"
+        metrics = {
+          key = jsonencode("value")
+        }
+        timestamp          = 1.67
+        use_status_from_lb = true
+      }
       streamtags = [
         "..."
       ]
@@ -1800,6 +2016,14 @@ resource "cribl-terraform_destination" "my_destination" {
     pq_on_backpressure = "block"
     pq_path            = "...my_pq_path..."
     protocol           = "tcp"
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.78
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -1852,6 +2076,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 5.74
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -1912,6 +2144,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 2.89
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -1994,6 +2234,14 @@ resource "cribl-terraform_destination" "my_destination" {
     ]
     secret            = "...my_secret..."
     secret_param_name = "...my_secret_param_name..."
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.17
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -2081,6 +2329,14 @@ resource "cribl-terraform_destination" "my_destination" {
       disabled  = true
       mechanism = "plain"
     }
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 5.48
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -2135,7 +2391,15 @@ resource "cribl-terraform_destination" "my_destination" {
     reject_unauthorized = false
     reuse_connections   = true
     signature_version   = "v4"
-    stream_name         = "...my_stream_name..."
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 0.43
+      use_status_from_lb = true
+    }
+    stream_name = "...my_stream_name..."
     streamtags = [
       "..."
     ]
@@ -2196,6 +2460,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 1.48
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -2271,7 +2543,15 @@ resource "cribl-terraform_destination" "my_destination" {
     should_log_invalid_rows   = false
     signature_version         = "v4"
     stage_path                = "...my_stage_path..."
-    storage_class             = "STANDARD"
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.98
+      use_status_from_lb = true
+    }
+    storage_class = "STANDARD"
     streamtags = [
       "..."
     ]
@@ -2353,6 +2633,14 @@ resource "cribl-terraform_destination" "my_destination" {
     request_timeout            = 2709174.61
     reuse_connections          = true
     signature_version          = "v2"
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.7
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -2386,6 +2674,14 @@ resource "cribl-terraform_destination" "my_destination" {
     ]
     id       = "...my_id..."
     pipeline = "...my_pipeline..."
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 5.72
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -2446,6 +2742,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.15
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -2510,6 +2814,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 5.79
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -2601,6 +2913,14 @@ resource "cribl-terraform_destination" "my_destination" {
     ]
     secret            = "...my_secret..."
     secret_param_name = "...my_secret_param_name..."
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 0.12
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -2694,6 +3014,14 @@ resource "cribl-terraform_destination" "my_destination" {
     secret            = "...my_secret..."
     secret_param_name = "...my_secret_param_name..."
     send_metadata     = true
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 0.33
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -2728,6 +3056,14 @@ resource "cribl-terraform_destination" "my_destination" {
     on_backpressure = "drop"
     partition_expr  = "...my_partition_expr..."
     pipeline        = "...my_pipeline..."
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.84
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -2749,6 +3085,14 @@ resource "cribl-terraform_destination" "my_destination" {
         output      = "...my_output..."
       }
     ]
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 7.13
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -2817,7 +3161,15 @@ resource "cribl-terraform_destination" "my_destination" {
     should_log_invalid_rows           = true
     signature_version                 = "v4"
     stage_path                        = "...my_stage_path..."
-    storage_class                     = "STANDARD_IA"
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.93
+      use_status_from_lb = true
+    }
+    storage_class = "STANDARD_IA"
     streamtags = [
       "..."
     ]
@@ -2885,7 +3237,15 @@ resource "cribl-terraform_destination" "my_destination" {
     should_log_invalid_rows           = false
     signature_version                 = "v2"
     stage_path                        = "...my_stage_path..."
-    storage_class                     = "STANDARD_IA"
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 5.57
+      use_status_from_lb = false
+    }
+    storage_class = "STANDARD_IA"
     streamtags = [
       "..."
     ]
@@ -2952,8 +3312,16 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
-    scope       = "...my_scope..."
-    secret      = "...my_secret..."
+    scope  = "...my_scope..."
+    secret = "...my_secret..."
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 7.21
+      use_status_from_lb = false
+    }
     stream_name = "...my_stream_name..."
     streamtags = [
       "..."
@@ -3029,6 +3397,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 0.37
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3099,6 +3475,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.92
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -3129,6 +3513,14 @@ resource "cribl-terraform_destination" "my_destination" {
     ]
     id       = "...my_id..."
     pipeline = "...my_pipeline..."
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 2.9
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3167,6 +3559,14 @@ resource "cribl-terraform_destination" "my_destination" {
     reject_unauthorized = true
     reuse_connections   = false
     signature_version   = "v4"
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 6.5
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3203,6 +3603,14 @@ resource "cribl-terraform_destination" "my_destination" {
     pq_mode            = "always"
     pq_on_backpressure = "block"
     pq_path            = "...my_pq_path..."
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.73
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -3273,6 +3681,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.41
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3315,7 +3731,7 @@ resource "cribl-terraform_destination" "my_destination" {
         host       = "...my_host..."
         port       = 39320.05
         servername = "...my_servername..."
-        tls        = "off"
+        tls        = "false"
         weight     = 0.71
       }
     ]
@@ -3353,6 +3769,14 @@ resource "cribl-terraform_destination" "my_destination" {
     pq_on_backpressure              = "block"
     pq_path                         = "...my_pq_path..."
     sender_unhealthy_time_allowance = 20354.85
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.55
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -3413,6 +3837,14 @@ resource "cribl-terraform_destination" "my_destination" {
     reject_unauthorized = false
     reuse_connections   = true
     signature_version   = "v2"
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 5.11
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -3443,6 +3875,14 @@ resource "cribl-terraform_destination" "my_destination" {
     pq_on_backpressure = "block"
     pq_path            = "...my_pq_path..."
     protocol           = "udp"
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.49
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -3475,6 +3915,14 @@ resource "cribl-terraform_destination" "my_destination" {
     pq_on_backpressure = "block"
     pq_path            = "...my_pq_path..."
     protocol           = "tcp"
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 6.14
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3528,6 +3976,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 3.7
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3573,6 +4029,14 @@ resource "cribl-terraform_destination" "my_destination" {
     pq_path            = "...my_pq_path..."
     protocol           = "tcp"
     severity           = 4
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 1.58
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3634,6 +4098,14 @@ resource "cribl-terraform_destination" "my_destination" {
     pq_on_backpressure = "block"
     pq_path            = "...my_pq_path..."
     send_header        = true
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.05
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3700,6 +4172,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 3.06
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -3792,6 +4272,14 @@ resource "cribl-terraform_destination" "my_destination" {
     ]
     secret            = "...my_secret..."
     secret_param_name = "...my_secret_param_name..."
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 1.14
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3876,6 +4364,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 4.22
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -4027,6 +4523,7 @@ Optional:
 - `remove_empty_dirs` (Boolean) Remove empty staging directories after moving files. Default: true
 - `should_log_invalid_rows` (Boolean) Log up to 3 rows that @{product} skips due to data mismatch
 - `stage_path` (String) Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage. Default: "$CRIBL_HOME/state/outputs/staging"
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_azure_blob--status))
 - `storage_account_name` (String) The name of your Azure storage account
 - `storage_class` (String) Default: "Inferred"; must be one of ["Inferred", "Hot", "Cool", "Cold", "Archive"]
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
@@ -4051,6 +4548,17 @@ Optional:
 
 - `key` (String) Default: ""
 - `value` (String) Not Null
+
+
+<a id="nestedatt--output_azure_blob--status"></a>
+### Nested Schema for `output_azure_blob.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 
@@ -4114,6 +4622,7 @@ Default: true
 - `retain_blob_on_success` (Boolean) Enable to prevent blob deletion after ingestion is complete. Default: false
 - `scope` (String) Scope to pass in the OAuth request parameter. Not Null
 - `stage_path` (String) Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage. Default: "$CRIBL_HOME/state/outputs/staging"
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_azure_data_explorer--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `table` (String) Name of the table to ingest data into. Not Null
@@ -4174,6 +4683,17 @@ Optional:
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
 
 
+<a id="nestedatt--output_azure_data_explorer--status"></a>
+### Nested Schema for `output_azure_data_explorer.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
+
+
 <a id="nestedatt--output_azure_data_explorer--timeout_retry_settings"></a>
 ### Nested Schema for `output_azure_data_explorer.timeout_retry_settings`
 
@@ -4218,6 +4738,7 @@ Optional:
 - `reauthentication_threshold` (Number) Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backwards from the moment when credentials are set to expire. Default: 10000
 - `request_timeout` (Number) Maximum time to wait for Kafka to respond to a request. Default: 60000
 - `sasl` (Attributes) Authentication parameters to use when connecting to brokers. Using TLS is highly recommended. (see [below for nested schema](#nestedatt--output_azure_eventhub--sasl))
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_azure_eventhub--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `tls` (Attributes) (see [below for nested schema](#nestedatt--output_azure_eventhub--tls))
@@ -4235,6 +4756,17 @@ Optional:
 
 - `disabled` (Boolean) Enable authentication. Default: false
 - `mechanism` (String) SASL authentication mechanism to use. Default: "plain"; must be one of ["plain", "oauthbearer"]
+
+
+<a id="nestedatt--output_azure_eventhub--status"></a>
+### Nested Schema for `output_azure_eventhub.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_azure_eventhub--tls"></a>
@@ -4283,6 +4815,7 @@ Default: true
 - `response_honor_retry_after_header` (Boolean) Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored. Default: false
 - `response_retry_settings` (Attributes List) Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable). (see [below for nested schema](#nestedatt--output_azure_logs--response_retry_settings))
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_azure_logs--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `timeout_retry_settings` (Attributes) (see [below for nested schema](#nestedatt--output_azure_logs--timeout_retry_settings))
@@ -4314,6 +4847,17 @@ Optional:
 - `http_status` (Number) The HTTP response status code that will trigger retries. Not Null
 - `initial_backoff` (Number) How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes). Default: 1000
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
+
+
+<a id="nestedatt--output_azure_logs--status"></a>
+### Nested Schema for `output_azure_logs.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_azure_logs--timeout_retry_settings"></a>
@@ -4377,6 +4921,7 @@ Default: true
 - `secret` (String) Secret parameter value to pass in request body
 - `secret_param_name` (String) Secret parameter name to pass in request body
 - `sql_username` (String) Username for certificate authentication
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_click_house--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `table_name` (String) Name of the ClickHouse table where data will be inserted. Name can contain letters (A-Z, a-z), numbers (0-9), and the character "_", and must start with either a letter or the character "_". Not Null
@@ -4445,6 +4990,17 @@ Optional:
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
 
 
+<a id="nestedatt--output_click_house--status"></a>
+### Nested Schema for `output_click_house.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
+
+
 <a id="nestedatt--output_click_house--timeout_retry_settings"></a>
 ### Nested Schema for `output_click_house.timeout_retry_settings`
 
@@ -4507,12 +5063,24 @@ Optional:
 - `region` (String) Region where the CloudWatchLogs is located. Not Null
 - `reject_unauthorized` (Boolean) Reject certificates that cannot be verified against a valid CA, such as self-signed certificates. Default: true
 - `reuse_connections` (Boolean) Reuse connections between requests, which can improve performance. Default: true
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_cloudwatch--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `type` (String) must be "cloudwatch"
 
 <a id="nestedatt--output_cloudwatch--pq_controls"></a>
 ### Nested Schema for `output_cloudwatch.pq_controls`
+
+
+<a id="nestedatt--output_cloudwatch--status"></a>
+### Nested Schema for `output_cloudwatch.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 
@@ -4551,6 +5119,7 @@ Optional:
 - `reauthentication_threshold` (Number) Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backwards from the moment when credentials are set to expire. Default: 10000
 - `request_timeout` (Number) Maximum time to wait for Kafka to respond to a request. Default: 60000
 - `sasl` (Attributes) Authentication parameters to use when connecting to brokers. Using TLS is highly recommended. (see [below for nested schema](#nestedatt--output_confluent_cloud--sasl))
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_confluent_cloud--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `tls` (Attributes) (see [below for nested schema](#nestedatt--output_confluent_cloud--tls))
@@ -4612,6 +5181,17 @@ Optional:
 
 - `disabled` (Boolean) Enable Authentication. Default: true
 - `mechanism` (String) SASL authentication mechanism to use. Default: "plain"; must be one of ["plain", "scram-sha-256", "scram-sha-512", "kerberos"]
+
+
+<a id="nestedatt--output_confluent_cloud--status"></a>
+### Nested Schema for `output_confluent_cloud.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_confluent_cloud--tls"></a>
@@ -4801,12 +5381,24 @@ Optional:
 - `server_side_encryption` (String) Server-side encryption for uploaded objects. must be one of ["AES256", "aws:kms"]
 - `signature_version` (String) Signature version to use for signing S3 requests. Default: "v4"; must be one of ["v2", "v4"]
 - `stage_path` (String) Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage. Default: "$CRIBL_HOME/state/outputs/staging"
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_cribl_lake--status))
 - `storage_class` (String) Storage class to select for uploaded objects. must be one of ["STANDARD", "REDUCED_REDUNDANCY", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "GLACIER", "GLACIER_IR", "DEEP_ARCHIVE"]
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `type` (String) Not Null; must be "cribl_lake"
 - `verify_permissions` (Boolean) Disable if you can access files within the bucket but not the bucket itself. Default: true
 - `write_high_water_mark` (Number) Buffer size used to write to a file. Default: 64
+
+<a id="nestedatt--output_cribl_lake--status"></a>
+### Nested Schema for `output_cribl_lake.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
+
 
 
 <a id="nestedatt--output_cribl_tcp"></a>
@@ -4838,6 +5430,7 @@ Optional:
 - `pq_mode` (String) In Error mode, PQ writes events to the filesystem only when it detects a non-retryable Destination error. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination or when there are non-retryable Destination errors. In Always On mode, PQ always writes events to the filesystem. Default: "error"; must be one of ["error", "backpressure", "always"]
 - `pq_on_backpressure` (String) Whether to block or drop events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged. Default: "block"; must be one of ["block", "drop"]
 - `pq_path` (String) The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Default: "$CRIBL_HOME/state/queues"
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_cribl_tcp--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `throttle_rate_per_sec` (String) Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling. Default: "0"
@@ -4854,12 +5447,23 @@ Optional:
 - `host` (String) The hostname of the receiver. Not Null
 - `port` (Number) The port to connect to on the provided host. Default: 10300
 - `servername` (String) Servername to use if establishing a TLS connection. If not specified, defaults to connection host (iff not an IP); otherwise, to the global TLS settings.
-- `tls` (String) Whether to inherit TLS configs from group setting or disable TLS. Default: "inherit"; must be one of ["inherit", "off"]
+- `tls` (String) Whether to inherit TLS configs from group setting or disable TLS. Default: "inherit"; must be one of ["inherit", "false"]
 - `weight` (Number) Assign a weight (>0) to each endpoint to indicate its traffic-handling capability. Default: 1
 
 
 <a id="nestedatt--output_cribl_tcp--pq_controls"></a>
 ### Nested Schema for `output_cribl_tcp.pq_controls`
+
+
+<a id="nestedatt--output_cribl_tcp--status"></a>
+### Nested Schema for `output_cribl_tcp.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_cribl_tcp--tls"></a>
@@ -4915,6 +5519,7 @@ Default: true
 - `response_honor_retry_after_header` (Boolean) Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored. Default: false
 - `response_retry_settings` (Attributes List) Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable). (see [below for nested schema](#nestedatt--output_crowdstrike_next_gen_siem--response_retry_settings))
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_crowdstrike_next_gen_siem--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `text_secret` (String) Select or create a stored text secret
@@ -4947,6 +5552,17 @@ Optional:
 - `http_status` (Number) The HTTP response status code that will trigger retries. Not Null
 - `initial_backoff` (Number) How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes). Default: 1000
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
+
+
+<a id="nestedatt--output_crowdstrike_next_gen_siem--status"></a>
+### Nested Schema for `output_crowdstrike_next_gen_siem.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_crowdstrike_next_gen_siem--timeout_retry_settings"></a>
@@ -5005,6 +5621,7 @@ Default: true
 - `severity` (String) Default value for message severity. When you send logs as JSON objects, the event's '__severity' field (if set) will override this value. must be one of ["emergency", "alert", "critical", "error", "warning", "notice", "info", "debug"]
 - `site` (String) Datadog site to which events should be sent. Default: "us"; must be one of ["us", "us3", "us5", "eu", "fed1", "ap1", "custom"]
 - `source` (String) Name of the source to send with logs. When you send logs as JSON objects, the event's 'source' field (if set) will override this value.
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_datadog--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `tags` (List of String) List of tags to send with logs (e.g., 'env:prod', 'env_staging:east').
@@ -5037,6 +5654,17 @@ Optional:
 - `http_status` (Number) The HTTP response status code that will trigger retries. Not Null
 - `initial_backoff` (Number) How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes). Default: 1000
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
+
+
+<a id="nestedatt--output_datadog--status"></a>
+### Nested Schema for `output_datadog.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_datadog--timeout_retry_settings"></a>
@@ -5090,6 +5718,7 @@ Default: true
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
 - `server_host_field` (String) Name of the event field that contains the `serverHost` identifier. If not specified, defaults to `cribl_<outputId>`.
 - `site` (String) DataSet site to which events should be sent. Default: "us"; must be one of ["us", "eu", "custom"]
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_dataset--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `text_secret` (String) Select or create a stored text secret
@@ -5124,6 +5753,17 @@ Optional:
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
 
 
+<a id="nestedatt--output_dataset--status"></a>
+### Nested Schema for `output_dataset.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
+
+
 <a id="nestedatt--output_dataset--timeout_retry_settings"></a>
 ### Nested Schema for `output_dataset.timeout_retry_settings`
 
@@ -5145,9 +5785,21 @@ Optional:
 - `environment` (String) Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
 - `id` (String) Unique ID for this output
 - `pipeline` (String) Pipeline to process data before sending out to this output
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_default--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `type` (String) Not Null; must be "default"
+
+<a id="nestedatt--output_default--status"></a>
+### Nested Schema for `output_default.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
+
 
 
 <a id="nestedatt--output_devnull"></a>
@@ -5158,9 +5810,21 @@ Optional:
 - `environment` (String) Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
 - `id` (String) Unique ID for this output. Not Null
 - `pipeline` (String) Pipeline to process data before sending out to this output
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_devnull--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `type` (String) Not Null; must be "devnull"
+
+<a id="nestedatt--output_devnull--status"></a>
+### Nested Schema for `output_devnull.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
+
 
 
 <a id="nestedatt--output_disk_spool"></a>
@@ -5176,10 +5840,22 @@ Optional:
 - `max_data_time` (String) Maximum amount of time to retain data before older buckets are deleted. Examples: 2h, 4d. Default is 24h. Default: "24h"
 - `partition_expr` (String) JavaScript expression defining how files are partitioned and organized within the time-buckets. If blank, the event's __partition property is used and otherwise, events go directly into the time-bucket directory.
 - `pipeline` (String) Pipeline to process data before sending out to this output
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_disk_spool--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `time_window` (String) Time period for grouping spooled events. Default is 10m. Default: "10m"
 - `type` (String) Not Null; must be "disk_spool"
+
+<a id="nestedatt--output_disk_spool--status"></a>
+### Nested Schema for `output_disk_spool.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
+
 
 
 <a id="nestedatt--output_dl_s3"></a>
@@ -5241,6 +5917,7 @@ Optional:
 - `should_log_invalid_rows` (Boolean) Log up to 3 rows that @{product} skips due to data mismatch
 - `signature_version` (String) Signature version to use for signing S3 requests. Default: "v4"; must be one of ["v2", "v4"]
 - `stage_path` (String) Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage. Default: "$CRIBL_HOME/state/outputs/staging"
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_dl_s3--status))
 - `storage_class` (String) Storage class to select for uploaded objects. must be one of ["STANDARD", "REDUCED_REDUNDANCY", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "GLACIER", "GLACIER_IR", "DEEP_ARCHIVE"]
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
@@ -5255,6 +5932,17 @@ Optional:
 
 - `key` (String) Default: ""
 - `value` (String) Not Null
+
+
+<a id="nestedatt--output_dl_s3--status"></a>
+### Nested Schema for `output_dl_s3.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 
@@ -5296,6 +5984,7 @@ Default: true
 - `response_honor_retry_after_header` (Boolean) Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored. Default: false
 - `response_retry_settings` (Attributes List) Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable). (see [below for nested schema](#nestedatt--output_dynatrace_http--response_retry_settings))
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_dynatrace_http--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `telemetry_type` (String) Default: "logs"; must be one of ["logs", "metrics"]
@@ -5330,6 +6019,17 @@ Optional:
 - `http_status` (Number) The HTTP response status code that will trigger retries. Not Null
 - `initial_backoff` (Number) How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes). Default: 1000
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
+
+
+<a id="nestedatt--output_dynatrace_http--status"></a>
+### Nested Schema for `output_dynatrace_http.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_dynatrace_http--timeout_retry_settings"></a>
@@ -5387,6 +6087,7 @@ Default: true
 - `response_honor_retry_after_header` (Boolean) Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored. Default: false
 - `response_retry_settings` (Attributes List) Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable). (see [below for nested schema](#nestedatt--output_dynatrace_otlp--response_retry_settings))
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_dynatrace_otlp--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `timeout_retry_settings` (Attributes) (see [below for nested schema](#nestedatt--output_dynatrace_otlp--timeout_retry_settings))
@@ -5426,6 +6127,17 @@ Optional:
 - `http_status` (Number) The HTTP response status code that will trigger retries. Not Null
 - `initial_backoff` (Number) How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes). Default: 1000
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
+
+
+<a id="nestedatt--output_dynatrace_otlp--status"></a>
+### Nested Schema for `output_dynatrace_otlp.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_dynatrace_otlp--timeout_retry_settings"></a>
@@ -5483,6 +6195,7 @@ Default: true
 - `response_retry_settings` (Attributes List) Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable). (see [below for nested schema](#nestedatt--output_elastic--response_retry_settings))
 - `retry_partial_errors` (Boolean) Retry failed events when a bulk request to Elastic is successful, but the response body returns an error for one or more events in the batch. Default: false
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_elastic--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `timeout_retry_settings` (Attributes) (see [below for nested schema](#nestedatt--output_elastic--timeout_retry_settings))
@@ -5533,6 +6246,17 @@ Optional:
 - `http_status` (Number) The HTTP response status code that will trigger retries. Not Null
 - `initial_backoff` (Number) How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes). Default: 1000
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
+
+
+<a id="nestedatt--output_elastic--status"></a>
+### Nested Schema for `output_elastic.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_elastic--timeout_retry_settings"></a>
@@ -5592,6 +6316,7 @@ Default: true
 - `response_honor_retry_after_header` (Boolean) Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored. Default: false
 - `response_retry_settings` (Attributes List) Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable). (see [below for nested schema](#nestedatt--output_elastic_cloud--response_retry_settings))
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_elastic_cloud--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `timeout_retry_settings` (Attributes) (see [below for nested schema](#nestedatt--output_elastic_cloud--timeout_retry_settings))
@@ -5641,6 +6366,17 @@ Optional:
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
 
 
+<a id="nestedatt--output_elastic_cloud--status"></a>
+### Nested Schema for `output_elastic_cloud.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
+
+
 <a id="nestedatt--output_elastic_cloud--timeout_retry_settings"></a>
 ### Nested Schema for `output_elastic_cloud.timeout_retry_settings`
 
@@ -5688,11 +6424,23 @@ Optional:
 - `site_id` (String) Exabeam site ID. If left blank, @{product} will use the value of the Exabeam site name.
 - `site_name` (String) Constant or JavaScript expression to create an Exabeam site name. Values that aren't successfully evaluated will be treated as string constants.
 - `stage_path` (String) Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage. Default: "$CRIBL_HOME/state/outputs/staging"
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_exabeam--status))
 - `storage_class` (String) Storage class to select for uploaded objects. must be one of ["STANDARD", "NEARLINE", "COLDLINE", "ARCHIVE"]
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `timezone_offset` (String) Exabeam timezone offset.
 - `type` (String) must be "exabeam"
+
+<a id="nestedatt--output_exabeam--status"></a>
+### Nested Schema for `output_exabeam.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
+
 
 
 <a id="nestedatt--output_filesystem"></a>
@@ -5735,6 +6483,7 @@ Optional:
 - `remove_empty_dirs` (Boolean) Remove empty staging directories after moving files. Default: true
 - `should_log_invalid_rows` (Boolean) Log up to 3 rows that @{product} skips due to data mismatch
 - `stage_path` (String) Filesystem location in which to buffer files before compressing and moving to final destination. Use performant, stable storage.
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_filesystem--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `type` (String) Not Null; must be "filesystem"
@@ -5747,6 +6496,17 @@ Optional:
 
 - `key` (String) Default: ""
 - `value` (String) Not Null
+
+
+<a id="nestedatt--output_filesystem--status"></a>
+### Nested Schema for `output_filesystem.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 
@@ -5795,6 +6555,7 @@ Default: true
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
 - `service_account_credentials` (String) Contents of service account credentials (JSON keys) file downloaded from Google Cloud. To upload a file, click the upload button at this field's upper right.
 - `service_account_credentials_secret` (String) Select or create a stored text secret
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_google_chronicle--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `timeout_retry_settings` (Attributes) (see [below for nested schema](#nestedatt--output_google_chronicle--timeout_retry_settings))
@@ -5843,6 +6604,17 @@ Optional:
 - `http_status` (Number) The HTTP response status code that will trigger retries. Not Null
 - `initial_backoff` (Number) How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes). Default: 1000
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
+
+
+<a id="nestedatt--output_google_chronicle--status"></a>
+### Nested Schema for `output_google_chronicle.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_google_chronicle--timeout_retry_settings"></a>
@@ -5914,6 +6686,7 @@ Optional:
 - `service_account_credentials` (String) Contents of service account credentials (JSON keys) file downloaded from Google Cloud. To upload a file, click the upload button at this field's upper right.
 - `severity_expression` (String) JavaScript expression to compute the value of the severity field. Must evaluate to one of the severity values supported by Google Cloud Logging [here](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#logseverity) (case insensitive). Defaults to "DEFAULT".
 - `span_id_expression` (String) A JavaScript expression that evaluates to the ID of the cloud trace span associated with the current operation in which the log is being written as a string. See the [documentation](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry) for details.
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_google_cloud_logging--status))
 - `status_expression` (String) A JavaScript expression that evaluates to the HTTP request method as a number. See the [documentation](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#httprequest) for details.
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
@@ -5947,6 +6720,17 @@ Optional:
 
 - `label` (String) Label name. Not Null
 - `value_expression` (String) JavaScript expression to compute the label's value. Not Null
+
+
+<a id="nestedatt--output_google_cloud_logging--status"></a>
+### Nested Schema for `output_google_cloud_logging.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 
@@ -6001,6 +6785,7 @@ Optional:
 - `should_log_invalid_rows` (Boolean) Log up to 3 rows that @{product} skips due to data mismatch
 - `signature_version` (String) Signature version to use for signing Google Cloud Storage requests. Default: "v4"; must be one of ["v2", "v4"]
 - `stage_path` (String) Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage. Default: "$CRIBL_HOME/state/outputs/staging"
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_google_cloud_storage--status))
 - `storage_class` (String) Storage class to select for uploaded objects. must be one of ["STANDARD", "NEARLINE", "COLDLINE", "ARCHIVE"]
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
@@ -6015,6 +6800,17 @@ Optional:
 
 - `key` (String) Default: ""
 - `value` (String) Not Null
+
+
+<a id="nestedatt--output_google_cloud_storage--status"></a>
+### Nested Schema for `output_google_cloud_storage.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 
@@ -6047,6 +6843,7 @@ Optional:
 - `region` (String) Region to publish messages to. Select 'default' to allow Google to auto-select the nearest region. When using ordered delivery, the selected region must be allowed by message storage policy.
 - `secret` (String) Select or create a stored text secret
 - `service_account_credentials` (String) Contents of service account credentials (JSON keys) file downloaded from Google Cloud. To upload a file, click the upload button at this field's upper right.
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_google_pubsub--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `topic_name` (String) ID of the topic to send events to. Not Null
@@ -6054,6 +6851,17 @@ Optional:
 
 <a id="nestedatt--output_google_pubsub--pq_controls"></a>
 ### Nested Schema for `output_google_pubsub.pq_controls`
+
+
+<a id="nestedatt--output_google_pubsub--status"></a>
+### Nested Schema for `output_google_pubsub.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 
@@ -6104,6 +6912,7 @@ Default: true
 - `response_honor_retry_after_header` (Boolean) Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored. Default: false
 - `response_retry_settings` (Attributes List) Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable). (see [below for nested schema](#nestedatt--output_grafana_cloud--one--response_retry_settings))
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_grafana_cloud--one--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards. These fields are added as dimensions and labels to generated metrics and logs, respectively.
 - `timeout_retry_settings` (Attributes) (see [below for nested schema](#nestedatt--output_grafana_cloud--one--timeout_retry_settings))
@@ -6170,6 +6979,17 @@ Optional:
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
 
 
+<a id="nestedatt--output_grafana_cloud--one--status"></a>
+### Nested Schema for `output_grafana_cloud.one.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
+
+
 <a id="nestedatt--output_grafana_cloud--one--timeout_retry_settings"></a>
 ### Nested Schema for `output_grafana_cloud.one.timeout_retry_settings`
 
@@ -6221,6 +7041,7 @@ Default: true
 - `response_honor_retry_after_header` (Boolean) Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored. Default: false
 - `response_retry_settings` (Attributes List) Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable). (see [below for nested schema](#nestedatt--output_grafana_cloud--two--response_retry_settings))
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_grafana_cloud--two--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards. These fields are added as dimensions and labels to generated metrics and logs, respectively.
 - `timeout_retry_settings` (Attributes) (see [below for nested schema](#nestedatt--output_grafana_cloud--two--timeout_retry_settings))
@@ -6287,6 +7108,17 @@ Optional:
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
 
 
+<a id="nestedatt--output_grafana_cloud--two--status"></a>
+### Nested Schema for `output_grafana_cloud.two.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
+
+
 <a id="nestedatt--output_grafana_cloud--two--timeout_retry_settings"></a>
 ### Nested Schema for `output_grafana_cloud.two.timeout_retry_settings`
 
@@ -6324,6 +7156,7 @@ Optional:
 - `pq_on_backpressure` (String) Whether to block or drop events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged. Default: "block"; must be one of ["block", "drop"]
 - `pq_path` (String) The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Default: "$CRIBL_HOME/state/queues"
 - `protocol` (String) Protocol to use when communicating with the destination. Default: "udp"; must be one of ["udp", "tcp"]
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_graphite--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `throttle_rate_per_sec` (String) Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling. Default: "0"
@@ -6332,6 +7165,17 @@ Optional:
 
 <a id="nestedatt--output_graphite--pq_controls"></a>
 ### Nested Schema for `output_graphite.pq_controls`
+
+
+<a id="nestedatt--output_graphite--status"></a>
+### Nested Schema for `output_graphite.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 
@@ -6368,6 +7212,7 @@ Default: true
 - `response_honor_retry_after_header` (Boolean) Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored. Default: false
 - `response_retry_settings` (Attributes List) Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable). (see [below for nested schema](#nestedatt--output_honeycomb--response_retry_settings))
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_honeycomb--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `team` (String) Team API key where the dataset belongs
@@ -6399,6 +7244,17 @@ Optional:
 - `http_status` (Number) The HTTP response status code that will trigger retries. Not Null
 - `initial_backoff` (Number) How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes). Default: 1000
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
+
+
+<a id="nestedatt--output_honeycomb--status"></a>
+### Nested Schema for `output_honeycomb.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_honeycomb--timeout_retry_settings"></a>
@@ -6446,6 +7302,7 @@ Default: true
 - `response_honor_retry_after_header` (Boolean) Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored. Default: false
 - `response_retry_settings` (Attributes List) Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable). (see [below for nested schema](#nestedatt--output_humio_hec--response_retry_settings))
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_humio_hec--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `text_secret` (String) Select or create a stored text secret
@@ -6478,6 +7335,17 @@ Optional:
 - `http_status` (Number) The HTTP response status code that will trigger retries. Not Null
 - `initial_backoff` (Number) How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes). Default: 1000
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
+
+
+<a id="nestedatt--output_humio_hec--status"></a>
+### Nested Schema for `output_humio_hec.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_humio_hec--timeout_retry_settings"></a>
@@ -6536,6 +7404,7 @@ Default: true
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
 - `secret` (String) Secret parameter value to pass in request body
 - `secret_param_name` (String) Secret parameter name to pass in request body
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_influxdb--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `text_secret` (String) Select or create a stored text secret
@@ -6594,6 +7463,17 @@ Optional:
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
 
 
+<a id="nestedatt--output_influxdb--status"></a>
+### Nested Schema for `output_influxdb.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
+
+
 <a id="nestedatt--output_influxdb--timeout_retry_settings"></a>
 ### Nested Schema for `output_influxdb.timeout_retry_settings`
 
@@ -6641,6 +7521,7 @@ Optional:
 - `reauthentication_threshold` (Number) Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backwards from the moment when credentials are set to expire. Default: 10000
 - `request_timeout` (Number) Maximum time to wait for Kafka to respond to a request. Default: 60000
 - `sasl` (Attributes) Authentication parameters to use when connecting to brokers. Using TLS is highly recommended. (see [below for nested schema](#nestedatt--output_kafka--sasl))
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_kafka--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `tls` (Attributes) (see [below for nested schema](#nestedatt--output_kafka--tls))
@@ -6704,6 +7585,17 @@ Optional:
 - `mechanism` (String) SASL authentication mechanism to use. Default: "plain"; must be one of ["plain", "scram-sha-256", "scram-sha-512", "kerberos"]
 
 
+<a id="nestedatt--output_kafka--status"></a>
+### Nested Schema for `output_kafka.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
+
+
 <a id="nestedatt--output_kafka--tls"></a>
 ### Nested Schema for `output_kafka.tls`
 
@@ -6759,6 +7651,7 @@ Optional:
 - `reject_unauthorized` (Boolean) Reject certificates that cannot be verified against a valid CA, such as self-signed certificates. Default: true
 - `reuse_connections` (Boolean) Reuse connections between requests, which can improve performance. Default: true
 - `signature_version` (String) Signature version to use for signing Kinesis stream requests. Default: "v4"; must be one of ["v2", "v4"]
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_kinesis--status))
 - `stream_name` (String) Kinesis stream name to send events to. Not Null
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
@@ -6767,6 +7660,17 @@ Optional:
 
 <a id="nestedatt--output_kinesis--pq_controls"></a>
 ### Nested Schema for `output_kinesis.pq_controls`
+
+
+<a id="nestedatt--output_kinesis--status"></a>
+### Nested Schema for `output_kinesis.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 
@@ -6807,6 +7711,7 @@ Default: true
 - `response_honor_retry_after_header` (Boolean) Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored. Default: false
 - `response_retry_settings` (Attributes List) Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable). (see [below for nested schema](#nestedatt--output_loki--response_retry_settings))
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_loki--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards. These fields are added as labels to generated logs.
 - `text_secret` (String) Select or create a stored text secret
@@ -6850,6 +7755,17 @@ Optional:
 - `http_status` (Number) The HTTP response status code that will trigger retries. Not Null
 - `initial_backoff` (Number) How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes). Default: 1000
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
+
+
+<a id="nestedatt--output_loki--status"></a>
+### Nested Schema for `output_loki.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_loki--timeout_retry_settings"></a>
@@ -6917,6 +7833,7 @@ Optional:
 - `should_log_invalid_rows` (Boolean) Log up to 3 rows that @{product} skips due to data mismatch
 - `signature_version` (String) Signature version to use for signing MinIO requests. Default: "v4"; must be one of ["v2", "v4"]
 - `stage_path` (String) Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage. Default: "$CRIBL_HOME/state/outputs/staging"
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_minio--status))
 - `storage_class` (String) Storage class to select for uploaded objects. must be one of ["STANDARD", "REDUCED_REDUNDANCY"]
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
@@ -6931,6 +7848,17 @@ Optional:
 
 - `key` (String) Default: ""
 - `value` (String) Not Null
+
+
+<a id="nestedatt--output_minio--status"></a>
+### Nested Schema for `output_minio.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 
@@ -6981,6 +7909,7 @@ Optional:
 - `request_timeout` (Number) Maximum time to wait for Kafka to respond to a request. Default: 60000
 - `reuse_connections` (Boolean) Reuse connections between requests, which can improve performance. Default: true
 - `signature_version` (String) Signature version to use for signing MSK cluster requests. Default: "v4"; must be one of ["v2", "v4"]
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_msk--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `tls` (Attributes) (see [below for nested schema](#nestedatt--output_msk--tls))
@@ -7035,6 +7964,17 @@ Default: true
 ### Nested Schema for `output_msk.pq_controls`
 
 
+<a id="nestedatt--output_msk--status"></a>
+### Nested Schema for `output_msk.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
+
+
 <a id="nestedatt--output_msk--tls"></a>
 ### Nested Schema for `output_msk.tls`
 
@@ -7066,6 +8006,7 @@ Optional:
 - `hosts` (Attributes List) One or more NetFlow destinations to forward events to. Not Null (see [below for nested schema](#nestedatt--output_netflow--hosts))
 - `id` (String) Unique ID for this output
 - `pipeline` (String) Pipeline to process data before sending out to this output
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_netflow--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `type` (String) Not Null; must be "netflow"
@@ -7077,6 +8018,17 @@ Optional:
 
 - `host` (String) Destination host. Not Null
 - `port` (Number) Destination port, default is 2055. Default: 2055
+
+
+<a id="nestedatt--output_netflow--status"></a>
+### Nested Schema for `output_netflow.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 
@@ -7118,6 +8070,7 @@ Default: true
 - `response_honor_retry_after_header` (Boolean) Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored. Default: false
 - `response_retry_settings` (Attributes List) Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable). (see [below for nested schema](#nestedatt--output_newrelic--response_retry_settings))
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_newrelic--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `text_secret` (String) Select or create a stored text secret
@@ -7158,6 +8111,17 @@ Optional:
 - `http_status` (Number) The HTTP response status code that will trigger retries. Not Null
 - `initial_backoff` (Number) How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes). Default: 1000
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
+
+
+<a id="nestedatt--output_newrelic--status"></a>
+### Nested Schema for `output_newrelic.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_newrelic--timeout_retry_settings"></a>
@@ -7209,6 +8173,7 @@ Default: true
 - `response_honor_retry_after_header` (Boolean) Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored. Default: false
 - `response_retry_settings` (Attributes List) Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable). (see [below for nested schema](#nestedatt--output_newrelic_events--response_retry_settings))
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_newrelic_events--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `text_secret` (String) Select or create a stored text secret
@@ -7239,6 +8204,17 @@ Optional:
 - `http_status` (Number) The HTTP response status code that will trigger retries. Not Null
 - `initial_backoff` (Number) How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes). Default: 1000
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
+
+
+<a id="nestedatt--output_newrelic_events--status"></a>
+### Nested Schema for `output_newrelic_events.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_newrelic_events--timeout_retry_settings"></a>
@@ -7303,6 +8279,7 @@ Default: true
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
 - `secret` (String) Secret parameter value to pass in request body
 - `secret_param_name` (String) Secret parameter name to pass in request body
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_open_telemetry--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `text_secret` (String) Select or create a stored text secret
@@ -7365,6 +8342,17 @@ Optional:
 - `http_status` (Number) The HTTP response status code that will trigger retries. Not Null
 - `initial_backoff` (Number) How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes). Default: 1000
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
+
+
+<a id="nestedatt--output_open_telemetry--status"></a>
+### Nested Schema for `output_open_telemetry.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_open_telemetry--timeout_retry_settings"></a>
@@ -7439,6 +8427,7 @@ Default: true
 - `secret` (String) Secret parameter value to pass in request body
 - `secret_param_name` (String) Secret parameter name to pass in request body
 - `send_metadata` (Boolean) Whether to generate and send metadata (`type` and `metricFamilyName`) requests. Default: true
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_prometheus--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards. These fields are added as dimensions to generated metrics.
 - `text_secret` (String) Select or create a stored text secret
@@ -7494,6 +8483,17 @@ Optional:
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
 
 
+<a id="nestedatt--output_prometheus--status"></a>
+### Nested Schema for `output_prometheus.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
+
+
 <a id="nestedatt--output_prometheus--timeout_retry_settings"></a>
 ### Nested Schema for `output_prometheus.timeout_retry_settings`
 
@@ -7522,9 +8522,21 @@ Optional:
 - `on_backpressure` (String) Whether to block or drop events when all receivers are exerting backpressure. Default: "block"; must be one of ["block", "drop"]
 - `partition_expr` (String) JS expression to define how files are partitioned and organized. If left blank, Cribl Stream will fallback on event.__partition.
 - `pipeline` (String) Pipeline to process data before sending out to this output
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_ring--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `type` (String) Not Null; must be "ring"
+
+<a id="nestedatt--output_ring--status"></a>
+### Nested Schema for `output_ring.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
+
 
 
 <a id="nestedatt--output_router"></a>
@@ -7537,6 +8549,7 @@ Optional:
 - `id` (String) Unique ID for this output
 - `pipeline` (String) Pipeline to process data before sending out to this output
 - `rules` (Attributes List) Event routing rules. Not Null (see [below for nested schema](#nestedatt--output_router--rules))
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_router--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `type` (String) Not Null; must be "router"
@@ -7550,6 +8563,17 @@ Optional:
 - `filter` (String) JavaScript expression to select events to send to output. Not Null
 - `final` (Boolean) Flag to control whether to stop the event from being checked against other rules. Default: true
 - `output` (String) Output to send matching events to. Not Null
+
+
+<a id="nestedatt--output_router--status"></a>
+### Nested Schema for `output_router.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 
@@ -7612,6 +8636,7 @@ Optional:
 - `should_log_invalid_rows` (Boolean) Log up to 3 rows that @{product} skips due to data mismatch
 - `signature_version` (String) Signature version to use for signing S3 requests. Default: "v4"; must be one of ["v2", "v4"]
 - `stage_path` (String) Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage. Default: "$CRIBL_HOME/state/outputs/staging"
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_s3--status))
 - `storage_class` (String) Storage class to select for uploaded objects. must be one of ["STANDARD", "REDUCED_REDUNDANCY", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "GLACIER", "GLACIER_IR", "DEEP_ARCHIVE"]
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
@@ -7626,6 +8651,17 @@ Optional:
 
 - `key` (String) Default: ""
 - `value` (String) Not Null
+
+
+<a id="nestedatt--output_s3--status"></a>
+### Nested Schema for `output_s3.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 
@@ -7685,6 +8721,7 @@ Optional:
 - `should_log_invalid_rows` (Boolean) Log up to 3 rows that @{product} skips due to data mismatch
 - `signature_version` (String) Signature version to use for signing Amazon Security Lake requests. Default: "v4"; must be one of ["v2", "v4"]
 - `stage_path` (String) Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage. Default: "$CRIBL_HOME/state/outputs/staging"
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_security_lake--status))
 - `storage_class` (String) Storage class to select for uploaded objects. must be one of ["STANDARD", "REDUCED_REDUNDANCY", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "GLACIER", "GLACIER_IR", "DEEP_ARCHIVE"]
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards. These fields are added as dimensions and labels to generated metrics and logs, respectively.
@@ -7699,6 +8736,17 @@ Optional:
 
 - `key` (String) Default: ""
 - `value` (String) Not Null
+
+
+<a id="nestedatt--output_security_lake--status"></a>
+### Nested Schema for `output_security_lake.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 
@@ -7751,6 +8799,7 @@ Default: true
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
 - `scope` (String) Scope to pass in the OAuth request. Default: "https://monitor.azure.com/.default"
 - `secret` (String) Secret parameter value to pass in request body. Not Null
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_sentinel--status))
 - `stream_name` (String) The name of the stream (Sentinel table) in which to store the events.
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
@@ -7783,6 +8832,17 @@ Optional:
 - `http_status` (Number) The HTTP response status code that will trigger retries. Not Null
 - `initial_backoff` (Number) How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes). Default: 1000
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
+
+
+<a id="nestedatt--output_sentinel--status"></a>
+### Nested Schema for `output_sentinel.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_sentinel--timeout_retry_settings"></a>
@@ -7839,6 +8899,7 @@ Default: true
 - `response_honor_retry_after_header` (Boolean) Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored. Default: false
 - `response_retry_settings` (Attributes List) Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable). (see [below for nested schema](#nestedatt--output_service_now--response_retry_settings))
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_service_now--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `timeout_retry_settings` (Attributes) (see [below for nested schema](#nestedatt--output_service_now--timeout_retry_settings))
@@ -7879,6 +8940,17 @@ Optional:
 - `http_status` (Number) The HTTP response status code that will trigger retries. Not Null
 - `initial_backoff` (Number) How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes). Default: 1000
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
+
+
+<a id="nestedatt--output_service_now--status"></a>
+### Nested Schema for `output_service_now.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_service_now--timeout_retry_settings"></a>
@@ -7944,6 +9016,7 @@ Default: true
 - `response_honor_retry_after_header` (Boolean) Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored. Default: false
 - `response_retry_settings` (Attributes List) Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable). (see [below for nested schema](#nestedatt--output_signalfx--response_retry_settings))
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_signalfx--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `text_secret` (String) Select or create a stored text secret
@@ -7977,6 +9050,17 @@ Optional:
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
 
 
+<a id="nestedatt--output_signalfx--status"></a>
+### Nested Schema for `output_signalfx.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
+
+
 <a id="nestedatt--output_signalfx--timeout_retry_settings"></a>
 ### Nested Schema for `output_signalfx.timeout_retry_settings`
 
@@ -8000,6 +9084,7 @@ Optional:
 - `hosts` (Attributes List) One or more SNMP destinations to forward traps to. Not Null (see [below for nested schema](#nestedatt--output_snmp--hosts))
 - `id` (String) Unique ID for this output
 - `pipeline` (String) Pipeline to process data before sending out to this output
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_snmp--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `type` (String) Not Null; must be "snmp"
@@ -8011,6 +9096,17 @@ Optional:
 
 - `host` (String) Destination host. Not Null
 - `port` (Number) Destination port, default is 162. Default: 162
+
+
+<a id="nestedatt--output_snmp--status"></a>
+### Nested Schema for `output_snmp.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 
@@ -8046,6 +9142,7 @@ Optional:
 - `reject_unauthorized` (Boolean) Reject certificates that cannot be verified against a valid CA, such as self-signed certificates. Default: true
 - `reuse_connections` (Boolean) Reuse connections between requests, which can improve performance. Default: true
 - `signature_version` (String) Signature version to use for signing SNS requests. Default: "v4"; must be one of ["v2", "v4"]
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_sns--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `topic_arn` (String) The ARN of the SNS topic to send events to. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. E.g., 'https://host:port/myQueueName'. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. E.g., referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`. Not Null
@@ -8053,6 +9150,17 @@ Optional:
 
 <a id="nestedatt--output_sns--pq_controls"></a>
 ### Nested Schema for `output_sns.pq_controls`
+
+
+<a id="nestedatt--output_sns--status"></a>
+### Nested Schema for `output_sns.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 
@@ -8085,6 +9193,7 @@ Optional:
 - `pq_mode` (String) In Error mode, PQ writes events to the filesystem only when it detects a non-retryable Destination error. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination or when there are non-retryable Destination errors. In Always On mode, PQ always writes events to the filesystem. Default: "error"; must be one of ["error", "backpressure", "always"]
 - `pq_on_backpressure` (String) Whether to block or drop events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged. Default: "block"; must be one of ["block", "drop"]
 - `pq_path` (String) The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Default: "$CRIBL_HOME/state/queues"
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_splunk--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `text_secret` (String) Select or create a stored text secret
@@ -8095,6 +9204,17 @@ Optional:
 
 <a id="nestedatt--output_splunk--pq_controls"></a>
 ### Nested Schema for `output_splunk.pq_controls`
+
+
+<a id="nestedatt--output_splunk--status"></a>
+### Nested Schema for `output_splunk.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_splunk--tls"></a>
@@ -8155,6 +9275,7 @@ Default: true
 - `response_honor_retry_after_header` (Boolean) Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored. Default: false
 - `response_retry_settings` (Attributes List) Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable). (see [below for nested schema](#nestedatt--output_splunk_hec--response_retry_settings))
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_splunk_hec--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `tcp_routing` (String) In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set. Default: "nowhere"
@@ -8189,6 +9310,17 @@ Optional:
 - `http_status` (Number) The HTTP response status code that will trigger retries. Not Null
 - `initial_backoff` (Number) How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes). Default: 1000
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
+
+
+<a id="nestedatt--output_splunk_hec--status"></a>
+### Nested Schema for `output_splunk_hec.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_splunk_hec--timeout_retry_settings"></a>
@@ -8247,6 +9379,7 @@ Optional:
 - `pq_on_backpressure` (String) Whether to block or drop events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged. Default: "block"; must be one of ["block", "drop"]
 - `pq_path` (String) The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Default: "$CRIBL_HOME/state/queues"
 - `sender_unhealthy_time_allowance` (Number) How long (in milliseconds) each LB endpoint can report blocked before the Destination reports unhealthy, blocking the sender. (Grace period for fluctuations.) Use 0 to disable; max 1 minute. Default: 100
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_splunk_lb--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `text_secret` (String) Select or create a stored text secret
@@ -8263,7 +9396,7 @@ Optional:
 - `host` (String) The hostname of the receiver. Not Null
 - `port` (Number) The port to connect to on the provided host. Default: 9997
 - `servername` (String) Servername to use if establishing a TLS connection. If not specified, defaults to connection host (iff not an IP); otherwise, to the global TLS settings.
-- `tls` (String) Whether to inherit TLS configs from group setting or disable TLS. Default: "inherit"; must be one of ["inherit", "off"]
+- `tls` (String) Whether to inherit TLS configs from group setting or disable TLS. Default: "inherit"; must be one of ["inherit", "false"]
 - `weight` (Number) Assign a weight (>0) to each endpoint to indicate its traffic-handling capability. Default: 1
 
 
@@ -8292,6 +9425,17 @@ Optional:
 
 <a id="nestedatt--output_splunk_lb--pq_controls"></a>
 ### Nested Schema for `output_splunk_lb.pq_controls`
+
+
+<a id="nestedatt--output_splunk_lb--status"></a>
+### Nested Schema for `output_splunk_lb.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_splunk_lb--tls"></a>
@@ -8353,12 +9497,24 @@ Optional:
 - `reject_unauthorized` (Boolean) Reject certificates that cannot be verified against a valid CA, such as self-signed certificates. Default: true
 - `reuse_connections` (Boolean) Reuse connections between requests, which can improve performance. Default: true
 - `signature_version` (String) Signature version to use for signing SQS requests. Default: "v4"; must be one of ["v2", "v4"]
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_sqs--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `type` (String) must be "sqs"
 
 <a id="nestedatt--output_sqs--pq_controls"></a>
 ### Nested Schema for `output_sqs.pq_controls`
+
+
+<a id="nestedatt--output_sqs--status"></a>
+### Nested Schema for `output_sqs.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 
@@ -8386,6 +9542,7 @@ Optional:
 - `pq_on_backpressure` (String) Whether to block or drop events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged. Default: "block"; must be one of ["block", "drop"]
 - `pq_path` (String) The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Default: "$CRIBL_HOME/state/queues"
 - `protocol` (String) Protocol to use when communicating with the destination. Default: "udp"; must be one of ["udp", "tcp"]
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_statsd--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `throttle_rate_per_sec` (String) Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling. Default: "0"
@@ -8394,6 +9551,17 @@ Optional:
 
 <a id="nestedatt--output_statsd--pq_controls"></a>
 ### Nested Schema for `output_statsd.pq_controls`
+
+
+<a id="nestedatt--output_statsd--status"></a>
+### Nested Schema for `output_statsd.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 
@@ -8421,6 +9589,7 @@ Optional:
 - `pq_on_backpressure` (String) Whether to block or drop events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged. Default: "block"; must be one of ["block", "drop"]
 - `pq_path` (String) The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Default: "$CRIBL_HOME/state/queues"
 - `protocol` (String) Protocol to use when communicating with the destination. Default: "udp"; must be one of ["udp", "tcp"]
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_statsd_ext--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `throttle_rate_per_sec` (String) Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling. Default: "0"
@@ -8429,6 +9598,17 @@ Optional:
 
 <a id="nestedatt--output_statsd_ext--pq_controls"></a>
 ### Nested Schema for `output_statsd_ext.pq_controls`
+
+
+<a id="nestedatt--output_statsd_ext--status"></a>
+### Nested Schema for `output_statsd_ext.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 
@@ -8466,6 +9646,7 @@ Default: true
 - `response_honor_retry_after_header` (Boolean) Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored. Default: false
 - `response_retry_settings` (Attributes List) Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable). (see [below for nested schema](#nestedatt--output_sumo_logic--response_retry_settings))
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_sumo_logic--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `timeout_retry_settings` (Attributes) (see [below for nested schema](#nestedatt--output_sumo_logic--timeout_retry_settings))
@@ -8497,6 +9678,17 @@ Optional:
 - `http_status` (Number) The HTTP response status code that will trigger retries. Not Null
 - `initial_backoff` (Number) How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes). Default: 1000
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
+
+
+<a id="nestedatt--output_sumo_logic--status"></a>
+### Nested Schema for `output_sumo_logic.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_sumo_logic--timeout_retry_settings"></a>
@@ -8540,6 +9732,7 @@ Optional:
 - `pq_path` (String) The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Default: "$CRIBL_HOME/state/queues"
 - `protocol` (String) The network protocol to use for sending out syslog messages. Default: "tcp"; must be one of ["tcp", "udp"]
 - `severity` (Number) Default value for message severity. Will be overwritten by value of __severity if set. Defaults to notice. Default: 5; must be one of ["0", "1", "2", "3", "4", "5", "6", "7"]
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_syslog--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `throttle_rate_per_sec` (String) Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling. Default: "0"
@@ -8551,6 +9744,17 @@ Optional:
 
 <a id="nestedatt--output_syslog--pq_controls"></a>
 ### Nested Schema for `output_syslog.pq_controls`
+
+
+<a id="nestedatt--output_syslog--status"></a>
+### Nested Schema for `output_syslog.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_syslog--tls"></a>
@@ -8604,6 +9808,7 @@ Optional:
 - `pq_on_backpressure` (String) Whether to block or drop events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged. Default: "block"; must be one of ["block", "drop"]
 - `pq_path` (String) The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Default: "$CRIBL_HOME/state/queues"
 - `send_header` (Boolean) Upon connection, send a header-like record containing the auth token and other metadata.This record will not contain an actual event – only subsequent records will. Default: true
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_tcpjson--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `text_secret` (String) Select or create a stored text secret
@@ -8621,12 +9826,23 @@ Optional:
 - `host` (String) The hostname of the receiver. Not Null
 - `port` (Number) The port to connect to on the provided host. Not Null
 - `servername` (String) Servername to use if establishing a TLS connection. If not specified, defaults to connection host (iff not an IP); otherwise, to the global TLS settings.
-- `tls` (String) Whether to inherit TLS configs from group setting or disable TLS. Default: "inherit"; must be one of ["inherit", "off"]
+- `tls` (String) Whether to inherit TLS configs from group setting or disable TLS. Default: "inherit"; must be one of ["inherit", "false"]
 - `weight` (Number) Assign a weight (>0) to each endpoint to indicate its traffic-handling capability. Default: 1
 
 
 <a id="nestedatt--output_tcpjson--pq_controls"></a>
 ### Nested Schema for `output_tcpjson.pq_controls`
+
+
+<a id="nestedatt--output_tcpjson--status"></a>
+### Nested Schema for `output_tcpjson.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_tcpjson--tls"></a>
@@ -8682,6 +9898,7 @@ Default: true
 - `response_honor_retry_after_header` (Boolean) Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored. Default: false
 - `response_retry_settings` (Attributes List) Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable). (see [below for nested schema](#nestedatt--output_wavefront--response_retry_settings))
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_wavefront--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `text_secret` (String) Select or create a stored text secret
@@ -8713,6 +9930,17 @@ Optional:
 - `http_status` (Number) The HTTP response status code that will trigger retries. Not Null
 - `initial_backoff` (Number) How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes). Default: 1000
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
+
+
+<a id="nestedatt--output_wavefront--status"></a>
+### Nested Schema for `output_wavefront.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_wavefront--timeout_retry_settings"></a>
@@ -8782,6 +10010,7 @@ Default: true
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
 - `secret` (String) Secret parameter value to pass in request body
 - `secret_param_name` (String) Secret parameter name to pass in request body
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_webhook--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `text_secret` (String) Select or create a stored text secret
@@ -8838,6 +10067,17 @@ Optional:
 - `http_status` (Number) The HTTP response status code that will trigger retries. Not Null
 - `initial_backoff` (Number) How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes). Default: 1000
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
+
+
+<a id="nestedatt--output_webhook--status"></a>
+### Nested Schema for `output_webhook.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_webhook--timeout_retry_settings"></a>
@@ -8912,6 +10152,7 @@ Default: true
 - `response_honor_retry_after_header` (Boolean) Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored. Default: false
 - `response_retry_settings` (Attributes List) Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable). (see [below for nested schema](#nestedatt--output_xsiam--response_retry_settings))
 - `safe_headers` (List of String) List of headers that are safe to log in plain text
+- `status` (Attributes) (see [below for nested schema](#nestedatt--output_xsiam--status))
 - `streamtags` (List of String) Tags for filtering and grouping in @{product}
 - `system_fields` (List of String) Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
 - `text_secret` (String) Select or create a stored text secret
@@ -8946,6 +10187,17 @@ Optional:
 - `http_status` (Number) The HTTP response status code that will trigger retries. Not Null
 - `initial_backoff` (Number) How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes). Default: 1000
 - `max_backoff` (Number) The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds). Default: 10000
+
+
+<a id="nestedatt--output_xsiam--status"></a>
+### Nested Schema for `output_xsiam.status`
+
+Optional:
+
+- `health` (String) Not Null; must be one of ["Green", "Yellow", "Red"]
+- `metrics` (Map of String) Not Null
+- `timestamp` (Number) Not Null
+- `use_status_from_lb` (Boolean)
 
 
 <a id="nestedatt--output_xsiam--timeout_retry_settings"></a>

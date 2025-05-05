@@ -35,6 +35,7 @@ type OutputConfluentCloud struct {
 	ReauthenticationThreshold types.Float64                                          `tfsdk:"reauthentication_threshold"`
 	RequestTimeout            types.Float64                                          `tfsdk:"request_timeout"`
 	Sasl                      *OutputConfluentCloudAuthentication                    `tfsdk:"sasl"`
+	Status                    *TFStatus                                              `tfsdk:"status"`
 	Streamtags                []types.String                                         `tfsdk:"streamtags"`
 	SystemFields              []types.String                                         `tfsdk:"system_fields"`
 	TLS                       *OutputConfluentCloudTLSSettingsClientSide             `tfsdk:"tls"`

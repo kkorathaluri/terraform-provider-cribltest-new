@@ -20,6 +20,7 @@ type InputSnmp struct {
 	PqEnabled          types.Bool             `tfsdk:"pq_enabled"`
 	SendToRoutes       types.Bool             `tfsdk:"send_to_routes"`
 	SnmpV3Auth         *SNMPv3Authentication  `tfsdk:"snmp_v3_auth"`
+	Status             *TFStatus              `tfsdk:"status"`
 	Streamtags         []types.String         `tfsdk:"streamtags"`
 	Type               types.String           `tfsdk:"type"`
 	UDPSocketRxBufSize types.Float64          `tfsdk:"udp_socket_rx_buf_size"`

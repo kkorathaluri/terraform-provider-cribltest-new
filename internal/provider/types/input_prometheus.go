@@ -42,6 +42,7 @@ type InputPrometheus struct {
 	SearchFilter            []SearchFilter               `tfsdk:"search_filter"`
 	SendToRoutes            types.Bool                   `tfsdk:"send_to_routes"`
 	SignatureVersion        types.String                 `tfsdk:"signature_version"`
+	Status                  *TFStatus                    `tfsdk:"status"`
 	Streamtags              []types.String               `tfsdk:"streamtags"`
 	TargetList              []types.String               `tfsdk:"target_list"`
 	TTL                     types.String                 `tfsdk:"ttl"`

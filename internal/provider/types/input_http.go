@@ -34,6 +34,7 @@ type InputHTTP struct {
 	SocketTimeout         types.Float64          `tfsdk:"socket_timeout"`
 	SplunkHecAcks         types.Bool             `tfsdk:"splunk_hec_acks"`
 	SplunkHecAPI          types.String           `tfsdk:"splunk_hec_api"`
+	Status                *TFStatus              `tfsdk:"status"`
 	Streamtags            []types.String         `tfsdk:"streamtags"`
 	TLS                   *TLSSettingsServerSide `tfsdk:"tls"`
 	Type                  types.String           `tfsdk:"type"`

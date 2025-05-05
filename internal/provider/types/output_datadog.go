@@ -41,6 +41,7 @@ type OutputDatadog struct {
 	Severity                      types.String                         `tfsdk:"severity"`
 	Site                          types.String                         `tfsdk:"site"`
 	Source                        types.String                         `tfsdk:"source"`
+	Status                        *TFStatus                            `tfsdk:"status"`
 	Streamtags                    []types.String                       `tfsdk:"streamtags"`
 	SystemFields                  []types.String                       `tfsdk:"system_fields"`
 	Tags                          []types.String                       `tfsdk:"tags"`

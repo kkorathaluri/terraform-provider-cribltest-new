@@ -34,6 +34,7 @@ type InputOffice365MsgTrace struct {
 	RetryRules             *InputOffice365MsgTraceRetryRules   `tfsdk:"retry_rules"`
 	SendToRoutes           types.Bool                          `tfsdk:"send_to_routes"`
 	StartDate              types.String                        `tfsdk:"start_date"`
+	Status                 *TFStatus                           `tfsdk:"status"`
 	Streamtags             []types.String                      `tfsdk:"streamtags"`
 	TenantID               types.String                        `tfsdk:"tenant_id"`
 	TextSecret             types.String                        `tfsdk:"text_secret"`

@@ -1,0 +1,512 @@
+overrides:
+- files:
+  - openapi.yml
+  patches:
+  - op: add
+    path: /components/schemas/InputCollection/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputKafka/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputMsk/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputHttp/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputSplunk/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputSplunkSearch/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputSplunkHec/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputAzureBlob/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputElastic/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputConfluentCloud/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputGrafana/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputLoki/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputPrometheusRw/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputPrometheus/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputEdgePrometheus/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputOffice365Mgmt/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputOffice365Service/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputOffice365MsgTrace/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputEventhub/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputExec/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputFirehose/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputGooglePubsub/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputCribl/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputCriblTcp/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputCriblHttp/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputTcpjson/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputSystemMetrics/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputSystemState/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputKubeMetrics/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputKubeLogs/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputKubeEvents/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputWindowsMetrics/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputCrowdstrike/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputDatadogAgent/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputDatagen/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputHttpRaw/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputKinesis/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputCriblmetrics/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputMetrics/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputS3/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputS3Inventory/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputSnmp/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputOpenTelemetry/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputModelDrivenTelemetry/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputSqs/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputSyslog/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputFile/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputTcp/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputAppscope/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputWef/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputWinEventLogs/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputRawUdp/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputJournalFiles/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputWiz/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputNetflow/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputSecurityLake/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputZscalerHec/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/Input/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputDefault/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputWebhook/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputSentinel/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputDevnull/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputSyslog/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputSplunk/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputSplunkLb/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputSplunkHec/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputTcpjson/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputWavefront/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputSignalfx/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputFilesystem/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputS3/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputAzureBlob/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputAzureDataExplorer/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputAzureLogs/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputKinesis/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputHoneycomb/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputAzureEventhub/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputGoogleChronicle/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputGoogleCloudStorage/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputGoogleCloudLogging/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputGooglePubsub/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputExabeam/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputKafka/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputConfluentCloud/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputMsk/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputElastic/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputElasticCloud/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputNewrelic/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputNewrelicEvents/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputInfluxdb/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputCloudwatch/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputMinio/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputStatsd/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputStatsdExt/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputGraphite/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputRouter/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputSns/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputSqs/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputSnmp/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputSumoLogic/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputDatadog/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputGrafanaCloud/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputLoki/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputPrometheus/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputRing/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputOpenTelemetry/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputServiceNow/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputDataset/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputCriblTcp/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputCriblHttp/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputHumioHec/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputCrowdstrikeNextGenSiem/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputDlS3/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputSecurityLake/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputCriblLake/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputDiskSpool/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputClickHouse/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputXsiam/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputNetflow/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputDynatraceHttp/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputDynatraceOtlp/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/Output/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputSamplesResponse/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputTestResponse/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputTestRequest/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/InputStatus/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'
+  - op: add
+    path: /components/schemas/OutputStatus/properties/status
+    value:
+      $ref: '#/components/schemas/TFStatus'

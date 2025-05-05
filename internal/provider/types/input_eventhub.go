@@ -36,6 +36,7 @@ type InputEventhub struct {
 	Sasl                      *InputEventhubAuthentication        `tfsdk:"sasl"`
 	SendToRoutes              types.Bool                          `tfsdk:"send_to_routes"`
 	SessionTimeout            types.Float64                       `tfsdk:"session_timeout"`
+	Status                    *TFStatus                           `tfsdk:"status"`
 	Streamtags                []types.String                      `tfsdk:"streamtags"`
 	TLS                       *InputEventhubTLSSettingsClientSide `tfsdk:"tls"`
 	Topics                    []types.String                      `tfsdk:"topics"`

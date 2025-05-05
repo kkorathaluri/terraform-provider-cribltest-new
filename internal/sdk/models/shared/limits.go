@@ -2,11 +2,11 @@
 
 package shared
 
-type LimitsSamples struct {
+type Samples struct {
 	MaxSize string `json:"maxSize"`
 }
 
-func (o *LimitsSamples) GetMaxSize() string {
+func (o *Samples) GetMaxSize() string {
 	if o == nil {
 		return ""
 	}
@@ -31,7 +31,7 @@ type Limits struct {
 	MetricsNeverDropList        []string                  `json:"metricsNeverDropList"`
 	MetricsWorkerIDBlacklist    []string                  `json:"metricsWorkerIdBlacklist"`
 	MinFreeSpace                string                    `json:"minFreeSpace"`
-	Samples                     LimitsSamples             `json:"samples"`
+	Samples                     Samples                   `json:"samples"`
 }
 
 func (o *Limits) GetCPUProfileTTL() string {
@@ -153,9 +153,9 @@ func (o *Limits) GetMinFreeSpace() string {
 	return o.MinFreeSpace
 }
 
-func (o *Limits) GetSamples() LimitsSamples {
+func (o *Limits) GetSamples() Samples {
 	if o == nil {
-		return LimitsSamples{}
+		return Samples{}
 	}
 	return o.Samples
 }

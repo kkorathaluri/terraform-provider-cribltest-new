@@ -5,18 +5,18 @@ package types
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type InputGrafanaLokiAuth struct {
-	AuthHeaderExpr     types.String                        `tfsdk:"auth_header_expr"`
-	AuthType           types.String                        `tfsdk:"auth_type"`
-	CredentialsSecret  types.String                        `tfsdk:"credentials_secret"`
-	LoginURL           types.String                        `tfsdk:"login_url"`
-	OauthHeaders       []InputGrafana2LokiAuthOauthHeaders `tfsdk:"oauth_headers"`
-	OauthParams        []InputGrafana2LokiAuthOauthParams  `tfsdk:"oauth_params"`
-	Password           types.String                        `tfsdk:"password"`
-	Secret             types.String                        `tfsdk:"secret"`
-	SecretParamName    types.String                        `tfsdk:"secret_param_name"`
-	TextSecret         types.String                        `tfsdk:"text_secret"`
-	Token              types.String                        `tfsdk:"token"`
-	TokenAttributeName types.String                        `tfsdk:"token_attribute_name"`
-	TokenTimeoutSecs   types.Float64                       `tfsdk:"token_timeout_secs"`
-	Username           types.String                        `tfsdk:"username"`
+	AuthHeaderExpr     types.String                             `tfsdk:"auth_header_expr"`
+	AuthType           types.String                             `tfsdk:"auth_type"`
+	CredentialsSecret  types.String                             `tfsdk:"credentials_secret"`
+	LoginURL           types.String                             `tfsdk:"login_url"`
+	OauthHeaders       []InputInputGrafana2LokiAuthOauthHeaders `tfsdk:"oauth_headers"`
+	OauthParams        []InputInputGrafana2LokiAuthOauthParams  `tfsdk:"oauth_params"`
+	Password           types.String                             `tfsdk:"password"`
+	Secret             types.String                             `tfsdk:"secret"`
+	SecretParamName    types.String                             `tfsdk:"secret_param_name"`
+	TextSecret         types.String                             `tfsdk:"text_secret"`
+	Token              types.String                             `tfsdk:"token"`
+	TokenAttributeName types.String                             `tfsdk:"token_attribute_name"`
+	TokenTimeoutSecs   types.Float64                            `tfsdk:"token_timeout_secs"`
+	Username           types.String                             `tfsdk:"username"`
 }

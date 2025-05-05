@@ -26,6 +26,7 @@ type InputTcpjson struct {
 	SocketEndingMaxWait types.Float64                      `tfsdk:"socket_ending_max_wait"`
 	SocketIdleTimeout   types.Float64                      `tfsdk:"socket_idle_timeout"`
 	SocketMaxLifespan   types.Float64                      `tfsdk:"socket_max_lifespan"`
+	Status              *TFStatus                          `tfsdk:"status"`
 	Streamtags          []types.String                     `tfsdk:"streamtags"`
 	TextSecret          types.String                       `tfsdk:"text_secret"`
 	TLS                 *InputTcpjsonTLSSettingsServerSide `tfsdk:"tls"`

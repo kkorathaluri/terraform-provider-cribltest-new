@@ -29,6 +29,7 @@ type InputFirehose struct {
 	RequestTimeout        types.Float64                       `tfsdk:"request_timeout"`
 	SendToRoutes          types.Bool                          `tfsdk:"send_to_routes"`
 	SocketTimeout         types.Float64                       `tfsdk:"socket_timeout"`
+	Status                *TFStatus                           `tfsdk:"status"`
 	Streamtags            []types.String                      `tfsdk:"streamtags"`
 	TLS                   *InputFirehoseTLSSettingsServerSide `tfsdk:"tls"`
 	Type                  types.String                        `tfsdk:"type"`

@@ -142,58 +142,58 @@ func (o *Auth1) GetVaultRole() *string {
 	return o.VaultRole
 }
 
-type KMSProviderConfigAuthType string
+type AuthUnionType string
 
 const (
-	KMSProviderConfigAuthTypeAuth1 KMSProviderConfigAuthType = "auth_1"
-	KMSProviderConfigAuthTypeAuth2 KMSProviderConfigAuthType = "auth_2"
+	AuthUnionTypeAuth1 AuthUnionType = "auth_1"
+	AuthUnionTypeAuth2 AuthUnionType = "auth_2"
 )
 
-type KMSProviderConfigAuth struct {
+type Auth struct {
 	Auth1 *Auth1 `queryParam:"inline"`
 	Auth2 *Auth2 `queryParam:"inline"`
 
-	Type KMSProviderConfigAuthType
+	Type AuthUnionType
 }
 
-func CreateKMSProviderConfigAuthAuth1(auth1 Auth1) KMSProviderConfigAuth {
-	typ := KMSProviderConfigAuthTypeAuth1
+func CreateAuthAuth1(auth1 Auth1) Auth {
+	typ := AuthUnionTypeAuth1
 
-	return KMSProviderConfigAuth{
+	return Auth{
 		Auth1: &auth1,
 		Type:  typ,
 	}
 }
 
-func CreateKMSProviderConfigAuthAuth2(auth2 Auth2) KMSProviderConfigAuth {
-	typ := KMSProviderConfigAuthTypeAuth2
+func CreateAuthAuth2(auth2 Auth2) Auth {
+	typ := AuthUnionTypeAuth2
 
-	return KMSProviderConfigAuth{
+	return Auth{
 		Auth2: &auth2,
 		Type:  typ,
 	}
 }
 
-func (u *KMSProviderConfigAuth) UnmarshalJSON(data []byte) error {
+func (u *Auth) UnmarshalJSON(data []byte) error {
 
 	var auth2 Auth2 = Auth2{}
 	if err := utils.UnmarshalJSON(data, &auth2, "", true, true); err == nil {
 		u.Auth2 = &auth2
-		u.Type = KMSProviderConfigAuthTypeAuth2
+		u.Type = AuthUnionTypeAuth2
 		return nil
 	}
 
 	var auth1 Auth1 = Auth1{}
 	if err := utils.UnmarshalJSON(data, &auth1, "", true, true); err == nil {
 		u.Auth1 = &auth1
-		u.Type = KMSProviderConfigAuthTypeAuth1
+		u.Type = AuthUnionTypeAuth1
 		return nil
 	}
 
-	return fmt.Errorf("could not unmarshal `%s` into any supported union types for KMSProviderConfigAuth", string(data))
+	return fmt.Errorf("could not unmarshal `%s` into any supported union types for Auth", string(data))
 }
 
-func (u KMSProviderConfigAuth) MarshalJSON() ([]byte, error) {
+func (u Auth) MarshalJSON() ([]byte, error) {
 	if u.Auth1 != nil {
 		return utils.MarshalJSON(u.Auth1, "", true)
 	}
@@ -202,11 +202,11 @@ func (u KMSProviderConfigAuth) MarshalJSON() ([]byte, error) {
 		return utils.MarshalJSON(u.Auth2, "", true)
 	}
 
-	return nil, errors.New("could not marshal union type KMSProviderConfigAuth: all fields are null")
+	return nil, errors.New("could not marshal union type Auth: all fields are null")
 }
 
 type KMSProviderConfig struct {
-	Auth                *KMSProviderConfigAuth   `json:"auth,omitempty"`
+	Auth                *Auth                    `json:"auth,omitempty"`
 	EnableHealthCheck   bool                     `json:"enableHealthCheck"`
 	HealthCheckEndpoint *string                  `json:"healthCheckEndpoint,omitempty"`
 	Namespace           *string                  `json:"namespace,omitempty"`
@@ -217,7 +217,7 @@ type KMSProviderConfig struct {
 	URL                 *string                  `json:"url,omitempty"`
 }
 
-func (o *KMSProviderConfig) GetAuth() *KMSProviderConfigAuth {
+func (o *KMSProviderConfig) GetAuth() *Auth {
 	if o == nil {
 		return nil
 	}

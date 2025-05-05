@@ -49,6 +49,7 @@ type OutputAzureBlob struct {
 	RemoveEmptyDirs        types.Bool                        `tfsdk:"remove_empty_dirs"`
 	ShouldLogInvalidRows   types.Bool                        `tfsdk:"should_log_invalid_rows"`
 	StagePath              types.String                      `tfsdk:"stage_path"`
+	Status                 *TFStatus                         `tfsdk:"status"`
 	StorageAccountName     types.String                      `tfsdk:"storage_account_name"`
 	StorageClass           types.String                      `tfsdk:"storage_class"`
 	Streamtags             []types.String                    `tfsdk:"streamtags"`

@@ -36,6 +36,7 @@ type InputKinesis struct {
 	ShardExpr               types.String              `tfsdk:"shard_expr"`
 	ShardIteratorType       types.String              `tfsdk:"shard_iterator_type"`
 	SignatureVersion        types.String              `tfsdk:"signature_version"`
+	Status                  *TFStatus                 `tfsdk:"status"`
 	StreamName              types.String              `tfsdk:"stream_name"`
 	Streamtags              []types.String            `tfsdk:"streamtags"`
 	Type                    types.String              `tfsdk:"type"`

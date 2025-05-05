@@ -43,6 +43,7 @@ type InputEdgePrometheus struct {
 	SearchFilter            []InputEdgePrometheusSearchFilter `tfsdk:"search_filter"`
 	SendToRoutes            types.Bool                        `tfsdk:"send_to_routes"`
 	SignatureVersion        types.String                      `tfsdk:"signature_version"`
+	Status                  *TFStatus                         `tfsdk:"status"`
 	Streamtags              []types.String                    `tfsdk:"streamtags"`
 	Targets                 []Targets                         `tfsdk:"targets"`
 	Timeout                 types.Float64                     `tfsdk:"timeout"`

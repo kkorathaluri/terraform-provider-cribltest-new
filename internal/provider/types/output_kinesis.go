@@ -35,6 +35,7 @@ type OutputKinesis struct {
 	RejectUnauthorized      types.Bool               `tfsdk:"reject_unauthorized"`
 	ReuseConnections        types.Bool               `tfsdk:"reuse_connections"`
 	SignatureVersion        types.String             `tfsdk:"signature_version"`
+	Status                  *TFStatus                `tfsdk:"status"`
 	StreamName              types.String             `tfsdk:"stream_name"`
 	Streamtags              []types.String           `tfsdk:"streamtags"`
 	SystemFields            []types.String           `tfsdk:"system_fields"`

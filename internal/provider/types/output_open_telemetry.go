@@ -47,6 +47,7 @@ type OutputOpenTelemetry struct {
 	SafeHeaders                   []types.String                             `tfsdk:"safe_headers"`
 	Secret                        types.String                               `tfsdk:"secret"`
 	SecretParamName               types.String                               `tfsdk:"secret_param_name"`
+	Status                        *TFStatus                                  `tfsdk:"status"`
 	Streamtags                    []types.String                             `tfsdk:"streamtags"`
 	SystemFields                  []types.String                             `tfsdk:"system_fields"`
 	TextSecret                    types.String                               `tfsdk:"text_secret"`

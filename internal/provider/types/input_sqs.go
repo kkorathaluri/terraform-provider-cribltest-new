@@ -35,6 +35,7 @@ type InputSqs struct {
 	ReuseConnections        types.Bool            `tfsdk:"reuse_connections"`
 	SendToRoutes            types.Bool            `tfsdk:"send_to_routes"`
 	SignatureVersion        types.String          `tfsdk:"signature_version"`
+	Status                  *TFStatus             `tfsdk:"status"`
 	Streamtags              []types.String        `tfsdk:"streamtags"`
 	Type                    types.String          `tfsdk:"type"`
 	VisibilityTimeout       types.Float64         `tfsdk:"visibility_timeout"`

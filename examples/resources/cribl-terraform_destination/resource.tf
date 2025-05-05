@@ -52,8 +52,16 @@ resource "cribl-terraform_destination" "my_destination" {
     remove_empty_dirs         = true
     should_log_invalid_rows   = true
     stage_path                = "...my_stage_path..."
-    storage_account_name      = "...my_storage_account_name..."
-    storage_class             = "Archive"
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.85
+      use_status_from_lb = false
+    }
+    storage_account_name = "...my_storage_account_name..."
+    storage_class        = "Archive"
     streamtags = [
       "..."
     ]
@@ -143,6 +151,14 @@ resource "cribl-terraform_destination" "my_destination" {
     retain_blob_on_success = false
     scope                  = "...my_scope..."
     stage_path             = "...my_stage_path..."
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.55
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -197,6 +213,14 @@ resource "cribl-terraform_destination" "my_destination" {
     sasl = {
       disabled  = true
       mechanism = "plain"
+    }
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.03
+      use_status_from_lb = true
     }
     streamtags = [
       "..."
@@ -256,6 +280,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.95
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -350,6 +382,14 @@ resource "cribl-terraform_destination" "my_destination" {
     secret            = "...my_secret..."
     secret_param_name = "...my_secret_param_name..."
     sql_username      = "...my_sql_username..."
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 1.23
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -417,6 +457,14 @@ resource "cribl-terraform_destination" "my_destination" {
     region              = "...my_region..."
     reject_unauthorized = false
     reuse_connections   = false
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 3.65
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -486,6 +534,14 @@ resource "cribl-terraform_destination" "my_destination" {
     sasl = {
       disabled  = false
       mechanism = "scram-sha-256"
+    }
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 1.57
+      use_status_from_lb = true
     }
     streamtags = [
       "..."
@@ -639,7 +695,15 @@ resource "cribl-terraform_destination" "my_destination" {
     server_side_encryption            = "aws:kms"
     signature_version                 = "v4"
     stage_path                        = "...my_stage_path..."
-    storage_class                     = "STANDARD"
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 7.01
+      use_status_from_lb = true
+    }
+    storage_class = "STANDARD"
     streamtags = [
       "..."
     ]
@@ -666,7 +730,7 @@ resource "cribl-terraform_destination" "my_destination" {
         host       = "...my_host..."
         port       = 48249.06
         servername = "...my_servername..."
-        tls        = "off"
+        tls        = "false"
         weight     = 3.03
       }
     ]
@@ -687,6 +751,14 @@ resource "cribl-terraform_destination" "my_destination" {
     pq_mode            = "always"
     pq_on_backpressure = "drop"
     pq_path            = "...my_pq_path..."
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 0.64
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -752,6 +824,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 7.7
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -824,6 +904,14 @@ resource "cribl-terraform_destination" "my_destination" {
     severity               = "error"
     site                   = "us"
     source                 = "...my_source..."
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 2.45
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -895,6 +983,14 @@ resource "cribl-terraform_destination" "my_destination" {
     ]
     server_host_field = "...my_server_host_field..."
     site              = "custom"
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 5.72
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -919,6 +1015,14 @@ resource "cribl-terraform_destination" "my_destination" {
     environment = "...my_environment..."
     id          = "...my_id..."
     pipeline    = "...my_pipeline..."
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.05
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -931,6 +1035,14 @@ resource "cribl-terraform_destination" "my_destination" {
     environment = "...my_environment..."
     id          = "...my_id..."
     pipeline    = "...my_pipeline..."
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 4.24
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -948,6 +1060,14 @@ resource "cribl-terraform_destination" "my_destination" {
     max_data_time  = "...my_max_data_time..."
     partition_expr = "...my_partition_expr..."
     pipeline       = "...my_pipeline..."
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 7.84
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -1019,7 +1139,15 @@ resource "cribl-terraform_destination" "my_destination" {
     should_log_invalid_rows = true
     signature_version       = "v4"
     stage_path              = "...my_stage_path..."
-    storage_class           = "GLACIER_IR"
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 1.23
+      use_status_from_lb = true
+    }
+    storage_class = "GLACIER_IR"
     streamtags = [
       "..."
     ]
@@ -1077,6 +1205,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 7.74
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -1155,6 +1291,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 0.18
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -1232,6 +1376,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 1.57
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -1309,6 +1461,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 3.94
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -1356,7 +1516,15 @@ resource "cribl-terraform_destination" "my_destination" {
     site_id                   = "...my_site_id..."
     site_name                 = "...my_site_name..."
     stage_path                = "...my_stage_path..."
-    storage_class             = "NEARLINE"
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 0.15
+      use_status_from_lb = true
+    }
+    storage_class = "NEARLINE"
     streamtags = [
       "..."
     ]
@@ -1407,6 +1575,14 @@ resource "cribl-terraform_destination" "my_destination" {
     remove_empty_dirs         = true
     should_log_invalid_rows   = false
     stage_path                = "...my_stage_path..."
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 5.17
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -1480,6 +1656,14 @@ resource "cribl-terraform_destination" "my_destination" {
     ]
     service_account_credentials        = "...my_service_account_credentials..."
     service_account_credentials_secret = "...my_service_account_credentials_secret..."
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 2.75
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -1562,7 +1746,15 @@ resource "cribl-terraform_destination" "my_destination" {
     service_account_credentials = "...my_service_account_credentials..."
     severity_expression         = "...my_severity_expression..."
     span_id_expression          = "...my_span_id_expression..."
-    status_expression           = "...my_status_expression..."
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 6.44
+      use_status_from_lb = true
+    }
+    status_expression = "...my_status_expression..."
     streamtags = [
       "..."
     ]
@@ -1631,7 +1823,15 @@ resource "cribl-terraform_destination" "my_destination" {
     should_log_invalid_rows   = true
     signature_version         = "v2"
     stage_path                = "...my_stage_path..."
-    storage_class             = "NEARLINE"
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 4.94
+      use_status_from_lb = false
+    }
+    storage_class = "NEARLINE"
     streamtags = [
       "..."
     ]
@@ -1669,6 +1869,14 @@ resource "cribl-terraform_destination" "my_destination" {
     region                      = "...my_region..."
     secret                      = "...my_secret..."
     service_account_credentials = "...my_service_account_credentials..."
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 4.44
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -1746,6 +1954,14 @@ resource "cribl-terraform_destination" "my_destination" {
       safe_headers = [
         "..."
       ]
+      status = {
+        health = "Green"
+        metrics = {
+          key = jsonencode("value")
+        }
+        timestamp          = 1.67
+        use_status_from_lb = true
+      }
       streamtags = [
         "..."
       ]
@@ -1785,6 +2001,14 @@ resource "cribl-terraform_destination" "my_destination" {
     pq_on_backpressure = "block"
     pq_path            = "...my_pq_path..."
     protocol           = "tcp"
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.78
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -1837,6 +2061,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 5.74
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -1897,6 +2129,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 2.89
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -1979,6 +2219,14 @@ resource "cribl-terraform_destination" "my_destination" {
     ]
     secret            = "...my_secret..."
     secret_param_name = "...my_secret_param_name..."
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.17
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -2066,6 +2314,14 @@ resource "cribl-terraform_destination" "my_destination" {
       disabled  = true
       mechanism = "plain"
     }
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 5.48
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -2120,7 +2376,15 @@ resource "cribl-terraform_destination" "my_destination" {
     reject_unauthorized = false
     reuse_connections   = true
     signature_version   = "v4"
-    stream_name         = "...my_stream_name..."
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 0.43
+      use_status_from_lb = true
+    }
+    stream_name = "...my_stream_name..."
     streamtags = [
       "..."
     ]
@@ -2181,6 +2445,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 1.48
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -2256,7 +2528,15 @@ resource "cribl-terraform_destination" "my_destination" {
     should_log_invalid_rows   = false
     signature_version         = "v4"
     stage_path                = "...my_stage_path..."
-    storage_class             = "STANDARD"
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.98
+      use_status_from_lb = true
+    }
+    storage_class = "STANDARD"
     streamtags = [
       "..."
     ]
@@ -2338,6 +2618,14 @@ resource "cribl-terraform_destination" "my_destination" {
     request_timeout            = 2709174.61
     reuse_connections          = true
     signature_version          = "v2"
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.7
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -2371,6 +2659,14 @@ resource "cribl-terraform_destination" "my_destination" {
     ]
     id       = "...my_id..."
     pipeline = "...my_pipeline..."
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 5.72
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -2431,6 +2727,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.15
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -2495,6 +2799,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 5.79
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -2586,6 +2898,14 @@ resource "cribl-terraform_destination" "my_destination" {
     ]
     secret            = "...my_secret..."
     secret_param_name = "...my_secret_param_name..."
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 0.12
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -2679,6 +2999,14 @@ resource "cribl-terraform_destination" "my_destination" {
     secret            = "...my_secret..."
     secret_param_name = "...my_secret_param_name..."
     send_metadata     = true
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 0.33
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -2713,6 +3041,14 @@ resource "cribl-terraform_destination" "my_destination" {
     on_backpressure = "drop"
     partition_expr  = "...my_partition_expr..."
     pipeline        = "...my_pipeline..."
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.84
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -2734,6 +3070,14 @@ resource "cribl-terraform_destination" "my_destination" {
         output      = "...my_output..."
       }
     ]
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 7.13
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -2802,7 +3146,15 @@ resource "cribl-terraform_destination" "my_destination" {
     should_log_invalid_rows           = true
     signature_version                 = "v4"
     stage_path                        = "...my_stage_path..."
-    storage_class                     = "STANDARD_IA"
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.93
+      use_status_from_lb = true
+    }
+    storage_class = "STANDARD_IA"
     streamtags = [
       "..."
     ]
@@ -2870,7 +3222,15 @@ resource "cribl-terraform_destination" "my_destination" {
     should_log_invalid_rows           = false
     signature_version                 = "v2"
     stage_path                        = "...my_stage_path..."
-    storage_class                     = "STANDARD_IA"
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 5.57
+      use_status_from_lb = false
+    }
+    storage_class = "STANDARD_IA"
     streamtags = [
       "..."
     ]
@@ -2937,8 +3297,16 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
-    scope       = "...my_scope..."
-    secret      = "...my_secret..."
+    scope  = "...my_scope..."
+    secret = "...my_secret..."
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 7.21
+      use_status_from_lb = false
+    }
     stream_name = "...my_stream_name..."
     streamtags = [
       "..."
@@ -3014,6 +3382,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 0.37
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3084,6 +3460,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.92
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -3114,6 +3498,14 @@ resource "cribl-terraform_destination" "my_destination" {
     ]
     id       = "...my_id..."
     pipeline = "...my_pipeline..."
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 2.9
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3152,6 +3544,14 @@ resource "cribl-terraform_destination" "my_destination" {
     reject_unauthorized = true
     reuse_connections   = false
     signature_version   = "v4"
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 6.5
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3188,6 +3588,14 @@ resource "cribl-terraform_destination" "my_destination" {
     pq_mode            = "always"
     pq_on_backpressure = "block"
     pq_path            = "...my_pq_path..."
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.73
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -3258,6 +3666,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.41
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3300,7 +3716,7 @@ resource "cribl-terraform_destination" "my_destination" {
         host       = "...my_host..."
         port       = 39320.05
         servername = "...my_servername..."
-        tls        = "off"
+        tls        = "false"
         weight     = 0.71
       }
     ]
@@ -3338,6 +3754,14 @@ resource "cribl-terraform_destination" "my_destination" {
     pq_on_backpressure              = "block"
     pq_path                         = "...my_pq_path..."
     sender_unhealthy_time_allowance = 20354.85
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.55
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -3398,6 +3822,14 @@ resource "cribl-terraform_destination" "my_destination" {
     reject_unauthorized = false
     reuse_connections   = true
     signature_version   = "v2"
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 5.11
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -3428,6 +3860,14 @@ resource "cribl-terraform_destination" "my_destination" {
     pq_on_backpressure = "block"
     pq_path            = "...my_pq_path..."
     protocol           = "udp"
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.49
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -3460,6 +3900,14 @@ resource "cribl-terraform_destination" "my_destination" {
     pq_on_backpressure = "block"
     pq_path            = "...my_pq_path..."
     protocol           = "tcp"
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 6.14
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3513,6 +3961,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 3.7
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3558,6 +4014,14 @@ resource "cribl-terraform_destination" "my_destination" {
     pq_path            = "...my_pq_path..."
     protocol           = "tcp"
     severity           = 4
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 1.58
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3619,6 +4083,14 @@ resource "cribl-terraform_destination" "my_destination" {
     pq_on_backpressure = "block"
     pq_path            = "...my_pq_path..."
     send_header        = true
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.05
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3685,6 +4157,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 3.06
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -3777,6 +4257,14 @@ resource "cribl-terraform_destination" "my_destination" {
     ]
     secret            = "...my_secret..."
     secret_param_name = "...my_secret_param_name..."
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 1.14
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3861,6 +4349,14 @@ resource "cribl-terraform_destination" "my_destination" {
     safe_headers = [
       "..."
     ]
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 4.22
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]

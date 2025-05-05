@@ -31,6 +31,7 @@ type InputWef struct {
 	Principal              types.String          `tfsdk:"principal"`
 	SendToRoutes           types.Bool            `tfsdk:"send_to_routes"`
 	SocketTimeout          types.Float64         `tfsdk:"socket_timeout"`
+	Status                 *TFStatus             `tfsdk:"status"`
 	Streamtags             []types.String        `tfsdk:"streamtags"`
 	Subscriptions          []Subscriptions       `tfsdk:"subscriptions"`
 	TLS                    *MTLSSettings         `tfsdk:"tls"`

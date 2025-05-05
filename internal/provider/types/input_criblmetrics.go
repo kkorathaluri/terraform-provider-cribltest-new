@@ -17,6 +17,7 @@ type InputCriblmetrics struct {
 	PqEnabled    types.Bool                     `tfsdk:"pq_enabled"`
 	Prefix       types.String                   `tfsdk:"prefix"`
 	SendToRoutes types.Bool                     `tfsdk:"send_to_routes"`
+	Status       *TFStatus                      `tfsdk:"status"`
 	Streamtags   []types.String                 `tfsdk:"streamtags"`
 	Type         types.String                   `tfsdk:"type"`
 }

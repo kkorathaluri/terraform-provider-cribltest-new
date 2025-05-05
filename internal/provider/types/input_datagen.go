@@ -14,8 +14,9 @@ type InputDatagen struct {
 	Pipeline     types.String              `tfsdk:"pipeline"`
 	Pq           *InputDatagenPq           `tfsdk:"pq"`
 	PqEnabled    types.Bool                `tfsdk:"pq_enabled"`
-	Samples      []Samples                 `tfsdk:"samples"`
+	Samples      []InputDatagenSamples     `tfsdk:"samples"`
 	SendToRoutes types.Bool                `tfsdk:"send_to_routes"`
+	Status       *TFStatus                 `tfsdk:"status"`
 	Streamtags   []types.String            `tfsdk:"streamtags"`
 	Type         types.String              `tfsdk:"type"`
 }

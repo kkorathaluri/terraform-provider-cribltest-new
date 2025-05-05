@@ -4,6 +4,7 @@ package shared
 
 type OutputSamplesResponse struct {
 	Events []map[string]any `json:"events"`
+	Status *TFStatus        `json:"status,omitempty"`
 }
 
 func (o *OutputSamplesResponse) GetEvents() []map[string]any {
@@ -11,4 +12,11 @@ func (o *OutputSamplesResponse) GetEvents() []map[string]any {
 		return []map[string]any{}
 	}
 	return o.Events
+}
+
+func (o *OutputSamplesResponse) GetStatus() *TFStatus {
+	if o == nil {
+		return nil
+	}
+	return o.Status
 }
