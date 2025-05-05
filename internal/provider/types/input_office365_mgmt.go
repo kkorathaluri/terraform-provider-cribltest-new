@@ -26,6 +26,7 @@ type InputOffice365Mgmt struct {
 	PublisherIdentifier types.String                    `tfsdk:"publisher_identifier"`
 	RetryRules          *InputOffice365MgmtRetryRules   `tfsdk:"retry_rules"`
 	SendToRoutes        types.Bool                      `tfsdk:"send_to_routes"`
+	Status              *TFStatus                       `tfsdk:"status"`
 	Streamtags          []types.String                  `tfsdk:"streamtags"`
 	TenantID            types.String                    `tfsdk:"tenant_id"`
 	TextSecret          types.String                    `tfsdk:"text_secret"`

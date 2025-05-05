@@ -29,6 +29,7 @@ type OutputGooglePubsub struct {
 	Region                    types.String                  `tfsdk:"region"`
 	Secret                    types.String                  `tfsdk:"secret"`
 	ServiceAccountCredentials types.String                  `tfsdk:"service_account_credentials"`
+	Status                    *TFStatus                     `tfsdk:"status"`
 	Streamtags                []types.String                `tfsdk:"streamtags"`
 	SystemFields              []types.String                `tfsdk:"system_fields"`
 	TopicName                 types.String                  `tfsdk:"topic_name"`

@@ -48,6 +48,7 @@ type InputMsk struct {
 	SendToRoutes              types.Bool                                 `tfsdk:"send_to_routes"`
 	SessionTimeout            types.Float64                              `tfsdk:"session_timeout"`
 	SignatureVersion          types.String                               `tfsdk:"signature_version"`
+	Status                    *TFStatus                                  `tfsdk:"status"`
 	Streamtags                []types.String                             `tfsdk:"streamtags"`
 	TLS                       *InputMskTLSSettingsClientSide             `tfsdk:"tls"`
 	Topics                    []types.String                             `tfsdk:"topics"`

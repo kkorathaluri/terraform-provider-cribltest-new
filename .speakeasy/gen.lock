@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: b2744b7e-1ce3-478a-8c1f-0348b936141a
 management:
-  docChecksum: 3bd5759622b767560b30a6d95d2ed425
+  docChecksum: 848133150ad8dfa34b9b24d9e9b0aa5e
   docVersion: 1.0.0
-  speakeasyVersion: 1.541.2
-  generationVersion: 2.595.4
-  releaseVersion: 0.11.11
-  configChecksum: ae8e6d6fd6cedf24c05223edf7637dab
+  speakeasyVersion: 1.542.1
+  generationVersion: 2.597.9
+  releaseVersion: 0.11.22
+  configChecksum: cd4ebf98d10ed5334039dbc3e37dbeae
   published: true
 features:
   terraform:
@@ -79,14 +79,12 @@ generatedFiles:
   - internal/provider/typeconvert/int32.go
   - internal/provider/types/additional_properties.go
   - internal/provider/types/allow.go
-  - internal/provider/types/auth.go
   - internal/provider/types/auth_tokens.go
   - internal/provider/types/auth_tokens_ext.go
   - internal/provider/types/authentication.go
   - internal/provider/types/cert_options.go
   - internal/provider/types/checkpointing.go
   - internal/provider/types/collectors.go
-  - internal/provider/types/column_mappings.go
   - internal/provider/types/commit.go
   - internal/provider/types/config_group_cloud.go
   - internal/provider/types/connections.go
@@ -127,12 +125,13 @@ generatedFiles:
   - internal/provider/types/input_azure_blob_pq.go
   - internal/provider/types/input_collection.go
   - internal/provider/types/input_collection_metadata.go
+  - internal/provider/types/input_collection_preprocess.go
   - internal/provider/types/input_confluent_cloud.go
   - internal/provider/types/input_confluent_cloud_auth.go
   - internal/provider/types/input_confluent_cloud_authentication.go
   - internal/provider/types/input_confluent_cloud_connections.go
+  - internal/provider/types/input_confluent_cloud_input_tls_settings_client_side.go
   - internal/provider/types/input_confluent_cloud_kafka_schema_registry_authentication.go
-  - internal/provider/types/input_confluent_cloud_kafka_schema_registry_tls_settings_client_side.go
   - internal/provider/types/input_confluent_cloud_metadata.go
   - internal/provider/types/input_confluent_cloud_pq.go
   - internal/provider/types/input_confluent_cloud_tls_settings_client_side.go
@@ -169,6 +168,7 @@ generatedFiles:
   - internal/provider/types/input_datagen_connections.go
   - internal/provider/types/input_datagen_metadata.go
   - internal/provider/types/input_datagen_pq.go
+  - internal/provider/types/input_datagen_samples.go
   - internal/provider/types/input_edge_prometheus.go
   - internal/provider/types/input_edge_prometheus_connections.go
   - internal/provider/types/input_edge_prometheus_metadata.go
@@ -204,17 +204,7 @@ generatedFiles:
   - internal/provider/types/input_google_pubsub_pq.go
   - internal/provider/types/input_grafana.go
   - internal/provider/types/input_grafana1.go
-  - internal/provider/types/input_grafana1_oauth_headers.go
-  - internal/provider/types/input_grafana1_oauth_params.go
   - internal/provider/types/input_grafana2.go
-  - internal/provider/types/input_grafana2_connections.go
-  - internal/provider/types/input_grafana2_loki_auth_oauth_headers.go
-  - internal/provider/types/input_grafana2_loki_auth_oauth_params.go
-  - internal/provider/types/input_grafana2_metadata.go
-  - internal/provider/types/input_grafana2_oauth_headers.go
-  - internal/provider/types/input_grafana2_oauth_params.go
-  - internal/provider/types/input_grafana2_pq.go
-  - internal/provider/types/input_grafana2_tls_settings_server_side.go
   - internal/provider/types/input_grafana_connections.go
   - internal/provider/types/input_grafana_loki_auth.go
   - internal/provider/types/input_grafana_metadata.go
@@ -224,17 +214,31 @@ generatedFiles:
   - internal/provider/types/input_grafana_prometheus_auth.go
   - internal/provider/types/input_grafana_tls_settings_server_side.go
   - internal/provider/types/input_http.go
-  - internal/provider/types/input_http_auth_tokens_ext_metadata.go
   - internal/provider/types/input_http_connections.go
+  - internal/provider/types/input_http_input_metadata.go
   - internal/provider/types/input_http_metadata.go
   - internal/provider/types/input_http_pq.go
   - internal/provider/types/input_http_raw.go
   - internal/provider/types/input_http_raw_auth_tokens_ext.go
-  - internal/provider/types/input_http_raw_auth_tokens_ext_metadata.go
   - internal/provider/types/input_http_raw_connections.go
+  - internal/provider/types/input_http_raw_input_metadata.go
   - internal/provider/types/input_http_raw_metadata.go
   - internal/provider/types/input_http_raw_pq.go
   - internal/provider/types/input_http_raw_tls_settings_server_side.go
+  - internal/provider/types/input_input_grafana2_loki_auth_oauth_headers.go
+  - internal/provider/types/input_input_grafana2_loki_auth_oauth_params.go
+  - internal/provider/types/input_input_grafana2_oauth_headers.go
+  - internal/provider/types/input_input_grafana2_oauth_params.go
+  - internal/provider/types/input_input_grafana_connections.go
+  - internal/provider/types/input_input_grafana_metadata.go
+  - internal/provider/types/input_input_grafana_oauth_headers.go
+  - internal/provider/types/input_input_grafana_oauth_params.go
+  - internal/provider/types/input_input_grafana_pq.go
+  - internal/provider/types/input_input_grafana_tls_settings_server_side.go
+  - internal/provider/types/input_input_syslog_connections.go
+  - internal/provider/types/input_input_syslog_metadata.go
+  - internal/provider/types/input_input_syslog_pq.go
+  - internal/provider/types/input_input_syslog_tls_settings_server_side.go
   - internal/provider/types/input_journal_files.go
   - internal/provider/types/input_journal_files_connections.go
   - internal/provider/types/input_journal_files_metadata.go
@@ -287,8 +291,8 @@ generatedFiles:
   - internal/provider/types/input_msk.go
   - internal/provider/types/input_msk_auth.go
   - internal/provider/types/input_msk_connections.go
+  - internal/provider/types/input_msk_input_tls_settings_client_side.go
   - internal/provider/types/input_msk_kafka_schema_registry_authentication.go
-  - internal/provider/types/input_msk_kafka_schema_registry_tls_settings_client_side.go
   - internal/provider/types/input_msk_metadata.go
   - internal/provider/types/input_msk_pq.go
   - internal/provider/types/input_msk_tls_settings_client_side.go
@@ -360,8 +364,8 @@ generatedFiles:
   - internal/provider/types/input_splunk_connections.go
   - internal/provider/types/input_splunk_hec.go
   - internal/provider/types/input_splunk_hec_auth_tokens.go
-  - internal/provider/types/input_splunk_hec_auth_tokens_metadata.go
   - internal/provider/types/input_splunk_hec_connections.go
+  - internal/provider/types/input_splunk_hec_input_metadata.go
   - internal/provider/types/input_splunk_hec_metadata.go
   - internal/provider/types/input_splunk_hec_pq.go
   - internal/provider/types/input_splunk_hec_tls_settings_server_side.go
@@ -379,10 +383,6 @@ generatedFiles:
   - internal/provider/types/input_syslog.go
   - internal/provider/types/input_syslog1.go
   - internal/provider/types/input_syslog2.go
-  - internal/provider/types/input_syslog2_connections.go
-  - internal/provider/types/input_syslog2_metadata.go
-  - internal/provider/types/input_syslog2_pq.go
-  - internal/provider/types/input_syslog2_tls_settings_server_side.go
   - internal/provider/types/input_syslog_connections.go
   - internal/provider/types/input_syslog_metadata.go
   - internal/provider/types/input_syslog_pq.go
@@ -415,9 +415,9 @@ generatedFiles:
   - internal/provider/types/input_tcptls_settings_server_side.go
   - internal/provider/types/input_wef.go
   - internal/provider/types/input_wef_connections.go
+  - internal/provider/types/input_wef_input_metadata.go
   - internal/provider/types/input_wef_metadata.go
   - internal/provider/types/input_wef_pq.go
-  - internal/provider/types/input_wef_subscriptions_metadata.go
   - internal/provider/types/input_win_event_logs.go
   - internal/provider/types/input_win_event_logs_connections.go
   - internal/provider/types/input_win_event_logs_metadata.go
@@ -444,8 +444,8 @@ generatedFiles:
   - internal/provider/types/input_wiz_retry_rules.go
   - internal/provider/types/input_zscaler_hec.go
   - internal/provider/types/input_zscaler_hec_auth_tokens.go
-  - internal/provider/types/input_zscaler_hec_auth_tokens_metadata.go
   - internal/provider/types/input_zscaler_hec_connections.go
+  - internal/provider/types/input_zscaler_hec_input_metadata.go
   - internal/provider/types/input_zscaler_hec_metadata.go
   - internal/provider/types/input_zscaler_hec_pq.go
   - internal/provider/types/input_zscaler_hec_tls_settings_server_side.go
@@ -478,6 +478,7 @@ generatedFiles:
   - internal/provider/types/output_azure_logs_response_retry_settings.go
   - internal/provider/types/output_azure_logs_timeout_retry_settings.go
   - internal/provider/types/output_click_house.go
+  - internal/provider/types/output_click_house_column_mappings.go
   - internal/provider/types/output_click_house_extra_http_headers.go
   - internal/provider/types/output_click_house_oauth_headers.go
   - internal/provider/types/output_click_house_oauth_params.go
@@ -491,14 +492,13 @@ generatedFiles:
   - internal/provider/types/output_confluent_cloud_auth.go
   - internal/provider/types/output_confluent_cloud_authentication.go
   - internal/provider/types/output_confluent_cloud_kafka_schema_registry_authentication.go
-  - internal/provider/types/output_confluent_cloud_kafka_schema_registry_tls_settings_client_side.go
+  - internal/provider/types/output_confluent_cloud_output_tls_settings_client_side.go
   - internal/provider/types/output_confluent_cloud_pq_controls.go
   - internal/provider/types/output_confluent_cloud_tls_settings_client_side.go
   - internal/provider/types/output_cribl_http.go
   - internal/provider/types/output_cribl_http_extra_http_headers.go
   - internal/provider/types/output_cribl_http_pq_controls.go
   - internal/provider/types/output_cribl_http_response_retry_settings.go
-  - internal/provider/types/output_cribl_http_status.go
   - internal/provider/types/output_cribl_http_timeout_retry_settings.go
   - internal/provider/types/output_cribl_http_urls.go
   - internal/provider/types/output_cribl_httptls_settings_client_side.go
@@ -539,6 +539,7 @@ generatedFiles:
   - internal/provider/types/output_dynatrace_otlp_response_retry_settings.go
   - internal/provider/types/output_dynatrace_otlp_timeout_retry_settings.go
   - internal/provider/types/output_elastic.go
+  - internal/provider/types/output_elastic_auth.go
   - internal/provider/types/output_elastic_cloud.go
   - internal/provider/types/output_elastic_cloud_auth.go
   - internal/provider/types/output_elastic_cloud_extra_http_headers.go
@@ -566,14 +567,7 @@ generatedFiles:
   - internal/provider/types/output_google_pubsub_pq_controls.go
   - internal/provider/types/output_grafana_cloud.go
   - internal/provider/types/output_grafana_cloud1.go
-  - internal/provider/types/output_grafana_cloud1_labels.go
   - internal/provider/types/output_grafana_cloud2.go
-  - internal/provider/types/output_grafana_cloud2_extra_http_headers.go
-  - internal/provider/types/output_grafana_cloud2_loki_auth.go
-  - internal/provider/types/output_grafana_cloud2_pq_controls.go
-  - internal/provider/types/output_grafana_cloud2_prometheus_auth.go
-  - internal/provider/types/output_grafana_cloud2_response_retry_settings.go
-  - internal/provider/types/output_grafana_cloud2_timeout_retry_settings.go
   - internal/provider/types/output_grafana_cloud_extra_http_headers.go
   - internal/provider/types/output_grafana_cloud_labels.go
   - internal/provider/types/output_grafana_cloud_loki_auth.go
@@ -604,7 +598,7 @@ generatedFiles:
   - internal/provider/types/output_kafka_auth.go
   - internal/provider/types/output_kafka_authentication.go
   - internal/provider/types/output_kafka_kafka_schema_registry_authentication.go
-  - internal/provider/types/output_kafka_kafka_schema_registry_tls_settings_client_side.go
+  - internal/provider/types/output_kafka_output_tls_settings_client_side.go
   - internal/provider/types/output_kafka_pq_controls.go
   - internal/provider/types/output_kafka_tls_settings_client_side.go
   - internal/provider/types/output_kinesis.go
@@ -619,7 +613,7 @@ generatedFiles:
   - internal/provider/types/output_msk.go
   - internal/provider/types/output_msk_auth.go
   - internal/provider/types/output_msk_kafka_schema_registry_authentication.go
-  - internal/provider/types/output_msk_kafka_schema_registry_tls_settings_client_side.go
+  - internal/provider/types/output_msk_output_tls_settings_client_side.go
   - internal/provider/types/output_msk_pq_controls.go
   - internal/provider/types/output_msk_tls_settings_client_side.go
   - internal/provider/types/output_netflow.go
@@ -644,6 +638,13 @@ generatedFiles:
   - internal/provider/types/output_open_telemetry_response_retry_settings.go
   - internal/provider/types/output_open_telemetry_timeout_retry_settings.go
   - internal/provider/types/output_open_telemetry_tls_settings_client_side.go
+  - internal/provider/types/output_output_grafana_cloud_extra_http_headers.go
+  - internal/provider/types/output_output_grafana_cloud_labels.go
+  - internal/provider/types/output_output_grafana_cloud_loki_auth.go
+  - internal/provider/types/output_output_grafana_cloud_pq_controls.go
+  - internal/provider/types/output_output_grafana_cloud_prometheus_auth.go
+  - internal/provider/types/output_output_grafana_cloud_response_retry_settings.go
+  - internal/provider/types/output_output_grafana_cloud_timeout_retry_settings.go
   - internal/provider/types/output_prometheus.go
   - internal/provider/types/output_prometheus_extra_http_headers.go
   - internal/provider/types/output_prometheus_oauth_headers.go
@@ -720,6 +721,7 @@ generatedFiles:
   - internal/provider/types/output_webhook_oauth_headers.go
   - internal/provider/types/output_webhook_oauth_params.go
   - internal/provider/types/output_webhook_tls_settings_client_side.go
+  - internal/provider/types/output_webhook_urls.go
   - internal/provider/types/output_xsiam.go
   - internal/provider/types/output_xsiam_extra_http_headers.go
   - internal/provider/types/output_xsiam_pq_controls.go
@@ -733,23 +735,21 @@ generatedFiles:
   - internal/provider/types/pod_filter.go
   - internal/provider/types/pq.go
   - internal/provider/types/pq_controls.go
-  - internal/provider/types/preprocess.go
   - internal/provider/types/prometheus_auth.go
   - internal/provider/types/proxy_mode.go
   - internal/provider/types/resource_type_labels.go
   - internal/provider/types/response_retry_settings.go
   - internal/provider/types/retry_rules.go
-  - internal/provider/types/samples.go
   - internal/provider/types/search_filter.go
   - internal/provider/types/services.go
   - internal/provider/types/sets.go
   - internal/provider/types/snm_pv3_authentication.go
   - internal/provider/types/subscriptions.go
   - internal/provider/types/targets.go
+  - internal/provider/types/tf_status.go
   - internal/provider/types/timeout_retry_settings.go
   - internal/provider/types/tls_settings_client_side.go
   - internal/provider/types/tls_settings_server_side.go
-  - internal/provider/types/urls.go
   - internal/provider/types/users_and_groups.go
   - internal/provider/types/v3_users.go
   - internal/provider/utils.go
@@ -806,6 +806,8 @@ generatedFiles:
   - internal/sdk/internal/utils/form.go
   - internal/sdk/internal/utils/headers.go
   - internal/sdk/internal/utils/json.go
+  - internal/sdk/internal/utils/oauth2_credentials.go
+  - internal/sdk/internal/utils/oauth2_sessions.go
   - internal/sdk/internal/utils/pathparams.go
   - internal/sdk/internal/utils/queryparams.go
   - internal/sdk/internal/utils/requestbody.go
@@ -1437,64 +1439,7 @@ generatedFiles:
   - internal/sdk/models/shared/httpoutextraparamconfig.go
   - internal/sdk/models/shared/httpoutresponseretryconfig.go
   - internal/sdk/models/shared/input.go
-  - internal/sdk/models/shared/inputappscope.go
-  - internal/sdk/models/shared/inputazureblob.go
-  - internal/sdk/models/shared/inputcollection.go
-  - internal/sdk/models/shared/inputconfluentcloud.go
-  - internal/sdk/models/shared/inputcribl.go
-  - internal/sdk/models/shared/inputcriblhttp.go
-  - internal/sdk/models/shared/inputcriblmetrics.go
-  - internal/sdk/models/shared/inputcribltcp.go
-  - internal/sdk/models/shared/inputcrowdstrike.go
-  - internal/sdk/models/shared/inputdatadogagent.go
-  - internal/sdk/models/shared/inputdatagen.go
-  - internal/sdk/models/shared/inputedgeprometheus.go
-  - internal/sdk/models/shared/inputelastic.go
-  - internal/sdk/models/shared/inputeventhub.go
-  - internal/sdk/models/shared/inputexec.go
-  - internal/sdk/models/shared/inputfile.go
-  - internal/sdk/models/shared/inputfirehose.go
-  - internal/sdk/models/shared/inputgooglepubsub.go
-  - internal/sdk/models/shared/inputgrafana.go
-  - internal/sdk/models/shared/inputhttp.go
-  - internal/sdk/models/shared/inputhttpraw.go
-  - internal/sdk/models/shared/inputjournalfiles.go
-  - internal/sdk/models/shared/inputkafka.go
-  - internal/sdk/models/shared/inputkinesis.go
-  - internal/sdk/models/shared/inputkubeevents.go
-  - internal/sdk/models/shared/inputkubelogs.go
-  - internal/sdk/models/shared/inputkubemetrics.go
-  - internal/sdk/models/shared/inputloki.go
-  - internal/sdk/models/shared/inputmetrics.go
-  - internal/sdk/models/shared/inputmodeldriventelemetry.go
-  - internal/sdk/models/shared/inputmsk.go
-  - internal/sdk/models/shared/inputnetflow.go
-  - internal/sdk/models/shared/inputoffice365mgmt.go
-  - internal/sdk/models/shared/inputoffice365msgtrace.go
-  - internal/sdk/models/shared/inputoffice365service.go
-  - internal/sdk/models/shared/inputopentelemetry.go
-  - internal/sdk/models/shared/inputprometheus.go
-  - internal/sdk/models/shared/inputprometheusrw.go
-  - internal/sdk/models/shared/inputrawudp.go
-  - internal/sdk/models/shared/inputs3.go
-  - internal/sdk/models/shared/inputs3inventory.go
-  - internal/sdk/models/shared/inputsecuritylake.go
-  - internal/sdk/models/shared/inputsnmp.go
-  - internal/sdk/models/shared/inputsplunk.go
-  - internal/sdk/models/shared/inputsplunkhec.go
-  - internal/sdk/models/shared/inputsplunksearch.go
-  - internal/sdk/models/shared/inputsqs.go
   - internal/sdk/models/shared/inputstatus.go
-  - internal/sdk/models/shared/inputsyslog.go
-  - internal/sdk/models/shared/inputsystemmetrics.go
-  - internal/sdk/models/shared/inputsystemstate.go
-  - internal/sdk/models/shared/inputtcp.go
-  - internal/sdk/models/shared/inputtcpjson.go
-  - internal/sdk/models/shared/inputwef.go
-  - internal/sdk/models/shared/inputwindowsmetrics.go
-  - internal/sdk/models/shared/inputwineventlogs.go
-  - internal/sdk/models/shared/inputwiz.go
-  - internal/sdk/models/shared/inputzscalerhec.go
   - internal/sdk/models/shared/invoice.go
   - internal/sdk/models/shared/invoicegroupedlineitem.go
   - internal/sdk/models/shared/invoicelineitem.go
@@ -1549,73 +1494,10 @@ generatedFiles:
   - internal/sdk/models/shared/originconfig.go
   - internal/sdk/models/shared/osmetadata.go
   - internal/sdk/models/shared/output.go
-  - internal/sdk/models/shared/outputazureblob.go
-  - internal/sdk/models/shared/outputazuredataexplorer.go
-  - internal/sdk/models/shared/outputazureeventhub.go
-  - internal/sdk/models/shared/outputazurelogs.go
-  - internal/sdk/models/shared/outputclickhouse.go
-  - internal/sdk/models/shared/outputcloudwatch.go
-  - internal/sdk/models/shared/outputconfluentcloud.go
-  - internal/sdk/models/shared/outputcriblhttp.go
-  - internal/sdk/models/shared/outputcribllake.go
-  - internal/sdk/models/shared/outputcribltcp.go
-  - internal/sdk/models/shared/outputcrowdstrikenextgensiem.go
-  - internal/sdk/models/shared/outputdatadog.go
-  - internal/sdk/models/shared/outputdataset.go
-  - internal/sdk/models/shared/outputdefault.go
-  - internal/sdk/models/shared/outputdevnull.go
-  - internal/sdk/models/shared/outputdiskspool.go
-  - internal/sdk/models/shared/outputdls3.go
-  - internal/sdk/models/shared/outputdynatracehttp.go
-  - internal/sdk/models/shared/outputdynatraceotlp.go
-  - internal/sdk/models/shared/outputelastic.go
-  - internal/sdk/models/shared/outputelasticcloud.go
-  - internal/sdk/models/shared/outputexabeam.go
-  - internal/sdk/models/shared/outputfilesystem.go
-  - internal/sdk/models/shared/outputgooglechronicle.go
-  - internal/sdk/models/shared/outputgooglecloudlogging.go
-  - internal/sdk/models/shared/outputgooglecloudstorage.go
-  - internal/sdk/models/shared/outputgooglepubsub.go
-  - internal/sdk/models/shared/outputgrafanacloud.go
-  - internal/sdk/models/shared/outputgraphite.go
-  - internal/sdk/models/shared/outputhoneycomb.go
-  - internal/sdk/models/shared/outputhumiohec.go
-  - internal/sdk/models/shared/outputinfluxdb.go
-  - internal/sdk/models/shared/outputkafka.go
-  - internal/sdk/models/shared/outputkinesis.go
-  - internal/sdk/models/shared/outputloki.go
-  - internal/sdk/models/shared/outputminio.go
-  - internal/sdk/models/shared/outputmsk.go
-  - internal/sdk/models/shared/outputnetflow.go
-  - internal/sdk/models/shared/outputnewrelic.go
-  - internal/sdk/models/shared/outputnewrelicevents.go
-  - internal/sdk/models/shared/outputopentelemetry.go
-  - internal/sdk/models/shared/outputprometheus.go
-  - internal/sdk/models/shared/outputring.go
-  - internal/sdk/models/shared/outputrouter.go
-  - internal/sdk/models/shared/outputs3.go
   - internal/sdk/models/shared/outputsamplesresponse.go
-  - internal/sdk/models/shared/outputsecuritylake.go
-  - internal/sdk/models/shared/outputsentinel.go
-  - internal/sdk/models/shared/outputservicenow.go
-  - internal/sdk/models/shared/outputsignalfx.go
-  - internal/sdk/models/shared/outputsnmp.go
-  - internal/sdk/models/shared/outputsns.go
-  - internal/sdk/models/shared/outputsplunk.go
-  - internal/sdk/models/shared/outputsplunkhec.go
-  - internal/sdk/models/shared/outputsplunklb.go
-  - internal/sdk/models/shared/outputsqs.go
-  - internal/sdk/models/shared/outputstatsd.go
-  - internal/sdk/models/shared/outputstatsdext.go
   - internal/sdk/models/shared/outputstatus.go
-  - internal/sdk/models/shared/outputsumologic.go
-  - internal/sdk/models/shared/outputsyslog.go
-  - internal/sdk/models/shared/outputtcpjson.go
   - internal/sdk/models/shared/outputtestrequest.go
   - internal/sdk/models/shared/outputtestresponse.go
-  - internal/sdk/models/shared/outputwavefront.go
-  - internal/sdk/models/shared/outputwebhook.go
-  - internal/sdk/models/shared/outputxsiam.go
   - internal/sdk/models/shared/packclone.go
   - internal/sdk/models/shared/packinfo.go
   - internal/sdk/models/shared/packinstallinfo.go
@@ -1718,6 +1600,7 @@ generatedFiles:
   - internal/sdk/models/shared/tableviewsettings.go
   - internal/sdk/models/shared/team.go
   - internal/sdk/models/shared/teamaccesscontrollist.go
+  - internal/sdk/models/shared/tfstatus.go
   - internal/sdk/models/shared/tlsclientparams.go
   - internal/sdk/models/shared/trustpolicy.go
   - internal/sdk/models/shared/uistatepatch.go

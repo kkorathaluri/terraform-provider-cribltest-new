@@ -26,6 +26,7 @@ type InputWiz struct {
 	RequestTimeout       types.Float64           `tfsdk:"request_timeout"`
 	RetryRules           *InputWizRetryRules     `tfsdk:"retry_rules"`
 	SendToRoutes         types.Bool              `tfsdk:"send_to_routes"`
+	Status               *TFStatus               `tfsdk:"status"`
 	Streamtags           []types.String          `tfsdk:"streamtags"`
 	TextSecret           types.String            `tfsdk:"text_secret"`
 	TTL                  types.String            `tfsdk:"ttl"`

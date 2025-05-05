@@ -44,6 +44,7 @@ type InputS3 struct {
 	SkipOnError                 types.Bool            `tfsdk:"skip_on_error"`
 	SocketTimeout               types.Float64         `tfsdk:"socket_timeout"`
 	StaleChannelFlushMs         types.Float64         `tfsdk:"stale_channel_flush_ms"`
+	Status                      *TFStatus             `tfsdk:"status"`
 	Streamtags                  []types.String        `tfsdk:"streamtags"`
 	Type                        types.String          `tfsdk:"type"`
 	VisibilityTimeout           types.Float64         `tfsdk:"visibility_timeout"`

@@ -5,7 +5,7 @@ package types
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type OutputElastic struct {
-	Auth                          *Auth                                `tfsdk:"auth"`
+	Auth                          *OutputElasticAuth                   `tfsdk:"auth"`
 	Compress                      types.Bool                           `tfsdk:"compress"`
 	Concurrency                   types.Float64                        `tfsdk:"concurrency"`
 	Description                   types.String                         `tfsdk:"description"`
@@ -40,6 +40,7 @@ type OutputElastic struct {
 	ResponseRetrySettings         []OutputElasticResponseRetrySettings `tfsdk:"response_retry_settings"`
 	RetryPartialErrors            types.Bool                           `tfsdk:"retry_partial_errors"`
 	SafeHeaders                   []types.String                       `tfsdk:"safe_headers"`
+	Status                        *TFStatus                            `tfsdk:"status"`
 	Streamtags                    []types.String                       `tfsdk:"streamtags"`
 	SystemFields                  []types.String                       `tfsdk:"system_fields"`
 	TimeoutRetrySettings          *OutputElasticTimeoutRetrySettings   `tfsdk:"timeout_retry_settings"`

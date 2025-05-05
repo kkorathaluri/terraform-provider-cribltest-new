@@ -43,6 +43,7 @@ type InputSplunkSearch struct {
 	SecretParamName     types.String                   `tfsdk:"secret_param_name"`
 	SendToRoutes        types.Bool                     `tfsdk:"send_to_routes"`
 	StaleChannelFlushMs types.Float64                  `tfsdk:"stale_channel_flush_ms"`
+	Status              *TFStatus                      `tfsdk:"status"`
 	Streamtags          []types.String                 `tfsdk:"streamtags"`
 	TextSecret          types.String                   `tfsdk:"text_secret"`
 	Token               types.String                   `tfsdk:"token"`

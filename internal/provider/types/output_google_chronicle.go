@@ -42,6 +42,7 @@ type OutputGoogleChronicle struct {
 	SafeHeaders                     []types.String                               `tfsdk:"safe_headers"`
 	ServiceAccountCredentials       types.String                                 `tfsdk:"service_account_credentials"`
 	ServiceAccountCredentialsSecret types.String                                 `tfsdk:"service_account_credentials_secret"`
+	Status                          *TFStatus                                    `tfsdk:"status"`
 	Streamtags                      []types.String                               `tfsdk:"streamtags"`
 	SystemFields                    []types.String                               `tfsdk:"system_fields"`
 	TimeoutRetrySettings            *OutputGoogleChronicleTimeoutRetrySettings   `tfsdk:"timeout_retry_settings"`

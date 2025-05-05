@@ -5,11 +5,11 @@ package types
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type InputSplunkHecAuthTokens struct {
-	AllowedIndexesAtToken []types.String                     `tfsdk:"allowed_indexes_at_token"`
-	AuthType              types.String                       `tfsdk:"auth_type"`
-	Description           types.String                       `tfsdk:"description"`
-	Enabled               types.Bool                         `tfsdk:"enabled"`
-	Metadata              []InputSplunkHecAuthTokensMetadata `tfsdk:"metadata"`
-	Token                 types.String                       `tfsdk:"token"`
-	TokenSecret           types.String                       `tfsdk:"token_secret"`
+	AllowedIndexesAtToken []types.String                `tfsdk:"allowed_indexes_at_token"`
+	AuthType              types.String                  `tfsdk:"auth_type"`
+	Description           types.String                  `tfsdk:"description"`
+	Enabled               types.Bool                    `tfsdk:"enabled"`
+	Metadata              []InputSplunkHecInputMetadata `tfsdk:"metadata"`
+	Token                 types.String                  `tfsdk:"token"`
+	TokenSecret           types.String                  `tfsdk:"token_secret"`
 }

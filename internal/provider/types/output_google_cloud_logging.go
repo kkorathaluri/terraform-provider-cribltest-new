@@ -57,6 +57,7 @@ type OutputGoogleCloudLogging struct {
 	ServiceAccountCredentials types.String                        `tfsdk:"service_account_credentials"`
 	SeverityExpression        types.String                        `tfsdk:"severity_expression"`
 	SpanIDExpression          types.String                        `tfsdk:"span_id_expression"`
+	Status                    *TFStatus                           `tfsdk:"status"`
 	StatusExpression          types.String                        `tfsdk:"status_expression"`
 	Streamtags                []types.String                      `tfsdk:"streamtags"`
 	SystemFields              []types.String                      `tfsdk:"system_fields"`

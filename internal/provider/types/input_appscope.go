@@ -30,6 +30,7 @@ type InputAppscope struct {
 	SocketIdleTimeout   types.Float64                       `tfsdk:"socket_idle_timeout"`
 	SocketMaxLifespan   types.Float64                       `tfsdk:"socket_max_lifespan"`
 	StaleChannelFlushMs types.Float64                       `tfsdk:"stale_channel_flush_ms"`
+	Status              *TFStatus                           `tfsdk:"status"`
 	Streamtags          []types.String                      `tfsdk:"streamtags"`
 	TextSecret          types.String                        `tfsdk:"text_secret"`
 	TLS                 *InputAppscopeTLSSettingsServerSide `tfsdk:"tls"`

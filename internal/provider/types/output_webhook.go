@@ -52,6 +52,7 @@ type OutputWebhook struct {
 	SafeHeaders                   []types.String                      `tfsdk:"safe_headers"`
 	Secret                        types.String                        `tfsdk:"secret"`
 	SecretParamName               types.String                        `tfsdk:"secret_param_name"`
+	Status                        *TFStatus                           `tfsdk:"status"`
 	Streamtags                    []types.String                      `tfsdk:"streamtags"`
 	SystemFields                  []types.String                      `tfsdk:"system_fields"`
 	TextSecret                    types.String                        `tfsdk:"text_secret"`
@@ -64,7 +65,7 @@ type OutputWebhook struct {
 	TotalMemoryLimitKB            types.Float64                       `tfsdk:"total_memory_limit_kb"`
 	Type                          types.String                        `tfsdk:"type"`
 	URL                           types.String                        `tfsdk:"url"`
-	Urls                          []Urls                              `tfsdk:"urls"`
+	Urls                          []OutputWebhookUrls                 `tfsdk:"urls"`
 	Username                      types.String                        `tfsdk:"username"`
 	UseRoundRobinDNS              types.Bool                          `tfsdk:"use_round_robin_dns"`
 }

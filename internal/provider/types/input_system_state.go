@@ -18,6 +18,7 @@ type InputSystemState struct {
 	Pq           *InputSystemStatePq           `tfsdk:"pq"`
 	PqEnabled    types.Bool                    `tfsdk:"pq_enabled"`
 	SendToRoutes types.Bool                    `tfsdk:"send_to_routes"`
+	Status       *TFStatus                     `tfsdk:"status"`
 	Streamtags   []types.String                `tfsdk:"streamtags"`
 	Type         types.String                  `tfsdk:"type"`
 }

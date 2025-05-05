@@ -29,6 +29,7 @@ type OutputSyslog struct {
 	PqPath                 types.String                       `tfsdk:"pq_path"`
 	Protocol               types.String                       `tfsdk:"protocol"`
 	Severity               types.Int64                        `tfsdk:"severity"`
+	Status                 *TFStatus                          `tfsdk:"status"`
 	Streamtags             []types.String                     `tfsdk:"streamtags"`
 	SystemFields           []types.String                     `tfsdk:"system_fields"`
 	ThrottleRatePerSec     types.String                       `tfsdk:"throttle_rate_per_sec"`

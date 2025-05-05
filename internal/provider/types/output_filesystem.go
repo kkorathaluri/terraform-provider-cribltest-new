@@ -40,6 +40,7 @@ type OutputFilesystem struct {
 	RemoveEmptyDirs        types.Bool         `tfsdk:"remove_empty_dirs"`
 	ShouldLogInvalidRows   types.Bool         `tfsdk:"should_log_invalid_rows"`
 	StagePath              types.String       `tfsdk:"stage_path"`
+	Status                 *TFStatus          `tfsdk:"status"`
 	Streamtags             []types.String     `tfsdk:"streamtags"`
 	SystemFields           []types.String     `tfsdk:"system_fields"`
 	Type                   types.String       `tfsdk:"type"`

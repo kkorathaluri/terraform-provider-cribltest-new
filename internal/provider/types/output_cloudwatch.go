@@ -34,6 +34,7 @@ type OutputCloudwatch struct {
 	Region                  types.String                `tfsdk:"region"`
 	RejectUnauthorized      types.Bool                  `tfsdk:"reject_unauthorized"`
 	ReuseConnections        types.Bool                  `tfsdk:"reuse_connections"`
+	Status                  *TFStatus                   `tfsdk:"status"`
 	Streamtags              []types.String              `tfsdk:"streamtags"`
 	SystemFields            []types.String              `tfsdk:"system_fields"`
 	Type                    types.String                `tfsdk:"type"`

@@ -23,6 +23,7 @@ type InputCriblTCP struct {
 	SocketEndingMaxWait types.Float64                       `tfsdk:"socket_ending_max_wait"`
 	SocketIdleTimeout   types.Float64                       `tfsdk:"socket_idle_timeout"`
 	SocketMaxLifespan   types.Float64                       `tfsdk:"socket_max_lifespan"`
+	Status              *TFStatus                           `tfsdk:"status"`
 	Streamtags          []types.String                      `tfsdk:"streamtags"`
 	TLS                 *InputCriblTCPTLSSettingsServerSide `tfsdk:"tls"`
 	Type                types.String                        `tfsdk:"type"`

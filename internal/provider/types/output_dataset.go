@@ -36,6 +36,7 @@ type OutputDataset struct {
 	SafeHeaders                   []types.String                       `tfsdk:"safe_headers"`
 	ServerHostField               types.String                         `tfsdk:"server_host_field"`
 	Site                          types.String                         `tfsdk:"site"`
+	Status                        *TFStatus                            `tfsdk:"status"`
 	Streamtags                    []types.String                       `tfsdk:"streamtags"`
 	SystemFields                  []types.String                       `tfsdk:"system_fields"`
 	TextSecret                    types.String                         `tfsdk:"text_secret"`

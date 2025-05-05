@@ -21,6 +21,7 @@ type InputRawUDP struct {
 	PqEnabled           types.Bool               `tfsdk:"pq_enabled"`
 	SendToRoutes        types.Bool               `tfsdk:"send_to_routes"`
 	SingleMsgUDPPackets types.Bool               `tfsdk:"single_msg_udp_packets"`
+	Status              *TFStatus                `tfsdk:"status"`
 	Streamtags          []types.String           `tfsdk:"streamtags"`
 	Type                types.String             `tfsdk:"type"`
 	UDPSocketRxBufSize  types.Float64            `tfsdk:"udp_socket_rx_buf_size"`

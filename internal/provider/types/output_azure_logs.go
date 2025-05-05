@@ -33,6 +33,7 @@ type OutputAzureLogs struct {
 	ResponseHonorRetryAfterHeader types.Bool                             `tfsdk:"response_honor_retry_after_header"`
 	ResponseRetrySettings         []OutputAzureLogsResponseRetrySettings `tfsdk:"response_retry_settings"`
 	SafeHeaders                   []types.String                         `tfsdk:"safe_headers"`
+	Status                        *TFStatus                              `tfsdk:"status"`
 	Streamtags                    []types.String                         `tfsdk:"streamtags"`
 	SystemFields                  []types.String                         `tfsdk:"system_fields"`
 	TimeoutRetrySettings          *OutputAzureLogsTimeoutRetrySettings   `tfsdk:"timeout_retry_settings"`

@@ -30,6 +30,7 @@ type InputSplunk struct {
 	SocketIdleTimeout   types.Float64                     `tfsdk:"socket_idle_timeout"`
 	SocketMaxLifespan   types.Float64                     `tfsdk:"socket_max_lifespan"`
 	StaleChannelFlushMs types.Float64                     `tfsdk:"stale_channel_flush_ms"`
+	Status              *TFStatus                         `tfsdk:"status"`
 	Streamtags          []types.String                    `tfsdk:"streamtags"`
 	TLS                 *InputSplunkTLSSettingsServerSide `tfsdk:"tls"`
 	Type                types.String                      `tfsdk:"type"`

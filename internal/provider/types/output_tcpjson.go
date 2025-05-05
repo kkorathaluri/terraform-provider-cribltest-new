@@ -31,6 +31,7 @@ type OutputTcpjson struct {
 	PqOnBackpressure          types.String                        `tfsdk:"pq_on_backpressure"`
 	PqPath                    types.String                        `tfsdk:"pq_path"`
 	SendHeader                types.Bool                          `tfsdk:"send_header"`
+	Status                    *TFStatus                           `tfsdk:"status"`
 	Streamtags                []types.String                      `tfsdk:"streamtags"`
 	SystemFields              []types.String                      `tfsdk:"system_fields"`
 	TextSecret                types.String                        `tfsdk:"text_secret"`

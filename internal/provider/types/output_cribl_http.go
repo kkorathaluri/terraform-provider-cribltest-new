@@ -33,7 +33,7 @@ type OutputCriblHTTP struct {
 	ResponseHonorRetryAfterHeader types.Bool                             `tfsdk:"response_honor_retry_after_header"`
 	ResponseRetrySettings         []OutputCriblHTTPResponseRetrySettings `tfsdk:"response_retry_settings"`
 	SafeHeaders                   []types.String                         `tfsdk:"safe_headers"`
-	Status                        *OutputCriblHTTPStatus                 `tfsdk:"status"`
+	Status                        *TFStatus                              `tfsdk:"status"`
 	Streamtags                    []types.String                         `tfsdk:"streamtags"`
 	SystemFields                  []types.String                         `tfsdk:"system_fields"`
 	TimeoutRetrySettings          *OutputCriblHTTPTimeoutRetrySettings   `tfsdk:"timeout_retry_settings"`

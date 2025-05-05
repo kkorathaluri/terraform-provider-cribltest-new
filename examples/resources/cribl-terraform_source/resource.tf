@@ -62,6 +62,14 @@ resource "cribl-terraform_source" "my_source" {
     socket_idle_timeout    = 1.69
     socket_max_lifespan    = 4.11
     stale_channel_flush_ms = 34410614.39
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.52
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -132,7 +140,15 @@ resource "cribl-terraform_source" "my_source" {
     service_period_secs    = 8.37
     skip_on_error          = false
     stale_channel_flush_ms = 42632985.63
-    storage_account_name   = "...my_storage_account_name..."
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 4.12
+      use_status_from_lb = true
+    }
+    storage_account_name = "...my_storage_account_name..."
     streamtags = [
       "..."
     ]
@@ -181,6 +197,14 @@ resource "cribl-terraform_source" "my_source" {
     }
     send_to_routes         = false
     stale_channel_flush_ms = 15919396.49
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 7.81
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -264,6 +288,14 @@ resource "cribl-terraform_source" "my_source" {
     }
     send_to_routes  = false
     session_timeout = 865848.25
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 0.31
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -314,6 +346,14 @@ resource "cribl-terraform_source" "my_source" {
     }
     pq_enabled     = true
     send_to_routes = true
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 6.97
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -364,6 +404,14 @@ resource "cribl-terraform_source" "my_source" {
     request_timeout = 1.46
     send_to_routes  = true
     socket_timeout  = 0.8
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 4.15
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -413,6 +461,14 @@ resource "cribl-terraform_source" "my_source" {
     pq_enabled     = false
     prefix         = "...my_prefix..."
     send_to_routes = false
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 5.63
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -455,6 +511,14 @@ resource "cribl-terraform_source" "my_source" {
     socket_ending_max_wait = 7.39
     socket_idle_timeout    = 2.54
     socket_max_lifespan    = 7.93
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 3.29
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -540,6 +604,14 @@ resource "cribl-terraform_source" "my_source" {
     skip_on_error          = true
     socket_timeout         = 39471.85
     stale_channel_flush_ms = 26602939.6
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 3.55
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -593,6 +665,14 @@ resource "cribl-terraform_source" "my_source" {
     request_timeout = 0.77
     send_to_routes  = true
     socket_timeout  = 5.24
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 6.57
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -646,6 +726,14 @@ resource "cribl-terraform_source" "my_source" {
       }
     ]
     send_to_routes = true
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 3.85
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -730,6 +818,14 @@ resource "cribl-terraform_source" "my_source" {
     ]
     send_to_routes    = true
     signature_version = "v2"
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 4.85
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -814,6 +910,14 @@ resource "cribl-terraform_source" "my_source" {
     request_timeout = 9.56
     send_to_routes  = false
     socket_timeout  = 5.73
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 0.12
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -888,6 +992,14 @@ resource "cribl-terraform_source" "my_source" {
     }
     send_to_routes  = true
     session_timeout = 199043.15
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.97
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -938,6 +1050,14 @@ resource "cribl-terraform_source" "my_source" {
     schedule_type          = "interval"
     send_to_routes         = true
     stale_channel_flush_ms = 5570369.95
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.59
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -990,6 +1110,14 @@ resource "cribl-terraform_source" "my_source" {
     pq_enabled             = false
     send_to_routes         = false
     stale_channel_flush_ms = 38380929.61
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.25
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -1042,6 +1170,14 @@ resource "cribl-terraform_source" "my_source" {
     request_timeout = 2.37
     send_to_routes  = true
     socket_timeout  = 1.73
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 4.41
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -1099,6 +1235,14 @@ resource "cribl-terraform_source" "my_source" {
     secret                      = "...my_secret..."
     send_to_routes              = true
     service_account_credentials = "...my_service_account_credentials..."
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.81
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -1170,6 +1314,14 @@ resource "cribl-terraform_source" "my_source" {
     socket_timeout  = 9.84
     splunk_hec_acks = false
     splunk_hec_api  = "...my_splunk_hec_api..."
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 5.67
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -1255,6 +1407,14 @@ resource "cribl-terraform_source" "my_source" {
     send_to_routes         = false
     socket_timeout         = 3.94
     stale_channel_flush_ms = 17162456.39
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.18
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -1315,6 +1475,14 @@ resource "cribl-terraform_source" "my_source" {
       }
     ]
     send_to_routes = true
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 3.04
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -1397,6 +1565,14 @@ resource "cribl-terraform_source" "my_source" {
     }
     send_to_routes  = false
     session_timeout = 1308790.91
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 0.5
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -1467,7 +1643,15 @@ resource "cribl-terraform_source" "my_source" {
     shard_expr          = "...my_shard_expr..."
     shard_iterator_type = "LATEST"
     signature_version   = "v2"
-    stream_name         = "...my_stream_name..."
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 1.1
+      use_status_from_lb = false
+    }
+    stream_name = "...my_stream_name..."
     streamtags = [
       "..."
     ]
@@ -1509,6 +1693,14 @@ resource "cribl-terraform_source" "my_source" {
       }
     ]
     send_to_routes = false
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.7
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -1562,6 +1754,14 @@ resource "cribl-terraform_source" "my_source" {
     ]
     send_to_routes         = true
     stale_channel_flush_ms = 25164066.67
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 4.98
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -1612,6 +1812,14 @@ resource "cribl-terraform_source" "my_source" {
       }
     ]
     send_to_routes = false
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.22
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -1679,6 +1887,14 @@ resource "cribl-terraform_source" "my_source" {
     secret_param_name = "...my_secret_param_name..."
     send_to_routes    = true
     socket_timeout    = 0.37
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.76
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -1735,6 +1951,14 @@ resource "cribl-terraform_source" "my_source" {
     }
     pq_enabled     = false
     send_to_routes = true
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 2.59
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -1789,6 +2013,14 @@ resource "cribl-terraform_source" "my_source" {
     pq_enabled          = false
     send_to_routes      = false
     shutdown_timeout_ms = 8.84
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 6.11
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -1892,6 +2124,14 @@ resource "cribl-terraform_source" "my_source" {
     send_to_routes             = true
     session_timeout            = 656767.91
     signature_version          = "v4"
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.69
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -1947,6 +2187,14 @@ resource "cribl-terraform_source" "my_source" {
     }
     pq_enabled     = true
     send_to_routes = true
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.62
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -2015,6 +2263,14 @@ resource "cribl-terraform_source" "my_source" {
       type                  = "static"
     }
     send_to_routes = false
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 4.57
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -2088,6 +2344,14 @@ resource "cribl-terraform_source" "my_source" {
     }
     send_to_routes = true
     start_date     = "...my_start_date..."
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.36
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -2156,6 +2420,14 @@ resource "cribl-terraform_source" "my_source" {
       type                  = "backoff"
     }
     send_to_routes = false
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 1.97
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -2232,6 +2504,14 @@ resource "cribl-terraform_source" "my_source" {
     secret_param_name = "...my_secret_param_name..."
     send_to_routes    = true
     socket_timeout    = 1.89
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 4.94
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -2322,6 +2602,14 @@ resource "cribl-terraform_source" "my_source" {
     ]
     send_to_routes    = false
     signature_version = "v2"
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 1.35
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -2395,6 +2683,14 @@ resource "cribl-terraform_source" "my_source" {
     secret_param_name = "...my_secret_param_name..."
     send_to_routes    = false
     socket_timeout    = 8.67
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 5.24
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -2453,6 +2749,14 @@ resource "cribl-terraform_source" "my_source" {
     pq_enabled             = false
     send_to_routes         = false
     single_msg_udp_packets = false
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 0.1
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -2528,6 +2832,14 @@ resource "cribl-terraform_source" "my_source" {
     skip_on_error          = false
     socket_timeout         = 29705.33
     stale_channel_flush_ms = 18587902.44
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 3.73
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -2604,6 +2916,14 @@ resource "cribl-terraform_source" "my_source" {
     skip_on_error          = false
     socket_timeout         = 9696.9
     stale_channel_flush_ms = 26256833.64
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 7.68
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -2680,6 +3000,14 @@ resource "cribl-terraform_source" "my_source" {
     skip_on_error          = false
     socket_timeout         = 26799.94
     stale_channel_flush_ms = 29469341.99
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 1.02
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -2730,6 +3058,14 @@ resource "cribl-terraform_source" "my_source" {
           priv_protocol = "...my_priv_protocol..."
         }
       ]
+    }
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 6.65
+      use_status_from_lb = true
     }
     streamtags = [
       "..."
@@ -2789,6 +3125,14 @@ resource "cribl-terraform_source" "my_source" {
     socket_idle_timeout    = 8.04
     socket_max_lifespan    = 9.33
     stale_channel_flush_ms = 24735904.72
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 8.09
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -2886,6 +3230,14 @@ resource "cribl-terraform_source" "my_source" {
     splunk_hec_acks        = true
     splunk_hec_api         = "...my_splunk_hec_api..."
     stale_channel_flush_ms = 42109803.47
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 6.64
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -2995,6 +3347,14 @@ resource "cribl-terraform_source" "my_source" {
     secret_param_name      = "...my_secret_param_name..."
     send_to_routes         = true
     stale_channel_flush_ms = 2870608.4
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 3.04
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -3056,6 +3416,14 @@ resource "cribl-terraform_source" "my_source" {
     reuse_connections   = false
     send_to_routes      = false
     signature_version   = "v2"
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 4.07
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -3108,6 +3476,14 @@ resource "cribl-terraform_source" "my_source" {
       socket_ending_max_wait = 9.51
       socket_idle_timeout    = 2.66
       socket_max_lifespan    = 3.4
+      status = {
+        health = "Red"
+        metrics = {
+          key = jsonencode("value")
+        }
+        timestamp          = 8.83
+        use_status_from_lb = false
+      }
       streamtags = [
         "..."
       ]
@@ -3235,6 +3611,14 @@ resource "cribl-terraform_source" "my_source" {
       ]
     }
     send_to_routes = true
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 2.36
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3313,6 +3697,14 @@ resource "cribl-terraform_source" "my_source" {
     }
     pq_enabled     = false
     send_to_routes = false
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 1.12
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -3368,6 +3760,14 @@ resource "cribl-terraform_source" "my_source" {
     socket_idle_timeout    = 0.36
     socket_max_lifespan    = 5.19
     stale_channel_flush_ms = 8063309.13
+    status = {
+      health = "Green"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 1.94
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3426,6 +3826,14 @@ resource "cribl-terraform_source" "my_source" {
     socket_ending_max_wait = 5.57
     socket_idle_timeout    = 8.47
     socket_max_lifespan    = 3.88
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 4.87
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -3490,6 +3898,14 @@ resource "cribl-terraform_source" "my_source" {
     principal      = "...my_principal..."
     send_to_routes = false
     socket_timeout = 7.92
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 0.84
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3617,6 +4033,14 @@ resource "cribl-terraform_source" "my_source" {
       ]
     }
     send_to_routes = false
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.34
+      use_status_from_lb = false
+    }
     streamtags = [
       "..."
     ]
@@ -3660,6 +4084,14 @@ resource "cribl-terraform_source" "my_source" {
     pq_enabled     = true
     read_mode      = "oldest"
     send_to_routes = false
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 9.03
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -3722,6 +4154,14 @@ resource "cribl-terraform_source" "my_source" {
       type                  = "backoff"
     }
     send_to_routes = false
+    status = {
+      health = "Yellow"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 6.27
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]
@@ -3801,6 +4241,14 @@ resource "cribl-terraform_source" "my_source" {
     request_timeout = 2.41
     send_to_routes  = false
     socket_timeout  = 5.66
+    status = {
+      health = "Red"
+      metrics = {
+        key = jsonencode("value")
+      }
+      timestamp          = 6.94
+      use_status_from_lb = true
+    }
     streamtags = [
       "..."
     ]

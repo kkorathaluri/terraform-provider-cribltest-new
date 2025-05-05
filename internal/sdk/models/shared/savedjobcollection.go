@@ -389,7 +389,7 @@ func (e *SavedJobCollectionType) UnmarshalJSON(data []byte) error {
 	}
 }
 
-type SavedJobCollectionPreprocess struct {
+type Preprocess struct {
 	Disabled *bool `default:"true" json:"disabled"`
 	// Command to feed the data through (via stdin) and process its output (stdout)
 	Command *string `json:"command,omitempty"`
@@ -397,32 +397,32 @@ type SavedJobCollectionPreprocess struct {
 	Args []string `json:"args,omitempty"`
 }
 
-func (s SavedJobCollectionPreprocess) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(s, "", false)
+func (p Preprocess) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(p, "", false)
 }
 
-func (s *SavedJobCollectionPreprocess) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &s, "", false, false); err != nil {
+func (p *Preprocess) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *SavedJobCollectionPreprocess) GetDisabled() *bool {
+func (o *Preprocess) GetDisabled() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.Disabled
 }
 
-func (o *SavedJobCollectionPreprocess) GetCommand() *string {
+func (o *Preprocess) GetCommand() *string {
 	if o == nil {
 		return nil
 	}
 	return o.Command
 }
 
-func (o *SavedJobCollectionPreprocess) GetArgs() []string {
+func (o *Preprocess) GetArgs() []string {
 	if o == nil {
 		return nil
 	}
@@ -456,8 +456,8 @@ type SavedJobCollectionInput struct {
 	// How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines
 	StaleChannelFlushMs *float64 `default:"10000" json:"staleChannelFlushMs"`
 	// Send events to normal routing and event processing. Disable to select a specific Pipeline/Destination combination.
-	SendToRoutes *bool                         `default:"true" json:"sendToRoutes"`
-	Preprocess   *SavedJobCollectionPreprocess `json:"preprocess,omitempty"`
+	SendToRoutes *bool       `default:"true" json:"sendToRoutes"`
+	Preprocess   *Preprocess `json:"preprocess,omitempty"`
 	// Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling.
 	ThrottleRatePerSec *string `default:"0" json:"throttleRatePerSec"`
 	// Fields to add to events from this input
@@ -507,7 +507,7 @@ func (o *SavedJobCollectionInput) GetSendToRoutes() *bool {
 	return o.SendToRoutes
 }
 
-func (o *SavedJobCollectionInput) GetPreprocess() *SavedJobCollectionPreprocess {
+func (o *SavedJobCollectionInput) GetPreprocess() *Preprocess {
 	if o == nil {
 		return nil
 	}

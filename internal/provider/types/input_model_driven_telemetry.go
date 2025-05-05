@@ -19,6 +19,7 @@ type InputModelDrivenTelemetry struct {
 	PqEnabled         types.Bool                                      `tfsdk:"pq_enabled"`
 	SendToRoutes      types.Bool                                      `tfsdk:"send_to_routes"`
 	ShutdownTimeoutMs types.Float64                                   `tfsdk:"shutdown_timeout_ms"`
+	Status            *TFStatus                                       `tfsdk:"status"`
 	Streamtags        []types.String                                  `tfsdk:"streamtags"`
 	TLS               *InputModelDrivenTelemetryTLSSettingsServerSide `tfsdk:"tls"`
 	Type              types.String                                    `tfsdk:"type"`

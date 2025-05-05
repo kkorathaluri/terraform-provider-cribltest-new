@@ -24,6 +24,7 @@ type InputOffice365Service struct {
 	PqEnabled           types.Bool                           `tfsdk:"pq_enabled"`
 	RetryRules          *InputOffice365ServiceRetryRules     `tfsdk:"retry_rules"`
 	SendToRoutes        types.Bool                           `tfsdk:"send_to_routes"`
+	Status              *TFStatus                            `tfsdk:"status"`
 	Streamtags          []types.String                       `tfsdk:"streamtags"`
 	TenantID            types.String                         `tfsdk:"tenant_id"`
 	TextSecret          types.String                         `tfsdk:"text_secret"`

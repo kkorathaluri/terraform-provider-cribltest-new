@@ -36,6 +36,7 @@ type InputKafka struct {
 	Sasl                      *Authentication                    `tfsdk:"sasl"`
 	SendToRoutes              types.Bool                         `tfsdk:"send_to_routes"`
 	SessionTimeout            types.Float64                      `tfsdk:"session_timeout"`
+	Status                    *TFStatus                          `tfsdk:"status"`
 	Streamtags                []types.String                     `tfsdk:"streamtags"`
 	TLS                       *TLSSettingsClientSide             `tfsdk:"tls"`
 	Topics                    []types.String                     `tfsdk:"topics"`

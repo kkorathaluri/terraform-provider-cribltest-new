@@ -25,6 +25,7 @@ type InputGooglePubsub struct {
 	Secret                    types.String                   `tfsdk:"secret"`
 	SendToRoutes              types.Bool                     `tfsdk:"send_to_routes"`
 	ServiceAccountCredentials types.String                   `tfsdk:"service_account_credentials"`
+	Status                    *TFStatus                      `tfsdk:"status"`
 	Streamtags                []types.String                 `tfsdk:"streamtags"`
 	SubscriptionName          types.String                   `tfsdk:"subscription_name"`
 	TopicName                 types.String                   `tfsdk:"topic_name"`

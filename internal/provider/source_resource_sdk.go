@@ -141,7 +141,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			staleChannelFlushMs = nil
 		}
-		var preprocess *shared.Preprocess
+		var preprocess *shared.InputCollectionPreprocess
 		if r.InputCollection.Preprocess != nil {
 			disabled1 := new(bool)
 			if !r.InputCollection.Preprocess.Disabled.IsUnknown() && !r.InputCollection.Preprocess.Disabled.IsNull() {
@@ -159,7 +159,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			for _, argsItem := range r.InputCollection.Preprocess.Args {
 				args = append(args, argsItem.ValueString())
 			}
-			preprocess = &shared.Preprocess{
+			preprocess = &shared.InputCollectionPreprocess{
 				Disabled: disabled1,
 				Command:  command,
 				Args:     args,
@@ -190,6 +190,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			output1 = nil
 		}
+		var status *shared.TFStatus
+		if r.InputCollection.Status != nil {
+			health := shared.Health(r.InputCollection.Status.Health.ValueString())
+			metrics := make(map[string]interface{})
+			for metricsKey, metricsValue := range r.InputCollection.Status.Metrics {
+				var metricsInst interface{}
+				_ = json.Unmarshal([]byte(metricsValue.ValueString()), &metricsInst)
+				metrics[metricsKey] = metricsInst
+			}
+			var timestamp float64
+			timestamp = r.InputCollection.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLB := new(bool)
+			if !r.InputCollection.Status.UseStatusFromLB.IsUnknown() && !r.InputCollection.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLB = r.InputCollection.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLB = nil
+			}
+			status = &shared.TFStatus{
+				Health:          health,
+				Metrics:         metrics,
+				Timestamp:       timestamp,
+				UseStatusFromLB: useStatusFromLB,
+			}
+		}
 		inputCollection = &shared.InputCollection{
 			ID:                  id,
 			Type:                typeVar,
@@ -207,6 +232,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			ThrottleRatePerSec:  throttleRatePerSec,
 			Metadata:            metadata,
 			Output:              output1,
+			Status:              status,
 		}
 	}
 	if inputCollection != nil {
@@ -697,6 +723,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description = nil
 		}
+		var status1 *shared.TFStatus
+		if r.InputKafka.Status != nil {
+			health1 := shared.Health(r.InputKafka.Status.Health.ValueString())
+			metrics1 := make(map[string]interface{})
+			for metricsKey1, metricsValue1 := range r.InputKafka.Status.Metrics {
+				var metricsInst1 interface{}
+				_ = json.Unmarshal([]byte(metricsValue1.ValueString()), &metricsInst1)
+				metrics1[metricsKey1] = metricsInst1
+			}
+			var timestamp1 float64
+			timestamp1 = r.InputKafka.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb1 := new(bool)
+			if !r.InputKafka.Status.UseStatusFromLB.IsUnknown() && !r.InputKafka.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb1 = r.InputKafka.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb1 = nil
+			}
+			status1 = &shared.TFStatus{
+				Health:          health1,
+				Metrics:         metrics1,
+				Timestamp:       timestamp1,
+				UseStatusFromLB: useStatusFromLb1,
+			}
+		}
 		inputKafka = &shared.InputKafka{
 			ID:                        id1,
 			Type:                      typeVar1,
@@ -733,6 +784,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			MaxSocketErrors:           maxSocketErrors,
 			Metadata:                  metadata1,
 			Description:               description,
+			Status:                    status1,
 		}
 	}
 	if inputKafka != nil {
@@ -960,7 +1012,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 					CredentialsSecret: credentialsSecret1,
 				}
 			}
-			var tls2 *shared.InputMskKafkaSchemaRegistryTLSSettingsClientSide
+			var tls2 *shared.InputMskInputTLSSettingsClientSide
 			if r.InputMsk.KafkaSchemaRegistry.TLS != nil {
 				disabled11 := new(bool)
 				if !r.InputMsk.KafkaSchemaRegistry.TLS.Disabled.IsUnknown() && !r.InputMsk.KafkaSchemaRegistry.TLS.Disabled.IsNull() {
@@ -1010,19 +1062,19 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				} else {
 					passphrase2 = nil
 				}
-				minVersion2 := new(shared.InputMskKafkaSchemaRegistryMinimumTLSVersion)
+				minVersion2 := new(shared.InputMskInputMinimumTLSVersion)
 				if !r.InputMsk.KafkaSchemaRegistry.TLS.MinVersion.IsUnknown() && !r.InputMsk.KafkaSchemaRegistry.TLS.MinVersion.IsNull() {
-					*minVersion2 = shared.InputMskKafkaSchemaRegistryMinimumTLSVersion(r.InputMsk.KafkaSchemaRegistry.TLS.MinVersion.ValueString())
+					*minVersion2 = shared.InputMskInputMinimumTLSVersion(r.InputMsk.KafkaSchemaRegistry.TLS.MinVersion.ValueString())
 				} else {
 					minVersion2 = nil
 				}
-				maxVersion2 := new(shared.InputMskKafkaSchemaRegistryMaximumTLSVersion)
+				maxVersion2 := new(shared.InputMskInputMaximumTLSVersion)
 				if !r.InputMsk.KafkaSchemaRegistry.TLS.MaxVersion.IsUnknown() && !r.InputMsk.KafkaSchemaRegistry.TLS.MaxVersion.IsNull() {
-					*maxVersion2 = shared.InputMskKafkaSchemaRegistryMaximumTLSVersion(r.InputMsk.KafkaSchemaRegistry.TLS.MaxVersion.ValueString())
+					*maxVersion2 = shared.InputMskInputMaximumTLSVersion(r.InputMsk.KafkaSchemaRegistry.TLS.MaxVersion.ValueString())
 				} else {
 					maxVersion2 = nil
 				}
-				tls2 = &shared.InputMskKafkaSchemaRegistryTLSSettingsClientSide{
+				tls2 = &shared.InputMskInputTLSSettingsClientSide{
 					Disabled:           disabled11,
 					RejectUnauthorized: rejectUnauthorized2,
 					Servername:         servername2,
@@ -1279,6 +1331,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			awsSecret = nil
 		}
+		var status2 *shared.TFStatus
+		if r.InputMsk.Status != nil {
+			health2 := shared.Health(r.InputMsk.Status.Health.ValueString())
+			metrics2 := make(map[string]interface{})
+			for metricsKey2, metricsValue2 := range r.InputMsk.Status.Metrics {
+				var metricsInst2 interface{}
+				_ = json.Unmarshal([]byte(metricsValue2.ValueString()), &metricsInst2)
+				metrics2[metricsKey2] = metricsInst2
+			}
+			var timestamp2 float64
+			timestamp2 = r.InputMsk.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb2 := new(bool)
+			if !r.InputMsk.Status.UseStatusFromLB.IsUnknown() && !r.InputMsk.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb2 = r.InputMsk.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb2 = nil
+			}
+			status2 = &shared.TFStatus{
+				Health:          health2,
+				Metrics:         metrics2,
+				Timestamp:       timestamp2,
+				UseStatusFromLB: useStatusFromLb2,
+			}
+		}
 		inputMsk = &shared.InputMsk{
 			ID:                        id2,
 			Type:                      typeVar2,
@@ -1327,6 +1404,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Description:               description1,
 			AwsAPIKey:                 awsAPIKey,
 			AwsSecret:                 awsSecret,
+			Status:                    status2,
 		}
 	}
 	if inputMsk != nil {
@@ -1657,7 +1735,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				description2 = nil
 			}
-			metadata4 := make([]shared.InputHTTPAuthTokensExtMetadata, 0, len(authTokensExtItem.Metadata))
+			metadata4 := make([]shared.InputHTTPInputMetadata, 0, len(authTokensExtItem.Metadata))
 			for _, metadataItem4 := range authTokensExtItem.Metadata {
 				var name4 string
 				name4 = metadataItem4.Name.ValueString()
@@ -1665,7 +1743,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				var value4 string
 				value4 = metadataItem4.Value.ValueString()
 
-				metadata4 = append(metadata4, shared.InputHTTPAuthTokensExtMetadata{
+				metadata4 = append(metadata4, shared.InputHTTPInputMetadata{
 					Name:  name4,
 					Value: value4,
 				})
@@ -1681,6 +1759,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			*description3 = r.InputHTTP.Description.ValueString()
 		} else {
 			description3 = nil
+		}
+		var status3 *shared.TFStatus
+		if r.InputHTTP.Status != nil {
+			health3 := shared.Health(r.InputHTTP.Status.Health.ValueString())
+			metrics3 := make(map[string]interface{})
+			for metricsKey3, metricsValue3 := range r.InputHTTP.Status.Metrics {
+				var metricsInst3 interface{}
+				_ = json.Unmarshal([]byte(metricsValue3.ValueString()), &metricsInst3)
+				metrics3[metricsKey3] = metricsInst3
+			}
+			var timestamp3 float64
+			timestamp3 = r.InputHTTP.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb3 := new(bool)
+			if !r.InputHTTP.Status.UseStatusFromLB.IsUnknown() && !r.InputHTTP.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb3 = r.InputHTTP.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb3 = nil
+			}
+			status3 = &shared.TFStatus{
+				Health:          health3,
+				Metrics:         metrics3,
+				Timestamp:       timestamp3,
+				UseStatusFromLB: useStatusFromLb3,
+			}
 		}
 		inputHTTP = &shared.InputHTTP{
 			ID:                    id3,
@@ -1715,6 +1818,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Metadata:              metadata3,
 			AuthTokensExt:         authTokensExt,
 			Description:           description3,
+			Status:                status3,
 		}
 	}
 	if inputHTTP != nil {
@@ -2038,6 +2142,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			compress5 = nil
 		}
+		var status4 *shared.TFStatus
+		if r.InputSplunk.Status != nil {
+			health4 := shared.Health(r.InputSplunk.Status.Health.ValueString())
+			metrics4 := make(map[string]interface{})
+			for metricsKey4, metricsValue4 := range r.InputSplunk.Status.Metrics {
+				var metricsInst4 interface{}
+				_ = json.Unmarshal([]byte(metricsValue4.ValueString()), &metricsInst4)
+				metrics4[metricsKey4] = metricsInst4
+			}
+			var timestamp4 float64
+			timestamp4 = r.InputSplunk.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb4 := new(bool)
+			if !r.InputSplunk.Status.UseStatusFromLB.IsUnknown() && !r.InputSplunk.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb4 = r.InputSplunk.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb4 = nil
+			}
+			status4 = &shared.TFStatus{
+				Health:          health4,
+				Metrics:         metrics4,
+				Timestamp:       timestamp4,
+				UseStatusFromLB: useStatusFromLb4,
+			}
+		}
 		inputSplunk = &shared.InputSplunk{
 			ID:                  id4,
 			Type:                typeVar4,
@@ -2068,6 +2197,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			DropControlFields:   dropControlFields,
 			ExtractMetrics:      extractMetrics,
 			Compress:            compress5,
+			Status:              status4,
 		}
 	}
 	if inputSplunk != nil {
@@ -2258,9 +2388,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Value: value7,
 			})
 		}
-		logLevel := new(shared.LogLevel)
+		logLevel := new(shared.InputSplunkSearchLogLevel)
 		if !r.InputSplunkSearch.LogLevel.IsUnknown() && !r.InputSplunkSearch.LogLevel.IsNull() {
-			*logLevel = shared.LogLevel(r.InputSplunkSearch.LogLevel.ValueString())
+			*logLevel = shared.InputSplunkSearchLogLevel(r.InputSplunkSearch.LogLevel.ValueString())
 		} else {
 			logLevel = nil
 		}
@@ -2498,6 +2628,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Value: value10,
 			})
 		}
+		var status5 *shared.TFStatus
+		if r.InputSplunkSearch.Status != nil {
+			health5 := shared.Health(r.InputSplunkSearch.Status.Health.ValueString())
+			metrics5 := make(map[string]interface{})
+			for metricsKey5, metricsValue5 := range r.InputSplunkSearch.Status.Metrics {
+				var metricsInst5 interface{}
+				_ = json.Unmarshal([]byte(metricsValue5.ValueString()), &metricsInst5)
+				metrics5[metricsKey5] = metricsInst5
+			}
+			var timestamp5 float64
+			timestamp5 = r.InputSplunkSearch.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb5 := new(bool)
+			if !r.InputSplunkSearch.Status.UseStatusFromLB.IsUnknown() && !r.InputSplunkSearch.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb5 = r.InputSplunkSearch.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb5 = nil
+			}
+			status5 = &shared.TFStatus{
+				Health:          health5,
+				Metrics:         metrics5,
+				Timestamp:       timestamp5,
+				UseStatusFromLB: useStatusFromLb5,
+			}
+		}
 		inputSplunkSearch = &shared.InputSplunkSearch{
 			ID:                  id5,
 			Type:                typeVar5,
@@ -2546,6 +2701,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			TokenTimeoutSecs:    tokenTimeoutSecs,
 			OauthParams:         oauthParams,
 			OauthHeaders:        oauthHeaders,
+			Status:              status5,
 		}
 	}
 	if inputSplunkSearch != nil {
@@ -2710,7 +2866,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			for _, allowedIndexesAtTokenItem := range authTokensItem2.AllowedIndexesAtToken {
 				allowedIndexesAtToken = append(allowedIndexesAtToken, allowedIndexesAtTokenItem.ValueString())
 			}
-			metadata7 := make([]shared.InputSplunkHecAuthTokensMetadata, 0, len(authTokensItem2.Metadata))
+			metadata7 := make([]shared.InputSplunkHecInputMetadata, 0, len(authTokensItem2.Metadata))
 			for _, metadataItem7 := range authTokensItem2.Metadata {
 				var name11 string
 				name11 = metadataItem7.Name.ValueString()
@@ -2718,7 +2874,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				var value11 string
 				value11 = metadataItem7.Value.ValueString()
 
-				metadata7 = append(metadata7, shared.InputSplunkHecAuthTokensMetadata{
+				metadata7 = append(metadata7, shared.InputSplunkHecInputMetadata{
 					Name:  name11,
 					Value: value11,
 				})
@@ -2952,6 +3108,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description8 = nil
 		}
+		var status6 *shared.TFStatus
+		if r.InputSplunkHec.Status != nil {
+			health6 := shared.Health(r.InputSplunkHec.Status.Health.ValueString())
+			metrics6 := make(map[string]interface{})
+			for metricsKey6, metricsValue6 := range r.InputSplunkHec.Status.Metrics {
+				var metricsInst6 interface{}
+				_ = json.Unmarshal([]byte(metricsValue6.ValueString()), &metricsInst6)
+				metrics6[metricsKey6] = metricsInst6
+			}
+			var timestamp6 float64
+			timestamp6 = r.InputSplunkHec.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb6 := new(bool)
+			if !r.InputSplunkHec.Status.UseStatusFromLB.IsUnknown() && !r.InputSplunkHec.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb6 = r.InputSplunkHec.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb6 = nil
+			}
+			status6 = &shared.TFStatus{
+				Health:          health6,
+				Metrics:         metrics6,
+				Timestamp:       timestamp6,
+				UseStatusFromLB: useStatusFromLb6,
+			}
+		}
 		inputSplunkHec = &shared.InputSplunkHec{
 			ID:                        id6,
 			Type:                      typeVar7,
@@ -2991,6 +3172,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			AccessControlAllowHeaders: accessControlAllowHeaders,
 			EmitTokenMetrics:          emitTokenMetrics,
 			Description:               description8,
+			Status:                    status6,
 		}
 	}
 	if inputSplunkHec != nil {
@@ -3248,6 +3430,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				CertificateName: certificateName7,
 			}
 		}
+		var status7 *shared.TFStatus
+		if r.InputAzureBlob.Status != nil {
+			health7 := shared.Health(r.InputAzureBlob.Status.Health.ValueString())
+			metrics7 := make(map[string]interface{})
+			for metricsKey7, metricsValue7 := range r.InputAzureBlob.Status.Metrics {
+				var metricsInst7 interface{}
+				_ = json.Unmarshal([]byte(metricsValue7.ValueString()), &metricsInst7)
+				metrics7[metricsKey7] = metricsInst7
+			}
+			var timestamp7 float64
+			timestamp7 = r.InputAzureBlob.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb7 := new(bool)
+			if !r.InputAzureBlob.Status.UseStatusFromLB.IsUnknown() && !r.InputAzureBlob.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb7 = r.InputAzureBlob.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb7 = nil
+			}
+			status7 = &shared.TFStatus{
+				Health:          health7,
+				Metrics:         metrics7,
+				Timestamp:       timestamp7,
+				UseStatusFromLB: useStatusFromLb7,
+			}
+		}
 		inputAzureBlob = &shared.InputAzureBlob{
 			ID:                          id7,
 			Type:                        typeVar8,
@@ -3281,6 +3488,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			EndpointSuffix:              endpointSuffix,
 			ClientTextSecret:            clientTextSecret,
 			Certificate:                 certificate,
+			Status:                      status7,
 		}
 	}
 	if inputAzureBlob != nil {
@@ -3691,6 +3899,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			customAPIVersion = nil
 		}
+		var status8 *shared.TFStatus
+		if r.InputElastic.Status != nil {
+			health8 := shared.Health(r.InputElastic.Status.Health.ValueString())
+			metrics8 := make(map[string]interface{})
+			for metricsKey8, metricsValue8 := range r.InputElastic.Status.Metrics {
+				var metricsInst8 interface{}
+				_ = json.Unmarshal([]byte(metricsValue8.ValueString()), &metricsInst8)
+				metrics8[metricsKey8] = metricsInst8
+			}
+			var timestamp8 float64
+			timestamp8 = r.InputElastic.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb8 := new(bool)
+			if !r.InputElastic.Status.UseStatusFromLB.IsUnknown() && !r.InputElastic.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb8 = r.InputElastic.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb8 = nil
+			}
+			status8 = &shared.TFStatus{
+				Health:          health8,
+				Metrics:         metrics8,
+				Timestamp:       timestamp8,
+				UseStatusFromLB: useStatusFromLb8,
+			}
+		}
 		inputElastic = &shared.InputElastic{
 			ID:                    id8,
 			Type:                  typeVar9,
@@ -3729,6 +3962,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			CredentialsSecret:     credentialsSecret3,
 			AuthTokens:            authTokens3,
 			CustomAPIVersion:      customAPIVersion,
+			Status:                status8,
 		}
 	}
 	if inputElastic != nil {
@@ -4000,7 +4234,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 					CredentialsSecret: credentialsSecret4,
 				}
 			}
-			var tls9 *shared.InputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide
+			var tls9 *shared.InputConfluentCloudInputTLSSettingsClientSide
 			if r.InputConfluentCloud.KafkaSchemaRegistry.TLS != nil {
 				disabled27 := new(bool)
 				if !r.InputConfluentCloud.KafkaSchemaRegistry.TLS.Disabled.IsUnknown() && !r.InputConfluentCloud.KafkaSchemaRegistry.TLS.Disabled.IsNull() {
@@ -4050,19 +4284,19 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				} else {
 					passphrase9 = nil
 				}
-				minVersion9 := new(shared.InputConfluentCloudKafkaSchemaRegistryMinimumTLSVersion)
+				minVersion9 := new(shared.InputConfluentCloudInputMinimumTLSVersion)
 				if !r.InputConfluentCloud.KafkaSchemaRegistry.TLS.MinVersion.IsUnknown() && !r.InputConfluentCloud.KafkaSchemaRegistry.TLS.MinVersion.IsNull() {
-					*minVersion9 = shared.InputConfluentCloudKafkaSchemaRegistryMinimumTLSVersion(r.InputConfluentCloud.KafkaSchemaRegistry.TLS.MinVersion.ValueString())
+					*minVersion9 = shared.InputConfluentCloudInputMinimumTLSVersion(r.InputConfluentCloud.KafkaSchemaRegistry.TLS.MinVersion.ValueString())
 				} else {
 					minVersion9 = nil
 				}
-				maxVersion9 := new(shared.InputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion)
+				maxVersion9 := new(shared.InputConfluentCloudInputMaximumTLSVersion)
 				if !r.InputConfluentCloud.KafkaSchemaRegistry.TLS.MaxVersion.IsUnknown() && !r.InputConfluentCloud.KafkaSchemaRegistry.TLS.MaxVersion.IsNull() {
-					*maxVersion9 = shared.InputConfluentCloudKafkaSchemaRegistryMaximumTLSVersion(r.InputConfluentCloud.KafkaSchemaRegistry.TLS.MaxVersion.ValueString())
+					*maxVersion9 = shared.InputConfluentCloudInputMaximumTLSVersion(r.InputConfluentCloud.KafkaSchemaRegistry.TLS.MaxVersion.ValueString())
 				} else {
 					maxVersion9 = nil
 				}
-				tls9 = &shared.InputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide{
+				tls9 = &shared.InputConfluentCloudInputTLSSettingsClientSide{
 					Disabled:           disabled27,
 					RejectUnauthorized: rejectUnauthorized12,
 					Servername:         servername5,
@@ -4219,6 +4453,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description11 = nil
 		}
+		var status9 *shared.TFStatus
+		if r.InputConfluentCloud.Status != nil {
+			health9 := shared.Health(r.InputConfluentCloud.Status.Health.ValueString())
+			metrics9 := make(map[string]interface{})
+			for metricsKey9, metricsValue9 := range r.InputConfluentCloud.Status.Metrics {
+				var metricsInst9 interface{}
+				_ = json.Unmarshal([]byte(metricsValue9.ValueString()), &metricsInst9)
+				metrics9[metricsKey9] = metricsInst9
+			}
+			var timestamp9 float64
+			timestamp9 = r.InputConfluentCloud.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb9 := new(bool)
+			if !r.InputConfluentCloud.Status.UseStatusFromLB.IsUnknown() && !r.InputConfluentCloud.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb9 = r.InputConfluentCloud.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb9 = nil
+			}
+			status9 = &shared.TFStatus{
+				Health:          health9,
+				Metrics:         metrics9,
+				Timestamp:       timestamp9,
+				UseStatusFromLB: useStatusFromLb9,
+			}
+		}
 		inputConfluentCloud = &shared.InputConfluentCloud{
 			ID:                        id9,
 			Type:                      typeVar10,
@@ -4255,6 +4514,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			MaxSocketErrors:           maxSocketErrors2,
 			Metadata:                  metadata11,
 			Description:               description11,
+			Status:                    status9,
 		}
 	}
 	if inputConfluentCloud != nil {
@@ -4666,9 +4926,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			}
 			var lokiAuth *shared.LokiAuth
 			if r.InputGrafana.One.LokiAuth != nil {
-				authType6 := new(shared.InputGrafana1AuthenticationType)
+				authType6 := new(shared.InputInputGrafanaAuthenticationType)
 				if !r.InputGrafana.One.LokiAuth.AuthType.IsUnknown() && !r.InputGrafana.One.LokiAuth.AuthType.IsNull() {
-					*authType6 = shared.InputGrafana1AuthenticationType(r.InputGrafana.One.LokiAuth.AuthType.ValueString())
+					*authType6 = shared.InputInputGrafanaAuthenticationType(r.InputGrafana.One.LokiAuth.AuthType.ValueString())
 				} else {
 					authType6 = nil
 				}
@@ -4738,7 +4998,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				} else {
 					tokenTimeoutSecs2 = nil
 				}
-				oauthParams2 := make([]shared.InputGrafana1OauthParams, 0, len(r.InputGrafana.One.LokiAuth.OauthParams))
+				oauthParams2 := make([]shared.InputInputGrafanaOauthParams, 0, len(r.InputGrafana.One.LokiAuth.OauthParams))
 				for _, oauthParamsItem2 := range r.InputGrafana.One.LokiAuth.OauthParams {
 					var name19 string
 					name19 = oauthParamsItem2.Name.ValueString()
@@ -4746,12 +5006,12 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 					var value19 string
 					value19 = oauthParamsItem2.Value.ValueString()
 
-					oauthParams2 = append(oauthParams2, shared.InputGrafana1OauthParams{
+					oauthParams2 = append(oauthParams2, shared.InputInputGrafanaOauthParams{
 						Name:  name19,
 						Value: value19,
 					})
 				}
-				oauthHeaders2 := make([]shared.InputGrafana1OauthHeaders, 0, len(r.InputGrafana.One.LokiAuth.OauthHeaders))
+				oauthHeaders2 := make([]shared.InputInputGrafanaOauthHeaders, 0, len(r.InputGrafana.One.LokiAuth.OauthHeaders))
 				for _, oauthHeadersItem2 := range r.InputGrafana.One.LokiAuth.OauthHeaders {
 					var name20 string
 					name20 = oauthHeadersItem2.Name.ValueString()
@@ -4759,7 +5019,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 					var value20 string
 					value20 = oauthHeadersItem2.Value.ValueString()
 
-					oauthHeaders2 = append(oauthHeaders2, shared.InputGrafana1OauthHeaders{
+					oauthHeaders2 = append(oauthHeaders2, shared.InputInputGrafanaOauthHeaders{
 						Name:  name20,
 						Value: value20,
 					})
@@ -4800,6 +5060,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				description12 = nil
 			}
+			var status10 *shared.TFStatus
+			if r.InputGrafana.One.Status != nil {
+				health10 := shared.Health(r.InputGrafana.One.Status.Health.ValueString())
+				metrics10 := make(map[string]interface{})
+				for metricsKey10, metricsValue10 := range r.InputGrafana.One.Status.Metrics {
+					var metricsInst10 interface{}
+					_ = json.Unmarshal([]byte(metricsValue10.ValueString()), &metricsInst10)
+					metrics10[metricsKey10] = metricsInst10
+				}
+				var timestamp10 float64
+				timestamp10 = r.InputGrafana.One.Status.Timestamp.ValueFloat64()
+
+				useStatusFromLb10 := new(bool)
+				if !r.InputGrafana.One.Status.UseStatusFromLB.IsUnknown() && !r.InputGrafana.One.Status.UseStatusFromLB.IsNull() {
+					*useStatusFromLb10 = r.InputGrafana.One.Status.UseStatusFromLB.ValueBool()
+				} else {
+					useStatusFromLb10 = nil
+				}
+				status10 = &shared.TFStatus{
+					Health:          health10,
+					Metrics:         metrics10,
+					Timestamp:       timestamp10,
+					UseStatusFromLB: useStatusFromLb10,
+				}
+			}
 			inputGrafana1 = &shared.InputGrafana1{
 				ID:                    id10,
 				Type:                  typeVar11,
@@ -4831,6 +5116,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				LokiAuth:              lokiAuth,
 				Metadata:              metadata12,
 				Description:           description12,
+				Status:                status10,
 			}
 		}
 		if inputGrafana1 != nil {
@@ -4846,9 +5132,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				id11 = nil
 			}
-			typeVar12 := new(shared.InputGrafana2Type)
+			typeVar12 := new(shared.InputInputGrafanaType)
 			if !r.InputGrafana.Two.Type.IsUnknown() && !r.InputGrafana.Two.Type.IsNull() {
-				*typeVar12 = shared.InputGrafana2Type(r.InputGrafana.Two.Type.ValueString())
+				*typeVar12 = shared.InputInputGrafanaType(r.InputGrafana.Two.Type.ValueString())
 			} else {
 				typeVar12 = nil
 			}
@@ -4886,7 +5172,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			for _, streamtagsItem11 := range r.InputGrafana.Two.Streamtags {
 				streamtags11 = append(streamtags11, streamtagsItem11.ValueString())
 			}
-			connections11 := make([]shared.InputGrafana2Connections, 0, len(r.InputGrafana.Two.Connections))
+			connections11 := make([]shared.InputInputGrafanaConnections, 0, len(r.InputGrafana.Two.Connections))
 			for _, connectionsItem11 := range r.InputGrafana.Two.Connections {
 				pipeline23 := new(string)
 				if !connectionsItem11.Pipeline.IsUnknown() && !connectionsItem11.Pipeline.IsNull() {
@@ -4897,16 +5183,16 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				var output12 string
 				output12 = connectionsItem11.Output.ValueString()
 
-				connections11 = append(connections11, shared.InputGrafana2Connections{
+				connections11 = append(connections11, shared.InputInputGrafanaConnections{
 					Pipeline: pipeline23,
 					Output:   output12,
 				})
 			}
-			var pq11 *shared.InputGrafana2Pq
+			var pq11 *shared.InputInputGrafanaPq
 			if r.InputGrafana.Two.Pq != nil {
-				mode11 := new(shared.InputGrafana2Mode)
+				mode11 := new(shared.InputInputGrafanaMode)
 				if !r.InputGrafana.Two.Pq.Mode.IsUnknown() && !r.InputGrafana.Two.Pq.Mode.IsNull() {
-					*mode11 = shared.InputGrafana2Mode(r.InputGrafana.Two.Pq.Mode.ValueString())
+					*mode11 = shared.InputInputGrafanaMode(r.InputGrafana.Two.Pq.Mode.ValueString())
 				} else {
 					mode11 = nil
 				}
@@ -4940,13 +5226,13 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				} else {
 					path11 = nil
 				}
-				compress12 := new(shared.InputGrafana2Compression)
+				compress12 := new(shared.InputInputGrafanaCompression)
 				if !r.InputGrafana.Two.Pq.Compress.IsUnknown() && !r.InputGrafana.Two.Pq.Compress.IsNull() {
-					*compress12 = shared.InputGrafana2Compression(r.InputGrafana.Two.Pq.Compress.ValueString())
+					*compress12 = shared.InputInputGrafanaCompression(r.InputGrafana.Two.Pq.Compress.ValueString())
 				} else {
 					compress12 = nil
 				}
-				pq11 = &shared.InputGrafana2Pq{
+				pq11 = &shared.InputInputGrafanaPq{
 					Mode:            mode11,
 					MaxBufferSize:   maxBufferSize11,
 					CommitFrequency: commitFrequency11,
@@ -4965,7 +5251,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			var port5 float64
 			port5 = r.InputGrafana.Two.Port.ValueFloat64()
 
-			var tls11 *shared.InputGrafana2TLSSettingsServerSide
+			var tls11 *shared.InputInputGrafanaTLSSettingsServerSide
 			if r.InputGrafana.Two.TLS != nil {
 				disabled32 := new(bool)
 				if !r.InputGrafana.Two.TLS.Disabled.IsUnknown() && !r.InputGrafana.Two.TLS.Disabled.IsNull() {
@@ -5017,19 +5303,19 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				if !r.InputGrafana.Two.TLS.CommonNameRegex.IsUnknown() && !r.InputGrafana.Two.TLS.CommonNameRegex.IsNull() {
 					_ = json.Unmarshal([]byte(r.InputGrafana.Two.TLS.CommonNameRegex.ValueString()), &commonNameRegex5)
 				}
-				minVersion11 := new(shared.InputGrafana2MinimumTLSVersion)
+				minVersion11 := new(shared.InputInputGrafanaMinimumTLSVersion)
 				if !r.InputGrafana.Two.TLS.MinVersion.IsUnknown() && !r.InputGrafana.Two.TLS.MinVersion.IsNull() {
-					*minVersion11 = shared.InputGrafana2MinimumTLSVersion(r.InputGrafana.Two.TLS.MinVersion.ValueString())
+					*minVersion11 = shared.InputInputGrafanaMinimumTLSVersion(r.InputGrafana.Two.TLS.MinVersion.ValueString())
 				} else {
 					minVersion11 = nil
 				}
-				maxVersion11 := new(shared.InputGrafana2MaximumTLSVersion)
+				maxVersion11 := new(shared.InputInputGrafanaMaximumTLSVersion)
 				if !r.InputGrafana.Two.TLS.MaxVersion.IsUnknown() && !r.InputGrafana.Two.TLS.MaxVersion.IsNull() {
-					*maxVersion11 = shared.InputGrafana2MaximumTLSVersion(r.InputGrafana.Two.TLS.MaxVersion.ValueString())
+					*maxVersion11 = shared.InputInputGrafanaMaximumTLSVersion(r.InputGrafana.Two.TLS.MaxVersion.ValueString())
 				} else {
 					maxVersion11 = nil
 				}
-				tls11 = &shared.InputGrafana2TLSSettingsServerSide{
+				tls11 = &shared.InputInputGrafanaTLSSettingsServerSide{
 					Disabled:           disabled32,
 					CertificateName:    certificateName12,
 					PrivKeyPath:        privKeyPath11,
@@ -5123,9 +5409,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			}
 			var prometheusAuth1 *shared.InputGrafanaPrometheusAuth
 			if r.InputGrafana.Two.PrometheusAuth != nil {
-				authType7 := new(shared.InputGrafana2AuthenticationType)
+				authType7 := new(shared.InputInputGrafana2AuthenticationType)
 				if !r.InputGrafana.Two.PrometheusAuth.AuthType.IsUnknown() && !r.InputGrafana.Two.PrometheusAuth.AuthType.IsNull() {
-					*authType7 = shared.InputGrafana2AuthenticationType(r.InputGrafana.Two.PrometheusAuth.AuthType.ValueString())
+					*authType7 = shared.InputInputGrafana2AuthenticationType(r.InputGrafana.Two.PrometheusAuth.AuthType.ValueString())
 				} else {
 					authType7 = nil
 				}
@@ -5195,7 +5481,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				} else {
 					tokenTimeoutSecs3 = nil
 				}
-				oauthParams3 := make([]shared.InputGrafana2OauthParams, 0, len(r.InputGrafana.Two.PrometheusAuth.OauthParams))
+				oauthParams3 := make([]shared.InputInputGrafana2OauthParams, 0, len(r.InputGrafana.Two.PrometheusAuth.OauthParams))
 				for _, oauthParamsItem3 := range r.InputGrafana.Two.PrometheusAuth.OauthParams {
 					var name22 string
 					name22 = oauthParamsItem3.Name.ValueString()
@@ -5203,12 +5489,12 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 					var value22 string
 					value22 = oauthParamsItem3.Value.ValueString()
 
-					oauthParams3 = append(oauthParams3, shared.InputGrafana2OauthParams{
+					oauthParams3 = append(oauthParams3, shared.InputInputGrafana2OauthParams{
 						Name:  name22,
 						Value: value22,
 					})
 				}
-				oauthHeaders3 := make([]shared.InputGrafana2OauthHeaders, 0, len(r.InputGrafana.Two.PrometheusAuth.OauthHeaders))
+				oauthHeaders3 := make([]shared.InputInputGrafana2OauthHeaders, 0, len(r.InputGrafana.Two.PrometheusAuth.OauthHeaders))
 				for _, oauthHeadersItem3 := range r.InputGrafana.Two.PrometheusAuth.OauthHeaders {
 					var name23 string
 					name23 = oauthHeadersItem3.Name.ValueString()
@@ -5216,7 +5502,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 					var value23 string
 					value23 = oauthHeadersItem3.Value.ValueString()
 
-					oauthHeaders3 = append(oauthHeaders3, shared.InputGrafana2OauthHeaders{
+					oauthHeaders3 = append(oauthHeaders3, shared.InputInputGrafana2OauthHeaders{
 						Name:  name23,
 						Value: value23,
 					})
@@ -5240,9 +5526,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			}
 			var lokiAuth1 *shared.InputGrafanaLokiAuth
 			if r.InputGrafana.Two.LokiAuth != nil {
-				authType8 := new(shared.InputGrafana2LokiAuthAuthenticationType)
+				authType8 := new(shared.InputInputGrafana2LokiAuthAuthenticationType)
 				if !r.InputGrafana.Two.LokiAuth.AuthType.IsUnknown() && !r.InputGrafana.Two.LokiAuth.AuthType.IsNull() {
-					*authType8 = shared.InputGrafana2LokiAuthAuthenticationType(r.InputGrafana.Two.LokiAuth.AuthType.ValueString())
+					*authType8 = shared.InputInputGrafana2LokiAuthAuthenticationType(r.InputGrafana.Two.LokiAuth.AuthType.ValueString())
 				} else {
 					authType8 = nil
 				}
@@ -5312,7 +5598,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				} else {
 					tokenTimeoutSecs4 = nil
 				}
-				oauthParams4 := make([]shared.InputGrafana2LokiAuthOauthParams, 0, len(r.InputGrafana.Two.LokiAuth.OauthParams))
+				oauthParams4 := make([]shared.InputInputGrafana2LokiAuthOauthParams, 0, len(r.InputGrafana.Two.LokiAuth.OauthParams))
 				for _, oauthParamsItem4 := range r.InputGrafana.Two.LokiAuth.OauthParams {
 					var name24 string
 					name24 = oauthParamsItem4.Name.ValueString()
@@ -5320,12 +5606,12 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 					var value24 string
 					value24 = oauthParamsItem4.Value.ValueString()
 
-					oauthParams4 = append(oauthParams4, shared.InputGrafana2LokiAuthOauthParams{
+					oauthParams4 = append(oauthParams4, shared.InputInputGrafana2LokiAuthOauthParams{
 						Name:  name24,
 						Value: value24,
 					})
 				}
-				oauthHeaders4 := make([]shared.InputGrafana2LokiAuthOauthHeaders, 0, len(r.InputGrafana.Two.LokiAuth.OauthHeaders))
+				oauthHeaders4 := make([]shared.InputInputGrafana2LokiAuthOauthHeaders, 0, len(r.InputGrafana.Two.LokiAuth.OauthHeaders))
 				for _, oauthHeadersItem4 := range r.InputGrafana.Two.LokiAuth.OauthHeaders {
 					var name25 string
 					name25 = oauthHeadersItem4.Name.ValueString()
@@ -5333,7 +5619,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 					var value25 string
 					value25 = oauthHeadersItem4.Value.ValueString()
 
-					oauthHeaders4 = append(oauthHeaders4, shared.InputGrafana2LokiAuthOauthHeaders{
+					oauthHeaders4 = append(oauthHeaders4, shared.InputInputGrafana2LokiAuthOauthHeaders{
 						Name:  name25,
 						Value: value25,
 					})
@@ -5355,7 +5641,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 					OauthHeaders:       oauthHeaders4,
 				}
 			}
-			metadata13 := make([]shared.InputGrafana2Metadata, 0, len(r.InputGrafana.Two.Metadata))
+			metadata13 := make([]shared.InputInputGrafanaMetadata, 0, len(r.InputGrafana.Two.Metadata))
 			for _, metadataItem13 := range r.InputGrafana.Two.Metadata {
 				var name26 string
 				name26 = metadataItem13.Name.ValueString()
@@ -5363,7 +5649,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				var value26 string
 				value26 = metadataItem13.Value.ValueString()
 
-				metadata13 = append(metadata13, shared.InputGrafana2Metadata{
+				metadata13 = append(metadata13, shared.InputInputGrafanaMetadata{
 					Name:  name26,
 					Value: value26,
 				})
@@ -5373,6 +5659,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				*description13 = r.InputGrafana.Two.Description.ValueString()
 			} else {
 				description13 = nil
+			}
+			var status11 *shared.TFStatus
+			if r.InputGrafana.Two.Status != nil {
+				health11 := shared.Health(r.InputGrafana.Two.Status.Health.ValueString())
+				metrics11 := make(map[string]interface{})
+				for metricsKey11, metricsValue11 := range r.InputGrafana.Two.Status.Metrics {
+					var metricsInst11 interface{}
+					_ = json.Unmarshal([]byte(metricsValue11.ValueString()), &metricsInst11)
+					metrics11[metricsKey11] = metricsInst11
+				}
+				var timestamp11 float64
+				timestamp11 = r.InputGrafana.Two.Status.Timestamp.ValueFloat64()
+
+				useStatusFromLb11 := new(bool)
+				if !r.InputGrafana.Two.Status.UseStatusFromLB.IsUnknown() && !r.InputGrafana.Two.Status.UseStatusFromLB.IsNull() {
+					*useStatusFromLb11 = r.InputGrafana.Two.Status.UseStatusFromLB.ValueBool()
+				} else {
+					useStatusFromLb11 = nil
+				}
+				status11 = &shared.TFStatus{
+					Health:          health11,
+					Metrics:         metrics11,
+					Timestamp:       timestamp11,
+					UseStatusFromLB: useStatusFromLb11,
+				}
 			}
 			inputGrafana2 = &shared.InputGrafana2{
 				ID:                    id11,
@@ -5405,6 +5716,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				LokiAuth:              lokiAuth1,
 				Metadata:              metadata13,
 				Description:           description13,
+				Status:                status11,
 			}
 		}
 		if inputGrafana2 != nil {
@@ -5812,6 +6124,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Value: value29,
 			})
 		}
+		var status12 *shared.TFStatus
+		if r.InputLoki.Status != nil {
+			health12 := shared.Health(r.InputLoki.Status.Health.ValueString())
+			metrics12 := make(map[string]interface{})
+			for metricsKey12, metricsValue12 := range r.InputLoki.Status.Metrics {
+				var metricsInst12 interface{}
+				_ = json.Unmarshal([]byte(metricsValue12.ValueString()), &metricsInst12)
+				metrics12[metricsKey12] = metricsInst12
+			}
+			var timestamp12 float64
+			timestamp12 = r.InputLoki.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb12 := new(bool)
+			if !r.InputLoki.Status.UseStatusFromLB.IsUnknown() && !r.InputLoki.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb12 = r.InputLoki.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb12 = nil
+			}
+			status12 = &shared.TFStatus{
+				Health:          health12,
+				Metrics:         metrics12,
+				Timestamp:       timestamp12,
+				UseStatusFromLB: useStatusFromLb12,
+			}
+		}
 		inputLoki = &shared.InputLoki{
 			ID:                    id12,
 			Type:                  typeVar13,
@@ -5854,6 +6191,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			TokenTimeoutSecs:      tokenTimeoutSecs5,
 			OauthParams:           oauthParams5,
 			OauthHeaders:          oauthHeaders5,
+			Status:                status12,
 		}
 	}
 	if inputLoki != nil {
@@ -6255,6 +6593,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Value: value32,
 			})
 		}
+		var status13 *shared.TFStatus
+		if r.InputPrometheusRw.Status != nil {
+			health13 := shared.Health(r.InputPrometheusRw.Status.Health.ValueString())
+			metrics13 := make(map[string]interface{})
+			for metricsKey13, metricsValue13 := range r.InputPrometheusRw.Status.Metrics {
+				var metricsInst13 interface{}
+				_ = json.Unmarshal([]byte(metricsValue13.ValueString()), &metricsInst13)
+				metrics13[metricsKey13] = metricsInst13
+			}
+			var timestamp13 float64
+			timestamp13 = r.InputPrometheusRw.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb13 := new(bool)
+			if !r.InputPrometheusRw.Status.UseStatusFromLB.IsUnknown() && !r.InputPrometheusRw.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb13 = r.InputPrometheusRw.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb13 = nil
+			}
+			status13 = &shared.TFStatus{
+				Health:          health13,
+				Metrics:         metrics13,
+				Timestamp:       timestamp13,
+				UseStatusFromLB: useStatusFromLb13,
+			}
+		}
 		inputPrometheusRw = &shared.InputPrometheusRw{
 			ID:                    id13,
 			Type:                  typeVar14,
@@ -6297,6 +6660,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			TokenTimeoutSecs:      tokenTimeoutSecs6,
 			OauthParams:           oauthParams6,
 			OauthHeaders:          oauthHeaders6,
+			Status:                status13,
 		}
 	}
 	if inputPrometheusRw != nil {
@@ -6551,9 +6915,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Values: values,
 			})
 		}
-		awsAuthenticationMethod1 := new(shared.InputPrometheusAwsAuthenticationMethodAuthenticationMethod)
+		awsAuthenticationMethod1 := new(shared.InputPrometheusInputAuthenticationMethod)
 		if !r.InputPrometheus.AwsAuthenticationMethod.IsUnknown() && !r.InputPrometheus.AwsAuthenticationMethod.IsNull() {
-			*awsAuthenticationMethod1 = shared.InputPrometheusAwsAuthenticationMethodAuthenticationMethod(r.InputPrometheus.AwsAuthenticationMethod.ValueString())
+			*awsAuthenticationMethod1 = shared.InputPrometheusInputAuthenticationMethod(r.InputPrometheus.AwsAuthenticationMethod.ValueString())
 		} else {
 			awsAuthenticationMethod1 = nil
 		}
@@ -6629,6 +6993,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			credentialsSecret11 = nil
 		}
+		var status14 *shared.TFStatus
+		if r.InputPrometheus.Status != nil {
+			health14 := shared.Health(r.InputPrometheus.Status.Health.ValueString())
+			metrics14 := make(map[string]interface{})
+			for metricsKey14, metricsValue14 := range r.InputPrometheus.Status.Metrics {
+				var metricsInst14 interface{}
+				_ = json.Unmarshal([]byte(metricsValue14.ValueString()), &metricsInst14)
+				metrics14[metricsKey14] = metricsInst14
+			}
+			var timestamp14 float64
+			timestamp14 = r.InputPrometheus.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb14 := new(bool)
+			if !r.InputPrometheus.Status.UseStatusFromLB.IsUnknown() && !r.InputPrometheus.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb14 = r.InputPrometheus.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb14 = nil
+			}
+			status14 = &shared.TFStatus{
+				Health:          health14,
+				Metrics:         metrics14,
+				Timestamp:       timestamp14,
+				UseStatusFromLB: useStatusFromLb14,
+			}
+		}
 		inputPrometheus = &shared.InputPrometheus{
 			ID:                      id14,
 			Type:                    typeVar15,
@@ -6673,6 +7062,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Username:                username8,
 			Password:                password8,
 			CredentialsSecret:       credentialsSecret11,
+			Status:                  status14,
 		}
 	}
 	if inputPrometheus != nil {
@@ -6846,9 +7236,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				maxDataTime = nil
 			}
-			compress17 := new(shared.InputEdgePrometheusPersistenceCompression)
+			compress17 := new(shared.InputEdgePrometheusInputCompression)
 			if !r.InputEdgePrometheus.Persistence.Compress.IsUnknown() && !r.InputEdgePrometheus.Persistence.Compress.IsNull() {
-				*compress17 = shared.InputEdgePrometheusPersistenceCompression(r.InputEdgePrometheus.Persistence.Compress.ValueString())
+				*compress17 = shared.InputEdgePrometheusInputCompression(r.InputEdgePrometheus.Persistence.Compress.ValueString())
 			} else {
 				compress17 = nil
 			}
@@ -6887,9 +7277,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		}
 		targets := make([]shared.Targets, 0, len(r.InputEdgePrometheus.Targets))
 		for _, targetsItem := range r.InputEdgePrometheus.Targets {
-			protocol := new(shared.InputEdgePrometheusTargetsProtocol)
+			protocol := new(shared.InputEdgePrometheusInputProtocol)
 			if !targetsItem.Protocol.IsUnknown() && !targetsItem.Protocol.IsNull() {
-				*protocol = shared.InputEdgePrometheusTargetsProtocol(targetsItem.Protocol.ValueString())
+				*protocol = shared.InputEdgePrometheusInputProtocol(targetsItem.Protocol.ValueString())
 			} else {
 				protocol = nil
 			}
@@ -6963,9 +7353,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Values: values1,
 			})
 		}
-		awsAuthenticationMethod2 := new(shared.InputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod)
+		awsAuthenticationMethod2 := new(shared.InputEdgePrometheusInputAuthenticationMethod)
 		if !r.InputEdgePrometheus.AwsAuthenticationMethod.IsUnknown() && !r.InputEdgePrometheus.AwsAuthenticationMethod.IsNull() {
-			*awsAuthenticationMethod2 = shared.InputEdgePrometheusAwsAuthenticationMethodAuthenticationMethod(r.InputEdgePrometheus.AwsAuthenticationMethod.ValueString())
+			*awsAuthenticationMethod2 = shared.InputEdgePrometheusInputAuthenticationMethod(r.InputEdgePrometheus.AwsAuthenticationMethod.ValueString())
 		} else {
 			awsAuthenticationMethod2 = nil
 		}
@@ -7081,6 +7471,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			credentialsSecret12 = nil
 		}
+		var status15 *shared.TFStatus
+		if r.InputEdgePrometheus.Status != nil {
+			health15 := shared.Health(r.InputEdgePrometheus.Status.Health.ValueString())
+			metrics15 := make(map[string]interface{})
+			for metricsKey15, metricsValue15 := range r.InputEdgePrometheus.Status.Metrics {
+				var metricsInst15 interface{}
+				_ = json.Unmarshal([]byte(metricsValue15.ValueString()), &metricsInst15)
+				metrics15[metricsKey15] = metricsInst15
+			}
+			var timestamp15 float64
+			timestamp15 = r.InputEdgePrometheus.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb15 := new(bool)
+			if !r.InputEdgePrometheus.Status.UseStatusFromLB.IsUnknown() && !r.InputEdgePrometheus.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb15 = r.InputEdgePrometheus.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb15 = nil
+			}
+			status15 = &shared.TFStatus{
+				Health:          health15,
+				Metrics:         metrics15,
+				Timestamp:       timestamp15,
+				UseStatusFromLB: useStatusFromLb15,
+			}
+		}
 		inputEdgePrometheus = &shared.InputEdgePrometheus{
 			ID:                      id15,
 			Type:                    typeVar16,
@@ -7126,6 +7541,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Username:                username9,
 			Password:                password9,
 			CredentialsSecret:       credentialsSecret12,
+			Status:                  status15,
 		}
 	}
 	if inputEdgePrometheus != nil {
@@ -7441,6 +7857,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			textSecret8 = nil
 		}
+		var status16 *shared.TFStatus
+		if r.InputOffice365Mgmt.Status != nil {
+			health16 := shared.Health(r.InputOffice365Mgmt.Status.Health.ValueString())
+			metrics16 := make(map[string]interface{})
+			for metricsKey16, metricsValue16 := range r.InputOffice365Mgmt.Status.Metrics {
+				var metricsInst16 interface{}
+				_ = json.Unmarshal([]byte(metricsValue16.ValueString()), &metricsInst16)
+				metrics16[metricsKey16] = metricsInst16
+			}
+			var timestamp16 float64
+			timestamp16 = r.InputOffice365Mgmt.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb16 := new(bool)
+			if !r.InputOffice365Mgmt.Status.UseStatusFromLB.IsUnknown() && !r.InputOffice365Mgmt.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb16 = r.InputOffice365Mgmt.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb16 = nil
+			}
+			status16 = &shared.TFStatus{
+				Health:          health16,
+				Metrics:         metrics16,
+				Timestamp:       timestamp16,
+				UseStatusFromLB: useStatusFromLb16,
+			}
+		}
 		inputOffice365Mgmt = &shared.InputOffice365Mgmt{
 			ID:                  id16,
 			Type:                typeVar17,
@@ -7469,6 +7910,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Description:         description20,
 			ClientSecret:        clientSecret,
 			TextSecret:          textSecret8,
+			Status:              status16,
 		}
 	}
 	if inputOffice365Mgmt != nil {
@@ -7772,6 +8214,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			textSecret9 = nil
 		}
+		var status17 *shared.TFStatus
+		if r.InputOffice365Service.Status != nil {
+			health17 := shared.Health(r.InputOffice365Service.Status.Health.ValueString())
+			metrics17 := make(map[string]interface{})
+			for metricsKey17, metricsValue17 := range r.InputOffice365Service.Status.Metrics {
+				var metricsInst17 interface{}
+				_ = json.Unmarshal([]byte(metricsValue17.ValueString()), &metricsInst17)
+				metrics17[metricsKey17] = metricsInst17
+			}
+			var timestamp17 float64
+			timestamp17 = r.InputOffice365Service.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb17 := new(bool)
+			if !r.InputOffice365Service.Status.UseStatusFromLB.IsUnknown() && !r.InputOffice365Service.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb17 = r.InputOffice365Service.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb17 = nil
+			}
+			status17 = &shared.TFStatus{
+				Health:          health17,
+				Metrics:         metrics17,
+				Timestamp:       timestamp17,
+				UseStatusFromLB: useStatusFromLb17,
+			}
+		}
 		inputOffice365Service = &shared.InputOffice365Service{
 			ID:                  id17,
 			Type:                typeVar19,
@@ -7798,6 +8265,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Description:         description22,
 			ClientSecret:        clientSecret1,
 			TextSecret:          textSecret9,
+			Status:              status17,
 		}
 	}
 	if inputOffice365Service != nil {
@@ -8166,6 +8634,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				CertPath:        certPath14,
 			}
 		}
+		var status18 *shared.TFStatus
+		if r.InputOffice365MsgTrace.Status != nil {
+			health18 := shared.Health(r.InputOffice365MsgTrace.Status.Health.ValueString())
+			metrics18 := make(map[string]interface{})
+			for metricsKey18, metricsValue18 := range r.InputOffice365MsgTrace.Status.Metrics {
+				var metricsInst18 interface{}
+				_ = json.Unmarshal([]byte(metricsValue18.ValueString()), &metricsInst18)
+				metrics18[metricsKey18] = metricsInst18
+			}
+			var timestamp18 float64
+			timestamp18 = r.InputOffice365MsgTrace.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb18 := new(bool)
+			if !r.InputOffice365MsgTrace.Status.UseStatusFromLB.IsUnknown() && !r.InputOffice365MsgTrace.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb18 = r.InputOffice365MsgTrace.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb18 = nil
+			}
+			status18 = &shared.TFStatus{
+				Health:          health18,
+				Metrics:         metrics18,
+				Timestamp:       timestamp18,
+				UseStatusFromLB: useStatusFromLb18,
+			}
+		}
 		inputOffice365MsgTrace = &shared.InputOffice365MsgTrace{
 			ID:                     id18,
 			Type:                   typeVar21,
@@ -8204,6 +8697,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			PlanType:               planType2,
 			TextSecret:             textSecret10,
 			CertOptions:            certOptions,
+			Status:                 status18,
 		}
 	}
 	if inputOffice365MsgTrace != nil {
@@ -8508,6 +9002,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description24 = nil
 		}
+		var status19 *shared.TFStatus
+		if r.InputEventhub.Status != nil {
+			health19 := shared.Health(r.InputEventhub.Status.Health.ValueString())
+			metrics19 := make(map[string]interface{})
+			for metricsKey19, metricsValue19 := range r.InputEventhub.Status.Metrics {
+				var metricsInst19 interface{}
+				_ = json.Unmarshal([]byte(metricsValue19.ValueString()), &metricsInst19)
+				metrics19[metricsKey19] = metricsInst19
+			}
+			var timestamp19 float64
+			timestamp19 = r.InputEventhub.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb19 := new(bool)
+			if !r.InputEventhub.Status.UseStatusFromLB.IsUnknown() && !r.InputEventhub.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb19 = r.InputEventhub.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb19 = nil
+			}
+			status19 = &shared.TFStatus{
+				Health:          health19,
+				Metrics:         metrics19,
+				Timestamp:       timestamp19,
+				UseStatusFromLB: useStatusFromLb19,
+			}
+		}
 		inputEventhub = &shared.InputEventhub{
 			ID:                        id19,
 			Type:                      typeVar23,
@@ -8544,6 +9063,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			MinimizeDuplicates:        minimizeDuplicates,
 			Metadata:                  metadata21,
 			Description:               description24,
+			Status:                    status19,
 		}
 	}
 	if inputEventhub != nil {
@@ -8720,6 +9240,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			cronSchedule1 = nil
 		}
+		var status20 *shared.TFStatus
+		if r.InputExec.Status != nil {
+			health20 := shared.Health(r.InputExec.Status.Health.ValueString())
+			metrics20 := make(map[string]interface{})
+			for metricsKey20, metricsValue20 := range r.InputExec.Status.Metrics {
+				var metricsInst20 interface{}
+				_ = json.Unmarshal([]byte(metricsValue20.ValueString()), &metricsInst20)
+				metrics20[metricsKey20] = metricsInst20
+			}
+			var timestamp20 float64
+			timestamp20 = r.InputExec.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb20 := new(bool)
+			if !r.InputExec.Status.UseStatusFromLB.IsUnknown() && !r.InputExec.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb20 = r.InputExec.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb20 = nil
+			}
+			status20 = &shared.TFStatus{
+				Health:          health20,
+				Metrics:         metrics20,
+				Timestamp:       timestamp20,
+				UseStatusFromLB: useStatusFromLb20,
+			}
+		}
 		inputExec = &shared.InputExec{
 			ID:                  id20,
 			Type:                typeVar24,
@@ -8740,6 +9285,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Description:         description25,
 			Interval:            interval9,
 			CronSchedule:        cronSchedule1,
+			Status:              status20,
 		}
 	}
 	if inputExec != nil {
@@ -9041,6 +9587,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description26 = nil
 		}
+		var status21 *shared.TFStatus
+		if r.InputFirehose.Status != nil {
+			health21 := shared.Health(r.InputFirehose.Status.Health.ValueString())
+			metrics21 := make(map[string]interface{})
+			for metricsKey21, metricsValue21 := range r.InputFirehose.Status.Metrics {
+				var metricsInst21 interface{}
+				_ = json.Unmarshal([]byte(metricsValue21.ValueString()), &metricsInst21)
+				metrics21[metricsKey21] = metricsInst21
+			}
+			var timestamp21 float64
+			timestamp21 = r.InputFirehose.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb21 := new(bool)
+			if !r.InputFirehose.Status.UseStatusFromLB.IsUnknown() && !r.InputFirehose.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb21 = r.InputFirehose.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb21 = nil
+			}
+			status21 = &shared.TFStatus{
+				Health:          health21,
+				Metrics:         metrics21,
+				Timestamp:       timestamp21,
+				UseStatusFromLB: useStatusFromLb21,
+			}
+		}
 		inputFirehose = &shared.InputFirehose{
 			ID:                    id21,
 			Type:                  typeVar25,
@@ -9069,6 +9640,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			IPDenylistRegex:       ipDenylistRegex7,
 			Metadata:              metadata23,
 			Description:           description26,
+			Status:                status21,
 		}
 	}
 	if inputFirehose != nil {
@@ -9279,6 +9851,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			orderedDelivery = nil
 		}
+		var status22 *shared.TFStatus
+		if r.InputGooglePubsub.Status != nil {
+			health22 := shared.Health(r.InputGooglePubsub.Status.Health.ValueString())
+			metrics22 := make(map[string]interface{})
+			for metricsKey22, metricsValue22 := range r.InputGooglePubsub.Status.Metrics {
+				var metricsInst22 interface{}
+				_ = json.Unmarshal([]byte(metricsValue22.ValueString()), &metricsInst22)
+				metrics22[metricsKey22] = metricsInst22
+			}
+			var timestamp22 float64
+			timestamp22 = r.InputGooglePubsub.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb22 := new(bool)
+			if !r.InputGooglePubsub.Status.UseStatusFromLB.IsUnknown() && !r.InputGooglePubsub.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb22 = r.InputGooglePubsub.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb22 = nil
+			}
+			status22 = &shared.TFStatus{
+				Health:          health22,
+				Metrics:         metrics22,
+				Timestamp:       timestamp22,
+				UseStatusFromLB: useStatusFromLb22,
+			}
+		}
 		inputGooglePubsub = &shared.InputGooglePubsub{
 			ID:                        id22,
 			Type:                      typeVar26,
@@ -9304,6 +9901,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Metadata:                  metadata24,
 			Description:               description27,
 			OrderedDelivery:           orderedDelivery,
+			Status:                    status22,
 		}
 	}
 	if inputGooglePubsub != nil {
@@ -9446,6 +10044,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description28 = nil
 		}
+		var status23 *shared.TFStatus
+		if r.InputCribl.Status != nil {
+			health23 := shared.Health(r.InputCribl.Status.Health.ValueString())
+			metrics23 := make(map[string]interface{})
+			for metricsKey23, metricsValue23 := range r.InputCribl.Status.Metrics {
+				var metricsInst23 interface{}
+				_ = json.Unmarshal([]byte(metricsValue23.ValueString()), &metricsInst23)
+				metrics23[metricsKey23] = metricsInst23
+			}
+			var timestamp23 float64
+			timestamp23 = r.InputCribl.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb23 := new(bool)
+			if !r.InputCribl.Status.UseStatusFromLB.IsUnknown() && !r.InputCribl.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb23 = r.InputCribl.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb23 = nil
+			}
+			status23 = &shared.TFStatus{
+				Health:          health23,
+				Metrics:         metrics23,
+				Timestamp:       timestamp23,
+				UseStatusFromLB: useStatusFromLb23,
+			}
+		}
 		inputCribl = &shared.InputCribl{
 			ID:           id23,
 			Type:         typeVar27,
@@ -9460,6 +10083,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Filter:       filter1,
 			Metadata:     metadata25,
 			Description:  description28,
+			Status:       status23,
 		}
 	}
 	if inputCribl != nil {
@@ -9727,6 +10351,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description29 = nil
 		}
+		var status24 *shared.TFStatus
+		if r.InputCriblTCP.Status != nil {
+			health24 := shared.Health(r.InputCriblTCP.Status.Health.ValueString())
+			metrics24 := make(map[string]interface{})
+			for metricsKey24, metricsValue24 := range r.InputCriblTCP.Status.Metrics {
+				var metricsInst24 interface{}
+				_ = json.Unmarshal([]byte(metricsValue24.ValueString()), &metricsInst24)
+				metrics24[metricsKey24] = metricsInst24
+			}
+			var timestamp24 float64
+			timestamp24 = r.InputCriblTCP.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb24 := new(bool)
+			if !r.InputCriblTCP.Status.UseStatusFromLB.IsUnknown() && !r.InputCriblTCP.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb24 = r.InputCriblTCP.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb24 = nil
+			}
+			status24 = &shared.TFStatus{
+				Health:          health24,
+				Metrics:         metrics24,
+				Timestamp:       timestamp24,
+				UseStatusFromLB: useStatusFromLb24,
+			}
+		}
 		inputCriblTCP = &shared.InputCriblTCP{
 			ID:                  id24,
 			Type:                typeVar28,
@@ -9749,6 +10398,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Metadata:            metadata26,
 			EnableLoadBalancing: enableLoadBalancing,
 			Description:         description29,
+			Status:              status24,
 		}
 	}
 	if inputCriblTCP != nil {
@@ -10050,6 +10700,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description30 = nil
 		}
+		var status25 *shared.TFStatus
+		if r.InputCriblHTTP.Status != nil {
+			health25 := shared.Health(r.InputCriblHTTP.Status.Health.ValueString())
+			metrics25 := make(map[string]interface{})
+			for metricsKey25, metricsValue25 := range r.InputCriblHTTP.Status.Metrics {
+				var metricsInst25 interface{}
+				_ = json.Unmarshal([]byte(metricsValue25.ValueString()), &metricsInst25)
+				metrics25[metricsKey25] = metricsInst25
+			}
+			var timestamp25 float64
+			timestamp25 = r.InputCriblHTTP.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb25 := new(bool)
+			if !r.InputCriblHTTP.Status.UseStatusFromLB.IsUnknown() && !r.InputCriblHTTP.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb25 = r.InputCriblHTTP.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb25 = nil
+			}
+			status25 = &shared.TFStatus{
+				Health:          health25,
+				Metrics:         metrics25,
+				Timestamp:       timestamp25,
+				UseStatusFromLB: useStatusFromLb25,
+			}
+		}
 		inputCriblHTTP = &shared.InputCriblHTTP{
 			ID:                    id25,
 			Type:                  typeVar29,
@@ -10078,6 +10753,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			IPDenylistRegex:       ipDenylistRegex8,
 			Metadata:              metadata27,
 			Description:           description30,
+			Status:                status25,
 		}
 	}
 	if inputCriblHTTP != nil {
@@ -10369,6 +11045,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			textSecret11 = nil
 		}
+		var status26 *shared.TFStatus
+		if r.InputTcpjson.Status != nil {
+			health26 := shared.Health(r.InputTcpjson.Status.Health.ValueString())
+			metrics26 := make(map[string]interface{})
+			for metricsKey26, metricsValue26 := range r.InputTcpjson.Status.Metrics {
+				var metricsInst26 interface{}
+				_ = json.Unmarshal([]byte(metricsValue26.ValueString()), &metricsInst26)
+				metrics26[metricsKey26] = metricsInst26
+			}
+			var timestamp26 float64
+			timestamp26 = r.InputTcpjson.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb26 := new(bool)
+			if !r.InputTcpjson.Status.UseStatusFromLB.IsUnknown() && !r.InputTcpjson.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb26 = r.InputTcpjson.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb26 = nil
+			}
+			status26 = &shared.TFStatus{
+				Health:          health26,
+				Metrics:         metrics26,
+				Timestamp:       timestamp26,
+				UseStatusFromLB: useStatusFromLb26,
+			}
+		}
 		inputTcpjson = &shared.InputTcpjson{
 			ID:                  id26,
 			Type:                typeVar30,
@@ -10395,6 +11096,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Description:         description31,
 			AuthToken:           authToken,
 			TextSecret:          textSecret11,
+			Status:              status26,
 		}
 	}
 	if inputTcpjson != nil {
@@ -10460,9 +11162,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		}
 		var pq27 *shared.InputSystemMetricsPq
 		if r.InputSystemMetrics.Pq != nil {
-			mode27 := new(shared.InputSystemMetricsPqMode)
+			mode27 := new(shared.InputSystemMetricsInputPqMode)
 			if !r.InputSystemMetrics.Pq.Mode.IsUnknown() && !r.InputSystemMetrics.Pq.Mode.IsNull() {
-				*mode27 = shared.InputSystemMetricsPqMode(r.InputSystemMetrics.Pq.Mode.ValueString())
+				*mode27 = shared.InputSystemMetricsInputPqMode(r.InputSystemMetrics.Pq.Mode.ValueString())
 			} else {
 				mode27 = nil
 			}
@@ -10530,9 +11232,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			if r.InputSystemMetrics.Host.Custom != nil {
 				var system *shared.InputSystemMetricsSystem
 				if r.InputSystemMetrics.Host.Custom.System != nil {
-					mode29 := new(shared.InputSystemMetricsHostMode)
+					mode29 := new(shared.InputSystemMetricsInputHostMode)
 					if !r.InputSystemMetrics.Host.Custom.System.Mode.IsUnknown() && !r.InputSystemMetrics.Host.Custom.System.Mode.IsNull() {
-						*mode29 = shared.InputSystemMetricsHostMode(r.InputSystemMetrics.Host.Custom.System.Mode.ValueString())
+						*mode29 = shared.InputSystemMetricsInputHostMode(r.InputSystemMetrics.Host.Custom.System.Mode.ValueString())
 					} else {
 						mode29 = nil
 					}
@@ -10549,9 +11251,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				}
 				var cpu *shared.CPU
 				if r.InputSystemMetrics.Host.Custom.CPU != nil {
-					mode30 := new(shared.InputSystemMetricsHostCustomMode)
+					mode30 := new(shared.InputSystemMetricsInputHostCustomMode)
 					if !r.InputSystemMetrics.Host.Custom.CPU.Mode.IsUnknown() && !r.InputSystemMetrics.Host.Custom.CPU.Mode.IsNull() {
-						*mode30 = shared.InputSystemMetricsHostCustomMode(r.InputSystemMetrics.Host.Custom.CPU.Mode.ValueString())
+						*mode30 = shared.InputSystemMetricsInputHostCustomMode(r.InputSystemMetrics.Host.Custom.CPU.Mode.ValueString())
 					} else {
 						mode30 = nil
 					}
@@ -10582,9 +11284,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				}
 				var memory *shared.InputSystemMetricsMemory
 				if r.InputSystemMetrics.Host.Custom.Memory != nil {
-					mode31 := new(shared.InputSystemMetricsHostCustomMemoryMode)
+					mode31 := new(shared.InputSystemMetricsInputHostCustomMemoryMode)
 					if !r.InputSystemMetrics.Host.Custom.Memory.Mode.IsUnknown() && !r.InputSystemMetrics.Host.Custom.Memory.Mode.IsNull() {
-						*mode31 = shared.InputSystemMetricsHostCustomMemoryMode(r.InputSystemMetrics.Host.Custom.Memory.Mode.ValueString())
+						*mode31 = shared.InputSystemMetricsInputHostCustomMemoryMode(r.InputSystemMetrics.Host.Custom.Memory.Mode.ValueString())
 					} else {
 						mode31 = nil
 					}
@@ -10601,9 +11303,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				}
 				var network *shared.Network
 				if r.InputSystemMetrics.Host.Custom.Network != nil {
-					mode32 := new(shared.InputSystemMetricsHostCustomNetworkMode)
+					mode32 := new(shared.InputSystemMetricsInputHostCustomNetworkMode)
 					if !r.InputSystemMetrics.Host.Custom.Network.Mode.IsUnknown() && !r.InputSystemMetrics.Host.Custom.Network.Mode.IsNull() {
-						*mode32 = shared.InputSystemMetricsHostCustomNetworkMode(r.InputSystemMetrics.Host.Custom.Network.Mode.ValueString())
+						*mode32 = shared.InputSystemMetricsInputHostCustomNetworkMode(r.InputSystemMetrics.Host.Custom.Network.Mode.ValueString())
 					} else {
 						mode32 = nil
 					}
@@ -10632,9 +11334,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				}
 				var disk *shared.Disk
 				if r.InputSystemMetrics.Host.Custom.Disk != nil {
-					mode33 := new(shared.InputSystemMetricsHostCustomDiskMode)
+					mode33 := new(shared.InputSystemMetricsInputHostCustomDiskMode)
 					if !r.InputSystemMetrics.Host.Custom.Disk.Mode.IsUnknown() && !r.InputSystemMetrics.Host.Custom.Disk.Mode.IsNull() {
-						*mode33 = shared.InputSystemMetricsHostCustomDiskMode(r.InputSystemMetrics.Host.Custom.Disk.Mode.ValueString())
+						*mode33 = shared.InputSystemMetricsInputHostCustomDiskMode(r.InputSystemMetrics.Host.Custom.Disk.Mode.ValueString())
 					} else {
 						mode33 = nil
 					}
@@ -10712,9 +11414,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		}
 		var container *shared.InputSystemMetricsContainer
 		if r.InputSystemMetrics.Container != nil {
-			mode34 := new(shared.InputSystemMetricsContainerMode)
+			mode34 := new(shared.InputSystemMetricsInputMode)
 			if !r.InputSystemMetrics.Container.Mode.IsUnknown() && !r.InputSystemMetrics.Container.Mode.IsNull() {
-				*mode34 = shared.InputSystemMetricsContainerMode(r.InputSystemMetrics.Container.Mode.ValueString())
+				*mode34 = shared.InputSystemMetricsInputMode(r.InputSystemMetrics.Container.Mode.ValueString())
 			} else {
 				mode34 = nil
 			}
@@ -10831,6 +11533,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description32 = nil
 		}
+		var status27 *shared.TFStatus
+		if r.InputSystemMetrics.Status != nil {
+			health27 := shared.Health(r.InputSystemMetrics.Status.Health.ValueString())
+			metrics27 := make(map[string]interface{})
+			for metricsKey27, metricsValue27 := range r.InputSystemMetrics.Status.Metrics {
+				var metricsInst27 interface{}
+				_ = json.Unmarshal([]byte(metricsValue27.ValueString()), &metricsInst27)
+				metrics27[metricsKey27] = metricsInst27
+			}
+			var timestamp27 float64
+			timestamp27 = r.InputSystemMetrics.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb27 := new(bool)
+			if !r.InputSystemMetrics.Status.UseStatusFromLB.IsUnknown() && !r.InputSystemMetrics.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb27 = r.InputSystemMetrics.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb27 = nil
+			}
+			status27 = &shared.TFStatus{
+				Health:          health27,
+				Metrics:         metrics27,
+				Timestamp:       timestamp27,
+				UseStatusFromLB: useStatusFromLb27,
+			}
+		}
 		inputSystemMetrics = &shared.InputSystemMetrics{
 			ID:           id27,
 			Type:         typeVar31,
@@ -10849,6 +11576,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Metadata:     metadata29,
 			Persistence:  persistence1,
 			Description:  description32,
+			Status:       status27,
 		}
 	}
 	if inputSystemMetrics != nil {
@@ -11186,6 +11914,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description33 = nil
 		}
+		var status28 *shared.TFStatus
+		if r.InputSystemState.Status != nil {
+			health28 := shared.Health(r.InputSystemState.Status.Health.ValueString())
+			metrics28 := make(map[string]interface{})
+			for metricsKey28, metricsValue28 := range r.InputSystemState.Status.Metrics {
+				var metricsInst28 interface{}
+				_ = json.Unmarshal([]byte(metricsValue28.ValueString()), &metricsInst28)
+				metrics28[metricsKey28] = metricsInst28
+			}
+			var timestamp28 float64
+			timestamp28 = r.InputSystemState.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb28 := new(bool)
+			if !r.InputSystemState.Status.UseStatusFromLB.IsUnknown() && !r.InputSystemState.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb28 = r.InputSystemState.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb28 = nil
+			}
+			status28 = &shared.TFStatus{
+				Health:          health28,
+				Metrics:         metrics28,
+				Timestamp:       timestamp28,
+				UseStatusFromLB: useStatusFromLb28,
+			}
+		}
 		inputSystemState = &shared.InputSystemState{
 			ID:           id28,
 			Type:         typeVar32,
@@ -11202,6 +11955,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Collectors:   collectors,
 			Persistence:  persistence2,
 			Description:  description33,
+			Status:       status28,
 		}
 	}
 	if inputSystemState != nil {
@@ -11407,6 +12161,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description35 = nil
 		}
+		var status29 *shared.TFStatus
+		if r.InputKubeMetrics.Status != nil {
+			health29 := shared.Health(r.InputKubeMetrics.Status.Health.ValueString())
+			metrics29 := make(map[string]interface{})
+			for metricsKey29, metricsValue29 := range r.InputKubeMetrics.Status.Metrics {
+				var metricsInst29 interface{}
+				_ = json.Unmarshal([]byte(metricsValue29.ValueString()), &metricsInst29)
+				metrics29[metricsKey29] = metricsInst29
+			}
+			var timestamp29 float64
+			timestamp29 = r.InputKubeMetrics.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb29 := new(bool)
+			if !r.InputKubeMetrics.Status.UseStatusFromLB.IsUnknown() && !r.InputKubeMetrics.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb29 = r.InputKubeMetrics.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb29 = nil
+			}
+			status29 = &shared.TFStatus{
+				Health:          health29,
+				Metrics:         metrics29,
+				Timestamp:       timestamp29,
+				UseStatusFromLB: useStatusFromLb29,
+			}
+		}
 		inputKubeMetrics = &shared.InputKubeMetrics{
 			ID:           id29,
 			Type:         typeVar33,
@@ -11423,6 +12202,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Metadata:     metadata32,
 			Persistence:  persistence3,
 			Description:  description35,
+			Status:       status29,
 		}
 	}
 	if inputKubeMetrics != nil {
@@ -11607,9 +12387,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				maxDataTime4 = nil
 			}
-			compress36 := new(shared.InputKubeLogsPersistenceCompression)
+			compress36 := new(shared.InputKubeLogsInputCompression)
 			if !r.InputKubeLogs.Persistence.Compress.IsUnknown() && !r.InputKubeLogs.Persistence.Compress.IsNull() {
-				*compress36 = shared.InputKubeLogsPersistenceCompression(r.InputKubeLogs.Persistence.Compress.ValueString())
+				*compress36 = shared.InputKubeLogsInputCompression(r.InputKubeLogs.Persistence.Compress.ValueString())
 			} else {
 				compress36 = nil
 			}
@@ -11643,6 +12423,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description37 = nil
 		}
+		var status30 *shared.TFStatus
+		if r.InputKubeLogs.Status != nil {
+			health30 := shared.Health(r.InputKubeLogs.Status.Health.ValueString())
+			metrics30 := make(map[string]interface{})
+			for metricsKey30, metricsValue30 := range r.InputKubeLogs.Status.Metrics {
+				var metricsInst30 interface{}
+				_ = json.Unmarshal([]byte(metricsValue30.ValueString()), &metricsInst30)
+				metrics30[metricsKey30] = metricsInst30
+			}
+			var timestamp30 float64
+			timestamp30 = r.InputKubeLogs.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb30 := new(bool)
+			if !r.InputKubeLogs.Status.UseStatusFromLB.IsUnknown() && !r.InputKubeLogs.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb30 = r.InputKubeLogs.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb30 = nil
+			}
+			status30 = &shared.TFStatus{
+				Health:          health30,
+				Metrics:         metrics30,
+				Timestamp:       timestamp30,
+				UseStatusFromLB: useStatusFromLb30,
+			}
+		}
 		inputKubeLogs = &shared.InputKubeLogs{
 			ID:                  id30,
 			Type:                typeVar34,
@@ -11663,6 +12468,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			StaleChannelFlushMs: staleChannelFlushMs6,
 			EnableLoadBalancing: enableLoadBalancing2,
 			Description:         description37,
+			Status:              status30,
 		}
 	}
 	if inputKubeLogs != nil {
@@ -11815,6 +12621,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description39 = nil
 		}
+		var status31 *shared.TFStatus
+		if r.InputKubeEvents.Status != nil {
+			health31 := shared.Health(r.InputKubeEvents.Status.Health.ValueString())
+			metrics31 := make(map[string]interface{})
+			for metricsKey31, metricsValue31 := range r.InputKubeEvents.Status.Metrics {
+				var metricsInst31 interface{}
+				_ = json.Unmarshal([]byte(metricsValue31.ValueString()), &metricsInst31)
+				metrics31[metricsKey31] = metricsInst31
+			}
+			var timestamp31 float64
+			timestamp31 = r.InputKubeEvents.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb31 := new(bool)
+			if !r.InputKubeEvents.Status.UseStatusFromLB.IsUnknown() && !r.InputKubeEvents.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb31 = r.InputKubeEvents.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb31 = nil
+			}
+			status31 = &shared.TFStatus{
+				Health:          health31,
+				Metrics:         metrics31,
+				Timestamp:       timestamp31,
+				UseStatusFromLB: useStatusFromLb31,
+			}
+		}
 		inputKubeEvents = &shared.InputKubeEvents{
 			ID:           id31,
 			Type:         typeVar35,
@@ -11829,6 +12660,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Rules:        rules2,
 			Metadata:     metadata34,
 			Description:  description39,
+			Status:       status31,
 		}
 	}
 	if inputKubeEvents != nil {
@@ -11894,9 +12726,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		}
 		var pq32 *shared.InputWindowsMetricsPq
 		if r.InputWindowsMetrics.Pq != nil {
-			mode39 := new(shared.InputWindowsMetricsPqMode)
+			mode39 := new(shared.InputWindowsMetricsInputMode)
 			if !r.InputWindowsMetrics.Pq.Mode.IsUnknown() && !r.InputWindowsMetrics.Pq.Mode.IsNull() {
-				*mode39 = shared.InputWindowsMetricsPqMode(r.InputWindowsMetrics.Pq.Mode.ValueString())
+				*mode39 = shared.InputWindowsMetricsInputMode(r.InputWindowsMetrics.Pq.Mode.ValueString())
 			} else {
 				mode39 = nil
 			}
@@ -11964,9 +12796,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			if r.InputWindowsMetrics.Host.Custom != nil {
 				var system1 *shared.InputWindowsMetricsSystem
 				if r.InputWindowsMetrics.Host.Custom.System != nil {
-					mode41 := new(shared.InputWindowsMetricsHostMode)
+					mode41 := new(shared.InputWindowsMetricsInputHostMode)
 					if !r.InputWindowsMetrics.Host.Custom.System.Mode.IsUnknown() && !r.InputWindowsMetrics.Host.Custom.System.Mode.IsNull() {
-						*mode41 = shared.InputWindowsMetricsHostMode(r.InputWindowsMetrics.Host.Custom.System.Mode.ValueString())
+						*mode41 = shared.InputWindowsMetricsInputHostMode(r.InputWindowsMetrics.Host.Custom.System.Mode.ValueString())
 					} else {
 						mode41 = nil
 					}
@@ -11983,9 +12815,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				}
 				var cpu1 *shared.InputWindowsMetricsCPU
 				if r.InputWindowsMetrics.Host.Custom.CPU != nil {
-					mode42 := new(shared.InputWindowsMetricsHostCustomMode)
+					mode42 := new(shared.InputWindowsMetricsInputHostCustomMode)
 					if !r.InputWindowsMetrics.Host.Custom.CPU.Mode.IsUnknown() && !r.InputWindowsMetrics.Host.Custom.CPU.Mode.IsNull() {
-						*mode42 = shared.InputWindowsMetricsHostCustomMode(r.InputWindowsMetrics.Host.Custom.CPU.Mode.ValueString())
+						*mode42 = shared.InputWindowsMetricsInputHostCustomMode(r.InputWindowsMetrics.Host.Custom.CPU.Mode.ValueString())
 					} else {
 						mode42 = nil
 					}
@@ -12016,9 +12848,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				}
 				var memory1 *shared.InputWindowsMetricsMemory
 				if r.InputWindowsMetrics.Host.Custom.Memory != nil {
-					mode43 := new(shared.InputWindowsMetricsHostCustomMemoryMode)
+					mode43 := new(shared.InputWindowsMetricsInputHostCustomMemoryMode)
 					if !r.InputWindowsMetrics.Host.Custom.Memory.Mode.IsUnknown() && !r.InputWindowsMetrics.Host.Custom.Memory.Mode.IsNull() {
-						*mode43 = shared.InputWindowsMetricsHostCustomMemoryMode(r.InputWindowsMetrics.Host.Custom.Memory.Mode.ValueString())
+						*mode43 = shared.InputWindowsMetricsInputHostCustomMemoryMode(r.InputWindowsMetrics.Host.Custom.Memory.Mode.ValueString())
 					} else {
 						mode43 = nil
 					}
@@ -12035,9 +12867,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				}
 				var network1 *shared.InputWindowsMetricsNetwork
 				if r.InputWindowsMetrics.Host.Custom.Network != nil {
-					mode44 := new(shared.InputWindowsMetricsHostCustomNetworkMode)
+					mode44 := new(shared.InputWindowsMetricsInputHostCustomNetworkMode)
 					if !r.InputWindowsMetrics.Host.Custom.Network.Mode.IsUnknown() && !r.InputWindowsMetrics.Host.Custom.Network.Mode.IsNull() {
-						*mode44 = shared.InputWindowsMetricsHostCustomNetworkMode(r.InputWindowsMetrics.Host.Custom.Network.Mode.ValueString())
+						*mode44 = shared.InputWindowsMetricsInputHostCustomNetworkMode(r.InputWindowsMetrics.Host.Custom.Network.Mode.ValueString())
 					} else {
 						mode44 = nil
 					}
@@ -12066,9 +12898,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				}
 				var disk2 *shared.InputWindowsMetricsDisk
 				if r.InputWindowsMetrics.Host.Custom.Disk != nil {
-					mode45 := new(shared.InputWindowsMetricsHostCustomDiskMode)
+					mode45 := new(shared.InputWindowsMetricsInputHostCustomDiskMode)
 					if !r.InputWindowsMetrics.Host.Custom.Disk.Mode.IsUnknown() && !r.InputWindowsMetrics.Host.Custom.Disk.Mode.IsNull() {
-						*mode45 = shared.InputWindowsMetricsHostCustomDiskMode(r.InputWindowsMetrics.Host.Custom.Disk.Mode.ValueString())
+						*mode45 = shared.InputWindowsMetricsInputHostCustomDiskMode(r.InputWindowsMetrics.Host.Custom.Disk.Mode.ValueString())
 					} else {
 						mode45 = nil
 					}
@@ -12199,6 +13031,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description40 = nil
 		}
+		var status32 *shared.TFStatus
+		if r.InputWindowsMetrics.Status != nil {
+			health32 := shared.Health(r.InputWindowsMetrics.Status.Health.ValueString())
+			metrics32 := make(map[string]interface{})
+			for metricsKey32, metricsValue32 := range r.InputWindowsMetrics.Status.Metrics {
+				var metricsInst32 interface{}
+				_ = json.Unmarshal([]byte(metricsValue32.ValueString()), &metricsInst32)
+				metrics32[metricsKey32] = metricsInst32
+			}
+			var timestamp32 float64
+			timestamp32 = r.InputWindowsMetrics.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb32 := new(bool)
+			if !r.InputWindowsMetrics.Status.UseStatusFromLB.IsUnknown() && !r.InputWindowsMetrics.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb32 = r.InputWindowsMetrics.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb32 = nil
+			}
+			status32 = &shared.TFStatus{
+				Health:          health32,
+				Metrics:         metrics32,
+				Timestamp:       timestamp32,
+				UseStatusFromLB: useStatusFromLb32,
+			}
+		}
 		inputWindowsMetrics = &shared.InputWindowsMetrics{
 			ID:                  id32,
 			Type:                typeVar36,
@@ -12217,6 +13074,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Persistence:         persistence5,
 			DisableNativeModule: disableNativeModule,
 			Description:         description40,
+			Status:              status32,
 		}
 	}
 	if inputWindowsMetrics != nil {
@@ -12550,6 +13408,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			awsSecret1 = nil
 		}
+		var status33 *shared.TFStatus
+		if r.InputCrowdstrike.Status != nil {
+			health33 := shared.Health(r.InputCrowdstrike.Status.Health.ValueString())
+			metrics33 := make(map[string]interface{})
+			for metricsKey33, metricsValue33 := range r.InputCrowdstrike.Status.Metrics {
+				var metricsInst33 interface{}
+				_ = json.Unmarshal([]byte(metricsValue33.ValueString()), &metricsInst33)
+				metrics33[metricsKey33] = metricsInst33
+			}
+			var timestamp33 float64
+			timestamp33 = r.InputCrowdstrike.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb33 := new(bool)
+			if !r.InputCrowdstrike.Status.UseStatusFromLB.IsUnknown() && !r.InputCrowdstrike.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb33 = r.InputCrowdstrike.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb33 = nil
+			}
+			status33 = &shared.TFStatus{
+				Health:          health33,
+				Metrics:         metrics33,
+				Timestamp:       timestamp33,
+				UseStatusFromLB: useStatusFromLb33,
+			}
+		}
 		inputCrowdstrike = &shared.InputCrowdstrike{
 			ID:                      id33,
 			Type:                    typeVar37,
@@ -12591,6 +13474,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Description:             description41,
 			AwsAPIKey:               awsAPIKey1,
 			AwsSecret:               awsSecret1,
+			Status:                  status33,
 		}
 	}
 	if inputCrowdstrike != nil {
@@ -12913,6 +13797,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description42 = nil
 		}
+		var status34 *shared.TFStatus
+		if r.InputDatadogAgent.Status != nil {
+			health34 := shared.Health(r.InputDatadogAgent.Status.Health.ValueString())
+			metrics34 := make(map[string]interface{})
+			for metricsKey34, metricsValue34 := range r.InputDatadogAgent.Status.Metrics {
+				var metricsInst34 interface{}
+				_ = json.Unmarshal([]byte(metricsValue34.ValueString()), &metricsInst34)
+				metrics34[metricsKey34] = metricsInst34
+			}
+			var timestamp34 float64
+			timestamp34 = r.InputDatadogAgent.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb34 := new(bool)
+			if !r.InputDatadogAgent.Status.UseStatusFromLB.IsUnknown() && !r.InputDatadogAgent.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb34 = r.InputDatadogAgent.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb34 = nil
+			}
+			status34 = &shared.TFStatus{
+				Health:          health34,
+				Metrics:         metrics34,
+				Timestamp:       timestamp34,
+				UseStatusFromLB: useStatusFromLb34,
+			}
+		}
 		inputDatadogAgent = &shared.InputDatadogAgent{
 			ID:                    id34,
 			Type:                  typeVar38,
@@ -12942,6 +13851,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Metadata:              metadata37,
 			ProxyMode:             proxyMode1,
 			Description:           description42,
+			Status:                status34,
 		}
 	}
 	if inputDatadogAgent != nil {
@@ -13062,7 +13972,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				Compress:        compress42,
 			}
 		}
-		samples := make([]shared.Samples, 0, len(r.InputDatagen.Samples))
+		samples := make([]shared.InputDatagenSamples, 0, len(r.InputDatagen.Samples))
 		for _, samplesItem := range r.InputDatagen.Samples {
 			var sample string
 			sample = samplesItem.Sample.ValueString()
@@ -13073,7 +13983,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				eventsPerSec = nil
 			}
-			samples = append(samples, shared.Samples{
+			samples = append(samples, shared.InputDatagenSamples{
 				Sample:       sample,
 				EventsPerSec: eventsPerSec,
 			})
@@ -13097,6 +14007,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description43 = nil
 		}
+		var status35 *shared.TFStatus
+		if r.InputDatagen.Status != nil {
+			health35 := shared.Health(r.InputDatagen.Status.Health.ValueString())
+			metrics35 := make(map[string]interface{})
+			for metricsKey35, metricsValue35 := range r.InputDatagen.Status.Metrics {
+				var metricsInst35 interface{}
+				_ = json.Unmarshal([]byte(metricsValue35.ValueString()), &metricsInst35)
+				metrics35[metricsKey35] = metricsInst35
+			}
+			var timestamp35 float64
+			timestamp35 = r.InputDatagen.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb35 := new(bool)
+			if !r.InputDatagen.Status.UseStatusFromLB.IsUnknown() && !r.InputDatagen.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb35 = r.InputDatagen.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb35 = nil
+			}
+			status35 = &shared.TFStatus{
+				Health:          health35,
+				Metrics:         metrics35,
+				Timestamp:       timestamp35,
+				UseStatusFromLB: useStatusFromLb35,
+			}
+		}
 		inputDatagen = &shared.InputDatagen{
 			ID:           id35,
 			Type:         typeVar39,
@@ -13111,6 +14046,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Samples:      samples,
 			Metadata:     metadata38,
 			Description:  description43,
+			Status:       status35,
 		}
 	}
 	if inputDatagen != nil {
@@ -13435,7 +14371,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				description44 = nil
 			}
-			metadata40 := make([]shared.InputHTTPRawAuthTokensExtMetadata, 0, len(authTokensExtItem1.Metadata))
+			metadata40 := make([]shared.InputHTTPRawInputMetadata, 0, len(authTokensExtItem1.Metadata))
 			for _, metadataItem39 := range authTokensExtItem1.Metadata {
 				var name60 string
 				name60 = metadataItem39.Name.ValueString()
@@ -13443,7 +14379,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				var value56 string
 				value56 = metadataItem39.Value.ValueString()
 
-				metadata40 = append(metadata40, shared.InputHTTPRawAuthTokensExtMetadata{
+				metadata40 = append(metadata40, shared.InputHTTPRawInputMetadata{
 					Name:  name60,
 					Value: value56,
 				})
@@ -13459,6 +14395,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			*description45 = r.InputHTTPRaw.Description.ValueString()
 		} else {
 			description45 = nil
+		}
+		var status36 *shared.TFStatus
+		if r.InputHTTPRaw.Status != nil {
+			health36 := shared.Health(r.InputHTTPRaw.Status.Health.ValueString())
+			metrics36 := make(map[string]interface{})
+			for metricsKey36, metricsValue36 := range r.InputHTTPRaw.Status.Metrics {
+				var metricsInst36 interface{}
+				_ = json.Unmarshal([]byte(metricsValue36.ValueString()), &metricsInst36)
+				metrics36[metricsKey36] = metricsInst36
+			}
+			var timestamp36 float64
+			timestamp36 = r.InputHTTPRaw.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb36 := new(bool)
+			if !r.InputHTTPRaw.Status.UseStatusFromLB.IsUnknown() && !r.InputHTTPRaw.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb36 = r.InputHTTPRaw.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb36 = nil
+			}
+			status36 = &shared.TFStatus{
+				Health:          health36,
+				Metrics:         metrics36,
+				Timestamp:       timestamp36,
+				UseStatusFromLB: useStatusFromLb36,
+			}
 		}
 		inputHTTPRaw = &shared.InputHTTPRaw{
 			ID:                    id36,
@@ -13493,6 +14454,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			AllowedMethods:        allowedMethods,
 			AuthTokensExt:         authTokensExt1,
 			Description:           description45,
+			Status:                status36,
 		}
 	}
 	if inputHTTPRaw != nil {
@@ -13769,6 +14731,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			awsSecret2 = nil
 		}
+		var status37 *shared.TFStatus
+		if r.InputKinesis.Status != nil {
+			health37 := shared.Health(r.InputKinesis.Status.Health.ValueString())
+			metrics37 := make(map[string]interface{})
+			for metricsKey37, metricsValue37 := range r.InputKinesis.Status.Metrics {
+				var metricsInst37 interface{}
+				_ = json.Unmarshal([]byte(metricsValue37.ValueString()), &metricsInst37)
+				metrics37[metricsKey37] = metricsInst37
+			}
+			var timestamp37 float64
+			timestamp37 = r.InputKinesis.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb37 := new(bool)
+			if !r.InputKinesis.Status.UseStatusFromLB.IsUnknown() && !r.InputKinesis.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb37 = r.InputKinesis.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb37 = nil
+			}
+			status37 = &shared.TFStatus{
+				Health:          health37,
+				Metrics:         metrics37,
+				Timestamp:       timestamp37,
+				UseStatusFromLB: useStatusFromLb37,
+			}
+		}
 		inputKinesis = &shared.InputKinesis{
 			ID:                      id37,
 			Type:                    typeVar41,
@@ -13805,6 +14792,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Description:             description46,
 			AwsAPIKey:               awsAPIKey2,
 			AwsSecret:               awsSecret2,
+			Status:                  status37,
 		}
 	}
 	if inputKinesis != nil {
@@ -13953,6 +14941,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description47 = nil
 		}
+		var status38 *shared.TFStatus
+		if r.InputCriblmetrics.Status != nil {
+			health38 := shared.Health(r.InputCriblmetrics.Status.Health.ValueString())
+			metrics38 := make(map[string]interface{})
+			for metricsKey38, metricsValue38 := range r.InputCriblmetrics.Status.Metrics {
+				var metricsInst38 interface{}
+				_ = json.Unmarshal([]byte(metricsValue38.ValueString()), &metricsInst38)
+				metrics38[metricsKey38] = metricsInst38
+			}
+			var timestamp38 float64
+			timestamp38 = r.InputCriblmetrics.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb38 := new(bool)
+			if !r.InputCriblmetrics.Status.UseStatusFromLB.IsUnknown() && !r.InputCriblmetrics.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb38 = r.InputCriblmetrics.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb38 = nil
+			}
+			status38 = &shared.TFStatus{
+				Health:          health38,
+				Metrics:         metrics38,
+				Timestamp:       timestamp38,
+				UseStatusFromLB: useStatusFromLb38,
+			}
+		}
 		inputCriblmetrics = &shared.InputCriblmetrics{
 			ID:           id38,
 			Type:         typeVar42,
@@ -13968,6 +14981,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			FullFidelity: fullFidelity,
 			Metadata:     metadata42,
 			Description:  description47,
+			Status:       status38,
 		}
 	}
 	if inputCriblmetrics != nil {
@@ -14227,6 +15241,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description48 = nil
 		}
+		var status39 *shared.TFStatus
+		if r.InputMetrics.Status != nil {
+			health39 := shared.Health(r.InputMetrics.Status.Health.ValueString())
+			metrics39 := make(map[string]interface{})
+			for metricsKey39, metricsValue39 := range r.InputMetrics.Status.Metrics {
+				var metricsInst39 interface{}
+				_ = json.Unmarshal([]byte(metricsValue39.ValueString()), &metricsInst39)
+				metrics39[metricsKey39] = metricsInst39
+			}
+			var timestamp39 float64
+			timestamp39 = r.InputMetrics.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb39 := new(bool)
+			if !r.InputMetrics.Status.UseStatusFromLB.IsUnknown() && !r.InputMetrics.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb39 = r.InputMetrics.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb39 = nil
+			}
+			status39 = &shared.TFStatus{
+				Health:          health39,
+				Metrics:         metrics39,
+				Timestamp:       timestamp39,
+				UseStatusFromLB: useStatusFromLb39,
+			}
+		}
 		inputMetrics = &shared.InputMetrics{
 			ID:                 id39,
 			Type:               typeVar43,
@@ -14248,6 +15287,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Metadata:           metadata43,
 			UDPSocketRxBufSize: udpSocketRxBufSize,
 			Description:        description48,
+			Status:             status39,
 		}
 	}
 	if inputMetrics != nil {
@@ -14593,6 +15633,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			awsSecret3 = nil
 		}
+		var status40 *shared.TFStatus
+		if r.InputS3.Status != nil {
+			health40 := shared.Health(r.InputS3.Status.Health.ValueString())
+			metrics40 := make(map[string]interface{})
+			for metricsKey40, metricsValue40 := range r.InputS3.Status.Metrics {
+				var metricsInst40 interface{}
+				_ = json.Unmarshal([]byte(metricsValue40.ValueString()), &metricsInst40)
+				metrics40[metricsKey40] = metricsInst40
+			}
+			var timestamp40 float64
+			timestamp40 = r.InputS3.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb40 := new(bool)
+			if !r.InputS3.Status.UseStatusFromLB.IsUnknown() && !r.InputS3.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb40 = r.InputS3.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb40 = nil
+			}
+			status40 = &shared.TFStatus{
+				Health:          health40,
+				Metrics:         metrics40,
+				Timestamp:       timestamp40,
+				UseStatusFromLB: useStatusFromLb40,
+			}
+		}
 		inputS3 = &shared.InputS3{
 			ID:                          id40,
 			Type:                        typeVar44,
@@ -14636,6 +15701,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Description:                 description49,
 			AwsAPIKey:                   awsAPIKey3,
 			AwsSecret:                   awsSecret3,
+			Status:                      status40,
 		}
 	}
 	if inputS3 != nil {
@@ -14993,6 +16059,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			awsSecret4 = nil
 		}
+		var status41 *shared.TFStatus
+		if r.InputS3Inventory.Status != nil {
+			health41 := shared.Health(r.InputS3Inventory.Status.Health.ValueString())
+			metrics41 := make(map[string]interface{})
+			for metricsKey41, metricsValue41 := range r.InputS3Inventory.Status.Metrics {
+				var metricsInst41 interface{}
+				_ = json.Unmarshal([]byte(metricsValue41.ValueString()), &metricsInst41)
+				metrics41[metricsKey41] = metricsInst41
+			}
+			var timestamp41 float64
+			timestamp41 = r.InputS3Inventory.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb41 := new(bool)
+			if !r.InputS3Inventory.Status.UseStatusFromLB.IsUnknown() && !r.InputS3Inventory.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb41 = r.InputS3Inventory.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb41 = nil
+			}
+			status41 = &shared.TFStatus{
+				Health:          health41,
+				Metrics:         metrics41,
+				Timestamp:       timestamp41,
+				UseStatusFromLB: useStatusFromLb41,
+			}
+		}
 		inputS3Inventory = &shared.InputS3Inventory{
 			ID:                          id41,
 			Type:                        typeVar45,
@@ -15038,6 +16129,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Description:                 description50,
 			AwsAPIKey:                   awsAPIKey4,
 			AwsSecret:                   awsSecret4,
+			Status:                      status41,
 		}
 	}
 	if inputS3Inventory != nil {
@@ -15266,6 +16358,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description51 = nil
 		}
+		var status42 *shared.TFStatus
+		if r.InputSnmp.Status != nil {
+			health42 := shared.Health(r.InputSnmp.Status.Health.ValueString())
+			metrics42 := make(map[string]interface{})
+			for metricsKey42, metricsValue42 := range r.InputSnmp.Status.Metrics {
+				var metricsInst42 interface{}
+				_ = json.Unmarshal([]byte(metricsValue42.ValueString()), &metricsInst42)
+				metrics42[metricsKey42] = metricsInst42
+			}
+			var timestamp42 float64
+			timestamp42 = r.InputSnmp.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb42 := new(bool)
+			if !r.InputSnmp.Status.UseStatusFromLB.IsUnknown() && !r.InputSnmp.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb42 = r.InputSnmp.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb42 = nil
+			}
+			status42 = &shared.TFStatus{
+				Health:          health42,
+				Metrics:         metrics42,
+				Timestamp:       timestamp42,
+				UseStatusFromLB: useStatusFromLb42,
+			}
+		}
 		inputSnmp = &shared.InputSnmp{
 			ID:                 id42,
 			Type:               typeVar46,
@@ -15286,6 +16403,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			UDPSocketRxBufSize: udpSocketRxBufSize1,
 			VarbindsWithTypes:  varbindsWithTypes,
 			Description:        description51,
+			Status:             status42,
 		}
 	}
 	if inputSnmp != nil {
@@ -15714,6 +16832,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			extractLogs = nil
 		}
+		var status43 *shared.TFStatus
+		if r.InputOpenTelemetry.Status != nil {
+			health43 := shared.Health(r.InputOpenTelemetry.Status.Health.ValueString())
+			metrics43 := make(map[string]interface{})
+			for metricsKey43, metricsValue43 := range r.InputOpenTelemetry.Status.Metrics {
+				var metricsInst43 interface{}
+				_ = json.Unmarshal([]byte(metricsValue43.ValueString()), &metricsInst43)
+				metrics43[metricsKey43] = metricsInst43
+			}
+			var timestamp43 float64
+			timestamp43 = r.InputOpenTelemetry.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb43 := new(bool)
+			if !r.InputOpenTelemetry.Status.UseStatusFromLB.IsUnknown() && !r.InputOpenTelemetry.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb43 = r.InputOpenTelemetry.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb43 = nil
+			}
+			status43 = &shared.TFStatus{
+				Health:          health43,
+				Metrics:         metrics43,
+				Timestamp:       timestamp43,
+				UseStatusFromLB: useStatusFromLb43,
+			}
+		}
 		inputOpenTelemetry = &shared.InputOpenTelemetry{
 			ID:                    id43,
 			Type:                  typeVar47,
@@ -15761,6 +16904,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			OauthParams:           oauthParams7,
 			OauthHeaders:          oauthHeaders7,
 			ExtractLogs:           extractLogs,
+			Status:                status43,
 		}
 	}
 	if inputOpenTelemetry != nil {
@@ -16000,6 +17144,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description53 = nil
 		}
+		var status44 *shared.TFStatus
+		if r.InputModelDrivenTelemetry.Status != nil {
+			health44 := shared.Health(r.InputModelDrivenTelemetry.Status.Health.ValueString())
+			metrics44 := make(map[string]interface{})
+			for metricsKey44, metricsValue44 := range r.InputModelDrivenTelemetry.Status.Metrics {
+				var metricsInst44 interface{}
+				_ = json.Unmarshal([]byte(metricsValue44.ValueString()), &metricsInst44)
+				metrics44[metricsKey44] = metricsInst44
+			}
+			var timestamp44 float64
+			timestamp44 = r.InputModelDrivenTelemetry.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb44 := new(bool)
+			if !r.InputModelDrivenTelemetry.Status.UseStatusFromLB.IsUnknown() && !r.InputModelDrivenTelemetry.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb44 = r.InputModelDrivenTelemetry.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb44 = nil
+			}
+			status44 = &shared.TFStatus{
+				Health:          health44,
+				Metrics:         metrics44,
+				Timestamp:       timestamp44,
+				UseStatusFromLB: useStatusFromLb44,
+			}
+		}
 		inputModelDrivenTelemetry = &shared.InputModelDrivenTelemetry{
 			ID:                id44,
 			Type:              typeVar48,
@@ -16018,6 +17187,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			MaxActiveCxn:      maxActiveCxn4,
 			ShutdownTimeoutMs: shutdownTimeoutMs,
 			Description:       description53,
+			Status:            status44,
 		}
 	}
 	if inputModelDrivenTelemetry != nil {
@@ -16285,6 +17455,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			numReceivers4 = nil
 		}
+		var status45 *shared.TFStatus
+		if r.InputSqs.Status != nil {
+			health45 := shared.Health(r.InputSqs.Status.Health.ValueString())
+			metrics45 := make(map[string]interface{})
+			for metricsKey45, metricsValue45 := range r.InputSqs.Status.Metrics {
+				var metricsInst45 interface{}
+				_ = json.Unmarshal([]byte(metricsValue45.ValueString()), &metricsInst45)
+				metrics45[metricsKey45] = metricsInst45
+			}
+			var timestamp45 float64
+			timestamp45 = r.InputSqs.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb45 := new(bool)
+			if !r.InputSqs.Status.UseStatusFromLB.IsUnknown() && !r.InputSqs.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb45 = r.InputSqs.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb45 = nil
+			}
+			status45 = &shared.TFStatus{
+				Health:          health45,
+				Metrics:         metrics45,
+				Timestamp:       timestamp45,
+				UseStatusFromLB: useStatusFromLb45,
+			}
+		}
 		inputSqs = &shared.InputSqs{
 			ID:                      id45,
 			Type:                    typeVar49,
@@ -16319,6 +17514,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			AwsAPIKey:               awsAPIKey5,
 			AwsSecret:               awsSecret5,
 			NumReceivers:            numReceivers4,
+			Status:                  status45,
 		}
 	}
 	if inputSqs != nil {
@@ -16647,6 +17843,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				description55 = nil
 			}
+			var status46 *shared.TFStatus
+			if r.InputSyslog.One.Status != nil {
+				health46 := shared.Health(r.InputSyslog.One.Status.Health.ValueString())
+				metrics46 := make(map[string]interface{})
+				for metricsKey46, metricsValue46 := range r.InputSyslog.One.Status.Metrics {
+					var metricsInst46 interface{}
+					_ = json.Unmarshal([]byte(metricsValue46.ValueString()), &metricsInst46)
+					metrics46[metricsKey46] = metricsInst46
+				}
+				var timestamp46 float64
+				timestamp46 = r.InputSyslog.One.Status.Timestamp.ValueFloat64()
+
+				useStatusFromLb46 := new(bool)
+				if !r.InputSyslog.One.Status.UseStatusFromLB.IsUnknown() && !r.InputSyslog.One.Status.UseStatusFromLB.IsNull() {
+					*useStatusFromLb46 = r.InputSyslog.One.Status.UseStatusFromLB.ValueBool()
+				} else {
+					useStatusFromLb46 = nil
+				}
+				status46 = &shared.TFStatus{
+					Health:          health46,
+					Metrics:         metrics46,
+					Timestamp:       timestamp46,
+					UseStatusFromLB: useStatusFromLb46,
+				}
+			}
 			inputSyslog1 = &shared.InputSyslog1{
 				ID:                         id46,
 				Type:                       typeVar50,
@@ -16680,6 +17901,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				UDPSocketRxBufSize:         udpSocketRxBufSize2,
 				EnableLoadBalancing:        enableLoadBalancing3,
 				Description:                description55,
+				Status:                     status46,
 			}
 		}
 		if inputSyslog1 != nil {
@@ -16695,7 +17917,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				id47 = nil
 			}
-			typeVar51 := shared.InputSyslog2Type(r.InputSyslog.Two.Type.ValueString())
+			typeVar51 := shared.InputInputSyslogType(r.InputSyslog.Two.Type.ValueString())
 			disabled85 := new(bool)
 			if !r.InputSyslog.Two.Disabled.IsUnknown() && !r.InputSyslog.Two.Disabled.IsNull() {
 				*disabled85 = r.InputSyslog.Two.Disabled.ValueBool()
@@ -16730,7 +17952,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			for _, streamtagsItem47 := range r.InputSyslog.Two.Streamtags {
 				streamtags47 = append(streamtags47, streamtagsItem47.ValueString())
 			}
-			connections47 := make([]shared.InputSyslog2Connections, 0, len(r.InputSyslog.Two.Connections))
+			connections47 := make([]shared.InputInputSyslogConnections, 0, len(r.InputSyslog.Two.Connections))
 			for _, connectionsItem47 := range r.InputSyslog.Two.Connections {
 				pipeline95 := new(string)
 				if !connectionsItem47.Pipeline.IsUnknown() && !connectionsItem47.Pipeline.IsNull() {
@@ -16741,16 +17963,16 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				var output48 string
 				output48 = connectionsItem47.Output.ValueString()
 
-				connections47 = append(connections47, shared.InputSyslog2Connections{
+				connections47 = append(connections47, shared.InputInputSyslogConnections{
 					Pipeline: pipeline95,
 					Output:   output48,
 				})
 			}
-			var pq47 *shared.InputSyslog2Pq
+			var pq47 *shared.InputInputSyslogPq
 			if r.InputSyslog.Two.Pq != nil {
-				mode60 := new(shared.InputSyslog2Mode)
+				mode60 := new(shared.InputInputSyslogMode)
 				if !r.InputSyslog.Two.Pq.Mode.IsUnknown() && !r.InputSyslog.Two.Pq.Mode.IsNull() {
-					*mode60 = shared.InputSyslog2Mode(r.InputSyslog.Two.Pq.Mode.ValueString())
+					*mode60 = shared.InputInputSyslogMode(r.InputSyslog.Two.Pq.Mode.ValueString())
 				} else {
 					mode60 = nil
 				}
@@ -16784,13 +18006,13 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				} else {
 					path48 = nil
 				}
-				compress54 := new(shared.InputSyslog2Compression)
+				compress54 := new(shared.InputInputSyslogCompression)
 				if !r.InputSyslog.Two.Pq.Compress.IsUnknown() && !r.InputSyslog.Two.Pq.Compress.IsNull() {
-					*compress54 = shared.InputSyslog2Compression(r.InputSyslog.Two.Pq.Compress.ValueString())
+					*compress54 = shared.InputInputSyslogCompression(r.InputSyslog.Two.Pq.Compress.ValueString())
 				} else {
 					compress54 = nil
 				}
-				pq47 = &shared.InputSyslog2Pq{
+				pq47 = &shared.InputInputSyslogPq{
 					Mode:            mode60,
 					MaxBufferSize:   maxBufferSize50,
 					CommitFrequency: commitFrequency47,
@@ -16897,7 +18119,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				socketMaxLifespan4 = nil
 			}
-			var tls25 *shared.InputSyslog2TLSSettingsServerSide
+			var tls25 *shared.InputInputSyslogTLSSettingsServerSide
 			if r.InputSyslog.Two.TLS != nil {
 				disabled86 := new(bool)
 				if !r.InputSyslog.Two.TLS.Disabled.IsUnknown() && !r.InputSyslog.Two.TLS.Disabled.IsNull() {
@@ -16949,19 +18171,19 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				if !r.InputSyslog.Two.TLS.CommonNameRegex.IsUnknown() && !r.InputSyslog.Two.TLS.CommonNameRegex.IsNull() {
 					_ = json.Unmarshal([]byte(r.InputSyslog.Two.TLS.CommonNameRegex.ValueString()), &commonNameRegex18)
 				}
-				minVersion24 := new(shared.InputSyslog2MinimumTLSVersion)
+				minVersion24 := new(shared.InputInputSyslogMinimumTLSVersion)
 				if !r.InputSyslog.Two.TLS.MinVersion.IsUnknown() && !r.InputSyslog.Two.TLS.MinVersion.IsNull() {
-					*minVersion24 = shared.InputSyslog2MinimumTLSVersion(r.InputSyslog.Two.TLS.MinVersion.ValueString())
+					*minVersion24 = shared.InputInputSyslogMinimumTLSVersion(r.InputSyslog.Two.TLS.MinVersion.ValueString())
 				} else {
 					minVersion24 = nil
 				}
-				maxVersion24 := new(shared.InputSyslog2MaximumTLSVersion)
+				maxVersion24 := new(shared.InputInputSyslogMaximumTLSVersion)
 				if !r.InputSyslog.Two.TLS.MaxVersion.IsUnknown() && !r.InputSyslog.Two.TLS.MaxVersion.IsNull() {
-					*maxVersion24 = shared.InputSyslog2MaximumTLSVersion(r.InputSyslog.Two.TLS.MaxVersion.ValueString())
+					*maxVersion24 = shared.InputInputSyslogMaximumTLSVersion(r.InputSyslog.Two.TLS.MaxVersion.ValueString())
 				} else {
 					maxVersion24 = nil
 				}
-				tls25 = &shared.InputSyslog2TLSSettingsServerSide{
+				tls25 = &shared.InputInputSyslogTLSSettingsServerSide{
 					Disabled:           disabled86,
 					CertificateName:    certificateName26,
 					PrivKeyPath:        privKeyPath25,
@@ -16975,7 +18197,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 					MaxVersion:         maxVersion24,
 				}
 			}
-			metadata51 := make([]shared.InputSyslog2Metadata, 0, len(r.InputSyslog.Two.Metadata))
+			metadata51 := make([]shared.InputInputSyslogMetadata, 0, len(r.InputSyslog.Two.Metadata))
 			for _, metadataItem50 := range r.InputSyslog.Two.Metadata {
 				var name74 string
 				name74 = metadataItem50.Name.ValueString()
@@ -16983,7 +18205,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				var value69 string
 				value69 = metadataItem50.Value.ValueString()
 
-				metadata51 = append(metadata51, shared.InputSyslog2Metadata{
+				metadata51 = append(metadata51, shared.InputInputSyslogMetadata{
 					Name:  name74,
 					Value: value69,
 				})
@@ -17005,6 +18227,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				*description56 = r.InputSyslog.Two.Description.ValueString()
 			} else {
 				description56 = nil
+			}
+			var status47 *shared.TFStatus
+			if r.InputSyslog.Two.Status != nil {
+				health47 := shared.Health(r.InputSyslog.Two.Status.Health.ValueString())
+				metrics47 := make(map[string]interface{})
+				for metricsKey47, metricsValue47 := range r.InputSyslog.Two.Status.Metrics {
+					var metricsInst47 interface{}
+					_ = json.Unmarshal([]byte(metricsValue47.ValueString()), &metricsInst47)
+					metrics47[metricsKey47] = metricsInst47
+				}
+				var timestamp47 float64
+				timestamp47 = r.InputSyslog.Two.Status.Timestamp.ValueFloat64()
+
+				useStatusFromLb47 := new(bool)
+				if !r.InputSyslog.Two.Status.UseStatusFromLB.IsUnknown() && !r.InputSyslog.Two.Status.UseStatusFromLB.IsNull() {
+					*useStatusFromLb47 = r.InputSyslog.Two.Status.UseStatusFromLB.ValueBool()
+				} else {
+					useStatusFromLb47 = nil
+				}
+				status47 = &shared.TFStatus{
+					Health:          health47,
+					Metrics:         metrics47,
+					Timestamp:       timestamp47,
+					UseStatusFromLB: useStatusFromLb47,
+				}
 			}
 			inputSyslog2 = &shared.InputSyslog2{
 				ID:                         id47,
@@ -17039,6 +18286,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				UDPSocketRxBufSize:         udpSocketRxBufSize3,
 				EnableLoadBalancing:        enableLoadBalancing4,
 				Description:                description56,
+				Status:                     status47,
 			}
 		}
 		if inputSyslog2 != nil {
@@ -17110,9 +18358,9 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		}
 		var pq48 *shared.InputFilePq
 		if r.InputFile.Pq != nil {
-			mode61 := new(shared.InputFilePqMode)
+			mode61 := new(shared.InputFileInputMode)
 			if !r.InputFile.Pq.Mode.IsUnknown() && !r.InputFile.Pq.Mode.IsNull() {
-				*mode61 = shared.InputFilePqMode(r.InputFile.Pq.Mode.ValueString())
+				*mode61 = shared.InputFileInputMode(r.InputFile.Pq.Mode.ValueString())
 			} else {
 				mode61 = nil
 			}
@@ -17273,6 +18521,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			includeUnidentifiableBinary = nil
 		}
+		var status48 *shared.TFStatus
+		if r.InputFile.Status != nil {
+			health48 := shared.Health(r.InputFile.Status.Health.ValueString())
+			metrics48 := make(map[string]interface{})
+			for metricsKey48, metricsValue48 := range r.InputFile.Status.Metrics {
+				var metricsInst48 interface{}
+				_ = json.Unmarshal([]byte(metricsValue48.ValueString()), &metricsInst48)
+				metrics48[metricsKey48] = metricsInst48
+			}
+			var timestamp48 float64
+			timestamp48 = r.InputFile.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb48 := new(bool)
+			if !r.InputFile.Status.UseStatusFromLB.IsUnknown() && !r.InputFile.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb48 = r.InputFile.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb48 = nil
+			}
+			status48 = &shared.TFStatus{
+				Health:          health48,
+				Metrics:         metrics48,
+				Timestamp:       timestamp48,
+				UseStatusFromLB: useStatusFromLb48,
+			}
+		}
 		inputFile = &shared.InputFile{
 			ID:                          id48,
 			Type:                        typeVar52,
@@ -17302,6 +18575,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			SuppressMissingPathErrors:   suppressMissingPathErrors,
 			DeleteFiles:                 deleteFiles,
 			IncludeUnidentifiableBinary: includeUnidentifiableBinary,
+			Status:                      status48,
 		}
 	}
 	if inputFile != nil {
@@ -17311,6 +18585,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 	}
 	var inputTCP *shared.InputTCP
 	if r.InputTCP != nil {
+		var status49 *shared.TFStatus
+		if r.InputTCP.Status != nil {
+			health49 := shared.Health(r.InputTCP.Status.Health.ValueString())
+			metrics49 := make(map[string]interface{})
+			for metricsKey49, metricsValue49 := range r.InputTCP.Status.Metrics {
+				var metricsInst49 interface{}
+				_ = json.Unmarshal([]byte(metricsValue49.ValueString()), &metricsInst49)
+				metrics49[metricsKey49] = metricsInst49
+			}
+			var timestamp49 float64
+			timestamp49 = r.InputTCP.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb49 := new(bool)
+			if !r.InputTCP.Status.UseStatusFromLB.IsUnknown() && !r.InputTCP.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb49 = r.InputTCP.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb49 = nil
+			}
+			status49 = &shared.TFStatus{
+				Health:          health49,
+				Metrics:         metrics49,
+				Timestamp:       timestamp49,
+				UseStatusFromLB: useStatusFromLb49,
+			}
+		}
 		id49 := new(string)
 		if !r.InputTCP.ID.IsUnknown() && !r.InputTCP.ID.IsNull() {
 			*id49 = r.InputTCP.ID.ValueString()
@@ -17616,6 +18915,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			authType18 = nil
 		}
 		inputTCP = &shared.InputTCP{
+			Status:              status49,
 			ID:                  id49,
 			Type:                typeVar53,
 			Disabled:            disabled88,
@@ -18030,6 +19330,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			textSecret13 = nil
 		}
+		var status50 *shared.TFStatus
+		if r.InputAppscope.Status != nil {
+			health50 := shared.Health(r.InputAppscope.Status.Health.ValueString())
+			metrics50 := make(map[string]interface{})
+			for metricsKey50, metricsValue50 := range r.InputAppscope.Status.Metrics {
+				var metricsInst50 interface{}
+				_ = json.Unmarshal([]byte(metricsValue50.ValueString()), &metricsInst50)
+				metrics50[metricsKey50] = metricsInst50
+			}
+			var timestamp50 float64
+			timestamp50 = r.InputAppscope.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb50 := new(bool)
+			if !r.InputAppscope.Status.UseStatusFromLB.IsUnknown() && !r.InputAppscope.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb50 = r.InputAppscope.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb50 = nil
+			}
+			status50 = &shared.TFStatus{
+				Health:          health50,
+				Metrics:         metrics50,
+				Timestamp:       timestamp50,
+				UseStatusFromLB: useStatusFromLb50,
+			}
+		}
 		inputAppscope = &shared.InputAppscope{
 			ID:                  id50,
 			Type:                typeVar54,
@@ -18062,6 +19387,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			UnixSocketPerms:     unixSocketPerms,
 			AuthToken:           authToken1,
 			TextSecret:          textSecret13,
+			Status:              status50,
 		}
 	}
 	if inputAppscope != nil {
@@ -18443,7 +19769,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			} else {
 				querySelector = nil
 			}
-			metadata55 := make([]shared.InputWefSubscriptionsMetadata, 0, len(subscriptionsItem.Metadata))
+			metadata55 := make([]shared.InputWefInputMetadata, 0, len(subscriptionsItem.Metadata))
 			for _, metadataItem54 := range subscriptionsItem.Metadata {
 				var name78 string
 				name78 = metadataItem54.Name.ValueString()
@@ -18451,7 +19777,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				var value73 string
 				value73 = metadataItem54.Value.ValueString()
 
-				metadata55 = append(metadata55, shared.InputWefSubscriptionsMetadata{
+				metadata55 = append(metadata55, shared.InputWefInputMetadata{
 					Name:  name78,
 					Value: value73,
 				})
@@ -18490,6 +19816,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description60 = nil
 		}
+		var status51 *shared.TFStatus
+		if r.InputWef.Status != nil {
+			health51 := shared.Health(r.InputWef.Status.Health.ValueString())
+			metrics51 := make(map[string]interface{})
+			for metricsKey51, metricsValue51 := range r.InputWef.Status.Metrics {
+				var metricsInst51 interface{}
+				_ = json.Unmarshal([]byte(metricsValue51.ValueString()), &metricsInst51)
+				metrics51[metricsKey51] = metricsInst51
+			}
+			var timestamp51 float64
+			timestamp51 = r.InputWef.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb51 := new(bool)
+			if !r.InputWef.Status.UseStatusFromLB.IsUnknown() && !r.InputWef.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb51 = r.InputWef.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb51 = nil
+			}
+			status51 = &shared.TFStatus{
+				Health:          health51,
+				Metrics:         metrics51,
+				Timestamp:       timestamp51,
+				UseStatusFromLB: useStatusFromLb51,
+			}
+		}
 		inputWef = &shared.InputWef{
 			ID:                     id51,
 			Type:                   typeVar55,
@@ -18521,6 +19872,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Subscriptions:          subscriptions,
 			Metadata:               metadata56,
 			Description:            description60,
+			Status:                 status51,
 		}
 	}
 	if inputWef != nil {
@@ -18700,6 +20052,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description61 = nil
 		}
+		var status52 *shared.TFStatus
+		if r.InputWinEventLogs.Status != nil {
+			health52 := shared.Health(r.InputWinEventLogs.Status.Health.ValueString())
+			metrics52 := make(map[string]interface{})
+			for metricsKey52, metricsValue52 := range r.InputWinEventLogs.Status.Metrics {
+				var metricsInst52 interface{}
+				_ = json.Unmarshal([]byte(metricsValue52.ValueString()), &metricsInst52)
+				metrics52[metricsKey52] = metricsInst52
+			}
+			var timestamp52 float64
+			timestamp52 = r.InputWinEventLogs.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb52 := new(bool)
+			if !r.InputWinEventLogs.Status.UseStatusFromLB.IsUnknown() && !r.InputWinEventLogs.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb52 = r.InputWinEventLogs.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb52 = nil
+			}
+			status52 = &shared.TFStatus{
+				Health:          health52,
+				Metrics:         metrics52,
+				Timestamp:       timestamp52,
+				UseStatusFromLB: useStatusFromLb52,
+			}
+		}
 		inputWinEventLogs = &shared.InputWinEventLogs{
 			ID:                  id52,
 			Type:                typeVar56,
@@ -18720,6 +20097,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Metadata:            metadata57,
 			MaxEventBytes:       maxEventBytes,
 			Description:         description61,
+			Status:              status52,
 		}
 	}
 	if inputWinEventLogs != nil {
@@ -18903,6 +20281,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description62 = nil
 		}
+		var status53 *shared.TFStatus
+		if r.InputRawUDP.Status != nil {
+			health53 := shared.Health(r.InputRawUDP.Status.Health.ValueString())
+			metrics53 := make(map[string]interface{})
+			for metricsKey53, metricsValue53 := range r.InputRawUDP.Status.Metrics {
+				var metricsInst53 interface{}
+				_ = json.Unmarshal([]byte(metricsValue53.ValueString()), &metricsInst53)
+				metrics53[metricsKey53] = metricsInst53
+			}
+			var timestamp53 float64
+			timestamp53 = r.InputRawUDP.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb53 := new(bool)
+			if !r.InputRawUDP.Status.UseStatusFromLB.IsUnknown() && !r.InputRawUDP.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb53 = r.InputRawUDP.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb53 = nil
+			}
+			status53 = &shared.TFStatus{
+				Health:          health53,
+				Metrics:         metrics53,
+				Timestamp:       timestamp53,
+				UseStatusFromLB: useStatusFromLb53,
+			}
+		}
 		inputRawUDP = &shared.InputRawUDP{
 			ID:                  id53,
 			Type:                typeVar57,
@@ -18923,6 +20326,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			UDPSocketRxBufSize:  udpSocketRxBufSize4,
 			Metadata:            metadata58,
 			Description:         description62,
+			Status:              status53,
 		}
 	}
 	if inputRawUDP != nil {
@@ -19108,6 +20512,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description64 = nil
 		}
+		var status54 *shared.TFStatus
+		if r.InputJournalFiles.Status != nil {
+			health54 := shared.Health(r.InputJournalFiles.Status.Health.ValueString())
+			metrics54 := make(map[string]interface{})
+			for metricsKey54, metricsValue54 := range r.InputJournalFiles.Status.Metrics {
+				var metricsInst54 interface{}
+				_ = json.Unmarshal([]byte(metricsValue54.ValueString()), &metricsInst54)
+				metrics54[metricsKey54] = metricsInst54
+			}
+			var timestamp54 float64
+			timestamp54 = r.InputJournalFiles.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb54 := new(bool)
+			if !r.InputJournalFiles.Status.UseStatusFromLB.IsUnknown() && !r.InputJournalFiles.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb54 = r.InputJournalFiles.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb54 = nil
+			}
+			status54 = &shared.TFStatus{
+				Health:          health54,
+				Metrics:         metrics54,
+				Timestamp:       timestamp54,
+				UseStatusFromLB: useStatusFromLb54,
+			}
+		}
 		inputJournalFiles = &shared.InputJournalFiles{
 			ID:           id54,
 			Type:         typeVar58,
@@ -19127,6 +20556,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			MaxAgeDur:    maxAgeDur1,
 			Metadata:     metadata59,
 			Description:  description64,
+			Status:       status54,
 		}
 	}
 	if inputJournalFiles != nil {
@@ -19413,6 +20843,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			textSecret14 = nil
 		}
+		var status55 *shared.TFStatus
+		if r.InputWiz.Status != nil {
+			health55 := shared.Health(r.InputWiz.Status.Health.ValueString())
+			metrics55 := make(map[string]interface{})
+			for metricsKey55, metricsValue55 := range r.InputWiz.Status.Metrics {
+				var metricsInst55 interface{}
+				_ = json.Unmarshal([]byte(metricsValue55.ValueString()), &metricsInst55)
+				metrics55[metricsKey55] = metricsInst55
+			}
+			var timestamp55 float64
+			timestamp55 = r.InputWiz.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb55 := new(bool)
+			if !r.InputWiz.Status.UseStatusFromLB.IsUnknown() && !r.InputWiz.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb55 = r.InputWiz.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb55 = nil
+			}
+			status55 = &shared.TFStatus{
+				Health:          health55,
+				Metrics:         metrics55,
+				Timestamp:       timestamp55,
+				UseStatusFromLB: useStatusFromLb55,
+			}
+		}
 		inputWiz = &shared.InputWiz{
 			ID:                   id55,
 			Type:                 typeVar59,
@@ -19439,6 +20894,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Description:          description65,
 			ClientSecret:         clientSecret3,
 			TextSecret:           textSecret14,
+			Status:               status55,
 		}
 	}
 	if inputWiz != nil {
@@ -19643,6 +21099,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description66 = nil
 		}
+		var status56 *shared.TFStatus
+		if r.InputNetflow.Status != nil {
+			health56 := shared.Health(r.InputNetflow.Status.Health.ValueString())
+			metrics56 := make(map[string]interface{})
+			for metricsKey56, metricsValue56 := range r.InputNetflow.Status.Metrics {
+				var metricsInst56 interface{}
+				_ = json.Unmarshal([]byte(metricsValue56.ValueString()), &metricsInst56)
+				metrics56[metricsKey56] = metricsInst56
+			}
+			var timestamp56 float64
+			timestamp56 = r.InputNetflow.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb56 := new(bool)
+			if !r.InputNetflow.Status.UseStatusFromLB.IsUnknown() && !r.InputNetflow.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb56 = r.InputNetflow.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb56 = nil
+			}
+			status56 = &shared.TFStatus{
+				Health:          health56,
+				Metrics:         metrics56,
+				Timestamp:       timestamp56,
+				UseStatusFromLB: useStatusFromLb56,
+			}
+		}
 		inputNetflow = &shared.InputNetflow{
 			ID:                   id56,
 			Type:                 typeVar61,
@@ -19666,6 +21147,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			IpfixEnabled:         ipfixEnabled,
 			Metadata:             metadata61,
 			Description:          description66,
+			Status:               status56,
 		}
 	}
 	if inputNetflow != nil {
@@ -20011,6 +21493,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			awsSecret6 = nil
 		}
+		var status57 *shared.TFStatus
+		if r.InputSecurityLake.Status != nil {
+			health57 := shared.Health(r.InputSecurityLake.Status.Health.ValueString())
+			metrics57 := make(map[string]interface{})
+			for metricsKey57, metricsValue57 := range r.InputSecurityLake.Status.Metrics {
+				var metricsInst57 interface{}
+				_ = json.Unmarshal([]byte(metricsValue57.ValueString()), &metricsInst57)
+				metrics57[metricsKey57] = metricsInst57
+			}
+			var timestamp57 float64
+			timestamp57 = r.InputSecurityLake.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb57 := new(bool)
+			if !r.InputSecurityLake.Status.UseStatusFromLB.IsUnknown() && !r.InputSecurityLake.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb57 = r.InputSecurityLake.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb57 = nil
+			}
+			status57 = &shared.TFStatus{
+				Health:          health57,
+				Metrics:         metrics57,
+				Timestamp:       timestamp57,
+				UseStatusFromLB: useStatusFromLb57,
+			}
+		}
 		inputSecurityLake = &shared.InputSecurityLake{
 			ID:                          id57,
 			Type:                        typeVar62,
@@ -20054,6 +21561,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			Description:                 description67,
 			AwsAPIKey:                   awsAPIKey6,
 			AwsSecret:                   awsSecret6,
+			Status:                      status57,
 		}
 	}
 	if inputSecurityLake != nil {
@@ -20218,7 +21726,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			for _, allowedIndexesAtTokenItem1 := range authTokensItem7.AllowedIndexesAtToken {
 				allowedIndexesAtToken1 = append(allowedIndexesAtToken1, allowedIndexesAtTokenItem1.ValueString())
 			}
-			metadata63 := make([]shared.InputZscalerHecAuthTokensMetadata, 0, len(authTokensItem7.Metadata))
+			metadata63 := make([]shared.InputZscalerHecInputMetadata, 0, len(authTokensItem7.Metadata))
 			for _, metadataItem62 := range authTokensItem7.Metadata {
 				var name86 string
 				name86 = metadataItem62.Name.ValueString()
@@ -20226,7 +21734,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 				var value81 string
 				value81 = metadataItem62.Value.ValueString()
 
-				metadata63 = append(metadata63, shared.InputZscalerHecAuthTokensMetadata{
+				metadata63 = append(metadata63, shared.InputZscalerHecInputMetadata{
 					Name:  name86,
 					Value: value81,
 				})
@@ -20432,6 +21940,31 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 		} else {
 			description69 = nil
 		}
+		var status58 *shared.TFStatus
+		if r.InputZscalerHec.Status != nil {
+			health58 := shared.Health(r.InputZscalerHec.Status.Health.ValueString())
+			metrics58 := make(map[string]interface{})
+			for metricsKey58, metricsValue58 := range r.InputZscalerHec.Status.Metrics {
+				var metricsInst58 interface{}
+				_ = json.Unmarshal([]byte(metricsValue58.ValueString()), &metricsInst58)
+				metrics58[metricsKey58] = metricsInst58
+			}
+			var timestamp58 float64
+			timestamp58 = r.InputZscalerHec.Status.Timestamp.ValueFloat64()
+
+			useStatusFromLb58 := new(bool)
+			if !r.InputZscalerHec.Status.UseStatusFromLB.IsUnknown() && !r.InputZscalerHec.Status.UseStatusFromLB.IsNull() {
+				*useStatusFromLb58 = r.InputZscalerHec.Status.UseStatusFromLB.ValueBool()
+			} else {
+				useStatusFromLb58 = nil
+			}
+			status58 = &shared.TFStatus{
+				Health:          health58,
+				Metrics:         metrics58,
+				Timestamp:       timestamp58,
+				UseStatusFromLB: useStatusFromLb58,
+			}
+		}
 		inputZscalerHec = &shared.InputZscalerHec{
 			ID:                        id58,
 			Type:                      typeVar63,
@@ -20466,6 +21999,7 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 			AccessControlAllowHeaders: accessControlAllowHeaders1,
 			EmitTokenMetrics:          emitTokenMetrics1,
 			Description:               description69,
+			Status:                    status58,
 		}
 	}
 	if inputZscalerHec != nil {
@@ -20631,6 +22165,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputAppscope.SocketIdleTimeout = types.Float64PointerValue(resp.InputAppscope.SocketIdleTimeout)
 		r.InputAppscope.SocketMaxLifespan = types.Float64PointerValue(resp.InputAppscope.SocketMaxLifespan)
 		r.InputAppscope.StaleChannelFlushMs = types.Float64PointerValue(resp.InputAppscope.StaleChannelFlushMs)
+		if resp.InputAppscope.Status == nil {
+			r.InputAppscope.Status = nil
+		} else {
+			r.InputAppscope.Status = &tfTypes.TFStatus{}
+			r.InputAppscope.Status.Health = types.StringValue(string(resp.InputAppscope.Status.Health))
+			if len(resp.InputAppscope.Status.Metrics) > 0 {
+				r.InputAppscope.Status.Metrics = make(map[string]types.String, len(resp.InputAppscope.Status.Metrics))
+				for key, value := range resp.InputAppscope.Status.Metrics {
+					result, _ := json.Marshal(value)
+					r.InputAppscope.Status.Metrics[key] = types.StringValue(string(result))
+				}
+			}
+			r.InputAppscope.Status.Timestamp = types.Float64Value(resp.InputAppscope.Status.Timestamp)
+			r.InputAppscope.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputAppscope.Status.UseStatusFromLB)
+		}
 		r.InputAppscope.Streamtags = make([]types.String, 0, len(resp.InputAppscope.Streamtags))
 		for _, v := range resp.InputAppscope.Streamtags {
 			r.InputAppscope.Streamtags = append(r.InputAppscope.Streamtags, types.StringValue(v))
@@ -20761,6 +22310,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputAzureBlob.ServicePeriodSecs = types.Float64PointerValue(resp.InputAzureBlob.ServicePeriodSecs)
 		r.InputAzureBlob.SkipOnError = types.BoolPointerValue(resp.InputAzureBlob.SkipOnError)
 		r.InputAzureBlob.StaleChannelFlushMs = types.Float64PointerValue(resp.InputAzureBlob.StaleChannelFlushMs)
+		if resp.InputAzureBlob.Status == nil {
+			r.InputAzureBlob.Status = nil
+		} else {
+			r.InputAzureBlob.Status = &tfTypes.TFStatus{}
+			r.InputAzureBlob.Status.Health = types.StringValue(string(resp.InputAzureBlob.Status.Health))
+			if len(resp.InputAzureBlob.Status.Metrics) > 0 {
+				r.InputAzureBlob.Status.Metrics = make(map[string]types.String, len(resp.InputAzureBlob.Status.Metrics))
+				for key1, value1 := range resp.InputAzureBlob.Status.Metrics {
+					result1, _ := json.Marshal(value1)
+					r.InputAzureBlob.Status.Metrics[key1] = types.StringValue(string(result1))
+				}
+			}
+			r.InputAzureBlob.Status.Timestamp = types.Float64Value(resp.InputAzureBlob.Status.Timestamp)
+			r.InputAzureBlob.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputAzureBlob.Status.UseStatusFromLB)
+		}
 		r.InputAzureBlob.StorageAccountName = types.StringPointerValue(resp.InputAzureBlob.StorageAccountName)
 		r.InputAzureBlob.Streamtags = make([]types.String, 0, len(resp.InputAzureBlob.Streamtags))
 		for _, v := range resp.InputAzureBlob.Streamtags {
@@ -20836,7 +22400,7 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		if resp.InputCollection.Preprocess == nil {
 			r.InputCollection.Preprocess = nil
 		} else {
-			r.InputCollection.Preprocess = &tfTypes.Preprocess{}
+			r.InputCollection.Preprocess = &tfTypes.InputCollectionPreprocess{}
 			r.InputCollection.Preprocess.Args = make([]types.String, 0, len(resp.InputCollection.Preprocess.Args))
 			for _, v := range resp.InputCollection.Preprocess.Args {
 				r.InputCollection.Preprocess.Args = append(r.InputCollection.Preprocess.Args, types.StringValue(v))
@@ -20846,6 +22410,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		}
 		r.InputCollection.SendToRoutes = types.BoolPointerValue(resp.InputCollection.SendToRoutes)
 		r.InputCollection.StaleChannelFlushMs = types.Float64PointerValue(resp.InputCollection.StaleChannelFlushMs)
+		if resp.InputCollection.Status == nil {
+			r.InputCollection.Status = nil
+		} else {
+			r.InputCollection.Status = &tfTypes.TFStatus{}
+			r.InputCollection.Status.Health = types.StringValue(string(resp.InputCollection.Status.Health))
+			if len(resp.InputCollection.Status.Metrics) > 0 {
+				r.InputCollection.Status.Metrics = make(map[string]types.String, len(resp.InputCollection.Status.Metrics))
+				for key2, value2 := range resp.InputCollection.Status.Metrics {
+					result2, _ := json.Marshal(value2)
+					r.InputCollection.Status.Metrics[key2] = types.StringValue(string(result2))
+				}
+			}
+			r.InputCollection.Status.Timestamp = types.Float64Value(resp.InputCollection.Status.Timestamp)
+			r.InputCollection.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputCollection.Status.UseStatusFromLB)
+		}
 		r.InputCollection.Streamtags = make([]types.String, 0, len(resp.InputCollection.Streamtags))
 		for _, v := range resp.InputCollection.Streamtags {
 			r.InputCollection.Streamtags = append(r.InputCollection.Streamtags, types.StringValue(v))
@@ -20910,7 +22489,7 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			if resp.InputConfluentCloud.KafkaSchemaRegistry.TLS == nil {
 				r.InputConfluentCloud.KafkaSchemaRegistry.TLS = nil
 			} else {
-				r.InputConfluentCloud.KafkaSchemaRegistry.TLS = &tfTypes.InputConfluentCloudKafkaSchemaRegistryTLSSettingsClientSide{}
+				r.InputConfluentCloud.KafkaSchemaRegistry.TLS = &tfTypes.InputConfluentCloudInputTLSSettingsClientSide{}
 				r.InputConfluentCloud.KafkaSchemaRegistry.TLS.CaPath = types.StringPointerValue(resp.InputConfluentCloud.KafkaSchemaRegistry.TLS.CaPath)
 				r.InputConfluentCloud.KafkaSchemaRegistry.TLS.CertificateName = types.StringPointerValue(resp.InputConfluentCloud.KafkaSchemaRegistry.TLS.CertificateName)
 				r.InputConfluentCloud.KafkaSchemaRegistry.TLS.CertPath = types.StringPointerValue(resp.InputConfluentCloud.KafkaSchemaRegistry.TLS.CertPath)
@@ -20989,6 +22568,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		}
 		r.InputConfluentCloud.SendToRoutes = types.BoolPointerValue(resp.InputConfluentCloud.SendToRoutes)
 		r.InputConfluentCloud.SessionTimeout = types.Float64PointerValue(resp.InputConfluentCloud.SessionTimeout)
+		if resp.InputConfluentCloud.Status == nil {
+			r.InputConfluentCloud.Status = nil
+		} else {
+			r.InputConfluentCloud.Status = &tfTypes.TFStatus{}
+			r.InputConfluentCloud.Status.Health = types.StringValue(string(resp.InputConfluentCloud.Status.Health))
+			if len(resp.InputConfluentCloud.Status.Metrics) > 0 {
+				r.InputConfluentCloud.Status.Metrics = make(map[string]types.String, len(resp.InputConfluentCloud.Status.Metrics))
+				for key3, value3 := range resp.InputConfluentCloud.Status.Metrics {
+					result3, _ := json.Marshal(value3)
+					r.InputConfluentCloud.Status.Metrics[key3] = types.StringValue(string(result3))
+				}
+			}
+			r.InputConfluentCloud.Status.Timestamp = types.Float64Value(resp.InputConfluentCloud.Status.Timestamp)
+			r.InputConfluentCloud.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputConfluentCloud.Status.UseStatusFromLB)
+		}
 		r.InputConfluentCloud.Streamtags = make([]types.String, 0, len(resp.InputConfluentCloud.Streamtags))
 		for _, v := range resp.InputConfluentCloud.Streamtags {
 			r.InputConfluentCloud.Streamtags = append(r.InputConfluentCloud.Streamtags, types.StringValue(v))
@@ -21086,6 +22680,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		}
 		r.InputCribl.PqEnabled = types.BoolPointerValue(resp.InputCribl.PqEnabled)
 		r.InputCribl.SendToRoutes = types.BoolPointerValue(resp.InputCribl.SendToRoutes)
+		if resp.InputCribl.Status == nil {
+			r.InputCribl.Status = nil
+		} else {
+			r.InputCribl.Status = &tfTypes.TFStatus{}
+			r.InputCribl.Status.Health = types.StringValue(string(resp.InputCribl.Status.Health))
+			if len(resp.InputCribl.Status.Metrics) > 0 {
+				r.InputCribl.Status.Metrics = make(map[string]types.String, len(resp.InputCribl.Status.Metrics))
+				for key4, value4 := range resp.InputCribl.Status.Metrics {
+					result4, _ := json.Marshal(value4)
+					r.InputCribl.Status.Metrics[key4] = types.StringValue(string(result4))
+				}
+			}
+			r.InputCribl.Status.Timestamp = types.Float64Value(resp.InputCribl.Status.Timestamp)
+			r.InputCribl.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputCribl.Status.UseStatusFromLB)
+		}
 		r.InputCribl.Streamtags = make([]types.String, 0, len(resp.InputCribl.Streamtags))
 		for _, v := range resp.InputCribl.Streamtags {
 			r.InputCribl.Streamtags = append(r.InputCribl.Streamtags, types.StringValue(v))
@@ -21168,6 +22777,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputCriblHTTP.RequestTimeout = types.Float64PointerValue(resp.InputCriblHTTP.RequestTimeout)
 		r.InputCriblHTTP.SendToRoutes = types.BoolPointerValue(resp.InputCriblHTTP.SendToRoutes)
 		r.InputCriblHTTP.SocketTimeout = types.Float64PointerValue(resp.InputCriblHTTP.SocketTimeout)
+		if resp.InputCriblHTTP.Status == nil {
+			r.InputCriblHTTP.Status = nil
+		} else {
+			r.InputCriblHTTP.Status = &tfTypes.TFStatus{}
+			r.InputCriblHTTP.Status.Health = types.StringValue(string(resp.InputCriblHTTP.Status.Health))
+			if len(resp.InputCriblHTTP.Status.Metrics) > 0 {
+				r.InputCriblHTTP.Status.Metrics = make(map[string]types.String, len(resp.InputCriblHTTP.Status.Metrics))
+				for key5, value5 := range resp.InputCriblHTTP.Status.Metrics {
+					result5, _ := json.Marshal(value5)
+					r.InputCriblHTTP.Status.Metrics[key5] = types.StringValue(string(result5))
+				}
+			}
+			r.InputCriblHTTP.Status.Timestamp = types.Float64Value(resp.InputCriblHTTP.Status.Timestamp)
+			r.InputCriblHTTP.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputCriblHTTP.Status.UseStatusFromLB)
+		}
 		r.InputCriblHTTP.Streamtags = make([]types.String, 0, len(resp.InputCriblHTTP.Streamtags))
 		for _, v := range resp.InputCriblHTTP.Streamtags {
 			r.InputCriblHTTP.Streamtags = append(r.InputCriblHTTP.Streamtags, types.StringValue(v))
@@ -21273,6 +22897,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputCriblmetrics.PqEnabled = types.BoolPointerValue(resp.InputCriblmetrics.PqEnabled)
 		r.InputCriblmetrics.Prefix = types.StringPointerValue(resp.InputCriblmetrics.Prefix)
 		r.InputCriblmetrics.SendToRoutes = types.BoolPointerValue(resp.InputCriblmetrics.SendToRoutes)
+		if resp.InputCriblmetrics.Status == nil {
+			r.InputCriblmetrics.Status = nil
+		} else {
+			r.InputCriblmetrics.Status = &tfTypes.TFStatus{}
+			r.InputCriblmetrics.Status.Health = types.StringValue(string(resp.InputCriblmetrics.Status.Health))
+			if len(resp.InputCriblmetrics.Status.Metrics) > 0 {
+				r.InputCriblmetrics.Status.Metrics = make(map[string]types.String, len(resp.InputCriblmetrics.Status.Metrics))
+				for key6, value6 := range resp.InputCriblmetrics.Status.Metrics {
+					result6, _ := json.Marshal(value6)
+					r.InputCriblmetrics.Status.Metrics[key6] = types.StringValue(string(result6))
+				}
+			}
+			r.InputCriblmetrics.Status.Timestamp = types.Float64Value(resp.InputCriblmetrics.Status.Timestamp)
+			r.InputCriblmetrics.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputCriblmetrics.Status.UseStatusFromLB)
+		}
 		r.InputCriblmetrics.Streamtags = make([]types.String, 0, len(resp.InputCriblmetrics.Streamtags))
 		for _, v := range resp.InputCriblmetrics.Streamtags {
 			r.InputCriblmetrics.Streamtags = append(r.InputCriblmetrics.Streamtags, types.StringValue(v))
@@ -21346,6 +22985,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputCriblTCP.SocketEndingMaxWait = types.Float64PointerValue(resp.InputCriblTCP.SocketEndingMaxWait)
 		r.InputCriblTCP.SocketIdleTimeout = types.Float64PointerValue(resp.InputCriblTCP.SocketIdleTimeout)
 		r.InputCriblTCP.SocketMaxLifespan = types.Float64PointerValue(resp.InputCriblTCP.SocketMaxLifespan)
+		if resp.InputCriblTCP.Status == nil {
+			r.InputCriblTCP.Status = nil
+		} else {
+			r.InputCriblTCP.Status = &tfTypes.TFStatus{}
+			r.InputCriblTCP.Status.Health = types.StringValue(string(resp.InputCriblTCP.Status.Health))
+			if len(resp.InputCriblTCP.Status.Metrics) > 0 {
+				r.InputCriblTCP.Status.Metrics = make(map[string]types.String, len(resp.InputCriblTCP.Status.Metrics))
+				for key7, value7 := range resp.InputCriblTCP.Status.Metrics {
+					result7, _ := json.Marshal(value7)
+					r.InputCriblTCP.Status.Metrics[key7] = types.StringValue(string(result7))
+				}
+			}
+			r.InputCriblTCP.Status.Timestamp = types.Float64Value(resp.InputCriblTCP.Status.Timestamp)
+			r.InputCriblTCP.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputCriblTCP.Status.UseStatusFromLB)
+		}
 		r.InputCriblTCP.Streamtags = make([]types.String, 0, len(resp.InputCriblTCP.Streamtags))
 		for _, v := range resp.InputCriblTCP.Streamtags {
 			r.InputCriblTCP.Streamtags = append(r.InputCriblTCP.Streamtags, types.StringValue(v))
@@ -21503,6 +23157,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputCrowdstrike.SkipOnError = types.BoolPointerValue(resp.InputCrowdstrike.SkipOnError)
 		r.InputCrowdstrike.SocketTimeout = types.Float64PointerValue(resp.InputCrowdstrike.SocketTimeout)
 		r.InputCrowdstrike.StaleChannelFlushMs = types.Float64PointerValue(resp.InputCrowdstrike.StaleChannelFlushMs)
+		if resp.InputCrowdstrike.Status == nil {
+			r.InputCrowdstrike.Status = nil
+		} else {
+			r.InputCrowdstrike.Status = &tfTypes.TFStatus{}
+			r.InputCrowdstrike.Status.Health = types.StringValue(string(resp.InputCrowdstrike.Status.Health))
+			if len(resp.InputCrowdstrike.Status.Metrics) > 0 {
+				r.InputCrowdstrike.Status.Metrics = make(map[string]types.String, len(resp.InputCrowdstrike.Status.Metrics))
+				for key8, value8 := range resp.InputCrowdstrike.Status.Metrics {
+					result8, _ := json.Marshal(value8)
+					r.InputCrowdstrike.Status.Metrics[key8] = types.StringValue(string(result8))
+				}
+			}
+			r.InputCrowdstrike.Status.Timestamp = types.Float64Value(resp.InputCrowdstrike.Status.Timestamp)
+			r.InputCrowdstrike.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputCrowdstrike.Status.UseStatusFromLB)
+		}
 		r.InputCrowdstrike.Streamtags = make([]types.String, 0, len(resp.InputCrowdstrike.Streamtags))
 		for _, v := range resp.InputCrowdstrike.Streamtags {
 			r.InputCrowdstrike.Streamtags = append(r.InputCrowdstrike.Streamtags, types.StringValue(v))
@@ -21590,6 +23259,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputDatadogAgent.RequestTimeout = types.Float64PointerValue(resp.InputDatadogAgent.RequestTimeout)
 		r.InputDatadogAgent.SendToRoutes = types.BoolPointerValue(resp.InputDatadogAgent.SendToRoutes)
 		r.InputDatadogAgent.SocketTimeout = types.Float64PointerValue(resp.InputDatadogAgent.SocketTimeout)
+		if resp.InputDatadogAgent.Status == nil {
+			r.InputDatadogAgent.Status = nil
+		} else {
+			r.InputDatadogAgent.Status = &tfTypes.TFStatus{}
+			r.InputDatadogAgent.Status.Health = types.StringValue(string(resp.InputDatadogAgent.Status.Health))
+			if len(resp.InputDatadogAgent.Status.Metrics) > 0 {
+				r.InputDatadogAgent.Status.Metrics = make(map[string]types.String, len(resp.InputDatadogAgent.Status.Metrics))
+				for key9, value9 := range resp.InputDatadogAgent.Status.Metrics {
+					result9, _ := json.Marshal(value9)
+					r.InputDatadogAgent.Status.Metrics[key9] = types.StringValue(string(result9))
+				}
+			}
+			r.InputDatadogAgent.Status.Timestamp = types.Float64Value(resp.InputDatadogAgent.Status.Timestamp)
+			r.InputDatadogAgent.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputDatadogAgent.Status.UseStatusFromLB)
+		}
 		r.InputDatadogAgent.Streamtags = make([]types.String, 0, len(resp.InputDatadogAgent.Streamtags))
 		for _, v := range resp.InputDatadogAgent.Streamtags {
 			r.InputDatadogAgent.Streamtags = append(r.InputDatadogAgent.Streamtags, types.StringValue(v))
@@ -21692,12 +23376,12 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			r.InputDatagen.Pq.Path = types.StringPointerValue(resp.InputDatagen.Pq.Path)
 		}
 		r.InputDatagen.PqEnabled = types.BoolPointerValue(resp.InputDatagen.PqEnabled)
-		r.InputDatagen.Samples = []tfTypes.Samples{}
+		r.InputDatagen.Samples = []tfTypes.InputDatagenSamples{}
 		if len(r.InputDatagen.Samples) > len(resp.InputDatagen.Samples) {
 			r.InputDatagen.Samples = r.InputDatagen.Samples[:len(resp.InputDatagen.Samples)]
 		}
 		for samplesCount, samplesItem := range resp.InputDatagen.Samples {
-			var samples tfTypes.Samples
+			var samples tfTypes.InputDatagenSamples
 			samples.EventsPerSec = types.Float64PointerValue(samplesItem.EventsPerSec)
 			samples.Sample = types.StringValue(samplesItem.Sample)
 			if samplesCount+1 > len(r.InputDatagen.Samples) {
@@ -21708,6 +23392,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			}
 		}
 		r.InputDatagen.SendToRoutes = types.BoolPointerValue(resp.InputDatagen.SendToRoutes)
+		if resp.InputDatagen.Status == nil {
+			r.InputDatagen.Status = nil
+		} else {
+			r.InputDatagen.Status = &tfTypes.TFStatus{}
+			r.InputDatagen.Status.Health = types.StringValue(string(resp.InputDatagen.Status.Health))
+			if len(resp.InputDatagen.Status.Metrics) > 0 {
+				r.InputDatagen.Status.Metrics = make(map[string]types.String, len(resp.InputDatagen.Status.Metrics))
+				for key10, value10 := range resp.InputDatagen.Status.Metrics {
+					result10, _ := json.Marshal(value10)
+					r.InputDatagen.Status.Metrics[key10] = types.StringValue(string(result10))
+				}
+			}
+			r.InputDatagen.Status.Timestamp = types.Float64Value(resp.InputDatagen.Status.Timestamp)
+			r.InputDatagen.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputDatagen.Status.UseStatusFromLB)
+		}
 		r.InputDatagen.Streamtags = make([]types.String, 0, len(resp.InputDatagen.Streamtags))
 		for _, v := range resp.InputDatagen.Streamtags {
 			r.InputDatagen.Streamtags = append(r.InputDatagen.Streamtags, types.StringValue(v))
@@ -21875,6 +23574,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		} else {
 			r.InputEdgePrometheus.SignatureVersion = types.StringNull()
 		}
+		if resp.InputEdgePrometheus.Status == nil {
+			r.InputEdgePrometheus.Status = nil
+		} else {
+			r.InputEdgePrometheus.Status = &tfTypes.TFStatus{}
+			r.InputEdgePrometheus.Status.Health = types.StringValue(string(resp.InputEdgePrometheus.Status.Health))
+			if len(resp.InputEdgePrometheus.Status.Metrics) > 0 {
+				r.InputEdgePrometheus.Status.Metrics = make(map[string]types.String, len(resp.InputEdgePrometheus.Status.Metrics))
+				for key11, value11 := range resp.InputEdgePrometheus.Status.Metrics {
+					result11, _ := json.Marshal(value11)
+					r.InputEdgePrometheus.Status.Metrics[key11] = types.StringValue(string(result11))
+				}
+			}
+			r.InputEdgePrometheus.Status.Timestamp = types.Float64Value(resp.InputEdgePrometheus.Status.Timestamp)
+			r.InputEdgePrometheus.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputEdgePrometheus.Status.UseStatusFromLB)
+		}
 		r.InputEdgePrometheus.Streamtags = make([]types.String, 0, len(resp.InputEdgePrometheus.Streamtags))
 		for _, v := range resp.InputEdgePrometheus.Streamtags {
 			r.InputEdgePrometheus.Streamtags = append(r.InputEdgePrometheus.Streamtags, types.StringValue(v))
@@ -22035,6 +23749,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputElastic.RequestTimeout = types.Float64PointerValue(resp.InputElastic.RequestTimeout)
 		r.InputElastic.SendToRoutes = types.BoolPointerValue(resp.InputElastic.SendToRoutes)
 		r.InputElastic.SocketTimeout = types.Float64PointerValue(resp.InputElastic.SocketTimeout)
+		if resp.InputElastic.Status == nil {
+			r.InputElastic.Status = nil
+		} else {
+			r.InputElastic.Status = &tfTypes.TFStatus{}
+			r.InputElastic.Status.Health = types.StringValue(string(resp.InputElastic.Status.Health))
+			if len(resp.InputElastic.Status.Metrics) > 0 {
+				r.InputElastic.Status.Metrics = make(map[string]types.String, len(resp.InputElastic.Status.Metrics))
+				for key12, value12 := range resp.InputElastic.Status.Metrics {
+					result12, _ := json.Marshal(value12)
+					r.InputElastic.Status.Metrics[key12] = types.StringValue(string(result12))
+				}
+			}
+			r.InputElastic.Status.Timestamp = types.Float64Value(resp.InputElastic.Status.Timestamp)
+			r.InputElastic.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputElastic.Status.UseStatusFromLB)
+		}
 		r.InputElastic.Streamtags = make([]types.String, 0, len(resp.InputElastic.Streamtags))
 		for _, v := range resp.InputElastic.Streamtags {
 			r.InputElastic.Streamtags = append(r.InputElastic.Streamtags, types.StringValue(v))
@@ -22173,6 +23902,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		}
 		r.InputEventhub.SendToRoutes = types.BoolPointerValue(resp.InputEventhub.SendToRoutes)
 		r.InputEventhub.SessionTimeout = types.Float64PointerValue(resp.InputEventhub.SessionTimeout)
+		if resp.InputEventhub.Status == nil {
+			r.InputEventhub.Status = nil
+		} else {
+			r.InputEventhub.Status = &tfTypes.TFStatus{}
+			r.InputEventhub.Status.Health = types.StringValue(string(resp.InputEventhub.Status.Health))
+			if len(resp.InputEventhub.Status.Metrics) > 0 {
+				r.InputEventhub.Status.Metrics = make(map[string]types.String, len(resp.InputEventhub.Status.Metrics))
+				for key13, value13 := range resp.InputEventhub.Status.Metrics {
+					result13, _ := json.Marshal(value13)
+					r.InputEventhub.Status.Metrics[key13] = types.StringValue(string(result13))
+				}
+			}
+			r.InputEventhub.Status.Timestamp = types.Float64Value(resp.InputEventhub.Status.Timestamp)
+			r.InputEventhub.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputEventhub.Status.UseStatusFromLB)
+		}
 		r.InputEventhub.Streamtags = make([]types.String, 0, len(resp.InputEventhub.Streamtags))
 		for _, v := range resp.InputEventhub.Streamtags {
 			r.InputEventhub.Streamtags = append(r.InputEventhub.Streamtags, types.StringValue(v))
@@ -22267,6 +24011,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		}
 		r.InputExec.SendToRoutes = types.BoolPointerValue(resp.InputExec.SendToRoutes)
 		r.InputExec.StaleChannelFlushMs = types.Float64PointerValue(resp.InputExec.StaleChannelFlushMs)
+		if resp.InputExec.Status == nil {
+			r.InputExec.Status = nil
+		} else {
+			r.InputExec.Status = &tfTypes.TFStatus{}
+			r.InputExec.Status.Health = types.StringValue(string(resp.InputExec.Status.Health))
+			if len(resp.InputExec.Status.Metrics) > 0 {
+				r.InputExec.Status.Metrics = make(map[string]types.String, len(resp.InputExec.Status.Metrics))
+				for key14, value14 := range resp.InputExec.Status.Metrics {
+					result14, _ := json.Marshal(value14)
+					r.InputExec.Status.Metrics[key14] = types.StringValue(string(result14))
+				}
+			}
+			r.InputExec.Status.Timestamp = types.Float64Value(resp.InputExec.Status.Timestamp)
+			r.InputExec.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputExec.Status.UseStatusFromLB)
+		}
 		r.InputExec.Streamtags = make([]types.String, 0, len(resp.InputExec.Streamtags))
 		for _, v := range resp.InputExec.Streamtags {
 			r.InputExec.Streamtags = append(r.InputExec.Streamtags, types.StringValue(v))
@@ -22356,6 +24115,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputFile.PqEnabled = types.BoolPointerValue(resp.InputFile.PqEnabled)
 		r.InputFile.SendToRoutes = types.BoolPointerValue(resp.InputFile.SendToRoutes)
 		r.InputFile.StaleChannelFlushMs = types.Float64PointerValue(resp.InputFile.StaleChannelFlushMs)
+		if resp.InputFile.Status == nil {
+			r.InputFile.Status = nil
+		} else {
+			r.InputFile.Status = &tfTypes.TFStatus{}
+			r.InputFile.Status.Health = types.StringValue(string(resp.InputFile.Status.Health))
+			if len(resp.InputFile.Status.Metrics) > 0 {
+				r.InputFile.Status.Metrics = make(map[string]types.String, len(resp.InputFile.Status.Metrics))
+				for key15, value15 := range resp.InputFile.Status.Metrics {
+					result15, _ := json.Marshal(value15)
+					r.InputFile.Status.Metrics[key15] = types.StringValue(string(result15))
+				}
+			}
+			r.InputFile.Status.Timestamp = types.Float64Value(resp.InputFile.Status.Timestamp)
+			r.InputFile.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputFile.Status.UseStatusFromLB)
+		}
 		r.InputFile.Streamtags = make([]types.String, 0, len(resp.InputFile.Streamtags))
 		for _, v := range resp.InputFile.Streamtags {
 			r.InputFile.Streamtags = append(r.InputFile.Streamtags, types.StringValue(v))
@@ -22440,6 +24214,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputFirehose.RequestTimeout = types.Float64PointerValue(resp.InputFirehose.RequestTimeout)
 		r.InputFirehose.SendToRoutes = types.BoolPointerValue(resp.InputFirehose.SendToRoutes)
 		r.InputFirehose.SocketTimeout = types.Float64PointerValue(resp.InputFirehose.SocketTimeout)
+		if resp.InputFirehose.Status == nil {
+			r.InputFirehose.Status = nil
+		} else {
+			r.InputFirehose.Status = &tfTypes.TFStatus{}
+			r.InputFirehose.Status.Health = types.StringValue(string(resp.InputFirehose.Status.Health))
+			if len(resp.InputFirehose.Status.Metrics) > 0 {
+				r.InputFirehose.Status.Metrics = make(map[string]types.String, len(resp.InputFirehose.Status.Metrics))
+				for key16, value16 := range resp.InputFirehose.Status.Metrics {
+					result16, _ := json.Marshal(value16)
+					r.InputFirehose.Status.Metrics[key16] = types.StringValue(string(result16))
+				}
+			}
+			r.InputFirehose.Status.Timestamp = types.Float64Value(resp.InputFirehose.Status.Timestamp)
+			r.InputFirehose.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputFirehose.Status.UseStatusFromLB)
+		}
 		r.InputFirehose.Streamtags = make([]types.String, 0, len(resp.InputFirehose.Streamtags))
 		for _, v := range resp.InputFirehose.Streamtags {
 			r.InputFirehose.Streamtags = append(r.InputFirehose.Streamtags, types.StringValue(v))
@@ -22557,6 +24346,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputGooglePubsub.Secret = types.StringPointerValue(resp.InputGooglePubsub.Secret)
 		r.InputGooglePubsub.SendToRoutes = types.BoolPointerValue(resp.InputGooglePubsub.SendToRoutes)
 		r.InputGooglePubsub.ServiceAccountCredentials = types.StringPointerValue(resp.InputGooglePubsub.ServiceAccountCredentials)
+		if resp.InputGooglePubsub.Status == nil {
+			r.InputGooglePubsub.Status = nil
+		} else {
+			r.InputGooglePubsub.Status = &tfTypes.TFStatus{}
+			r.InputGooglePubsub.Status.Health = types.StringValue(string(resp.InputGooglePubsub.Status.Health))
+			if len(resp.InputGooglePubsub.Status.Metrics) > 0 {
+				r.InputGooglePubsub.Status.Metrics = make(map[string]types.String, len(resp.InputGooglePubsub.Status.Metrics))
+				for key17, value17 := range resp.InputGooglePubsub.Status.Metrics {
+					result17, _ := json.Marshal(value17)
+					r.InputGooglePubsub.Status.Metrics[key17] = types.StringValue(string(result17))
+				}
+			}
+			r.InputGooglePubsub.Status.Timestamp = types.Float64Value(resp.InputGooglePubsub.Status.Timestamp)
+			r.InputGooglePubsub.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputGooglePubsub.Status.UseStatusFromLB)
+		}
 		r.InputGooglePubsub.Streamtags = make([]types.String, 0, len(resp.InputGooglePubsub.Streamtags))
 		for _, v := range resp.InputGooglePubsub.Streamtags {
 			r.InputGooglePubsub.Streamtags = append(r.InputGooglePubsub.Streamtags, types.StringValue(v))
@@ -22613,12 +24417,12 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 				}
 				r.InputGrafana.One.LokiAuth.CredentialsSecret = types.StringPointerValue(resp.InputGrafana.InputGrafana1.LokiAuth.CredentialsSecret)
 				r.InputGrafana.One.LokiAuth.LoginURL = types.StringPointerValue(resp.InputGrafana.InputGrafana1.LokiAuth.LoginURL)
-				r.InputGrafana.One.LokiAuth.OauthHeaders = []tfTypes.InputGrafana1OauthHeaders{}
+				r.InputGrafana.One.LokiAuth.OauthHeaders = []tfTypes.InputInputGrafanaOauthHeaders{}
 				if len(r.InputGrafana.One.LokiAuth.OauthHeaders) > len(resp.InputGrafana.InputGrafana1.LokiAuth.OauthHeaders) {
 					r.InputGrafana.One.LokiAuth.OauthHeaders = r.InputGrafana.One.LokiAuth.OauthHeaders[:len(resp.InputGrafana.InputGrafana1.LokiAuth.OauthHeaders)]
 				}
 				for oauthHeadersCount, oauthHeadersItem := range resp.InputGrafana.InputGrafana1.LokiAuth.OauthHeaders {
-					var oauthHeaders tfTypes.InputGrafana1OauthHeaders
+					var oauthHeaders tfTypes.InputInputGrafanaOauthHeaders
 					oauthHeaders.Name = types.StringValue(oauthHeadersItem.Name)
 					oauthHeaders.Value = types.StringValue(oauthHeadersItem.Value)
 					if oauthHeadersCount+1 > len(r.InputGrafana.One.LokiAuth.OauthHeaders) {
@@ -22628,12 +24432,12 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 						r.InputGrafana.One.LokiAuth.OauthHeaders[oauthHeadersCount].Value = oauthHeaders.Value
 					}
 				}
-				r.InputGrafana.One.LokiAuth.OauthParams = []tfTypes.InputGrafana1OauthParams{}
+				r.InputGrafana.One.LokiAuth.OauthParams = []tfTypes.InputInputGrafanaOauthParams{}
 				if len(r.InputGrafana.One.LokiAuth.OauthParams) > len(resp.InputGrafana.InputGrafana1.LokiAuth.OauthParams) {
 					r.InputGrafana.One.LokiAuth.OauthParams = r.InputGrafana.One.LokiAuth.OauthParams[:len(resp.InputGrafana.InputGrafana1.LokiAuth.OauthParams)]
 				}
 				for oauthParamsCount, oauthParamsItem := range resp.InputGrafana.InputGrafana1.LokiAuth.OauthParams {
-					var oauthParams tfTypes.InputGrafana1OauthParams
+					var oauthParams tfTypes.InputInputGrafanaOauthParams
 					oauthParams.Name = types.StringValue(oauthParamsItem.Name)
 					oauthParams.Value = types.StringValue(oauthParamsItem.Value)
 					if oauthParamsCount+1 > len(r.InputGrafana.One.LokiAuth.OauthParams) {
@@ -22747,6 +24551,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			r.InputGrafana.One.RequestTimeout = types.Float64PointerValue(resp.InputGrafana.InputGrafana1.RequestTimeout)
 			r.InputGrafana.One.SendToRoutes = types.BoolPointerValue(resp.InputGrafana.InputGrafana1.SendToRoutes)
 			r.InputGrafana.One.SocketTimeout = types.Float64PointerValue(resp.InputGrafana.InputGrafana1.SocketTimeout)
+			if resp.InputGrafana.InputGrafana1.Status == nil {
+				r.InputGrafana.One.Status = nil
+			} else {
+				r.InputGrafana.One.Status = &tfTypes.TFStatus{}
+				r.InputGrafana.One.Status.Health = types.StringValue(string(resp.InputGrafana.InputGrafana1.Status.Health))
+				if len(resp.InputGrafana.InputGrafana1.Status.Metrics) > 0 {
+					r.InputGrafana.One.Status.Metrics = make(map[string]types.String, len(resp.InputGrafana.InputGrafana1.Status.Metrics))
+					for key18, value18 := range resp.InputGrafana.InputGrafana1.Status.Metrics {
+						result18, _ := json.Marshal(value18)
+						r.InputGrafana.One.Status.Metrics[key18] = types.StringValue(string(result18))
+					}
+				}
+				r.InputGrafana.One.Status.Timestamp = types.Float64Value(resp.InputGrafana.InputGrafana1.Status.Timestamp)
+				r.InputGrafana.One.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputGrafana.InputGrafana1.Status.UseStatusFromLB)
+			}
 			r.InputGrafana.One.Streamtags = make([]types.String, 0, len(resp.InputGrafana.InputGrafana1.Streamtags))
 			for _, v := range resp.InputGrafana.InputGrafana1.Streamtags {
 				r.InputGrafana.One.Streamtags = append(r.InputGrafana.One.Streamtags, types.StringValue(v))
@@ -22795,12 +24614,12 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			r.InputGrafana.Two = &tfTypes.InputGrafana2{}
 			r.InputGrafana.Two.ActivityLogSampleRate = types.Float64PointerValue(resp.InputGrafana.InputGrafana2.ActivityLogSampleRate)
 			r.InputGrafana.Two.CaptureHeaders = types.BoolPointerValue(resp.InputGrafana.InputGrafana2.CaptureHeaders)
-			r.InputGrafana.Two.Connections = []tfTypes.InputGrafana2Connections{}
+			r.InputGrafana.Two.Connections = []tfTypes.InputInputGrafanaConnections{}
 			if len(r.InputGrafana.Two.Connections) > len(resp.InputGrafana.InputGrafana2.Connections) {
 				r.InputGrafana.Two.Connections = r.InputGrafana.Two.Connections[:len(resp.InputGrafana.InputGrafana2.Connections)]
 			}
 			for connectionsCount19, connectionsItem19 := range resp.InputGrafana.InputGrafana2.Connections {
-				var connections19 tfTypes.InputGrafana2Connections
+				var connections19 tfTypes.InputInputGrafanaConnections
 				connections19.Output = types.StringValue(connectionsItem19.Output)
 				connections19.Pipeline = types.StringPointerValue(connectionsItem19.Pipeline)
 				if connectionsCount19+1 > len(r.InputGrafana.Two.Connections) {
@@ -22833,12 +24652,12 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 				}
 				r.InputGrafana.Two.LokiAuth.CredentialsSecret = types.StringPointerValue(resp.InputGrafana.InputGrafana2.LokiAuth.CredentialsSecret)
 				r.InputGrafana.Two.LokiAuth.LoginURL = types.StringPointerValue(resp.InputGrafana.InputGrafana2.LokiAuth.LoginURL)
-				r.InputGrafana.Two.LokiAuth.OauthHeaders = []tfTypes.InputGrafana2LokiAuthOauthHeaders{}
+				r.InputGrafana.Two.LokiAuth.OauthHeaders = []tfTypes.InputInputGrafana2LokiAuthOauthHeaders{}
 				if len(r.InputGrafana.Two.LokiAuth.OauthHeaders) > len(resp.InputGrafana.InputGrafana2.LokiAuth.OauthHeaders) {
 					r.InputGrafana.Two.LokiAuth.OauthHeaders = r.InputGrafana.Two.LokiAuth.OauthHeaders[:len(resp.InputGrafana.InputGrafana2.LokiAuth.OauthHeaders)]
 				}
 				for oauthHeadersCount2, oauthHeadersItem2 := range resp.InputGrafana.InputGrafana2.LokiAuth.OauthHeaders {
-					var oauthHeaders2 tfTypes.InputGrafana2LokiAuthOauthHeaders
+					var oauthHeaders2 tfTypes.InputInputGrafana2LokiAuthOauthHeaders
 					oauthHeaders2.Name = types.StringValue(oauthHeadersItem2.Name)
 					oauthHeaders2.Value = types.StringValue(oauthHeadersItem2.Value)
 					if oauthHeadersCount2+1 > len(r.InputGrafana.Two.LokiAuth.OauthHeaders) {
@@ -22848,12 +24667,12 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 						r.InputGrafana.Two.LokiAuth.OauthHeaders[oauthHeadersCount2].Value = oauthHeaders2.Value
 					}
 				}
-				r.InputGrafana.Two.LokiAuth.OauthParams = []tfTypes.InputGrafana2LokiAuthOauthParams{}
+				r.InputGrafana.Two.LokiAuth.OauthParams = []tfTypes.InputInputGrafana2LokiAuthOauthParams{}
 				if len(r.InputGrafana.Two.LokiAuth.OauthParams) > len(resp.InputGrafana.InputGrafana2.LokiAuth.OauthParams) {
 					r.InputGrafana.Two.LokiAuth.OauthParams = r.InputGrafana.Two.LokiAuth.OauthParams[:len(resp.InputGrafana.InputGrafana2.LokiAuth.OauthParams)]
 				}
 				for oauthParamsCount2, oauthParamsItem2 := range resp.InputGrafana.InputGrafana2.LokiAuth.OauthParams {
-					var oauthParams2 tfTypes.InputGrafana2LokiAuthOauthParams
+					var oauthParams2 tfTypes.InputInputGrafana2LokiAuthOauthParams
 					oauthParams2.Name = types.StringValue(oauthParamsItem2.Name)
 					oauthParams2.Value = types.StringValue(oauthParamsItem2.Value)
 					if oauthParamsCount2+1 > len(r.InputGrafana.Two.LokiAuth.OauthParams) {
@@ -22874,12 +24693,12 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			}
 			r.InputGrafana.Two.MaxActiveReq = types.Float64PointerValue(resp.InputGrafana.InputGrafana2.MaxActiveReq)
 			r.InputGrafana.Two.MaxRequestsPerSocket = types.Int64PointerValue(resp.InputGrafana.InputGrafana2.MaxRequestsPerSocket)
-			r.InputGrafana.Two.Metadata = []tfTypes.InputGrafana2Metadata{}
+			r.InputGrafana.Two.Metadata = []tfTypes.InputInputGrafanaMetadata{}
 			if len(r.InputGrafana.Two.Metadata) > len(resp.InputGrafana.InputGrafana2.Metadata) {
 				r.InputGrafana.Two.Metadata = r.InputGrafana.Two.Metadata[:len(resp.InputGrafana.InputGrafana2.Metadata)]
 			}
 			for metadataCount19, metadataItem19 := range resp.InputGrafana.InputGrafana2.Metadata {
-				var metadata19 tfTypes.InputGrafana2Metadata
+				var metadata19 tfTypes.InputInputGrafanaMetadata
 				metadata19.Name = types.StringValue(metadataItem19.Name)
 				metadata19.Value = types.StringValue(metadataItem19.Value)
 				if metadataCount19+1 > len(r.InputGrafana.Two.Metadata) {
@@ -22894,7 +24713,7 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			if resp.InputGrafana.InputGrafana2.Pq == nil {
 				r.InputGrafana.Two.Pq = nil
 			} else {
-				r.InputGrafana.Two.Pq = &tfTypes.InputGrafana2Pq{}
+				r.InputGrafana.Two.Pq = &tfTypes.InputInputGrafanaPq{}
 				r.InputGrafana.Two.Pq.CommitFrequency = types.Float64PointerValue(resp.InputGrafana.InputGrafana2.Pq.CommitFrequency)
 				if resp.InputGrafana.InputGrafana2.Pq.Compress != nil {
 					r.InputGrafana.Two.Pq.Compress = types.StringValue(string(*resp.InputGrafana.InputGrafana2.Pq.Compress))
@@ -22925,12 +24744,12 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 				}
 				r.InputGrafana.Two.PrometheusAuth.CredentialsSecret = types.StringPointerValue(resp.InputGrafana.InputGrafana2.PrometheusAuth.CredentialsSecret)
 				r.InputGrafana.Two.PrometheusAuth.LoginURL = types.StringPointerValue(resp.InputGrafana.InputGrafana2.PrometheusAuth.LoginURL)
-				r.InputGrafana.Two.PrometheusAuth.OauthHeaders = []tfTypes.InputGrafana2OauthHeaders{}
+				r.InputGrafana.Two.PrometheusAuth.OauthHeaders = []tfTypes.InputInputGrafana2OauthHeaders{}
 				if len(r.InputGrafana.Two.PrometheusAuth.OauthHeaders) > len(resp.InputGrafana.InputGrafana2.PrometheusAuth.OauthHeaders) {
 					r.InputGrafana.Two.PrometheusAuth.OauthHeaders = r.InputGrafana.Two.PrometheusAuth.OauthHeaders[:len(resp.InputGrafana.InputGrafana2.PrometheusAuth.OauthHeaders)]
 				}
 				for oauthHeadersCount3, oauthHeadersItem3 := range resp.InputGrafana.InputGrafana2.PrometheusAuth.OauthHeaders {
-					var oauthHeaders3 tfTypes.InputGrafana2OauthHeaders
+					var oauthHeaders3 tfTypes.InputInputGrafana2OauthHeaders
 					oauthHeaders3.Name = types.StringValue(oauthHeadersItem3.Name)
 					oauthHeaders3.Value = types.StringValue(oauthHeadersItem3.Value)
 					if oauthHeadersCount3+1 > len(r.InputGrafana.Two.PrometheusAuth.OauthHeaders) {
@@ -22940,12 +24759,12 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 						r.InputGrafana.Two.PrometheusAuth.OauthHeaders[oauthHeadersCount3].Value = oauthHeaders3.Value
 					}
 				}
-				r.InputGrafana.Two.PrometheusAuth.OauthParams = []tfTypes.InputGrafana2OauthParams{}
+				r.InputGrafana.Two.PrometheusAuth.OauthParams = []tfTypes.InputInputGrafana2OauthParams{}
 				if len(r.InputGrafana.Two.PrometheusAuth.OauthParams) > len(resp.InputGrafana.InputGrafana2.PrometheusAuth.OauthParams) {
 					r.InputGrafana.Two.PrometheusAuth.OauthParams = r.InputGrafana.Two.PrometheusAuth.OauthParams[:len(resp.InputGrafana.InputGrafana2.PrometheusAuth.OauthParams)]
 				}
 				for oauthParamsCount3, oauthParamsItem3 := range resp.InputGrafana.InputGrafana2.PrometheusAuth.OauthParams {
-					var oauthParams3 tfTypes.InputGrafana2OauthParams
+					var oauthParams3 tfTypes.InputInputGrafana2OauthParams
 					oauthParams3.Name = types.StringValue(oauthParamsItem3.Name)
 					oauthParams3.Value = types.StringValue(oauthParamsItem3.Value)
 					if oauthParamsCount3+1 > len(r.InputGrafana.Two.PrometheusAuth.OauthParams) {
@@ -22967,6 +24786,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			r.InputGrafana.Two.RequestTimeout = types.Float64PointerValue(resp.InputGrafana.InputGrafana2.RequestTimeout)
 			r.InputGrafana.Two.SendToRoutes = types.BoolPointerValue(resp.InputGrafana.InputGrafana2.SendToRoutes)
 			r.InputGrafana.Two.SocketTimeout = types.Float64PointerValue(resp.InputGrafana.InputGrafana2.SocketTimeout)
+			if resp.InputGrafana.InputGrafana2.Status == nil {
+				r.InputGrafana.Two.Status = nil
+			} else {
+				r.InputGrafana.Two.Status = &tfTypes.TFStatus{}
+				r.InputGrafana.Two.Status.Health = types.StringValue(string(resp.InputGrafana.InputGrafana2.Status.Health))
+				if len(resp.InputGrafana.InputGrafana2.Status.Metrics) > 0 {
+					r.InputGrafana.Two.Status.Metrics = make(map[string]types.String, len(resp.InputGrafana.InputGrafana2.Status.Metrics))
+					for key19, value19 := range resp.InputGrafana.InputGrafana2.Status.Metrics {
+						result19, _ := json.Marshal(value19)
+						r.InputGrafana.Two.Status.Metrics[key19] = types.StringValue(string(result19))
+					}
+				}
+				r.InputGrafana.Two.Status.Timestamp = types.Float64Value(resp.InputGrafana.InputGrafana2.Status.Timestamp)
+				r.InputGrafana.Two.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputGrafana.InputGrafana2.Status.UseStatusFromLB)
+			}
 			r.InputGrafana.Two.Streamtags = make([]types.String, 0, len(resp.InputGrafana.InputGrafana2.Streamtags))
 			for _, v := range resp.InputGrafana.InputGrafana2.Streamtags {
 				r.InputGrafana.Two.Streamtags = append(r.InputGrafana.Two.Streamtags, types.StringValue(v))
@@ -22974,7 +24808,7 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			if resp.InputGrafana.InputGrafana2.TLS == nil {
 				r.InputGrafana.Two.TLS = nil
 			} else {
-				r.InputGrafana.Two.TLS = &tfTypes.InputGrafana2TLSSettingsServerSide{}
+				r.InputGrafana.Two.TLS = &tfTypes.InputInputGrafanaTLSSettingsServerSide{}
 				r.InputGrafana.Two.TLS.CaPath = types.StringPointerValue(resp.InputGrafana.InputGrafana2.TLS.CaPath)
 				r.InputGrafana.Two.TLS.CertificateName = types.StringPointerValue(resp.InputGrafana.InputGrafana2.TLS.CertificateName)
 				r.InputGrafana.Two.TLS.CertPath = types.StringPointerValue(resp.InputGrafana.InputGrafana2.TLS.CertPath)
@@ -23026,9 +24860,9 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		for authTokensExtCount, authTokensExtItem := range resp.InputHTTP.AuthTokensExt {
 			var authTokensExt tfTypes.AuthTokensExt
 			authTokensExt.Description = types.StringPointerValue(authTokensExtItem.Description)
-			authTokensExt.Metadata = []tfTypes.InputHTTPAuthTokensExtMetadata{}
+			authTokensExt.Metadata = []tfTypes.InputHTTPInputMetadata{}
 			for metadataCount20, metadataItem20 := range authTokensExtItem.Metadata {
-				var metadata20 tfTypes.InputHTTPAuthTokensExtMetadata
+				var metadata20 tfTypes.InputHTTPInputMetadata
 				metadata20.Name = types.StringValue(metadataItem20.Name)
 				metadata20.Value = types.StringValue(metadataItem20.Value)
 				if metadataCount20+1 > len(authTokensExt.Metadata) {
@@ -23120,6 +24954,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputHTTP.SocketTimeout = types.Float64PointerValue(resp.InputHTTP.SocketTimeout)
 		r.InputHTTP.SplunkHecAcks = types.BoolPointerValue(resp.InputHTTP.SplunkHecAcks)
 		r.InputHTTP.SplunkHecAPI = types.StringPointerValue(resp.InputHTTP.SplunkHecAPI)
+		if resp.InputHTTP.Status == nil {
+			r.InputHTTP.Status = nil
+		} else {
+			r.InputHTTP.Status = &tfTypes.TFStatus{}
+			r.InputHTTP.Status.Health = types.StringValue(string(resp.InputHTTP.Status.Health))
+			if len(resp.InputHTTP.Status.Metrics) > 0 {
+				r.InputHTTP.Status.Metrics = make(map[string]types.String, len(resp.InputHTTP.Status.Metrics))
+				for key20, value20 := range resp.InputHTTP.Status.Metrics {
+					result20, _ := json.Marshal(value20)
+					r.InputHTTP.Status.Metrics[key20] = types.StringValue(string(result20))
+				}
+			}
+			r.InputHTTP.Status.Timestamp = types.Float64Value(resp.InputHTTP.Status.Timestamp)
+			r.InputHTTP.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputHTTP.Status.UseStatusFromLB)
+		}
 		r.InputHTTP.Streamtags = make([]types.String, 0, len(resp.InputHTTP.Streamtags))
 		for _, v := range resp.InputHTTP.Streamtags {
 			r.InputHTTP.Streamtags = append(r.InputHTTP.Streamtags, types.StringValue(v))
@@ -23186,9 +25035,9 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		for authTokensExtCount1, authTokensExtItem1 := range resp.InputHTTPRaw.AuthTokensExt {
 			var authTokensExt1 tfTypes.InputHTTPRawAuthTokensExt
 			authTokensExt1.Description = types.StringPointerValue(authTokensExtItem1.Description)
-			authTokensExt1.Metadata = []tfTypes.InputHTTPRawAuthTokensExtMetadata{}
+			authTokensExt1.Metadata = []tfTypes.InputHTTPRawInputMetadata{}
 			for metadataCount22, metadataItem22 := range authTokensExtItem1.Metadata {
-				var metadata22 tfTypes.InputHTTPRawAuthTokensExtMetadata
+				var metadata22 tfTypes.InputHTTPRawInputMetadata
 				metadata22.Name = types.StringValue(metadataItem22.Name)
 				metadata22.Value = types.StringValue(metadataItem22.Value)
 				if metadataCount22+1 > len(authTokensExt1.Metadata) {
@@ -23281,6 +25130,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputHTTPRaw.SendToRoutes = types.BoolPointerValue(resp.InputHTTPRaw.SendToRoutes)
 		r.InputHTTPRaw.SocketTimeout = types.Float64PointerValue(resp.InputHTTPRaw.SocketTimeout)
 		r.InputHTTPRaw.StaleChannelFlushMs = types.Float64PointerValue(resp.InputHTTPRaw.StaleChannelFlushMs)
+		if resp.InputHTTPRaw.Status == nil {
+			r.InputHTTPRaw.Status = nil
+		} else {
+			r.InputHTTPRaw.Status = &tfTypes.TFStatus{}
+			r.InputHTTPRaw.Status.Health = types.StringValue(string(resp.InputHTTPRaw.Status.Health))
+			if len(resp.InputHTTPRaw.Status.Metrics) > 0 {
+				r.InputHTTPRaw.Status.Metrics = make(map[string]types.String, len(resp.InputHTTPRaw.Status.Metrics))
+				for key21, value21 := range resp.InputHTTPRaw.Status.Metrics {
+					result21, _ := json.Marshal(value21)
+					r.InputHTTPRaw.Status.Metrics[key21] = types.StringValue(string(result21))
+				}
+			}
+			r.InputHTTPRaw.Status.Timestamp = types.Float64Value(resp.InputHTTPRaw.Status.Timestamp)
+			r.InputHTTPRaw.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputHTTPRaw.Status.UseStatusFromLB)
+		}
 		r.InputHTTPRaw.Streamtags = make([]types.String, 0, len(resp.InputHTTPRaw.Streamtags))
 		for _, v := range resp.InputHTTPRaw.Streamtags {
 			r.InputHTTPRaw.Streamtags = append(r.InputHTTPRaw.Streamtags, types.StringValue(v))
@@ -23407,6 +25271,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			}
 		}
 		r.InputJournalFiles.SendToRoutes = types.BoolPointerValue(resp.InputJournalFiles.SendToRoutes)
+		if resp.InputJournalFiles.Status == nil {
+			r.InputJournalFiles.Status = nil
+		} else {
+			r.InputJournalFiles.Status = &tfTypes.TFStatus{}
+			r.InputJournalFiles.Status.Health = types.StringValue(string(resp.InputJournalFiles.Status.Health))
+			if len(resp.InputJournalFiles.Status.Metrics) > 0 {
+				r.InputJournalFiles.Status.Metrics = make(map[string]types.String, len(resp.InputJournalFiles.Status.Metrics))
+				for key22, value22 := range resp.InputJournalFiles.Status.Metrics {
+					result22, _ := json.Marshal(value22)
+					r.InputJournalFiles.Status.Metrics[key22] = types.StringValue(string(result22))
+				}
+			}
+			r.InputJournalFiles.Status.Timestamp = types.Float64Value(resp.InputJournalFiles.Status.Timestamp)
+			r.InputJournalFiles.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputJournalFiles.Status.UseStatusFromLB)
+		}
 		r.InputJournalFiles.Streamtags = make([]types.String, 0, len(resp.InputJournalFiles.Streamtags))
 		for _, v := range resp.InputJournalFiles.Streamtags {
 			r.InputJournalFiles.Streamtags = append(r.InputJournalFiles.Streamtags, types.StringValue(v))
@@ -23549,6 +25428,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		}
 		r.InputKafka.SendToRoutes = types.BoolPointerValue(resp.InputKafka.SendToRoutes)
 		r.InputKafka.SessionTimeout = types.Float64PointerValue(resp.InputKafka.SessionTimeout)
+		if resp.InputKafka.Status == nil {
+			r.InputKafka.Status = nil
+		} else {
+			r.InputKafka.Status = &tfTypes.TFStatus{}
+			r.InputKafka.Status.Health = types.StringValue(string(resp.InputKafka.Status.Health))
+			if len(resp.InputKafka.Status.Metrics) > 0 {
+				r.InputKafka.Status.Metrics = make(map[string]types.String, len(resp.InputKafka.Status.Metrics))
+				for key23, value23 := range resp.InputKafka.Status.Metrics {
+					result23, _ := json.Marshal(value23)
+					r.InputKafka.Status.Metrics[key23] = types.StringValue(string(result23))
+				}
+			}
+			r.InputKafka.Status.Timestamp = types.Float64Value(resp.InputKafka.Status.Timestamp)
+			r.InputKafka.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputKafka.Status.UseStatusFromLB)
+		}
 		r.InputKafka.Streamtags = make([]types.String, 0, len(resp.InputKafka.Streamtags))
 		for _, v := range resp.InputKafka.Streamtags {
 			r.InputKafka.Streamtags = append(r.InputKafka.Streamtags, types.StringValue(v))
@@ -23686,6 +25580,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		} else {
 			r.InputKinesis.SignatureVersion = types.StringNull()
 		}
+		if resp.InputKinesis.Status == nil {
+			r.InputKinesis.Status = nil
+		} else {
+			r.InputKinesis.Status = &tfTypes.TFStatus{}
+			r.InputKinesis.Status.Health = types.StringValue(string(resp.InputKinesis.Status.Health))
+			if len(resp.InputKinesis.Status.Metrics) > 0 {
+				r.InputKinesis.Status.Metrics = make(map[string]types.String, len(resp.InputKinesis.Status.Metrics))
+				for key24, value24 := range resp.InputKinesis.Status.Metrics {
+					result24, _ := json.Marshal(value24)
+					r.InputKinesis.Status.Metrics[key24] = types.StringValue(string(result24))
+				}
+			}
+			r.InputKinesis.Status.Timestamp = types.Float64Value(resp.InputKinesis.Status.Timestamp)
+			r.InputKinesis.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputKinesis.Status.UseStatusFromLB)
+		}
 		r.InputKinesis.StreamName = types.StringValue(resp.InputKinesis.StreamName)
 		r.InputKinesis.Streamtags = make([]types.String, 0, len(resp.InputKinesis.Streamtags))
 		for _, v := range resp.InputKinesis.Streamtags {
@@ -23772,6 +25681,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			}
 		}
 		r.InputKubeEvents.SendToRoutes = types.BoolPointerValue(resp.InputKubeEvents.SendToRoutes)
+		if resp.InputKubeEvents.Status == nil {
+			r.InputKubeEvents.Status = nil
+		} else {
+			r.InputKubeEvents.Status = &tfTypes.TFStatus{}
+			r.InputKubeEvents.Status.Health = types.StringValue(string(resp.InputKubeEvents.Status.Health))
+			if len(resp.InputKubeEvents.Status.Metrics) > 0 {
+				r.InputKubeEvents.Status.Metrics = make(map[string]types.String, len(resp.InputKubeEvents.Status.Metrics))
+				for key25, value25 := range resp.InputKubeEvents.Status.Metrics {
+					result25, _ := json.Marshal(value25)
+					r.InputKubeEvents.Status.Metrics[key25] = types.StringValue(string(result25))
+				}
+			}
+			r.InputKubeEvents.Status.Timestamp = types.Float64Value(resp.InputKubeEvents.Status.Timestamp)
+			r.InputKubeEvents.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputKubeEvents.Status.UseStatusFromLB)
+		}
 		r.InputKubeEvents.Streamtags = make([]types.String, 0, len(resp.InputKubeEvents.Streamtags))
 		for _, v := range resp.InputKubeEvents.Streamtags {
 			r.InputKubeEvents.Streamtags = append(r.InputKubeEvents.Streamtags, types.StringValue(v))
@@ -23873,6 +25797,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		}
 		r.InputKubeLogs.SendToRoutes = types.BoolPointerValue(resp.InputKubeLogs.SendToRoutes)
 		r.InputKubeLogs.StaleChannelFlushMs = types.Float64PointerValue(resp.InputKubeLogs.StaleChannelFlushMs)
+		if resp.InputKubeLogs.Status == nil {
+			r.InputKubeLogs.Status = nil
+		} else {
+			r.InputKubeLogs.Status = &tfTypes.TFStatus{}
+			r.InputKubeLogs.Status.Health = types.StringValue(string(resp.InputKubeLogs.Status.Health))
+			if len(resp.InputKubeLogs.Status.Metrics) > 0 {
+				r.InputKubeLogs.Status.Metrics = make(map[string]types.String, len(resp.InputKubeLogs.Status.Metrics))
+				for key26, value26 := range resp.InputKubeLogs.Status.Metrics {
+					result26, _ := json.Marshal(value26)
+					r.InputKubeLogs.Status.Metrics[key26] = types.StringValue(string(result26))
+				}
+			}
+			r.InputKubeLogs.Status.Timestamp = types.Float64Value(resp.InputKubeLogs.Status.Timestamp)
+			r.InputKubeLogs.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputKubeLogs.Status.UseStatusFromLB)
+		}
 		r.InputKubeLogs.Streamtags = make([]types.String, 0, len(resp.InputKubeLogs.Streamtags))
 		for _, v := range resp.InputKubeLogs.Streamtags {
 			r.InputKubeLogs.Streamtags = append(r.InputKubeLogs.Streamtags, types.StringValue(v))
@@ -23970,6 +25909,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			}
 		}
 		r.InputKubeMetrics.SendToRoutes = types.BoolPointerValue(resp.InputKubeMetrics.SendToRoutes)
+		if resp.InputKubeMetrics.Status == nil {
+			r.InputKubeMetrics.Status = nil
+		} else {
+			r.InputKubeMetrics.Status = &tfTypes.TFStatus{}
+			r.InputKubeMetrics.Status.Health = types.StringValue(string(resp.InputKubeMetrics.Status.Health))
+			if len(resp.InputKubeMetrics.Status.Metrics) > 0 {
+				r.InputKubeMetrics.Status.Metrics = make(map[string]types.String, len(resp.InputKubeMetrics.Status.Metrics))
+				for key27, value27 := range resp.InputKubeMetrics.Status.Metrics {
+					result27, _ := json.Marshal(value27)
+					r.InputKubeMetrics.Status.Metrics[key27] = types.StringValue(string(result27))
+				}
+			}
+			r.InputKubeMetrics.Status.Timestamp = types.Float64Value(resp.InputKubeMetrics.Status.Timestamp)
+			r.InputKubeMetrics.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputKubeMetrics.Status.UseStatusFromLB)
+		}
 		r.InputKubeMetrics.Streamtags = make([]types.String, 0, len(resp.InputKubeMetrics.Streamtags))
 		for _, v := range resp.InputKubeMetrics.Streamtags {
 			r.InputKubeMetrics.Streamtags = append(r.InputKubeMetrics.Streamtags, types.StringValue(v))
@@ -24090,6 +26044,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputLoki.SecretParamName = types.StringPointerValue(resp.InputLoki.SecretParamName)
 		r.InputLoki.SendToRoutes = types.BoolPointerValue(resp.InputLoki.SendToRoutes)
 		r.InputLoki.SocketTimeout = types.Float64PointerValue(resp.InputLoki.SocketTimeout)
+		if resp.InputLoki.Status == nil {
+			r.InputLoki.Status = nil
+		} else {
+			r.InputLoki.Status = &tfTypes.TFStatus{}
+			r.InputLoki.Status.Health = types.StringValue(string(resp.InputLoki.Status.Health))
+			if len(resp.InputLoki.Status.Metrics) > 0 {
+				r.InputLoki.Status.Metrics = make(map[string]types.String, len(resp.InputLoki.Status.Metrics))
+				for key28, value28 := range resp.InputLoki.Status.Metrics {
+					result28, _ := json.Marshal(value28)
+					r.InputLoki.Status.Metrics[key28] = types.StringValue(string(result28))
+				}
+			}
+			r.InputLoki.Status.Timestamp = types.Float64Value(resp.InputLoki.Status.Timestamp)
+			r.InputLoki.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputLoki.Status.UseStatusFromLB)
+		}
 		r.InputLoki.Streamtags = make([]types.String, 0, len(resp.InputLoki.Streamtags))
 		for _, v := range resp.InputLoki.Streamtags {
 			r.InputLoki.Streamtags = append(r.InputLoki.Streamtags, types.StringValue(v))
@@ -24202,6 +26171,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		}
 		r.InputMetrics.PqEnabled = types.BoolPointerValue(resp.InputMetrics.PqEnabled)
 		r.InputMetrics.SendToRoutes = types.BoolPointerValue(resp.InputMetrics.SendToRoutes)
+		if resp.InputMetrics.Status == nil {
+			r.InputMetrics.Status = nil
+		} else {
+			r.InputMetrics.Status = &tfTypes.TFStatus{}
+			r.InputMetrics.Status.Health = types.StringValue(string(resp.InputMetrics.Status.Health))
+			if len(resp.InputMetrics.Status.Metrics) > 0 {
+				r.InputMetrics.Status.Metrics = make(map[string]types.String, len(resp.InputMetrics.Status.Metrics))
+				for key29, value29 := range resp.InputMetrics.Status.Metrics {
+					result29, _ := json.Marshal(value29)
+					r.InputMetrics.Status.Metrics[key29] = types.StringValue(string(result29))
+				}
+			}
+			r.InputMetrics.Status.Timestamp = types.Float64Value(resp.InputMetrics.Status.Timestamp)
+			r.InputMetrics.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputMetrics.Status.UseStatusFromLB)
+		}
 		r.InputMetrics.Streamtags = make([]types.String, 0, len(resp.InputMetrics.Streamtags))
 		for _, v := range resp.InputMetrics.Streamtags {
 			r.InputMetrics.Streamtags = append(r.InputMetrics.Streamtags, types.StringValue(v))
@@ -24308,6 +26292,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputModelDrivenTelemetry.PqEnabled = types.BoolPointerValue(resp.InputModelDrivenTelemetry.PqEnabled)
 		r.InputModelDrivenTelemetry.SendToRoutes = types.BoolPointerValue(resp.InputModelDrivenTelemetry.SendToRoutes)
 		r.InputModelDrivenTelemetry.ShutdownTimeoutMs = types.Float64PointerValue(resp.InputModelDrivenTelemetry.ShutdownTimeoutMs)
+		if resp.InputModelDrivenTelemetry.Status == nil {
+			r.InputModelDrivenTelemetry.Status = nil
+		} else {
+			r.InputModelDrivenTelemetry.Status = &tfTypes.TFStatus{}
+			r.InputModelDrivenTelemetry.Status.Health = types.StringValue(string(resp.InputModelDrivenTelemetry.Status.Health))
+			if len(resp.InputModelDrivenTelemetry.Status.Metrics) > 0 {
+				r.InputModelDrivenTelemetry.Status.Metrics = make(map[string]types.String, len(resp.InputModelDrivenTelemetry.Status.Metrics))
+				for key30, value30 := range resp.InputModelDrivenTelemetry.Status.Metrics {
+					result30, _ := json.Marshal(value30)
+					r.InputModelDrivenTelemetry.Status.Metrics[key30] = types.StringValue(string(result30))
+				}
+			}
+			r.InputModelDrivenTelemetry.Status.Timestamp = types.Float64Value(resp.InputModelDrivenTelemetry.Status.Timestamp)
+			r.InputModelDrivenTelemetry.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputModelDrivenTelemetry.Status.UseStatusFromLB)
+		}
 		r.InputModelDrivenTelemetry.Streamtags = make([]types.String, 0, len(resp.InputModelDrivenTelemetry.Streamtags))
 		for _, v := range resp.InputModelDrivenTelemetry.Streamtags {
 			r.InputModelDrivenTelemetry.Streamtags = append(r.InputModelDrivenTelemetry.Streamtags, types.StringValue(v))
@@ -24417,7 +26416,7 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			if resp.InputMsk.KafkaSchemaRegistry.TLS == nil {
 				r.InputMsk.KafkaSchemaRegistry.TLS = nil
 			} else {
-				r.InputMsk.KafkaSchemaRegistry.TLS = &tfTypes.InputMskKafkaSchemaRegistryTLSSettingsClientSide{}
+				r.InputMsk.KafkaSchemaRegistry.TLS = &tfTypes.InputMskInputTLSSettingsClientSide{}
 				r.InputMsk.KafkaSchemaRegistry.TLS.CaPath = types.StringPointerValue(resp.InputMsk.KafkaSchemaRegistry.TLS.CaPath)
 				r.InputMsk.KafkaSchemaRegistry.TLS.CertificateName = types.StringPointerValue(resp.InputMsk.KafkaSchemaRegistry.TLS.CertificateName)
 				r.InputMsk.KafkaSchemaRegistry.TLS.CertPath = types.StringPointerValue(resp.InputMsk.KafkaSchemaRegistry.TLS.CertPath)
@@ -24492,6 +26491,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			r.InputMsk.SignatureVersion = types.StringValue(string(*resp.InputMsk.SignatureVersion))
 		} else {
 			r.InputMsk.SignatureVersion = types.StringNull()
+		}
+		if resp.InputMsk.Status == nil {
+			r.InputMsk.Status = nil
+		} else {
+			r.InputMsk.Status = &tfTypes.TFStatus{}
+			r.InputMsk.Status.Health = types.StringValue(string(resp.InputMsk.Status.Health))
+			if len(resp.InputMsk.Status.Metrics) > 0 {
+				r.InputMsk.Status.Metrics = make(map[string]types.String, len(resp.InputMsk.Status.Metrics))
+				for key31, value31 := range resp.InputMsk.Status.Metrics {
+					result31, _ := json.Marshal(value31)
+					r.InputMsk.Status.Metrics[key31] = types.StringValue(string(result31))
+				}
+			}
+			r.InputMsk.Status.Timestamp = types.Float64Value(resp.InputMsk.Status.Timestamp)
+			r.InputMsk.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputMsk.Status.UseStatusFromLB)
 		}
 		r.InputMsk.Streamtags = make([]types.String, 0, len(resp.InputMsk.Streamtags))
 		for _, v := range resp.InputMsk.Streamtags {
@@ -24595,6 +26609,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		}
 		r.InputNetflow.PqEnabled = types.BoolPointerValue(resp.InputNetflow.PqEnabled)
 		r.InputNetflow.SendToRoutes = types.BoolPointerValue(resp.InputNetflow.SendToRoutes)
+		if resp.InputNetflow.Status == nil {
+			r.InputNetflow.Status = nil
+		} else {
+			r.InputNetflow.Status = &tfTypes.TFStatus{}
+			r.InputNetflow.Status.Health = types.StringValue(string(resp.InputNetflow.Status.Health))
+			if len(resp.InputNetflow.Status.Metrics) > 0 {
+				r.InputNetflow.Status.Metrics = make(map[string]types.String, len(resp.InputNetflow.Status.Metrics))
+				for key32, value32 := range resp.InputNetflow.Status.Metrics {
+					result32, _ := json.Marshal(value32)
+					r.InputNetflow.Status.Metrics[key32] = types.StringValue(string(result32))
+				}
+			}
+			r.InputNetflow.Status.Timestamp = types.Float64Value(resp.InputNetflow.Status.Timestamp)
+			r.InputNetflow.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputNetflow.Status.UseStatusFromLB)
+		}
 		r.InputNetflow.Streamtags = make([]types.String, 0, len(resp.InputNetflow.Streamtags))
 		for _, v := range resp.InputNetflow.Streamtags {
 			r.InputNetflow.Streamtags = append(r.InputNetflow.Streamtags, types.StringValue(v))
@@ -24730,6 +26759,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			}
 		}
 		r.InputOffice365Mgmt.SendToRoutes = types.BoolPointerValue(resp.InputOffice365Mgmt.SendToRoutes)
+		if resp.InputOffice365Mgmt.Status == nil {
+			r.InputOffice365Mgmt.Status = nil
+		} else {
+			r.InputOffice365Mgmt.Status = &tfTypes.TFStatus{}
+			r.InputOffice365Mgmt.Status.Health = types.StringValue(string(resp.InputOffice365Mgmt.Status.Health))
+			if len(resp.InputOffice365Mgmt.Status.Metrics) > 0 {
+				r.InputOffice365Mgmt.Status.Metrics = make(map[string]types.String, len(resp.InputOffice365Mgmt.Status.Metrics))
+				for key33, value33 := range resp.InputOffice365Mgmt.Status.Metrics {
+					result33, _ := json.Marshal(value33)
+					r.InputOffice365Mgmt.Status.Metrics[key33] = types.StringValue(string(result33))
+				}
+			}
+			r.InputOffice365Mgmt.Status.Timestamp = types.Float64Value(resp.InputOffice365Mgmt.Status.Timestamp)
+			r.InputOffice365Mgmt.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputOffice365Mgmt.Status.UseStatusFromLB)
+		}
 		r.InputOffice365Mgmt.Streamtags = make([]types.String, 0, len(resp.InputOffice365Mgmt.Streamtags))
 		for _, v := range resp.InputOffice365Mgmt.Streamtags {
 			r.InputOffice365Mgmt.Streamtags = append(r.InputOffice365Mgmt.Streamtags, types.StringValue(v))
@@ -24861,6 +26905,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		}
 		r.InputOffice365MsgTrace.SendToRoutes = types.BoolPointerValue(resp.InputOffice365MsgTrace.SendToRoutes)
 		r.InputOffice365MsgTrace.StartDate = types.StringPointerValue(resp.InputOffice365MsgTrace.StartDate)
+		if resp.InputOffice365MsgTrace.Status == nil {
+			r.InputOffice365MsgTrace.Status = nil
+		} else {
+			r.InputOffice365MsgTrace.Status = &tfTypes.TFStatus{}
+			r.InputOffice365MsgTrace.Status.Health = types.StringValue(string(resp.InputOffice365MsgTrace.Status.Health))
+			if len(resp.InputOffice365MsgTrace.Status.Metrics) > 0 {
+				r.InputOffice365MsgTrace.Status.Metrics = make(map[string]types.String, len(resp.InputOffice365MsgTrace.Status.Metrics))
+				for key34, value34 := range resp.InputOffice365MsgTrace.Status.Metrics {
+					result34, _ := json.Marshal(value34)
+					r.InputOffice365MsgTrace.Status.Metrics[key34] = types.StringValue(string(result34))
+				}
+			}
+			r.InputOffice365MsgTrace.Status.Timestamp = types.Float64Value(resp.InputOffice365MsgTrace.Status.Timestamp)
+			r.InputOffice365MsgTrace.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputOffice365MsgTrace.Status.UseStatusFromLB)
+		}
 		r.InputOffice365MsgTrace.Streamtags = make([]types.String, 0, len(resp.InputOffice365MsgTrace.Streamtags))
 		for _, v := range resp.InputOffice365MsgTrace.Streamtags {
 			r.InputOffice365MsgTrace.Streamtags = append(r.InputOffice365MsgTrace.Streamtags, types.StringValue(v))
@@ -24996,6 +27055,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			}
 		}
 		r.InputOffice365Service.SendToRoutes = types.BoolPointerValue(resp.InputOffice365Service.SendToRoutes)
+		if resp.InputOffice365Service.Status == nil {
+			r.InputOffice365Service.Status = nil
+		} else {
+			r.InputOffice365Service.Status = &tfTypes.TFStatus{}
+			r.InputOffice365Service.Status.Health = types.StringValue(string(resp.InputOffice365Service.Status.Health))
+			if len(resp.InputOffice365Service.Status.Metrics) > 0 {
+				r.InputOffice365Service.Status.Metrics = make(map[string]types.String, len(resp.InputOffice365Service.Status.Metrics))
+				for key35, value35 := range resp.InputOffice365Service.Status.Metrics {
+					result35, _ := json.Marshal(value35)
+					r.InputOffice365Service.Status.Metrics[key35] = types.StringValue(string(result35))
+				}
+			}
+			r.InputOffice365Service.Status.Timestamp = types.Float64Value(resp.InputOffice365Service.Status.Timestamp)
+			r.InputOffice365Service.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputOffice365Service.Status.UseStatusFromLB)
+		}
 		r.InputOffice365Service.Streamtags = make([]types.String, 0, len(resp.InputOffice365Service.Streamtags))
 		for _, v := range resp.InputOffice365Service.Streamtags {
 			r.InputOffice365Service.Streamtags = append(r.InputOffice365Service.Streamtags, types.StringValue(v))
@@ -25152,6 +27226,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputOpenTelemetry.SecretParamName = types.StringPointerValue(resp.InputOpenTelemetry.SecretParamName)
 		r.InputOpenTelemetry.SendToRoutes = types.BoolPointerValue(resp.InputOpenTelemetry.SendToRoutes)
 		r.InputOpenTelemetry.SocketTimeout = types.Float64PointerValue(resp.InputOpenTelemetry.SocketTimeout)
+		if resp.InputOpenTelemetry.Status == nil {
+			r.InputOpenTelemetry.Status = nil
+		} else {
+			r.InputOpenTelemetry.Status = &tfTypes.TFStatus{}
+			r.InputOpenTelemetry.Status.Health = types.StringValue(string(resp.InputOpenTelemetry.Status.Health))
+			if len(resp.InputOpenTelemetry.Status.Metrics) > 0 {
+				r.InputOpenTelemetry.Status.Metrics = make(map[string]types.String, len(resp.InputOpenTelemetry.Status.Metrics))
+				for key36, value36 := range resp.InputOpenTelemetry.Status.Metrics {
+					result36, _ := json.Marshal(value36)
+					r.InputOpenTelemetry.Status.Metrics[key36] = types.StringValue(string(result36))
+				}
+			}
+			r.InputOpenTelemetry.Status.Timestamp = types.Float64Value(resp.InputOpenTelemetry.Status.Timestamp)
+			r.InputOpenTelemetry.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputOpenTelemetry.Status.UseStatusFromLB)
+		}
 		r.InputOpenTelemetry.Streamtags = make([]types.String, 0, len(resp.InputOpenTelemetry.Streamtags))
 		for _, v := range resp.InputOpenTelemetry.Streamtags {
 			r.InputOpenTelemetry.Streamtags = append(r.InputOpenTelemetry.Streamtags, types.StringValue(v))
@@ -25338,6 +27427,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		} else {
 			r.InputPrometheus.SignatureVersion = types.StringNull()
 		}
+		if resp.InputPrometheus.Status == nil {
+			r.InputPrometheus.Status = nil
+		} else {
+			r.InputPrometheus.Status = &tfTypes.TFStatus{}
+			r.InputPrometheus.Status.Health = types.StringValue(string(resp.InputPrometheus.Status.Health))
+			if len(resp.InputPrometheus.Status.Metrics) > 0 {
+				r.InputPrometheus.Status.Metrics = make(map[string]types.String, len(resp.InputPrometheus.Status.Metrics))
+				for key37, value37 := range resp.InputPrometheus.Status.Metrics {
+					result37, _ := json.Marshal(value37)
+					r.InputPrometheus.Status.Metrics[key37] = types.StringValue(string(result37))
+				}
+			}
+			r.InputPrometheus.Status.Timestamp = types.Float64Value(resp.InputPrometheus.Status.Timestamp)
+			r.InputPrometheus.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputPrometheus.Status.UseStatusFromLB)
+		}
 		r.InputPrometheus.Streamtags = make([]types.String, 0, len(resp.InputPrometheus.Streamtags))
 		for _, v := range resp.InputPrometheus.Streamtags {
 			r.InputPrometheus.Streamtags = append(r.InputPrometheus.Streamtags, types.StringValue(v))
@@ -25469,6 +27573,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputPrometheusRw.SecretParamName = types.StringPointerValue(resp.InputPrometheusRw.SecretParamName)
 		r.InputPrometheusRw.SendToRoutes = types.BoolPointerValue(resp.InputPrometheusRw.SendToRoutes)
 		r.InputPrometheusRw.SocketTimeout = types.Float64PointerValue(resp.InputPrometheusRw.SocketTimeout)
+		if resp.InputPrometheusRw.Status == nil {
+			r.InputPrometheusRw.Status = nil
+		} else {
+			r.InputPrometheusRw.Status = &tfTypes.TFStatus{}
+			r.InputPrometheusRw.Status.Health = types.StringValue(string(resp.InputPrometheusRw.Status.Health))
+			if len(resp.InputPrometheusRw.Status.Metrics) > 0 {
+				r.InputPrometheusRw.Status.Metrics = make(map[string]types.String, len(resp.InputPrometheusRw.Status.Metrics))
+				for key38, value38 := range resp.InputPrometheusRw.Status.Metrics {
+					result38, _ := json.Marshal(value38)
+					r.InputPrometheusRw.Status.Metrics[key38] = types.StringValue(string(result38))
+				}
+			}
+			r.InputPrometheusRw.Status.Timestamp = types.Float64Value(resp.InputPrometheusRw.Status.Timestamp)
+			r.InputPrometheusRw.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputPrometheusRw.Status.UseStatusFromLB)
+		}
 		r.InputPrometheusRw.Streamtags = make([]types.String, 0, len(resp.InputPrometheusRw.Streamtags))
 		for _, v := range resp.InputPrometheusRw.Streamtags {
 			r.InputPrometheusRw.Streamtags = append(r.InputPrometheusRw.Streamtags, types.StringValue(v))
@@ -25583,6 +27702,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputRawUDP.PqEnabled = types.BoolPointerValue(resp.InputRawUDP.PqEnabled)
 		r.InputRawUDP.SendToRoutes = types.BoolPointerValue(resp.InputRawUDP.SendToRoutes)
 		r.InputRawUDP.SingleMsgUDPPackets = types.BoolPointerValue(resp.InputRawUDP.SingleMsgUDPPackets)
+		if resp.InputRawUDP.Status == nil {
+			r.InputRawUDP.Status = nil
+		} else {
+			r.InputRawUDP.Status = &tfTypes.TFStatus{}
+			r.InputRawUDP.Status.Health = types.StringValue(string(resp.InputRawUDP.Status.Health))
+			if len(resp.InputRawUDP.Status.Metrics) > 0 {
+				r.InputRawUDP.Status.Metrics = make(map[string]types.String, len(resp.InputRawUDP.Status.Metrics))
+				for key39, value39 := range resp.InputRawUDP.Status.Metrics {
+					result39, _ := json.Marshal(value39)
+					r.InputRawUDP.Status.Metrics[key39] = types.StringValue(string(result39))
+				}
+			}
+			r.InputRawUDP.Status.Timestamp = types.Float64Value(resp.InputRawUDP.Status.Timestamp)
+			r.InputRawUDP.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputRawUDP.Status.UseStatusFromLB)
+		}
 		r.InputRawUDP.Streamtags = make([]types.String, 0, len(resp.InputRawUDP.Streamtags))
 		for _, v := range resp.InputRawUDP.Streamtags {
 			r.InputRawUDP.Streamtags = append(r.InputRawUDP.Streamtags, types.StringValue(v))
@@ -25709,6 +27843,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputS3.SkipOnError = types.BoolPointerValue(resp.InputS3.SkipOnError)
 		r.InputS3.SocketTimeout = types.Float64PointerValue(resp.InputS3.SocketTimeout)
 		r.InputS3.StaleChannelFlushMs = types.Float64PointerValue(resp.InputS3.StaleChannelFlushMs)
+		if resp.InputS3.Status == nil {
+			r.InputS3.Status = nil
+		} else {
+			r.InputS3.Status = &tfTypes.TFStatus{}
+			r.InputS3.Status.Health = types.StringValue(string(resp.InputS3.Status.Health))
+			if len(resp.InputS3.Status.Metrics) > 0 {
+				r.InputS3.Status.Metrics = make(map[string]types.String, len(resp.InputS3.Status.Metrics))
+				for key40, value40 := range resp.InputS3.Status.Metrics {
+					result40, _ := json.Marshal(value40)
+					r.InputS3.Status.Metrics[key40] = types.StringValue(string(result40))
+				}
+			}
+			r.InputS3.Status.Timestamp = types.Float64Value(resp.InputS3.Status.Timestamp)
+			r.InputS3.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputS3.Status.UseStatusFromLB)
+		}
 		r.InputS3.Streamtags = make([]types.String, 0, len(resp.InputS3.Streamtags))
 		for _, v := range resp.InputS3.Streamtags {
 			r.InputS3.Streamtags = append(r.InputS3.Streamtags, types.StringValue(v))
@@ -25832,6 +27981,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputS3Inventory.SkipOnError = types.BoolPointerValue(resp.InputS3Inventory.SkipOnError)
 		r.InputS3Inventory.SocketTimeout = types.Float64PointerValue(resp.InputS3Inventory.SocketTimeout)
 		r.InputS3Inventory.StaleChannelFlushMs = types.Float64PointerValue(resp.InputS3Inventory.StaleChannelFlushMs)
+		if resp.InputS3Inventory.Status == nil {
+			r.InputS3Inventory.Status = nil
+		} else {
+			r.InputS3Inventory.Status = &tfTypes.TFStatus{}
+			r.InputS3Inventory.Status.Health = types.StringValue(string(resp.InputS3Inventory.Status.Health))
+			if len(resp.InputS3Inventory.Status.Metrics) > 0 {
+				r.InputS3Inventory.Status.Metrics = make(map[string]types.String, len(resp.InputS3Inventory.Status.Metrics))
+				for key41, value41 := range resp.InputS3Inventory.Status.Metrics {
+					result41, _ := json.Marshal(value41)
+					r.InputS3Inventory.Status.Metrics[key41] = types.StringValue(string(result41))
+				}
+			}
+			r.InputS3Inventory.Status.Timestamp = types.Float64Value(resp.InputS3Inventory.Status.Timestamp)
+			r.InputS3Inventory.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputS3Inventory.Status.UseStatusFromLB)
+		}
 		r.InputS3Inventory.Streamtags = make([]types.String, 0, len(resp.InputS3Inventory.Streamtags))
 		for _, v := range resp.InputS3Inventory.Streamtags {
 			r.InputS3Inventory.Streamtags = append(r.InputS3Inventory.Streamtags, types.StringValue(v))
@@ -25955,6 +28119,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputSecurityLake.SkipOnError = types.BoolPointerValue(resp.InputSecurityLake.SkipOnError)
 		r.InputSecurityLake.SocketTimeout = types.Float64PointerValue(resp.InputSecurityLake.SocketTimeout)
 		r.InputSecurityLake.StaleChannelFlushMs = types.Float64PointerValue(resp.InputSecurityLake.StaleChannelFlushMs)
+		if resp.InputSecurityLake.Status == nil {
+			r.InputSecurityLake.Status = nil
+		} else {
+			r.InputSecurityLake.Status = &tfTypes.TFStatus{}
+			r.InputSecurityLake.Status.Health = types.StringValue(string(resp.InputSecurityLake.Status.Health))
+			if len(resp.InputSecurityLake.Status.Metrics) > 0 {
+				r.InputSecurityLake.Status.Metrics = make(map[string]types.String, len(resp.InputSecurityLake.Status.Metrics))
+				for key42, value42 := range resp.InputSecurityLake.Status.Metrics {
+					result42, _ := json.Marshal(value42)
+					r.InputSecurityLake.Status.Metrics[key42] = types.StringValue(string(result42))
+				}
+			}
+			r.InputSecurityLake.Status.Timestamp = types.Float64Value(resp.InputSecurityLake.Status.Timestamp)
+			r.InputSecurityLake.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputSecurityLake.Status.UseStatusFromLB)
+		}
 		r.InputSecurityLake.Streamtags = make([]types.String, 0, len(resp.InputSecurityLake.Streamtags))
 		for _, v := range resp.InputSecurityLake.Streamtags {
 			r.InputSecurityLake.Streamtags = append(r.InputSecurityLake.Streamtags, types.StringValue(v))
@@ -26059,6 +28238,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 					r.InputSnmp.SnmpV3Auth.V3Users[v3UsersCount].PrivProtocol = v3Users.PrivProtocol
 				}
 			}
+		}
+		if resp.InputSnmp.Status == nil {
+			r.InputSnmp.Status = nil
+		} else {
+			r.InputSnmp.Status = &tfTypes.TFStatus{}
+			r.InputSnmp.Status.Health = types.StringValue(string(resp.InputSnmp.Status.Health))
+			if len(resp.InputSnmp.Status.Metrics) > 0 {
+				r.InputSnmp.Status.Metrics = make(map[string]types.String, len(resp.InputSnmp.Status.Metrics))
+				for key43, value43 := range resp.InputSnmp.Status.Metrics {
+					result43, _ := json.Marshal(value43)
+					r.InputSnmp.Status.Metrics[key43] = types.StringValue(string(result43))
+				}
+			}
+			r.InputSnmp.Status.Timestamp = types.Float64Value(resp.InputSnmp.Status.Timestamp)
+			r.InputSnmp.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputSnmp.Status.UseStatusFromLB)
 		}
 		r.InputSnmp.Streamtags = make([]types.String, 0, len(resp.InputSnmp.Streamtags))
 		for _, v := range resp.InputSnmp.Streamtags {
@@ -26171,6 +28365,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputSplunk.SocketIdleTimeout = types.Float64PointerValue(resp.InputSplunk.SocketIdleTimeout)
 		r.InputSplunk.SocketMaxLifespan = types.Float64PointerValue(resp.InputSplunk.SocketMaxLifespan)
 		r.InputSplunk.StaleChannelFlushMs = types.Float64PointerValue(resp.InputSplunk.StaleChannelFlushMs)
+		if resp.InputSplunk.Status == nil {
+			r.InputSplunk.Status = nil
+		} else {
+			r.InputSplunk.Status = &tfTypes.TFStatus{}
+			r.InputSplunk.Status.Health = types.StringValue(string(resp.InputSplunk.Status.Health))
+			if len(resp.InputSplunk.Status.Metrics) > 0 {
+				r.InputSplunk.Status.Metrics = make(map[string]types.String, len(resp.InputSplunk.Status.Metrics))
+				for key44, value44 := range resp.InputSplunk.Status.Metrics {
+					result44, _ := json.Marshal(value44)
+					r.InputSplunk.Status.Metrics[key44] = types.StringValue(string(result44))
+				}
+			}
+			r.InputSplunk.Status.Timestamp = types.Float64Value(resp.InputSplunk.Status.Timestamp)
+			r.InputSplunk.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputSplunk.Status.UseStatusFromLB)
+		}
 		r.InputSplunk.Streamtags = make([]types.String, 0, len(resp.InputSplunk.Streamtags))
 		for _, v := range resp.InputSplunk.Streamtags {
 			r.InputSplunk.Streamtags = append(r.InputSplunk.Streamtags, types.StringValue(v))
@@ -26248,9 +28457,9 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			}
 			authTokens1.Description = types.StringPointerValue(authTokensItem1.Description)
 			authTokens1.Enabled = types.BoolPointerValue(authTokensItem1.Enabled)
-			authTokens1.Metadata = []tfTypes.InputSplunkHecAuthTokensMetadata{}
+			authTokens1.Metadata = []tfTypes.InputSplunkHecInputMetadata{}
 			for metadataCount47, metadataItem47 := range authTokensItem1.Metadata {
-				var metadata47 tfTypes.InputSplunkHecAuthTokensMetadata
+				var metadata47 tfTypes.InputSplunkHecInputMetadata
 				metadata47.Name = types.StringValue(metadataItem47.Name)
 				metadata47.Value = types.StringValue(metadataItem47.Value)
 				if metadataCount47+1 > len(authTokens1.Metadata) {
@@ -26364,6 +28573,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputSplunkHec.SplunkHecAcks = types.BoolPointerValue(resp.InputSplunkHec.SplunkHecAcks)
 		r.InputSplunkHec.SplunkHecAPI = types.StringPointerValue(resp.InputSplunkHec.SplunkHecAPI)
 		r.InputSplunkHec.StaleChannelFlushMs = types.Float64PointerValue(resp.InputSplunkHec.StaleChannelFlushMs)
+		if resp.InputSplunkHec.Status == nil {
+			r.InputSplunkHec.Status = nil
+		} else {
+			r.InputSplunkHec.Status = &tfTypes.TFStatus{}
+			r.InputSplunkHec.Status.Health = types.StringValue(string(resp.InputSplunkHec.Status.Health))
+			if len(resp.InputSplunkHec.Status.Metrics) > 0 {
+				r.InputSplunkHec.Status.Metrics = make(map[string]types.String, len(resp.InputSplunkHec.Status.Metrics))
+				for key45, value45 := range resp.InputSplunkHec.Status.Metrics {
+					result45, _ := json.Marshal(value45)
+					r.InputSplunkHec.Status.Metrics[key45] = types.StringValue(string(result45))
+				}
+			}
+			r.InputSplunkHec.Status.Timestamp = types.Float64Value(resp.InputSplunkHec.Status.Timestamp)
+			r.InputSplunkHec.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputSplunkHec.Status.UseStatusFromLB)
+		}
 		r.InputSplunkHec.Streamtags = make([]types.String, 0, len(resp.InputSplunkHec.Streamtags))
 		for _, v := range resp.InputSplunkHec.Streamtags {
 			r.InputSplunkHec.Streamtags = append(r.InputSplunkHec.Streamtags, types.StringValue(v))
@@ -26586,6 +28810,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputSplunkSearch.SecretParamName = types.StringPointerValue(resp.InputSplunkSearch.SecretParamName)
 		r.InputSplunkSearch.SendToRoutes = types.BoolPointerValue(resp.InputSplunkSearch.SendToRoutes)
 		r.InputSplunkSearch.StaleChannelFlushMs = types.Float64PointerValue(resp.InputSplunkSearch.StaleChannelFlushMs)
+		if resp.InputSplunkSearch.Status == nil {
+			r.InputSplunkSearch.Status = nil
+		} else {
+			r.InputSplunkSearch.Status = &tfTypes.TFStatus{}
+			r.InputSplunkSearch.Status.Health = types.StringValue(string(resp.InputSplunkSearch.Status.Health))
+			if len(resp.InputSplunkSearch.Status.Metrics) > 0 {
+				r.InputSplunkSearch.Status.Metrics = make(map[string]types.String, len(resp.InputSplunkSearch.Status.Metrics))
+				for key46, value46 := range resp.InputSplunkSearch.Status.Metrics {
+					result46, _ := json.Marshal(value46)
+					r.InputSplunkSearch.Status.Metrics[key46] = types.StringValue(string(result46))
+				}
+			}
+			r.InputSplunkSearch.Status.Timestamp = types.Float64Value(resp.InputSplunkSearch.Status.Timestamp)
+			r.InputSplunkSearch.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputSplunkSearch.Status.UseStatusFromLB)
+		}
 		r.InputSplunkSearch.Streamtags = make([]types.String, 0, len(resp.InputSplunkSearch.Streamtags))
 		for _, v := range resp.InputSplunkSearch.Streamtags {
 			r.InputSplunkSearch.Streamtags = append(r.InputSplunkSearch.Streamtags, types.StringValue(v))
@@ -26694,6 +28933,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		} else {
 			r.InputSqs.SignatureVersion = types.StringNull()
 		}
+		if resp.InputSqs.Status == nil {
+			r.InputSqs.Status = nil
+		} else {
+			r.InputSqs.Status = &tfTypes.TFStatus{}
+			r.InputSqs.Status.Health = types.StringValue(string(resp.InputSqs.Status.Health))
+			if len(resp.InputSqs.Status.Metrics) > 0 {
+				r.InputSqs.Status.Metrics = make(map[string]types.String, len(resp.InputSqs.Status.Metrics))
+				for key47, value47 := range resp.InputSqs.Status.Metrics {
+					result47, _ := json.Marshal(value47)
+					r.InputSqs.Status.Metrics[key47] = types.StringValue(string(result47))
+				}
+			}
+			r.InputSqs.Status.Timestamp = types.Float64Value(resp.InputSqs.Status.Timestamp)
+			r.InputSqs.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputSqs.Status.UseStatusFromLB)
+		}
 		r.InputSqs.Streamtags = make([]types.String, 0, len(resp.InputSqs.Streamtags))
 		for _, v := range resp.InputSqs.Streamtags {
 			r.InputSqs.Streamtags = append(r.InputSqs.Streamtags, types.StringValue(v))
@@ -26783,6 +29037,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			r.InputSyslog.One.SocketEndingMaxWait = types.Float64PointerValue(resp.InputSyslog.InputSyslog1.SocketEndingMaxWait)
 			r.InputSyslog.One.SocketIdleTimeout = types.Float64PointerValue(resp.InputSyslog.InputSyslog1.SocketIdleTimeout)
 			r.InputSyslog.One.SocketMaxLifespan = types.Float64PointerValue(resp.InputSyslog.InputSyslog1.SocketMaxLifespan)
+			if resp.InputSyslog.InputSyslog1.Status == nil {
+				r.InputSyslog.One.Status = nil
+			} else {
+				r.InputSyslog.One.Status = &tfTypes.TFStatus{}
+				r.InputSyslog.One.Status.Health = types.StringValue(string(resp.InputSyslog.InputSyslog1.Status.Health))
+				if len(resp.InputSyslog.InputSyslog1.Status.Metrics) > 0 {
+					r.InputSyslog.One.Status.Metrics = make(map[string]types.String, len(resp.InputSyslog.InputSyslog1.Status.Metrics))
+					for key48, value48 := range resp.InputSyslog.InputSyslog1.Status.Metrics {
+						result48, _ := json.Marshal(value48)
+						r.InputSyslog.One.Status.Metrics[key48] = types.StringValue(string(result48))
+					}
+				}
+				r.InputSyslog.One.Status.Timestamp = types.Float64Value(resp.InputSyslog.InputSyslog1.Status.Timestamp)
+				r.InputSyslog.One.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputSyslog.InputSyslog1.Status.UseStatusFromLB)
+			}
 			r.InputSyslog.One.Streamtags = make([]types.String, 0, len(resp.InputSyslog.InputSyslog1.Streamtags))
 			for _, v := range resp.InputSyslog.InputSyslog1.Streamtags {
 				r.InputSyslog.One.Streamtags = append(r.InputSyslog.One.Streamtags, types.StringValue(v))
@@ -26831,12 +29100,12 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		if resp.InputSyslog.InputSyslog2 != nil {
 			r.InputSyslog.Two = &tfTypes.InputSyslog2{}
 			r.InputSyslog.Two.AllowNonStandardAppName = types.BoolPointerValue(resp.InputSyslog.InputSyslog2.AllowNonStandardAppName)
-			r.InputSyslog.Two.Connections = []tfTypes.InputSyslog2Connections{}
+			r.InputSyslog.Two.Connections = []tfTypes.InputInputSyslogConnections{}
 			if len(r.InputSyslog.Two.Connections) > len(resp.InputSyslog.InputSyslog2.Connections) {
 				r.InputSyslog.Two.Connections = r.InputSyslog.Two.Connections[:len(resp.InputSyslog.InputSyslog2.Connections)]
 			}
 			for connectionsCount49, connectionsItem49 := range resp.InputSyslog.InputSyslog2.Connections {
-				var connections49 tfTypes.InputSyslog2Connections
+				var connections49 tfTypes.InputInputSyslogConnections
 				connections49.Output = types.StringValue(connectionsItem49.Output)
 				connections49.Pipeline = types.StringPointerValue(connectionsItem49.Pipeline)
 				if connectionsCount49+1 > len(r.InputSyslog.Two.Connections) {
@@ -26861,12 +29130,12 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			}
 			r.InputSyslog.Two.MaxActiveCxn = types.Float64PointerValue(resp.InputSyslog.InputSyslog2.MaxActiveCxn)
 			r.InputSyslog.Two.MaxBufferSize = types.Float64PointerValue(resp.InputSyslog.InputSyslog2.MaxBufferSize)
-			r.InputSyslog.Two.Metadata = []tfTypes.InputSyslog2Metadata{}
+			r.InputSyslog.Two.Metadata = []tfTypes.InputInputSyslogMetadata{}
 			if len(r.InputSyslog.Two.Metadata) > len(resp.InputSyslog.InputSyslog2.Metadata) {
 				r.InputSyslog.Two.Metadata = r.InputSyslog.Two.Metadata[:len(resp.InputSyslog.InputSyslog2.Metadata)]
 			}
 			for metadataCount52, metadataItem52 := range resp.InputSyslog.InputSyslog2.Metadata {
-				var metadata52 tfTypes.InputSyslog2Metadata
+				var metadata52 tfTypes.InputInputSyslogMetadata
 				metadata52.Name = types.StringValue(metadataItem52.Name)
 				metadata52.Value = types.StringValue(metadataItem52.Value)
 				if metadataCount52+1 > len(r.InputSyslog.Two.Metadata) {
@@ -26881,7 +29150,7 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			if resp.InputSyslog.InputSyslog2.Pq == nil {
 				r.InputSyslog.Two.Pq = nil
 			} else {
-				r.InputSyslog.Two.Pq = &tfTypes.InputSyslog2Pq{}
+				r.InputSyslog.Two.Pq = &tfTypes.InputInputSyslogPq{}
 				r.InputSyslog.Two.Pq.CommitFrequency = types.Float64PointerValue(resp.InputSyslog.InputSyslog2.Pq.CommitFrequency)
 				if resp.InputSyslog.InputSyslog2.Pq.Compress != nil {
 					r.InputSyslog.Two.Pq.Compress = types.StringValue(string(*resp.InputSyslog.InputSyslog2.Pq.Compress))
@@ -26904,6 +29173,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			r.InputSyslog.Two.SocketEndingMaxWait = types.Float64PointerValue(resp.InputSyslog.InputSyslog2.SocketEndingMaxWait)
 			r.InputSyslog.Two.SocketIdleTimeout = types.Float64PointerValue(resp.InputSyslog.InputSyslog2.SocketIdleTimeout)
 			r.InputSyslog.Two.SocketMaxLifespan = types.Float64PointerValue(resp.InputSyslog.InputSyslog2.SocketMaxLifespan)
+			if resp.InputSyslog.InputSyslog2.Status == nil {
+				r.InputSyslog.Two.Status = nil
+			} else {
+				r.InputSyslog.Two.Status = &tfTypes.TFStatus{}
+				r.InputSyslog.Two.Status.Health = types.StringValue(string(resp.InputSyslog.InputSyslog2.Status.Health))
+				if len(resp.InputSyslog.InputSyslog2.Status.Metrics) > 0 {
+					r.InputSyslog.Two.Status.Metrics = make(map[string]types.String, len(resp.InputSyslog.InputSyslog2.Status.Metrics))
+					for key49, value49 := range resp.InputSyslog.InputSyslog2.Status.Metrics {
+						result49, _ := json.Marshal(value49)
+						r.InputSyslog.Two.Status.Metrics[key49] = types.StringValue(string(result49))
+					}
+				}
+				r.InputSyslog.Two.Status.Timestamp = types.Float64Value(resp.InputSyslog.InputSyslog2.Status.Timestamp)
+				r.InputSyslog.Two.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputSyslog.InputSyslog2.Status.UseStatusFromLB)
+			}
 			r.InputSyslog.Two.Streamtags = make([]types.String, 0, len(resp.InputSyslog.InputSyslog2.Streamtags))
 			for _, v := range resp.InputSyslog.InputSyslog2.Streamtags {
 				r.InputSyslog.Two.Streamtags = append(r.InputSyslog.Two.Streamtags, types.StringValue(v))
@@ -26914,7 +29198,7 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			if resp.InputSyslog.InputSyslog2.TLS == nil {
 				r.InputSyslog.Two.TLS = nil
 			} else {
-				r.InputSyslog.Two.TLS = &tfTypes.InputSyslog2TLSSettingsServerSide{}
+				r.InputSyslog.Two.TLS = &tfTypes.InputInputSyslogTLSSettingsServerSide{}
 				r.InputSyslog.Two.TLS.CaPath = types.StringPointerValue(resp.InputSyslog.InputSyslog2.TLS.CaPath)
 				r.InputSyslog.Two.TLS.CertificateName = types.StringPointerValue(resp.InputSyslog.InputSyslog2.TLS.CertificateName)
 				r.InputSyslog.Two.TLS.CertPath = types.StringPointerValue(resp.InputSyslog.InputSyslog2.TLS.CertPath)
@@ -27168,6 +29452,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			}
 		}
 		r.InputSystemMetrics.SendToRoutes = types.BoolPointerValue(resp.InputSystemMetrics.SendToRoutes)
+		if resp.InputSystemMetrics.Status == nil {
+			r.InputSystemMetrics.Status = nil
+		} else {
+			r.InputSystemMetrics.Status = &tfTypes.TFStatus{}
+			r.InputSystemMetrics.Status.Health = types.StringValue(string(resp.InputSystemMetrics.Status.Health))
+			if len(resp.InputSystemMetrics.Status.Metrics) > 0 {
+				r.InputSystemMetrics.Status.Metrics = make(map[string]types.String, len(resp.InputSystemMetrics.Status.Metrics))
+				for key50, value50 := range resp.InputSystemMetrics.Status.Metrics {
+					result50, _ := json.Marshal(value50)
+					r.InputSystemMetrics.Status.Metrics[key50] = types.StringValue(string(result50))
+				}
+			}
+			r.InputSystemMetrics.Status.Timestamp = types.Float64Value(resp.InputSystemMetrics.Status.Timestamp)
+			r.InputSystemMetrics.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputSystemMetrics.Status.UseStatusFromLB)
+		}
 		r.InputSystemMetrics.Streamtags = make([]types.String, 0, len(resp.InputSystemMetrics.Streamtags))
 		for _, v := range resp.InputSystemMetrics.Streamtags {
 			r.InputSystemMetrics.Streamtags = append(r.InputSystemMetrics.Streamtags, types.StringValue(v))
@@ -27320,6 +29619,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		}
 		r.InputSystemState.PqEnabled = types.BoolPointerValue(resp.InputSystemState.PqEnabled)
 		r.InputSystemState.SendToRoutes = types.BoolPointerValue(resp.InputSystemState.SendToRoutes)
+		if resp.InputSystemState.Status == nil {
+			r.InputSystemState.Status = nil
+		} else {
+			r.InputSystemState.Status = &tfTypes.TFStatus{}
+			r.InputSystemState.Status.Health = types.StringValue(string(resp.InputSystemState.Status.Health))
+			if len(resp.InputSystemState.Status.Metrics) > 0 {
+				r.InputSystemState.Status.Metrics = make(map[string]types.String, len(resp.InputSystemState.Status.Metrics))
+				for key51, value51 := range resp.InputSystemState.Status.Metrics {
+					result51, _ := json.Marshal(value51)
+					r.InputSystemState.Status.Metrics[key51] = types.StringValue(string(result51))
+				}
+			}
+			r.InputSystemState.Status.Timestamp = types.Float64Value(resp.InputSystemState.Status.Timestamp)
+			r.InputSystemState.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputSystemState.Status.UseStatusFromLB)
+		}
 		r.InputSystemState.Streamtags = make([]types.String, 0, len(resp.InputSystemState.Streamtags))
 		for _, v := range resp.InputSystemState.Streamtags {
 			r.InputSystemState.Streamtags = append(r.InputSystemState.Streamtags, types.StringValue(v))
@@ -27415,6 +29729,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputTCP.SocketIdleTimeout = types.Float64PointerValue(resp.InputTCP.SocketIdleTimeout)
 		r.InputTCP.SocketMaxLifespan = types.Float64PointerValue(resp.InputTCP.SocketMaxLifespan)
 		r.InputTCP.StaleChannelFlushMs = types.Float64PointerValue(resp.InputTCP.StaleChannelFlushMs)
+		if resp.InputTCP.Status == nil {
+			r.InputTCP.Status = nil
+		} else {
+			r.InputTCP.Status = &tfTypes.TFStatus{}
+			r.InputTCP.Status.Health = types.StringValue(string(resp.InputTCP.Status.Health))
+			if len(resp.InputTCP.Status.Metrics) > 0 {
+				r.InputTCP.Status.Metrics = make(map[string]types.String, len(resp.InputTCP.Status.Metrics))
+				for key52, value52 := range resp.InputTCP.Status.Metrics {
+					result52, _ := json.Marshal(value52)
+					r.InputTCP.Status.Metrics[key52] = types.StringValue(string(result52))
+				}
+			}
+			r.InputTCP.Status.Timestamp = types.Float64Value(resp.InputTCP.Status.Timestamp)
+			r.InputTCP.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputTCP.Status.UseStatusFromLB)
+		}
 		r.InputTCP.Streamtags = make([]types.String, 0, len(resp.InputTCP.Streamtags))
 		for _, v := range resp.InputTCP.Streamtags {
 			r.InputTCP.Streamtags = append(r.InputTCP.Streamtags, types.StringValue(v))
@@ -27533,6 +29862,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputTcpjson.SocketEndingMaxWait = types.Float64PointerValue(resp.InputTcpjson.SocketEndingMaxWait)
 		r.InputTcpjson.SocketIdleTimeout = types.Float64PointerValue(resp.InputTcpjson.SocketIdleTimeout)
 		r.InputTcpjson.SocketMaxLifespan = types.Float64PointerValue(resp.InputTcpjson.SocketMaxLifespan)
+		if resp.InputTcpjson.Status == nil {
+			r.InputTcpjson.Status = nil
+		} else {
+			r.InputTcpjson.Status = &tfTypes.TFStatus{}
+			r.InputTcpjson.Status.Health = types.StringValue(string(resp.InputTcpjson.Status.Health))
+			if len(resp.InputTcpjson.Status.Metrics) > 0 {
+				r.InputTcpjson.Status.Metrics = make(map[string]types.String, len(resp.InputTcpjson.Status.Metrics))
+				for key53, value53 := range resp.InputTcpjson.Status.Metrics {
+					result53, _ := json.Marshal(value53)
+					r.InputTcpjson.Status.Metrics[key53] = types.StringValue(string(result53))
+				}
+			}
+			r.InputTcpjson.Status.Timestamp = types.Float64Value(resp.InputTcpjson.Status.Timestamp)
+			r.InputTcpjson.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputTcpjson.Status.UseStatusFromLB)
+		}
 		r.InputTcpjson.Streamtags = make([]types.String, 0, len(resp.InputTcpjson.Streamtags))
 		for _, v := range resp.InputTcpjson.Streamtags {
 			r.InputTcpjson.Streamtags = append(r.InputTcpjson.Streamtags, types.StringValue(v))
@@ -27657,6 +30001,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputWef.Principal = types.StringPointerValue(resp.InputWef.Principal)
 		r.InputWef.SendToRoutes = types.BoolPointerValue(resp.InputWef.SendToRoutes)
 		r.InputWef.SocketTimeout = types.Float64PointerValue(resp.InputWef.SocketTimeout)
+		if resp.InputWef.Status == nil {
+			r.InputWef.Status = nil
+		} else {
+			r.InputWef.Status = &tfTypes.TFStatus{}
+			r.InputWef.Status.Health = types.StringValue(string(resp.InputWef.Status.Health))
+			if len(resp.InputWef.Status.Metrics) > 0 {
+				r.InputWef.Status.Metrics = make(map[string]types.String, len(resp.InputWef.Status.Metrics))
+				for key54, value54 := range resp.InputWef.Status.Metrics {
+					result54, _ := json.Marshal(value54)
+					r.InputWef.Status.Metrics[key54] = types.StringValue(string(result54))
+				}
+			}
+			r.InputWef.Status.Timestamp = types.Float64Value(resp.InputWef.Status.Timestamp)
+			r.InputWef.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputWef.Status.UseStatusFromLB)
+		}
 		r.InputWef.Streamtags = make([]types.String, 0, len(resp.InputWef.Streamtags))
 		for _, v := range resp.InputWef.Streamtags {
 			r.InputWef.Streamtags = append(r.InputWef.Streamtags, types.StringValue(v))
@@ -27676,9 +30035,9 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			}
 			subscriptions.HeartbeatInterval = types.Float64PointerValue(subscriptionsItem.HeartbeatInterval)
 			subscriptions.Locale = types.StringPointerValue(subscriptionsItem.Locale)
-			subscriptions.Metadata = []tfTypes.InputWefSubscriptionsMetadata{}
+			subscriptions.Metadata = []tfTypes.InputWefInputMetadata{}
 			for metadataCount58, metadataItem58 := range subscriptionsItem.Metadata {
-				var metadata58 tfTypes.InputWefSubscriptionsMetadata
+				var metadata58 tfTypes.InputWefInputMetadata
 				metadata58.Name = types.StringValue(metadataItem58.Name)
 				metadata58.Value = types.StringValue(metadataItem58.Value)
 				if metadataCount58+1 > len(subscriptions.Metadata) {
@@ -27941,6 +30300,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			}
 		}
 		r.InputWindowsMetrics.SendToRoutes = types.BoolPointerValue(resp.InputWindowsMetrics.SendToRoutes)
+		if resp.InputWindowsMetrics.Status == nil {
+			r.InputWindowsMetrics.Status = nil
+		} else {
+			r.InputWindowsMetrics.Status = &tfTypes.TFStatus{}
+			r.InputWindowsMetrics.Status.Health = types.StringValue(string(resp.InputWindowsMetrics.Status.Health))
+			if len(resp.InputWindowsMetrics.Status.Metrics) > 0 {
+				r.InputWindowsMetrics.Status.Metrics = make(map[string]types.String, len(resp.InputWindowsMetrics.Status.Metrics))
+				for key55, value55 := range resp.InputWindowsMetrics.Status.Metrics {
+					result55, _ := json.Marshal(value55)
+					r.InputWindowsMetrics.Status.Metrics[key55] = types.StringValue(string(result55))
+				}
+			}
+			r.InputWindowsMetrics.Status.Timestamp = types.Float64Value(resp.InputWindowsMetrics.Status.Timestamp)
+			r.InputWindowsMetrics.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputWindowsMetrics.Status.UseStatusFromLB)
+		}
 		r.InputWindowsMetrics.Streamtags = make([]types.String, 0, len(resp.InputWindowsMetrics.Streamtags))
 		for _, v := range resp.InputWindowsMetrics.Streamtags {
 			r.InputWindowsMetrics.Streamtags = append(r.InputWindowsMetrics.Streamtags, types.StringValue(v))
@@ -28024,6 +30398,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			r.InputWinEventLogs.ReadMode = types.StringNull()
 		}
 		r.InputWinEventLogs.SendToRoutes = types.BoolPointerValue(resp.InputWinEventLogs.SendToRoutes)
+		if resp.InputWinEventLogs.Status == nil {
+			r.InputWinEventLogs.Status = nil
+		} else {
+			r.InputWinEventLogs.Status = &tfTypes.TFStatus{}
+			r.InputWinEventLogs.Status.Health = types.StringValue(string(resp.InputWinEventLogs.Status.Health))
+			if len(resp.InputWinEventLogs.Status.Metrics) > 0 {
+				r.InputWinEventLogs.Status.Metrics = make(map[string]types.String, len(resp.InputWinEventLogs.Status.Metrics))
+				for key56, value56 := range resp.InputWinEventLogs.Status.Metrics {
+					result56, _ := json.Marshal(value56)
+					r.InputWinEventLogs.Status.Metrics[key56] = types.StringValue(string(result56))
+				}
+			}
+			r.InputWinEventLogs.Status.Timestamp = types.Float64Value(resp.InputWinEventLogs.Status.Timestamp)
+			r.InputWinEventLogs.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputWinEventLogs.Status.UseStatusFromLB)
+		}
 		r.InputWinEventLogs.Streamtags = make([]types.String, 0, len(resp.InputWinEventLogs.Streamtags))
 		for _, v := range resp.InputWinEventLogs.Streamtags {
 			r.InputWinEventLogs.Streamtags = append(r.InputWinEventLogs.Streamtags, types.StringValue(v))
@@ -28139,6 +30528,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			}
 		}
 		r.InputWiz.SendToRoutes = types.BoolPointerValue(resp.InputWiz.SendToRoutes)
+		if resp.InputWiz.Status == nil {
+			r.InputWiz.Status = nil
+		} else {
+			r.InputWiz.Status = &tfTypes.TFStatus{}
+			r.InputWiz.Status.Health = types.StringValue(string(resp.InputWiz.Status.Health))
+			if len(resp.InputWiz.Status.Metrics) > 0 {
+				r.InputWiz.Status.Metrics = make(map[string]types.String, len(resp.InputWiz.Status.Metrics))
+				for key57, value57 := range resp.InputWiz.Status.Metrics {
+					result57, _ := json.Marshal(value57)
+					r.InputWiz.Status.Metrics[key57] = types.StringValue(string(result57))
+				}
+			}
+			r.InputWiz.Status.Timestamp = types.Float64Value(resp.InputWiz.Status.Timestamp)
+			r.InputWiz.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputWiz.Status.UseStatusFromLB)
+		}
 		r.InputWiz.Streamtags = make([]types.String, 0, len(resp.InputWiz.Streamtags))
 		for _, v := range resp.InputWiz.Streamtags {
 			r.InputWiz.Streamtags = append(r.InputWiz.Streamtags, types.StringValue(v))
@@ -28183,9 +30587,9 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 			}
 			authTokens2.Description = types.StringPointerValue(authTokensItem2.Description)
 			authTokens2.Enabled = types.BoolPointerValue(authTokensItem2.Enabled)
-			authTokens2.Metadata = []tfTypes.InputZscalerHecAuthTokensMetadata{}
+			authTokens2.Metadata = []tfTypes.InputZscalerHecInputMetadata{}
 			for metadataCount62, metadataItem62 := range authTokensItem2.Metadata {
-				var metadata62 tfTypes.InputZscalerHecAuthTokensMetadata
+				var metadata62 tfTypes.InputZscalerHecInputMetadata
 				metadata62.Name = types.StringValue(metadataItem62.Name)
 				metadata62.Value = types.StringValue(metadataItem62.Value)
 				if metadataCount62+1 > len(authTokens2.Metadata) {
@@ -28292,6 +30696,21 @@ func (r *SourceResourceModel) RefreshFromSharedInput(ctx context.Context, resp *
 		r.InputZscalerHec.RequestTimeout = types.Float64PointerValue(resp.InputZscalerHec.RequestTimeout)
 		r.InputZscalerHec.SendToRoutes = types.BoolPointerValue(resp.InputZscalerHec.SendToRoutes)
 		r.InputZscalerHec.SocketTimeout = types.Float64PointerValue(resp.InputZscalerHec.SocketTimeout)
+		if resp.InputZscalerHec.Status == nil {
+			r.InputZscalerHec.Status = nil
+		} else {
+			r.InputZscalerHec.Status = &tfTypes.TFStatus{}
+			r.InputZscalerHec.Status.Health = types.StringValue(string(resp.InputZscalerHec.Status.Health))
+			if len(resp.InputZscalerHec.Status.Metrics) > 0 {
+				r.InputZscalerHec.Status.Metrics = make(map[string]types.String, len(resp.InputZscalerHec.Status.Metrics))
+				for key58, value58 := range resp.InputZscalerHec.Status.Metrics {
+					result58, _ := json.Marshal(value58)
+					r.InputZscalerHec.Status.Metrics[key58] = types.StringValue(string(result58))
+				}
+			}
+			r.InputZscalerHec.Status.Timestamp = types.Float64Value(resp.InputZscalerHec.Status.Timestamp)
+			r.InputZscalerHec.Status.UseStatusFromLB = types.BoolPointerValue(resp.InputZscalerHec.Status.UseStatusFromLB)
+		}
 		r.InputZscalerHec.Streamtags = make([]types.String, 0, len(resp.InputZscalerHec.Streamtags))
 		for _, v := range resp.InputZscalerHec.Streamtags {
 			r.InputZscalerHec.Streamtags = append(r.InputZscalerHec.Streamtags, types.StringValue(v))

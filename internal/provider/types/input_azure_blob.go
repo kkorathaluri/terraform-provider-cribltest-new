@@ -31,6 +31,7 @@ type InputAzureBlob struct {
 	ServicePeriodSecs           types.Float64               `tfsdk:"service_period_secs"`
 	SkipOnError                 types.Bool                  `tfsdk:"skip_on_error"`
 	StaleChannelFlushMs         types.Float64               `tfsdk:"stale_channel_flush_ms"`
+	Status                      *TFStatus                   `tfsdk:"status"`
 	StorageAccountName          types.String                `tfsdk:"storage_account_name"`
 	Streamtags                  []types.String              `tfsdk:"streamtags"`
 	TenantID                    types.String                `tfsdk:"tenant_id"`

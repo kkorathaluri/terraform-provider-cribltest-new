@@ -7,24 +7,24 @@ import (
 	"fmt"
 )
 
-type CHOutConfigAuthType string
+type AuthType string
 
 const (
-	CHOutConfigAuthTypeToken              CHOutConfigAuthType = "token"
-	CHOutConfigAuthTypeNone               CHOutConfigAuthType = "none"
-	CHOutConfigAuthTypeTextSecret         CHOutConfigAuthType = "textSecret"
-	CHOutConfigAuthTypeBasic              CHOutConfigAuthType = "basic"
-	CHOutConfigAuthTypeCredentialsSecret  CHOutConfigAuthType = "credentialsSecret"
-	CHOutConfigAuthTypeSecret             CHOutConfigAuthType = "secret"
-	CHOutConfigAuthTypeManual             CHOutConfigAuthType = "manual"
-	CHOutConfigAuthTypeManualAPIKey       CHOutConfigAuthType = "manualAPIKey"
-	CHOutConfigAuthTypeSslUserCertificate CHOutConfigAuthType = "sslUserCertificate"
+	AuthTypeToken              AuthType = "token"
+	AuthTypeNone               AuthType = "none"
+	AuthTypeTextSecret         AuthType = "textSecret"
+	AuthTypeBasic              AuthType = "basic"
+	AuthTypeCredentialsSecret  AuthType = "credentialsSecret"
+	AuthTypeSecret             AuthType = "secret"
+	AuthTypeManual             AuthType = "manual"
+	AuthTypeManualAPIKey       AuthType = "manualAPIKey"
+	AuthTypeSslUserCertificate AuthType = "sslUserCertificate"
 )
 
-func (e CHOutConfigAuthType) ToPointer() *CHOutConfigAuthType {
+func (e AuthType) ToPointer() *AuthType {
 	return &e
 }
-func (e *CHOutConfigAuthType) UnmarshalJSON(data []byte) error {
+func (e *AuthType) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -47,48 +47,48 @@ func (e *CHOutConfigAuthType) UnmarshalJSON(data []byte) error {
 	case "manualAPIKey":
 		fallthrough
 	case "sslUserCertificate":
-		*e = CHOutConfigAuthType(v)
+		*e = AuthType(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for CHOutConfigAuthType: %v", v)
+		return fmt.Errorf("invalid value for AuthType: %v", v)
 	}
 }
 
-type CHOutConfigColumnMappings struct {
+type ColumnMappings struct {
 	ColumnName            string `json:"columnName"`
 	ColumnType            string `json:"columnType"`
 	ColumnValueExpression string `json:"columnValueExpression"`
 }
 
-func (o *CHOutConfigColumnMappings) GetColumnName() string {
+func (o *ColumnMappings) GetColumnName() string {
 	if o == nil {
 		return ""
 	}
 	return o.ColumnName
 }
 
-func (o *CHOutConfigColumnMappings) GetColumnType() string {
+func (o *ColumnMappings) GetColumnType() string {
 	if o == nil {
 		return ""
 	}
 	return o.ColumnType
 }
 
-func (o *CHOutConfigColumnMappings) GetColumnValueExpression() string {
+func (o *ColumnMappings) GetColumnValueExpression() string {
 	if o == nil {
 		return ""
 	}
 	return o.ColumnValueExpression
 }
 
-type CHOutConfigUrls struct {
+type Urls struct {
 }
 
 type CHOutConfig struct {
 	AsyncInserts                  bool                         `json:"asyncInserts"`
 	Auth                          *HTTPOutAuthConfig           `json:"auth,omitempty"`
-	AuthType                      *CHOutConfigAuthType         `json:"authType,omitempty"`
-	ColumnMappings                []CHOutConfigColumnMappings  `json:"columnMappings,omitempty"`
+	AuthType                      *AuthType                    `json:"authType,omitempty"`
+	ColumnMappings                []ColumnMappings             `json:"columnMappings,omitempty"`
 	Compress                      *bool                        `json:"compress,omitempty"`
 	Concurrency                   *float64                     `json:"concurrency,omitempty"`
 	Database                      string                       `json:"database"`
@@ -121,7 +121,7 @@ type CHOutConfig struct {
 	Token                         *string                      `json:"token,omitempty"`
 	TotalMemoryLimitKB            *float64                     `json:"totalMemoryLimitKB,omitempty"`
 	URL                           string                       `json:"url"`
-	Urls                          []CHOutConfigUrls            `json:"urls,omitempty"`
+	Urls                          []Urls                       `json:"urls,omitempty"`
 	UseRoundRobinDNS              *bool                        `json:"useRoundRobinDns,omitempty"`
 	Username                      *string                      `json:"username,omitempty"`
 	WaitForAsyncInserts           *bool                        `json:"waitForAsyncInserts,omitempty"`
@@ -141,14 +141,14 @@ func (o *CHOutConfig) GetAuth() *HTTPOutAuthConfig {
 	return o.Auth
 }
 
-func (o *CHOutConfig) GetAuthType() *CHOutConfigAuthType {
+func (o *CHOutConfig) GetAuthType() *AuthType {
 	if o == nil {
 		return nil
 	}
 	return o.AuthType
 }
 
-func (o *CHOutConfig) GetColumnMappings() []CHOutConfigColumnMappings {
+func (o *CHOutConfig) GetColumnMappings() []ColumnMappings {
 	if o == nil {
 		return nil
 	}
@@ -379,7 +379,7 @@ func (o *CHOutConfig) GetURL() string {
 	return o.URL
 }
 
-func (o *CHOutConfig) GetUrls() []CHOutConfigUrls {
+func (o *CHOutConfig) GetUrls() []Urls {
 	if o == nil {
 		return nil
 	}

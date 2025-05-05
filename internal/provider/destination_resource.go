@@ -494,6 +494,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Default:     stringdefault.StaticString(`$CRIBL_HOME/state/outputs/staging`),
 						Description: `Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage. Default: "$CRIBL_HOME/state/outputs/staging"`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"storage_account_name": schema.StringAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -1165,6 +1206,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Default:     stringdefault.StaticString(`$CRIBL_HOME/state/outputs/staging`),
 						Description: `Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage. Default: "$CRIBL_HOME/state/outputs/staging"`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -1592,6 +1674,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						},
 						Description: `Authentication parameters to use when connecting to brokers. Using TLS is highly recommended.`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -1991,6 +2114,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						ElementType: types.StringType,
 						Description: `List of headers that are safe to log in plain text`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -2592,6 +2756,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Optional:    true,
 						Description: `Username for certificate authentication`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -3076,6 +3281,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Optional:    true,
 						Default:     booldefault.StaticBool(true),
 						Description: `Reuse connections between requests, which can improve performance. Default: true`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -3591,6 +3837,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 							},
 						},
 						Description: `Authentication parameters to use when connecting to brokers. Using TLS is highly recommended.`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -4669,6 +4956,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Default:     stringdefault.StaticString(`$CRIBL_HOME/state/outputs/staging`),
 						Description: `Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage. Default: "$CRIBL_HOME/state/outputs/staging"`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"storage_class": schema.StringAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -4884,11 +5212,11 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 									Computed:    true,
 									Optional:    true,
 									Default:     stringdefault.StaticString(`inherit`),
-									Description: `Whether to inherit TLS configs from group setting or disable TLS. Default: "inherit"; must be one of ["inherit", "off"]`,
+									Description: `Whether to inherit TLS configs from group setting or disable TLS. Default: "inherit"; must be one of ["inherit", "false"]`,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"inherit",
-											"off",
+											"false",
 										),
 									},
 								},
@@ -5031,6 +5359,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Optional:    true,
 						Default:     stringdefault.StaticString(`$CRIBL_HOME/state/queues`),
 						Description: `The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Default: "$CRIBL_HOME/state/queues"`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -5492,6 +5861,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						ElementType: types.StringType,
 						Description: `List of headers that are safe to log in plain text`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -6010,6 +6420,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Optional:    true,
 						Description: `Name of the source to send with logs. When you send logs as JSON objects, the event's 'source' field (if set) will override this value.`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -6489,6 +6940,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 							),
 						},
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -6675,6 +7167,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Optional:    true,
 						Description: `Pipeline to process data before sending out to this output`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -6786,6 +7319,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Computed:    true,
 						Optional:    true,
 						Description: `Pipeline to process data before sending out to this output`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -6937,6 +7511,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Computed:    true,
 						Optional:    true,
 						Description: `Pipeline to process data before sending out to this output`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -7481,6 +8096,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Default:     stringdefault.StaticString(`$CRIBL_HOME/state/outputs/staging`),
 						Description: `Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage. Default: "$CRIBL_HOME/state/outputs/staging"`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"storage_class": schema.StringAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -7915,6 +8571,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						ElementType: types.StringType,
 						Description: `List of headers that are safe to log in plain text`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -8458,6 +9155,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						ElementType: types.StringType,
 						Description: `List of headers that are safe to log in plain text`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -8983,6 +9721,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						ElementType: types.StringType,
 						Description: `List of headers that are safe to log in plain text`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -9490,6 +10269,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						ElementType: types.StringType,
 						Description: `List of headers that are safe to log in plain text`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -9859,6 +10679,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Optional:    true,
 						Default:     stringdefault.StaticString(`$CRIBL_HOME/state/outputs/staging`),
 						Description: `Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage. Default: "$CRIBL_HOME/state/outputs/staging"`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"storage_class": schema.StringAttribute{
 						Computed:    true,
@@ -10264,6 +11125,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Computed:    true,
 						Optional:    true,
 						Description: `Filesystem location in which to buffer files before compressing and moving to final destination. Use performant, stable storage.`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -10744,6 +11646,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Computed:    true,
 						Optional:    true,
 						Description: `Select or create a stored text secret`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -11284,6 +12227,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Optional:    true,
 						Description: `A JavaScript expression that evaluates to the ID of the cloud trace span associated with the current operation in which the log is being written as a string. See the [documentation](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry) for details.`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"status_expression": schema.StringAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -11811,6 +12795,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Default:     stringdefault.StaticString(`$CRIBL_HOME/state/outputs/staging`),
 						Description: `Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage. Default: "$CRIBL_HOME/state/outputs/staging"`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"storage_class": schema.StringAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -12121,6 +13146,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Computed:    true,
 						Optional:    true,
 						Description: `Contents of service account credentials (JSON keys) file downloaded from Google Cloud. To upload a file, click the upload button at this field's upper right.`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -12632,6 +13698,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 								ElementType: types.StringType,
 								Description: `List of headers that are safe to log in plain text`,
 							},
+							"status": schema.SingleNestedAttribute{
+								Computed: true,
+								Optional: true,
+								Attributes: map[string]schema.Attribute{
+									"health": schema.StringAttribute{
+										Computed:    true,
+										Optional:    true,
+										Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+										Validators: []validator.String{
+											speakeasy_stringvalidators.NotNull(),
+											stringvalidator.OneOf(
+												"Green",
+												"Yellow",
+												"Red",
+											),
+										},
+									},
+									"metrics": schema.MapAttribute{
+										Computed:    true,
+										Optional:    true,
+										ElementType: types.StringType,
+										Description: `Not Null`,
+										Validators: []validator.Map{
+											speakeasy_mapvalidators.NotNull(),
+											mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+										},
+									},
+									"timestamp": schema.Float64Attribute{
+										Computed:    true,
+										Optional:    true,
+										Description: `Not Null`,
+										Validators: []validator.Float64{
+											speakeasy_float64validators.NotNull(),
+										},
+									},
+									"use_status_from_lb": schema.BoolAttribute{
+										Computed: true,
+										Optional: true,
+									},
+								},
+							},
 							"streamtags": schema.ListAttribute{
 								Computed:    true,
 								Optional:    true,
@@ -13123,6 +14230,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 								ElementType: types.StringType,
 								Description: `List of headers that are safe to log in plain text`,
 							},
+							"status": schema.SingleNestedAttribute{
+								Computed: true,
+								Optional: true,
+								Attributes: map[string]schema.Attribute{
+									"health": schema.StringAttribute{
+										Computed:    true,
+										Optional:    true,
+										Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+										Validators: []validator.String{
+											speakeasy_stringvalidators.NotNull(),
+											stringvalidator.OneOf(
+												"Green",
+												"Yellow",
+												"Red",
+											),
+										},
+									},
+									"metrics": schema.MapAttribute{
+										Computed:    true,
+										Optional:    true,
+										ElementType: types.StringType,
+										Description: `Not Null`,
+										Validators: []validator.Map{
+											speakeasy_mapvalidators.NotNull(),
+											mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+										},
+									},
+									"timestamp": schema.Float64Attribute{
+										Computed:    true,
+										Optional:    true,
+										Description: `Not Null`,
+										Validators: []validator.Float64{
+											speakeasy_float64validators.NotNull(),
+										},
+									},
+									"use_status_from_lb": schema.BoolAttribute{
+										Computed: true,
+										Optional: true,
+									},
+								},
+							},
 							"streamtags": schema.ListAttribute{
 								Computed:    true,
 								Optional:    true,
@@ -13434,6 +14582,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 								"udp",
 								"tcp",
 							),
+						},
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
 						},
 					},
 					"streamtags": schema.ListAttribute{
@@ -13804,6 +14993,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						ElementType: types.StringType,
 						Description: `List of headers that are safe to log in plain text`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -14229,6 +15459,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						ElementType: types.StringType,
 						Description: `List of headers that are safe to log in plain text`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -14764,6 +16035,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Computed:    true,
 						Optional:    true,
 						Description: `Secret parameter name to pass in request body`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -15398,6 +16710,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						},
 						Description: `Authentication parameters to use when connecting to brokers. Using TLS is highly recommended.`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -15801,6 +17154,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Description: `Signature version to use for signing Kinesis stream requests. Default: "v4"; must be one of ["v2", "v4"]`,
 						Validators: []validator.String{
 							stringvalidator.OneOf("v2", "v4"),
+						},
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
 						},
 					},
 					"stream_name": schema.StringAttribute{
@@ -16218,6 +17612,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						ElementType: types.StringType,
 						Description: `List of headers that are safe to log in plain text`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -16792,6 +18227,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Optional:    true,
 						Default:     stringdefault.StaticString(`$CRIBL_HOME/state/outputs/staging`),
 						Description: `Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage. Default: "$CRIBL_HOME/state/outputs/staging"`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"storage_class": schema.StringAttribute{
 						Computed:    true,
@@ -17394,6 +18870,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 							stringvalidator.OneOf("v2", "v4"),
 						},
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -17631,6 +19148,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Computed:    true,
 						Optional:    true,
 						Description: `Pipeline to process data before sending out to this output`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -18055,6 +19613,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						ElementType: types.StringType,
 						Description: `List of headers that are safe to log in plain text`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -18507,6 +20106,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						ElementType: types.StringType,
 						Description: `List of headers that are safe to log in plain text`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -19115,6 +20755,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Optional:    true,
 						Description: `Secret parameter name to pass in request body`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -19722,6 +21403,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Default:     booldefault.StaticBool(true),
 						Description: `Whether to generate and send metadata (` + "`" + `type` + "`" + ` and ` + "`" + `metricFamilyName` + "`" + `) requests. Default: true`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -19995,6 +21717,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Optional:    true,
 						Description: `Pipeline to process data before sending out to this output`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -20149,6 +21912,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Validators: []validator.List{
 							speakeasy_listvalidators.NotNull(),
 							listvalidator.SizeAtLeast(1),
+						},
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
 						},
 					},
 					"streamtags": schema.ListAttribute{
@@ -20684,6 +22488,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Optional:    true,
 						Default:     stringdefault.StaticString(`$CRIBL_HOME/state/outputs/staging`),
 						Description: `Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage. Default: "$CRIBL_HOME/state/outputs/staging"`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"storage_class": schema.StringAttribute{
 						Computed:    true,
@@ -21221,6 +23066,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Default:     stringdefault.StaticString(`$CRIBL_HOME/state/outputs/staging`),
 						Description: `Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage. Default: "$CRIBL_HOME/state/outputs/staging"`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"storage_class": schema.StringAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -21716,6 +23602,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Description: `Secret parameter value to pass in request body. Not Null`,
 						Validators: []validator.String{
 							speakeasy_stringvalidators.NotNull(),
+						},
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
 						},
 					},
 					"stream_name": schema.StringAttribute{
@@ -22232,6 +24159,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						ElementType: types.StringType,
 						Description: `List of headers that are safe to log in plain text`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -22719,6 +24687,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						ElementType: types.StringType,
 						Description: `List of headers that are safe to log in plain text`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -22937,6 +24946,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Computed:    true,
 						Optional:    true,
 						Description: `Pipeline to process data before sending out to this output`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -23226,6 +25276,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Description: `Signature version to use for signing SNS requests. Default: "v4"; must be one of ["v2", "v4"]`,
 						Validators: []validator.String{
 							stringvalidator.OneOf("v2", "v4"),
+						},
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
 						},
 					},
 					"streamtags": schema.ListAttribute{
@@ -23524,6 +25615,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Optional:    true,
 						Default:     stringdefault.StaticString(`$CRIBL_HOME/state/queues`),
 						Description: `The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>. Default: "$CRIBL_HOME/state/queues"`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -24012,6 +26144,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						ElementType: types.StringType,
 						Description: `List of headers that are safe to log in plain text`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -24323,11 +26496,11 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 									Computed:    true,
 									Optional:    true,
 									Default:     stringdefault.StaticString(`inherit`),
-									Description: `Whether to inherit TLS configs from group setting or disable TLS. Default: "inherit"; must be one of ["inherit", "off"]`,
+									Description: `Whether to inherit TLS configs from group setting or disable TLS. Default: "inherit"; must be one of ["inherit", "false"]`,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"inherit",
-											"off",
+											"false",
 										),
 									},
 								},
@@ -24581,6 +26754,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Description: `How long (in milliseconds) each LB endpoint can report blocked before the Destination reports unhealthy, blocking the sender. (Grace period for fluctuations.) Use 0 to disable; max 1 minute. Default: 100`,
 						Validators: []validator.Float64{
 							float64validator.AtMost(60000),
+						},
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
 						},
 					},
 					"streamtags": schema.ListAttribute{
@@ -25028,6 +27242,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 							stringvalidator.OneOf("v2", "v4"),
 						},
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -25275,6 +27530,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 								"udp",
 								"tcp",
 							),
+						},
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
 						},
 					},
 					"streamtags": schema.ListAttribute{
@@ -25539,6 +27835,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 								"udp",
 								"tcp",
 							),
+						},
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
 						},
 					},
 					"streamtags": schema.ListAttribute{
@@ -25913,6 +28250,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						ElementType: types.StringType,
 						Description: `List of headers that are safe to log in plain text`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -26303,6 +28681,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 							),
 						},
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -26608,11 +29027,11 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 									Computed:    true,
 									Optional:    true,
 									Default:     stringdefault.StaticString(`inherit`),
-									Description: `Whether to inherit TLS configs from group setting or disable TLS. Default: "inherit"; must be one of ["inherit", "off"]`,
+									Description: `Whether to inherit TLS configs from group setting or disable TLS. Default: "inherit"; must be one of ["inherit", "false"]`,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"inherit",
-											"off",
+											"false",
 										),
 									},
 								},
@@ -26760,6 +29179,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Optional:    true,
 						Default:     booldefault.StaticBool(true),
 						Description: `Upon connection, send a header-like record containing the auth token and other metadata.This record will not contain an actual event – only subsequent records will. Default: true`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -27218,6 +29678,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						ElementType: types.StringType,
 						Description: `List of headers that are safe to log in plain text`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
@@ -27837,6 +30338,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Optional:    true,
 						Description: `Secret parameter name to pass in request body`,
 					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
+					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,
 						Optional:    true,
@@ -28399,6 +30941,47 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 						ElementType: types.StringType,
 						Description: `List of headers that are safe to log in plain text`,
+					},
+					"status": schema.SingleNestedAttribute{
+						Computed: true,
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"health": schema.StringAttribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null; must be one of ["Green", "Yellow", "Red"]`,
+								Validators: []validator.String{
+									speakeasy_stringvalidators.NotNull(),
+									stringvalidator.OneOf(
+										"Green",
+										"Yellow",
+										"Red",
+									),
+								},
+							},
+							"metrics": schema.MapAttribute{
+								Computed:    true,
+								Optional:    true,
+								ElementType: types.StringType,
+								Description: `Not Null`,
+								Validators: []validator.Map{
+									speakeasy_mapvalidators.NotNull(),
+									mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+								},
+							},
+							"timestamp": schema.Float64Attribute{
+								Computed:    true,
+								Optional:    true,
+								Description: `Not Null`,
+								Validators: []validator.Float64{
+									speakeasy_float64validators.NotNull(),
+								},
+							},
+							"use_status_from_lb": schema.BoolAttribute{
+								Computed: true,
+								Optional: true,
+							},
+						},
 					},
 					"streamtags": schema.ListAttribute{
 						Computed:    true,

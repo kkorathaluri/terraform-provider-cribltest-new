@@ -34,6 +34,7 @@ type InputHTTPRaw struct {
 	SendToRoutes          types.Bool                         `tfsdk:"send_to_routes"`
 	SocketTimeout         types.Float64                      `tfsdk:"socket_timeout"`
 	StaleChannelFlushMs   types.Float64                      `tfsdk:"stale_channel_flush_ms"`
+	Status                *TFStatus                          `tfsdk:"status"`
 	Streamtags            []types.String                     `tfsdk:"streamtags"`
 	TLS                   *InputHTTPRawTLSSettingsServerSide `tfsdk:"tls"`
 	Type                  types.String                       `tfsdk:"type"`

@@ -19,6 +19,7 @@ type InputMetrics struct {
 	Pq                 *InputMetricsPq                    `tfsdk:"pq"`
 	PqEnabled          types.Bool                         `tfsdk:"pq_enabled"`
 	SendToRoutes       types.Bool                         `tfsdk:"send_to_routes"`
+	Status             *TFStatus                          `tfsdk:"status"`
 	Streamtags         []types.String                     `tfsdk:"streamtags"`
 	TCPPort            types.Float64                      `tfsdk:"tcp_port"`
 	TLS                *InputMetricsTLSSettingsServerSide `tfsdk:"tls"`

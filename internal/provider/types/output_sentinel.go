@@ -46,6 +46,7 @@ type OutputSentinel struct {
 	SafeHeaders                   []types.String                        `tfsdk:"safe_headers"`
 	Scope                         types.String                          `tfsdk:"scope"`
 	Secret                        types.String                          `tfsdk:"secret"`
+	Status                        *TFStatus                             `tfsdk:"status"`
 	StreamName                    types.String                          `tfsdk:"stream_name"`
 	Streamtags                    []types.String                        `tfsdk:"streamtags"`
 	SystemFields                  []types.String                        `tfsdk:"system_fields"`

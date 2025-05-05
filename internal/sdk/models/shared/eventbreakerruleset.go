@@ -107,39 +107,39 @@ func (e *TimestampType) UnmarshalJSON(data []byte) error {
 	}
 }
 
-// EventBreakerRulesetTimestampFormat - Auto, manual format (strptime), or current time
-type EventBreakerRulesetTimestampFormat struct {
+// TimestampFormat - Auto, manual format (strptime), or current time
+type TimestampFormat struct {
 	Type   *TimestampType `default:"auto" json:"type"`
 	Length *float64       `default:"150" json:"length"`
 	Format *string        `json:"format,omitempty"`
 }
 
-func (e EventBreakerRulesetTimestampFormat) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(e, "", false)
+func (t TimestampFormat) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
 }
 
-func (e *EventBreakerRulesetTimestampFormat) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &e, "", false, false); err != nil {
+func (t *TimestampFormat) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *EventBreakerRulesetTimestampFormat) GetType() *TimestampType {
+func (o *TimestampFormat) GetType() *TimestampType {
 	if o == nil {
 		return nil
 	}
 	return o.Type
 }
 
-func (o *EventBreakerRulesetTimestampFormat) GetLength() *float64 {
+func (o *TimestampFormat) GetLength() *float64 {
 	if o == nil {
 		return nil
 	}
 	return o.Length
 }
 
-func (o *EventBreakerRulesetTimestampFormat) GetFormat() *string {
+func (o *TimestampFormat) GetFormat() *string {
 	if o == nil {
 		return nil
 	}
@@ -174,7 +174,7 @@ type Rules struct {
 	// The regex to match before attempting timestamp extraction. Use $ (end-of-string anchor) to prevent extraction.
 	TimestampAnchorRegex *string `default:"/^/" json:"timestampAnchorRegex"`
 	// Auto, manual format (strptime), or current time
-	Timestamp EventBreakerRulesetTimestampFormat `json:"timestamp"`
+	Timestamp TimestampFormat `json:"timestamp"`
 	// Timezone to assign to timestamps without timezone info
 	TimestampTimezone *string `default:"local" json:"timestampTimezone"`
 	// The earliest timestamp value allowed relative to now. Example: -42years. Parsed values prior to this date will be set to current time.
@@ -231,9 +231,9 @@ func (o *Rules) GetTimestampAnchorRegex() *string {
 	return o.TimestampAnchorRegex
 }
 
-func (o *Rules) GetTimestamp() EventBreakerRulesetTimestampFormat {
+func (o *Rules) GetTimestamp() TimestampFormat {
 	if o == nil {
-		return EventBreakerRulesetTimestampFormat{}
+		return TimestampFormat{}
 	}
 	return o.Timestamp
 }

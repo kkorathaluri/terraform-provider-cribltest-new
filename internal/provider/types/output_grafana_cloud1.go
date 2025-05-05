@@ -13,7 +13,7 @@ type OutputGrafanaCloud1 struct {
 	FailedRequestLoggingMode      types.String                              `tfsdk:"failed_request_logging_mode"`
 	FlushPeriodSec                types.Float64                             `tfsdk:"flush_period_sec"`
 	ID                            types.String                              `tfsdk:"id"`
-	Labels                        []OutputGrafanaCloud1Labels               `tfsdk:"labels"`
+	Labels                        []OutputOutputGrafanaCloudLabels          `tfsdk:"labels"`
 	LokiAuth                      *OutputGrafanaCloudLokiAuth               `tfsdk:"loki_auth"`
 	LokiURL                       types.String                              `tfsdk:"loki_url"`
 	MaxPayloadEvents              types.Float64                             `tfsdk:"max_payload_events"`
@@ -36,6 +36,7 @@ type OutputGrafanaCloud1 struct {
 	ResponseHonorRetryAfterHeader types.Bool                                `tfsdk:"response_honor_retry_after_header"`
 	ResponseRetrySettings         []OutputGrafanaCloudResponseRetrySettings `tfsdk:"response_retry_settings"`
 	SafeHeaders                   []types.String                            `tfsdk:"safe_headers"`
+	Status                        *TFStatus                                 `tfsdk:"status"`
 	Streamtags                    []types.String                            `tfsdk:"streamtags"`
 	SystemFields                  []types.String                            `tfsdk:"system_fields"`
 	TimeoutRetrySettings          *OutputGrafanaCloudTimeoutRetrySettings   `tfsdk:"timeout_retry_settings"`

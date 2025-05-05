@@ -38,6 +38,7 @@ type InputPrometheusRw struct {
 	SecretParamName       types.String                            `tfsdk:"secret_param_name"`
 	SendToRoutes          types.Bool                              `tfsdk:"send_to_routes"`
 	SocketTimeout         types.Float64                           `tfsdk:"socket_timeout"`
+	Status                *TFStatus                               `tfsdk:"status"`
 	Streamtags            []types.String                          `tfsdk:"streamtags"`
 	TextSecret            types.String                            `tfsdk:"text_secret"`
 	TLS                   *InputPrometheusRwTLSSettingsServerSide `tfsdk:"tls"`

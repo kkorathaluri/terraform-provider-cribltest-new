@@ -57,6 +57,7 @@ type OutputAzureDataExplorer struct {
 	RetainBlobOnSuccess           types.Bool                                     `tfsdk:"retain_blob_on_success"`
 	Scope                         types.String                                   `tfsdk:"scope"`
 	StagePath                     types.String                                   `tfsdk:"stage_path"`
+	Status                        *TFStatus                                      `tfsdk:"status"`
 	Streamtags                    []types.String                                 `tfsdk:"streamtags"`
 	SystemFields                  []types.String                                 `tfsdk:"system_fields"`
 	Table                         types.String                                   `tfsdk:"table"`
