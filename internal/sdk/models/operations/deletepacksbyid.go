@@ -10,6 +10,8 @@ import (
 type DeletePacksByIDRequest struct {
 	// Pack name
 	ID string `pathParam:"style=simple,explode=false,name=id"`
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
 }
 
 func (o *DeletePacksByIDRequest) GetID() string {
@@ -17,6 +19,13 @@ func (o *DeletePacksByIDRequest) GetID() string {
 		return ""
 	}
 	return o.ID
+}
+
+func (o *DeletePacksByIDRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
 }
 
 // DeletePacksByIDResponseBody - a list of PackInstallInfo objects

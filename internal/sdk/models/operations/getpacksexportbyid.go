@@ -3,70 +3,20 @@
 package operations
 
 import (
-	"encoding/json"
-	"fmt"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/shared"
 	"net/http"
 )
 
-// QueryParamMode - Export mode. Note: "merge_safe" is deprecated and will be removed in v5.0.0. Use "merge" instead.
-type QueryParamMode string
-
-const (
-	QueryParamModeMerge       QueryParamMode = "merge"
-	QueryParamModeDefaultOnly QueryParamMode = "default_only"
-	QueryParamModeMergeSafe   QueryParamMode = "merge_safe"
-)
-
-func (e QueryParamMode) ToPointer() *QueryParamMode {
-	return &e
-}
-func (e *QueryParamMode) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "merge":
-		fallthrough
-	case "default_only":
-		fallthrough
-	case "merge_safe":
-		*e = QueryParamMode(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for QueryParamMode: %v", v)
-	}
-}
-
 type GetPacksExportByIDRequest struct {
-	// Pack name
-	ID string `pathParam:"style=simple,explode=false,name=id"`
-	// Export mode. Note: "merge_safe" is deprecated and will be removed in v5.0.0. Use "merge" instead.
-	Mode QueryParamMode `queryParam:"style=form,explode=true,name=mode"`
-	// Filename of the exported Pack
-	Filename *string `queryParam:"style=form,explode=true,name=filename"`
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
 }
 
-func (o *GetPacksExportByIDRequest) GetID() string {
+func (o *GetPacksExportByIDRequest) GetGroupID() string {
 	if o == nil {
 		return ""
 	}
-	return o.ID
-}
-
-func (o *GetPacksExportByIDRequest) GetMode() QueryParamMode {
-	if o == nil {
-		return QueryParamMode("")
-	}
-	return o.Mode
-}
-
-func (o *GetPacksExportByIDRequest) GetFilename() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Filename
+	return o.GroupID
 }
 
 // GetPacksExportByIDResponseBody - a list of any objects

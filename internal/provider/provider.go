@@ -13,6 +13,7 @@ import (
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/shared"
 	"net/http"
+	"os"
 )
 
 var _ provider.Provider = (*CriblTerraformProvider)(nil)
@@ -27,11 +28,13 @@ type CriblTerraformProvider struct {
 
 // CriblTerraformProviderModel describes the provider data model.
 type CriblTerraformProviderModel struct {
-	BearerAuth   types.String `tfsdk:"bearer_auth"`
-	ClientID     types.String `tfsdk:"client_id"`
-	ClientSecret types.String `tfsdk:"client_secret"`
-	ServerURL    types.String `tfsdk:"server_url"`
-	TokenURL     types.String `tfsdk:"token_url"`
+	BearerAuth     types.String `tfsdk:"bearer_auth"`
+	ClientID       types.String `tfsdk:"client_id"`
+	ClientSecret   types.String `tfsdk:"client_secret"`
+	OrganizationID types.String `tfsdk:"organization_id"`
+	ServerURL      types.String `tfsdk:"server_url"`
+	TokenURL       types.String `tfsdk:"token_url"`
+	WorkspaceID    types.String `tfsdk:"workspace_id"`
 }
 
 func (p *CriblTerraformProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
@@ -54,11 +57,19 @@ func (p *CriblTerraformProvider) Schema(ctx context.Context, req provider.Schema
 				Optional:  true,
 				Sensitive: true,
 			},
+			"organization_id": schema.StringAttribute{
+				Optional:  true,
+				Sensitive: true,
+			},
 			"server_url": schema.StringAttribute{
-				Description: `Server URL (defaults to https://{workspaceName}-{organizationId}.{cloudDomain}/api/v1)`,
+				Description: `Server URL (defaults to https://app.cribl-playground.cloud)`,
 				Optional:    true,
 			},
 			"token_url": schema.StringAttribute{
+				Optional:  true,
+				Sensitive: true,
+			},
+			"workspace_id": schema.StringAttribute{
 				Optional:  true,
 				Sensitive: true,
 			},
@@ -78,7 +89,7 @@ func (p *CriblTerraformProvider) Configure(ctx context.Context, req provider.Con
 	ServerURL := data.ServerURL.ValueString()
 
 	if ServerURL == "" {
-		ServerURL = "https://{workspaceName}-{organizationId}.{cloudDomain}/api/v1"
+		ServerURL = "https://app.cribl-playground.cloud"
 	}
 
 	bearerAuth := new(string)
@@ -87,8 +98,30 @@ func (p *CriblTerraformProvider) Configure(ctx context.Context, req provider.Con
 	} else {
 		bearerAuth = nil
 	}
+	organizationID := new(string)
+	if !data.OrganizationID.IsUnknown() && !data.OrganizationID.IsNull() {
+		*organizationID = data.OrganizationID.ValueString()
+	} else {
+		if len(os.Getenv("CRIBL_ORGANIZATION_ID")) > 0 {
+			*organizationID = os.Getenv("CRIBL_ORGANIZATION_ID")
+		} else {
+			organizationID = nil
+		}
+	}
+	workspaceID := new(string)
+	if !data.WorkspaceID.IsUnknown() && !data.WorkspaceID.IsNull() {
+		*workspaceID = data.WorkspaceID.ValueString()
+	} else {
+		if len(os.Getenv("CRIBL_WORKSPACE_ID")) > 0 {
+			*workspaceID = os.Getenv("CRIBL_WORKSPACE_ID")
+		} else {
+			workspaceID = nil
+		}
+	}
 	security := shared.Security{
-		BearerAuth: bearerAuth,
+		BearerAuth:     bearerAuth,
+		OrganizationID: organizationID,
+		WorkspaceID:    workspaceID,
 	}
 
 	providerHTTPTransportOpts := ProviderHTTPTransportOpts{

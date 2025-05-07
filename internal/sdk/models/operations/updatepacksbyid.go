@@ -10,6 +10,8 @@ import (
 type UpdatePacksByIDRequest struct {
 	// Pack name
 	ID string `pathParam:"style=simple,explode=false,name=id"`
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
 	// body string required Pack source
 	Source *string `queryParam:"style=form,explode=true,name=source"`
 	// body boolean optional Only upgrade to minor/patch versions
@@ -23,6 +25,13 @@ func (o *UpdatePacksByIDRequest) GetID() string {
 		return ""
 	}
 	return o.ID
+}
+
+func (o *UpdatePacksByIDRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
 }
 
 func (o *UpdatePacksByIDRequest) GetSource() *string {

@@ -17,7 +17,7 @@ terraform {
   required_providers {
     cribl-terraform = {
       source  = "speakeasy/cribl-terraform"
-      version = "0.11.22"
+      version = "0.11.60"
     }
   }
 }
@@ -35,5 +35,7 @@ provider "cribl-terraform" {
 - `bearer_auth` (String, Sensitive)
 - `client_id` (String, Sensitive)
 - `client_secret` (String, Sensitive)
-- `server_url` (String) Server URL (defaults to https://{workspaceName}-{organizationId}.{cloudDomain}/api/v1)
+- `organization_id` (String, Sensitive)
+- `server_url` (String) Server URL (defaults to https://app.cribl-playground.cloud)
 - `token_url` (String, Sensitive)
+- `workspace_id` (String, Sensitive)

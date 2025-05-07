@@ -7,6 +7,27 @@ import (
 	"net/http"
 )
 
+type CreatePacksCloneRequest struct {
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
+	// PackClone object
+	PackClone shared.PackClone `request:"mediaType=application/json"`
+}
+
+func (o *CreatePacksCloneRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
+}
+
+func (o *CreatePacksCloneRequest) GetPackClone() shared.PackClone {
+	if o == nil {
+		return shared.PackClone{}
+	}
+	return o.PackClone
+}
+
 // CreatePacksCloneResponseBody - a list of any objects
 type CreatePacksCloneResponseBody struct {
 	// number of items present in the items array

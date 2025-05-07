@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: b2744b7e-1ce3-478a-8c1f-0348b936141a
 management:
-  docChecksum: 848133150ad8dfa34b9b24d9e9b0aa5e
+  docChecksum: 3837f76959b46fb5fce9f4b9c7ed6801
   docVersion: 1.0.0
-  speakeasyVersion: 1.542.1
+  speakeasyVersion: 1.542.3
   generationVersion: 2.597.9
-  releaseVersion: 0.11.22
-  configChecksum: cd4ebf98d10ed5334039dbc3e37dbeae
+  releaseVersion: 0.11.60
+  configChecksum: d6ced4b8dd235ae7531c919c47a8b5d5
   published: true
 features:
   terraform:
@@ -33,6 +33,7 @@ generatedFiles:
   - examples/provider/provider.tf
   - examples/resources/cribl-terraform_destination/resource.tf
   - examples/resources/cribl-terraform_group/resource.tf
+  - examples/resources/cribl-terraform_pack/import.sh
   - examples/resources/cribl-terraform_pack/resource.tf
   - examples/resources/cribl-terraform_source/resource.tf
   - go.mod
@@ -1247,7 +1248,6 @@ generatedFiles:
   - internal/sdk/models/operations/updatenotificationbyid.go
   - internal/sdk/models/operations/updatenotificationtargetbyid.go
   - internal/sdk/models/operations/updateoutputbyid.go
-  - internal/sdk/models/operations/updatepacks.go
   - internal/sdk/models/operations/updatepacksbyid.go
   - internal/sdk/models/operations/updateparserbyid.go
   - internal/sdk/models/operations/updatepipelinebyid.go
@@ -5773,8 +5773,11 @@ examples:
           application/json: {}
   createPacks:
     speakeasy-default-create-packs:
+      parameters:
+        path:
+          groupId: "<id>"
       requestBody:
-        application/json: {"id": "<id>", "description": "whoever inasmuch weird up", "version": "<value>", "source": "<value>", "disabled": true}
+        application/json: {"id": "<id>", "displayName": "Daphne.Barton", "description": "whoever inasmuch weird up", "version": "<value>", "source": "<value>", "groupId": "<id>", "disabled": true}
       responses:
         "200":
           application/json: {}
@@ -5782,6 +5785,9 @@ examples:
           application/json: {}
   getPacks:
     speakeasy-default-get-packs:
+      parameters:
+        path:
+          groupId: "<id>"
       responses:
         "200":
           application/json: {}
@@ -5799,6 +5805,7 @@ examples:
       parameters:
         path:
           id: "<id>"
+          groupId: "<id>"
       responses:
         "200":
           application/json: {}
@@ -5809,6 +5816,7 @@ examples:
       parameters:
         path:
           id: "<id>"
+          groupId: "<id>"
         query: {}
       responses:
         "200":
@@ -5817,6 +5825,9 @@ examples:
           application/json: {}
   createPacksClone:
     speakeasy-default-create-packs-clone:
+      parameters:
+        path:
+          groupId: "<id>"
       requestBody:
         application/json: {"dstGroups": ["<value>", "<value>"], "packs": [], "srcGroup": "<value>"}
       responses:
@@ -5829,6 +5840,7 @@ examples:
       parameters:
         path:
           id: "<id>"
+          groupId: "<id>"
         query:
           mode: "merge"
       responses:

@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -37,6 +38,7 @@ type PackResourceModel struct {
 	Description types.String       `tfsdk:"description"`
 	Disabled    types.Bool         `tfsdk:"disabled"`
 	DisplayName types.String       `tfsdk:"display_name"`
+	GroupID     types.String       `tfsdk:"group_id"`
 	ID          types.String       `tfsdk:"id"`
 	Items       []tfTypes.PackInfo `tfsdk:"items"`
 	Source      types.String       `tfsdk:"source"`
@@ -52,14 +54,14 @@ func (r *PackResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 		MarkdownDescription: "Pack Resource",
 		Attributes: map[string]schema.Attribute{
 			"description": schema.StringAttribute{
-				Required: true,
+				Optional: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplaceIfConfigured(),
 				},
 				Description: `Requires replacement if changed.`,
 			},
 			"disabled": schema.BoolAttribute{
-				Required: true,
+				Optional: true,
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.RequiresReplaceIfConfigured(),
 				},
@@ -71,6 +73,10 @@ func (r *PackResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 					stringplanmodifier.RequiresReplaceIfConfigured(),
 				},
 				Description: `Requires replacement if changed.`,
+			},
+			"group_id": schema.StringAttribute{
+				Required:    true,
+				Description: `Group Id`,
 			},
 			"id": schema.StringAttribute{
 				Required:    true,
@@ -150,11 +156,11 @@ func (r *PackResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 				},
 			},
 			"source": schema.StringAttribute{
-				Required:    true,
+				Optional:    true,
 				Description: `body string required Pack source`,
 			},
 			"version": schema.StringAttribute{
-				Required: true,
+				Optional: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplaceIfConfigured(),
 				},
@@ -202,7 +208,7 @@ func (r *PackResource) Create(ctx context.Context, req resource.CreateRequest, r
 		return
 	}
 
-	request, requestDiags := data.ToOperationsCreatePacksRequestBody(ctx)
+	request, requestDiags := data.ToOperationsCreatePacksRequest(ctx)
 	resp.Diagnostics.Append(requestDiags...)
 
 	if resp.Diagnostics.HasError() {
@@ -239,7 +245,13 @@ func (r *PackResource) Create(ctx context.Context, req resource.CreateRequest, r
 	if resp.Diagnostics.HasError() {
 		return
 	}
-	res1, err := r.client.Packs.GetPacks(ctx)
+	request1, request1Diags := data.ToOperationsGetPacksRequest(ctx)
+	resp.Diagnostics.Append(request1Diags...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	res1, err := r.client.Packs.GetPacks(ctx, *request1)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res1 != nil && res1.RawResponse != nil {
@@ -260,6 +272,12 @@ func (r *PackResource) Create(ctx context.Context, req resource.CreateRequest, r
 		return
 	}
 	resp.Diagnostics.Append(data.RefreshFromOperationsGetPacksResponseBody(ctx, res1.Object)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	resp.Diagnostics.Append(refreshPlan(ctx, plan, &data)...)
 
 	if resp.Diagnostics.HasError() {
 		return
@@ -287,7 +305,13 @@ func (r *PackResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 		return
 	}
 
-	res, err := r.client.Packs.GetPacks(ctx)
+	request, requestDiags := data.ToOperationsGetPacksRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	res, err := r.client.Packs.GetPacks(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -372,7 +396,13 @@ func (r *PackResource) Update(ctx context.Context, req resource.UpdateRequest, r
 	if resp.Diagnostics.HasError() {
 		return
 	}
-	res1, err := r.client.Packs.GetPacks(ctx)
+	request1, request1Diags := data.ToOperationsGetPacksRequest(ctx)
+	resp.Diagnostics.Append(request1Diags...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	res1, err := r.client.Packs.GetPacks(ctx, *request1)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res1 != nil && res1.RawResponse != nil {
@@ -393,6 +423,12 @@ func (r *PackResource) Update(ctx context.Context, req resource.UpdateRequest, r
 		return
 	}
 	resp.Diagnostics.Append(data.RefreshFromOperationsGetPacksResponseBody(ctx, res1.Object)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	resp.Diagnostics.Append(refreshPlan(ctx, plan, &data)...)
 
 	if resp.Diagnostics.HasError() {
 		return
@@ -446,5 +482,5 @@ func (r *PackResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 }
 
 func (r *PackResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	resp.Diagnostics.AddError("Not Implemented", "No available import state operation is available for resource pack.")
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("group_id"), req.ID)...)
 }

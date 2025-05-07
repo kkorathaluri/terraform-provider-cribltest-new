@@ -7,6 +7,18 @@ import (
 	"net/http"
 )
 
+type GetPacksRequest struct {
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
+}
+
+func (o *GetPacksRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
+}
+
 // GetPacksResponseBody - a list of PackInfo objects
 type GetPacksResponseBody struct {
 	Items []shared.PackInfo `json:"items,omitempty"`
