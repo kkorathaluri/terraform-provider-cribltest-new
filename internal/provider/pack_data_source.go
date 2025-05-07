@@ -28,7 +28,8 @@ type PackDataSource struct {
 
 // PackDataSourceModel describes the data model.
 type PackDataSourceModel struct {
-	Items []tfTypes.PackInfo1 `tfsdk:"items"`
+	GroupID types.String        `tfsdk:"group_id"`
+	Items   []tfTypes.PackInfo1 `tfsdk:"items"`
 }
 
 // Metadata returns the data source type name.
@@ -42,6 +43,10 @@ func (r *PackDataSource) Schema(ctx context.Context, req datasource.SchemaReques
 		MarkdownDescription: "Pack DataSource",
 
 		Attributes: map[string]schema.Attribute{
+			"group_id": schema.StringAttribute{
+				Required:    true,
+				Description: `Group Id`,
+			},
 			"items": schema.ListNestedAttribute{
 				Computed: true,
 				NestedObject: schema.NestedAttributeObject{
@@ -147,7 +152,13 @@ func (r *PackDataSource) Read(ctx context.Context, req datasource.ReadRequest, r
 		return
 	}
 
-	res, err := r.client.Packs.GetPacks(ctx)
+	request, requestDiags := data.ToOperationsGetPacksRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	res, err := r.client.Packs.GetPacks(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {

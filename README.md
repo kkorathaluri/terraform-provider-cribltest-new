@@ -34,6 +34,12 @@ It has been generated successfully based on your OpenAPI spec. However, it is no
   * [Testing the provider locally](#testing-the-provider-locally)
 * [Development](#development)
   * [Contributions](#contributions)
+* [OpenAPI Schema Status Update Scripts](#openapi-schema-status-update-scripts)
+  * [Prerequisites](#prerequisites)
+  * [Installation](#installation-1)
+  * [Scripts](#scripts)
+  * [File Structure](#file-structure)
+  * [Example](#example)
 
 <!-- End Table of Contents [toc] -->
 
@@ -47,7 +53,7 @@ terraform {
   required_providers {
     cribl-terraform = {
       source  = "speakeasy/cribl-terraform"
-      version = "0.11.22"
+      version = "0.11.60"
     }
   }
 }

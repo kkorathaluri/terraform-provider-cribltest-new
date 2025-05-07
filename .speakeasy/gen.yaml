@@ -16,12 +16,11 @@ generation:
     oAuth2ClientCredentialsEnabled: true
     oAuth2PasswordEnabled: true
 terraform:
-  version: 0.11.22
+  version: 0.11.60
   additionalDataSources: []
   additionalDependencies: {}
   additionalEphemeralResources: []
   additionalProviderAttributes:
-    audience: ""
     httpHeaders: ""
   additionalResources: []
   allowUnknownFieldsInWeakUnions: false
@@ -35,4 +34,8 @@ terraform:
       providerAttribute: client_secret
     - env: CRIBL_TOKEN_URL
       providerAttribute: token_url
+    - env: CRIBL_ORGANIZATION_ID
+      providerAttribute: organization_id
+    - env: CRIBL_WORKSPACE_ID
+      providerAttribute: workspace_id
   packageName: cribl-terraform

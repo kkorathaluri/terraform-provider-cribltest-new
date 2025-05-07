@@ -17,6 +17,7 @@ resource "cribl-terraform_pack" "my_pack" {
   description  = "...my_description..."
   disabled     = true
   display_name = "...my_display_name..."
+  group_id     = "...my_group_id..."
   id           = "...my_id..."
   source       = "...my_source..."
   version      = "...my_version..."
@@ -28,15 +29,16 @@ resource "cribl-terraform_pack" "my_pack" {
 
 ### Required
 
-- `description` (String) Requires replacement if changed.
-- `disabled` (Boolean) Requires replacement if changed.
+- `group_id` (String) Group Id
 - `id` (String) Pack name
-- `source` (String) body string required Pack source
-- `version` (String) Requires replacement if changed.
 
 ### Optional
 
+- `description` (String) Requires replacement if changed.
+- `disabled` (Boolean) Requires replacement if changed.
 - `display_name` (String) Requires replacement if changed.
+- `source` (String) body string required Pack source
+- `version` (String) Requires replacement if changed.
 
 ### Read-Only
 
@@ -70,3 +72,11 @@ Read-Only:
 - `domain` (List of String)
 - `streamtags` (List of String)
 - `technology` (List of String)
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+terraform import cribl-terraform_pack.my_cribl-terraform_pack ""
+```

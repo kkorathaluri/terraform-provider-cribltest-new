@@ -11,10 +11,11 @@ import (
 type CreatePacksRequestBody struct {
 	ID          string  `json:"id"`
 	DisplayName *string `json:"displayName,omitempty"`
-	Description string  `json:"description"`
-	Version     string  `json:"version"`
-	Source      string  `json:"source"`
-	Disabled    bool    `json:"disabled"`
+	Description *string `json:"description,omitempty"`
+	Version     *string `json:"version,omitempty"`
+	Source      *string `json:"source,omitempty"`
+	GroupID     string  `json:"groupId"`
+	Disabled    *bool   `json:"disabled,omitempty"`
 }
 
 func (o *CreatePacksRequestBody) GetID() string {
@@ -31,32 +32,60 @@ func (o *CreatePacksRequestBody) GetDisplayName() *string {
 	return o.DisplayName
 }
 
-func (o *CreatePacksRequestBody) GetDescription() string {
+func (o *CreatePacksRequestBody) GetDescription() *string {
 	if o == nil {
-		return ""
+		return nil
 	}
 	return o.Description
 }
 
-func (o *CreatePacksRequestBody) GetVersion() string {
+func (o *CreatePacksRequestBody) GetVersion() *string {
 	if o == nil {
-		return ""
+		return nil
 	}
 	return o.Version
 }
 
-func (o *CreatePacksRequestBody) GetSource() string {
+func (o *CreatePacksRequestBody) GetSource() *string {
 	if o == nil {
-		return ""
+		return nil
 	}
 	return o.Source
 }
 
-func (o *CreatePacksRequestBody) GetDisabled() bool {
+func (o *CreatePacksRequestBody) GetGroupID() string {
 	if o == nil {
-		return false
+		return ""
+	}
+	return o.GroupID
+}
+
+func (o *CreatePacksRequestBody) GetDisabled() *bool {
+	if o == nil {
+		return nil
 	}
 	return o.Disabled
+}
+
+type CreatePacksRequest struct {
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
+	// CrudEntityBase object
+	RequestBody CreatePacksRequestBody `request:"mediaType=application/json"`
+}
+
+func (o *CreatePacksRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
+}
+
+func (o *CreatePacksRequest) GetRequestBody() CreatePacksRequestBody {
+	if o == nil {
+		return CreatePacksRequestBody{}
+	}
+	return o.RequestBody
 }
 
 // CreatePacksResponseBody - a list of PackInstallInfo objects

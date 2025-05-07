@@ -11,6 +11,19 @@ import (
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/operations"
 )
 
+func (r *PackDataSourceModel) ToOperationsGetPacksRequest(ctx context.Context) (*operations.GetPacksRequest, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	var groupID string
+	groupID = r.GroupID.ValueString()
+
+	out := operations.GetPacksRequest{
+		GroupID: groupID,
+	}
+
+	return &out, diags
+}
+
 func (r *PackDataSourceModel) RefreshFromOperationsGetPacksResponseBody(ctx context.Context, resp *operations.GetPacksResponseBody) diag.Diagnostics {
 	var diags diag.Diagnostics
 

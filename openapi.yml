@@ -33,14 +33,12 @@ components:
           type: string
         source:
           type: string
+        groupId:
+          type: string
         disabled:
           type: boolean
       required:
-      - name
-      - description
-      - version
-      - disabled
-      - source
+      - groupId
     Error:
       type: object
       properties:
@@ -48721,6 +48719,8 @@ components:
 security:
 - bearerAuth: []
 - clientOauth: []
+- organizationId: []
+- workspaceId: []
 tags:
 - name: appscope-configs
   description: Actions related to Appscope Configs
@@ -62396,13 +62396,20 @@ paths:
         schema:
           type: string
         description: Filter
-  /packs:
+  /m/{groupId}/packs:
     post:
       operationId: createPacks
       tags:
       - packs
       summary: Install Pack
       description: Install Pack
+      parameters:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
       x-speakeasy-entity-operation: Pack#create
       responses:
         '200':
@@ -62445,6 +62452,13 @@ paths:
       - packs
       summary: Get info on packs
       description: Get info on packs
+      parameters:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
       x-speakeasy-entity-operation: Pack#read
       responses:
         '200':
@@ -62470,12 +62484,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-    put:
+  /m/{groupId}/put:
       operationId: updatePacks
       tags:
       - packs
       summary: Upload Pack
       description: Upload Pack
+      parameters:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
       responses:
         '200':
           description: a list of any objects
@@ -62508,7 +62529,7 @@ paths:
         schema:
           type: string
         description: the file to upload
-  /packs/{id}:
+  /m/{groupId}/packs/{id}:
     delete:
       operationId: deletePacksById
       tags:
@@ -62546,6 +62567,12 @@ paths:
         schema:
           type: string
         description: Pack name
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
     patch:
       operationId: updatePacksById
       tags:
@@ -62583,6 +62610,12 @@ paths:
         schema:
           type: string
         description: Pack name
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
       - name: source
         in: query
         required: false
@@ -62601,13 +62634,20 @@ paths:
         schema:
           type: string
         description: body string optional Specify a branch, tag or a semver spec
-  /packs/__clone__:
+  /m/{groupId}/packs/__clone__:
     post:
       operationId: createPacksClone
       tags:
       - packs
       summary: Clone Pack
       description: Clone Pack
+      parameters:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
       responses:
         '200':
           description: a list of any objects
@@ -62639,13 +62679,20 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PackClone'
-  /packs/{id}/export:
+  /m/{groupId}/packs/{id}/export:
     get:
       operationId: getPacksExportById
       tags:
       - packs
       summary: Export Pack
       description: Export Pack
+      parameters:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
       responses:
         '200':
           description: a list of any objects
@@ -66322,7 +66369,7 @@ paths:
           - macros
         description: resource type by which to filter access levels
 servers:
-- url: https://{workspaceName}-{organizationId}.{cloudDomain}/api/v1
+- url: https://app.cribl-playground.cloud
   x-speakeasy-server-id: cloud
   variables:
     workspaceName:
