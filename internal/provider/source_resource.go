@@ -49,6 +49,7 @@ type SourceResource struct {
 
 // SourceResourceModel describes the resource data model.
 type SourceResourceModel struct {
+	GroupID                   types.String                       `tfsdk:"group_id"`
 	ID                        types.String                       `tfsdk:"id"`
 	InputAppscope             *tfTypes.InputAppscope             `queryParam:"inline" tfsdk:"input_appscope" tfPlanOnly:"true"`
 	InputAzureBlob            *tfTypes.InputAzureBlob            `queryParam:"inline" tfsdk:"input_azure_blob" tfPlanOnly:"true"`
@@ -117,6 +118,10 @@ func (r *SourceResource) Schema(ctx context.Context, req resource.SchemaRequest,
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Source Resource",
 		Attributes: map[string]schema.Attribute{
+			"group_id": schema.StringAttribute{
+				Required:    true,
+				Description: `Group Id`,
+			},
 			"id": schema.StringAttribute{
 				Required:    true,
 				Description: `Unique ID to DELETE`,
@@ -29668,7 +29673,7 @@ func (r *SourceResource) Create(ctx context.Context, req resource.CreateRequest,
 		return
 	}
 
-	request, requestDiags := data.ToSharedInput(ctx)
+	request, requestDiags := data.ToOperationsCreateInputRequest(ctx)
 	resp.Diagnostics.Append(requestDiags...)
 
 	if resp.Diagnostics.HasError() {

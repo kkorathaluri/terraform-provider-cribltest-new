@@ -10,6 +10,8 @@ import (
 type CreateInputHecTokenByIDRequest struct {
 	// hec input id
 	ID string `pathParam:"style=simple,explode=false,name=id"`
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
 	// AddHecTokenRequest object
 	AddHecTokenRequest shared.AddHecTokenRequest `request:"mediaType=application/json"`
 }
@@ -19,6 +21,13 @@ func (o *CreateInputHecTokenByIDRequest) GetID() string {
 		return ""
 	}
 	return o.ID
+}
+
+func (o *CreateInputHecTokenByIDRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
 }
 
 func (o *CreateInputHecTokenByIDRequest) GetAddHecTokenRequest() shared.AddHecTokenRequest {

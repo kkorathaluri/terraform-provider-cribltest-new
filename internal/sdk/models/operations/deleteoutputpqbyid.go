@@ -10,6 +10,8 @@ import (
 type DeleteOutputPqByIDRequest struct {
 	// Output Id
 	ID string `pathParam:"style=simple,explode=false,name=id"`
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
 }
 
 func (o *DeleteOutputPqByIDRequest) GetID() string {
@@ -17,6 +19,13 @@ func (o *DeleteOutputPqByIDRequest) GetID() string {
 		return ""
 	}
 	return o.ID
+}
+
+func (o *DeleteOutputPqByIDRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
 }
 
 // DeleteOutputPqByIDResponseBody - a list of any objects

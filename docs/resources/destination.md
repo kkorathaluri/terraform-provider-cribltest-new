@@ -14,7 +14,8 @@ Destination Resource
 
 ```terraform
 resource "cribl-terraform_destination" "my_destination" {
-  id = "...my_id..."
+  group_id = "...my_group_id..."
+  id       = "...my_id..."
   output_azure_blob = {
     add_id_to_stage_path = false
     auth_type            = "manual"
@@ -672,6 +673,7 @@ resource "cribl-terraform_destination" "my_destination" {
   }
   output_cribl_lake = {
     add_id_to_stage_path              = true
+    additional_properties             = "{ \"see\": \"documentation\" }"
     assume_role_arn                   = "...my_assume_role_arn..."
     assume_role_external_id           = "...my_assume_role_external_id..."
     aws_authentication_method         = "auto"
@@ -4406,6 +4408,7 @@ resource "cribl-terraform_destination" "my_destination" {
 
 ### Required
 
+- `group_id` (String) Group Id
 - `id` (String) Unique ID to DELETE
 
 ### Optional
@@ -5343,6 +5346,7 @@ Optional:
 Optional:
 
 - `add_id_to_stage_path` (Boolean) Append output's ID to staging location. Default: true
+- `additional_properties` (String) Parsed as JSON.
 - `assume_role_arn` (String) Amazon Resource Name (ARN) of the role to assume
 - `assume_role_external_id` (String) External ID to use when assuming role
 - `aws_authentication_method` (String) Default: "auto"; must be one of ["auto", "auto_rpc", "manual"]

@@ -7,6 +7,27 @@ import (
 	"net/http"
 )
 
+type CreateOutputRequest struct {
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
+	// New Output object
+	Output shared.Output `request:"mediaType=application/json"`
+}
+
+func (o *CreateOutputRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
+}
+
+func (o *CreateOutputRequest) GetOutput() shared.Output {
+	if o == nil {
+		return shared.Output{}
+	}
+	return o.Output
+}
+
 // CreateOutputResponseBody - a list of Output objects
 type CreateOutputResponseBody struct {
 	Items []shared.Output `json:"items,omitempty"`

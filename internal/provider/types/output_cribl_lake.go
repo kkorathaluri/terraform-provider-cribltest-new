@@ -6,6 +6,7 @@ import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type OutputCriblLake struct {
 	AddIDToStagePath              types.Bool     `tfsdk:"add_id_to_stage_path"`
+	AdditionalProperties          types.String   `tfsdk:"additional_properties"`
 	AssumeRoleArn                 types.String   `tfsdk:"assume_role_arn"`
 	AssumeRoleExternalID          types.String   `tfsdk:"assume_role_external_id"`
 	AwsAuthenticationMethod       types.String   `tfsdk:"aws_authentication_method"`

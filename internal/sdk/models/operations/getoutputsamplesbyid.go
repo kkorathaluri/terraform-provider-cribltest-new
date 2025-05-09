@@ -10,6 +10,8 @@ import (
 type GetOutputSamplesByIDRequest struct {
 	// Output Id
 	ID string `pathParam:"style=simple,explode=false,name=id"`
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
 }
 
 func (o *GetOutputSamplesByIDRequest) GetID() string {
@@ -17,6 +19,13 @@ func (o *GetOutputSamplesByIDRequest) GetID() string {
 		return ""
 	}
 	return o.ID
+}
+
+func (o *GetOutputSamplesByIDRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
 }
 
 // GetOutputSamplesByIDResponseBody - a list of OutputSamplesResponse objects

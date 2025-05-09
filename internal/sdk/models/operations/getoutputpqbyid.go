@@ -10,6 +10,8 @@ import (
 type GetOutputPqByIDRequest struct {
 	// Output Id
 	ID string `pathParam:"style=simple,explode=false,name=id"`
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
 }
 
 func (o *GetOutputPqByIDRequest) GetID() string {
@@ -17,6 +19,13 @@ func (o *GetOutputPqByIDRequest) GetID() string {
 		return ""
 	}
 	return o.ID
+}
+
+func (o *GetOutputPqByIDRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
 }
 
 // GetOutputPqByIDResponseBody - a list of any objects

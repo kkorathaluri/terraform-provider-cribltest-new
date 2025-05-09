@@ -4216,8 +4216,9 @@ type OutputCriblLake struct {
 	// Storage location for files that fail to reach their final destination after maximum retries are exceeded
 	DeadletterPath *string `default:"\\$CRIBL_HOME/state/outputs/dead-letter" json:"deadletterPath"`
 	// The maximum number of times a file will attempt to move to its final destination before being dead-lettered
-	MaxRetryNum *float64  `default:"20" json:"maxRetryNum"`
-	Status      *TFStatus `json:"status,omitempty"`
+	MaxRetryNum          *float64  `default:"20" json:"maxRetryNum"`
+	Status               *TFStatus `json:"status,omitempty"`
+	AdditionalProperties any       `additionalProperties:"true" json:"-"`
 }
 
 func (o OutputCriblLake) MarshalJSON() ([]byte, error) {
@@ -4551,6 +4552,13 @@ func (o *OutputCriblLake) GetStatus() *TFStatus {
 		return nil
 	}
 	return o.Status
+}
+
+func (o *OutputCriblLake) GetAdditionalProperties() any {
+	if o == nil {
+		return nil
+	}
+	return o.AdditionalProperties
 }
 
 type OutputSecurityLakeType string
@@ -46868,17 +46876,17 @@ func (u *Output) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	var outputCriblLake OutputCriblLake = OutputCriblLake{}
-	if err := utils.UnmarshalJSON(data, &outputCriblLake, "", true, true); err == nil {
-		u.OutputCriblLake = &outputCriblLake
-		u.Type = OutputTypeOutputCriblLake
-		return nil
-	}
-
 	var outputPrometheus OutputPrometheus = OutputPrometheus{}
 	if err := utils.UnmarshalJSON(data, &outputPrometheus, "", true, true); err == nil {
 		u.OutputPrometheus = &outputPrometheus
 		u.Type = OutputTypeOutputPrometheus
+		return nil
+	}
+
+	var outputCriblLake OutputCriblLake = OutputCriblLake{}
+	if err := utils.UnmarshalJSON(data, &outputCriblLake, "", true, true); err == nil {
+		u.OutputCriblLake = &outputCriblLake
+		u.Type = OutputTypeOutputCriblLake
 		return nil
 	}
 

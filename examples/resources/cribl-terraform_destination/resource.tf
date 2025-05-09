@@ -1,5 +1,6 @@
 resource "cribl-terraform_destination" "my_destination" {
-  id = "...my_id..."
+  group_id = "...my_group_id..."
+  id       = "...my_id..."
   output_azure_blob = {
     add_id_to_stage_path = false
     auth_type            = "manual"
@@ -657,6 +658,7 @@ resource "cribl-terraform_destination" "my_destination" {
   }
   output_cribl_lake = {
     add_id_to_stage_path              = true
+    additional_properties             = "{ \"see\": \"documentation\" }"
     assume_role_arn                   = "...my_assume_role_arn..."
     assume_role_external_id           = "...my_assume_role_external_id..."
     aws_authentication_method         = "auto"

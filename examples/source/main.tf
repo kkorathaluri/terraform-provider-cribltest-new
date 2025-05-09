@@ -9,10 +9,13 @@ terraform {
 provider "cribl-terraform" {
   # Configuration options
   #server_url ="https://app.cribl-playground.cloud/organizations/beautiful-nguyen-y8y4azd/workspaces/main/app/api/v1/m/default"
+  organization_id = "beautiful-nguyen-y8y4azd"
+  workspace_id = "main"
 }
 
 resource "cribl-terraform_source" "my_source_1" {
   id = "test"
+  group_id = "default"
   input_tcp = {
     auth_type = "manual"
     breaker_rulesets = [
@@ -21,7 +24,7 @@ resource "cribl-terraform_source" "my_source_1" {
     connections = [
       {
         output   = "test1"
-        pipeline = "test1"
+        pipeline = "HelloPacks"
       }
     ]
     description         = "test"
@@ -61,6 +64,7 @@ output "source_details" {
 
 resource "cribl-terraform_source" "my_source_2" {
   id = "test_2"
+  group_id = "default"
   input_cribl_http = {
     activity_log_sample_rate = 100
     auth_tokens = [

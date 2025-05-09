@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: b2744b7e-1ce3-478a-8c1f-0348b936141a
 management:
-  docChecksum: 3837f76959b46fb5fce9f4b9c7ed6801
+  docChecksum: d823d501a8f880b46392bce8b21f6cf7
   docVersion: 1.0.0
   speakeasyVersion: 1.542.3
   generationVersion: 2.597.9
-  releaseVersion: 0.11.60
-  configChecksum: d6ced4b8dd235ae7531c919c47a8b5d5
+  releaseVersion: 0.11.69
+  configChecksum: e77c53e87590905a3ad0b0b4d7b62e22
   published: true
 features:
   terraform:
@@ -4474,6 +4474,9 @@ examples:
           application/json: {}
   listInput:
     speakeasy-default-list-input:
+      parameters:
+        path:
+          groupId: "<id>"
       responses:
         "200":
           application/json: {}
@@ -4481,6 +4484,9 @@ examples:
           application/json: {}
   createInput:
     speakeasy-default-create-input:
+      parameters:
+        path:
+          groupId: "<id>"
       requestBody:
         application/json: {"disabled": false, "sendToRoutes": true, "pqEnabled": false, "streamtags": [], "host": "0.0.0.0", "port": 5986, "authMethod": "clientCert", "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "keepAliveTimeout": 90, "enableHealthCheck": false, "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "socketTimeout": 0, "allowMachineIdMismatch": false, "subscriptions": [{"subscriptionName": "<value>", "contentFormat": "Raw", "heartbeatInterval": 60, "batchTimeout": 60, "readExistingEvents": false, "sendBookmarks": true, "compress": true, "targets": ["*"], "locale": "en-US", "querySelector": "simple"}, {"subscriptionName": "<value>", "contentFormat": "Raw", "heartbeatInterval": 60, "batchTimeout": 60, "readExistingEvents": false, "sendBookmarks": true, "compress": true, "targets": ["*"], "locale": "en-US", "querySelector": "simple"}]}
       responses:
@@ -4493,6 +4499,7 @@ examples:
       parameters:
         path:
           id: "<id>"
+          groupId: "<id>"
         query:
           workspaceId: "<id>"
           organizationId: "<id>"
@@ -4506,6 +4513,7 @@ examples:
       parameters:
         path:
           id: "<id>"
+          groupId: "<id>"
       requestBody:
         application/json: {"id": "<id>", "type": "appscope", "disabled": false, "sendToRoutes": true, "pqEnabled": false, "streamtags": [], "ipWhitelistRegex": "/.*/", "maxActiveCxn": 1000, "socketIdleTimeout": 0, "socketEndingMaxWait": 30, "socketMaxLifespan": 0, "enableProxyHeader": false, "staleChannelFlushMs": 10000, "enableUnixPath": false, "authType": "manual", "unixSocketPath": "$CRIBL_HOME/state/appscope.sock", "authToken": ""}
       responses:
@@ -4518,6 +4526,7 @@ examples:
       parameters:
         path:
           id: "<id>"
+          groupId: "<id>"
       responses:
         "200":
           application/json: {}
@@ -4528,6 +4537,7 @@ examples:
       parameters:
         path:
           id: "<id>"
+          groupId: "<id>"
       requestBody:
         application/json: {"token": "<value>"}
       responses:
@@ -4541,6 +4551,7 @@ examples:
         path:
           id: "<id>"
           token: "<value>"
+          groupId: "<id>"
       requestBody:
         application/json: {}
       responses:
@@ -4567,6 +4578,9 @@ examples:
           application/json: {}
   listOutput:
     speakeasy-default-list-output:
+      parameters:
+        path:
+          groupId: "<id>"
       responses:
         "200":
           application/json: {}
@@ -4574,6 +4588,9 @@ examples:
           application/json: {}
   createOutput:
     speakeasy-default-create-output:
+      parameters:
+        path:
+          groupId: "<id>"
       requestBody:
         application/json: {"id": "<id>", "type": "syslog", "systemFields": ["cribl_pipe"], "streamtags": [], "protocol": "tcp", "facility": 1, "severity": 5, "appName": "Cribl", "messageFormat": "rfc3164", "timestampFormat": "syslog", "throttleRatePerSec": "0", "logFailedRequests": false, "loadBalanced": true, "connectionTimeout": 10000, "writeTimeout": 60000, "onBackpressure": "block", "maxRecordSize": 1500, "udpDnsResolvePeriodSec": 0, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqMode": "error"}
       responses:
@@ -4586,6 +4603,7 @@ examples:
       parameters:
         path:
           id: "<id>"
+          groupId: "<id>"
       responses:
         "200":
           application/json: {}
@@ -4596,6 +4614,7 @@ examples:
       parameters:
         path:
           id: "<id>"
+          groupId: "<id>"
       requestBody:
         application/json: {"systemFields": ["cribl_pipe"], "streamtags": [], "bucket": "<value>", "awsAuthenticationMethod": "auto", "signatureVersion": "v4", "reuseConnections": true, "rejectUnauthorized": true, "enableAssumeRole": false, "durationSeconds": 3600, "stagePath": "$CRIBL_HOME/state/outputs/staging", "addIdToStagePath": true, "destPath": "", "objectACL": "private", "removeEmptyDirs": true, "format": "json", "baseFileName": "`CriblOut`", "fileNameSuffix": "`.${C.env[\"CRIBL_WORKER_ID\"]}.${__format}${__compression === \"gzip\" ? \".gz\" : \"\"}`", "maxFileSizeMB": 32, "maxOpenFiles": 100, "headerLine": "", "writeHighWaterMark": 64, "onBackpressure": "block", "deadletterEnabled": false, "onDiskFullBackpressure": "block", "maxFileOpenTimeSec": 300, "maxFileIdleTimeSec": 30, "maxConcurrentFileParts": 4, "verifyPermissions": true, "maxClosingFilesToBackpressure": 100, "partitioningFields": [], "compress": "gzip", "compressionLevel": "best_speed", "automaticSchema": false, "parquetVersion": "PARQUET_2_6", "parquetDataPageVersion": "DATA_PAGE_V2", "parquetRowGroupLength": 10000, "parquetPageSize": "1MB", "enableStatistics": true, "enableWritePageIndex": true, "enablePageChecksum": false, "emptyDirCleanupSec": 300, "deadletterPath": "$CRIBL_HOME/state/outputs/dead-letter", "maxRetryNum": 20}
       responses:
@@ -4608,6 +4627,7 @@ examples:
       parameters:
         path:
           id: "<id>"
+          groupId: "<id>"
       responses:
         "200":
           application/json: {}
@@ -4618,6 +4638,7 @@ examples:
       parameters:
         path:
           id: "<id>"
+          groupId: "<id>"
       responses:
         "200":
           application/json: {}
@@ -4628,6 +4649,7 @@ examples:
       parameters:
         path:
           id: "<id>"
+          groupId: "<id>"
       responses:
         "200":
           application/json: {}
@@ -4638,6 +4660,7 @@ examples:
       parameters:
         path:
           id: "<id>"
+          groupId: "<id>"
       responses:
         "200":
           application/json: {}
@@ -4648,6 +4671,7 @@ examples:
       parameters:
         path:
           id: "<id>"
+          groupId: "<id>"
       requestBody:
         application/json: {"events": [{"_raw": "<value>"}]}
       responses:
@@ -5776,8 +5800,9 @@ examples:
       parameters:
         path:
           groupId: "<id>"
+        query: {}
       requestBody:
-        application/json: {"id": "<id>", "displayName": "Daphne.Barton", "description": "whoever inasmuch weird up", "version": "<value>", "source": "<value>", "groupId": "<id>", "disabled": true}
+        application/json: {"id": "<id>"}
       responses:
         "200":
           application/json: {}

@@ -1,5 +1,6 @@
 resource "cribl-terraform_source" "my_source" {
-  id = "...my_id..."
+  group_id = "...my_group_id..."
+  id       = "...my_id..."
   input_appscope = {
     auth_token = "...my_auth_token..."
     auth_type  = "manual"

@@ -12,6 +12,8 @@ type UpdateInputHecTokenByIDAndTokenRequest struct {
 	ID string `pathParam:"style=simple,explode=false,name=id"`
 	// token to update
 	Token string `pathParam:"style=simple,explode=false,name=token"`
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
 	// UpdateHecTokenRequest object
 	UpdateHecTokenRequest shared.UpdateHecTokenRequest `request:"mediaType=application/json"`
 }
@@ -28,6 +30,13 @@ func (o *UpdateInputHecTokenByIDAndTokenRequest) GetToken() string {
 		return ""
 	}
 	return o.Token
+}
+
+func (o *UpdateInputHecTokenByIDAndTokenRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
 }
 
 func (o *UpdateInputHecTokenByIDAndTokenRequest) GetUpdateHecTokenRequest() shared.UpdateHecTokenRequest {

@@ -49,6 +49,7 @@ type DestinationResource struct {
 
 // DestinationResourceModel describes the resource data model.
 type DestinationResourceModel struct {
+	GroupID                      types.String                          `tfsdk:"group_id"`
 	ID                           types.String                          `tfsdk:"id"`
 	OutputAzureBlob              *tfTypes.OutputAzureBlob              `queryParam:"inline" tfsdk:"output_azure_blob" tfPlanOnly:"true"`
 	OutputAzureDataExplorer      *tfTypes.OutputAzureDataExplorer      `queryParam:"inline" tfsdk:"output_azure_data_explorer" tfPlanOnly:"true"`
@@ -123,6 +124,10 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Destination Resource",
 		Attributes: map[string]schema.Attribute{
+			"group_id": schema.StringAttribute{
+				Required:    true,
+				Description: `Group Id`,
+			},
 			"id": schema.StringAttribute{
 				Required:    true,
 				Description: `Unique ID to DELETE`,
@@ -4662,6 +4667,14 @@ func (r *DestinationResource) Schema(ctx context.Context, req resource.SchemaReq
 						Optional:    true,
 						Default:     booldefault.StaticBool(true),
 						Description: `Append output's ID to staging location. Default: true`,
+					},
+					"additional_properties": schema.StringAttribute{
+						Computed:    true,
+						Optional:    true,
+						Description: `Parsed as JSON.`,
+						Validators: []validator.String{
+							validators.IsValidJSON(),
+						},
 					},
 					"assume_role_arn": schema.StringAttribute{
 						Computed:    true,
@@ -31226,7 +31239,7 @@ func (r *DestinationResource) Create(ctx context.Context, req resource.CreateReq
 		return
 	}
 
-	request, requestDiags := data.ToSharedOutput(ctx)
+	request, requestDiags := data.ToOperationsCreateOutputRequest(ctx)
 	resp.Diagnostics.Append(requestDiags...)
 
 	if resp.Diagnostics.HasError() {

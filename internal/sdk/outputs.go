@@ -28,7 +28,7 @@ func newOutputs(sdkConfig sdkConfiguration) *Outputs {
 
 // ListOutput - Get a list of Output objects
 // Get a list of Output objects
-func (s *Outputs) ListOutput(ctx context.Context, opts ...operations.Option) (*operations.ListOutputResponse, error) {
+func (s *Outputs) ListOutput(ctx context.Context, request operations.ListOutputRequest, opts ...operations.Option) (*operations.ListOutputResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -46,7 +46,7 @@ func (s *Outputs) ListOutput(ctx context.Context, opts ...operations.Option) (*o
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := url.JoinPath(baseURL, "/system/outputs")
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/system/outputs", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -178,7 +178,7 @@ func (s *Outputs) ListOutput(ctx context.Context, opts ...operations.Option) (*o
 
 // CreateOutput - Create Output
 // Create Output
-func (s *Outputs) CreateOutput(ctx context.Context, request shared.Output, opts ...operations.Option) (*operations.CreateOutputResponse, error) {
+func (s *Outputs) CreateOutput(ctx context.Context, request operations.CreateOutputRequest, opts ...operations.Option) (*operations.CreateOutputResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -196,7 +196,7 @@ func (s *Outputs) CreateOutput(ctx context.Context, request shared.Output, opts 
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := url.JoinPath(baseURL, "/system/outputs")
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/system/outputs", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -208,7 +208,7 @@ func (s *Outputs) CreateOutput(ctx context.Context, request shared.Output, opts 
 		OAuth2Scopes:   []string{},
 		SecuritySource: s.sdkConfiguration.Security,
 	}
-	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "Request", "json", `request:"mediaType=application/json"`)
+	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "Output", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
 	}
@@ -353,7 +353,7 @@ func (s *Outputs) GetOutputByID(ctx context.Context, request operations.GetOutpu
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/system/outputs/{id}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/system/outputs/{id}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -503,7 +503,7 @@ func (s *Outputs) UpdateOutputByID(ctx context.Context, request operations.Updat
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/system/outputs/{id}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/system/outputs/{id}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -660,7 +660,7 @@ func (s *Outputs) DeleteOutputByID(ctx context.Context, request operations.Delet
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/system/outputs/{id}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/system/outputs/{id}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -810,7 +810,7 @@ func (s *Outputs) DeleteOutputPqByID(ctx context.Context, request operations.Del
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/system/outputs/{id}/pq", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/system/outputs/{id}/pq", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -960,7 +960,7 @@ func (s *Outputs) GetOutputPqByID(ctx context.Context, request operations.GetOut
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/system/outputs/{id}/pq", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/system/outputs/{id}/pq", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -1110,7 +1110,7 @@ func (s *Outputs) GetOutputSamplesByID(ctx context.Context, request operations.G
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/system/outputs/{id}/samples", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/system/outputs/{id}/samples", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -1260,7 +1260,7 @@ func (s *Outputs) CreateOutputTestByID(ctx context.Context, request operations.C
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/system/outputs/{id}/test", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/system/outputs/{id}/test", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}

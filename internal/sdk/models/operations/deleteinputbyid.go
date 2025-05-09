@@ -10,6 +10,8 @@ import (
 type DeleteInputByIDRequest struct {
 	// Unique ID to DELETE
 	ID string `pathParam:"style=simple,explode=false,name=id"`
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
 }
 
 func (o *DeleteInputByIDRequest) GetID() string {
@@ -17,6 +19,13 @@ func (o *DeleteInputByIDRequest) GetID() string {
 		return ""
 	}
 	return o.ID
+}
+
+func (o *DeleteInputByIDRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
 }
 
 // DeleteInputByIDResponseBody - a list of Input objects

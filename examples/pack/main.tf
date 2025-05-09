@@ -14,33 +14,15 @@ provider "cribl-terraform" {
 }
 
 resource "cribl-terraform_pack" "my_pack" {
-  description  = "example-pack-description-test-1"
-  disabled     = false
-  display_name = "example-pack-display-name-test-1"
   id           = "test-pack-id-1"
-  source       = "file:/opt/cribl_data/failover/groups/default/default/HelloPacks"
-  version      = "example-pack-version"
   group_id     = "default"
-}
-
-resource "cribl-terraform_pack" "my_pack_test" {
-  description  = "example-pack-description-test-1"
-  disabled     = false
-  display_name = "example-pack-display-name-test"
-  id           = "test-pack-id-1"
-  source       = "file:/opt/cribl_data/failover/groups/default/default/HelloPacks"
-  version      = "example-pack-version"
-  group_id     = "test"
+  filename = "/Users/kishore/Downloads/cribl-paloalto-xsiam-1.0.0.crbl"
 }
 
 # Output the pack details to see the read-only attributes
 output "pack_details" {
   value = cribl-terraform_pack.my_pack
 } 
-
-output "pack_details_test" {
-  value = cribl-terraform_pack.my_pack_test
-}
 
 /*
 # Example of using a data source to fetch an existing pack

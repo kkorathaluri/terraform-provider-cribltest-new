@@ -20142,6 +20142,10 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 				UseStatusFromLB: useStatusFromLb57,
 			}
 		}
+		var additionalProperties1 interface{}
+		if !r.OutputCriblLake.AdditionalProperties.IsUnknown() && !r.OutputCriblLake.AdditionalProperties.IsNull() {
+			_ = json.Unmarshal([]byte(r.OutputCriblLake.AdditionalProperties.ValueString()), &additionalProperties1)
+		}
 		outputCriblLake = &shared.OutputCriblLake{
 			ID:                            id57,
 			Type:                          typeVar57,
@@ -20189,6 +20193,7 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 			DeadletterPath:                deadletterPath8,
 			MaxRetryNum:                   maxRetryNum8,
 			Status:                        status57,
+			AdditionalProperties:          additionalProperties1,
 		}
 	}
 	if outputCriblLake != nil {
@@ -22090,11 +22095,35 @@ func (r *DestinationResourceModel) ToSharedOutput(ctx context.Context) (*shared.
 	return &out, diags
 }
 
+func (r *DestinationResourceModel) ToOperationsCreateOutputRequest(ctx context.Context) (*operations.CreateOutputRequest, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	var groupID string
+	groupID = r.GroupID.ValueString()
+
+	output, outputDiags := r.ToSharedOutput(ctx)
+	diags.Append(outputDiags...)
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	out := operations.CreateOutputRequest{
+		GroupID: groupID,
+		Output:  *output,
+	}
+
+	return &out, diags
+}
+
 func (r *DestinationResourceModel) ToOperationsUpdateOutputByIDRequest(ctx context.Context) (*operations.UpdateOutputByIDRequest, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
 	var id string
 	id = r.ID.ValueString()
+
+	var groupID string
+	groupID = r.GroupID.ValueString()
 
 	output, outputDiags := r.ToSharedOutput(ctx)
 	diags.Append(outputDiags...)
@@ -22104,8 +22133,9 @@ func (r *DestinationResourceModel) ToOperationsUpdateOutputByIDRequest(ctx conte
 	}
 
 	out := operations.UpdateOutputByIDRequest{
-		ID:     id,
-		Output: *output,
+		ID:      id,
+		GroupID: groupID,
+		Output:  *output,
 	}
 
 	return &out, diags
@@ -22117,8 +22147,12 @@ func (r *DestinationResourceModel) ToOperationsDeleteOutputByIDRequest(ctx conte
 	var id string
 	id = r.ID.ValueString()
 
+	var groupID string
+	groupID = r.GroupID.ValueString()
+
 	out := operations.DeleteOutputByIDRequest{
-		ID: id,
+		ID:      id,
+		GroupID: groupID,
 	}
 
 	return &out, diags
@@ -23378,6 +23412,12 @@ func (r *DestinationResourceModel) RefreshFromSharedOutput(ctx context.Context, 
 	if resp.OutputCriblLake != nil {
 		r.OutputCriblLake = &tfTypes.OutputCriblLake{}
 		r.OutputCriblLake.AddIDToStagePath = types.BoolPointerValue(resp.OutputCriblLake.AddIDToStagePath)
+		if resp.OutputCriblLake.AdditionalProperties == nil {
+			r.OutputCriblLake.AdditionalProperties = types.StringNull()
+		} else {
+			additionalPropertiesResult, _ := json.Marshal(resp.OutputCriblLake.AdditionalProperties)
+			r.OutputCriblLake.AdditionalProperties = types.StringValue(string(additionalPropertiesResult))
+		}
 		r.OutputCriblLake.AssumeRoleArn = types.StringPointerValue(resp.OutputCriblLake.AssumeRoleArn)
 		r.OutputCriblLake.AssumeRoleExternalID = types.StringPointerValue(resp.OutputCriblLake.AssumeRoleExternalID)
 		if resp.OutputCriblLake.AwsAuthenticationMethod != nil {

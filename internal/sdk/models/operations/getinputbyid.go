@@ -10,6 +10,8 @@ import (
 type GetInputByIDRequest struct {
 	// Unique ID to GET
 	ID string `pathParam:"style=simple,explode=false,name=id"`
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
 }
 
 func (o *GetInputByIDRequest) GetID() string {
@@ -17,6 +19,13 @@ func (o *GetInputByIDRequest) GetID() string {
 		return ""
 	}
 	return o.ID
+}
+
+func (o *GetInputByIDRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
 }
 
 // GetInputByIDResponseBody - a list of Input objects

@@ -10,6 +10,8 @@ import (
 type UpdateOutputByIDRequest struct {
 	// Unique ID to PATCH
 	ID string `pathParam:"style=simple,explode=false,name=id"`
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
 	// Output object to be updated
 	Output shared.Output `request:"mediaType=application/json"`
 }
@@ -19,6 +21,13 @@ func (o *UpdateOutputByIDRequest) GetID() string {
 		return ""
 	}
 	return o.ID
+}
+
+func (o *UpdateOutputByIDRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
 }
 
 func (o *UpdateOutputByIDRequest) GetOutput() shared.Output {

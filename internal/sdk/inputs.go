@@ -28,7 +28,7 @@ func newInputs(sdkConfig sdkConfiguration) *Inputs {
 
 // ListInput - Get a list of Input objects
 // Get a list of Input objects
-func (s *Inputs) ListInput(ctx context.Context, opts ...operations.Option) (*operations.ListInputResponse, error) {
+func (s *Inputs) ListInput(ctx context.Context, request operations.ListInputRequest, opts ...operations.Option) (*operations.ListInputResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -46,7 +46,7 @@ func (s *Inputs) ListInput(ctx context.Context, opts ...operations.Option) (*ope
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := url.JoinPath(baseURL, "/system/inputs")
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/system/inputs", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -178,7 +178,7 @@ func (s *Inputs) ListInput(ctx context.Context, opts ...operations.Option) (*ope
 
 // CreateInput - Create Input
 // Create Input
-func (s *Inputs) CreateInput(ctx context.Context, request shared.Input, opts ...operations.Option) (*operations.CreateInputResponse, error) {
+func (s *Inputs) CreateInput(ctx context.Context, request operations.CreateInputRequest, opts ...operations.Option) (*operations.CreateInputResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -196,7 +196,7 @@ func (s *Inputs) CreateInput(ctx context.Context, request shared.Input, opts ...
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := url.JoinPath(baseURL, "/system/inputs")
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/system/inputs", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -208,7 +208,7 @@ func (s *Inputs) CreateInput(ctx context.Context, request shared.Input, opts ...
 		OAuth2Scopes:   []string{},
 		SecuritySource: s.sdkConfiguration.Security,
 	}
-	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "Request", "json", `request:"mediaType=application/json"`)
+	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "Input", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
 	}
@@ -353,7 +353,7 @@ func (s *Inputs) GetInputByID(ctx context.Context, request operations.GetInputBy
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/system/inputs/{id}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/system/inputs/{id}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -503,7 +503,7 @@ func (s *Inputs) UpdateInputByID(ctx context.Context, request operations.UpdateI
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/system/inputs/{id}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/system/inputs/{id}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -660,7 +660,7 @@ func (s *Inputs) DeleteInputByID(ctx context.Context, request operations.DeleteI
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/system/inputs/{id}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/system/inputs/{id}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -810,7 +810,7 @@ func (s *Inputs) CreateInputHecTokenByID(ctx context.Context, request operations
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/system/inputs/{id}/hectoken", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/system/inputs/{id}/hectoken", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -967,7 +967,7 @@ func (s *Inputs) UpdateInputHecTokenByIDAndToken(ctx context.Context, request op
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/system/inputs/{id}/hectoken/{token}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/system/inputs/{id}/hectoken/{token}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}

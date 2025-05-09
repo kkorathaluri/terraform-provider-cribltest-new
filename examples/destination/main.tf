@@ -8,12 +8,15 @@ terraform {
 
 provider "cribl-terraform" {
   # Configuration options
-  server_url ="https://app.cribl-playground.cloud/organizations/beautiful-nguyen-y8y4azd/workspaces/main/app/api/v1/m/default"
+  #server_url ="https://app.cribl-playground.cloud/organizations/beautiful-nguyen-y8y4azd/workspaces/main/app/api/v1/m/default"
+  organization_id = "beautiful-nguyen-y8y4azd"
+  workspace_id = "main"
 }
 
 
 resource "cribl-terraform_destination" "my_destination" {
-  id = "test_4"
+  id = "test"
+  group_id = "default"
   output_cribl_http = {
     compression            = "gzip"
     concurrency            = 11.56
@@ -32,7 +35,7 @@ resource "cribl-terraform_destination" "my_destination" {
     ]
     failed_request_logging_mode   = "none"
     flush_period_sec              = 2.35
-    id                            = "test_4"
+    id                            = "test"
     load_balance_stats_period_sec = 12.74
     load_balanced                 = false
     max_payload_events            = 6.83

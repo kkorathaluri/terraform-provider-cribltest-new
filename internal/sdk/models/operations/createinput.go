@@ -7,6 +7,27 @@ import (
 	"net/http"
 )
 
+type CreateInputRequest struct {
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
+	// New Input object
+	Input shared.Input `request:"mediaType=application/json"`
+}
+
+func (o *CreateInputRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
+}
+
+func (o *CreateInputRequest) GetInput() shared.Input {
+	if o == nil {
+		return shared.Input{}
+	}
+	return o.Input
+}
+
 // CreateInputResponseBody - a list of Input objects
 type CreateInputResponseBody struct {
 	Items []shared.Input `json:"items,omitempty"`

@@ -7,6 +7,17 @@ import (
 	"net/http"
 )
 
+type ListInputRequest struct {
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
+}
+
+func (o *ListInputRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
+}
+
 // ListInputResponseBody - a list of Input objects
 type ListInputResponseBody struct {
 	// number of items present in the items array

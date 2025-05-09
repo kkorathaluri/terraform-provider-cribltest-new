@@ -19,26 +19,6 @@ components:
           tokenUrl: https://login.cribl.cloud/oauth/token
           scopes: {}
   schemas:
-    Pack:
-      x-speakeasy-entity: Pack
-      type: object
-      properties:
-        displayName:
-          type: string
-        id:
-          type: string
-        description:
-          type: string
-        version:
-          type: string
-        source:
-          type: string
-        groupId:
-          type: string
-        disabled:
-          type: boolean
-      required:
-      - groupId
     Error:
       type: object
       properties:
@@ -40448,6 +40428,7 @@ components:
           $ref: '#/components/schemas/TFStatus'
       type: object
     OutputCriblLake:
+      additionalProperties: true
       required:
       - destPath
       - type
@@ -40456,7 +40437,7 @@ components:
           type: string
           title: Output ID
           description: Unique ID for this output
-        type:
+        type: 
           type: string
           enum:
           - cribl_lake
@@ -57054,13 +57035,19 @@ paths:
         in: path
         required: true
         description: Unique ID to DELETE
-  /system/inputs:
+  /m/{groupId}/system/inputs:
     get:
       operationId: listInput
       tags:
       - inputs
       summary: Get a list of Input objects
       description: Get a list of Input objects
+      parameters:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: a list of Input objects
@@ -57114,6 +57101,13 @@ paths:
       operationId: createInput
       summary: Create Input
       description: Create Input
+      parameters:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
       x-speakeasy-entity-operation: Source#create
       requestBody:
         description: New Input object
@@ -57122,7 +57116,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Input'
-  /system/inputs/{id}:
+  /m/{groupId}/system/inputs/{id}:
     get:
       tags:
       - inputs
@@ -57160,6 +57154,12 @@ paths:
         schema:
           type: string
         description: Unique ID to GET
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
     patch:
       tags:
       - inputs
@@ -57198,6 +57198,12 @@ paths:
         in: path
         required: true
         description: Unique ID to PATCH
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
       requestBody:
         description: Input object to be updated
         required: true
@@ -57243,7 +57249,13 @@ paths:
         in: path
         required: true
         description: Unique ID to DELETE
-  /system/inputs/{id}/hectoken:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
+  /m/{groupId}/system/inputs/{id}/hectoken:
     post:
       operationId: createInputHecTokenById
       tags:
@@ -57288,7 +57300,13 @@ paths:
         schema:
           type: string
         description: hec input id
-  /system/inputs/{id}/hectoken/{token}:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
+  /m/{groupId}/system/inputs/{id}/hectoken/{token}:
     patch:
       operationId: updateInputHecTokenByIdAndToken
       tags:
@@ -57339,13 +57357,26 @@ paths:
         schema:
           type: string
         description: token to update
-  /system/outputs:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
+  /m/{groupId}/system/outputs:
     get:
       operationId: listOutput
       tags:
       - outputs
       summary: Get a list of Output objects
       description: Get a list of Output objects
+      parameters:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
       responses:
         '200':
           description: a list of Output objects
@@ -57400,6 +57431,13 @@ paths:
       summary: Create Output
       description: Create Output
       x-speakeasy-entity-operation: Destination#create
+      parameters:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
       requestBody:
         description: New Output object
         required: true
@@ -57407,7 +57445,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Output'
-  /system/outputs/{id}:
+  /m/{groupId}/system/outputs/{id}:
     get:
       tags:
       - outputs
@@ -57445,6 +57483,12 @@ paths:
         schema:
           type: string
         description: Unique ID to GET
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
     patch:
       tags:
       - outputs
@@ -57483,6 +57527,12 @@ paths:
         in: path
         required: true
         description: Unique ID to PATCH
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
       requestBody:
         description: Output object to be updated
         required: true
@@ -57527,7 +57577,13 @@ paths:
         in: path
         required: true
         description: Unique ID to DELETE
-  /system/outputs/{id}/pq:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
+  /m/{groupId}/system/outputs/{id}/pq:
     delete:
       operationId: deleteOutputPqById
       tags:
@@ -57565,6 +57621,12 @@ paths:
         schema:
           type: string
         description: Output Id
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
     get:
       operationId: getOutputPqById
       tags:
@@ -57602,7 +57664,13 @@ paths:
         schema:
           type: string
         description: Output Id
-  /system/outputs/{id}/samples:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
+  /m/{groupId}/system/outputs/{id}/samples:
     get:
       operationId: getOutputSamplesById
       tags:
@@ -57641,7 +57709,13 @@ paths:
         schema:
           type: string
         description: Output Id
-  /system/outputs/{id}/test:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
+  /m/{groupId}/system/outputs/{id}/test:
     post:
       operationId: createOutputTestById
       tags:
@@ -57686,6 +57760,12 @@ paths:
         schema:
           type: string
         description: Output Id
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
   /lib/parquet-schemas:
     get:
       operationId: listSchema
@@ -62403,6 +62483,7 @@ paths:
       - packs
       summary: Install Pack
       description: Install Pack
+      x-speakeasy-entity-operation: Pack#create
       parameters:
       - name: groupId
         in: path
@@ -62410,7 +62491,12 @@ paths:
         schema:
           type: string
         description: Group Id
-      x-speakeasy-entity-operation: Pack#create
+      - name: filename
+        in: query
+        required: false
+        schema:
+          type: string
+        description: the file to upload
       responses:
         '200':
           description: a list of PackInstallInfo objects
@@ -62443,8 +62529,6 @@ paths:
             schema:
               allOf:
               - $ref: '#/components/schemas/CrudEntityBase'
-              - $ref: '#/components/schemas/Pack'
-              x-speakeasy-entity: Pack
               type: object
     get:
       operationId: getPacks
@@ -62490,6 +62574,7 @@ paths:
       - packs
       summary: Upload Pack
       description: Upload Pack
+      x-speakeasy-entity-operation: Pack#update
       parameters:
       - name: groupId
         in: path

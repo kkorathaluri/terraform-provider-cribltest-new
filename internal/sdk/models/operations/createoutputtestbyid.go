@@ -10,6 +10,8 @@ import (
 type CreateOutputTestByIDRequest struct {
 	// Output Id
 	ID string `pathParam:"style=simple,explode=false,name=id"`
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
 	// OutputTestRequest object
 	OutputTestRequest shared.OutputTestRequest `request:"mediaType=application/json"`
 }
@@ -19,6 +21,13 @@ func (o *CreateOutputTestByIDRequest) GetID() string {
 		return ""
 	}
 	return o.ID
+}
+
+func (o *CreateOutputTestByIDRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
 }
 
 func (o *CreateOutputTestByIDRequest) GetOutputTestRequest() shared.OutputTestRequest {

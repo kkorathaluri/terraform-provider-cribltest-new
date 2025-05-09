@@ -22011,11 +22011,35 @@ func (r *SourceResourceModel) ToSharedInput(ctx context.Context) (*shared.Input,
 	return &out, diags
 }
 
+func (r *SourceResourceModel) ToOperationsCreateInputRequest(ctx context.Context) (*operations.CreateInputRequest, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	var groupID string
+	groupID = r.GroupID.ValueString()
+
+	input, inputDiags := r.ToSharedInput(ctx)
+	diags.Append(inputDiags...)
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	out := operations.CreateInputRequest{
+		GroupID: groupID,
+		Input:   *input,
+	}
+
+	return &out, diags
+}
+
 func (r *SourceResourceModel) ToOperationsUpdateInputByIDRequest(ctx context.Context) (*operations.UpdateInputByIDRequest, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
 	var id string
 	id = r.ID.ValueString()
+
+	var groupID string
+	groupID = r.GroupID.ValueString()
 
 	input, inputDiags := r.ToSharedInput(ctx)
 	diags.Append(inputDiags...)
@@ -22025,8 +22049,9 @@ func (r *SourceResourceModel) ToOperationsUpdateInputByIDRequest(ctx context.Con
 	}
 
 	out := operations.UpdateInputByIDRequest{
-		ID:    id,
-		Input: *input,
+		ID:      id,
+		GroupID: groupID,
+		Input:   *input,
 	}
 
 	return &out, diags
@@ -22038,8 +22063,12 @@ func (r *SourceResourceModel) ToOperationsDeleteInputByIDRequest(ctx context.Con
 	var id string
 	id = r.ID.ValueString()
 
+	var groupID string
+	groupID = r.GroupID.ValueString()
+
 	out := operations.DeleteInputByIDRequest{
-		ID: id,
+		ID:      id,
+		GroupID: groupID,
 	}
 
 	return &out, diags

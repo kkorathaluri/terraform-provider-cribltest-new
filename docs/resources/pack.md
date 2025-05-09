@@ -14,13 +14,9 @@ Pack Resource
 
 ```terraform
 resource "cribl-terraform_pack" "my_pack" {
-  description  = "...my_description..."
-  disabled     = true
-  display_name = "...my_display_name..."
-  group_id     = "...my_group_id..."
-  id           = "...my_id..."
-  source       = "...my_source..."
-  version      = "...my_version..."
+  filename = "...my_filename..."
+  group_id = "...my_group_id..."
+  id       = "...my_id..."
 }
 ```
 
@@ -34,11 +30,7 @@ resource "cribl-terraform_pack" "my_pack" {
 
 ### Optional
 
-- `description` (String) Requires replacement if changed.
-- `disabled` (Boolean) Requires replacement if changed.
-- `display_name` (String) Requires replacement if changed.
-- `source` (String) body string required Pack source
-- `version` (String) Requires replacement if changed.
+- `filename` (String) the file to upload. Requires replacement if changed.
 
 ### Read-Only
 
