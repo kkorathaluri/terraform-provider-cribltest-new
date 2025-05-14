@@ -10,6 +10,8 @@ import (
 type UpdatePipelineByIDRequest struct {
 	// Unique ID to PATCH
 	ID string `pathParam:"style=simple,explode=false,name=id"`
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
 	// Pipeline object to be updated
 	Pipeline shared.Pipeline `request:"mediaType=application/json"`
 }
@@ -21,6 +23,13 @@ func (o *UpdatePipelineByIDRequest) GetID() string {
 	return o.ID
 }
 
+func (o *UpdatePipelineByIDRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
+}
+
 func (o *UpdatePipelineByIDRequest) GetPipeline() shared.Pipeline {
 	if o == nil {
 		return shared.Pipeline{}
@@ -30,16 +39,7 @@ func (o *UpdatePipelineByIDRequest) GetPipeline() shared.Pipeline {
 
 // UpdatePipelineByIDResponseBody - a list of Pipeline objects
 type UpdatePipelineByIDResponseBody struct {
-	// number of items present in the items array
-	Count *int64            `json:"count,omitempty"`
 	Items []shared.Pipeline `json:"items,omitempty"`
-}
-
-func (o *UpdatePipelineByIDResponseBody) GetCount() *int64 {
-	if o == nil {
-		return nil
-	}
-	return o.Count
 }
 
 func (o *UpdatePipelineByIDResponseBody) GetItems() []shared.Pipeline {

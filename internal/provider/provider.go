@@ -149,6 +149,8 @@ func (p *CriblTerraformProvider) Resources(ctx context.Context) []func() resourc
 		NewDestinationResource,
 		NewGroupResource,
 		NewPackResource,
+		NewPackPipelineResource,
+		NewPipelineResource,
 		NewSourceResource,
 	}
 }
@@ -156,6 +158,8 @@ func (p *CriblTerraformProvider) Resources(ctx context.Context) []func() resourc
 func (p *CriblTerraformProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
 		NewPackDataSource,
+		NewPackPipelineDataSource,
+		NewPipelineDataSource,
 	}
 }
 

@@ -10,6 +10,8 @@ import (
 type DeletePipelineByIDRequest struct {
 	// Unique ID to DELETE
 	ID string `pathParam:"style=simple,explode=false,name=id"`
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
 }
 
 func (o *DeletePipelineByIDRequest) GetID() string {
@@ -19,18 +21,25 @@ func (o *DeletePipelineByIDRequest) GetID() string {
 	return o.ID
 }
 
+func (o *DeletePipelineByIDRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
+}
+
 // DeletePipelineByIDResponseBody - a list of Pipeline objects
 type DeletePipelineByIDResponseBody struct {
 	// number of items present in the items array
-	Count *int64            `json:"count,omitempty"`
-	Items []shared.Pipeline `json:"items,omitempty"`
+	CountTotal *int64            `json:"count_total,omitempty"`
+	Items      []shared.Pipeline `json:"items,omitempty"`
 }
 
-func (o *DeletePipelineByIDResponseBody) GetCount() *int64 {
+func (o *DeletePipelineByIDResponseBody) GetCountTotal() *int64 {
 	if o == nil {
 		return nil
 	}
-	return o.Count
+	return o.CountTotal
 }
 
 func (o *DeletePipelineByIDResponseBody) GetItems() []shared.Pipeline {

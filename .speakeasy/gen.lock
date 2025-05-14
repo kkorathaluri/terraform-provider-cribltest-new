@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: b2744b7e-1ce3-478a-8c1f-0348b936141a
 management:
-  docChecksum: d823d501a8f880b46392bce8b21f6cf7
+  docChecksum: 88b06cb9eb977d0f612cd2f71e7df032
   docVersion: 1.0.0
-  speakeasyVersion: 1.542.3
-  generationVersion: 2.597.9
-  releaseVersion: 0.11.69
-  configChecksum: e77c53e87590905a3ad0b0b4d7b62e22
+  speakeasyVersion: 1.544.0
+  generationVersion: 2.599.0
+  releaseVersion: 0.16.14
+  configChecksum: 013e3e7659916475d95e73d536125053
   published: true
 features:
   terraform:
@@ -15,9 +15,8 @@ features:
     constsAndDefaults: 0.2.1
     core: 3.41.6
     deprecations: 2.82.0
-    envVarSecurityUsage: 0.1.0
-    globalSecurity: 2.81.10
-    globalServerURLs: 2.82.1
+    globalSecurity: 2.81.11
+    globalServerURLs: 2.82.2
     ignores: 2.81.1
     inputOutputModels: 2.83.0
     methodServerURLs: 2.82.1
@@ -30,11 +29,17 @@ generatedFiles:
   - USAGE.md
   - examples/README.md
   - examples/data-sources/cribl-terraform_pack/data-source.tf
+  - examples/data-sources/cribl-terraform_pack_pipeline/data-source.tf
+  - examples/data-sources/cribl-terraform_pipeline/data-source.tf
   - examples/provider/provider.tf
   - examples/resources/cribl-terraform_destination/resource.tf
   - examples/resources/cribl-terraform_group/resource.tf
   - examples/resources/cribl-terraform_pack/import.sh
   - examples/resources/cribl-terraform_pack/resource.tf
+  - examples/resources/cribl-terraform_pack_pipeline/import.sh
+  - examples/resources/cribl-terraform_pack_pipeline/resource.tf
+  - examples/resources/cribl-terraform_pipeline/import.sh
+  - examples/resources/cribl-terraform_pipeline/resource.tf
   - examples/resources/cribl-terraform_source/resource.tf
   - go.mod
   - go.sum
@@ -58,6 +63,14 @@ generatedFiles:
   - internal/provider/pack_data_source_sdk.go
   - internal/provider/pack_resource.go
   - internal/provider/pack_resource_sdk.go
+  - internal/provider/packpipeline_data_source.go
+  - internal/provider/packpipeline_data_source_sdk.go
+  - internal/provider/packpipeline_resource.go
+  - internal/provider/packpipeline_resource_sdk.go
+  - internal/provider/pipeline_data_source.go
+  - internal/provider/pipeline_data_source_sdk.go
+  - internal/provider/pipeline_resource.go
+  - internal/provider/pipeline_resource_sdk.go
   - internal/provider/provider.go
   - internal/provider/reflect/diags.go
   - internal/provider/reflect/doc.go
@@ -87,6 +100,7 @@ generatedFiles:
   - internal/provider/types/checkpointing.go
   - internal/provider/types/collectors.go
   - internal/provider/types/commit.go
+  - internal/provider/types/conf.go
   - internal/provider/types/config_group_cloud.go
   - internal/provider/types/connections.go
   - internal/provider/types/content_config.go
@@ -733,6 +747,8 @@ generatedFiles:
   - internal/provider/types/pack_info1.go
   - internal/provider/types/pack_info_tags.go
   - internal/provider/types/persistence.go
+  - internal/provider/types/pipeline_function_conf.go
+  - internal/provider/types/pipeline_groups.go
   - internal/provider/types/pod_filter.go
   - internal/provider/types/pq.go
   - internal/provider/types/pq_controls.go
@@ -2464,6 +2480,9 @@ examples:
           application/json: {}
   listPipeline:
     speakeasy-default-list-pipeline:
+      parameters:
+        path:
+          groupId: "<id>"
       responses:
         "200":
           application/json: {}
@@ -2471,6 +2490,9 @@ examples:
           application/json: {}
   createPipeline:
     speakeasy-default-create-pipeline:
+      parameters:
+        path:
+          groupId: "<id>"
       requestBody:
         application/json: {"id": "<id>", "conf": {"output": "default", "streamtags": []}}
       responses:
@@ -2483,6 +2505,7 @@ examples:
       parameters:
         path:
           id: "<id>"
+          groupId: "<id>"
       responses:
         "200":
           application/json: {}
@@ -2493,6 +2516,7 @@ examples:
       parameters:
         path:
           id: "<id>"
+          groupId: "<id>"
       requestBody:
         application/json: {"id": "<id>", "conf": {"output": "default", "streamtags": []}}
       responses:
@@ -2505,6 +2529,7 @@ examples:
       parameters:
         path:
           id: "<id>"
+          groupId: "<id>"
       responses:
         "200":
           application/json: {}
@@ -2515,6 +2540,7 @@ examples:
       parameters:
         path:
           pack: "<value>"
+          groupId: "<id>"
       responses:
         "200":
           application/json: {}
@@ -2525,6 +2551,7 @@ examples:
       parameters:
         path:
           pack: "<value>"
+          groupId: "<id>"
       requestBody:
         application/json: {"id": "<id>", "conf": {"output": "default", "streamtags": []}}
       responses:
@@ -2538,6 +2565,7 @@ examples:
         path:
           id: "<id>"
           pack: "<value>"
+          groupId: "<id>"
       responses:
         "200":
           application/json: {}
@@ -2549,6 +2577,7 @@ examples:
         path:
           id: "<id>"
           pack: "<value>"
+          groupId: "<id>"
       requestBody:
         application/json: {"id": "<id>", "conf": {"output": "default", "streamtags": []}}
       responses:
@@ -2562,6 +2591,7 @@ examples:
         path:
           id: "<id>"
           pack: "<value>"
+          groupId: "<id>"
       responses:
         "200":
           application/json: {}

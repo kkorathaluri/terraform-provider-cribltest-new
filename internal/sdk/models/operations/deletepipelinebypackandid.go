@@ -12,6 +12,8 @@ type DeletePipelineByPackAndIDRequest struct {
 	ID string `pathParam:"style=simple,explode=false,name=id"`
 	// pack ID to DELETE
 	Pack string `pathParam:"style=simple,explode=false,name=pack"`
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
 }
 
 func (o *DeletePipelineByPackAndIDRequest) GetID() string {
@@ -28,18 +30,16 @@ func (o *DeletePipelineByPackAndIDRequest) GetPack() string {
 	return o.Pack
 }
 
-// DeletePipelineByPackAndIDResponseBody - a list of Pipeline objects
-type DeletePipelineByPackAndIDResponseBody struct {
-	// number of items present in the items array
-	Count *int64            `json:"count,omitempty"`
-	Items []shared.Pipeline `json:"items,omitempty"`
+func (o *DeletePipelineByPackAndIDRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
 }
 
-func (o *DeletePipelineByPackAndIDResponseBody) GetCount() *int64 {
-	if o == nil {
-		return nil
-	}
-	return o.Count
+// DeletePipelineByPackAndIDResponseBody - a list of Pipeline objects
+type DeletePipelineByPackAndIDResponseBody struct {
+	Items []shared.Pipeline `json:"items,omitempty"`
 }
 
 func (o *DeletePipelineByPackAndIDResponseBody) GetItems() []shared.Pipeline {

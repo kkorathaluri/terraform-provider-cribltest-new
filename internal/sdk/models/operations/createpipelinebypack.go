@@ -10,6 +10,8 @@ import (
 type CreatePipelineByPackRequest struct {
 	// pack ID to POST
 	Pack string `pathParam:"style=simple,explode=false,name=pack"`
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
 	// New Pipeline object
 	Pipeline shared.Pipeline `request:"mediaType=application/json"`
 }
@@ -21,6 +23,13 @@ func (o *CreatePipelineByPackRequest) GetPack() string {
 	return o.Pack
 }
 
+func (o *CreatePipelineByPackRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
+}
+
 func (o *CreatePipelineByPackRequest) GetPipeline() shared.Pipeline {
 	if o == nil {
 		return shared.Pipeline{}
@@ -30,16 +39,7 @@ func (o *CreatePipelineByPackRequest) GetPipeline() shared.Pipeline {
 
 // CreatePipelineByPackResponseBody - a list of Pipeline objects
 type CreatePipelineByPackResponseBody struct {
-	// number of items present in the items array
-	Count *int64            `json:"count,omitempty"`
 	Items []shared.Pipeline `json:"items,omitempty"`
-}
-
-func (o *CreatePipelineByPackResponseBody) GetCount() *int64 {
-	if o == nil {
-		return nil
-	}
-	return o.Count
 }
 
 func (o *CreatePipelineByPackResponseBody) GetItems() []shared.Pipeline {

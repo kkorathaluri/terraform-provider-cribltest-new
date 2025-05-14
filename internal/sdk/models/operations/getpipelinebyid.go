@@ -10,6 +10,8 @@ import (
 type GetPipelineByIDRequest struct {
 	// Unique ID to GET
 	ID string `pathParam:"style=simple,explode=false,name=id"`
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
 }
 
 func (o *GetPipelineByIDRequest) GetID() string {
@@ -19,18 +21,16 @@ func (o *GetPipelineByIDRequest) GetID() string {
 	return o.ID
 }
 
-// GetPipelineByIDResponseBody - a list of Pipeline objects
-type GetPipelineByIDResponseBody struct {
-	// number of items present in the items array
-	Count *int64            `json:"count,omitempty"`
-	Items []shared.Pipeline `json:"items,omitempty"`
+func (o *GetPipelineByIDRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
 }
 
-func (o *GetPipelineByIDResponseBody) GetCount() *int64 {
-	if o == nil {
-		return nil
-	}
-	return o.Count
+// GetPipelineByIDResponseBody - a list of Pipeline objects
+type GetPipelineByIDResponseBody struct {
+	Items []shared.Pipeline `json:"items,omitempty"`
 }
 
 func (o *GetPipelineByIDResponseBody) GetItems() []shared.Pipeline {
