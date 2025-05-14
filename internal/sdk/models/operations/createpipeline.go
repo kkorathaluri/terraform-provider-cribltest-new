@@ -7,18 +7,30 @@ import (
 	"net/http"
 )
 
-// CreatePipelineResponseBody - a list of Pipeline objects
-type CreatePipelineResponseBody struct {
-	// number of items present in the items array
-	Count *int64            `json:"count,omitempty"`
-	Items []shared.Pipeline `json:"items,omitempty"`
+type CreatePipelineRequest struct {
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
+	// New Pipeline object
+	Pipeline shared.Pipeline `request:"mediaType=application/json"`
 }
 
-func (o *CreatePipelineResponseBody) GetCount() *int64 {
+func (o *CreatePipelineRequest) GetGroupID() string {
 	if o == nil {
-		return nil
+		return ""
 	}
-	return o.Count
+	return o.GroupID
+}
+
+func (o *CreatePipelineRequest) GetPipeline() shared.Pipeline {
+	if o == nil {
+		return shared.Pipeline{}
+	}
+	return o.Pipeline
+}
+
+// CreatePipelineResponseBody - a list of Pipeline objects
+type CreatePipelineResponseBody struct {
+	Items []shared.Pipeline `json:"items,omitempty"`
 }
 
 func (o *CreatePipelineResponseBody) GetItems() []shared.Pipeline {

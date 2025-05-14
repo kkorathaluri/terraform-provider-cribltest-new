@@ -53,7 +53,7 @@ terraform {
   required_providers {
     cribl-terraform = {
       source  = "speakeasy/cribl-terraform"
-      version = "0.11.69"
+      version = "0.16.14"
     }
   }
 }
@@ -72,10 +72,14 @@ provider "cribl-terraform" {
 * [cribl-terraform_destination](docs/resources/destination.md)
 * [cribl-terraform_group](docs/resources/group.md)
 * [cribl-terraform_pack](docs/resources/pack.md)
+* [cribl-terraform_pack_pipeline](docs/resources/pack_pipeline.md)
+* [cribl-terraform_pipeline](docs/resources/pipeline.md)
 * [cribl-terraform_source](docs/resources/source.md)
 ### Data Sources
 
 * [cribl-terraform_pack](docs/data-sources/pack.md)
+* [cribl-terraform_pack_pipeline](docs/data-sources/pack_pipeline.md)
+* [cribl-terraform_pipeline](docs/data-sources/pipeline.md)
 <!-- End Available Resources and Data Sources [operations] -->
 
 <!-- Start Testing the provider locally [usage] -->

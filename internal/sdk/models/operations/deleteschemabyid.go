@@ -22,15 +22,15 @@ func (o *DeleteSchemaByIDRequest) GetID() string {
 // DeleteSchemaByIDResponseBody - a list of Schema objects
 type DeleteSchemaByIDResponseBody struct {
 	// number of items present in the items array
-	Count *int64                  `json:"count,omitempty"`
-	Items []shared.SchemaLibEntry `json:"items,omitempty"`
+	CountTotal *int64                  `json:"count_total,omitempty"`
+	Items      []shared.SchemaLibEntry `json:"items,omitempty"`
 }
 
-func (o *DeleteSchemaByIDResponseBody) GetCount() *int64 {
+func (o *DeleteSchemaByIDResponseBody) GetCountTotal() *int64 {
 	if o == nil {
 		return nil
 	}
-	return o.Count
+	return o.CountTotal
 }
 
 func (o *DeleteSchemaByIDResponseBody) GetItems() []shared.SchemaLibEntry {

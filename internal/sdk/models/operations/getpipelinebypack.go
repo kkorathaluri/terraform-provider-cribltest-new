@@ -10,6 +10,8 @@ import (
 type GetPipelineByPackRequest struct {
 	// pack ID to GET
 	Pack string `pathParam:"style=simple,explode=false,name=pack"`
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
 }
 
 func (o *GetPipelineByPackRequest) GetPack() string {
@@ -19,18 +21,25 @@ func (o *GetPipelineByPackRequest) GetPack() string {
 	return o.Pack
 }
 
+func (o *GetPipelineByPackRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
+}
+
 // GetPipelineByPackResponseBody - a list of Pipeline objects
 type GetPipelineByPackResponseBody struct {
 	// number of items present in the items array
-	Count *int64            `json:"count,omitempty"`
-	Items []shared.Pipeline `json:"items,omitempty"`
+	CountTotal *int64            `json:"count_total,omitempty"`
+	Items      []shared.Pipeline `json:"items,omitempty"`
 }
 
-func (o *GetPipelineByPackResponseBody) GetCount() *int64 {
+func (o *GetPipelineByPackResponseBody) GetCountTotal() *int64 {
 	if o == nil {
 		return nil
 	}
-	return o.Count
+	return o.CountTotal
 }
 
 func (o *GetPipelineByPackResponseBody) GetItems() []shared.Pipeline {

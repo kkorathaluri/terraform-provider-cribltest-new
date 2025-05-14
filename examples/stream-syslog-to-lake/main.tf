@@ -13,16 +13,23 @@ provider "cribl-terraform" {
 
 # Worker Group Configuration
 resource "cribl-terraform_group" "syslog_worker_group" {
-  config_version = "1.0.1"
-  id          = "syslog-workers"
-  name        = "Syslog Workers"
-  description = "Worker group for handling syslog data"
-  worker_count = 1
-  is_fleet    = false
-  is_search   = false
-  on_prem     = true
-  product     = "stream"
-  provisioned = true
+  cloud = {
+    provider = "aws"
+    region   = "us-west-2"
+  }
+  config_version         = "4.12.0"
+  deploying_worker_count = 1
+  description            = "Worker group for handling syslog data"
+  estimated_ingest_rate  = 1024
+  id                     = "syslog-workers"
+  is_fleet               = false
+  is_search              = false
+  name                   = "syslog-workers"
+  on_prem                = false
+  product                = "stream"
+  provisioned            = true
+  worker_count           = 1
+  worker_remote_access   = false
 }
 
 # Syslog Source Configuration
@@ -36,14 +43,13 @@ resource "cribl-terraform_source" "syslog_source" {
       connections = [
         {
           output   = "cribl-lake-2"
-          pipeline = "syslog-processing"
+          pipeline = "palo_alto_traffic"
         }
       ]
       description           = "Syslog input source"
       disabled              = false
       enable_load_balancing = true
       enable_proxy_header   = false
-      environment           = ""
       host                  = "0.0.0.0"
       id                    = "syslog-input"
       infer_framing         = false
@@ -52,7 +58,7 @@ resource "cribl-terraform_source" "syslog_source" {
       max_buffer_size       = 8
       metadata              = []
       octet_counting        = false
-      pipeline              = "syslog-processing"
+      pipeline              = "palo_alto_traffic"
       pq = {
         commit_frequency = 5
         compress         = "none"
@@ -130,7 +136,7 @@ resource "cribl-terraform_destination" "cribl_lake" {
 resource "cribl-terraform_pack" "syslog_pack" {
   id       = "syslog-processing"
   group_id = cribl-terraform_group.syslog_worker_group.id
-  filename = "syslog-processing.crbl"  # You'll need to provide the actual pack file
+  filename = "cribl-palo-alto-networks-source-1.0.0.crbl" 
 }
 
 # Outputs

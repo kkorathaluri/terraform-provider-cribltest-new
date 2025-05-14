@@ -12,7 +12,6 @@ import (
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/operations"
 	"github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk/models/shared"
 	"net/http"
-	"net/url"
 )
 
 // Pipelines - Actions related to Pipelines
@@ -792,7 +791,7 @@ func (s *Pipelines) DeleteSystemProjectsPipelinesByGroupIDAndProjectIDAndPipelin
 
 // ListPipeline - Get a list of Pipeline objects
 // Get a list of Pipeline objects
-func (s *Pipelines) ListPipeline(ctx context.Context, opts ...operations.Option) (*operations.ListPipelineResponse, error) {
+func (s *Pipelines) ListPipeline(ctx context.Context, request operations.ListPipelineRequest, opts ...operations.Option) (*operations.ListPipelineResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -810,7 +809,7 @@ func (s *Pipelines) ListPipeline(ctx context.Context, opts ...operations.Option)
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := url.JoinPath(baseURL, "/pipelines")
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/pipelines", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -942,7 +941,7 @@ func (s *Pipelines) ListPipeline(ctx context.Context, opts ...operations.Option)
 
 // CreatePipeline - Create Pipeline
 // Create Pipeline
-func (s *Pipelines) CreatePipeline(ctx context.Context, request shared.Pipeline, opts ...operations.Option) (*operations.CreatePipelineResponse, error) {
+func (s *Pipelines) CreatePipeline(ctx context.Context, request operations.CreatePipelineRequest, opts ...operations.Option) (*operations.CreatePipelineResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionTimeout,
@@ -960,7 +959,7 @@ func (s *Pipelines) CreatePipeline(ctx context.Context, request shared.Pipeline,
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := url.JoinPath(baseURL, "/pipelines")
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/pipelines", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -972,7 +971,7 @@ func (s *Pipelines) CreatePipeline(ctx context.Context, request shared.Pipeline,
 		OAuth2Scopes:   []string{},
 		SecuritySource: s.sdkConfiguration.Security,
 	}
-	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "Request", "json", `request:"mediaType=application/json"`)
+	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "Pipeline", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
 	}
@@ -1117,7 +1116,7 @@ func (s *Pipelines) GetPipelineByID(ctx context.Context, request operations.GetP
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/pipelines/{id}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/pipelines/{id}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -1267,7 +1266,7 @@ func (s *Pipelines) UpdatePipelineByID(ctx context.Context, request operations.U
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/pipelines/{id}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/pipelines/{id}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -1424,7 +1423,7 @@ func (s *Pipelines) DeletePipelineByID(ctx context.Context, request operations.D
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/pipelines/{id}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/pipelines/{id}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -1574,7 +1573,7 @@ func (s *Pipelines) GetPipelineByPack(ctx context.Context, request operations.Ge
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/p/{pack}/pipelines", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/p/{pack}/pipelines", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -1724,7 +1723,7 @@ func (s *Pipelines) CreatePipelineByPack(ctx context.Context, request operations
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/p/{pack}/pipelines", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/p/{pack}/pipelines", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -1881,7 +1880,7 @@ func (s *Pipelines) GetPipelineByPackAndID(ctx context.Context, request operatio
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/p/{pack}/pipelines/{id}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/p/{pack}/pipelines/{id}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -2031,7 +2030,7 @@ func (s *Pipelines) UpdatePipelineByPackAndID(ctx context.Context, request opera
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/p/{pack}/pipelines/{id}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/p/{pack}/pipelines/{id}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -2188,7 +2187,7 @@ func (s *Pipelines) DeletePipelineByPackAndID(ctx context.Context, request opera
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/p/{pack}/pipelines/{id}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/m/{groupId}/p/{pack}/pipelines/{id}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}

@@ -12,6 +12,8 @@ type GetPipelineByPackAndIDRequest struct {
 	ID string `pathParam:"style=simple,explode=false,name=id"`
 	// pack ID to GET
 	Pack string `pathParam:"style=simple,explode=false,name=pack"`
+	// Group Id
+	GroupID string `pathParam:"style=simple,explode=false,name=groupId"`
 }
 
 func (o *GetPipelineByPackAndIDRequest) GetID() string {
@@ -28,18 +30,16 @@ func (o *GetPipelineByPackAndIDRequest) GetPack() string {
 	return o.Pack
 }
 
-// GetPipelineByPackAndIDResponseBody - a list of Pipeline objects
-type GetPipelineByPackAndIDResponseBody struct {
-	// number of items present in the items array
-	Count *int64            `json:"count,omitempty"`
-	Items []shared.Pipeline `json:"items,omitempty"`
+func (o *GetPipelineByPackAndIDRequest) GetGroupID() string {
+	if o == nil {
+		return ""
+	}
+	return o.GroupID
 }
 
-func (o *GetPipelineByPackAndIDResponseBody) GetCount() *int64 {
-	if o == nil {
-		return nil
-	}
-	return o.Count
+// GetPipelineByPackAndIDResponseBody - a list of Pipeline objects
+type GetPipelineByPackAndIDResponseBody struct {
+	Items []shared.Pipeline `json:"items,omitempty"`
 }
 
 func (o *GetPipelineByPackAndIDResponseBody) GetItems() []shared.Pipeline {

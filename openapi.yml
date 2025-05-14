@@ -42694,6 +42694,7 @@ components:
           type: boolean
         conf:
           type: object
+          additionalProperties: true
           title: Function-specific configs
         groupId:
           title: Group ID
@@ -57923,9 +57924,10 @@ paths:
               schema:
                 type: object
                 properties:
-                  count:
+                  count_total:
                     type: integer
                     description: number of items present in the items array
+                    x-speakeasy-ingore: true
                   items:
                     type: array
                     items:
@@ -57948,11 +57950,18 @@ paths:
         in: path
         required: true
         description: Unique ID to DELETE
-  /pipelines:
+  /m/{groupId}/pipelines:
     get:
       operationId: listPipeline
       tags:
       - pipelines
+      parameters:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
       summary: Get a list of Pipeline objects
       description: Get a list of Pipeline objects
       responses:
@@ -57963,9 +57972,10 @@ paths:
               schema:
                 type: object
                 properties:
-                  count:
+                  count_total:
                     type: integer
                     description: number of items present in the items array
+                    x-speakeasy-ignore: true
                   items:
                     type: array
                     items:
@@ -57989,9 +57999,10 @@ paths:
               schema:
                 type: object
                 properties:
-                  count:
+                  count_total:
                     type: integer
                     description: number of items present in the items array
+                    x-speakeasy-ignore: true
                   items:
                     type: array
                     items:
@@ -58007,6 +58018,14 @@ paths:
       operationId: createPipeline
       summary: Create Pipeline
       description: Create Pipeline
+      x-speakeasy-entity-operation: Pipeline#create
+      parameters:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
       requestBody:
         description: New Pipeline object
         required: true
@@ -58014,7 +58033,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Pipeline'
-  /pipelines/{id}:
+  /m/{groupId}/pipelines/{id}:
     get:
       tags:
       - pipelines
@@ -58026,9 +58045,10 @@ paths:
               schema:
                 type: object
                 properties:
-                  count:
+                  count_total:
                     type: integer
                     description: number of items present in the items array
+                    x-speakeasy-ignore: true
                   items:
                     type: array
                     items:
@@ -58044,6 +58064,7 @@ paths:
       operationId: getPipelineById
       summary: Get Pipeline by ID
       description: Get Pipeline by ID
+      x-speakeasy-entity-operation: Pipeline#read
       parameters:
       - name: id
         in: path
@@ -58051,6 +58072,12 @@ paths:
         schema:
           type: string
         description: Unique ID to GET
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
     patch:
       tags:
       - pipelines
@@ -58062,9 +58089,10 @@ paths:
               schema:
                 type: object
                 properties:
-                  count:
+                  count_total:
                     type: integer
                     description: number of items present in the items array
+                    x-speakeasy-ignore: true
                   items:
                     type: array
                     items:
@@ -58080,6 +58108,7 @@ paths:
       operationId: updatePipelineById
       summary: Update Pipeline
       description: Update Pipeline
+      x-speakeasy-entity-operation: Pipeline#update
       parameters:
       - schema:
           type: string
@@ -58087,6 +58116,12 @@ paths:
         in: path
         required: true
         description: Unique ID to PATCH
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
       requestBody:
         description: Pipeline object to be updated
         required: true
@@ -58105,9 +58140,10 @@ paths:
               schema:
                 type: object
                 properties:
-                  count:
+                  count_total:
                     type: integer
                     description: number of items present in the items array
+                    x-speakeasy-ingore: true
                   items:
                     type: array
                     items:
@@ -58123,6 +58159,7 @@ paths:
       operationId: deletePipelineById
       summary: Delete Pipeline
       description: Delete Pipeline
+      x-speakeasy-entity-operation: Pipeline#delete
       parameters:
       - schema:
           type: string
@@ -58130,7 +58167,13 @@ paths:
         in: path
         required: true
         description: Unique ID to DELETE
-  /p/{pack}/pipelines:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
+  /m/{groupId}/p/{pack}/pipelines:
     get:
       tags:
       - pipelines
@@ -58142,9 +58185,10 @@ paths:
               schema:
                 type: object
                 properties:
-                  count:
+                  count_total:
                     type: integer
                     description: number of items present in the items array
+                    x-speakeasy-ingore: true
                   items:
                     type: array
                     items:
@@ -58167,6 +58211,12 @@ paths:
         schema:
           type: string
         description: pack ID to GET
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
     post:
       tags:
       - pipelines
@@ -58178,9 +58228,10 @@ paths:
               schema:
                 type: object
                 properties:
-                  count:
+                  count_total:
                     type: integer
                     description: number of items present in the items array
+                    x-speakeasy-ignore: true
                   items:
                     type: array
                     items:
@@ -58203,6 +58254,7 @@ paths:
       operationId: createPipelineByPack
       summary: Create Pipeline within a Pack
       description: Create Pipeline within a Pack
+      x-speakeasy-entity-operation: PackPipeline#create
       parameters:
       - schema:
           type: string
@@ -58210,7 +58262,13 @@ paths:
         in: path
         required: true
         description: pack ID to POST
-  /p/{pack}/pipelines/{id}:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
+  /m/{groupId}/p/{pack}/pipelines/{id}:
     get:
       tags:
       - pipelines
@@ -58222,9 +58280,10 @@ paths:
               schema:
                 type: object
                 properties:
-                  count:
+                  count_total:
                     type: integer
                     description: number of items present in the items array
+                    x-speakeasy-ignore: true
                   items:
                     type: array
                     items:
@@ -58240,6 +58299,7 @@ paths:
       operationId: getPipelineByPackAndId
       summary: Get Pipeline by ID within a Pack
       description: Get Pipeline by ID within a Pack
+      x-speakeasy-entity-operation: PackPipeline#read
       parameters:
       - schema:
           type: string
@@ -58253,6 +58313,12 @@ paths:
         in: path
         required: true
         description: pack ID to GET
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
     patch:
       tags:
       - pipelines
@@ -58264,9 +58330,10 @@ paths:
               schema:
                 type: object
                 properties:
-                  count:
+                  count_total:
                     type: integer
                     description: number of items present in the items array
+                    x-speakeasy-ignore: true
                   items:
                     type: array
                     items:
@@ -58302,6 +58369,12 @@ paths:
         in: path
         required: true
         description: pack ID to PATCH
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
     delete:
       tags:
       - pipelines
@@ -58313,9 +58386,10 @@ paths:
               schema:
                 type: object
                 properties:
-                  count:
+                  count_total:
                     type: integer
                     description: number of items present in the items array
+                    x-speakeasy-ignore: true
                   items:
                     type: array
                     items:
@@ -58344,6 +58418,12 @@ paths:
         in: path
         required: true
         description: pack ID to DELETE
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Group Id
   /system/profiler:
     get:
       operationId: listProfilerItem
@@ -66271,9 +66351,10 @@ paths:
               schema:
                 type: object
                 properties:
-                  count:
+                  count_total:
                     type: integer
                     description: number of items present in the items array
+                    x-speakeasy-ignore: true
                   items:
                     type: array
                     items:
