@@ -11,6 +11,7 @@ provider "cribl-terraform" {
   #server_url ="https://app.cribl-playground.cloud/organizations/beautiful-nguyen-y8y4azd/workspaces/main/app/api/v1"
   organization_id = "beautiful-nguyen-y8y4azd"
   workspace_id = "main"
+  server_url = "https://app.cribl-playground.cloud"
 }
 
 resource "cribl-terraform_pack" "my_pack" {

@@ -62,7 +62,7 @@ func (p *CriblTerraformProvider) Schema(ctx context.Context, req provider.Schema
 				Sensitive: true,
 			},
 			"server_url": schema.StringAttribute{
-				Description: `Server URL (defaults to https://app.cribl-playground.cloud)`,
+				Description: `Server URL (defaults to https://app.cribl.cloud)`,
 				Optional:    true,
 			},
 			"token_url": schema.StringAttribute{
@@ -89,7 +89,7 @@ func (p *CriblTerraformProvider) Configure(ctx context.Context, req provider.Con
 	ServerURL := data.ServerURL.ValueString()
 
 	if ServerURL == "" {
-		ServerURL = "https://app.cribl-playground.cloud"
+		ServerURL = "https://app.cribl.cloud"
 	}
 
 	bearerAuth := new(string)

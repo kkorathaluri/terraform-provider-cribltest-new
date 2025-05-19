@@ -9,6 +9,7 @@ terraform {
 provider "cribl-terraform" {
   # Configuration options
   #server_url ="https://app.cribl-playground.cloud/organizations/beautiful-nguyen-y8y4azd/workspaces/main/app/api/v1/m/default"
+  server_url = "https://app.cribl-playground.cloud"
   organization_id = "beautiful-nguyen-y8y4azd"
   workspace_id = "main"
 }

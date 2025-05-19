@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: b2744b7e-1ce3-478a-8c1f-0348b936141a
 management:
-  docChecksum: 88b06cb9eb977d0f612cd2f71e7df032
+  docChecksum: 5f173e53aa7701ed8dc8c3fb7be691c1
   docVersion: 1.0.0
-  speakeasyVersion: 1.544.0
-  generationVersion: 2.599.0
-  releaseVersion: 0.16.14
-  configChecksum: 013e3e7659916475d95e73d536125053
+  speakeasyVersion: 1.546.2
+  generationVersion: 2.604.4
+  releaseVersion: 0.16.20
+  configChecksum: 0f291fa32e3d37fd2ec1d70fbbcfeb2f
   published: true
 features:
   terraform:
     additionalDependencies: 0.1.0
     additionalProperties: 0.1.2
     constsAndDefaults: 0.2.1
-    core: 3.41.6
+    core: 3.41.8
     deprecations: 2.82.0
     globalSecurity: 2.81.11
     globalServerURLs: 2.82.2
@@ -1699,26 +1699,84 @@ generatedFiles:
   - terraform-registry-manifest.json
   - tools/tools.go
 examples:
-  getUsage:
-    speakeasy-default-get-usage:
+  v5.billing.consumption.getSingleProductUsageBreakdown:
+    speakeasy-default-v5-billing-consumption-get-single-product-usage-breakdown:
       parameters:
         path:
           organizationId: "<id>"
-          metricType: "Hybrid Worker GBs Received"
+          productSlug: "search"
         query:
-          startingOn: "<value>"
-          endingBefore: "<value>"
+          startingOn: "2025-03-28T04:10:29.767Z"
+          endingBefore: "2025-08-23T12:12:01.524Z"
+          window: "monthly"
       responses:
         "200":
-          application/json: {"startingOn": "<value>", "endingBefore": "<value>", "data": {"sum": 8631.26, "mean": 5674.17, "dataPoints": [{"category": "<value>", "startTimestamp": "<value>", "endTimestamp": "<value>", "value": 3529.09}, {"category": "<value>", "startTimestamp": "<value>", "endTimestamp": "<value>", "value": 9462.3}, {"category": "<value>", "startTimestamp": "<value>", "endTimestamp": "<value>", "value": 9398.67}]}}
-  getCredits:
-    speakeasy-default-get-credits:
+          application/json: {"items": [{"date": "2025-02-28T17:04:28.291Z", "credits": 1847.68, "perUnit": [{"quantity": 203.1, "credits": 433.4}, {"quantity": 203.1, "credits": 433.4}]}], "count": 3500.11}
+  v5.billing.consumption.getProductsConsumptionStats:
+    speakeasy-default-v5-billing-consumption-get-products-consumption-stats:
+      parameters:
+        path:
+          organizationId: "<id>"
+        query:
+          startingOn: "2024-03-31T21:13:56.508Z"
+          endingBefore: "2024-12-04T01:38:53.458Z"
+          window: "monthly"
+      responses:
+        "200":
+          application/json: {"items": [], "count": 6690.32}
+  v5.billing.consumption.getCreditsSummary:
+    speakeasy-default-v5-billing-consumption-get-credits-summary:
+      parameters:
+        path:
+          organizationId: "<id>"
+        query:
+          startingOn: "2025-02-25T15:37:48.375Z"
+          endingBefore: "2024-12-05T16:43:01.239Z"
+          window: "monthly"
+      responses:
+        "200":
+          application/json: {"data": {"totalCreditsPurchased": 9567.15, "totalCreditsUsed": 7154.18, "averageConsumption": 8558.14}}
+  v5.billing.consumption.getCumulativeConsumption:
+    speakeasy-default-v5-billing-consumption-get-cumulative-consumption:
+      parameters:
+        path:
+          organizationId: "<id>"
+        query:
+          startingOn: "2024-01-12T17:37:50.927Z"
+          endingBefore: "2025-05-04T07:02:05.603Z"
+          window: "monthly"
+      responses:
+        "200":
+          application/json: {"items": [], "count": 2077.17}
+  v5.billing.consumption.getProductsBreakdown:
+    speakeasy-default-v5-billing-consumption-get-products-breakdown:
+      parameters:
+        path:
+          organizationId: "<id>"
+        query:
+          startingOn: "2024-12-09T08:31:46.418Z"
+          endingBefore: "2023-03-16T08:43:24.828Z"
+          window: "monthly"
+      responses:
+        "200":
+          application/json: {"items": [{"date": "2023-12-03T07:18:39.274Z", "products": [{"slug": "<value>", "credits": 545.31}]}, {"date": "2023-12-03T07:18:39.274Z", "products": [{"slug": "<value>", "credits": 545.31}]}, {"date": "2023-12-03T07:18:39.274Z", "products": [{"slug": "<value>", "credits": 545.31}]}], "count": 4088.88}
+  v5.billing.invoices.getInvoices:
+    speakeasy-default-v5-billing-invoices-get-invoices:
       parameters:
         path:
           organizationId: "<id>"
       responses:
         "200":
-          application/json: {"totalCreditsPurchased": 5315.42, "totalCreditsUsed": 817.32, "totalCreditsAvailable": 9659.58}
+          application/json: {"items": [{"id": "<id>", "fromDate": "2023-01-25T16:26:25.504Z", "toDate": "2023-11-17T04:47:30.693Z", "totalCredits": 5240.12, "status": "VOID", "products": [{"slug": "infrastructure", "name": "<value>", "totalCredits": 6273.19, "lineItems": []}]}, {"id": "<id>", "fromDate": "2023-01-25T16:26:25.504Z", "toDate": "2023-11-17T04:47:30.693Z", "totalCredits": 5240.12, "status": "VOID", "products": [{"slug": "infrastructure", "name": "<value>", "totalCredits": 6273.19, "lineItems": []}]}], "count": 5760.94}
+  v5.billing.invoices.getInvoice:
+    speakeasy-default-v5-billing-invoices-get-invoice:
+      parameters:
+        path:
+          organizationId: "<id>"
+          invoiceId: "<id>"
+      responses:
+        "200":
+          application/json: {"data": {"id": "<id>", "fromDate": "2025-10-07T16:43:23.196Z", "toDate": "2023-07-20T14:53:20.480Z", "totalCredits": 2475.85, "status": "DRAFT", "products": [{"slug": "other", "name": "<value>", "totalCredits": 4237.94, "lineItems": [{"name": "<value>", "quantity": 2191.5, "credits": 660.46, "groups": []}, {"name": "<value>", "quantity": 2191.5, "credits": 660.46, "groups": []}, {"name": "<value>", "quantity": 2191.5, "credits": 660.46, "groups": []}]}]}}
   getCosts:
     speakeasy-default-get-costs:
       parameters:
@@ -1737,7 +1795,7 @@ examples:
           organizationId: "<id>"
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "fromDate": "<value>", "toDate": "<value>", "totalCredits": 1258.33, "products": [{"productName": "<value>"}, {"productName": "<value>"}, {"productName": "<value>"}], "status": "FINALIZED"}, {"id": "<id>", "fromDate": "<value>", "toDate": "<value>", "totalCredits": 2980.69, "products": [{"productName": "<value>"}], "status": "VOID"}], "count": 2499.92}
+          application/json: {"items": [{"id": "<id>", "fromDate": "<value>", "toDate": "<value>", "totalCredits": 3064.55, "products": [{"productName": "<value>"}], "status": "DRAFT"}, {"id": "<id>", "fromDate": "<value>", "toDate": "<value>", "totalCredits": 3064.55, "products": [{"productName": "<value>"}], "status": "DRAFT"}], "count": 9277.96}
   getInvoice:
     speakeasy-default-get-invoice:
       parameters:
@@ -1746,7 +1804,15 @@ examples:
           invoiceId: "<id>"
       responses:
         "200":
-          application/json: {"id": "<id>", "fromDate": "<value>", "toDate": "<value>", "totalCredits": 4864.15, "products": [{"productName": "<value>"}, {"productName": "<value>"}, {"productName": "<value>"}], "status": "VOID"}
+          application/json: {"id": "<id>", "fromDate": "<value>", "toDate": "<value>", "totalCredits": 1967.8, "products": [{"productName": "<value>"}, {"productName": "<value>"}, {"productName": "<value>"}], "status": "VOID"}
+  getCredits:
+    speakeasy-default-get-credits:
+      parameters:
+        path:
+          organizationId: "<id>"
+      responses:
+        "200":
+          application/json: {"totalCreditsPurchased": 1683.62, "totalCreditsUsed": 2963.62, "totalCreditsAvailable": 167.02}
   getPlan:
     speakeasy-default-get-plan:
       parameters:
@@ -1754,98 +1820,19 @@ examples:
           organizationId: "<id>"
       responses:
         "200":
-          application/json: {"id": "<id>", "name": "<value>", "description": "since foolhardy deliberately yowza", "startDate": "<value>", "isActive": false}
-  v5.billing.invoices.getInvoices:
-    speakeasy-default-v5-billing-invoices-get-invoices:
+          application/json: {"id": "<id>", "name": "<value>", "description": "vivid lucky round feather whoever gee athwart", "startDate": "<value>", "isActive": false}
+  getUsage:
+    speakeasy-default-get-usage:
       parameters:
         path:
           organizationId: "<id>"
-      responses:
-        "200":
-          application/json: {"items": [{"id": "<id>", "fromDate": "2025-12-17T23:32:55.607Z", "toDate": "2023-03-21T13:46:06.143Z", "totalCredits": 4675.86, "status": "VOID", "products": [{"slug": "edge", "name": "<value>", "totalCredits": 6501.9, "lineItems": [{"name": "<value>", "quantity": 4390.04, "credits": 9231.14, "groups": [{"key": "workergroup", "value": "<value>"}, {"key": "workergroup", "value": "<value>"}, {"key": "cluster_id", "value": "<value>"}]}, {"name": "<value>", "quantity": 7770.37, "credits": 4247.21, "groups": [{"key": "cluster_id", "value": "<value>"}, {"key": "workspace", "value": "<value>"}, {"key": "cluster_id", "value": "<value>"}]}]}]}], "count": 8970.43}
-  v5.billing.invoices.getInvoice:
-    speakeasy-default-v5-billing-invoices-get-invoice:
-      parameters:
-        path:
-          organizationId: "<id>"
-          invoiceId: "<id>"
-      responses:
-        "200":
-          application/json: {"data": {"id": "<id>", "fromDate": "2023-10-10T03:08:30.176Z", "toDate": "2025-04-28T05:25:31.707Z", "totalCredits": 3432.94, "status": "FINALIZED", "products": [{"slug": "lakehouse", "name": "<value>", "totalCredits": 7045.87, "lineItems": [{"name": "<value>", "quantity": 8733.08, "credits": 4047.21, "groups": [{"key": "deployment_id", "value": "<value>"}, {"key": "deployment_id", "value": "<value>"}]}, {"name": "<value>", "quantity": 2002.85, "credits": 3064.44, "groups": [{"key": "other", "value": "<value>"}]}, {"name": "<value>", "quantity": 4449.5, "credits": 9175.1, "groups": [{"key": "deployment_id", "value": "<value>"}, {"key": "other", "value": "<value>"}]}]}, {"slug": "search", "name": "<value>", "totalCredits": 2523.62, "lineItems": [{"name": "<value>", "quantity": 3842.01, "credits": 6135.62, "groups": []}, {"name": "<value>", "quantity": 1282.4, "credits": 8831.08, "groups": [{"key": "cluster_id", "value": "<value>"}, {"key": "workspace", "value": "<value>"}]}]}]}}
-  v5.billing.consumption.getCreditsSummary:
-    speakeasy-default-v5-billing-consumption-get-credits-summary:
-      parameters:
-        path:
-          organizationId: "<id>"
+          metricType: "Connected Edge GBs In"
         query:
-          startingOn: "2023-08-03T02:42:25.343Z"
-          endingBefore: "2025-11-07T19:07:23.531Z"
-          window: "monthly"
+          startingOn: "<value>"
+          endingBefore: "<value>"
       responses:
         "200":
-          application/json: {"data": {"totalCreditsPurchased": 2517.17, "totalCreditsUsed": 2712.35, "averageConsumption": 709.19}}
-  v5.billing.consumption.getCumulativeConsumption:
-    speakeasy-default-v5-billing-consumption-get-cumulative-consumption:
-      parameters:
-        path:
-          organizationId: "<id>"
-        query:
-          startingOn: "2025-07-17T06:51:16.318Z"
-          endingBefore: "2025-09-28T06:02:59.574Z"
-          window: "monthly"
-      responses:
-        "200":
-          application/json: {"items": [{"date": "2023-05-23T00:13:12.158Z", "credits": 9342.93}, {"date": "2023-07-20T00:12:31.015Z", "credits": 581.33}], "count": 7696.21}
-  v5.billing.consumption.getProductsBreakdown:
-    speakeasy-default-v5-billing-consumption-get-products-breakdown:
-      parameters:
-        path:
-          organizationId: "<id>"
-        query:
-          startingOn: "2023-01-26T07:15:37.792Z"
-          endingBefore: "2023-10-03T12:05:18.738Z"
-          window: "monthly"
-      responses:
-        "200":
-          application/json: {"items": [{"date": "2025-03-23T18:17:07.860Z", "products": [{"slug": "<value>", "credits": 2472.44}, {"slug": "<value>", "credits": 8164.35}, {"slug": "<value>", "credits": 1573.58}]}, {"date": "2025-02-22T20:59:05.219Z", "products": []}], "count": 4833.55}
-  v5.billing.consumption.getProductsConsumptionStats:
-    speakeasy-default-v5-billing-consumption-get-products-consumption-stats:
-      parameters:
-        path:
-          organizationId: "<id>"
-        query:
-          startingOn: "2023-01-04T00:19:37.899Z"
-          endingBefore: "2024-03-07T13:27:22.774Z"
-          window: "monthly"
-      responses:
-        "200":
-          application/json: {"items": [{"slug": "stream", "totalCredits": 3008.41, "perUnit": [{"averageQuantity": 3238.26, "recentQuantity": 9001.89, "totalQuantity": 6506.52, "totalCredits": 5721.3, "recentCredits": 8383.78}]}, {"slug": "infrastructure", "totalCredits": 1827.75, "perUnit": [{"averageQuantity": 2168.98, "recentQuantity": 6361.79, "totalQuantity": 1898.97, "totalCredits": 151.18, "recentCredits": 5824.18}]}], "count": 1527.04}
-  v5.billing.consumption.getSingleProductUsageBreakdown:
-    speakeasy-default-v5-billing-consumption-get-single-product-usage-breakdown:
-      parameters:
-        path:
-          organizationId: "<id>"
-          productSlug: "search"
-        query:
-          startingOn: "2023-11-28T21:49:04.925Z"
-          endingBefore: "2025-09-09T13:52:53.788Z"
-          window: "monthly"
-      responses:
-        "200":
-          application/json: {"items": [], "count": 8681.5}
-  assignSandboxWorkspaceToUser:
-    speakeasy-default-assign-sandbox-workspace-to-user:
-      parameters:
-        path:
-          courseId: "<id>"
-      responses:
-        "200":
-          application/json: {"organizationId": "<id>", "workspaceId": "<id>", "state": "ASSIGNED", "userId": "<id>", "courseId": "<id>", "assignedAt": "2024-01-10T03:42:06.753Z", "expiresAt": "2024-03-06T11:54:07.190Z"}
-  getAssignments:
-    speakeasy-default-get-assignments:
-      responses:
-        "200":
-          application/json: [{"organizationId": "<id>", "workspaceId": "<id>", "state": "AVAILABLE", "createdAt": "2025-08-06T21:53:43.553Z", "updatedAt": "2023-05-13T00:54:00.391Z"}]
+          application/json: {"startingOn": "<value>", "endingBefore": "<value>", "data": {"sum": 2452.73, "mean": 4170.42, "dataPoints": [{"category": "<value>", "startTimestamp": "<value>", "endTimestamp": "<value>", "value": 4990.46}, {"category": "<value>", "startTimestamp": "<value>", "endTimestamp": "<value>", "value": 4990.46}, {"category": "<value>", "startTimestamp": "<value>", "endTimestamp": "<value>", "value": 4990.46}]}}
   WorkspacesController_listWorkspaces:
     speakeasy-default-workspaces-controller-list-workspaces:
       parameters:
@@ -1853,17 +1840,17 @@ examples:
           organizationId: "<id>"
       responses:
         "200":
-          application/json: {"items": [{"workspaceId": "<id>", "region": "<value>", "lastUpdated": "2023-12-06T01:01:29.259Z", "leaderFQDN": "<value>", "state": "Workspace-Provisioning-Failed"}, {"workspaceId": "<id>", "region": "<value>", "lastUpdated": "2023-04-26T02:24:00.165Z", "leaderFQDN": "<value>", "state": "Workspace-Provisioning"}], "count": 240.51}
+          application/json: {"items": [{"workspaceId": "<id>", "region": "<value>", "lastUpdated": "2024-09-11T02:35:00.185Z", "leaderFQDN": "<value>", "state": "Workspace-Cleanup-Terraform-Failed"}], "count": 5425.59}
   WorkspacesController_createWorkspace:
     speakeasy-default-workspaces-controller-create-workspace:
       parameters:
         path:
           organizationId: "<id>"
       requestBody:
-        application/json: {"workspaceId": "<id>", "region": "us-west-2"}
+        application/json: {"workspaceId": "<id>", "region": "eu-west-2"}
       responses:
         "200":
-          application/json: {"workspaceId": "<id>", "region": "<value>", "lastUpdated": "2023-03-30T08:08:25.910Z", "leaderFQDN": "<value>", "state": "Workspace-Provisioning-Failed"}
+          application/json: {"workspaceId": "<id>", "region": "<value>", "lastUpdated": "2023-02-05T22:40:44.208Z", "leaderFQDN": "<value>", "state": "Workspace-Cleanup-Terraform-Completed"}
   WorkspacesController_getWorkspace:
     speakeasy-default-workspaces-controller-get-workspace:
       parameters:
@@ -1872,7 +1859,7 @@ examples:
           workspaceId: "<id>"
       responses:
         "200":
-          application/json: {"workspaceId": "<id>", "region": "<value>", "lastUpdated": "2024-01-05T17:02:10.046Z", "leaderFQDN": "<value>", "state": "Workspace-Provisioning-Failed"}
+          application/json: {"workspaceId": "<id>", "region": "<value>", "lastUpdated": "2025-03-04T09:27:59.270Z", "leaderFQDN": "<value>", "state": "Workspace-Cleanup-Completed"}
   WorkspacesController_deleteWorkspace:
     speakeasy-default-workspaces-controller-delete-workspace:
       parameters:
@@ -1889,7 +1876,20 @@ examples:
         application/json: {}
       responses:
         "200":
-          application/json: {"workspaceId": "<id>", "region": "<value>", "lastUpdated": "2023-09-01T02:37:46.846Z", "leaderFQDN": "<value>", "state": "Workspace-Provisioned"}
+          application/json: {"workspaceId": "<id>", "region": "<value>", "lastUpdated": "2024-03-02T09:21:19.090Z", "leaderFQDN": "<value>", "state": "Workspace-Cleanup-Failed"}
+  getAssignments:
+    speakeasy-default-get-assignments:
+      responses:
+        "200":
+          application/json: [{"organizationId": "<id>", "workspaceId": "<id>", "state": "ASSIGNED", "createdAt": "2025-08-31T13:02:06.568Z", "updatedAt": "2023-02-27T20:44:43.168Z"}, {"organizationId": "<id>", "workspaceId": "<id>", "state": "ASSIGNED", "createdAt": "2025-08-31T13:02:06.568Z", "updatedAt": "2023-02-27T20:44:43.168Z"}, {"organizationId": "<id>", "workspaceId": "<id>", "state": "ASSIGNED", "createdAt": "2025-08-31T13:02:06.568Z", "updatedAt": "2023-02-27T20:44:43.168Z"}]
+  assignSandboxWorkspaceToUser:
+    speakeasy-default-assign-sandbox-workspace-to-user:
+      parameters:
+        path:
+          courseId: "<id>"
+      responses:
+        "200":
+          application/json: {"organizationId": "<id>", "workspaceId": "<id>", "state": "ASSIGNED", "userId": "<id>", "courseId": "<id>", "assignedAt": "2023-03-08T16:00:24.052Z", "expiresAt": "2023-12-27T00:39:22.127Z"}
   getSystemProjectsSubscriptionsByGroupIdByAndProjectId:
     speakeasy-default-get-system-projects-subscriptions-by-group-id-by-and-project-id:
       parameters:
@@ -1956,7 +1956,7 @@ examples:
           projectId: "<id>"
           subscriptionId: "<id>"
       requestBody:
-        application/json: {"duration": 4923.8, "filter": "<value>", "level": 3160.52, "maxEvents": 7440.79}
+        application/json: {"duration": 9977.94, "filter": "<value>", "level": 7371.6, "maxEvents": 5232.64}
       responses:
         "200":
           application/json: {}
@@ -1969,7 +1969,7 @@ examples:
           groupId: "<id>"
           projectId: "<id>"
       requestBody:
-        application/json: {"duration": 5838.43, "filter": "<value>", "level": 9104.01, "maxEvents": 8081.96}
+        application/json: {"duration": 7020.88, "filter": "<value>", "level": 4494.37, "maxEvents": 7103.16}
       responses:
         "200":
           application/json: {}
@@ -1982,7 +1982,7 @@ examples:
           groupId: "<id>"
           projectId: "<id>"
       requestBody:
-        application/json: {"mode": "routeAndSend", "pipelineId": "<id>", "sampleId": "<id>"}
+        application/json: {"mode": "route", "pipelineId": "<id>", "sampleId": "<id>"}
       responses:
         "200":
           application/json: {}
@@ -2128,7 +2128,7 @@ examples:
   createProject:
     speakeasy-default-create-project:
       requestBody:
-        application/json: {"destinations": ["<value>", "<value>"], "id": "<id>", "subscriptions": ["<value>", "<value>", "<value>"]}
+        application/json: {"destinations": ["<value 1>", "<value 2>", "<value 3>"], "id": "<id>", "subscriptions": ["<value 1>"]}
       responses:
         "200":
           application/json: {}
@@ -2150,7 +2150,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"destinations": [], "id": "<id>", "subscriptions": ["<value>", "<value>"]}
+        application/json: {"destinations": ["<value 1>", "<value 2>"], "id": "<id>", "subscriptions": ["<value 1>"]}
       responses:
         "200":
           application/json: {}
@@ -2380,7 +2380,7 @@ examples:
   createSystemCapture:
     speakeasy-default-create-system-capture:
       requestBody:
-        application/json: {"duration": 333.16, "filter": "<value>", "level": 584.49, "maxEvents": 4480.84}
+        application/json: {"duration": 5717.32, "filter": "<value>", "level": 6094.12, "maxEvents": 9941.84}
       responses:
         "200":
           application/json: {}
@@ -2392,7 +2392,7 @@ examples:
         path:
           projectId: "<id>"
       requestBody:
-        application/json: {"duration": 5278.59, "filter": "<value>", "level": 3497.32, "maxEvents": 2257.32}
+        application/json: {"duration": 4855.02, "filter": "<value>", "level": 8634.29, "maxEvents": 5475.12}
       responses:
         "200":
           application/json: {}
@@ -2405,7 +2405,7 @@ examples:
           projectId: "<id>"
           subscriptionId: "<id>"
       requestBody:
-        application/json: {"duration": 8758.36, "filter": "<value>", "level": 6607.86, "maxEvents": 5813.86}
+        application/json: {"duration": 9984.14, "filter": "<value>", "level": 8613.29, "maxEvents": 502.1}
       responses:
         "200":
           application/json: {}
@@ -2607,7 +2607,7 @@ examples:
   createBannerMessage:
     speakeasy-default-create-banner-message:
       requestBody:
-        application/json: {"enabled": false, "type": "custom", "theme": "<value>", "message": "<value>"}
+        application/json: {"enabled": true, "type": "system", "theme": "<value>", "message": "<value>"}
       responses:
         "200":
           application/json: {}
@@ -2629,7 +2629,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"enabled": true, "type": "system", "theme": "<value>", "message": "<value>"}
+        application/json: {"enabled": true, "type": "custom", "theme": "<value>", "message": "<value>"}
       responses:
         "200":
           application/json: {}
@@ -2720,7 +2720,7 @@ examples:
   createSavedJob:
     speakeasy-default-create-saved-job:
       requestBody:
-        application/json: {"type": "scheduledSearch", "ttl": "4h", "removeFields": [], "resumeOnBoot": false, "streamtags": [], "workerAffinity": false, "collector": {"type": "<value>", "conf": {}, "destructive": false}}
+        application/json: {"type": "collection", "ttl": "4h", "removeFields": [], "resumeOnBoot": false, "streamtags": [], "workerAffinity": false, "collector": {"type": "<value>", "conf": {}, "destructive": false}}
       responses:
         "200":
           application/json: {}
@@ -2742,7 +2742,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"type": "scheduledSearch", "ttl": "4h", "removeFields": [], "resumeOnBoot": false, "streamtags": [], "executor": {"type": "<value>", "storeTaskResults": true}}
+        application/json: {"type": "collection", "ttl": "4h", "removeFields": [], "resumeOnBoot": false, "streamtags": [], "workerAffinity": false, "collector": {"type": "<value>", "conf": {}, "destructive": false}}
       responses:
         "200":
           application/json: {}
@@ -2948,7 +2948,7 @@ examples:
   createPolicyRule:
     speakeasy-default-create-policy-rule:
       requestBody:
-        application/json: {"id": "<id>", "template": ["<value>", "<value>", "<value>"]}
+        application/json: {"id": "<id>", "template": []}
       responses:
         "200":
           application/json: {}
@@ -2970,7 +2970,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"id": "<id>", "template": ["<value>", "<value>", "<value>"]}
+        application/json: {"id": "<id>", "template": ["<value 1>", "<value 2>", "<value 3>"]}
       responses:
         "200":
           application/json: {}
@@ -2996,7 +2996,7 @@ examples:
   createRole:
     speakeasy-default-create-role:
       requestBody:
-        application/json: {"id": "<id>", "policy": ["<value>"]}
+        application/json: {"id": "<id>", "policy": []}
       responses:
         "200":
           application/json: {}
@@ -3018,7 +3018,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"id": "<id>", "policy": ["<value>", "<value>"]}
+        application/json: {"id": "<id>", "policy": ["<value 1>", "<value 2>", "<value 3>"]}
       responses:
         "200":
           application/json: {}
@@ -3085,7 +3085,7 @@ examples:
   createTeam:
     speakeasy-default-create-team:
       requestBody:
-        application/json: {"description": "resource contrail how what afore anxiously lift truly factorize", "id": "<id>", "name": "<value>", "roles": []}
+        application/json: {"description": "once well-lit rigid anti", "id": "<id>", "name": "<value>", "roles": ["<value 1>", "<value 2>", "<value 3>"]}
       responses:
         "200":
           application/json: {}
@@ -3114,7 +3114,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"description": "certify speedily thankfully yahoo since synergy costume in language gadzooks", "id": "<id>", "name": "<value>", "roles": ["<value>", "<value>", "<value>"]}
+        application/json: {"description": "vibration below but once whoever and", "id": "<id>", "name": "<value>", "roles": ["<value 1>", "<value 2>", "<value 3>"]}
       responses:
         "200":
           application/json: {}
@@ -3177,7 +3177,7 @@ examples:
     speakeasy-default-get-products-groups-acl-teams-by-product-and-id:
       parameters:
         path:
-          product: "edge"
+          product: "stream"
           id: "<id>"
         query: {}
       responses:
@@ -3195,7 +3195,7 @@ examples:
   createUser:
     speakeasy-default-create-user:
       requestBody:
-        application/json: {"disabled": false, "email": "Angela26@gmail.com", "first": "<value>", "id": "<id>", "last": "<value>", "username": "Caleigh.Maggio-Littel24"}
+        application/json: {"disabled": true, "email": "Aliya_Gorczany97@gmail.com", "first": "<value>", "id": "<id>", "last": "<value>", "username": "Virginie47"}
       responses:
         "200":
           application/json: {}
@@ -3217,7 +3217,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"disabled": false, "email": "Johanna.Kerluke33@yahoo.com", "first": "<value>", "id": "<id>", "last": "<value>", "username": "Janessa73"}
+        application/json: {"disabled": false, "email": "Gladys_Kohler@hotmail.com", "first": "<value>", "id": "<id>", "last": "<value>", "username": "Deondre.Hilll"}
       responses:
         "200":
           application/json: {}
@@ -3239,7 +3239,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"disabled": false, "email": "Jermey_Paucek18@gmail.com", "first": "<value>", "id": "<id>", "last": "<value>", "username": "Stacy_Nitzsche8"}
+        application/json: {"disabled": false, "email": "Devan_Aufderhar@yahoo.com", "first": "<value>", "id": "<id>", "last": "<value>", "username": "Eliane85"}
       responses:
         "200":
           application/json: {}
@@ -3249,7 +3249,7 @@ examples:
     speakeasy-default-get-products-users-acl-by-product-and-id:
       parameters:
         path:
-          product: "stream"
+          product: "edge"
           id: "<id>"
         query: {}
       responses:
@@ -3261,7 +3261,7 @@ examples:
     speakeasy-default-get-products-users-by-product:
       parameters:
         path:
-          product: "lake"
+          product: "stream"
         query: {}
       responses:
         "200":
@@ -3272,7 +3272,7 @@ examples:
     speakeasy-default-delete-products-users-cache-by-product:
       parameters:
         path:
-          product: "stream"
+          product: "lake"
       responses:
         "200":
           application/json: {}
@@ -3441,7 +3441,7 @@ examples:
   createDatasetProviderType:
     speakeasy-default-create-dataset-provider-type:
       requestBody:
-        application/json: {"id": "s3"}
+        application/json: {"id": "api_elasticsearch"}
       responses:
         "200":
           application/json: {}
@@ -3463,7 +3463,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"id": "cribl_leader"}
+        application/json: {"id": "api_http"}
       responses:
         "200":
           application/json: {}
@@ -3676,7 +3676,7 @@ examples:
   createAppscopeLibEntry:
     speakeasy-default-create-appscope-lib-entry:
       requestBody:
-        application/json: {"config": {}, "description": "for sarong profitable hm", "id": "<id>", "lib": "cribl-custom"}
+        application/json: {"config": {}, "description": "neatly floodlight athwart fearless scamper dispose", "id": "<id>", "lib": "cribl"}
       responses:
         "200":
           application/json: {}
@@ -3698,7 +3698,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"config": {}, "description": "avow tighten zowie ouch", "id": "<id>", "lib": "cribl-custom"}
+        application/json: {"config": {}, "description": "blaspheme failing smug yet part diver dramatize", "id": "<id>", "lib": "cribl"}
       responses:
         "200":
           application/json: {}
@@ -3724,7 +3724,7 @@ examples:
   createGrokFile:
     speakeasy-default-create-grok-file:
       requestBody:
-        application/json: {"content": "<value>", "id": "<id>", "size": 3042.24}
+        application/json: {"content": "<value>", "id": "<id>", "size": 8001.66}
       responses:
         "200":
           application/json: {}
@@ -3746,7 +3746,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"content": "<value>", "id": "<id>", "size": 7939.02}
+        application/json: {"content": "<value>", "id": "<id>", "size": 7435.13}
       responses:
         "200":
           application/json: {}
@@ -3784,7 +3784,7 @@ examples:
         text/csv: "<value>"
       responses:
         "200":
-          application/json: {"filename": "example.file", "rows": 3973.62, "size": 8104.84}
+          application/json: {"filename": "example.file", "rows": 8202.91, "size": 3894.55}
         "500":
           application/json: {}
   getLookupFileById:
@@ -3966,7 +3966,7 @@ examples:
   createSearchDashboard:
     speakeasy-default-create-search-dashboard:
       requestBody:
-        application/json: {"created": 4792.84, "createdBy": "<value>", "elements": [{"id": "<id>", "layout": {"h": 106.05, "w": 472.66, "x": 4619.27, "y": 2943.59}, "search": {"type": "values", "values": []}, "type": "chart.horizontalBar"}, {"id": "<id>", "layout": {"h": 1930.21, "w": 1107.88, "x": 6308.92, "y": 2426.59}, "search": {"earliest": 8306.4, "latest": 6427.51, "query": "<value>", "type": "inline"}, "type": "counter.single"}, {"id": "<id>", "layout": {"h": 47.23, "w": 1577.11, "x": 529.47, "y": 9170.69}, "type": "markdown.default", "variant": "markdown"}], "id": "<id>", "modified": 5752.27, "name": "<value>"}
+        application/json: {"created": 9377.15, "createdBy": "<value>", "elements": [{"id": "<id>", "layout": {"h": 5003.17, "w": 3536.4, "x": 839.93, "y": 6172.28}, "type": "markdown.default", "variant": "markdown"}, {"id": "<id>", "layout": {"h": 5003.17, "w": 3536.4, "x": 839.93, "y": 6172.28}, "type": "markdown.default", "variant": "markdown"}], "id": "<id>", "modified": 5138.81, "name": "<value>"}
       responses:
         "200":
           application/json: {}
@@ -3988,7 +3988,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"created": 7131.04, "createdBy": "<value>", "elements": [], "id": "<id>", "modified": 370.77, "name": "<value>"}
+        application/json: {"created": 9322.04, "createdBy": "<value>", "elements": [{"id": "<id>", "layout": {"h": 639.57, "w": 6274.13, "x": 2916.93, "y": 2991.89}, "search": {"earliest": "<value>", "latest": "<value>", "query": "<value>", "type": "inline"}, "type": "chart.funnel"}, {"id": "<id>", "layout": {"h": 639.57, "w": 6274.13, "x": 2916.93, "y": 2991.89}, "search": {"earliest": "<value>", "latest": "<value>", "query": "<value>", "type": "inline"}, "type": "chart.funnel"}], "id": "<id>", "modified": 6157.19, "name": "<value>"}
       responses:
         "200":
           application/json: {}
@@ -4110,7 +4110,7 @@ examples:
   createSearchJob:
     speakeasy-default-create-search-job:
       requestBody:
-        application/json: {"displayUsername": "<value>", "group": "<value>", "id": "<id>", "query": "<value>", "status": "queued", "timeCreated": 571.34, "timeStarted": 2530.27, "user": "Dawson53"}
+        application/json: {"displayUsername": "<value>", "group": "<value>", "id": "<id>", "query": "<value>", "status": "canceled", "timeCreated": 328.87, "timeStarted": 4693.49, "user": "Alena71"}
       responses:
         "200":
           application/json: {}
@@ -4132,7 +4132,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"displayUsername": "<value>", "group": "<value>", "id": "<id>", "query": "<value>", "status": "queued", "timeCreated": 7000.67, "timeStarted": 1814.34, "user": "Gaetano.Wolf62"}
+        application/json: {"displayUsername": "<value>", "group": "<value>", "id": "<id>", "query": "<value>", "status": "running", "timeCreated": 6068.64, "timeStarted": 6166.23, "user": "Karlee.Blick60"}
       responses:
         "200":
           application/json: {}
@@ -4171,7 +4171,7 @@ examples:
   createSearchEventBreakerPreview:
     speakeasy-default-create-search-event-breaker-preview:
       requestBody:
-        application/json: {"input": {"rawData": "<value>", "type": "rawData"}}
+        application/json: {"input": {"dataset": "<value>", "type": "dataset"}}
       responses:
         "200":
           application/json: {}
@@ -4204,7 +4204,7 @@ examples:
   createSearchPreview:
     speakeasy-default-create-search-preview:
       requestBody:
-        application/json: {"events": ["<value>"], "query": "<value>"}
+        application/json: {"events": [], "query": "<value>"}
       responses:
         "200":
           application/json: {}
@@ -4221,17 +4221,6 @@ examples:
           application/json: "<value>"
         "500":
           application/json: {}
-  getSearchJobsResultsById:
-    speakeasy-default-get-search-jobs-results-by-id:
-      parameters:
-        path:
-          id: "<id>"
-        query: {}
-      responses:
-        "200":
-          application/json: {"isFinished": false, "job": "Investor Division Consultant", "limit": 312.23, "offset": 5709.25, "persistedEventCount": 4130.71, "totalEventCount": 8856.79}
-        "500":
-          application/json: {}
   getSearchJobsResultsPollById:
     speakeasy-default-get-search-jobs-results-poll-by-id:
       parameters:
@@ -4240,7 +4229,7 @@ examples:
         query: {}
       responses:
         "200":
-          application/json: {"isFinished": false, "job": "Customer Data Consultant", "limit": 2729.84, "offset": 7053.74, "persistedEventCount": 6540.09, "totalEventCount": 7902.98}
+          application/json: {"isFinished": false, "job": "Human Factors Strategist", "limit": 4783.04, "offset": 6995.43, "persistedEventCount": 2187.56, "totalEventCount": 7686.72}
         "500":
           application/json: {}
   getDatabaseConnectionConfig:
@@ -4253,7 +4242,7 @@ examples:
   createDatabaseConnectionConfig:
     speakeasy-default-create-database-connection-config:
       requestBody:
-        application/json: {"authType": "<value>", "databaseType": "mysql", "description": "jump naughty pip fortunate remand apud yuck conservative nor", "id": "<id>"}
+        application/json: {"authType": "<value>", "databaseType": "postgres", "description": "besides investigate yowza skyline promptly daintily afore contravene meanwhile", "id": "<id>"}
       responses:
         "200":
           application/json: {}
@@ -4275,7 +4264,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"authType": "<value>", "databaseType": "oracle", "description": "orientate without internal", "id": "<id>"}
+        application/json: {"authType": "<value>", "databaseType": "oracle", "description": "developmental oof hourly", "id": "<id>"}
       responses:
         "200":
           application/json: {}
@@ -4464,7 +4453,7 @@ examples:
   createHmacFunction:
     speakeasy-default-create-hmac-function:
       requestBody:
-        application/json: {"headerExpression": "<value>", "headerName": "<value>", "id": "<id>", "lib": "custom", "stringBuilders": ["<value>", "<value>"]}
+        application/json: {"headerExpression": "<value>", "headerName": "<value>", "id": "<id>", "lib": "custom", "stringBuilders": ["<value 1>"]}
       responses:
         "200":
           application/json: {}
@@ -4486,7 +4475,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"headerExpression": "<value>", "headerName": "<value>", "id": "<id>", "lib": "cribl", "stringBuilders": ["<value>", "<value>", "<value>"]}
+        application/json: {"headerExpression": "<value>", "headerName": "<value>", "id": "<id>", "lib": "cribl", "stringBuilders": ["<value 1>"]}
       responses:
         "200":
           application/json: {}
@@ -4518,7 +4507,7 @@ examples:
         path:
           groupId: "<id>"
       requestBody:
-        application/json: {"disabled": false, "sendToRoutes": true, "pqEnabled": false, "streamtags": [], "host": "0.0.0.0", "port": 5986, "authMethod": "clientCert", "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "keepAliveTimeout": 90, "enableHealthCheck": false, "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "socketTimeout": 0, "allowMachineIdMismatch": false, "subscriptions": [{"subscriptionName": "<value>", "contentFormat": "Raw", "heartbeatInterval": 60, "batchTimeout": 60, "readExistingEvents": false, "sendBookmarks": true, "compress": true, "targets": ["*"], "locale": "en-US", "querySelector": "simple"}, {"subscriptionName": "<value>", "contentFormat": "Raw", "heartbeatInterval": 60, "batchTimeout": 60, "readExistingEvents": false, "sendBookmarks": true, "compress": true, "targets": ["*"], "locale": "en-US", "querySelector": "simple"}]}
+        application/json: {"disabled": false, "sendToRoutes": true, "pqEnabled": false, "streamtags": [], "host": "0.0.0.0", "port": 301.76, "ipWhitelistRegex": "/.*/", "maxActiveCxn": 1000, "socketIdleTimeout": 0, "socketEndingMaxWait": 30, "socketMaxLifespan": 0, "enableProxyHeader": false, "staleChannelFlushMs": 10000, "enableHeader": false, "authType": "manual"}
       responses:
         "200":
           application/json: {}
@@ -4530,9 +4519,6 @@ examples:
         path:
           id: "<id>"
           groupId: "<id>"
-        query:
-          workspaceId: "<id>"
-          organizationId: "<id>"
       responses:
         "200":
           application/json: {}
@@ -4545,7 +4531,7 @@ examples:
           id: "<id>"
           groupId: "<id>"
       requestBody:
-        application/json: {"id": "<id>", "type": "appscope", "disabled": false, "sendToRoutes": true, "pqEnabled": false, "streamtags": [], "ipWhitelistRegex": "/.*/", "maxActiveCxn": 1000, "socketIdleTimeout": 0, "socketEndingMaxWait": 30, "socketMaxLifespan": 0, "enableProxyHeader": false, "staleChannelFlushMs": 10000, "enableUnixPath": false, "authType": "manual", "unixSocketPath": "$CRIBL_HOME/state/appscope.sock", "authToken": ""}
+        application/json: {"id": "<id>", "type": "kube_events", "disabled": false, "sendToRoutes": true, "pqEnabled": false, "streamtags": [], "rules": []}
       responses:
         "200":
           application/json: {}
@@ -4622,7 +4608,7 @@ examples:
         path:
           groupId: "<id>"
       requestBody:
-        application/json: {"id": "<id>", "type": "syslog", "systemFields": ["cribl_pipe"], "streamtags": [], "protocol": "tcp", "facility": 1, "severity": 5, "appName": "Cribl", "messageFormat": "rfc3164", "timestampFormat": "syslog", "throttleRatePerSec": "0", "logFailedRequests": false, "loadBalanced": true, "connectionTimeout": 10000, "writeTimeout": 60000, "onBackpressure": "block", "maxRecordSize": 1500, "udpDnsResolvePeriodSec": 0, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqMode": "error"}
+        application/json: {"type": "elastic", "systemFields": ["cribl_pipe"], "streamtags": [], "loadBalanced": true, "index": "<value>", "concurrency": 5, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "compress": true, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 1, "failedRequestLoggingMode": "none", "safeHeaders": [], "responseRetrySettings": [], "responseHonorRetryAfterHeader": false, "extraParams": [{"name": "filter_path", "value": "errors,items.*.error,items.*._index,items.*.status"}], "elasticVersion": "auto", "includeDocId": false, "writeAction": "create", "retryPartialErrors": false, "onBackpressure": "block", "useRoundRobinDns": false, "excludeSelf": false, "dnsResolvePeriodSec": 600, "loadBalanceStatsPeriodSec": 300, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqMode": "error"}
       responses:
         "200":
           application/json: {}
@@ -4646,7 +4632,7 @@ examples:
           id: "<id>"
           groupId: "<id>"
       requestBody:
-        application/json: {"systemFields": ["cribl_pipe"], "streamtags": [], "bucket": "<value>", "awsAuthenticationMethod": "auto", "signatureVersion": "v4", "reuseConnections": true, "rejectUnauthorized": true, "enableAssumeRole": false, "durationSeconds": 3600, "stagePath": "$CRIBL_HOME/state/outputs/staging", "addIdToStagePath": true, "destPath": "", "objectACL": "private", "removeEmptyDirs": true, "format": "json", "baseFileName": "`CriblOut`", "fileNameSuffix": "`.${C.env[\"CRIBL_WORKER_ID\"]}.${__format}${__compression === \"gzip\" ? \".gz\" : \"\"}`", "maxFileSizeMB": 32, "maxOpenFiles": 100, "headerLine": "", "writeHighWaterMark": 64, "onBackpressure": "block", "deadletterEnabled": false, "onDiskFullBackpressure": "block", "maxFileOpenTimeSec": 300, "maxFileIdleTimeSec": 30, "maxConcurrentFileParts": 4, "verifyPermissions": true, "maxClosingFilesToBackpressure": 100, "partitioningFields": [], "compress": "gzip", "compressionLevel": "best_speed", "automaticSchema": false, "parquetVersion": "PARQUET_2_6", "parquetDataPageVersion": "DATA_PAGE_V2", "parquetRowGroupLength": 10000, "parquetPageSize": "1MB", "enableStatistics": true, "enableWritePageIndex": true, "enablePageChecksum": false, "emptyDirCleanupSec": 300, "deadletterPath": "$CRIBL_HOME/state/outputs/dead-letter", "maxRetryNum": 20}
+        application/json: {"type": "signalfx", "systemFields": ["cribl_pipe"], "streamtags": [], "authType": "manual", "realm": "us0", "concurrency": 5, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "compress": true, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 1, "useRoundRobinDns": false, "failedRequestLoggingMode": "none", "safeHeaders": [], "responseRetrySettings": [], "responseHonorRetryAfterHeader": false, "onBackpressure": "block", "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqMode": "error"}
       responses:
         "200":
           application/json: {}
@@ -4703,7 +4689,7 @@ examples:
           id: "<id>"
           groupId: "<id>"
       requestBody:
-        application/json: {"events": [{"_raw": "<value>"}]}
+        application/json: {"events": [{"_raw": "<value>"}, {"_raw": "<value>"}]}
       responses:
         "200":
           application/json: {}
@@ -4845,7 +4831,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"routes": [{"name": "<value>", "filter": "true", "pipeline": "<value>", "enableOutputExpression": false, "final": true}, {"name": "<value>", "filter": "true", "pipeline": "<value>", "enableOutputExpression": false, "final": true}]}
+        application/json: {"routes": [{"name": "<value>", "filter": "true", "pipeline": "<value>", "enableOutputExpression": false, "final": true}]}
       responses:
         "200":
           application/json: {}
@@ -4857,7 +4843,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: [{"final": true, "id": "<id>", "name": "<value>", "pipeline": "<value>"}, {"final": true, "id": "<id>", "name": "<value>", "pipeline": "<value>"}, {"final": true, "id": "<id>", "name": "<value>", "pipeline": "<value>"}]
+        application/json: [{"final": true, "id": "<id>", "name": "<value>", "pipeline": "<value>"}]
       responses:
         "200":
           application/json: {}
@@ -4891,7 +4877,7 @@ examples:
           id: "<id>"
           pack: "<value>"
       requestBody:
-        application/json: {"routes": [{"name": "<value>", "filter": "true", "pipeline": "<value>", "enableOutputExpression": false, "final": true}, {"name": "<value>", "filter": "true", "pipeline": "<value>", "enableOutputExpression": false, "final": true}, {"name": "<value>", "filter": "true", "pipeline": "<value>", "enableOutputExpression": false, "final": true}]}
+        application/json: {"routes": [{"name": "<value>", "filter": "true", "pipeline": "<value>", "enableOutputExpression": false, "final": true}]}
       responses:
         "200":
           application/json: {}
@@ -4904,7 +4890,7 @@ examples:
           id: "<id>"
           pack: "<value>"
       requestBody:
-        application/json: [{"final": false, "id": "<id>", "name": "<value>", "pipeline": "<value>"}, {"final": true, "id": "<id>", "name": "<value>", "pipeline": "<value>"}, {"final": true, "id": "<id>", "name": "<value>", "pipeline": "<value>"}]
+        application/json: [{"final": true, "id": "<id>", "name": "<value>", "pipeline": "<value>"}, {"final": true, "id": "<id>", "name": "<value>", "pipeline": "<value>"}]
       responses:
         "200":
           application/json: {}
@@ -5025,7 +5011,7 @@ examples:
   createRestSecret:
     speakeasy-default-create-rest-secret:
       requestBody:
-        application/json: {"id": "<id>", "secretType": "credentials"}
+        application/json: {"id": "<id>", "secretType": "keypair"}
       responses:
         "200":
           application/json: {}
@@ -5128,7 +5114,7 @@ examples:
     speakeasy-default-get-edge-ls-by-path:
       parameters:
         path:
-          path: "/net"
+          path: "/usr/lib"
       responses:
         "200":
           application/json: {}
@@ -5159,7 +5145,7 @@ examples:
     speakeasy-default-get-edge-file-sample:
       parameters:
         query:
-          path: "/System"
+          path: "/usr/ports"
       responses:
         "200":
           application/json: {}
@@ -5236,7 +5222,7 @@ examples:
   login:
     speakeasy-default-login:
       requestBody:
-        application/json: {"username": "Christelle69", "password": "UVp3HFAKtBXVWPj"}
+        application/json: {"username": "Nikko.Connelly", "password": "Ljp4BunfMR9hNyM"}
       responses:
         "200":
           application/json: {"token": "<value>"}
@@ -5378,7 +5364,7 @@ examples:
   updateSystemSettingsConf:
     speakeasy-default-update-system-settings-conf:
       requestBody:
-        application/json: {"api": {"disabled": false, "host": "gracious-petticoat.com", "port": 2303.28, "protocol": "<value>", "ssl": {"certPath": "<value>", "disabled": true, "passphrase": "<value>", "privKeyPath": "<value>"}, "workerRemoteAccess": true}, "backups": {"backupPersistence": "<value>", "backupsDirectory": "<value>"}, "customLogo": {"enabled": true, "logoDescription": "<value>", "logoImage": "<value>"}, "pii": {"enablePiiDetection": false}, "proxy": {"useEnvVars": true}, "rollback": {"rollbackEnabled": true}, "shutdown": {"drainTimeout": 1453.61}, "sni": {"disableSNIRouting": false}, "system": {"intercom": true, "upgrade": "api"}, "tls": {"defaultCipherList": "<value>", "defaultEcdhCurve": "<value>", "maxVersion": "<value>", "minVersion": "<value>", "rejectUnauthorized": true}, "upgradeGroupSettings": {}, "upgradeSettings": {"disableAutomaticUpgrade": true, "enableLegacyEdgeUpgrade": false, "upgradeSource": "<value>"}, "workers": {"count": 1793.87, "memory": 7454.72, "minimum": 4565.28}}
+        application/json: {"api": {"disabled": true, "host": "both-draw.com", "port": 3795.06, "protocol": "<value>", "ssl": {"certPath": "<value>", "disabled": false, "passphrase": "<value>", "privKeyPath": "<value>"}, "workerRemoteAccess": false}, "backups": {"backupPersistence": "<value>", "backupsDirectory": "<value>"}, "customLogo": {"enabled": false, "logoDescription": "<value>", "logoImage": "<value>"}, "pii": {"enablePiiDetection": true}, "proxy": {"useEnvVars": true}, "rollback": {"rollbackEnabled": true}, "shutdown": {"drainTimeout": 2424.38}, "sni": {"disableSNIRouting": true}, "system": {"intercom": false, "upgrade": "false"}, "tls": {"defaultCipherList": "<value>", "defaultEcdhCurve": "<value>", "maxVersion": "<value>", "minVersion": "<value>", "rejectUnauthorized": true}, "upgradeGroupSettings": {}, "upgradeSettings": {"disableAutomaticUpgrade": false, "enableLegacyEdgeUpgrade": false, "upgradeSource": "<value>"}, "workers": {"count": 1297.29, "memory": 5944.19, "minimum": 3174.73}}
       responses:
         "200":
           application/json: {}
@@ -5441,7 +5427,7 @@ examples:
   createOutputClickHouseDescribeTable:
     speakeasy-default-create-output-click-house-describe-table:
       requestBody:
-        application/json: {"asyncInserts": true, "database": "<value>", "flushPeriodSec": 2136.91, "format": "json-each-row", "loadBalanced": true, "mappingType": "automatic", "tableName": "<value>", "url": "https://ill-tune-up.info/"}
+        application/json: {"asyncInserts": true, "database": "<value>", "flushPeriodSec": 6320.13, "format": "json-each-row", "loadBalanced": true, "mappingType": "custom", "tableName": "<value>", "url": "https://blue-fundraising.name"}
       responses:
         "200":
           application/json: {}
@@ -5486,7 +5472,7 @@ examples:
           version: "<value>"
       responses:
         "200":
-          application/tar+gzip: "0xFDbFcB681f"
+          application/tar+gzip: "0xaB2AD6a98F"
   getSummary:
     speakeasy-default-get-summary:
       responses:
@@ -5522,14 +5508,14 @@ examples:
     speakeasy-default-get-health-info:
       responses:
         "200":
-          application/json: {"status": "standby", "startTime": 2125.05}
+          application/json: {"status": "standby", "startTime": 8399.98}
         "420":
-          application/json: {"status": "healthy", "startTime": 5770.07}
+          application/json: {"status": "standby", "startTime": 8399.98}
   getDiagBundle:
     speakeasy-default-get-diag-bundle:
       responses:
         "200":
-          application/tar+gzip: "0x16f6D72617"
+          application/tar+gzip: "0xCE94B67B62"
   getSystemInfo:
     speakeasy-default-get-system-info:
       responses:
@@ -5548,7 +5534,7 @@ examples:
     speakeasy-default-delete-system-diag:
       parameters:
         query:
-          path: "/usr/libexec"
+          path: "/opt/lib"
       responses:
         "200":
           application/json: {}
@@ -5570,7 +5556,7 @@ examples:
           id: "<id>"
       responses:
         "200":
-          application/x-ndjson: "0x320aEEB417"
+          application/x-ndjson: "0xcE7D58fC8b"
   updateJobsCancelById:
     speakeasy-default-update-jobs-cancel-by-id:
       parameters:
@@ -5584,7 +5570,7 @@ examples:
   createJobs:
     speakeasy-default-create-jobs:
       requestBody:
-        application/json: {"type": "executor", "ttl": "4h", "removeFields": [], "resumeOnBoot": false, "streamtags": [], "executor": {"type": "<value>", "storeTaskResults": true}}
+        application/json: {"type": "scheduledSearch", "ttl": "4h", "removeFields": [], "resumeOnBoot": false, "streamtags": [], "executor": {"type": "<value>", "storeTaskResults": true}}
       responses:
         "200":
           application/json: {}
@@ -5690,7 +5676,7 @@ examples:
   updateSecurityKmsConfig:
     speakeasy-default-update-security-kms-config:
       requestBody:
-        application/json: {"enableHealthCheck": true, "provider": "vault"}
+        application/json: {"enableHealthCheck": true, "provider": "local"}
       responses:
         "200":
           application/json: {}
@@ -5769,7 +5755,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"channels": [], "id": "<id>", "limitRate": 3458.88, "maxSizeBytes": 6138.31, "redactFields": ["<value>", "<value>", "<value>"], "redactLabel": "<value>"}
+        application/json: {"channels": [{"id": "<id>", "level": "<value>"}, {"id": "<id>", "level": "<value>"}], "id": "<id>", "limitRate": 1569.58, "maxSizeBytes": 3692.39, "redactFields": ["<value 1>", "<value 2>"], "redactLabel": "<value>"}
       responses:
         "200":
           application/json: {}
@@ -5848,13 +5834,6 @@ examples:
           application/json: {}
         "500":
           application/json: {}
-  updatePacks:
-    speakeasy-default-update-packs:
-      responses:
-        "200":
-          application/json: {}
-        "500":
-          application/json: {}
   deletePacksById:
     speakeasy-default-delete-packs-by-id:
       parameters:
@@ -5884,7 +5863,7 @@ examples:
         path:
           groupId: "<id>"
       requestBody:
-        application/json: {"dstGroups": ["<value>", "<value>"], "packs": [], "srcGroup": "<value>"}
+        application/json: {"dstGroups": ["<value 1>", "<value 2>"], "packs": ["<value 1>", "<value 2>"], "srcGroup": "<value>"}
       responses:
         "200":
           application/json: {}
@@ -5894,10 +5873,7 @@ examples:
     speakeasy-default-get-packs-export-by-id:
       parameters:
         path:
-          id: "<id>"
           groupId: "<id>"
-        query:
-          mode: "merge"
       responses:
         "200":
           application/json: {}
@@ -5929,7 +5905,7 @@ examples:
   createSystemMetricsQuery:
     speakeasy-default-create-system-metrics-query:
       requestBody:
-        application/json: {"aggs": {"aggregations": [], "cumulative": true, "flushEventLimit": 6815.29, "flushMemLimit": 4113.04, "hostname": "cool-invite.biz", "metricsMode": false, "sufficientStatsOnly": false, "timeWindowSeconds": 5869.17}}
+        application/json: {"aggs": {"aggregations": [], "cumulative": false, "flushEventLimit": 9835.34, "flushMemLimit": 7220.64, "hostname": "handy-kielbasa.info", "metricsMode": false, "sufficientStatsOnly": true, "timeWindowSeconds": 7794.15}}
       responses:
         "200":
           application/json: {}
@@ -5951,7 +5927,7 @@ examples:
         path:
           key: "<key>"
       requestBody:
-        application/json: {"op": "set", "value": "<value>"}
+        application/json: {"op": "push-recent", "value": "<value>"}
       responses:
         "200":
           application/json: {}
@@ -6064,7 +6040,7 @@ examples:
     speakeasy-default-create-products-groups-by-product:
       parameters:
         path:
-          product: "edge"
+          product: "stream"
       requestBody:
         application/json: {"configVersion": "<value>", "id": "<id>"}
       responses:
@@ -6106,5 +6082,5 @@ examples:
           application/json: {}
         "500":
           application/json: {}
-examplesVersion: 1.0.1
+examplesVersion: 1.0.2
 generatedTests: {}

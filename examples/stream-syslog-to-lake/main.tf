@@ -9,6 +9,7 @@ terraform {
 provider "cribl-terraform" {
   organization_id = "beautiful-nguyen-y8y4azd"
   workspace_id = "main"
+  server_url = "https://app.cribl-playground.cloud"
 }
 
 # Worker Group Configuration

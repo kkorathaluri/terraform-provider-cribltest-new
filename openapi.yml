@@ -66535,7 +66535,7 @@ paths:
           - macros
         description: resource type by which to filter access levels
 servers:
-- url: https://app.cribl-playground.cloud
+- url: https://app.cribl.cloud
   x-speakeasy-server-id: cloud
   variables:
     workspaceName:

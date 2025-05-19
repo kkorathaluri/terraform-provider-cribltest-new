@@ -22,7 +22,7 @@ const (
 
 // ServerList contains the list of servers available to the SDK
 var ServerList = map[string]string{
-	ServerCloud:        "https://app.cribl-playground.cloud",
+	ServerCloud:        "https://app.cribl.cloud",
 	ServerCloudGroup:   "https://{workspaceName}-{organizationId}.{cloudDomain}/api/v1/m/{groupName}",
 	ServerManaged:      "https://{hostname}:{port}/api/v1",
 	ServerManagedGroup: "https://{hostname}:{port}/api/v1/m/{groupName}",
@@ -417,9 +417,9 @@ func New(opts ...SDKOption) *CriblTerraform {
 		sdkConfiguration: sdkConfiguration{
 			Language:          "go",
 			OpenAPIDocVersion: "1.0.0",
-			SDKVersion:        "0.16.14",
-			GenVersion:        "2.599.0",
-			UserAgent:         "speakeasy-sdk/terraform 0.16.14 2.599.0 1.0.0 github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk",
+			SDKVersion:        "0.16.20",
+			GenVersion:        "2.604.4",
+			UserAgent:         "speakeasy-sdk/terraform 0.16.20 2.604.4 1.0.0 github.com/speakeasy/terraform-provider-cribl-terraform/internal/sdk",
 			ServerDefaults: map[string]map[string]string{
 				"cloud": {
 					"workspaceName":  "main",
