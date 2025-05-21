@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type OutputDynatraceHTTP struct {
 	ActiveGateDomain              types.String                               `tfsdk:"active_gate_domain"`

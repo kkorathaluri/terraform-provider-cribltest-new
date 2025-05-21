@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type OutputDatadog struct {
 	AllowAPIKeyFromEvents         types.Bool                           `tfsdk:"allow_api_key_from_events"`

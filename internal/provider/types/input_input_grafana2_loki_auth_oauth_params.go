@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type InputInputGrafana2LokiAuthOauthParams struct {
 	Name  types.String `tfsdk:"name"`

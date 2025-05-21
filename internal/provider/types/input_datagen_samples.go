@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type InputDatagenSamples struct {
 	EventsPerSec types.Float64 `tfsdk:"events_per_sec"`

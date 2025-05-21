@@ -92,36 +92,56 @@ func (p *CriblTerraformProvider) Configure(ctx context.Context, req provider.Con
 		ServerURL = "https://app.cribl.cloud"
 	}
 
-	bearerAuth := new(string)
-	if !data.BearerAuth.IsUnknown() && !data.BearerAuth.IsNull() {
-		*bearerAuth = data.BearerAuth.ValueString()
-	} else {
-		bearerAuth = nil
+	security := shared.Security{}
+
+	if !data.BearerAuth.IsUnknown() {
+		security.BearerAuth = data.BearerAuth.ValueStringPointer()
 	}
-	organizationID := new(string)
-	if !data.OrganizationID.IsUnknown() && !data.OrganizationID.IsNull() {
-		*organizationID = data.OrganizationID.ValueString()
-	} else {
-		if len(os.Getenv("CRIBL_ORGANIZATION_ID")) > 0 {
-			*organizationID = os.Getenv("CRIBL_ORGANIZATION_ID")
-		} else {
-			organizationID = nil
-		}
+
+	clientOauth := &shared.SchemeClientOauth{}
+
+	if !data.ClientID.IsUnknown() {
+		clientOauth.ClientID = data.ClientID.ValueString()
 	}
-	workspaceID := new(string)
-	if !data.WorkspaceID.IsUnknown() && !data.WorkspaceID.IsNull() {
-		*workspaceID = data.WorkspaceID.ValueString()
-	} else {
-		if len(os.Getenv("CRIBL_WORKSPACE_ID")) > 0 {
-			*workspaceID = os.Getenv("CRIBL_WORKSPACE_ID")
-		} else {
-			workspaceID = nil
-		}
+
+	if clientIDEnvVar := os.Getenv("CRIBL_CLIENT_ID"); clientOauth.ClientID == "" && clientIDEnvVar != "" {
+		clientOauth.ClientID = clientIDEnvVar
 	}
-	security := shared.Security{
-		BearerAuth:     bearerAuth,
-		OrganizationID: organizationID,
-		WorkspaceID:    workspaceID,
+
+	if !data.ClientSecret.IsUnknown() {
+		clientOauth.ClientSecret = data.ClientSecret.ValueString()
+	}
+
+	if clientSecretEnvVar := os.Getenv("CRIBL_CLIENT_SECRET"); clientOauth.ClientSecret == "" && clientSecretEnvVar != "" {
+		clientOauth.ClientSecret = clientSecretEnvVar
+	}
+
+	if !data.TokenURL.IsUnknown() {
+		clientOauth.TokenURL = data.TokenURL.ValueString()
+	}
+
+	if tokenURLEnvVar := os.Getenv("CRIBL_TOKEN_URL"); clientOauth.TokenURL == "" && tokenURLEnvVar != "" {
+		clientOauth.TokenURL = tokenURLEnvVar
+	}
+
+	if clientOauth.ClientID != "" && clientOauth.ClientSecret != "" {
+		security.ClientOauth = clientOauth
+	}
+
+	if !data.OrganizationID.IsUnknown() {
+		security.OrganizationID = data.OrganizationID.ValueStringPointer()
+	}
+
+	if organizationIDEnvVar := os.Getenv("CRIBL_ORGANIZATION_ID"); security.OrganizationID == nil && organizationIDEnvVar != "" {
+		security.OrganizationID = &organizationIDEnvVar
+	}
+
+	if !data.WorkspaceID.IsUnknown() {
+		security.WorkspaceID = data.WorkspaceID.ValueStringPointer()
+	}
+
+	if workspaceIDEnvVar := os.Getenv("CRIBL_WORKSPACE_ID"); security.WorkspaceID == nil && workspaceIDEnvVar != "" {
+		security.WorkspaceID = &workspaceIDEnvVar
 	}
 
 	providerHTTPTransportOpts := ProviderHTTPTransportOpts{

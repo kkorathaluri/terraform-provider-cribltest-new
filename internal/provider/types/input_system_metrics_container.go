@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type InputSystemMetricsContainer struct {
 	AllContainers types.Bool     `tfsdk:"all_containers"`

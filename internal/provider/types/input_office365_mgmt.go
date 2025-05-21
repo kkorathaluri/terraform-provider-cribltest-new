@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type InputOffice365Mgmt struct {
 	AppID               types.String                    `tfsdk:"app_id"`

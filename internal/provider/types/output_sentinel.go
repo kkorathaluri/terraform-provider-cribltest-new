@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type OutputSentinel struct {
 	AdvancedContentType           types.String                          `tfsdk:"advanced_content_type"`

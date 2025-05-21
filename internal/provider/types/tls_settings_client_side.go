@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type TLSSettingsClientSide struct {
 	CaPath             types.String `tfsdk:"ca_path"`

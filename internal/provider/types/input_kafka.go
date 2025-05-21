@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type InputKafka struct {
 	AuthenticationTimeout     types.Float64                      `tfsdk:"authentication_timeout"`

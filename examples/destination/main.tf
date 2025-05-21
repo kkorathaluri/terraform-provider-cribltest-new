@@ -1,12 +1,12 @@
 terraform {
   required_providers {
-    cribl-terraform = {
-      source = "kkorathaluri/cribltest-new"
+    criblio = {
+      source = "criblio/criblio"
     }
   }
 }
 
-provider "cribl-terraform" {
+provider "criblio" {
   # Configuration options
   #server_url ="https://app.cribl-playground.cloud/organizations/beautiful-nguyen-y8y4azd/workspaces/main/app/api/v1/m/default"
   server_url = "https://app.cribl-playground.cloud"
@@ -15,7 +15,7 @@ provider "cribl-terraform" {
 }
 
 
-resource "cribl-terraform_destination" "my_destination" {
+resource "criblio_destination" "my_destination" {
   id = "test"
   group_id = "default"
   output_cribl_http = {
@@ -105,9 +105,9 @@ resource "cribl-terraform_destination" "my_destination" {
 
 output "destination_details" {
   value = {
-    id = cribl-terraform_destination.my_destination.output_cribl_http.id
-    type = cribl-terraform_destination.my_destination.output_cribl_http.type
-    environment = cribl-terraform_destination.my_destination.output_cribl_http.environment
-    pipeline = cribl-terraform_destination.my_destination.output_cribl_http.pipeline
+    id = criblio_destination.my_destination.output_cribl_http.id
+    type = criblio_destination.my_destination.output_cribl_http.type
+    environment = criblio_destination.my_destination.output_cribl_http.environment
+    pipeline = criblio_destination.my_destination.output_cribl_http.pipeline
   }
 }

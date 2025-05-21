@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type PrometheusAuth struct {
 	AuthHeaderExpr     types.String               `tfsdk:"auth_header_expr"`

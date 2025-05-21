@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type OutputAzureDataExplorerCertificate struct {
 	CertificateName types.String `tfsdk:"certificate_name"`

@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type InputSplunkHec struct {
 	AccessControlAllowHeaders []types.String                       `tfsdk:"access_control_allow_headers"`

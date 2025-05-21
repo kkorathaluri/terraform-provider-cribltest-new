@@ -1,19 +1,19 @@
 terraform {
   required_providers {
-    cribl-terraform = {
-      source = "kkorathaluri/cribltest-new"
+    criblio = {
+      source = "criblio/criblio"
     }
   }
 }
 
-provider "cribl-terraform" {
+provider "criblio" {
   organization_id = "beautiful-nguyen-y8y4azd"
   workspace_id = "main"
   server_url = "https://app.cribl-playground.cloud"
 }
 
 # Worker Group Configuration
-resource "cribl-terraform_group" "syslog_worker_group" {
+resource "criblio_group" "syslog_worker_group" {
   cloud = {
     provider = "aws"
     region   = "us-west-2"
@@ -34,12 +34,12 @@ resource "cribl-terraform_group" "syslog_worker_group" {
 }
 
 # Syslog Source Configuration
-resource "cribl-terraform_source" "syslog_source" {
+resource "criblio_source" "syslog_source" {
   id       = "syslog-input"
-  group_id = cribl-terraform_group.syslog_worker_group.id
+  group_id = criblio_group.syslog_worker_group.id
   
   input_syslog = {
-    two = {
+    input_syslog_syslog1 = {
       allow_non_standard_app_name = false
       connections = [
         {
@@ -100,9 +100,9 @@ resource "cribl-terraform_source" "syslog_source" {
 }
 
 # Cribl Lake Destination Configuration
-resource "cribl-terraform_destination" "cribl_lake" {
+resource "criblio_destination" "cribl_lake" {
   id       = "cribl-lake-2"
-  group_id = cribl-terraform_group.syslog_worker_group.id
+  group_id = criblio_group.syslog_worker_group.id
 
   output_cribl_lake = {
     id          = "cribl-lake-2"
@@ -134,34 +134,34 @@ resource "cribl-terraform_destination" "cribl_lake" {
 }
 
 # Pack Configuration
-resource "cribl-terraform_pack" "syslog_pack" {
+resource "criblio_pack" "syslog_pack" {
   id       = "syslog-processing"
-  group_id = cribl-terraform_group.syslog_worker_group.id
+  group_id = criblio_group.syslog_worker_group.id
   filename = "cribl-palo-alto-networks-source-1.0.0.crbl" 
 }
 
 # Outputs
 output "worker_group_details" {
   value = {
-    id   = cribl-terraform_group.syslog_worker_group.id
-    name = cribl-terraform_group.syslog_worker_group.name
+    id   = criblio_group.syslog_worker_group.id
+    name = criblio_group.syslog_worker_group.name
   }
 }
 
 output "source_details" {
   value = {
-    id   = cribl-terraform_source.syslog_source.id
+    id   = criblio_source.syslog_source.id
   }
 }
 
 output "destination_details" {
   value = {
-    id   = cribl-terraform_destination.cribl_lake.id
+    id   = criblio_destination.cribl_lake.id
   }
 }
 
 output "pack_details" {
   value = {
-    id   = cribl-terraform_pack.syslog_pack.id
+    id   = criblio_pack.syslog_pack.id
   }
 } 

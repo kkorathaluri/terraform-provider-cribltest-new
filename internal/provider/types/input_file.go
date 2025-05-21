@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type InputFile struct {
 	BreakerRulesets             []types.String         `tfsdk:"breaker_rulesets"`

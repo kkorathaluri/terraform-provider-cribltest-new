@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type OutputElasticTimeoutRetrySettings struct {
 	BackoffRate    types.Float64 `tfsdk:"backoff_rate"`

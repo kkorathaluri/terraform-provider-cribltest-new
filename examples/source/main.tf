@@ -1,19 +1,20 @@
 terraform {
   required_providers {
-    cribl-terraform = {
-      source = "kkorathaluri/cribltest-new"
+    criblio = {
+      source = "criblio/criblio"
     }
   }
 }
 
-provider "cribl-terraform" {
+provider "criblio" {
   # Configuration options
   #server_url ="https://app.cribl-playground.cloud/organizations/beautiful-nguyen-y8y4azd/workspaces/main/app/api/v1/m/default"
   organization_id = "beautiful-nguyen-y8y4azd"
   workspace_id = "main"
+  server_url = "https://app.cribl-playground.cloud"
 }
 
-resource "cribl-terraform_source" "my_source_1" {
+resource "criblio_source" "my_source_1" {
   id = "test"
   group_id = "default"
   input_tcp = {
@@ -57,12 +58,12 @@ resource "cribl-terraform_source" "my_source_1" {
 
 output "source_details" {
   value = {
-    id = cribl-terraform_source.my_source_1.id
+    id = criblio_source.my_source_1.id
   }
 } 
 
 
-resource "cribl-terraform_source" "my_source_2" {
+resource "criblio_source" "my_source_2" {
   id = "test_2"
   group_id = "default"
   input_cribl_http = {

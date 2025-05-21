@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type SNMPv3Authentication struct {
 	AllowUnmatchedTrap types.Bool `tfsdk:"allow_unmatched_trap"`

@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type OutputClickHouse struct {
 	AsyncInserts                  types.Bool                              `tfsdk:"async_inserts"`

@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type OutputGoogleCloudStorageKeyValueMetadata struct {
 	Key   types.String `tfsdk:"key"`

@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type OutputAzureEventhubAuthentication struct {
 	Disabled  types.Bool   `tfsdk:"disabled"`

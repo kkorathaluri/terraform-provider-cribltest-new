@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type InputSyslog1 struct {
 	AllowNonStandardAppName    types.Bool                        `tfsdk:"allow_non_standard_app_name"`

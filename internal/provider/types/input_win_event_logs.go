@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type InputWinEventLogs struct {
 	BatchSize           types.Float64                  `tfsdk:"batch_size"`

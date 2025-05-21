@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type InputGrafana2 struct {
 	ActivityLogSampleRate types.Float64                           `tfsdk:"activity_log_sample_rate"`

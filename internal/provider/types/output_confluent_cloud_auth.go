@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type OutputConfluentCloudAuth struct {
 	CredentialsSecret types.String `tfsdk:"credentials_secret"`

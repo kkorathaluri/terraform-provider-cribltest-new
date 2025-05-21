@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type OutputGoogleCloudLogging struct {
 	CacheFillBytesExpression  types.String                        `tfsdk:"cache_fill_bytes_expression"`

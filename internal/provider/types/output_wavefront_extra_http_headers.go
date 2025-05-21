@@ -2,7 +2,9 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type OutputWavefrontExtraHTTPHeaders struct {
 	Name  types.String `tfsdk:"name"`
